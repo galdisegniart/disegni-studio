@@ -225,11 +225,19 @@ img {
 
 .home-art-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
   align-items: start;
   max-width: 1280px;
   margin: 0 auto;
+}
+
+@media (min-width: 921px) {
+  .home-art-grid {
+    grid-template-columns: repeat(3, minmax(0, 372px));
+    justify-content: center;
+    gap: 18px;
+  }
 }
 
 .gallery-item {
@@ -285,13 +293,6 @@ img {
   font-size: 12px;
   font-weight: 500;
   color: #837c72;
-}
-
-@media (max-width: 780px) {
-  .home-art-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-  }
 }
 
 /* Footer */
