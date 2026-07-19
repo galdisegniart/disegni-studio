@@ -41,8 +41,10 @@ img {
 /* Header */
 .site-header {
   height: 82px;
-  position: sticky;
+  position: absolute;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 4;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
@@ -53,13 +55,7 @@ img {
 }
 
 .brand {
-  grid-column: 3;
-  justify-self: end;
-  direction: rtl;
-  font-family: var(--serif);
-  font-size: 24px;
-  letter-spacing: 0.08em;
-  font-weight: 500;
+  display: none;
 }
 
 .main-nav {
