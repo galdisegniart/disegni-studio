@@ -1052,3 +1052,354 @@ footer a {
     gap: 30px;
   }
 }
+
+/* Single workshop page */
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 70px;
+  color: var(--copper);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+
+.daily-workshop-hero {
+  min-height: 760px;
+  padding: 132px max(34px, calc(50vw - 640px)) 70px;
+  display: grid;
+  grid-template-columns: minmax(360px, 0.82fr) minmax(480px, 1.18fr);
+  gap: clamp(48px, 7vw, 100px);
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+}
+
+.daily-workshop-copy {
+  max-width: 660px;
+}
+
+.editorial-link {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  color: var(--bone);
+  font-weight: 600;
+  font-size: var(--utility-size);
+}
+
+.daily-workshop-copy h1 {
+  margin: 24px 0 28px;
+  font-size: clamp(38px, 4vw, 56px);
+  font-weight: 500;
+  line-height: 1.08;
+}
+
+.daily-workshop-lead {
+  margin: 0;
+  color: var(--dim);
+  font-size: 19px;
+  line-height: 1.7;
+}
+
+.workshop-quick-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 30px;
+  border-block: 1px solid var(--line);
+}
+
+.workshop-quick-meta span {
+  padding: 16px 0;
+}
+
+.workshop-quick-meta small,
+.workshop-quick-meta strong {
+  display: block;
+}
+
+.workshop-quick-meta small {
+  color: var(--copper);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.workshop-quick-meta strong {
+  margin-top: 3px;
+  color: var(--bone);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.workshop-single-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 28px;
+  margin-top: 34px;
+}
+
+.workshop-share {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 0;
+  border: 0;
+  background: transparent;
+  color: var(--bone);
+  font: 600 var(--utility-size) / 1.3 var(--sans);
+  cursor: pointer;
+}
+
+.hero-review-peek {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 18px;
+  margin-top: 24px;
+  padding: 16px 0;
+  border-top: 1px solid var(--line);
+  color: var(--bone);
+}
+
+.hero-review-score {
+  min-width: 88px;
+  direction: ltr;
+  text-align: center;
+}
+
+.hero-review-score b {
+  display: block;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.hero-review-score i {
+  display: block;
+  margin-top: 2px;
+  color: #df8b6d;
+  font-style: normal;
+  font-size: 14px;
+}
+
+.hero-review-peek small {
+  display: block;
+  margin-top: 4px;
+  color: var(--copper);
+  font-size: 13px;
+}
+
+.daily-workshop-hero-image {
+  height: 610px;
+  margin: 0;
+  overflow: hidden;
+}
+
+.daily-workshop-hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.daily-workshop-story-grid,
+.daily-video-grid,
+.pricing-layout {
+  display: grid;
+  grid-template-columns: 0.78fr 1.22fr;
+  gap: clamp(55px, 8vw, 120px);
+  align-items: start;
+}
+
+.daily-workshop-story-grid h2,
+.daily-video-grid h2,
+.daily-workshop-pricing h2 {
+  margin: 0;
+  font-size: clamp(42px, 5vw, 64px);
+  font-weight: 500;
+  line-height: 1.08;
+}
+
+.daily-workshop-body {
+  max-width: 700px;
+  color: var(--dim);
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.daily-workshop-body .lead {
+  margin: 0 0 20px;
+  color: var(--bone);
+  font-size: 23px;
+  line-height: 1.65;
+}
+
+.daily-workshop-body p + p {
+  margin-top: 16px;
+}
+
+.daily-video-grid video {
+  width: 100%;
+  background: #070706;
+}
+
+.daily-video-grid p {
+  margin-top: 16px;
+  color: var(--dim);
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.included-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--line);
+}
+
+.included-grid article {
+  min-height: 260px;
+  padding: 30px 28px;
+  border-left: 1px solid var(--line);
+}
+
+.included-grid span {
+  color: var(--copper);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.included-grid h3 {
+  margin: 40px 0 14px;
+  color: var(--bone);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.included-grid p {
+  color: var(--dim);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.price-cards {
+  border-top: 1px solid var(--line);
+}
+
+.price-cards article {
+  min-height: 92px;
+  padding: 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  border-bottom: 1px solid var(--line);
+}
+
+.price-cards article span {
+  color: var(--dim);
+  font-size: 17px;
+}
+
+.price-cards article strong {
+  color: var(--bone);
+  font-size: 28px;
+  font-weight: 500;
+}
+
+.workshop-photo-collage,
+.workshop-gallery-expanded {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.workshop-photo-collage figure,
+.workshop-gallery-expanded figure {
+  margin: 0;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #0b0b0a;
+}
+
+.workshop-photo-collage figure.wide {
+  grid-column: 1 / -1;
+  aspect-ratio: 16 / 10;
+}
+
+.workshop-photo-collage img,
+.workshop-gallery-expanded img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.workshop-gallery-more {
+  margin-top: 18px;
+  border-block: 1px solid var(--line);
+}
+
+.workshop-gallery-more summary {
+  list-style: none;
+  padding: 22px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--bone);
+  font-weight: 600;
+  font-size: var(--utility-size);
+  cursor: pointer;
+}
+
+.workshop-gallery-more summary::-webkit-details-marker {
+  display: none;
+}
+
+.workshop-gallery-more[open] summary span {
+  transform: rotate(45deg);
+  display: inline-block;
+}
+
+.workshop-gallery-expanded {
+  padding: 0 0 18px;
+}
+
+.daily-workshop-final {
+  text-align: center;
+}
+
+.daily-workshop-final h2 {
+  margin: 22px auto 0;
+  font-size: clamp(42px, 5vw, 64px);
+  font-weight: 500;
+  line-height: 1.08;
+}
+
+.daily-workshop-final .cta {
+  margin: 30px auto 0;
+}
+
+@media (max-width: 920px) {
+  .daily-workshop-hero,
+  .daily-workshop-story-grid,
+  .daily-video-grid,
+  .pricing-layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .included-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .workshop-photo-collage,
+  .workshop-gallery-expanded {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .included-grid {
+    grid-template-columns: 1fr;
+  }
+}
