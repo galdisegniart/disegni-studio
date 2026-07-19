@@ -276,7 +276,7 @@ img {
 .gallery-item figcaption {
   display: flex;
   align-items: baseline;
-  justify-content: flex-start;
+  justify-content: center;
   direction: rtl;
   gap: 14px;
   min-height: 52px;
@@ -284,7 +284,6 @@ img {
 }
 
 .gallery-item figcaption strong {
-  margin-left: auto;
   font-family: var(--sans);
   font-size: 18px;
   font-weight: 500;
