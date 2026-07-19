@@ -1403,3 +1403,9 @@ footer a {
     grid-template-columns: 1fr;
   }
 }
+
+.hero-review-empty .hero-review-score i {
+  color: #6d625a;
+  font-size: 15px;
+  font-style: normal;
+}
