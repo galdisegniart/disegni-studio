@@ -831,6 +831,23 @@ footer a {
   font-size: 15px;
 }
 
+.reviews-centered .reviews-heading {
+  display: block;
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.reviews-centered .review-summary {
+  margin: 14px auto 0;
+  text-align: center;
+  direction: rtl;
+}
+
+.reviews-centered .review-card {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
 .review-card {
   padding: 34px;
   border: 1px solid var(--line);
