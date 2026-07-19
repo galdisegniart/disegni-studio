@@ -61,6 +61,7 @@ img {
 
 .main-nav {
   grid-column: 2;
+  grid-row: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -98,6 +99,7 @@ img {
 
 .header-link {
   grid-column: 1;
+  grid-row: 1;
   justify-self: start;
   direction: rtl;
   color: var(--copper);
