@@ -43,3 +43,25 @@ jobs:
             git commit -m "Build site [skip ci]"
             git push
           fi
+
+      - name: Deploy to Ultahost via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./
+          server-dir: ./
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.github/**
+            **/node_modules/**
+            **/src/**
+            **/reference/**
+            **/scripts/**
+            **/cms-oauth-worker/**
+            **/.claude/**
+            **/*.md
+            **/package*.json
+            **/.eleventy.js
