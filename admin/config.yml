@@ -247,9 +247,9 @@ collections:
           - { label: "כותרת הערות", name: "notesHeading", widget: "string" }
           - { label: "רשימת הערות", name: "notes", widget: "list", field: { label: "הערה", name: "text", widget: "string" } }
 
-      - name: "shop"
-        label: "עמוד חנות"
-        file: "src/content/pages/shop.json"
+      - name: "prints"
+        label: "קולקציה: הדפסים (/collections/prints/)"
+        file: "src/content/pages/prints.json"
         fields:
           - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
           - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }

@@ -718,38 +718,6 @@ footer {
   margin-top: 16px;
 }
 
-.artwork-option {
-  min-width: 230px;
-  min-height: 64px;
-  padding: 0 28px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 32px;
-  border: 1px solid var(--copper);
-  border-radius: 999px;
-  color: var(--bone);
-  font-size: 17px;
-  font-weight: 500;
-  transition: background 0.25s, color 0.25s, transform 0.25s;
-}
-
-.artwork-option span {
-  color: var(--copper);
-  font-size: 22px;
-  transition: transform 0.25s;
-}
-
-.artwork-option:hover {
-  background: var(--copper);
-  color: var(--black);
-  transform: translateY(-2px);
-}
-
-.artwork-option:hover span {
-  color: var(--black);
-}
-
 .artwork-purchase {
   width: min(100%, 640px);
   margin: 70px auto 0;
@@ -929,21 +897,26 @@ footer {
 
 .cta {
   margin-top: 34px;
-  min-height: 56px;
+  min-width: 230px;
+  min-height: 64px;
   width: fit-content;
-  padding: 0 24px;
+  padding: 0 28px;
   display: inline-flex;
   align-items: center;
-  gap: 16px;
+  justify-content: space-between;
+  gap: 32px;
+  border: 1px solid var(--copper);
+  border-radius: 999px;
   background: var(--copper);
-  color: #141312;
-  font-weight: 600;
-  font-size: 16px;
+  color: var(--black);
+  font-weight: 500;
+  font-size: 17px;
   transition: background 0.25s, color 0.25s, transform 0.25s;
 }
 
 .cta:hover {
   background: var(--bone);
+  border-color: var(--bone);
   transform: translateY(-2px);
 }
 
@@ -1921,13 +1894,24 @@ footer {
 }
 
 .cta-outline {
-  border: 1px solid #5a554e;
+  border: 1px solid var(--copper);
   background: transparent;
   color: var(--bone);
 }
 
+.cta-outline span {
+  color: var(--copper);
+  font-size: 22px;
+  transition: color 0.25s;
+}
+
 .cta-outline:hover {
-  background: var(--bone);
+  background: var(--copper);
+  border-color: var(--copper);
+  color: var(--black);
+}
+
+.cta-outline:hover span {
   color: var(--black);
 }
 
@@ -2745,9 +2729,15 @@ footer {
 
 /* Portfolio page */
 .portfolio-row {
-  min-height: 80vh;
+  height: 80vh;
+  margin-bottom: 24px;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+}
+
+.portfolio-row:last-child {
+  margin-bottom: 0;
   border-bottom: 1px solid var(--line);
 }
 
@@ -2786,12 +2776,20 @@ footer {
   line-height: 1.7;
 }
 
+.portfolio-row.reverse figure {
+  order: 2;
+}
+
+.portfolio-row.reverse .portfolio-row-copy {
+  order: 1;
+}
+
 @media (max-width: 920px) {
   .portfolio-row {
+    height: auto;
     grid-template-columns: 1fr;
-    min-height: 0;
   }
   .portfolio-row figure {
-    min-height: 340px;
+    height: 340px;
   }
 }

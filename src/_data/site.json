@@ -4,7 +4,7 @@
   "whatsappNumber": "972552902934",
   "nav": [
     { "label": "גלריה", "href": "/" },
-    { "label": "חנות", "href": "/shop/" },
+    { "label": "חנות", "href": "/collections/prints/" },
     { "label": "יצירות בהזמנה", "href": "/commissions/" },
     { "label": "סדנאות", "href": "/workshops/" },
     { "label": "אודות", "href": "/about/" },

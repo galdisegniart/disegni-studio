@@ -6,7 +6,7 @@
   "heroLead": "מבט על העולמות השונים שבהם אני עובד. העמוד הזה עוד בבנייה ויתעצב בהמשך.",
   "categories": [
     {
-      "href": "/shop/",
+      "href": "/collections/prints/",
       "image": "/images/artworks/light+WEB.webp",
       "alt": "רישום ופורטרט מאת גל דִּיסֵנִי",
       "small": "רישום ופורטרט",
@@ -15,7 +15,7 @@
       "ctaLabel": "לצפייה ברישומים"
     },
     {
-      "href": "/shop/",
+      "href": "/collections/prints/",
       "image": "/images/artworks/orin+WEB.webp",
       "alt": "מיקס-מדיה מאת גל דִּיסֵנִי",
       "small": "טכניקה משולבת",

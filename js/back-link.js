@@ -1,17 +1,31 @@
 (function () {
-  var ref = document.referrer;
-  if (!ref) return;
-  var url;
+  var KEY = "disegniLastList";
+  var lastPath = null;
+
   try {
-    url = new URL(ref);
+    lastPath = sessionStorage.getItem(KEY);
   } catch (e) {
-    return;
+    lastPath = null;
   }
-  if (url.origin !== window.location.origin) return;
-  if (url.pathname.indexOf("/shop") !== 0) return;
+
+  if (!lastPath) {
+    var ref = document.referrer;
+    if (ref) {
+      try {
+        var url = new URL(ref);
+        if (url.origin === window.location.origin && url.pathname.indexOf("/collections") === 0) {
+          lastPath = url.pathname;
+        }
+      } catch (e) {
+        lastPath = null;
+      }
+    }
+  }
+
+  if (!lastPath || lastPath.indexOf("/collections") !== 0) return;
 
   document.querySelectorAll(".js-back-link").forEach(function (link) {
-    link.setAttribute("href", "/shop/");
+    link.setAttribute("href", lastPath);
     var label = link.querySelector(".js-back-label");
     if (label) label.textContent = "חזרה לחנות";
   });

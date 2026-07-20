@@ -14,7 +14,7 @@ eleventyComputed:
 </section>
 
 {% for c in p.categories %}
-<section class="portfolio-row">
+<section class="portfolio-row{% if loop.index is even %} reverse{% endif %}">
   <figure><img src="{{ c.image }}" alt="{{ c.alt }}"></figure>
   <div class="portfolio-row-copy">
     <p class="hero-eyebrow">{{ c.small }}</p>
