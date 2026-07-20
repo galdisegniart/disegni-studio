@@ -1,0 +1,39 @@
+---
+layout: base.njk
+title: "חנות | גל דִּיסֵנִי"
+description: "חנות ההדפסים האמנותיים של גל דִּיסֵנִי - בחרו יצירה כדי לראות אותה בגודל מלא ולבחור הדפס אמנותי."
+activeNav: "חנות"
+permalink: "/shop/index.html"
+scripts:
+  - /js/catalog-filter.js
+---
+<section class="gallery-intro-minimal">
+  <div class="shop-intro-layout">
+    <h1>חנות</h1>
+    <div class="shop-intro-copy">
+      <p>בחרו יצירה כדי לראות אותה בגודל מלא ולבחור הדפס אמנותי.</p>
+      <a class="artwork-option shop-originals-link" href="/index.html">ליצירות המקוריות <span aria-hidden="true">←</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="artwork-catalog gallery-catalog-compact section">
+  <div class="catalog-toolbar">
+    <h2>יצירות לרכישה</h2>
+    <div class="catalog-filters">
+      <button class="catalog-filter active" type="button" data-filter="all" aria-pressed="true">הכל</button>
+      <button class="catalog-filter" type="button" data-filter="drawing" aria-pressed="false">רישום ופורטרט</button>
+      <button class="catalog-filter" type="button" data-filter="mixed" aria-pressed="false">מיקס-מדיה</button>
+    </div>
+  </div>
+  <div class="artwork-grid">
+    {% for artwork in artworks %}
+    <article class="artwork-card" id="{{ artwork.slug }}" data-category="{{ artwork.category }}">
+      <a class="artwork-tile" href="/artwork/{{ artwork.slug }}/" aria-label="כניסה ליצירה {{ artwork.name }}">
+        <span class="artwork-tile-image"><img src="{{ artwork.thumb }}" alt="{{ artwork.alt }}" loading="lazy"></span>
+        <span class="artwork-tile-caption"><strong lang="en">{{ artwork.name }}</strong><small>{{ artwork.galleryMedium }}</small></span>
+      </a>
+    </article>
+    {% endfor %}
+  </div>
+</section>
