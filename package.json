@@ -5,13 +5,15 @@
   "main": "index.js",
   "scripts": {
     "build": "eleventy",
-    "watch": "eleventy --serve"
+    "watch": "eleventy --serve",
+    "cms": "decap-server"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
-    "@11ty/eleventy": "^3.1.6"
+    "@11ty/eleventy": "^3.1.6",
+    "decap-server": "^3.9.1"
   }
 }
