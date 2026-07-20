@@ -156,6 +156,13 @@ collections:
   - name: "pages"
     label: "עמודים בודדים"
     files:
+      - name: "purchaseButtons"
+        label: "כפתורי רכישה (בעמוד יצירה)"
+        file: "src/_data/purchaseButtons.json"
+        fields:
+          - { label: "טקסט כפתור: הדפס אמנותי", name: "printLabel", widget: "string" }
+          - { label: "טקסט כפתור: היצירה המקורית", name: "originalLabel", widget: "string" }
+
       - name: "about"
         label: "עמוד אודות"
         file: "src/content/pages/about.json"

@@ -24,8 +24,8 @@ eleventyComputed:
     <h1>{{ artwork.name }}</h1>
     <p class="artwork-detail-description">{{ artwork.description }}</p>
     <div class="artwork-purchase-actions">
-      <a class="artwork-option" id="choose-print" href="#purchase" data-purchase-option="print">הדפס אמנותי <span aria-hidden="true">←</span></a>
-      <a class="artwork-option" id="choose-original" href="#purchase" data-purchase-option="original">היצירה המקורית <span aria-hidden="true">←</span></a>
+      <a class="artwork-option" id="choose-print" href="#purchase" data-purchase-option="print">{{ purchaseButtons.printLabel }} <span aria-hidden="true">←</span></a>
+      <a class="artwork-option" id="choose-original" href="#purchase" data-purchase-option="original">{{ purchaseButtons.originalLabel }} <span aria-hidden="true">←</span></a>
     </div>
   </div>
 </section>
