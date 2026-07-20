@@ -7,6 +7,7 @@ permalink: "/artwork/{{ artwork.slug }}/index.html"
 layout: base-bare.njk
 scripts:
   - /js/cart.js
+  - /js/back-link.js
 eleventyComputed:
   title: "{{ artwork.name }} | גל דִּיסֵנִי"
   description: "{{ artwork.name }}, {{ artwork.description }}"
@@ -17,7 +18,7 @@ eleventyComputed:
 
 <section class="artwork-detail">
   <div class="artwork-utility">
-    <a class="artwork-back" href="/"><span aria-hidden="true">→</span> חזרה לגלריה</a>
+    <a class="artwork-back js-back-link" href="/"><span aria-hidden="true">→</span> <span class="js-back-label">חזרה לגלריה</span></a>
     <button class="artwork-share" type="button">שיתוף <span aria-hidden="true">↗</span></button>
   </div>
   <figure class="artwork-stage">
@@ -68,7 +69,7 @@ eleventyComputed:
 
 <section class="artwork-more">
   <div class="artwork-more-head">
-    <a href="/"><span aria-hidden="true">→</span> חזרה לגלריה</a>
+    <a class="js-back-link" href="/"><span aria-hidden="true">→</span> <span class="js-back-label">חזרה לגלריה</span></a>
     <div class="artwork-sequence">
       <a id="previous-artwork" href="/artwork/{{ seq.prev.slug }}/" aria-label="היצירה הקודמת, {{ seq.prev.name }}">הקודמת</a>
       <span>/</span>

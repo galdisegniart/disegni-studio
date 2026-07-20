@@ -1,0 +1,26 @@
+---
+layout: base.njk
+activeNav: "פורטפוליו"
+permalink: "/portfolio/index.html"
+eleventyComputed:
+  title: "{{ pages.portfolio.title }}"
+  description: "{{ pages.portfolio.metaDescription }}"
+---
+{% set p = pages.portfolio %}
+<section class="gallery-intro-minimal">
+  <p class="hero-eyebrow">{{ p.heroEyebrow }}</p>
+  <h1>{{ p.heroHeading }}</h1>
+  <p>{{ p.heroLead }}</p>
+</section>
+
+{% for c in p.categories %}
+<section class="portfolio-row">
+  <figure><img src="{{ c.image }}" alt="{{ c.alt }}"></figure>
+  <div class="portfolio-row-copy">
+    <p class="hero-eyebrow">{{ c.small }}</p>
+    <h2>{{ c.title }}</h2>
+    <p>{{ c.text }}</p>
+    <a class="cta" href="{{ c.href }}">{{ c.ctaLabel }} <span>←</span></a>
+  </div>
+</section>
+{% endfor %}

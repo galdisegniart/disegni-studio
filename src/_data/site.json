@@ -8,6 +8,7 @@
     { "label": "יצירות בהזמנה", "href": "/commissions/" },
     { "label": "סדנאות", "href": "/workshops/" },
     { "label": "אודות", "href": "/about/" },
+    { "label": "פורטפוליו", "href": "/portfolio/" },
     { "label": "זכויות", "href": "/rights/" },
     { "label": "יצירת קשר", "href": "/contact/" }
   ],

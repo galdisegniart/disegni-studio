@@ -298,6 +298,25 @@ collections:
           - { label: "שם בעל החשבון", name: "accountHolder", widget: "string" }
           - { label: "הערה לגבי הודעת WhatsApp", name: "waNote", widget: "text" }
 
+      - name: "portfolio"
+        label: "עמוד פורטפוליו"
+        file: "src/content/pages/portfolio.json"
+        fields:
+          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
+          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
+          - { label: "כיתוב קטן בהירו", name: "heroEyebrow", widget: "string" }
+          - { label: "כותרת הירו", name: "heroHeading", widget: "string" }
+          - { label: "טקסט הירו", name: "heroLead", widget: "text" }
+          - name: "categories"
+            label: "קטגוריות"
+            widget: "list"
+            fields:
+              - { label: "קישור", name: "href", widget: "string" }
+              - { label: "תמונה", name: "image", widget: "image" }
+              - { label: "טקסט חלופי", name: "alt", widget: "string" }
+              - { label: "כיתוב קטן", name: "small", widget: "string" }
+              - { label: "כותרת", name: "title", widget: "string" }
+
       - name: "contact"
         label: "עמוד יצירת קשר"
         file: "src/content/pages/contact.json"
