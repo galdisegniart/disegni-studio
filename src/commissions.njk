@@ -1,0 +1,116 @@
+---
+layout: base.njk
+activeNav: "יצירות בהזמנה"
+permalink: "/commissions/index.html"
+scripts:
+  - /js/lead-form.js
+eleventyComputed:
+  title: "{{ pages.commissions.title }}"
+  description: "{{ pages.commissions.metaDescription }}"
+---
+{% set p = pages.commissions %}
+<section class="inner-hero commission-hero">
+  <div class="inner-hero-copy">
+    <p class="hero-eyebrow">{{ p.heroEyebrow }}</p>
+    <h1>{{ p.heroHeading | safe }}</h1>
+    <p>{{ p.heroLead }}</p>
+    <a class="cta" href="#options">לבחירת כיוון <span>↓</span></a>
+  </div>
+  <figure class="inner-hero-art commission-feature-art">
+    <img src="{{ p.heroImage }}" alt="{{ p.heroImageAlt }}">
+    <figcaption>{{ p.heroImageCaption }}</figcaption>
+  </figure>
+</section>
+
+<section class="works section" id="options">
+  <div class="section-label"><span>{{ p.worksLabel }}</span></div>
+  <div class="works-title">
+    <h2>{{ p.worksHeading | safe }}</h2>
+    <p>{{ p.worksLead }}</p>
+  </div>
+  <div class="works-list">
+    {% for work in p.works %}
+    <article class="work">
+      <div class="work-main">
+        <h3 lang="en">{{ work.titleEn | safe }}</h3>
+        <p class="work-intro">{{ work.intro }}</p>
+      </div>
+      <div class="work-includes">
+        <span>{{ work.includesLabel }}</span>
+        <ul>
+          {% for item in work.includes %}
+          <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="work-price">
+        {% if work.priceFrom %}<span class="from">החל מ-</span>{% endif %}<strong>{{ work.price }}</strong><span>₪</span>
+        <a class="js-whatsapp" href="{{ work.waMessage | waLink }}" target="_blank" rel="noopener noreferrer">לשיחת היכרות ←</a>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="inquiry section">
+  <div class="section-label"><span>{{ p.inquiryLabel }}</span></div>
+  <div class="inquiry-intro">
+    <h2>{{ p.inquiryHeading | safe }}</h2>
+    <div>
+      <p>{{ p.inquiryText }}</p>
+      <p class="inquiry-note">{{ p.inquiryNote }}</p>
+    </div>
+  </div>
+  <form class="lead-form" id="lead-form">
+    <label><span>איזו יצירה מעניינת אתכם?</span>
+      <select name="artwork" required>
+        <option value="" selected disabled>בחרו אפשרות</option>
+        <option value="Classic Portrait">Classic Portrait</option>
+        <option value="Visionary Portrait">Visionary Portrait</option>
+        <option value="עדיין לא בטוח/ה">עדיין לא בטוח/ה</option>
+      </select>
+    </label>
+    <label><span>למי היצירה מיועדת?</span>
+      <select name="purpose" required>
+        <option value="" selected disabled>בחרו אפשרות</option>
+        <option value="עבורי">עבורי</option>
+        <option value="מתנה לאדם קרוב">מתנה לאדם קרוב</option>
+        <option value="הנצחה וזיכרון">הנצחה וזיכרון</option>
+        <option value="מטרה אחרת">מטרה אחרת</option>
+      </select>
+    </label>
+    <label><span>מתי תרצו לקבל אותה?</span>
+      <select name="timeline" required>
+        <option value="" selected disabled>בחרו אפשרות</option>
+        <option value="בחודשיים הקרובים">בחודשיים הקרובים</option>
+        <option value="בשלושה עד שישה חודשים">בשלושה עד שישה חודשים</option>
+        <option value="אין תאריך מסוים">אין תאריך מסוים</option>
+        <option value="רק בודק/ת אפשרויות כרגע">רק בודק/ת אפשרויות כרגע</option>
+      </select>
+    </label>
+    <button class="cta lead-submit" type="submit">פתיחת הודעה מוכנה ב-WhatsApp <span>←</span></button>
+  </form>
+</section>
+
+<section class="process section">
+  <div class="section-label"><span>{{ p.processLabel }}</span></div>
+  <div class="process-title">
+    <h2>{{ p.processHeading }}</h2>
+    <p>{{ p.processLead }}</p>
+  </div>
+  <ol class="steps">
+    {% for step in p.steps %}
+    <li><h3>{{ step.title }}</h3><p>{{ step.text }}</p></li>
+    {% endfor %}
+  </ol>
+</section>
+
+<section class="notes section">
+  <div class="section-label"><span>{{ p.notesLabel }}</span></div>
+  <h2>{{ p.notesHeading }}</h2>
+  <ul class="notes-list">
+    {% for note in p.notes %}
+    <li>{{ note }}</li>
+    {% endfor %}
+  </ul>
+</section>

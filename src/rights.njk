@@ -1,0 +1,49 @@
+---
+layout: base.njk
+activeNav: "זכויות"
+permalink: "/rights/index.html"
+eleventyComputed:
+  title: "{{ pages.rights.title }}"
+  description: "{{ pages.rights.metaDescription }}"
+---
+{% set p = pages.rights %}
+<section class="rights-hero">
+  <div class="rights-hero-copy">
+    <p class="hero-eyebrow">{{ p.heroEyebrow }}</p>
+    <h1>{{ p.heroHeading | safe }}</h1>
+    <p>{{ p.heroLead }}</p>
+  </div>
+  <div class="rights-mark">©</div>
+</section>
+
+<section class="rights-quick section">
+  <div class="section-label"><span>{{ p.quickLabel }}</span></div>
+  <div class="rights-quick-grid">
+    {% for q in p.quick %}
+    <article>
+      <h2>{{ q.title }}</h2>
+      <p>{{ q.text }}</p>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="rights-policy section">
+  <div class="section-label"><span>{{ p.policyLabel1 }}</span><span>{{ p.policyLabel2 }}</span></div>
+  <div class="rights-policy-list">
+    {% for item in p.policy %}
+    <article{% if item.highlight %} class="rights-ai"{% endif %}>
+      <div>
+        {% if item.eyebrow %}<p class="hero-eyebrow">{{ item.eyebrow }}</p>{% endif %}
+        <h2>{{ item.heading }}</h2>
+        {% for para in item.paragraphs %}
+        <p>{{ para }}</p>
+        {% endfor %}
+        {% if item.boldParagraph %}<p><strong>{{ item.boldParagraph }}</strong></p>{% endif %}
+        {% if item.cta %}<a class="cta" href="{{ item.cta.href }}">{{ item.cta.label }} <span>←</span></a>{% endif %}
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+  <p class="rights-legal-note">{{ p.legalNote }}</p>
+</section>

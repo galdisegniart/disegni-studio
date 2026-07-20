@@ -1,0 +1,63 @@
+---
+layout: base.njk
+activeNav: "אודות"
+permalink: "/about/index.html"
+eleventyComputed:
+  title: "{{ pages.about.title }}"
+  description: "{{ pages.about.metaDescription }}"
+---
+{% set p = pages.about %}
+<section class="about-artist-hero">
+  <figure class="about-artist-portrait">
+    <img src="{{ p.portrait }}" alt="{{ p.portraitAlt }}">
+  </figure>
+  <div class="about-artist-intro">
+    <p class="hero-eyebrow">{{ p.heroEyebrow }}</p>
+    <h1>{{ p.heroHeading | safe }}</h1>
+    <p>{{ p.heroLead }}</p>
+  </div>
+</section>
+
+<section class="about-biography section">
+  <div class="section-label"><span>{{ p.bioLabel1 }}</span><span>{{ p.bioLabel2 }}</span></div>
+  <div class="about-biography-grid">
+    <p class="about-biography-lead">{{ p.bioLead }}</p>
+    <div class="about-biography-copy">
+      {% for para in p.bioParagraphs %}
+      <p>{{ para }}</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="about-worlds section">
+  <div class="section-label"><span>{{ p.worldsLabel }}</span></div>
+  <div class="about-worlds-grid">
+    {% for w in p.worlds %}
+    <a class="about-world-card" href="{{ w.href }}">
+      <figure><img src="{{ w.image }}" alt="{{ w.alt }}"></figure>
+      <span><small>{{ w.small }}</small><strong>{{ w.title }}</strong><i>←</i></span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="about-moments section">
+  <div class="section-label"><span>{{ p.momentsLabel1 }}</span><span>{{ p.momentsLabel2 }}</span></div>
+  <div class="about-moments-grid">
+    {% for m in p.moments %}
+    <figure{% if m.wide %} class="wide"{% endif %}><img src="{{ m.image }}" alt="{{ m.alt }}"></figure>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="about-closing section">
+  <blockquote>{{ p.closingQuote }}</blockquote>
+  <div class="about-closing-copy">
+    <p>{{ p.closingText }}</p>
+    <div class="hero-actions balanced-actions">
+      <a class="cta" href="{{ p.closingCta1Href }}">{{ p.closingCta1Label }} <span>←</span></a>
+      <a class="cta cta-outline" href="{{ p.closingCta2Href }}">{{ p.closingCta2Label }} <span>←</span></a>
+    </div>
+  </div>
+</section>
