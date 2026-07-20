@@ -1,0 +1,37 @@
+---
+layout: base.njk
+title: "גל דִּיסֵנִי | אמנות מקורית, פורטרטים וסדנאות"
+description: "הגלריה של גל דִּיסֵנִי, יצירות מקוריות, פורטרטים אישיים וסדנאות אמנות בחדרה."
+activeNav: "גלריה"
+permalink: "/index.html"
+---
+<section class="artist-opening">
+  <a class="artist-opening-logo" href="/index.html">
+    <img class="artist-logo" src="/images/brand-label-white.webp" alt="{{ site.brand }}">
+    <p class="artist-signature-line">יצירות מקוריות מאת {{ site.brand }}</p>
+  </a>
+  <figure class="artist-opening-art">
+    <img src="/images/disegni-profile.webp" alt="{{ site.brand }} בסטודיו">
+  </figure>
+  <div class="artist-opening-copy">
+    <h1 id="hero-title">אמנות מקורית מצוירת ביד.<br><span>ריאליסטית, אינטואיטיבית, דמיונית וחזיונית.</span></h1>
+    <p class="artist-opening-lead">כל יצירה מתחילה בחיבור אישי ומקבלת נוכחות וסיפור משלה.</p>
+    <div class="opening-assurance">
+      <p>מקורי לחלוטין. ללא בינה מלאכותית.</p>
+      <p>נוצר ביד על נייר, קנבס, עץ או קיר.</p>
+    </div>
+  </div>
+</section>
+
+<section class="gallery section home-gallery">
+  <div class="gallery-editorial home-art-grid">
+    {% for artwork in artworks %}
+    <figure class="gallery-item">
+      <a class="gallery-link" href="/artwork/{{ artwork.slug }}/">
+        <span class="gallery-frame"><img src="{{ artwork.thumb }}" alt="{{ artwork.name }}" loading="lazy"></span>
+        <figcaption><strong>{{ artwork.name }}</strong><span>{{ artwork.galleryMedium }}</span></figcaption>
+      </a>
+    </figure>
+    {% endfor %}
+  </div>
+</section>
