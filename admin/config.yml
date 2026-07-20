@@ -16,6 +16,8 @@ collections:
     label: "יצירות אמנות (גלריה)"
     folder: "src/content/artworks"
     create: true
+    extension: "json"
+    format: "json"
     slug: "{{fields.slug}}"
     identifier_field: "name"
     summary: "{{name}} ({{galleryMedium}})"
@@ -35,6 +37,8 @@ collections:
     label: "סדנאות"
     folder: "src/content/workshops"
     create: true
+    extension: "json"
+    format: "json"
     slug: "{{fields.slug}}"
     identifier_field: "cardTitle"
     summary: "{{cardTitle}}"
