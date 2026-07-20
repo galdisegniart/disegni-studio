@@ -2143,15 +2143,12 @@ footer a {
   border-left: 1px solid var(--line);
 }
 
-.rights-quick-grid span,
 .rights-number {
-  color: var(--copper);
-  font-size: 13px;
-  letter-spacing: 0.12em;
+  display: none;
 }
 
 .rights-quick-grid h2 {
-  margin: 40px 0 14px;
+  margin: 0 0 14px;
   font-size: 28px;
   font-weight: 500;
 }
@@ -2167,9 +2164,6 @@ footer a {
 }
 
 .rights-policy-list article {
-  display: grid;
-  grid-template-columns: 80px minmax(0, 1fr);
-  gap: 42px;
   padding: 54px 0;
   border-bottom: 1px solid var(--line);
 }
