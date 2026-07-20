@@ -1,1 +1,2 @@
+# redirect old shop URL to the new collections path
 RedirectMatch 301 ^/shop/?$ /collections/prints/
