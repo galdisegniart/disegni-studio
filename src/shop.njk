@@ -1,29 +1,31 @@
 ---
 layout: base.njk
-title: "חנות | גל דִּיסֵנִי"
-description: "חנות ההדפסים האמנותיים של גל דִּיסֵנִי - בחרו יצירה כדי לראות אותה בגודל מלא ולבחור הדפס אמנותי."
 activeNav: "חנות"
 permalink: "/shop/index.html"
 scripts:
   - /js/catalog-filter.js
+eleventyComputed:
+  title: "{{ pages.shop.title }}"
+  description: "{{ pages.shop.metaDescription }}"
 ---
+{% set p = pages.shop %}
 <section class="gallery-intro-minimal">
   <div class="shop-intro-layout">
-    <h1>חנות</h1>
+    <h1>{{ p.heading }}</h1>
     <div class="shop-intro-copy">
-      <p>בחרו יצירה כדי לראות אותה בגודל מלא ולבחור הדפס אמנותי.</p>
-      <a class="artwork-option shop-originals-link" href="/">ליצירות המקוריות <span aria-hidden="true">←</span></a>
+      <p>{{ p.heroText }}</p>
+      <a class="artwork-option shop-originals-link" href="/">{{ p.originalsLinkLabel }} <span aria-hidden="true">←</span></a>
     </div>
   </div>
 </section>
 
 <section class="artwork-catalog gallery-catalog-compact section">
   <div class="catalog-toolbar">
-    <h2>יצירות לרכישה</h2>
+    <h2>{{ p.catalogHeading }}</h2>
     <div class="catalog-filters">
-      <button class="catalog-filter active" type="button" data-filter="all" aria-pressed="true">הכל</button>
-      <button class="catalog-filter" type="button" data-filter="drawing" aria-pressed="false">רישום ופורטרט</button>
-      <button class="catalog-filter" type="button" data-filter="mixed" aria-pressed="false">מיקס-מדיה</button>
+      <button class="catalog-filter active" type="button" data-filter="all" aria-pressed="true">{{ p.filterAllLabel }}</button>
+      <button class="catalog-filter" type="button" data-filter="drawing" aria-pressed="false">{{ p.filterDrawingLabel }}</button>
+      <button class="catalog-filter" type="button" data-filter="mixed" aria-pressed="false">{{ p.filterMixedLabel }}</button>
     </div>
   </div>
   <div class="artwork-grid">

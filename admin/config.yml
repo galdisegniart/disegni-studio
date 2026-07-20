@@ -247,6 +247,20 @@ collections:
           - { label: "כותרת הערות", name: "notesHeading", widget: "string" }
           - { label: "רשימת הערות", name: "notes", widget: "list", field: { label: "הערה", name: "text", widget: "string" } }
 
+      - name: "shop"
+        label: "עמוד חנות"
+        file: "src/content/pages/shop.json"
+        fields:
+          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
+          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
+          - { label: "כותרת ראשית", name: "heading", widget: "string" }
+          - { label: "טקסט פתיחה", name: "heroText", widget: "text" }
+          - { label: "טקסט קישור ליצירות המקוריות", name: "originalsLinkLabel", widget: "string" }
+          - { label: "כותרת סקציית היצירות", name: "catalogHeading", widget: "string" }
+          - { label: "תווית מסנן: הכל", name: "filterAllLabel", widget: "string" }
+          - { label: "תווית מסנן: רישום ופורטרט", name: "filterDrawingLabel", widget: "string" }
+          - { label: "תווית מסנן: מיקס-מדיה", name: "filterMixedLabel", widget: "string" }
+
       - name: "rights"
         label: "עמוד זכויות יוצרים"
         file: "src/content/pages/rights.json"
