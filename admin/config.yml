@@ -261,6 +261,20 @@ collections:
           - { label: "תווית מסנן: רישום ופורטרט", name: "filterDrawingLabel", widget: "string" }
           - { label: "תווית מסנן: מיקס-מדיה", name: "filterMixedLabel", widget: "string" }
 
+      - name: "payment"
+        label: "פרטי תשלום (בעמוד יצירה)"
+        file: "src/content/pages/payment.json"
+        fields:
+          - { label: "תווית סקציה", name: "sectionLabel", widget: "string" }
+          - { label: "כותרת", name: "heading", widget: "string" }
+          - { label: "טקסט הסבר", name: "lead", widget: "text" }
+          - { label: "שם הבנק", name: "bankName", widget: "string" }
+          - { label: "קוד בנק", name: "bankCode", widget: "string" }
+          - { label: "סניף", name: "branch", widget: "string" }
+          - { label: "מספר חשבון", name: "accountNumber", widget: "string" }
+          - { label: "שם בעל החשבון", name: "accountHolder", widget: "string" }
+          - { label: "הערה לגבי הודעת WhatsApp", name: "waNote", widget: "text" }
+
       - name: "contact"
         label: "עמוד יצירת קשר"
         file: "src/content/pages/contact.json"

@@ -10,6 +10,7 @@ eleventyComputed:
   description: "{{ artwork.name }}, {{ artwork.description }}"
 ---
 {% set seq = artworks | artworkSequence(artwork) %}
+{% set pay = pages.payment %}
 
 <section class="artwork-detail">
   <div class="artwork-utility">
@@ -27,6 +28,20 @@ eleventyComputed:
       <a class="artwork-option" id="choose-print" href="#purchase" data-purchase-option="print">{{ purchaseButtons.printLabel }} <span aria-hidden="true">←</span></a>
       <a class="artwork-option" id="choose-original" href="#purchase" data-purchase-option="original">{{ purchaseButtons.originalLabel }} <span aria-hidden="true">←</span></a>
     </div>
+  </div>
+
+  <div class="artwork-purchase" id="purchase">
+    <div class="section-label"><span>{{ pay.sectionLabel }}</span></div>
+    <h2>{{ pay.heading }}</h2>
+    <p class="artwork-purchase-lead">{{ pay.lead }}</p>
+    <dl class="artwork-purchase-bank">
+      <div><dt>בנק</dt><dd>{{ pay.bankName }} ({{ pay.bankCode }})</dd></div>
+      <div><dt>סניף</dt><dd>{{ pay.branch }}</dd></div>
+      <div><dt>מספר חשבון</dt><dd dir="ltr">{{ pay.accountNumber }}</dd></div>
+      <div><dt>שם בעל החשבון</dt><dd>{{ pay.accountHolder }}</dd></div>
+    </dl>
+    <a class="cta js-whatsapp" href="{{ ('שלום גל, ביצעתי העברה בנקאית עבור היצירה \"' ~ artwork.name ~ '\". אשמח לתיאום המשלוח.') | waLink }}" target="_blank" rel="noopener noreferrer">שליחת אישור העברה ב-WhatsApp <span>←</span></a>
+    <p class="artwork-purchase-note">{{ pay.waNote }}</p>
   </div>
 </section>
 

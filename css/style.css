@@ -528,6 +528,70 @@ footer {
   color: var(--black);
 }
 
+.artwork-purchase {
+  width: min(100%, 640px);
+  margin: 70px auto 0;
+  padding-top: 54px;
+  border-top: 1px solid var(--line);
+  text-align: center;
+}
+
+.artwork-purchase .section-label {
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.artwork-purchase h2 {
+  margin: 0 0 16px;
+  font-size: clamp(28px, 3vw, 38px);
+  font-weight: 500;
+}
+
+.artwork-purchase-lead {
+  margin: 0 0 34px;
+  color: var(--dim);
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.artwork-purchase-bank {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 16px;
+  margin: 0 0 34px;
+  padding: 26px;
+  border: 1px solid var(--line);
+  text-align: right;
+}
+
+.artwork-purchase-bank dt {
+  margin: 0 0 4px;
+  color: var(--dim);
+  font-size: 13px;
+}
+
+.artwork-purchase-bank dd {
+  margin: 0;
+  color: var(--bone);
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.artwork-purchase-note {
+  max-width: 480px;
+  margin: 18px auto 0;
+  color: #6f6a63;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+@media (max-width: 560px) {
+  .artwork-purchase-bank {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+}
+
 /* Artwork "more" section */
 .artwork-more {
   padding: 78px max(24px, calc(50vw - 640px)) 100px;
