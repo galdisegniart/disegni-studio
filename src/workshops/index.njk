@@ -1,0 +1,56 @@
+---
+layout: base.njk
+title: "סדנאות אמנות עם גל דִּיסֵנִי | חדרה"
+description: "סדנאות אמנות עם גל דִּיסֵנִי בחדרה: סדנה יומית חווייתית, סדנה מתמשכת במנוי חודשי, ומסלול תהליכי של 8 מפגשים."
+activeNav: "סדנאות"
+permalink: "/workshops/index.html"
+scripts:
+  - /js/reviews.js
+---
+<section class="workshop-visual-hero">
+  <p class="hero-eyebrow">סדנאות אמנות עם {{ site.brand }}</p>
+  <div class="workshop-visual-grid">
+    {% for w in workshops %}
+    <a class="workshop-visual-card" href="/workshops/{{ w.slug }}/" aria-label="ל{{ w.cardTitle }}">
+      <figure><img src="{{ w.cardImage }}" alt="{{ w.cardImageAlt }}"></figure>
+      <span><small>{{ w.cardLabel }}</small><strong>{{ w.cardTitle }}</strong><i aria-hidden="true">←</i></span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="reviews-section reviews-centered section">
+  <div class="reviews-heading">
+    <p class="hero-eyebrow">משתתפים מספרים</p>
+    <h2>איך היה להם ליצור.</h2>
+    <div class="review-summary" aria-label="דירוג 5 מתוך 5 על סמך חוות דעת אחת"><strong>5.0</strong><span aria-hidden="true">★★★★★</span><small>חוות דעת אחת</small></div>
+  </div>
+
+  <details class="review-card">
+    <summary>
+      <span class="review-card-top"><span><strong>מור פולקמן ליבוביץ</strong><time datetime="2026-07-12">12.07.2026</time></span><span class="review-stars" aria-label="5 מתוך 5 כוכבים">★★★★★</span></span>
+      <span class="review-excerpt">"גל יצר משהו מאוד אישי ונעים שמחבר בינינו. זה היה סוג של מסע פנימי שהתבטא ביצירה…"</span>
+      <span class="review-read-more">לקריאת חוות הדעת המלאה <b aria-hidden="true">＋</b></span>
+    </summary>
+    <blockquote>"השתתפתי בסדנה מאוד מיוחדת עם גל. היינו קבוצה של ארבע נשים שעובדות יחד. גל יצר משהו מאוד אישי ונעים שמחבר בינינו. זה היה סוג של מסע פנימי שהתבטא ביצירה. הייתה אווירה טובה, עם הקול הרגוע של גל, הרבה הקשבה לכל אחת וללא לחץ של זמן. נהנינו. תודה גל!"</blockquote>
+  </details>
+</section>
+
+<section class="workshop-picker section">
+  <div class="workshop-picker-heading">
+    <div>
+      <p class="hero-eyebrow">איזו דרך מתאימה לכם?</p>
+      <h1>שלוש דרכים<br>להתחיל ליצור.</h1>
+    </div>
+    <p>אפשר להתחיל במפגש חווייתי, להכניס יצירה לשגרה או לבחור בתהליך מובנה. בכל דרך מקבלים מקום אישי, ליווי מקצועי וחופש ליצור גם בלי ניסיון קודם.</p>
+  </div>
+</section>
+
+<section class="workshop-overview-contact section">
+  <div class="workshop-overview-contact-copy">
+    <p class="hero-eyebrow">עדיין מתלבטים?</p>
+    <h2>אפשר לבחור<br>גם בשיחה קצרה.</h2>
+    <p>ספרו לי מי מגיע ומה הייתם רוצים להרגיש או ליצור, ואעזור לבחור את המסלול המתאים.</p>
+  </div>
+  <a class="cta js-whatsapp" data-option="ייעוץ לבחירת סדנה" href="{{ 'שלום גל, הגעתי דרך האתר ואשמח לעזרה בבחירת הסדנה שמתאימה לי.' | waLink }}" target="_blank" rel="noopener noreferrer">התייעצות קצרה ב-WhatsApp <span>←</span></a>
+</section>

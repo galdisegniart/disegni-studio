@@ -1,0 +1,22 @@
+<div class="review-form-intro">
+  <p class="hero-eyebrow">הייתם בסדנה?</p>
+  <h2>ספרו איך היה לכם.</h2>
+  <p>חוות הדעת תישלח לגל לבדיקה קצרה לפני שהיא מתפרסמת באתר.</p>
+</div>
+<form class="review-form" id="review-form" data-workshop="{{ w.cardTitle }}">
+  <label>שם מלא<input type="text" name="reviewer" autocomplete="name" required></label>
+  <div class="review-rating-field">
+    <span>הדירוג שלכם</span>
+    <div class="review-rating-buttons" role="radiogroup" aria-label="בחירת דירוג">
+      <button type="button" data-rating="1" aria-label="כוכב אחד" aria-pressed="false">★</button>
+      <button type="button" data-rating="2" aria-label="שני כוכבים" aria-pressed="false">★</button>
+      <button type="button" data-rating="3" aria-label="שלושה כוכבים" aria-pressed="false">★</button>
+      <button type="button" data-rating="4" aria-label="ארבעה כוכבים" aria-pressed="false">★</button>
+      <button type="button" data-rating="5" aria-label="חמישה כוכבים" aria-pressed="false">★</button>
+    </div>
+    <input type="hidden" name="rating" required>
+  </div>
+  <label>חוות הדעת<textarea name="review" rows="4" required></textarea></label>
+  <button class="cta review-submit" type="submit">שליחת חוות הדעת <span>←</span></button>
+  <p class="review-form-status" aria-live="polite"></p>
+</form>

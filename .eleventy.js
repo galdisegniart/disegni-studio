@@ -2,6 +2,14 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addWatchTarget("css");
   eleventyConfig.addWatchTarget("js");
 
+  eleventyConfig.addFilter("arraySlice", function (arr, start, end) {
+    return arr.slice(start, end);
+  });
+
+  eleventyConfig.addFilter("waLink", function (message) {
+    return "https://wa.me/972552902934?text=" + encodeURIComponent(message);
+  });
+
   eleventyConfig.addFilter("artworkSequence", function (artworks, current) {
     const n = artworks.length;
     const idx0 = artworks.findIndex((a) => a.slug === current.slug);

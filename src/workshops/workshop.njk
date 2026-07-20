@@ -1,0 +1,177 @@
+---
+pagination:
+  data: workshops
+  size: 1
+  alias: w
+permalink: "/workshops/{{ w.slug }}/index.html"
+layout: base.njk
+activeNav: "סדנאות"
+eleventyComputed:
+  title: "{{ w.title }}"
+  description: "{{ w.metaDescription }}"
+scripts:
+  - /js/reviews.js
+---
+<section class="daily-workshop-hero">
+  <div class="daily-workshop-copy">
+    <a class="editorial-link" href="/workshops/"><span aria-hidden="true">→</span> חזרה לסדנאות</a>
+    <p class="hero-eyebrow">{{ w.eyebrow }}</p>
+    <h1>{{ w.heading }}</h1>
+    <p class="daily-workshop-lead">{{ w.lead }}</p>
+
+    <div class="workshop-quick-meta" aria-label="עיקרי הסדנה">
+      {% for m in w.quickMeta %}
+      <span><small>{{ m.label }}</small><strong>{{ m.value }}</strong></span>
+      {% endfor %}
+    </div>
+
+    <div class="workshop-single-actions">
+      <a class="cta js-whatsapp" data-option="{{ w.cardTitle }}" href="{{ w.waMessage | waLink }}" target="_blank" rel="noopener noreferrer">{{ w.heroCtaLabel }} <span>←</span></a>
+      <button class="workshop-share" type="button"><span>↗</span> שיתוף העמוד</button>
+    </div>
+
+    {% if w.hasReviews %}
+    <a class="hero-review-peek" href="#reviews" aria-label="מעבר לחוות הדעת על הסדנה">
+      <span class="hero-review-score"><b>{{ w.reviewsSummary.score }}</b><i aria-hidden="true">★★★★★</i></span>
+      <span><strong>{{ w.reviewPeekExcerpt }}</strong><small>לחוות הדעת המלאה ←</small></span>
+    </a>
+    {% else %}
+    <a class="hero-review-peek hero-review-empty" href="#reviews" aria-label="מעבר לדירוג וחוות דעת על הסדנה">
+      <span class="hero-review-score"><i aria-hidden="true">★★★★★</i></span>
+      <span><strong>כבר השתתפתם? החוויה שלכם חשובה</strong><small>לדירוג ולהוספת חוות דעת ←</small></span>
+    </a>
+    {% endif %}
+  </div>
+  <figure class="daily-workshop-hero-image">
+    <img src="{{ w.heroImage }}" alt="{{ w.heroImageAlt }}">
+  </figure>
+</section>
+
+<section class="daily-workshop-story section">
+  <div class="section-label"><span>{{ w.story.eyebrow }}</span></div>
+  <div class="daily-workshop-story-grid">
+    <div>
+      <h2>{{ w.story.heading | safe }}</h2>
+    </div>
+    <div class="daily-workshop-body">
+      <p class="lead">{{ w.story.lead }}</p>
+      {% for p in w.story.paragraphs %}
+      <p>{{ p }}</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% if w.video %}
+<section class="daily-workshop-video section">
+  <div class="section-label"><span>{{ w.video.eyebrow }}</span></div>
+  <div class="daily-video-grid">
+    <div>
+      <h2>{{ w.video.heading | safe }}</h2>
+      <p>{{ w.video.text }}</p>
+    </div>
+    <figure style="margin:0;aspect-ratio:16/10;overflow:hidden;background:#070706">
+      <img src="{{ w.video.poster }}" alt="{{ w.video.posterAlt }}" style="width:100%;height:100%;object-fit:cover">
+    </figure>
+  </div>
+</section>
+{% endif %}
+
+<section class="daily-workshop-included section">
+  <div class="section-label"><span>{{ w.included.eyebrow }}</span></div>
+  <div class="included-grid">
+    {% for item in w.included.items %}
+    <article><span>{{ item.label }}</span><h3>{{ item.title }}</h3><p>{{ item.text }}</p></article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="daily-workshop-pricing section">
+  <div class="section-label"><span>{{ w.pricing.eyebrow }}</span></div>
+  <div class="pricing-layout">
+    <div>
+      <h2>{{ w.pricing.heading | safe }}</h2>
+      <p style="margin-top:16px;color:var(--dim);font-size:17px;line-height:1.7">{{ w.pricing.note }}</p>
+    </div>
+    <div class="price-cards">
+      {% for tier in w.pricing.tiers %}
+      <article><span>{{ tier.label }}</span><strong>{{ tier.value }}</strong></article>
+      {% endfor %}
+      <a class="cta js-whatsapp" data-option="{{ w.cardTitle }}" href="{{ w.waMessage | waLink }}" target="_blank" rel="noopener noreferrer">{{ w.pricing.ctaLabel }} <span>←</span></a>
+    </div>
+  </div>
+</section>
+
+{% if w.gallery %}
+<section class="daily-workshop-gallery{{ ' structured-workshop-gallery' if not w.gallery.expandLabel }} section">
+  <div class="section-label"><span>{{ w.gallery.eyebrow }}</span></div>
+  <div class="workshop-photo-collage">
+    {% for img in w.gallery.images | arraySlice(0, 3) %}
+    <figure{% if img.wide %} class="wide"{% endif %}><img src="{{ img.src }}" alt="{{ img.alt }}"></figure>
+    {% endfor %}
+  </div>
+  {% if w.gallery.expandLabel %}
+  <details class="workshop-gallery-more">
+    <summary>{{ w.gallery.expandLabel }} <span aria-hidden="true">＋</span></summary>
+    <div class="workshop-gallery-expanded">
+      {% for img in w.gallery.images | arraySlice(3) %}
+      <figure><img src="{{ img.src }}" alt="{{ img.alt }}"></figure>
+      {% endfor %}
+    </div>
+  </details>
+  {% endif %}
+</section>
+{% endif %}
+
+{% if w.hasReviews %}
+<section class="reviews-section section" id="reviews">
+  <div class="reviews-heading">
+    <div>
+      <p class="hero-eyebrow">{{ w.reviewsHeading.eyebrow }}</p>
+      <h2>{{ w.reviewsHeading.heading }}</h2>
+    </div>
+    <div class="review-summary" aria-label="דירוג {{ w.reviewsSummary.score }} מתוך 5"><strong>{{ w.reviewsSummary.score }}</strong><span aria-hidden="true">★★★★★</span><small>{{ w.reviewsSummary.countLabel }}</small></div>
+  </div>
+
+  {% for r in w.reviews %}
+  <details class="review-card">
+    <summary>
+      <span class="review-card-top"><span><strong>{{ r.name }}</strong><time datetime="{{ r.date }}">{{ r.dateLabel }}</time></span><span class="review-stars" aria-label="5 מתוך 5 כוכבים">★★★★★</span></span>
+      <span class="review-excerpt">{{ r.excerpt }}</span>
+      <span class="review-read-more">לקריאת חוות הדעת המלאה <b aria-hidden="true">＋</b></span>
+    </summary>
+    <blockquote>{{ r.full }}</blockquote>
+  </details>
+  {% endfor %}
+
+  <details class="review-write-panel">
+    <summary>השתתפתם בסדנה? הוסיפו דירוג וחוות דעת <span aria-hidden="true">＋</span></summary>
+    <div class="review-form-wrap">
+      {% include "partials/review-form.njk" %}
+    </div>
+  </details>
+</section>
+{% else %}
+<section class="daily-workshop-reviews section" id="reviews">
+  <div class="reviews-heading reviews-heading-compact">
+    <div>
+      <p class="hero-eyebrow">{{ w.reviewsHeading.eyebrow }}</p>
+      <h2>{{ w.reviewsHeading.heading }}</h2>
+    </div>
+    <p class="reviews-empty-copy">{{ w.reviewsEmptyText }}</p>
+  </div>
+
+  <details class="review-write-panel">
+    <summary>השתתפתם בסדנה? הוסיפו דירוג וחוות דעת <span aria-hidden="true">＋</span></summary>
+    <div class="review-form-wrap review-form-only">
+      {% include "partials/review-form.njk" %}
+    </div>
+  </details>
+</section>
+{% endif %}
+
+<section class="daily-workshop-final section">
+  <p class="hero-eyebrow">{{ w.finalEyebrow }}</p>
+  <h2>{{ w.finalHeading | safe }}</h2>
+  <a class="cta js-whatsapp" data-option="{{ w.cardTitle }}" href="{{ w.finalWaMessage | waLink }}" target="_blank" rel="noopener noreferrer">{{ w.finalCtaLabel }} <span>←</span></a>
+</section>
