@@ -3,7 +3,7 @@
   "tagline": "אמנות מקורית · פורטרטים · סדנאות",
   "whatsappNumber": "972552902934",
   "nav": [
-    { "label": "גלריה", "href": "/index.html" },
+    { "label": "גלריה", "href": "/" },
     { "label": "חנות", "href": "/shop/" },
     { "label": "יצירות בהזמנה", "href": "/commissions/" },
     { "label": "סדנאות", "href": "/workshops/" },

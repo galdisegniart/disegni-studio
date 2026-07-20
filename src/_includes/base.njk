@@ -13,7 +13,7 @@
 <body id="top">
 
 <header class="header site-header">
-  <a class="brand" href="/index.html" aria-label="{{ site.brand }}, דף הבית">{{ site.brand }}</a>
+  <a class="brand" href="/" aria-label="{{ site.brand }}, דף הבית">{{ site.brand }}</a>
   <nav class="main-nav" aria-label="ניווט ראשי">
     {% for item in site.nav %}
     <a{% if item.label == activeNav %} class="active"{% endif %} href="{{ item.href }}">{{ item.label }}</a>

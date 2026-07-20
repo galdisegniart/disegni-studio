@@ -16,7 +16,7 @@
   ],
   "worldsLabel": "שלושה עולמות, שפה אחת",
   "worlds": [
-    { "href": "/index.html", "image": "/images/artworks/orin+WEB.webp", "alt": "יצירה מקורית מאת גל דִּיסֵנִי", "small": "עולמות פנימיים ודמיון", "title": "יצירה מקורית" },
+    { "href": "/", "image": "/images/artworks/orin+WEB.webp", "alt": "יצירה מקורית מאת גל דִּיסֵנִי", "small": "עולמות פנימיים ודמיון", "title": "יצירה מקורית" },
     { "href": "/commissions/", "image": "/images/artworks/light+WEB.webp", "alt": "רישום פורטרט בהזמנה מאת גל דִּיסֵנִי", "small": "סיפור אישי שהופך ליצירה", "title": "עבודות בהזמנה" },
     { "href": "/workshops/", "image": "/images/workshops/daily-main.webp", "alt": "משתתפות בסדנת אמנות של גל דִּיסֵנִי", "small": "מרחב ללמוד, להתנסות ולהעז", "title": "סדנאות אמנות" }
   ],
@@ -32,7 +32,7 @@
   "closingQuote": "\"אמנות היא דרך להתקרב למה שמרגישים, גם כשעדיין אין לזה מילים.\"",
   "closingText": "אפשר לפגוש את העבודה דרך יצירה מקורית, הזמנה אישית או תהליך יצירה משותף. כל דרך מתחילה בסקרנות ובשיחה פשוטה.",
   "closingCta1Label": "לצפייה ביצירות",
-  "closingCta1Href": "/index.html",
+  "closingCta1Href": "/",
   "closingCta2Label": "ליצירת קשר",
   "closingCta2Href": "/contact/"
 }
