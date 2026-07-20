@@ -1,0 +1,50 @@
+---
+pagination:
+  data: artworks
+  size: 1
+  alias: artwork
+permalink: "/artwork/{{ artwork.slug }}/index.html"
+layout: base-bare.njk
+eleventyComputed:
+  title: "{{ artwork.name }} | גל דִּיסֵנִי"
+  description: "{{ artwork.name }}, {{ artwork.description }}"
+---
+{% set seq = artworks | artworkSequence(artwork) %}
+
+<section class="artwork-detail">
+  <div class="artwork-utility">
+    <a class="artwork-back" href="/index.html"><span aria-hidden="true">→</span> חזרה לגלריה</a>
+    <button class="artwork-share" type="button">שיתוף <span aria-hidden="true">↗</span></button>
+  </div>
+  <figure class="artwork-stage">
+    <img src="{{ artwork.image }}" alt="{{ artwork.alt }}">
+  </figure>
+  <div class="artwork-detail-copy">
+    <p class="artwork-detail-medium">{{ artwork.detailMedium }}</p>
+    <h1>{{ artwork.name }}</h1>
+    <p class="artwork-detail-description">{{ artwork.description }}</p>
+    <div class="artwork-purchase-actions">
+      <a class="artwork-option" id="choose-print" href="#purchase" data-purchase-option="print">הדפס אמנותי <span aria-hidden="true">←</span></a>
+      <a class="artwork-option" id="choose-original" href="#purchase" data-purchase-option="original">היצירה המקורית <span aria-hidden="true">←</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="artwork-more">
+  <div class="artwork-more-head">
+    <a href="/index.html"><span aria-hidden="true">→</span> חזרה לגלריה</a>
+    <div class="artwork-sequence">
+      <a id="previous-artwork" href="/artwork/{{ seq.prev.slug }}/" aria-label="היצירה הקודמת, {{ seq.prev.name }}">הקודמת</a>
+      <span>/</span>
+      <a id="next-artwork" href="/artwork/{{ seq.next.slug }}/" aria-label="היצירה הבאה, {{ seq.next.name }}">הבאה</a>
+    </div>
+  </div>
+  <div class="artwork-more-grid">
+    {% for item in seq.more %}
+    <a class="more-artwork-card" href="/artwork/{{ item.slug }}/">
+      <span class="more-artwork-image"><img src="{{ item.thumb }}" alt="{{ item.name }}" loading="lazy"></span>
+      <span class="more-artwork-caption"><strong lang="en">{{ item.name }}</strong><small>{{ item.galleryMedium }}</small><i aria-hidden="true">←</i></span>
+    </a>
+    {% endfor %}
+  </div>
+</section>

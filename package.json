@@ -1,0 +1,17 @@
+{
+  "name": "disegni-local-backup",
+  "version": "1.0.0",
+  "description": "אתר סטטי (HTML/CSS) עבור disegni.studio, עם ניהול תוכן דרך Decap CMS.",
+  "main": "index.js",
+  "scripts": {
+    "build": "eleventy",
+    "watch": "eleventy --serve"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.6"
+  }
+}

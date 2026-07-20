@@ -1,0 +1,19 @@
+{
+  "brand": "גל דִּיסֵנִי",
+  "tagline": "אמנות מקורית · פורטרטים · סדנאות",
+  "whatsappNumber": "972552902934",
+  "nav": [
+    { "label": "גלריה", "href": "/index.html" },
+    { "label": "חנות", "href": "/shop/" },
+    { "label": "יצירות בהזמנה", "href": "/commissions/" },
+    { "label": "סדנאות", "href": "/workshops/" },
+    { "label": "אודות", "href": "/about/" },
+    { "label": "זכויות", "href": "/rights/" }
+  ],
+  "contactHref": "/contact/",
+  "socials": [
+    { "name": "אינסטגרם", "href": "https://www.instagram.com/galdisegniart/" },
+    { "name": "טיקטוק", "href": "https://www.tiktok.com/@galdisegniart" },
+    { "name": "פייסבוק", "href": "https://www.facebook.com/gal.disegni" }
+  ]
+}

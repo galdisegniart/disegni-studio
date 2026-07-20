@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ title }}</title>
+<meta name="description" content="{{ description }}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body id="top">
+
+<header class="header site-header">
+  <a class="brand" href="/index.html" aria-label="{{ site.brand }}, דף הבית">{{ site.brand }}</a>
+  <nav class="main-nav" aria-label="ניווט ראשי">
+    {% for item in site.nav %}
+    <a{% if item.label == activeNav %} class="active"{% endif %} href="{{ item.href }}">{{ item.label }}</a>
+    {% endfor %}
+  </nav>
+  <a class="header-link" href="{{ site.contactHref }}">יצירת קשר <span>↙</span></a>
+</header>
+
+{{ content | safe }}
+
+{% include "partials/footer.njk" %}
+
+{% for s in scripts %}
+<script src="{{ s }}"></script>
+{% endfor %}
+</body>
+</html>
