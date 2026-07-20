@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: YOUR-GITHUB-USERNAME/disegni-studio
+  repo: galdisegniart/disegni-studio
   branch: main
 
 local_backend: true
