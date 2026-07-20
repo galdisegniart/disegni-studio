@@ -1736,7 +1736,8 @@ footer {
 
 /* About page */
 .about-artist-hero {
-  min-height: calc(100vh - 82px);
+  min-height: 100vh;
+  padding-top: 82px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   border-bottom: 1px solid var(--line);
