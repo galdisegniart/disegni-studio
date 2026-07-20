@@ -201,17 +201,19 @@ img {
 @media (max-width: 920px) {
   .main-nav {
     display: none;
-    position: absolute;
-    grid-column: 1 / -1;
+    position: fixed;
+    z-index: 10;
     top: 82px;
     right: 0;
     left: 0;
+    bottom: 0;
+    height: calc(100vh - 82px);
+    overflow-y: auto;
     flex-direction: column;
     align-items: flex-start;
-    gap: 22px;
-    padding: 26px 34px 34px;
+    gap: 26px;
+    padding: 34px;
     background: var(--black);
-    border-bottom: 1px solid var(--line);
   }
 
   .main-nav.open {
