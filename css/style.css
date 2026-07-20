@@ -686,20 +686,25 @@ footer a {
   position: absolute;
   left: 25px;
   right: 25px;
-  bottom: 20px;
+  bottom: 30px;
   display: grid;
   grid-template-columns: 1fr 25px;
+  grid-template-rows: auto auto;
   gap: 4px 20px;
 }
 
 .workshop-visual-card small {
   grid-column: 1 / -1;
+  grid-row: 2;
+  margin-top: 4px;
   color: #df8b6d;
-  font-size: 14px;
+  font-size: 16px;
   font-style: normal;
 }
 
 .workshop-visual-card strong {
+  grid-column: 1;
+  grid-row: 1;
   font-size: clamp(24px, 2.2vw, 34px);
   font-weight: 500;
   line-height: 1.1;
@@ -707,6 +712,8 @@ footer a {
 }
 
 .workshop-visual-card i {
+  grid-column: 2;
+  grid-row: 1;
   align-self: end;
   color: var(--copper);
   font-size: 25px;
@@ -835,6 +842,10 @@ footer a {
   display: block;
   text-align: center;
   margin-bottom: 32px;
+}
+
+.reviews-centered .reviews-heading .hero-eyebrow {
+  font-size: 20px;
 }
 
 .reviews-centered .review-summary {
