@@ -14,7 +14,10 @@
 
 <header class="header site-header">
   <a class="brand" href="/" aria-label="גל דִּיסֵנִי, דף הבית">גל דִּיסֵנִי</a>
-  <nav class="main-nav" aria-label="ניווט ראשי">
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="פתיחת תפריט ניווט">
+    <span></span><span></span><span></span>
+  </button>
+  <nav class="main-nav" id="main-nav" aria-label="ניווט ראשי">
     
     <a href="/">גלריה</a>
     
@@ -29,7 +32,10 @@
     <a href="/rights/">זכויות</a>
     
   </nav>
-  <a class="header-cart" href="/cart/" aria-label="עגלת קניות">עגלה <span class="js-cart-count" hidden>0</span></a>
+  <a class="header-cart" href="/cart/" aria-label="עגלת קניות">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1.4"></circle><circle cx="18" cy="21" r="1.4"></circle><path d="M2.5 3h2l2.2 12.2a2 2 0 0 0 2 1.65h8.15a2 2 0 0 0 1.97-1.65L21 8H6"></path></svg>
+    <span class="js-cart-count" hidden>0</span>
+  </a>
   <a class="header-link" href="/contact/">יצירת קשר <span>↙</span></a>
 </header>
 
@@ -214,5 +220,6 @@
 <script src="/js/reviews.js"></script>
 
 <script src="/js/cart.js"></script>
+<script src="/js/nav-toggle.js"></script>
 </body>
 </html>
