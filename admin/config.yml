@@ -2,8 +2,7 @@ backend:
   name: github
   repo: galdisegniart/disegni-studio
   branch: main
-  # לאחר פריסת cms-oauth-worker (ראה cms-oauth-worker/README.md), הוסף כאן:
-  # base_url: https://disegni-cms-oauth.YOUR-ACCOUNT.workers.dev
+  base_url: https://disegni-cms-oauth.galdisegniart.workers.dev
 
 local_backend: true
 
