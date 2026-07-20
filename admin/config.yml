@@ -261,6 +261,29 @@ collections:
           - { label: "תווית מסנן: רישום ופורטרט", name: "filterDrawingLabel", widget: "string" }
           - { label: "תווית מסנן: מיקס-מדיה", name: "filterMixedLabel", widget: "string" }
 
+      - name: "pricing"
+        label: "מחירון הדפסים"
+        file: "src/content/pages/pricing.json"
+        fields:
+          - { label: "הערת מחירון", name: "sectionNote", widget: "text" }
+          - name: "sizes"
+            label: "גדלים ומחירים"
+            widget: "list"
+            fields:
+              - { label: "מזהה (אנגלית, ללא רווחים)", name: "id", widget: "string" }
+              - { label: "גודל באינץ'", name: "labelIn", widget: "string" }
+              - { label: "גודל בס\"מ", name: "labelCm", widget: "string" }
+              - { label: "מחיר בשקלים", name: "priceILS", widget: "number" }
+              - { label: "מחיר בדולרים", name: "priceUSD", widget: "number" }
+              - { label: "לסמן כ\"הכי פופולרי\"?", name: "popular", widget: "boolean", default: false }
+          - name: "shippingIL"
+            label: "משלוח בישראל"
+            widget: "object"
+            fields:
+              - { label: "מחיר קבוע (₪)", name: "flatILS", widget: "number" }
+              - { label: "משלוח חינם מעל סכום (₪)", name: "freeThresholdILS", widget: "number" }
+          - { label: "הערת משלוח בינלאומי", name: "shippingIntlNote", widget: "string" }
+
       - name: "payment"
         label: "פרטי תשלום (בעמוד יצירה)"
         file: "src/content/pages/payment.json"

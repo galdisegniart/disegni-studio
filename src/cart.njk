@@ -1,0 +1,35 @@
+---
+layout: base.njk
+title: "עגלת קניות | גל דִּיסֵנִי"
+description: "עגלת הקניות שלכם באתר גל דִּיסֵנִי."
+permalink: "/cart/index.html"
+---
+{% set pay = pages.payment %}
+{% set pricing = pages.pricing %}
+<section class="cart-page section" id="cart-root" data-shipping-flat="{{ pricing.shippingIL.flatILS }}" data-shipping-threshold="{{ pricing.shippingIL.freeThresholdILS }}">
+  <div class="section-label"><span>עגלת קניות</span></div>
+  <h1>סיכום ההזמנה שלכם</h1>
+
+  <div class="currency-toggle cart-currency-toggle">
+    <button type="button" class="js-currency-toggle active" data-currency="ILS">₪ · ס"מ</button>
+    <button type="button" class="js-currency-toggle" data-currency="USD">$ · inch</button>
+  </div>
+
+  <p id="cart-empty">העגלה שלכם ריקה. <a href="/">חזרה לגלריה</a> לבחירת יצירה.</p>
+
+  <ul id="cart-items" class="cart-items"></ul>
+
+  <div id="cart-summary" class="cart-summary" hidden>
+    <div class="cart-summary-row"><span>סכום ביניים</span><span id="cart-subtotal"></span></div>
+    <div class="cart-summary-row"><span>משלוח</span><span id="cart-shipping"></span></div>
+    <div class="cart-summary-row cart-summary-total"><span>סה"כ</span><span id="cart-total"></span></div>
+    <a id="cart-whatsapp" class="cta" href="#" target="_blank" rel="noopener noreferrer">המשך להזמנה ב-WhatsApp <span>←</span></a>
+    <p class="cart-summary-note">{{ pay.lead }}</p>
+    <dl class="artwork-purchase-bank">
+      <div><dt>בנק</dt><dd>{{ pay.bankName }} ({{ pay.bankCode }})</dd></div>
+      <div><dt>סניף</dt><dd>{{ pay.branch }}</dd></div>
+      <div><dt>מספר חשבון</dt><dd dir="ltr">{{ pay.accountNumber }}</dd></div>
+      <div><dt>שם בעל החשבון</dt><dd>{{ pay.accountHolder }}</dd></div>
+    </dl>
+  </div>
+</section>

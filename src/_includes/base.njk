@@ -19,6 +19,7 @@
     <a{% if item.label == activeNav %} class="active"{% endif %} href="{{ item.href }}">{{ item.label }}</a>
     {% endfor %}
   </nav>
+  <a class="header-cart" href="/cart/" aria-label="עגלת קניות">עגלה <span class="js-cart-count" hidden>0</span></a>
   <a class="header-link" href="{{ site.contactHref }}">יצירת קשר <span>↙</span></a>
 </header>
 
@@ -29,5 +30,6 @@
 {% for s in scripts %}
 <script src="{{ s }}"></script>
 {% endfor %}
+<script src="/js/cart.js"></script>
 </body>
 </html>

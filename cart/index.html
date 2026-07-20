@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>יצירת קשר | גל דִּיסֵנִי</title>
-<meta name="description" content="יצירת קשר עם גל דִּיסֵנִי לגבי רכישת יצירות, סדנאות אמנות, עבודות בהזמנה ופניות נוספות.">
+<title>עגלת קניות | גל דִּיסֵנִי</title>
+<meta name="description" content="עגלת הקניות שלכם באתר גל דִּיסֵנִי.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -34,48 +34,33 @@
 </header>
 
 
-<section class="about-artist-hero">
-  <figure class="about-artist-portrait">
-    <img src="/images/disegni-profile.webp" alt="גל דִּיסֵנִי בסטודיו">
-  </figure>
-  <div class="about-artist-intro">
-    <p class="hero-eyebrow">מדברים על יצירה</p>
-    <h1>בואו נדבר<br>על יצירה.</h1>
-    <p>יש לכם שאלה על יצירה, סדנה, עבודה בהזמנה או שיתוף פעולה? אשמח לשמוע ולחזור אליכם בהקדם.</p>
+
+<section class="cart-page section" id="cart-root" data-shipping-flat="29" data-shipping-threshold="350">
+  <div class="section-label"><span>עגלת קניות</span></div>
+  <h1>סיכום ההזמנה שלכם</h1>
+
+  <div class="currency-toggle cart-currency-toggle">
+    <button type="button" class="js-currency-toggle active" data-currency="ILS">₪ · ס"מ</button>
+    <button type="button" class="js-currency-toggle" data-currency="USD">$ · inch</button>
   </div>
-</section>
 
-<section class="contact-details section">
-  <div class="section-label"><span>יצירת קשר במייל</span></div>
-  <ul class="contact-emails">
-    
-    <li>
-      <span>לרכישת יצירות, סדנאות ופניות כלליות</span>
-      <a href="mailto:galdisegniart@gmail.com" dir="ltr">galdisegniart@gmail.com</a>
-    </li>
-    
-    <li>
-      <span>לפניות אחרות</span>
-      <a href="mailto:gal.disegni@gmail.com" dir="ltr">gal.disegni@gmail.com</a>
-    </li>
-    
-  </ul>
-  <a class="cta js-whatsapp" data-option="יצירת קשר" href="https://wa.me/972552902934?text=%D7%A9%D7%9C%D7%95%D7%9D%20%D7%92%D7%9C%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%99%D7%A6%D7%95%D7%A8%20%D7%90%D7%99%D7%AA%D7%9A%20%D7%A7%D7%A9%D7%A8." target="_blank" rel="noopener noreferrer">לשיחה קצרה ב-WhatsApp <span>←</span></a>
-</section>
+  <p id="cart-empty">העגלה שלכם ריקה. <a href="/">חזרה לגלריה</a> לבחירת יצירה.</p>
 
-<section class="contact-social section">
-  <div class="section-label"><span>מוזמנים לעקוב</span></div>
-  <h2>עוד אפשר למצוא אותי כאן.</h2>
-  <div class="contact-social-links">
-    <a class="cta cta-outline" href="https://www.instagram.com/galdisegniart/" target="_blank" rel="noopener noreferrer">אינסטגרם <span>↗</span></a>
-    <a class="cta cta-outline" href="https://www.tiktok.com/@galdisegniart" target="_blank" rel="noopener noreferrer">טיקטוק <span>↗</span></a>
-    <a class="cta cta-outline" href="https://www.facebook.com/gal.disegni" target="_blank" rel="noopener noreferrer">פייסבוק <span>↗</span></a>
+  <ul id="cart-items" class="cart-items"></ul>
+
+  <div id="cart-summary" class="cart-summary" hidden>
+    <div class="cart-summary-row"><span>סכום ביניים</span><span id="cart-subtotal"></span></div>
+    <div class="cart-summary-row"><span>משלוח</span><span id="cart-shipping"></span></div>
+    <div class="cart-summary-row cart-summary-total"><span>סה"כ</span><span id="cart-total"></span></div>
+    <a id="cart-whatsapp" class="cta" href="#" target="_blank" rel="noopener noreferrer">המשך להזמנה ב-WhatsApp <span>←</span></a>
+    <p class="cart-summary-note">בחרו הדפס אמנותי או יצירה מקורית, בצעו העברה בנקאית לפרטים שלמטה, וציינו בהערה את שם היצירה ואת סוג הרכישה. לאחר ההעברה שלחו לי אישור קצר ב-WhatsApp ואחזור אליכם לתיאום המשלוח.</p>
+    <dl class="artwork-purchase-bank">
+      <div><dt>בנק</dt><dd>דואר פיננסים (09)</dd></div>
+      <div><dt>סניף</dt><dd>001</dd></div>
+      <div><dt>מספר חשבון</dt><dd dir="ltr">30037930</dd></div>
+      <div><dt>שם בעל החשבון</dt><dd>גל דיסני</dd></div>
+    </dl>
   </div>
-</section>
-
-<section class="contact-legal">
-  <p>כל היצירות, הדימויים, הטקסטים והתוכן המוצגים באתר זה מוגנים בזכויות יוצרים ובקניין רוחני של גל דִּיסֵנִי. כל הזכויות שמורות, ואין לעשות בהם שימוש ללא רשות מפורשת בכתב.</p>
-  <a href="/rights/">למדיניות זכויות היוצרים המלאה <span aria-hidden="true">←</span></a>
 </section>
 
 
