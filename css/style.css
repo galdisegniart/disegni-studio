@@ -2093,3 +2093,126 @@ footer a {
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* Rights page */
+.rights-hero {
+  min-height: 500px;
+  padding: clamp(110px, 12vw, 180px) max(34px, calc(50vw - 590px)) 80px;
+  display: grid;
+  grid-template-columns: 1.35fr 0.65fr;
+  align-items: center;
+  gap: clamp(48px, 8vw, 120px);
+  border-bottom: 1px solid var(--line);
+}
+
+.rights-hero-copy {
+  max-width: 760px;
+}
+
+.rights-hero-copy h1 {
+  margin: 20px 0 30px;
+  font-size: clamp(44px, 5.5vw, 72px);
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+.rights-hero-copy p {
+  color: var(--dim);
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.rights-mark {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--copper);
+  font-size: clamp(120px, 18vw, 220px);
+  line-height: 0.7;
+  text-align: center;
+  opacity: 0.72;
+}
+
+.rights-quick-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid var(--line);
+}
+
+.rights-quick-grid article {
+  min-height: 220px;
+  padding: 34px;
+  border-left: 1px solid var(--line);
+}
+
+.rights-quick-grid span,
+.rights-number {
+  color: var(--copper);
+  font-size: 13px;
+  letter-spacing: 0.12em;
+}
+
+.rights-quick-grid h2 {
+  margin: 40px 0 14px;
+  font-size: 28px;
+  font-weight: 500;
+}
+
+.rights-quick-grid p {
+  margin: 0;
+  color: #9d968c;
+  line-height: 1.75;
+}
+
+.rights-policy-list {
+  border-top: 1px solid var(--line);
+}
+
+.rights-policy-list article {
+  display: grid;
+  grid-template-columns: 80px minmax(0, 1fr);
+  gap: 42px;
+  padding: 54px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.rights-policy-list h2 {
+  margin: 0 0 20px;
+  font-size: clamp(28px, 3vw, 42px);
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+.rights-policy-list p {
+  margin: 0 0 16px;
+  color: #aaa39a;
+  font-size: 18px;
+  line-height: 1.9;
+}
+
+.rights-ai {
+  background: rgba(189, 87, 47, 0.06);
+  padding: 54px 34px;
+}
+
+.rights-legal-note {
+  max-width: 850px;
+  margin: 30px 0 0;
+  color: #6f6a63;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+@media (max-width: 920px) {
+  .rights-hero {
+    grid-template-columns: 1fr;
+  }
+  .rights-mark {
+    display: none;
+  }
+  .rights-quick-grid {
+    grid-template-columns: 1fr;
+  }
+  .rights-policy-list article {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
