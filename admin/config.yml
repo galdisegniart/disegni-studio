@@ -261,6 +261,31 @@ collections:
           - { label: "תווית מסנן: רישום ופורטרט", name: "filterDrawingLabel", widget: "string" }
           - { label: "תווית מסנן: מיקס-מדיה", name: "filterMixedLabel", widget: "string" }
 
+      - name: "contact"
+        label: "עמוד יצירת קשר"
+        file: "src/content/pages/contact.json"
+        fields:
+          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
+          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
+          - { label: "תמונת פורטרט", name: "portrait", widget: "image" }
+          - { label: "טקסט חלופי לפורטרט", name: "portraitAlt", widget: "string" }
+          - { label: "כיתוב קטן בהירו", name: "heroEyebrow", widget: "string" }
+          - { label: "כותרת הירו (אפשר <br> לשבירת שורה)", name: "heroHeading", widget: "string" }
+          - { label: "טקסט הירו", name: "heroLead", widget: "text" }
+          - { label: "תווית סקציית המיילים", name: "emailsLabel", widget: "string" }
+          - name: "emails"
+            label: "כתובות מייל"
+            widget: "list"
+            fields:
+              - { label: "תיאור (למה מיועד המייל)", name: "label", widget: "string" }
+              - { label: "כתובת מייל", name: "address", widget: "string" }
+          - { label: "טקסט כפתור WhatsApp", name: "waCtaLabel", widget: "string" }
+          - { label: "הודעת WhatsApp", name: "waMessage", widget: "text" }
+          - { label: "תווית סקציית רשתות חברתיות", name: "socialLabel", widget: "string" }
+          - { label: "כותרת סקציית רשתות חברתיות", name: "socialHeading", widget: "string" }
+          - { label: "טקסט זכויות יוצרים", name: "legalNote", widget: "text" }
+          - { label: "טקסט קישור למדיניות זכויות יוצרים", name: "legalCtaLabel", widget: "string" }
+
       - name: "rights"
         label: "עמוד זכויות יוצרים"
         file: "src/content/pages/rights.json"

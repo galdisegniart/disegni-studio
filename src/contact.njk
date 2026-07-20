@@ -1,0 +1,47 @@
+---
+layout: base.njk
+activeNav: "יצירת קשר"
+permalink: "/contact/index.html"
+eleventyComputed:
+  title: "{{ pages.contact.title }}"
+  description: "{{ pages.contact.metaDescription }}"
+---
+{% set p = pages.contact %}
+<section class="about-artist-hero">
+  <figure class="about-artist-portrait">
+    <img src="{{ p.portrait }}" alt="{{ p.portraitAlt }}">
+  </figure>
+  <div class="about-artist-intro">
+    <p class="hero-eyebrow">{{ p.heroEyebrow }}</p>
+    <h1>{{ p.heroHeading | safe }}</h1>
+    <p>{{ p.heroLead }}</p>
+  </div>
+</section>
+
+<section class="contact-details section">
+  <div class="section-label"><span>{{ p.emailsLabel }}</span></div>
+  <ul class="contact-emails">
+    {% for e in p.emails %}
+    <li>
+      <span>{{ e.label }}</span>
+      <a href="mailto:{{ e.address }}" dir="ltr">{{ e.address }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+  <a class="cta js-whatsapp" data-option="יצירת קשר" href="{{ p.waMessage | waLink }}" target="_blank" rel="noopener noreferrer">{{ p.waCtaLabel }} <span>←</span></a>
+</section>
+
+<section class="contact-social section">
+  <div class="section-label"><span>{{ p.socialLabel }}</span></div>
+  <h2>{{ p.socialHeading }}</h2>
+  <div class="contact-social-links">
+    <a class="cta cta-outline" href="https://www.instagram.com/galdisegniart/" target="_blank" rel="noopener noreferrer">אינסטגרם <span>↗</span></a>
+    <a class="cta cta-outline" href="https://www.tiktok.com/@galdisegniart" target="_blank" rel="noopener noreferrer">טיקטוק <span>↗</span></a>
+    <a class="cta cta-outline" href="https://www.facebook.com/gal.disegni" target="_blank" rel="noopener noreferrer">פייסבוק <span>↗</span></a>
+  </div>
+</section>
+
+<section class="contact-legal">
+  <p>{{ p.legalNote }}</p>
+  <a href="/rights/">{{ p.legalCtaLabel }} <span aria-hidden="true">←</span></a>
+</section>
