@@ -268,7 +268,7 @@ img {
 .artist-opening {
   background: var(--black);
   min-height: 100svh;
-  padding: 96px max(34px, calc((100vw - 1280px) / 2)) 46px;
+  padding: 96px max(74px, calc((100vw - 1280px) / 2)) 46px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -363,7 +363,7 @@ img {
 /* Gallery */
 .home-gallery {
   background: var(--black);
-  padding: 28px 34px 82px;
+  padding: 28px 74px 82px;
 }
 
 .home-art-grid {
@@ -551,7 +551,7 @@ footer {
 }
 
 .artwork-detail {
-  padding: 30px max(24px, calc(50vw - 640px)) 92px;
+  padding: 30px max(74px, calc(50vw - 640px)) 92px;
   border-bottom: 1px solid var(--line);
 }
 
@@ -804,7 +804,7 @@ footer {
 
 /* Artwork "more" section */
 .artwork-more {
-  padding: 78px max(24px, calc(50vw - 640px)) 100px;
+  padding: 78px max(74px, calc(50vw - 640px)) 100px;
   background: var(--black);
 }
 
@@ -903,7 +903,7 @@ footer {
 
 /* Shared inner-page section */
 .section {
-  padding: 120px max(34px, calc(50vw - 640px));
+  padding: 120px max(74px, calc(50vw - 640px));
   border-bottom: 1px solid var(--line);
 }
 
@@ -943,7 +943,7 @@ footer {
 /* Workshops: main listing page */
 .workshop-visual-hero {
   min-height: 620px;
-  padding: 132px max(34px, calc(50vw - 640px)) 54px;
+  padding: 132px max(74px, calc(50vw - 640px)) 54px;
   border-bottom: 1px solid var(--line);
 }
 
@@ -1384,7 +1384,7 @@ footer {
 
 .daily-workshop-hero {
   min-height: 760px;
-  padding: 132px max(34px, calc(50vw - 640px)) 70px;
+  padding: 132px max(74px, calc(50vw - 640px)) 70px;
   display: grid;
   grid-template-columns: minmax(360px, 0.82fr) minmax(480px, 1.18fr);
   gap: clamp(48px, 7vw, 100px);
@@ -1957,7 +1957,7 @@ footer {
 
 /* Shop / catalog */
 .gallery-intro-minimal {
-  padding: 154px max(34px, calc(50vw - 640px)) 64px;
+  padding: 154px max(74px, calc(50vw - 640px)) 64px;
   border-bottom: 1px solid var(--line);
   background: #0d0d0c;
 }
@@ -2122,7 +2122,7 @@ footer {
 /* Commissions page */
 .inner-hero {
   min-height: 780px;
-  padding: 132px max(34px, calc(50vw - 640px)) 70px;
+  padding: 132px max(74px, calc(50vw - 640px)) 70px;
   display: grid;
   grid-template-columns: 0.82fr 1.18fr;
   gap: 80px;
@@ -2426,7 +2426,7 @@ footer {
 /* Rights page */
 .rights-hero {
   min-height: 500px;
-  padding: clamp(110px, 12vw, 180px) max(34px, calc(50vw - 590px)) 80px;
+  padding: clamp(110px, 12vw, 180px) max(74px, calc(50vw - 590px)) 80px;
   display: grid;
   grid-template-columns: 1.35fr 0.65fr;
   align-items: center;
