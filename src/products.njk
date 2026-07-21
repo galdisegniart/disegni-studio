@@ -8,6 +8,7 @@ layout: base-bare.njk
 scripts:
   - /js/cart.js
   - /js/back-link.js
+  - /js/share.js
 eleventyComputed:
   title: "{{ artwork.name }} | גל דִּיסֵנִי"
   description: "{{ artwork.name }}, {{ artwork.description }}"
@@ -44,8 +45,8 @@ eleventyComputed:
         <input class="js-qty-input" type="number" min="1" value="1" aria-label="כמות">
         <button type="button" class="cta js-add-to-cart">הוספה לעגלה</button>
       </div>
-      <button class="artwork-share" type="button"><span aria-hidden="true">↗</span> שיתוף</button>
       <p class="print-order-note">{{ pricing.sectionNote }}</p>
+      <button class="artwork-share js-share" type="button" data-share-title="{{ artwork.name }} | {{ site.brand }}" data-share-text="{{ artwork.name }}, {{ artwork.description }}"><span aria-hidden="true">↗</span> <span class="js-share-label">שיתוף</span></button>
     </div>
     <div class="artwork-purchase-actions">
       <a class="cta cta-outline" id="choose-original" href="#purchase" data-purchase-option="original">{{ purchaseButtons.originalLabel }} <span aria-hidden="true">←</span></a>
