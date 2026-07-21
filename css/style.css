@@ -2813,3 +2813,24 @@ footer {
     height: 340px;
   }
 }
+
+/* The 74px minimum side inset above exists to clear the quick-links
+   rail on desktop/tablet widths. On phones it eats too much of the
+   viewport, so drop back to the original compact padding here. */
+@media (max-width: 768px) {
+  .artist-opening,
+  .workshop-visual-hero,
+  .daily-workshop-hero,
+  .gallery-intro-minimal,
+  .inner-hero,
+  .rights-hero {
+    padding-inline: 34px;
+  }
+
+  .artwork-detail,
+  .artwork-more,
+  .section,
+  .home-gallery {
+    padding-inline: 24px;
+  }
+}
