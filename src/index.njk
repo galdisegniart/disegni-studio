@@ -29,7 +29,7 @@ scripts:
   <div class="gallery-editorial home-art-grid">
     {% for artwork in artworks %}
     <figure class="gallery-item">
-      <a class="gallery-link" href="/artwork/{{ artwork.slug }}/">
+      <a class="gallery-link" href="/products/{{ artwork.slug }}/">
         <span class="gallery-frame"><img src="{{ artwork.thumb }}" alt="{{ artwork.name }}" loading="lazy"></span>
         <figcaption><strong>{{ artwork.name }}</strong><span>{{ artwork.galleryMedium }}</span></figcaption>
       </a>

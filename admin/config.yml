@@ -22,7 +22,7 @@ collections:
     identifier_field: "name"
     summary: "{{name}} ({{galleryMedium}})"
     fields:
-      - { label: "מזהה בכתובת (אנגלית, ללא רווחים)", name: "slug", widget: "string", hint: "משמש בכתובת /artwork/<מזהה>/ - לא לשנות אחרי הפרסום" }
+      - { label: "מזהה בכתובת (אנגלית, ללא רווחים)", name: "slug", widget: "string", hint: "משמש בכתובת /products/<מזהה>/ - לא לשנות אחרי הפרסום" }
       - { label: "סדר הופעה בגלריה", name: "order", widget: "number" }
       - { label: "שם היצירה", name: "name", widget: "string" }
       - { label: "קטגוריה", name: "category", widget: "select", options: [{ label: "רישום ופורטרט", value: "drawing" }, { label: "מיקס-מדיה", value: "mixed" }] }

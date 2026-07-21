@@ -1,0 +1,87 @@
+---
+pagination:
+  data: artworks
+  size: 1
+  alias: artwork
+permalink: "/products/{{ artwork.slug }}/index.html"
+layout: base-bare.njk
+scripts:
+  - /js/cart.js
+  - /js/back-link.js
+eleventyComputed:
+  title: "{{ artwork.name }} | גל דִּיסֵנִי"
+  description: "{{ artwork.name }}, {{ artwork.description }}"
+---
+{% set seq = artworks | artworkSequence(artwork) %}
+{% set pay = pages.payment %}
+{% set pricing = pages.pricing %}
+
+<section class="artwork-detail">
+  <div class="artwork-utility">
+    <a class="artwork-back js-back-link" href="/"><span aria-hidden="true">→</span> <span class="js-back-label">חזרה לגלריה</span></a>
+    <button class="artwork-share" type="button">שיתוף <span aria-hidden="true">↗</span></button>
+  </div>
+  <figure class="artwork-stage">
+    <img src="{{ artwork.image }}" alt="{{ artwork.alt }}">
+  </figure>
+  <div class="artwork-detail-copy">
+    <p class="artwork-detail-medium">{{ artwork.detailMedium }}</p>
+    <h1>{{ artwork.name }}</h1>
+    <p class="artwork-detail-description">{{ artwork.description }}</p>
+    <div class="print-order" data-artwork-slug="{{ artwork.slug }}" data-artwork-name="{{ artwork.name }}">
+      <div class="print-order-head">
+        <span class="print-order-label">{{ purchaseButtons.printLabel }}</span>
+        <div class="currency-toggle">
+          <button type="button" class="js-currency-toggle active" data-currency="ILS">₪ · ס"מ</button>
+          <button type="button" class="js-currency-toggle" data-currency="USD">$ · inch</button>
+        </div>
+      </div>
+      <div class="print-order-controls">
+        <select class="js-size-select" aria-label="בחירת גודל">
+          {% for size in pricing.sizes %}
+          <option value="{{ size.id }}" data-label-in="{{ size.labelIn }}" data-label-cm="{{ size.labelCm }}" data-price-ils="{{ size.priceILS }}" data-price-usd="{{ size.priceUSD }}" data-popular="{{ size.popular }}">{{ size.labelCm }} — {{ size.priceILS }} ₪{% if size.popular %} (הכי פופולרי){% endif %}</option>
+          {% endfor %}
+        </select>
+        <input class="js-qty-input" type="number" min="1" value="1" aria-label="כמות">
+        <button type="button" class="cta js-add-to-cart">הוספה לעגלה</button>
+      </div>
+      <p class="print-order-note">{{ pricing.sectionNote }}</p>
+    </div>
+    <div class="artwork-purchase-actions">
+      <a class="cta cta-outline" id="choose-original" href="#purchase" data-purchase-option="original">{{ purchaseButtons.originalLabel }} <span aria-hidden="true">←</span></a>
+    </div>
+  </div>
+
+  <div class="artwork-purchase" id="purchase">
+    <div class="section-label"><span>{{ pay.sectionLabel }}</span></div>
+    <h2>{{ pay.heading }}</h2>
+    <p class="artwork-purchase-lead">{{ pay.lead }}</p>
+    <dl class="artwork-purchase-bank">
+      <div><dt>בנק</dt><dd>{{ pay.bankName }} ({{ pay.bankCode }})</dd></div>
+      <div><dt>סניף</dt><dd>{{ pay.branch }}</dd></div>
+      <div><dt>מספר חשבון</dt><dd dir="ltr">{{ pay.accountNumber }}</dd></div>
+      <div><dt>שם בעל החשבון</dt><dd>{{ pay.accountHolder }}</dd></div>
+    </dl>
+    <a class="cta js-whatsapp" href="{{ ('שלום גל, ביצעתי העברה בנקאית עבור היצירה \"' ~ artwork.name ~ '\". אשמח לתיאום המשלוח.') | waLink }}" target="_blank" rel="noopener noreferrer">שליחת אישור העברה ב-WhatsApp <span>←</span></a>
+    <p class="artwork-purchase-note">{{ pay.waNote }}</p>
+  </div>
+</section>
+
+<section class="artwork-more">
+  <div class="artwork-more-head">
+    <a class="js-back-link" href="/"><span aria-hidden="true">→</span> <span class="js-back-label">חזרה לגלריה</span></a>
+    <div class="artwork-sequence">
+      <a id="previous-artwork" href="/products/{{ seq.prev.slug }}/" aria-label="היצירה הקודמת, {{ seq.prev.name }}">הקודמת</a>
+      <span>/</span>
+      <a id="next-artwork" href="/products/{{ seq.next.slug }}/" aria-label="היצירה הבאה, {{ seq.next.name }}">הבאה</a>
+    </div>
+  </div>
+  <div class="artwork-more-grid">
+    {% for item in seq.more %}
+    <a class="more-artwork-card" href="/products/{{ item.slug }}/">
+      <span class="more-artwork-image"><img src="{{ item.thumb }}" alt="{{ item.name }}" loading="lazy"></span>
+      <span class="more-artwork-caption"><strong lang="en">{{ item.name }}</strong><small>{{ item.galleryMedium }}</small><i aria-hidden="true">←</i></span>
+    </a>
+    {% endfor %}
+  </div>
+</section>

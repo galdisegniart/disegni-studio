@@ -1,6 +1,6 @@
 ---
 layout: base.njk
-activeNav: "חנות"
+activeNav: "הדפסים"
 permalink: "/collections/prints/index.html"
 scripts:
   - /js/catalog-filter.js
@@ -33,7 +33,7 @@ eleventyComputed:
   <div class="artwork-grid">
     {% for artwork in artworks %}
     <article class="artwork-card" id="{{ artwork.slug }}" data-category="{{ artwork.category }}">
-      <a class="artwork-tile" href="/artwork/{{ artwork.slug }}/" aria-label="כניסה ליצירה {{ artwork.name }}">
+      <a class="artwork-tile" href="/products/{{ artwork.slug }}/" aria-label="כניסה ליצירה {{ artwork.name }}">
         <span class="artwork-tile-image"><img src="{{ artwork.thumb }}" alt="{{ artwork.alt }}" loading="lazy"></span>
         <span class="artwork-tile-caption"><strong lang="en">{{ artwork.name }}</strong><small>{{ artwork.galleryMedium }}</small></span>
       </a>
