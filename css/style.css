@@ -220,6 +220,7 @@ img {
     gap: 26px;
     padding: 34px;
     background: var(--black);
+    font-size: 28px;
   }
 
   .main-nav.open {
@@ -417,10 +418,11 @@ img {
 .gallery-item figcaption {
   position: relative;
   display: flex;
-  align-items: baseline;
+  align-items: flex-start;
   justify-content: center;
   direction: rtl;
-  min-height: 52px;
+  height: 70px;
+  overflow: hidden;
   padding: 10px 2px 0;
 }
 
@@ -2007,9 +2009,17 @@ footer {
 .catalog-toolbar h2 {
   margin: 0;
   font-family: var(--serif);
-  font-size: clamp(40px, 4.2vw, 58px);
+  font-size: clamp(28px, 8vw, 58px);
   font-weight: 500;
   line-height: 1;
+}
+
+@media (max-width: 620px) {
+  .catalog-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
 }
 
 .catalog-filters {
