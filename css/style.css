@@ -2833,4 +2833,8 @@ footer {
   .home-gallery {
     padding-inline: 24px;
   }
+
+  .artist-opening {
+    min-height: 0;
+  }
 }
