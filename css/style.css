@@ -145,7 +145,7 @@ img {
   display: none;
 }
 
-.floating-social {
+.quick-links-rail {
   position: fixed;
   top: 50%;
   right: 18px;
@@ -154,9 +154,15 @@ img {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  transition: opacity 0.2s;
 }
 
-.floating-social a {
+.quick-links-rail.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.quick-links-rail a {
   width: 42px;
   height: 42px;
   display: grid;
@@ -168,13 +174,13 @@ img {
   transition: border-color 0.2s, color 0.2s, transform 0.2s;
 }
 
-.floating-social a:hover {
+.quick-links-rail a:hover {
   border-color: var(--copper);
   color: var(--copper);
   transform: translateX(-3px);
 }
 
-.floating-social svg {
+.quick-links-rail svg {
   width: 19px;
   height: 19px;
   fill: none;
@@ -185,14 +191,14 @@ img {
 }
 
 @media (max-width: 620px) {
-  .floating-social {
+  .quick-links-rail {
     right: 10px;
   }
-  .floating-social a {
+  .quick-links-rail a {
     width: 36px;
     height: 36px;
   }
-  .floating-social svg {
+  .quick-links-rail svg {
     width: 16px;
     height: 16px;
   }
