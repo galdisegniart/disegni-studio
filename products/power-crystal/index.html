@@ -47,9 +47,14 @@
           <option value="24x36" data-label-in="24×36 אינץ&#39;" data-label-cm="61×91 ס&quot;מ" data-price-ils="349" data-price-usd="89" data-popular="false">61×91 ס&quot;מ — 349 ₪</option>
           
         </select>
-        <input class="js-qty-input" type="number" min="1" value="1" aria-label="כמות">
-        <button type="button" class="cta js-add-to-cart">הוספה לעגלה</button>
+        <div class="qty-stepper">
+          <button type="button" class="js-qty-dec" aria-label="הפחתת כמות">−</button>
+          <input class="js-qty-input" type="number" min="1" value="1" aria-label="כמות" inputmode="numeric" readonly>
+          <button type="button" class="js-qty-inc" aria-label="הוספת כמות">+</button>
+        </div>
       </div>
+      <p class="print-order-price">סה"כ: <span class="js-live-price">0 ₪</span></p>
+      <button type="button" class="cta js-add-to-cart">הוספה לעגלה</button>
       <p class="print-order-note">מחירי הדפס אמנותי על נייר איכותי. המחירים כוללים משלוח.</p>
       <button class="artwork-share js-share" type="button" data-share-title="Power Crystal | גל דִּיסֵנִי" data-share-text="Power Crystal, מבנה גבישי שמרכז צבע, דיוק ועוצמה. הצורות הגאומטריות נאספות יחד למעין קמע של מיקוד פנימי."><span aria-hidden="true">↗</span> <span class="js-share-label">שיתוף</span></button>
     </div>

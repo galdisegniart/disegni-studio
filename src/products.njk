@@ -42,9 +42,14 @@ eleventyComputed:
           <option value="{{ size.id }}" data-label-in="{{ size.labelIn }}" data-label-cm="{{ size.labelCm }}" data-price-ils="{{ size.priceILS }}" data-price-usd="{{ size.priceUSD }}" data-popular="{{ size.popular }}">{{ size.labelCm }} — {{ size.priceILS }} ₪{% if size.popular %} (הכי פופולרי){% endif %}</option>
           {% endfor %}
         </select>
-        <input class="js-qty-input" type="number" min="1" value="1" aria-label="כמות">
-        <button type="button" class="cta js-add-to-cart">הוספה לעגלה</button>
+        <div class="qty-stepper">
+          <button type="button" class="js-qty-dec" aria-label="הפחתת כמות">−</button>
+          <input class="js-qty-input" type="number" min="1" value="1" aria-label="כמות" inputmode="numeric" readonly>
+          <button type="button" class="js-qty-inc" aria-label="הוספת כמות">+</button>
+        </div>
       </div>
+      <p class="print-order-price">סה"כ: <span class="js-live-price">0 ₪</span></p>
+      <button type="button" class="cta js-add-to-cart">הוספה לעגלה</button>
       <p class="print-order-note">{{ pricing.sectionNote }}</p>
       <button class="artwork-share js-share" type="button" data-share-title="{{ artwork.name }} | {{ site.brand }}" data-share-text="{{ artwork.name }}, {{ artwork.description }}"><span aria-hidden="true">↗</span> <span class="js-share-label">שיתוף</span></button>
     </div>

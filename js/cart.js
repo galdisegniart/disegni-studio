@@ -176,6 +176,7 @@
       setCurrency(currencyBtn.dataset.currency);
       renderSizeSelectors();
       renderCartPage();
+      document.querySelectorAll("[data-artwork-slug]").forEach(updateLivePrice);
       return;
     }
 
@@ -200,7 +201,45 @@
       removeFromCart(parseInt(removeBtn.dataset.index, 10));
       return;
     }
+
+    var qtyDec = e.target.closest(".js-qty-dec");
+    if (qtyDec) {
+      var decWrap = qtyDec.closest("[data-artwork-slug]");
+      var decInput = decWrap.querySelector(".js-qty-input");
+      decInput.value = Math.max(1, (parseInt(decInput.value, 10) || 1) - 1);
+      updateLivePrice(decWrap);
+      return;
+    }
+
+    var qtyInc = e.target.closest(".js-qty-inc");
+    if (qtyInc) {
+      var incWrap = qtyInc.closest("[data-artwork-slug]");
+      var incInput = incWrap.querySelector(".js-qty-input");
+      incInput.value = (parseInt(incInput.value, 10) || 1) + 1;
+      updateLivePrice(incWrap);
+      return;
+    }
   });
+
+  document.addEventListener("change", function (e) {
+    if (e.target.classList.contains("js-size-select")) {
+      var wrap = e.target.closest("[data-artwork-slug]");
+      if (wrap) updateLivePrice(wrap);
+    }
+  });
+
+  function updateLivePrice(wrap) {
+    var priceEl = wrap.querySelector(".js-live-price");
+    if (!priceEl) return;
+    var select = wrap.querySelector(".js-size-select");
+    var qtyInput = wrap.querySelector(".js-qty-input");
+    var option = select.options[select.selectedIndex];
+    var qty = Math.max(1, parseInt(qtyInput.value, 10) || 1);
+    var currency = getCurrency();
+    var unitPrice = currency === "USD" ? parseFloat(option.dataset.priceUsd) : parseFloat(option.dataset.priceIls);
+    var total = unitPrice * qty;
+    priceEl.textContent = currency === "USD" ? "$" + total : total + " ₪";
+  }
 
   function renderSizeSelectors() {
     var currency = getCurrency();
@@ -220,4 +259,5 @@
   updateCartBadge();
   renderSizeSelectors();
   renderCartPage();
+  document.querySelectorAll("[data-artwork-slug]").forEach(updateLivePrice);
 })();

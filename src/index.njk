@@ -31,7 +31,7 @@ scripts:
     <figure class="gallery-item">
       <a class="gallery-link" href="/products/{{ artwork.slug }}/">
         <span class="gallery-frame"><img src="{{ artwork.thumb }}" alt="{{ artwork.name }}" loading="lazy"></span>
-        <figcaption><strong>{{ artwork.name }}</strong></figcaption>
+        <figcaption><strong title="{{ artwork.name }}">{{ artwork.name }}</strong></figcaption>
       </a>
     </figure>
     {% endfor %}

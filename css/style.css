@@ -416,30 +416,22 @@ img {
 }
 
 .gallery-item figcaption {
-  position: relative;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  direction: rtl;
-  height: 70px;
-  overflow: hidden;
-  padding: 10px 2px 0;
+  height: 44px;
+  padding: 8px 6px 0;
 }
 
 .gallery-item figcaption strong {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: center;
   font-family: var(--sans);
-  font-size: 18px;
+  font-size: clamp(14px, 4.2vw, 18px);
   font-weight: 500;
-}
-
-.gallery-item figcaption span {
-  position: absolute;
-  left: 2px;
-  bottom: 14px;
-  font-family: var(--sans);
-  font-size: 12px;
-  font-weight: 500;
-  color: #837c72;
 }
 
 /* Footer */
@@ -686,22 +678,56 @@ footer {
   font-size: 15px;
 }
 
-.js-qty-input {
-  width: 80px;
+.qty-stepper {
+  display: flex;
+  align-items: stretch;
+  flex: 0 0 auto;
   min-height: 52px;
-  padding: 0 12px;
   border: 1px solid var(--line);
-  background: var(--black);
+}
+
+.qty-stepper button {
+  width: 40px;
+  border: 0;
+  background: transparent;
+  color: var(--bone);
+  font-size: 18px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.qty-stepper button:hover {
+  background: var(--copper);
+  color: var(--black);
+}
+
+.js-qty-input {
+  width: 44px;
+  border: 0;
+  border-inline: 1px solid var(--line);
+  background: transparent;
   color: var(--bone);
   font-family: var(--sans);
   font-size: 15px;
   text-align: center;
+  pointer-events: none;
 }
 
 .print-order .js-add-to-cart {
-  margin: 0;
+  margin: 16px 0 0;
   min-height: 52px;
-  flex: 1 1 100%;
+  width: 100%;
+}
+
+.print-order-price {
+  margin: 14px 0 0;
+  color: var(--bone);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.print-order-price .js-live-price {
+  color: var(--copper);
 }
 
 .print-order-note {
