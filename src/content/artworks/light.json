@@ -8,5 +8,7 @@
   "alt": "Light, פורטרט בעיפרון של ילדה",
   "image": "/images/artworks/light+WEB.webp",
   "thumb": "/images/gallery/light+thumb.webp",
-  "category": "drawing"
+  "category": "drawing",
+  "originalAvailable": false,
+  "originalPrice": 0
 }

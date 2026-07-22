@@ -32,6 +32,8 @@ collections:
       - { label: "טקסט חלופי לתמונה (נגישות)", name: "alt", widget: "string" }
       - { label: "תמונה בגודל מלא", name: "image", widget: "image" }
       - { label: "תמונה ממוזערת (גלריה)", name: "thumb", widget: "image" }
+      - { label: "היצירה המקורית זמינה למכירה?", name: "originalAvailable", widget: "boolean", default: false, hint: "סמנו רק אם המקור עדיין לא נמכר ואתם רוצים למכור אותו" }
+      - { label: "מחיר היצירה המקורית (₪)", name: "originalPrice", widget: "number", default: 0, hint: "רלוונטי רק אם סימנתם 'זמינה למכירה' למעלה" }
 
   - name: "workshops"
     label: "סדנאות"
@@ -260,6 +262,15 @@ collections:
           - { label: "תווית מסנן: הכל", name: "filterAllLabel", widget: "string" }
           - { label: "תווית מסנן: רישום ופורטרט", name: "filterDrawingLabel", widget: "string" }
           - { label: "תווית מסנן: מיקס-מדיה", name: "filterMixedLabel", widget: "string" }
+
+      - name: "originals"
+        label: "קולקציה: מקוריות זמינות (/collections/originals/)"
+        file: "src/content/pages/originals.json"
+        fields:
+          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
+          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
+          - { label: "כותרת ראשית", name: "heading", widget: "string" }
+          - { label: "טקסט פתיחה", name: "heroText", widget: "text" }
 
       - name: "pricing"
         label: "מחירון הדפסים"

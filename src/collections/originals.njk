@@ -1,0 +1,44 @@
+---
+layout: base.njk
+activeNav: "מקוריות זמינות"
+permalink: "/collections/originals/index.html"
+scripts:
+  - /js/mark-list.js
+eleventyComputed:
+  title: "{{ pages.originals.title }}"
+  description: "{{ pages.originals.metaDescription }}"
+---
+{% set p = pages.originals %}
+<section class="gallery-intro-minimal">
+  <div class="shop-intro-layout">
+    <h1>{{ p.heading }}</h1>
+    <div class="shop-intro-copy">
+      <p>{{ p.heroText }}</p>
+    </div>
+  </div>
+</section>
+
+<section class="artwork-catalog gallery-catalog-compact section">
+  <div class="artwork-grid">
+    {% for artwork in artworks %}
+    <article class="artwork-card{% if not artwork.originalAvailable %} artwork-card-sold-out{% endif %}" id="{{ artwork.slug }}" data-category="{{ artwork.category }}">
+      <a class="artwork-tile" href="/products/{{ artwork.slug }}/" aria-label="כניסה ליצירה {{ artwork.name }}">
+        <span class="artwork-tile-image">
+          <img src="{{ artwork.thumb }}" alt="{{ artwork.alt }}" loading="lazy">
+          {% if not artwork.originalAvailable %}
+          <span class="sold-out-badge">נמכר</span>
+          {% endif %}
+        </span>
+        <span class="artwork-tile-caption">
+          <strong lang="en">{{ artwork.name }}</strong>
+          {% if artwork.originalAvailable %}
+          <small>{{ artwork.originalPrice }} ₪</small>
+          {% else %}
+          <small class="sold-out-label">נמכר</small>
+          {% endif %}
+        </span>
+      </a>
+    </article>
+    {% endfor %}
+  </div>
+</section>

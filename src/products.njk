@@ -54,7 +54,11 @@ eleventyComputed:
       <button class="artwork-share js-share" type="button" data-share-title="{{ artwork.name }} | {{ site.brand }}" data-share-text="{{ artwork.name }}, {{ artwork.description }}"><span aria-hidden="true">↗</span> <span class="js-share-label">שיתוף</span></button>
     </div>
     <div class="artwork-purchase-actions">
-      <a class="cta cta-outline" id="choose-original" href="#purchase" data-purchase-option="original">{{ purchaseButtons.originalLabel }} <span aria-hidden="true">←</span></a>
+      {% if artwork.originalAvailable %}
+      <a class="cta cta-outline" id="choose-original" href="#purchase" data-purchase-option="original">{{ purchaseButtons.originalLabel }} — {{ artwork.originalPrice }} ₪ <span aria-hidden="true">←</span></a>
+      {% else %}
+      <p class="artwork-original-unavailable"><strong>נמכר</strong> — היצירה המקורית אינה זמינה יותר.</p>
+      {% endif %}
     </div>
   </div>
 
@@ -62,6 +66,9 @@ eleventyComputed:
     <div class="section-label"><span>{{ pay.sectionLabel }}</span></div>
     <h2>{{ pay.heading }}</h2>
     <p class="artwork-purchase-lead">{{ pay.lead }}</p>
+    {% if artwork.originalAvailable %}
+    <p class="artwork-purchase-original-note">לרכישת היצירה המקורית "{{ artwork.name }}" במחיר {{ artwork.originalPrice }} ₪, בצעו העברה בנקאית לפרטים שלהלן ואשרו ב-WhatsApp.</p>
+    {% endif %}
     <dl class="artwork-purchase-bank">
       <div><dt>בנק</dt><dd>{{ pay.bankName }} ({{ pay.bankCode }})</dd></div>
       <div><dt>סניף</dt><dd>{{ pay.branch }}</dd></div>

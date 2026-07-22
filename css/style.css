@@ -769,6 +769,25 @@ footer {
   margin-top: 16px;
 }
 
+.artwork-original-unavailable {
+  margin: 0;
+  color: var(--dim);
+  font-size: 14px;
+}
+
+.artwork-original-unavailable strong {
+  color: var(--bone);
+  font-weight: 600;
+}
+
+.artwork-purchase-original-note {
+  max-width: 480px;
+  margin: 0 auto 26px;
+  color: var(--bone);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
 .artwork-purchase {
   width: min(100%, 640px);
   margin: 70px auto 0;
@@ -2103,12 +2122,36 @@ footer {
 }
 
 .artwork-tile-image {
+  position: relative;
   display: block;
   aspect-ratio: 1;
   overflow: hidden;
   border: 1px solid #302e2a;
   background: #090909;
   transition: border-color 0.25s, transform 0.3s;
+}
+
+.artwork-card-sold-out .artwork-tile-image img {
+  opacity: 0.45;
+}
+
+.sold-out-badge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 6px 18px;
+  border: 1px solid var(--bone);
+  color: var(--bone);
+  background: rgba(9, 9, 9, 0.55);
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.sold-out-label {
+  color: var(--dim);
 }
 
 .artwork-tile-image img {

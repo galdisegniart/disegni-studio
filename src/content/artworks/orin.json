@@ -8,5 +8,7 @@
   "alt": "Orin, דמות מכונפת על רקע עולמות מנוגדים",
   "image": "/images/artworks/orin+WEB.webp",
   "thumb": "/images/gallery/orin+thumb.webp",
-  "category": "mixed"
+  "category": "mixed",
+  "originalAvailable": false,
+  "originalPrice": 0
 }
