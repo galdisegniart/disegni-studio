@@ -25,6 +25,7 @@ eleventyComputed:
     <span class="sold-out-badge-page">נמכר</span>
     {% endif %}
   </div>
+  <div class="artwork-detail-grid">
   <figure class="artwork-stage">
     <img src="{{ artwork.image }}" alt="{{ artwork.alt }}">
   </figure>
@@ -64,6 +65,7 @@ eleventyComputed:
       <button type="button" class="cta cta-outline js-original-sold-out">{{ purchaseButtons.originalLabel }}</button>
       {% endif %}
     </div>
+  </div>
   </div>
 
   <div class="artwork-purchase" id="purchase">

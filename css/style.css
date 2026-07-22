@@ -571,6 +571,12 @@ footer {
   cursor: pointer;
 }
 
+.artwork-detail-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
 .artwork-stage {
   width: min(100%, 1180px);
   min-height: 360px;
@@ -618,6 +624,47 @@ footer {
   color: var(--dim);
   font-size: 19px;
   line-height: 1.8;
+}
+
+@media (min-width: 921px) {
+  .artwork-detail-grid {
+    flex-direction: row;
+    align-items: center;
+    gap: 56px;
+  }
+
+  .artwork-detail-grid .artwork-stage {
+    flex: 1 1 55%;
+    width: auto;
+    margin: 0;
+  }
+
+  .artwork-detail-grid .artwork-detail-copy {
+    flex: 1 1 45%;
+    width: auto;
+    max-width: none;
+    margin: 0;
+    text-align: right;
+  }
+
+  .artwork-detail-grid .artwork-detail-copy h1 {
+    font-size: clamp(36px, 3.6vw, 60px);
+  }
+
+  .artwork-detail-grid .artwork-detail-description {
+    max-width: none;
+    margin: 24px 0 0;
+  }
+
+  .artwork-detail-grid .print-order {
+    margin: 32px 0 0;
+    width: 100%;
+    max-width: 480px;
+  }
+
+  .artwork-detail-grid .artwork-purchase-actions {
+    justify-content: flex-start;
+  }
 }
 
 .print-order {
@@ -2160,10 +2207,6 @@ footer {
   border: 1px solid #302e2a;
   background: #090909;
   transition: border-color 0.25s, transform 0.3s;
-}
-
-.artwork-card-sold-out .artwork-tile-image img {
-  opacity: 0.45;
 }
 
 .sold-out-badge {
