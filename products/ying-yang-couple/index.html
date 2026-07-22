@@ -27,12 +27,20 @@
     <p class="artwork-detail-medium">טכניקה משולבת על נייר · יצירה מקורית</p>
     <h1>Ying Yang Couple</h1>
     <p class="artwork-detail-description">שתי נוכחויות נפגשות ונשזרות זו בזו בלי לאבד את זהותן. היצירה עוסקת בקרבה, בניגוד ובהרמוניה שנוצרת ביניהם.</p>
-    <div class="print-order" data-artwork-slug="ying-yang-couple" data-artwork-name="Ying Yang Couple" data-paper-note="מחירי הדפס אמנותי על נייר איכותי. המחירים כוללים משלוח." data-canvas-note="מחירי בד מתוח (קנבס), הדפסת גיקלה ארכיונית. המחירים כוללים משלוח.">
+    <div class="print-order" data-artwork-slug="ying-yang-couple" data-artwork-name="Ying Yang Couple" data-paper-note="מחירי הדפס אמנותי על נייר איכותי. המחירים כוללים משלוח." data-canvas-note="מחירי קנבס מתוח, הדפסת גיקלה ארכיונית. המחירים כוללים משלוח.">
       <div class="print-order-head">
         <span class="print-order-label">לרכישת הדפס אמנותי</span>
+        <div class="currency-toggle-mini">
+          <button type="button" class="js-currency-toggle active" data-currency="ILS">₪ · ס"מ</button>
+          <span>·</span>
+          <button type="button" class="js-currency-toggle" data-currency="USD">$ · inch</button>
+        </div>
       </div>
+
       
-      <div class="print-order-controls">
+
+      <div class="print-order-field">
+        <span class="print-order-field-label">מידה</span>
         <select class="js-size-select" data-material="paper" aria-label="בחירת גודל">
           
           <option value="5x7" data-label-in="5×7 אינץ&#39;" data-label-cm="13×18 ס&quot;מ" data-price-ils="89" data-price-usd="24" data-popular="false">13×18 ס&quot;מ</option>
@@ -45,17 +53,17 @@
           
         </select>
         
+      </div>
+
+      <div class="print-order-field">
+        <span class="print-order-field-label">כמות</span>
         <div class="qty-stepper">
           <button type="button" class="js-qty-dec" aria-label="הפחתת כמות">−</button>
           <input class="js-qty-input" type="number" min="1" value="1" aria-label="כמות" inputmode="numeric" readonly>
           <button type="button" class="js-qty-inc" aria-label="הוספת כמות">+</button>
         </div>
       </div>
-      <div class="currency-toggle-mini">
-        <button type="button" class="js-currency-toggle active" data-currency="ILS">₪ · ס"מ</button>
-        <span>·</span>
-        <button type="button" class="js-currency-toggle" data-currency="USD">$ · inch</button>
-      </div>
+
       <p class="print-order-price">סה"כ: <span class="js-live-price">0 ₪</span></p>
       <button type="button" class="cta js-add-to-cart">הוספה לעגלה</button>
       <p class="print-order-note js-print-order-note">מחירי הדפס אמנותי על נייר איכותי. המחירים כוללים משלוח.</p>

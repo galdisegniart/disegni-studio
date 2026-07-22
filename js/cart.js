@@ -43,7 +43,7 @@
   }
 
   function materialLabel(material) {
-    return material === "canvas" ? "בד מתוח (קנבס)" : "הדפס אמנותי";
+    return material === "canvas" ? "קנבס מתוח" : "הדפס אמנותי";
   }
 
   function getActiveSizeSelect(wrap) {
