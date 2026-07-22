@@ -32,13 +32,18 @@ eleventyComputed:
 
       {% if artwork.originalAvailable %}
       <p class="original-price">{{ artwork.originalPrice }} ₪</p>
-      <a class="cta" href="#purchase">{{ purchaseButtons.originalLabel }} <span aria-hidden="true">←</span></a>
       {% else %}
       <p class="original-price original-price-sold-out">נמכר</p>
-      <button type="button" class="cta js-original-sold-out">{{ purchaseButtons.originalLabel }}</button>
       {% endif %}
 
-      <button class="artwork-share js-share" type="button" data-share-title="{{ artwork.name }} | {{ site.brand }}" data-share-text="{{ artwork.name }}, {{ artwork.description }}"><span aria-hidden="true">↗</span> <span class="js-share-label">שיתוף</span></button>
+      <div class="original-purchase-block">
+        {% if artwork.originalAvailable %}
+        <a class="cta" href="#purchase">{{ purchaseButtons.originalLabel }} <span aria-hidden="true">←</span></a>
+        {% else %}
+        <button type="button" class="cta js-original-sold-out">{{ purchaseButtons.originalLabel }}</button>
+        {% endif %}
+        <button class="artwork-share js-share" type="button" data-share-title="{{ artwork.name }} | {{ site.brand }}" data-share-text="{{ artwork.name }}, {{ artwork.description }}"><span aria-hidden="true">↗</span> <span class="js-share-label">שיתוף</span></button>
+      </div>
 
       <a class="original-crosslink" href="/products/{{ artwork.slug }}/">רוצים בכל זאת הדפס אמנותי של היצירה? <span aria-hidden="true">←</span></a>
     </div>

@@ -638,11 +638,23 @@ footer {
   color: var(--dim);
 }
 
+.original-purchase-block {
+  width: min(100%, 480px);
+  margin: 0 auto;
+}
+
+.original-purchase-block .cta {
+  display: flex;
+  width: 100%;
+  margin-top: 0;
+}
+
 .original-crosslink {
   display: inline-block;
-  margin-top: 24px;
-  color: var(--dim);
-  font-size: 14px;
+  margin-top: 20px;
+  color: #6f6a63;
+  font-size: 13px;
+  font-weight: 500;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -687,8 +699,10 @@ footer {
     max-width: 480px;
   }
 
-  .artwork-detail-grid .artwork-purchase-actions {
-    justify-content: flex-start;
+  .artwork-detail-grid .original-purchase-block {
+    margin: 28px 0 0;
+    width: 100%;
+    max-width: 480px;
   }
 }
 
@@ -814,7 +828,7 @@ footer {
   line-height: 1.6;
 }
 
-.print-order .artwork-share {
+.artwork-share {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -830,7 +844,7 @@ footer {
   transition: color 0.2s;
 }
 
-.print-order .artwork-share:hover {
+.artwork-share:hover {
   color: var(--bone);
 }
 
