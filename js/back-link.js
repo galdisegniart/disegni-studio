@@ -24,9 +24,14 @@
 
   if (!lastPath || lastPath.indexOf("/collections") !== 0) return;
 
+  var labelText = "חזרה לחנות";
+  if (lastPath.indexOf("/collections/originals") === 0) {
+    labelText = "חזרה למקוריות זמינות";
+  }
+
   document.querySelectorAll(".js-back-link").forEach(function (link) {
     link.setAttribute("href", lastPath);
     var label = link.querySelector(".js-back-label");
-    if (label) label.textContent = "חזרה לחנות";
+    if (label) label.textContent = labelText;
   });
 })();
