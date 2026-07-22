@@ -22,7 +22,7 @@ eleventyComputed:
   <div class="artwork-grid">
     {% for artwork in artworks %}
     <article class="artwork-card{% if not artwork.originalAvailable %} artwork-card-sold-out{% endif %}" id="{{ artwork.slug }}" data-category="{{ artwork.category }}">
-      <a class="artwork-tile" href="/products/{{ artwork.slug }}/" aria-label="כניסה ליצירה {{ artwork.name }}">
+      <a class="artwork-tile" href="/originals/{{ artwork.slug }}/" aria-label="כניסה ליצירה {{ artwork.name }}">
         <span class="artwork-tile-image">
           <img src="{{ artwork.thumb }}" alt="{{ artwork.alt }}" loading="lazy">
           {% if not artwork.originalAvailable %}

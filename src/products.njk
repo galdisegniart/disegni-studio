@@ -9,13 +9,11 @@ scripts:
   - /js/cart.js
   - /js/back-link.js
   - /js/share.js
-  - /js/sold-out.js
 eleventyComputed:
   title: "{{ artwork.name }} | גל דִּיסֵנִי"
   description: "{{ artwork.name }}, {{ artwork.description }}"
 ---
 {% set seq = artworks | artworkSequence(artwork) %}
-{% set pay = pages.payment %}
 {% set pricing = pages.pricing %}
 
 <section class="artwork-detail">
@@ -25,9 +23,6 @@ eleventyComputed:
   <div class="artwork-detail-grid">
   <figure class="artwork-stage">
     <img src="{{ artwork.image }}" alt="{{ artwork.alt }}">
-    {% if not artwork.originalAvailable %}
-    <span class="sold-out-badge">נמכר</span>
-    {% endif %}
   </figure>
   <div class="artwork-detail-copy">
     <p class="artwork-detail-medium">{{ artwork.detailMedium }}</p>
@@ -58,41 +53,10 @@ eleventyComputed:
       <p class="print-order-note">{{ pricing.sectionNote }}</p>
       <button class="artwork-share js-share" type="button" data-share-title="{{ artwork.name }} | {{ site.brand }}" data-share-text="{{ artwork.name }}, {{ artwork.description }}"><span aria-hidden="true">↗</span> <span class="js-share-label">שיתוף</span></button>
     </div>
-    <div class="artwork-purchase-actions">
-      {% if artwork.originalAvailable %}
-      <a class="cta cta-outline" id="choose-original" href="#purchase" data-purchase-option="original">{{ purchaseButtons.originalLabel }} — {{ artwork.originalPrice }} ₪ <span aria-hidden="true">←</span></a>
-      {% else %}
-      <button type="button" class="cta cta-outline js-original-sold-out">{{ purchaseButtons.originalLabel }}</button>
-      {% endif %}
-    </div>
+    <a class="original-crosslink" href="/originals/{{ artwork.slug }}/">מתעניינים ביצירה המקורית של "{{ artwork.name }}"? <span aria-hidden="true">←</span></a>
   </div>
-  </div>
-
-  <div class="artwork-purchase" id="purchase">
-    <div class="section-label"><span>{{ pay.sectionLabel }}</span></div>
-    <h2>{{ pay.heading }}</h2>
-    <p class="artwork-purchase-lead">{{ pay.lead }}</p>
-    {% if artwork.originalAvailable %}
-    <p class="artwork-purchase-original-note">לרכישת היצירה המקורית "{{ artwork.name }}" במחיר {{ artwork.originalPrice }} ₪, בצעו העברה בנקאית לפרטים שלהלן ואשרו ב-WhatsApp.</p>
-    {% endif %}
-    <dl class="artwork-purchase-bank">
-      <div><dt>בנק</dt><dd>{{ pay.bankName }} ({{ pay.bankCode }})</dd></div>
-      <div><dt>סניף</dt><dd>{{ pay.branch }}</dd></div>
-      <div><dt>מספר חשבון</dt><dd dir="ltr">{{ pay.accountNumber }}</dd></div>
-      <div><dt>שם בעל החשבון</dt><dd>{{ pay.accountHolder }}</dd></div>
-    </dl>
-    <a class="cta js-whatsapp" href="{{ ('שלום גל, ביצעתי העברה בנקאית עבור היצירה \"' ~ artwork.name ~ '\". אשמח לתיאום המשלוח.') | waLink }}" target="_blank" rel="noopener noreferrer">אישור העברה ב-WhatsApp <span>←</span></a>
-    <p class="artwork-purchase-note">{{ pay.waNote }}</p>
   </div>
 </section>
-
-<div class="sold-out-modal" id="sold-out-modal" hidden>
-  <div class="sold-out-modal-box" role="alertdialog" aria-labelledby="sold-out-modal-title">
-    <p class="sold-out-modal-title" id="sold-out-modal-title">לא ניתן לבצע רכישה</p>
-    <p class="sold-out-modal-text">מצטערים, היצירה המקורית אינה במלאי.</p>
-    <button type="button" class="cta js-sold-out-close">אישור</button>
-  </div>
-</div>
 
 <section class="artwork-more">
   <div class="artwork-more-head">

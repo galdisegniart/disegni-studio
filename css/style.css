@@ -627,6 +627,30 @@ footer {
   line-height: 1.8;
 }
 
+.original-price {
+  margin: 28px 0 18px;
+  color: var(--bone);
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.original-price-sold-out {
+  color: var(--dim);
+}
+
+.original-crosslink {
+  display: inline-block;
+  margin-top: 24px;
+  color: var(--dim);
+  font-size: 14px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.original-crosslink:hover {
+  color: var(--bone);
+}
+
 @media (min-width: 921px) {
   .artwork-detail-grid {
     flex-direction: row;
