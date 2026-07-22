@@ -768,74 +768,82 @@ footer {
   font-weight: 600;
 }
 
-.material-toggle {
+.material-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.material-cards > .material-card:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+.material-card {
   display: flex;
-  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  min-height: 64px;
+  padding: 10px 14px;
   border: 1px solid var(--line);
-  border-radius: 999px;
-  overflow: hidden;
-}
-
-.js-material-toggle {
-  flex: 1;
-  padding: 8px 14px;
-  border: 0;
   background: transparent;
-  color: var(--dim);
-  font-size: 13px;
+  text-align: right;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  transition: border-color 0.2s, background 0.2s;
 }
 
-.js-material-toggle.active {
-  background: var(--copper);
-  color: var(--black);
+.material-card.active {
+  border-color: var(--copper);
+  background: rgba(173, 96, 70, 0.12);
 }
 
-.js-size-select {
-  width: 100%;
-  min-height: 52px;
+.material-card-name {
+  color: var(--bone);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.material-card-desc {
+  color: var(--dim);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.size-chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.size-chip {
+  min-height: 44px;
   padding: 0 16px;
   border: 1px solid var(--line);
-  background: var(--black);
-  color: var(--bone);
-  font-family: var(--sans);
-  font-size: 15px;
-}
-
-.qty-stepper {
-  display: flex;
-  align-items: stretch;
-  width: fit-content;
-  min-height: 52px;
-  border: 1px solid var(--line);
-}
-
-.qty-stepper button {
-  width: 40px;
-  border: 0;
   background: transparent;
   color: var(--bone);
-  font-size: 18px;
+  font-family: var(--sans);
+  font-size: 14px;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
 }
 
-.qty-stepper button:hover {
+.size-chip.active {
+  border-color: var(--copper);
   background: var(--copper);
   color: var(--black);
 }
 
-.js-qty-input {
-  width: 44px;
-  border: 0;
-  border-inline: 1px solid var(--line);
-  background: transparent;
-  color: var(--bone);
-  font-family: var(--sans);
-  font-size: 15px;
-  text-align: center;
-  pointer-events: none;
+.size-chip:disabled,
+.size-chip.unavailable {
+  border-color: var(--line);
+  color: var(--dim);
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.size-chip-badge {
+  margin-inline-start: 6px;
+  font-size: 11px;
 }
 
 .print-order .js-add-to-cart {

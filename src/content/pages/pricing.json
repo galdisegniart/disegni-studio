@@ -1,16 +1,28 @@
 {
-  "sectionNote": "מחירי הדפס אמנותי על נייר איכותי. המחירים כוללים משלוח.",
-  "sizes": [
-    { "id": "5x7", "labelIn": "5×7 אינץ'", "labelCm": "13×18 ס\"מ", "priceILS": 89, "priceUSD": 24, "popular": false },
-    { "id": "12x18", "labelIn": "12×18 אינץ'", "labelCm": "30×46 ס\"מ", "priceILS": 169, "priceUSD": 45, "popular": false },
-    { "id": "20x30", "labelIn": "20×30 אינץ'", "labelCm": "51×76 ס\"מ", "priceILS": 269, "priceUSD": 69, "popular": true },
-    { "id": "24x36", "labelIn": "24×36 אינץ'", "labelCm": "61×91 ס\"מ", "priceILS": 349, "priceUSD": 89, "popular": false }
-  ],
-  "canvasSectionNote": "מחירי קנבס מתוח, הדפסת גיקלה ארכיונית. המחירים כוללים משלוח.",
-  "canvasSizes": [
-    { "id": "16x20", "labelIn": "16×20 אינץ'", "labelCm": "41×51 ס\"מ", "priceILS": 339, "priceUSD": 92, "popular": false },
-    { "id": "18x24", "labelIn": "18×24 אינץ'", "labelCm": "46×61 ס\"מ", "priceILS": 399, "priceUSD": 108, "popular": true },
-    { "id": "24x36", "labelIn": "24×36 אינץ'", "labelCm": "61×91 ס\"מ", "priceILS": 619, "priceUSD": 167, "popular": false }
+  "materials": [
+    {
+      "id": "paper",
+      "name": "נייר אמנותי",
+      "description": "איכות מוזיאלית, מיועד למסגור",
+      "note": "מחירי הדפס אמנותי על נייר איכותי. המחירים כוללים משלוח.",
+      "sizes": [
+        { "id": "5x7", "labelIn": "5×7 אינץ'", "labelCm": "13×18 ס\"מ", "priceILS": 89, "priceUSD": 24, "popular": false, "available": true },
+        { "id": "12x18", "labelIn": "12×18 אינץ'", "labelCm": "30×46 ס\"מ", "priceILS": 169, "priceUSD": 45, "popular": false, "available": true },
+        { "id": "20x30", "labelIn": "20×30 אינץ'", "labelCm": "51×76 ס\"מ", "priceILS": 269, "priceUSD": 69, "popular": true, "available": true },
+        { "id": "24x36", "labelIn": "24×36 אינץ'", "labelCm": "61×91 ס\"מ", "priceILS": 349, "priceUSD": 89, "popular": false, "available": true }
+      ]
+    },
+    {
+      "id": "canvas",
+      "name": "קנבס מתוח",
+      "description": "מגיע מתוח ומוכן לתלייה",
+      "note": "מחירי קנבס מתוח, הדפסת גיקלה ארכיונית. המחירים כוללים משלוח.",
+      "sizes": [
+        { "id": "16x20", "labelIn": "16×20 אינץ'", "labelCm": "41×51 ס\"מ", "priceILS": 339, "priceUSD": 92, "popular": false, "available": true },
+        { "id": "18x24", "labelIn": "18×24 אינץ'", "labelCm": "46×61 ס\"מ", "priceILS": 399, "priceUSD": 108, "popular": true, "available": true },
+        { "id": "24x36", "labelIn": "24×36 אינץ'", "labelCm": "61×91 ס\"מ", "priceILS": 619, "priceUSD": 167, "popular": false, "available": true }
+      ]
+    }
   ],
   "shippingIL": { "flatILS": 29, "freeThresholdILS": 350 },
   "shippingIntlNote": "למשלוחים מחוץ לישראל המחיר כולל משלוח."

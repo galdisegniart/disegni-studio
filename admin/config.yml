@@ -34,7 +34,15 @@ collections:
       - { label: "תמונה ממוזערת (גלריה)", name: "thumb", widget: "image" }
       - { label: "היצירה המקורית זמינה למכירה?", name: "originalAvailable", widget: "boolean", default: false, hint: "סמנו רק אם המקור עדיין לא נמכר ואתם רוצים למכור אותו" }
       - { label: "מחיר היצירה המקורית (₪)", name: "originalPrice", widget: "number", default: 0, hint: "רלוונטי רק אם סימנתם 'זמינה למכירה' למעלה" }
-      - { label: "יש הדפס על בד מתוח (קנבס) ליצירה הזו?", name: "canvasAvailable", widget: "boolean", default: false, hint: "סמנו רק אחרי שהוספתם את היצירה כמוצר קנבס בפרינטפול, אחרת ההזמנה לא תעבוד" }
+      - label: "סוגי הדפסה נוספים (חוץ מנייר, שזמין תמיד)"
+        name: "extraMaterials"
+        widget: "select"
+        multiple: true
+        required: false
+        default: []
+        hint: "סמנו רק אחרי שהוספתם את היצירה כמוצר מתאים בפרינטפול, אחרת ההזמנה לא תעבוד"
+        options:
+          - { label: "קנבס מתוח", value: "canvas" }
 
   - name: "workshops"
     label: "סדנאות"
@@ -312,28 +320,26 @@ collections:
         label: "מחירון הדפסים"
         file: "src/content/pages/pricing.json"
         fields:
-          - { label: "הערת מחירון", name: "sectionNote", widget: "text" }
-          - name: "sizes"
-            label: "גדלים ומחירים"
+          - name: "materials"
+            label: "סוגי הדפסה"
             widget: "list"
+            hint: "כל סוג הדפסה (נייר, קנבס, וכל מה שתוסיפו בעתיד) עם הגדלים והמחירים שלו. מזהה הסוג (id) חייב להתאים למה שנבחר ב'סוגי הדפסה נוספים' בכל יצירה"
             fields:
-              - { label: "מזהה (אנגלית, ללא רווחים)", name: "id", widget: "string" }
-              - { label: "גודל באינץ'", name: "labelIn", widget: "string" }
-              - { label: "גודל בס\"מ", name: "labelCm", widget: "string" }
-              - { label: "מחיר בשקלים", name: "priceILS", widget: "number" }
-              - { label: "מחיר בדולרים", name: "priceUSD", widget: "number" }
-              - { label: "לסמן כ\"הכי פופולרי\"?", name: "popular", widget: "boolean", default: false }
-          - { label: "הערת מחירון - בד מתוח (קנבס)", name: "canvasSectionNote", widget: "text" }
-          - name: "canvasSizes"
-            label: "גדלים ומחירים - בד מתוח (קנבס)"
-            widget: "list"
-            fields:
-              - { label: "מזהה (אנגלית, ללא רווחים)", name: "id", widget: "string" }
-              - { label: "גודל באינץ'", name: "labelIn", widget: "string" }
-              - { label: "גודל בס\"מ", name: "labelCm", widget: "string" }
-              - { label: "מחיר בשקלים", name: "priceILS", widget: "number" }
-              - { label: "מחיר בדולרים", name: "priceUSD", widget: "number" }
-              - { label: "לסמן כ\"הכי פופולרי\"?", name: "popular", widget: "boolean", default: false }
+              - { label: "מזהה (אנגלית, ללא רווחים - למשל paper, canvas)", name: "id", widget: "string" }
+              - { label: "שם הסוג", name: "name", widget: "string" }
+              - { label: "תיאור קצר (מוצג בכרטיס הבחירה)", name: "description", widget: "string" }
+              - { label: "הערת מחירון", name: "note", widget: "text" }
+              - name: "sizes"
+                label: "גדלים ומחירים"
+                widget: "list"
+                fields:
+                  - { label: "מזהה (אנגלית, ללא רווחים)", name: "id", widget: "string" }
+                  - { label: "גודל באינץ'", name: "labelIn", widget: "string" }
+                  - { label: "גודל בס\"מ", name: "labelCm", widget: "string" }
+                  - { label: "מחיר בשקלים", name: "priceILS", widget: "number" }
+                  - { label: "מחיר בדולרים", name: "priceUSD", widget: "number" }
+                  - { label: "לסמן כ\"הכי פופולרי\"?", name: "popular", widget: "boolean", default: false }
+                  - { label: "זמין להזמנה?", name: "available", widget: "boolean", default: true, hint: "בטלו סימון כדי להציג את הגודל כ'אזל' בלי למחוק אותו" }
           - name: "shippingIL"
             label: "משלוח בישראל"
             widget: "object"

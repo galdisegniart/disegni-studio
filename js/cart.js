@@ -42,16 +42,17 @@
     });
   }
 
-  function materialLabel(material) {
-    return material === "canvas" ? "קנבס מתוח" : "הדפס אמנותי";
+  function getActiveChipGroup(wrap) {
+    var groups = wrap.querySelectorAll(".js-size-chip-group");
+    for (var i = 0; i < groups.length; i++) {
+      if (!groups[i].hidden) return groups[i];
+    }
+    return groups[0];
   }
 
-  function getActiveSizeSelect(wrap) {
-    var selects = wrap.querySelectorAll(".js-size-select");
-    for (var i = 0; i < selects.length; i++) {
-      if (!selects[i].hidden) return selects[i];
-    }
-    return selects[0];
+  function getActiveChip(group) {
+    if (!group) return null;
+    return group.querySelector(".js-size-chip.active") || group.querySelector(".js-size-chip:not([disabled])");
   }
 
   function addToCart(item) {
@@ -110,7 +111,7 @@
           '<li class="cart-line">' +
           '<div class="cart-line-info">' +
           "<strong>" + item.artworkName + "</strong>" +
-          '<span>' + materialLabel(item.material) + ' · ' + sizeLabel(item, currency) + "</span>" +
+          '<span>' + item.materialName + ' · ' + sizeLabel(item, currency) + "</span>" +
           "</div>" +
           '<div class="cart-line-qty">' +
           '<button type="button" class="js-qty-minus" data-index="' + index + '" aria-label="הפחתת כמות">−</button>' +
@@ -148,7 +149,7 @@
 
     var waLines = cart
       .map(function (item) {
-        return "- " + item.artworkName + " (" + materialLabel(item.material) + ", " + sizeLabel(item, currency) + ") × " + item.qty;
+        return "- " + item.artworkName + " (" + item.materialName + ", " + sizeLabel(item, currency) + ") × " + item.qty;
       })
       .join("\n");
     var message =
@@ -167,19 +168,20 @@
     var addBtn = e.target.closest(".js-add-to-cart");
     if (addBtn) {
       var wrap = addBtn.closest("[data-artwork-slug]");
-      var select = getActiveSizeSelect(wrap);
-      var qtyInput = wrap.querySelector(".js-qty-input");
-      var option = select.options[select.selectedIndex];
+      var group = getActiveChipGroup(wrap);
+      var chip = getActiveChip(group);
+      if (!chip) return;
       addToCart({
         artworkSlug: wrap.dataset.artworkSlug,
         artworkName: wrap.dataset.artworkName,
-        material: select.dataset.material,
-        sizeId: option.value,
-        labelIn: option.dataset.labelIn,
-        labelCm: option.dataset.labelCm,
-        priceILS: parseFloat(option.dataset.priceIls),
-        priceUSD: parseFloat(option.dataset.priceUsd),
-        qty: Math.max(1, parseInt(qtyInput.value, 10) || 1),
+        material: group.dataset.material,
+        materialName: group.dataset.materialName,
+        sizeId: chip.dataset.sizeId,
+        labelIn: chip.dataset.labelIn,
+        labelCm: chip.dataset.labelCm,
+        priceILS: parseFloat(chip.dataset.priceIls),
+        priceUSD: parseFloat(chip.dataset.priceUsd),
+        qty: 1,
       });
       window.location.href = "/cart/";
       return;
@@ -188,27 +190,40 @@
     var currencyBtn = e.target.closest(".js-currency-toggle");
     if (currencyBtn) {
       setCurrency(currencyBtn.dataset.currency);
-      renderSizeSelectors();
+      renderSizeChips();
       renderCartPage();
       document.querySelectorAll("[data-artwork-slug]").forEach(updateLivePrice);
       return;
     }
 
-    var materialBtn = e.target.closest(".js-material-toggle");
-    if (materialBtn) {
-      var materialWrap = materialBtn.closest("[data-artwork-slug]");
-      var material = materialBtn.dataset.material;
-      materialWrap.querySelectorAll(".js-material-toggle").forEach(function (btn) {
+    var materialCard = e.target.closest(".js-material-card");
+    if (materialCard) {
+      var cardWrap = materialCard.closest("[data-artwork-slug]");
+      var material = materialCard.dataset.material;
+      cardWrap.querySelectorAll(".js-material-card").forEach(function (btn) {
         btn.classList.toggle("active", btn.dataset.material === material);
       });
-      materialWrap.querySelectorAll(".js-size-select").forEach(function (sel) {
-        sel.hidden = sel.dataset.material !== material;
+      cardWrap.querySelectorAll(".js-size-chip-group").forEach(function (group) {
+        group.hidden = group.dataset.material !== material;
       });
-      var noteEl = materialWrap.querySelector(".js-print-order-note");
-      if (noteEl) {
-        noteEl.textContent = material === "canvas" ? materialWrap.dataset.canvasNote : materialWrap.dataset.paperNote;
-      }
-      updateLivePrice(materialWrap);
+      var newGroup = getActiveChipGroup(cardWrap);
+      newGroup.querySelectorAll(".js-size-chip").forEach(function (c, i) {
+        c.classList.toggle("active", c === getActiveChip(newGroup));
+      });
+      var noteEl = cardWrap.querySelector(".js-print-order-note");
+      if (noteEl) noteEl.textContent = newGroup.dataset.note;
+      updateLivePrice(cardWrap);
+      return;
+    }
+
+    var sizeChip = e.target.closest(".js-size-chip");
+    if (sizeChip && !sizeChip.disabled) {
+      var chipGroup = sizeChip.closest(".js-size-chip-group");
+      chipGroup.querySelectorAll(".js-size-chip").forEach(function (c) {
+        c.classList.toggle("active", c === sizeChip);
+      });
+      var chipWrap = sizeChip.closest("[data-artwork-slug]");
+      updateLivePrice(chipWrap);
       return;
     }
 
@@ -233,62 +248,33 @@
       removeFromCart(parseInt(removeBtn.dataset.index, 10));
       return;
     }
-
-    var qtyDec = e.target.closest(".js-qty-dec");
-    if (qtyDec) {
-      var decWrap = qtyDec.closest("[data-artwork-slug]");
-      var decInput = decWrap.querySelector(".js-qty-input");
-      decInput.value = Math.max(1, (parseInt(decInput.value, 10) || 1) - 1);
-      updateLivePrice(decWrap);
-      return;
-    }
-
-    var qtyInc = e.target.closest(".js-qty-inc");
-    if (qtyInc) {
-      var incWrap = qtyInc.closest("[data-artwork-slug]");
-      var incInput = incWrap.querySelector(".js-qty-input");
-      incInput.value = (parseInt(incInput.value, 10) || 1) + 1;
-      updateLivePrice(incWrap);
-      return;
-    }
-  });
-
-  document.addEventListener("change", function (e) {
-    if (e.target.classList.contains("js-size-select")) {
-      var wrap = e.target.closest("[data-artwork-slug]");
-      if (wrap) updateLivePrice(wrap);
-    }
   });
 
   function updateLivePrice(wrap) {
     var priceEl = wrap.querySelector(".js-live-price");
     if (!priceEl) return;
-    var select = getActiveSizeSelect(wrap);
-    var qtyInput = wrap.querySelector(".js-qty-input");
-    var option = select.options[select.selectedIndex];
-    var qty = Math.max(1, parseInt(qtyInput.value, 10) || 1);
+    var group = getActiveChipGroup(wrap);
+    var chip = getActiveChip(group);
+    if (!chip) return;
     var currency = getCurrency();
-    var unitPrice = currency === "USD" ? parseFloat(option.dataset.priceUsd) : parseFloat(option.dataset.priceIls);
-    var total = unitPrice * qty;
-    priceEl.textContent = currency === "USD" ? "$" + total : total + " ₪";
+    var unitPrice = currency === "USD" ? parseFloat(chip.dataset.priceUsd) : parseFloat(chip.dataset.priceIls);
+    priceEl.textContent = currency === "USD" ? "$" + unitPrice : unitPrice + " ₪";
   }
 
-  function renderSizeSelectors() {
+  function renderSizeChips() {
     var currency = getCurrency();
-    document.querySelectorAll(".js-size-select").forEach(function (select) {
-      document.querySelectorAll(".js-currency-toggle").forEach(function (btn) {
-        btn.classList.toggle("active", btn.dataset.currency === currency);
-      });
-      Array.prototype.forEach.call(select.options, function (option) {
-        if (!option.value) return;
-        var label = currency === "USD" ? option.dataset.labelIn : option.dataset.labelCm;
-        option.textContent = label + (option.dataset.popular === "true" ? " (הכי פופולרי)" : "");
-      });
+    document.querySelectorAll(".js-currency-toggle").forEach(function (btn) {
+      btn.classList.toggle("active", btn.dataset.currency === currency);
+    });
+    document.querySelectorAll(".js-size-chip").forEach(function (chip) {
+      var label = currency === "USD" ? chip.dataset.labelIn : chip.dataset.labelCm;
+      var labelEl = chip.querySelector(".js-size-chip-label");
+      if (labelEl) labelEl.textContent = label;
     });
   }
 
   updateCartBadge();
-  renderSizeSelectors();
+  renderSizeChips();
   renderCartPage();
   document.querySelectorAll("[data-artwork-slug]").forEach(updateLivePrice);
 })();
