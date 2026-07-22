@@ -417,10 +417,10 @@ img {
 
 .gallery-item figcaption {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  height: 44px;
-  padding: 8px 6px 0;
+  height: 30px;
+  padding: 5px 6px 0;
 }
 
 .gallery-item figcaption strong {
@@ -430,6 +430,7 @@ img {
   text-overflow: ellipsis;
   text-align: center;
   direction: ltr;
+  color: var(--dim);
   font-family: var(--sans);
   font-size: clamp(14px, 4.2vw, 18px);
   font-weight: 500;
