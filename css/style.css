@@ -578,6 +578,7 @@ footer {
 }
 
 .artwork-stage {
+  position: relative;
   width: min(100%, 1180px);
   min-height: 360px;
   max-height: 80svh;
@@ -2211,24 +2212,14 @@ footer {
 
 .sold-out-badge {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  padding: 5px 12px;
+  top: 14px;
+  right: 14px;
+  z-index: 2;
+  padding: 8px 18px;
   background: var(--black);
   color: var(--bone);
   font-family: var(--sans);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-}
-
-.sold-out-badge-page {
-  padding: 5px 12px;
-  background: var(--black);
-  border: 1px solid var(--line);
-  color: var(--bone);
-  font-family: var(--sans);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.08em;
 }

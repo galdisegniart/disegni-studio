@@ -21,13 +21,13 @@ eleventyComputed:
 <section class="artwork-detail">
   <div class="artwork-utility">
     <a class="artwork-back js-back-link" href="/"><span aria-hidden="true">→</span> <span class="js-back-label">חזרה לגלריה</span></a>
-    {% if not artwork.originalAvailable %}
-    <span class="sold-out-badge-page">נמכר</span>
-    {% endif %}
   </div>
   <div class="artwork-detail-grid">
   <figure class="artwork-stage">
     <img src="{{ artwork.image }}" alt="{{ artwork.alt }}">
+    {% if not artwork.originalAvailable %}
+    <span class="sold-out-badge">נמכר</span>
+    {% endif %}
   </figure>
   <div class="artwork-detail-copy">
     <p class="artwork-detail-medium">{{ artwork.detailMedium }}</p>
