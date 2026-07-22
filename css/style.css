@@ -555,6 +555,7 @@ footer {
 .artwork-utility {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 34px;
 }
 
@@ -769,15 +770,45 @@ footer {
   margin-top: 16px;
 }
 
-.artwork-original-unavailable {
-  margin: 0;
-  color: var(--dim);
-  font-size: 14px;
+.js-original-sold-out {
+  opacity: 0.6;
 }
 
-.artwork-original-unavailable strong {
+.sold-out-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(9, 9, 9, 0.72);
+}
+
+.sold-out-modal[hidden] {
+  display: none;
+}
+
+.sold-out-modal-box {
+  width: min(100%, 360px);
+  padding: 32px 26px;
+  background: var(--black);
+  border: 1px solid var(--line);
+  text-align: center;
+}
+
+.sold-out-modal-title {
+  margin: 0 0 10px;
   color: var(--bone);
+  font-size: 17px;
   font-weight: 600;
+}
+
+.sold-out-modal-text {
+  margin: 0 0 22px;
+  color: var(--dim);
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 .artwork-purchase-original-note {
@@ -2137,21 +2168,26 @@ footer {
 
 .sold-out-badge {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 6px 18px;
-  border: 1px solid var(--bone);
+  top: 10px;
+  right: 10px;
+  padding: 5px 12px;
+  background: var(--black);
   color: var(--bone);
-  background: rgba(9, 9, 9, 0.55);
   font-family: var(--sans);
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 700;
   letter-spacing: 0.08em;
 }
 
-.sold-out-label {
-  color: var(--dim);
+.sold-out-badge-page {
+  padding: 5px 12px;
+  background: var(--black);
+  border: 1px solid var(--line);
+  color: var(--bone);
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
 }
 
 .artwork-tile-image img {

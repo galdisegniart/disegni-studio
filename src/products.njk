@@ -9,6 +9,7 @@ scripts:
   - /js/cart.js
   - /js/back-link.js
   - /js/share.js
+  - /js/sold-out.js
 eleventyComputed:
   title: "{{ artwork.name }} | גל דִּיסֵנִי"
   description: "{{ artwork.name }}, {{ artwork.description }}"
@@ -20,6 +21,9 @@ eleventyComputed:
 <section class="artwork-detail">
   <div class="artwork-utility">
     <a class="artwork-back js-back-link" href="/"><span aria-hidden="true">→</span> <span class="js-back-label">חזרה לגלריה</span></a>
+    {% if not artwork.originalAvailable %}
+    <span class="sold-out-badge-page">נמכר</span>
+    {% endif %}
   </div>
   <figure class="artwork-stage">
     <img src="{{ artwork.image }}" alt="{{ artwork.alt }}">
@@ -57,7 +61,7 @@ eleventyComputed:
       {% if artwork.originalAvailable %}
       <a class="cta cta-outline" id="choose-original" href="#purchase" data-purchase-option="original">{{ purchaseButtons.originalLabel }} — {{ artwork.originalPrice }} ₪ <span aria-hidden="true">←</span></a>
       {% else %}
-      <p class="artwork-original-unavailable"><strong>נמכר</strong> — היצירה המקורית אינה זמינה יותר.</p>
+      <button type="button" class="cta cta-outline js-original-sold-out">{{ purchaseButtons.originalLabel }}</button>
       {% endif %}
     </div>
   </div>
@@ -79,6 +83,14 @@ eleventyComputed:
     <p class="artwork-purchase-note">{{ pay.waNote }}</p>
   </div>
 </section>
+
+<div class="sold-out-modal" id="sold-out-modal" hidden>
+  <div class="sold-out-modal-box" role="alertdialog" aria-labelledby="sold-out-modal-title">
+    <p class="sold-out-modal-title" id="sold-out-modal-title">לא ניתן לבצע רכישה</p>
+    <p class="sold-out-modal-text">מצטערים, היצירה המקורית אינה במלאי.</p>
+    <button type="button" class="cta js-sold-out-close">אישור</button>
+  </div>
+</div>
 
 <section class="artwork-more">
   <div class="artwork-more-head">

@@ -19,6 +19,9 @@
 <section class="artwork-detail">
   <div class="artwork-utility">
     <a class="artwork-back js-back-link" href="/"><span aria-hidden="true">→</span> <span class="js-back-label">חזרה לגלריה</span></a>
+    
+    <span class="sold-out-badge-page">נמכר</span>
+    
   </div>
   <figure class="artwork-stage">
     <img src="/images/artworks/exaltation+WEB.webp" alt="Exaltation, פנים מופשטות בצבעי אור">
@@ -60,7 +63,7 @@
     </div>
     <div class="artwork-purchase-actions">
       
-      <p class="artwork-original-unavailable"><strong>נמכר</strong> — היצירה המקורית אינה זמינה יותר.</p>
+      <button type="button" class="cta cta-outline js-original-sold-out">לרכישת היצירה המקורית</button>
       
     </div>
   </div>
@@ -80,6 +83,14 @@
     <p class="artwork-purchase-note">בעת שליחת ההודעה, ציינו את שם היצירה ואם מדובר בהדפס אמנותי או ביצירה מקורית.</p>
   </div>
 </section>
+
+<div class="sold-out-modal" id="sold-out-modal" hidden>
+  <div class="sold-out-modal-box" role="alertdialog" aria-labelledby="sold-out-modal-title">
+    <p class="sold-out-modal-title" id="sold-out-modal-title">לא ניתן לבצע רכישה</p>
+    <p class="sold-out-modal-text">מצטערים, היצירה המקורית אינה במלאי.</p>
+    <button type="button" class="cta js-sold-out-close">אישור</button>
+  </div>
+</div>
 
 <section class="artwork-more">
   <div class="artwork-more-head">
@@ -197,6 +208,8 @@
 <script src="/js/back-link.js"></script>
 
 <script src="/js/share.js"></script>
+
+<script src="/js/sold-out.js"></script>
 
 </body>
 </html>
