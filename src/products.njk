@@ -28,7 +28,7 @@ eleventyComputed:
     <p class="artwork-detail-medium">{{ artwork.detailMedium }}</p>
     <h1>{{ artwork.name }}</h1>
     <p class="artwork-detail-description">{{ artwork.description }}</p>
-    <div class="print-order" data-artwork-slug="{{ artwork.slug }}" data-artwork-name="{{ artwork.name }}">
+    <div class="print-order" data-artwork-slug="{{ artwork.slug }}" data-artwork-name="{{ artwork.name }}" data-paper-note="{{ pricing.sectionNote }}" data-canvas-note="{{ pricing.canvasSectionNote }}">
       <div class="print-order-head">
         <span class="print-order-label">{{ purchaseButtons.printLabel }}</span>
         <div class="currency-toggle">
@@ -36,12 +36,25 @@ eleventyComputed:
           <button type="button" class="js-currency-toggle" data-currency="USD">$ · inch</button>
         </div>
       </div>
+      {% if artwork.canvasAvailable %}
+      <div class="currency-toggle material-toggle">
+        <button type="button" class="js-material-toggle active" data-material="paper">נייר</button>
+        <button type="button" class="js-material-toggle" data-material="canvas">בד מתוח (קנבס)</button>
+      </div>
+      {% endif %}
       <div class="print-order-controls">
-        <select class="js-size-select" aria-label="בחירת גודל">
+        <select class="js-size-select" data-material="paper" aria-label="בחירת גודל">
           {% for size in pricing.sizes %}
           <option value="{{ size.id }}" data-label-in="{{ size.labelIn }}" data-label-cm="{{ size.labelCm }}" data-price-ils="{{ size.priceILS }}" data-price-usd="{{ size.priceUSD }}" data-popular="{{ size.popular }}">{{ size.labelCm }} — {{ size.priceILS }} ₪{% if size.popular %} (הכי פופולרי){% endif %}</option>
           {% endfor %}
         </select>
+        {% if artwork.canvasAvailable %}
+        <select class="js-size-select" data-material="canvas" aria-label="בחירת גודל קנבס" hidden>
+          {% for size in pricing.canvasSizes %}
+          <option value="{{ size.id }}" data-label-in="{{ size.labelIn }}" data-label-cm="{{ size.labelCm }}" data-price-ils="{{ size.priceILS }}" data-price-usd="{{ size.priceUSD }}" data-popular="{{ size.popular }}">{{ size.labelCm }} — {{ size.priceILS }} ₪{% if size.popular %} (הכי פופולרי){% endif %}</option>
+          {% endfor %}
+        </select>
+        {% endif %}
         <div class="qty-stepper">
           <button type="button" class="js-qty-dec" aria-label="הפחתת כמות">−</button>
           <input class="js-qty-input" type="number" min="1" value="1" aria-label="כמות" inputmode="numeric" readonly>
@@ -50,7 +63,7 @@ eleventyComputed:
       </div>
       <p class="print-order-price">סה"כ: <span class="js-live-price">0 ₪</span></p>
       <button type="button" class="cta js-add-to-cart">הוספה לעגלה</button>
-      <p class="print-order-note">{{ pricing.sectionNote }}</p>
+      <p class="print-order-note js-print-order-note">{{ pricing.sectionNote }}</p>
       <button class="artwork-share js-share" type="button" data-share-title="{{ artwork.name }} | {{ site.brand }}" data-share-text="{{ artwork.name }}, {{ artwork.description }}"><span aria-hidden="true">↗</span> <span class="js-share-label">שיתוף</span></button>
     </div>
     <a class="original-crosslink" href="/originals/{{ artwork.slug }}/">מתעניינים ביצירה המקורית של "{{ artwork.name }}"? <span aria-hidden="true">←</span></a>

@@ -6,6 +6,12 @@
     { "id": "20x30", "labelIn": "20×30 אינץ'", "labelCm": "51×76 ס\"מ", "priceILS": 269, "priceUSD": 69, "popular": true },
     { "id": "24x36", "labelIn": "24×36 אינץ'", "labelCm": "61×91 ס\"מ", "priceILS": 349, "priceUSD": 89, "popular": false }
   ],
+  "canvasSectionNote": "מחירי בד מתוח (קנבס), הדפסת גיקלה ארכיונית. המחירים כוללים משלוח.",
+  "canvasSizes": [
+    { "id": "16x20", "labelIn": "16×20 אינץ'", "labelCm": "41×51 ס\"מ", "priceILS": 339, "priceUSD": 92, "popular": false },
+    { "id": "18x24", "labelIn": "18×24 אינץ'", "labelCm": "46×61 ס\"מ", "priceILS": 399, "priceUSD": 108, "popular": true },
+    { "id": "24x36", "labelIn": "24×36 אינץ'", "labelCm": "61×91 ס\"מ", "priceILS": 619, "priceUSD": 167, "popular": false }
+  ],
   "shippingIL": { "flatILS": 29, "freeThresholdILS": 350 },
   "shippingIntlNote": "למשלוחים מחוץ לישראל המחיר כולל משלוח."
 }

@@ -27,7 +27,7 @@
     <p class="artwork-detail-medium">טכניקה משולבת · עולם חזותי</p>
     <h1>Orin</h1>
     <p class="artwork-detail-description">דמות שנעה בין כוח לעדינות, בין העולם המוכר למה שעדיין מבקש לקבל צורה.</p>
-    <div class="print-order" data-artwork-slug="orin" data-artwork-name="Orin">
+    <div class="print-order" data-artwork-slug="orin" data-artwork-name="Orin" data-paper-note="מחירי הדפס אמנותי על נייר איכותי. המחירים כוללים משלוח." data-canvas-note="מחירי בד מתוח (קנבס), הדפסת גיקלה ארכיונית. המחירים כוללים משלוח.">
       <div class="print-order-head">
         <span class="print-order-label">לרכישת הדפס אמנותי</span>
         <div class="currency-toggle">
@@ -35,8 +35,14 @@
           <button type="button" class="js-currency-toggle" data-currency="USD">$ · inch</button>
         </div>
       </div>
+      
+      <div class="currency-toggle material-toggle">
+        <button type="button" class="js-material-toggle active" data-material="paper">נייר</button>
+        <button type="button" class="js-material-toggle" data-material="canvas">בד מתוח (קנבס)</button>
+      </div>
+      
       <div class="print-order-controls">
-        <select class="js-size-select" aria-label="בחירת גודל">
+        <select class="js-size-select" data-material="paper" aria-label="בחירת גודל">
           
           <option value="5x7" data-label-in="5×7 אינץ&#39;" data-label-cm="13×18 ס&quot;מ" data-price-ils="89" data-price-usd="24" data-popular="false">13×18 ס&quot;מ — 89 ₪</option>
           
@@ -47,6 +53,17 @@
           <option value="24x36" data-label-in="24×36 אינץ&#39;" data-label-cm="61×91 ס&quot;מ" data-price-ils="349" data-price-usd="89" data-popular="false">61×91 ס&quot;מ — 349 ₪</option>
           
         </select>
+        
+        <select class="js-size-select" data-material="canvas" aria-label="בחירת גודל קנבס" hidden>
+          
+          <option value="16x20" data-label-in="16×20 אינץ&#39;" data-label-cm="41×51 ס&quot;מ" data-price-ils="339" data-price-usd="92" data-popular="false">41×51 ס&quot;מ — 339 ₪</option>
+          
+          <option value="18x24" data-label-in="18×24 אינץ&#39;" data-label-cm="46×61 ס&quot;מ" data-price-ils="399" data-price-usd="108" data-popular="true">46×61 ס&quot;מ — 399 ₪ (הכי פופולרי)</option>
+          
+          <option value="24x36" data-label-in="24×36 אינץ&#39;" data-label-cm="61×91 ס&quot;מ" data-price-ils="619" data-price-usd="167" data-popular="false">61×91 ס&quot;מ — 619 ₪</option>
+          
+        </select>
+        
         <div class="qty-stepper">
           <button type="button" class="js-qty-dec" aria-label="הפחתת כמות">−</button>
           <input class="js-qty-input" type="number" min="1" value="1" aria-label="כמות" inputmode="numeric" readonly>
@@ -55,7 +72,7 @@
       </div>
       <p class="print-order-price">סה"כ: <span class="js-live-price">0 ₪</span></p>
       <button type="button" class="cta js-add-to-cart">הוספה לעגלה</button>
-      <p class="print-order-note">מחירי הדפס אמנותי על נייר איכותי. המחירים כוללים משלוח.</p>
+      <p class="print-order-note js-print-order-note">מחירי הדפס אמנותי על נייר איכותי. המחירים כוללים משלוח.</p>
       <button class="artwork-share js-share" type="button" data-share-title="Orin | גל דִּיסֵנִי" data-share-text="Orin, דמות שנעה בין כוח לעדינות, בין העולם המוכר למה שעדיין מבקש לקבל צורה."><span aria-hidden="true">↗</span> <span class="js-share-label">שיתוף</span></button>
     </div>
     <a class="original-crosslink" href="/originals/orin/">מתעניינים ביצירה המקורית של "Orin"? <span aria-hidden="true">←</span></a>

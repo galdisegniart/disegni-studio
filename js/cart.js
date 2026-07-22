@@ -42,10 +42,22 @@
     });
   }
 
+  function materialLabel(material) {
+    return material === "canvas" ? "בד מתוח (קנבס)" : "הדפס אמנותי";
+  }
+
+  function getActiveSizeSelect(wrap) {
+    var selects = wrap.querySelectorAll(".js-size-select");
+    for (var i = 0; i < selects.length; i++) {
+      if (!selects[i].hidden) return selects[i];
+    }
+    return selects[0];
+  }
+
   function addToCart(item) {
     var cart = getCart();
     var existing = cart.find(function (line) {
-      return line.artworkSlug === item.artworkSlug && line.sizeId === item.sizeId;
+      return line.artworkSlug === item.artworkSlug && line.sizeId === item.sizeId && line.material === item.material;
     });
     if (existing) {
       existing.qty += item.qty;
@@ -98,7 +110,7 @@
           '<li class="cart-line">' +
           '<div class="cart-line-info">' +
           "<strong>" + item.artworkName + "</strong>" +
-          '<span>הדפס אמנותי · ' + sizeLabel(item, currency) + "</span>" +
+          '<span>' + materialLabel(item.material) + ' · ' + sizeLabel(item, currency) + "</span>" +
           "</div>" +
           '<div class="cart-line-qty">' +
           '<button type="button" class="js-qty-minus" data-index="' + index + '" aria-label="הפחתת כמות">−</button>' +
@@ -136,7 +148,7 @@
 
     var waLines = cart
       .map(function (item) {
-        return "- " + item.artworkName + " (" + sizeLabel(item, currency) + ") × " + item.qty;
+        return "- " + item.artworkName + " (" + materialLabel(item.material) + ", " + sizeLabel(item, currency) + ") × " + item.qty;
       })
       .join("\n");
     var message =
@@ -155,12 +167,13 @@
     var addBtn = e.target.closest(".js-add-to-cart");
     if (addBtn) {
       var wrap = addBtn.closest("[data-artwork-slug]");
-      var select = wrap.querySelector(".js-size-select");
+      var select = getActiveSizeSelect(wrap);
       var qtyInput = wrap.querySelector(".js-qty-input");
       var option = select.options[select.selectedIndex];
       addToCart({
         artworkSlug: wrap.dataset.artworkSlug,
         artworkName: wrap.dataset.artworkName,
+        material: select.dataset.material,
         sizeId: option.value,
         labelIn: option.dataset.labelIn,
         labelCm: option.dataset.labelCm,
@@ -178,6 +191,24 @@
       renderSizeSelectors();
       renderCartPage();
       document.querySelectorAll("[data-artwork-slug]").forEach(updateLivePrice);
+      return;
+    }
+
+    var materialBtn = e.target.closest(".js-material-toggle");
+    if (materialBtn) {
+      var materialWrap = materialBtn.closest("[data-artwork-slug]");
+      var material = materialBtn.dataset.material;
+      materialWrap.querySelectorAll(".js-material-toggle").forEach(function (btn) {
+        btn.classList.toggle("active", btn.dataset.material === material);
+      });
+      materialWrap.querySelectorAll(".js-size-select").forEach(function (sel) {
+        sel.hidden = sel.dataset.material !== material;
+      });
+      var noteEl = materialWrap.querySelector(".js-print-order-note");
+      if (noteEl) {
+        noteEl.textContent = material === "canvas" ? materialWrap.dataset.canvasNote : materialWrap.dataset.paperNote;
+      }
+      updateLivePrice(materialWrap);
       return;
     }
 
@@ -232,7 +263,7 @@
   function updateLivePrice(wrap) {
     var priceEl = wrap.querySelector(".js-live-price");
     if (!priceEl) return;
-    var select = wrap.querySelector(".js-size-select");
+    var select = getActiveSizeSelect(wrap);
     var qtyInput = wrap.querySelector(".js-qty-input");
     var option = select.options[select.selectedIndex];
     var qty = Math.max(1, parseInt(qtyInput.value, 10) || 1);
