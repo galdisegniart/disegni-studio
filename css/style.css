@@ -848,14 +848,6 @@ footer {
   color: var(--bone);
 }
 
-.artwork-purchase-actions {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 15px;
-  margin-top: 16px;
-}
-
 .js-original-sold-out {
   opacity: 0.6;
 }
@@ -1800,6 +1792,10 @@ footer {
   gap: 12px;
 }
 
+.workshop-gallery-expanded {
+  padding: 0 0 18px;
+}
+
 .workshop-photo-collage figure,
 .workshop-gallery-expanded figure {
   margin: 0;
@@ -1845,10 +1841,6 @@ footer {
 .workshop-gallery-more[open] summary span {
   transform: rotate(45deg);
   display: inline-block;
-}
-
-.workshop-gallery-expanded {
-  padding: 0 0 18px;
 }
 
 .daily-workshop-final {
