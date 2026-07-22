@@ -42,19 +42,6 @@
     });
   }
 
-  function getActiveChipGroup(wrap) {
-    var groups = wrap.querySelectorAll(".js-size-chip-group");
-    for (var i = 0; i < groups.length; i++) {
-      if (!groups[i].hidden) return groups[i];
-    }
-    return groups[0];
-  }
-
-  function getActiveChip(group) {
-    if (!group) return null;
-    return group.querySelector(".js-size-chip.active") || group.querySelector(".js-size-chip:not([disabled])");
-  }
-
   function addToCart(item) {
     var cart = getCart();
     var existing = cart.find(function (line) {
@@ -168,19 +155,19 @@
     var addBtn = e.target.closest(".js-add-to-cart");
     if (addBtn) {
       var wrap = addBtn.closest("[data-artwork-slug]");
-      var group = getActiveChipGroup(wrap);
-      var chip = getActiveChip(group);
-      if (!chip) return;
+      var select = wrap.querySelector(".js-size-select");
+      var option = select.options[select.selectedIndex];
+      if (!option || option.disabled) return;
       addToCart({
         artworkSlug: wrap.dataset.artworkSlug,
         artworkName: wrap.dataset.artworkName,
-        material: group.dataset.material,
-        materialName: group.dataset.materialName,
-        sizeId: chip.dataset.sizeId,
-        labelIn: chip.dataset.labelIn,
-        labelCm: chip.dataset.labelCm,
-        priceILS: parseFloat(chip.dataset.priceIls),
-        priceUSD: parseFloat(chip.dataset.priceUsd),
+        material: option.dataset.material,
+        materialName: option.dataset.materialName,
+        sizeId: option.dataset.sizeId,
+        labelIn: option.dataset.labelIn,
+        labelCm: option.dataset.labelCm,
+        priceILS: parseFloat(option.dataset.priceIls),
+        priceUSD: parseFloat(option.dataset.priceUsd),
         qty: 1,
       });
       window.location.href = "/cart/";
@@ -190,40 +177,9 @@
     var currencyBtn = e.target.closest(".js-currency-toggle");
     if (currencyBtn) {
       setCurrency(currencyBtn.dataset.currency);
-      renderSizeChips();
+      renderSizeOptions();
       renderCartPage();
       document.querySelectorAll("[data-artwork-slug]").forEach(updateLivePrice);
-      return;
-    }
-
-    var materialCard = e.target.closest(".js-material-card");
-    if (materialCard) {
-      var cardWrap = materialCard.closest("[data-artwork-slug]");
-      var material = materialCard.dataset.material;
-      cardWrap.querySelectorAll(".js-material-card").forEach(function (btn) {
-        btn.classList.toggle("active", btn.dataset.material === material);
-      });
-      cardWrap.querySelectorAll(".js-size-chip-group").forEach(function (group) {
-        group.hidden = group.dataset.material !== material;
-      });
-      var newGroup = getActiveChipGroup(cardWrap);
-      newGroup.querySelectorAll(".js-size-chip").forEach(function (c, i) {
-        c.classList.toggle("active", c === getActiveChip(newGroup));
-      });
-      var noteEl = cardWrap.querySelector(".js-print-order-note");
-      if (noteEl) noteEl.textContent = newGroup.dataset.note;
-      updateLivePrice(cardWrap);
-      return;
-    }
-
-    var sizeChip = e.target.closest(".js-size-chip");
-    if (sizeChip && !sizeChip.disabled) {
-      var chipGroup = sizeChip.closest(".js-size-chip-group");
-      chipGroup.querySelectorAll(".js-size-chip").forEach(function (c) {
-        c.classList.toggle("active", c === sizeChip);
-      });
-      var chipWrap = sizeChip.closest("[data-artwork-slug]");
-      updateLivePrice(chipWrap);
       return;
     }
 
@@ -250,31 +206,41 @@
     }
   });
 
+  document.addEventListener("change", function (e) {
+    if (!e.target.classList.contains("js-size-select")) return;
+    var wrap = e.target.closest("[data-artwork-slug]");
+    if (!wrap) return;
+    var noteEl = wrap.querySelector(".js-print-order-note");
+    var option = e.target.options[e.target.selectedIndex];
+    if (noteEl && option) noteEl.textContent = option.dataset.note;
+    updateLivePrice(wrap);
+  });
+
   function updateLivePrice(wrap) {
     var priceEl = wrap.querySelector(".js-live-price");
-    if (!priceEl) return;
-    var group = getActiveChipGroup(wrap);
-    var chip = getActiveChip(group);
-    if (!chip) return;
+    var select = wrap.querySelector(".js-size-select");
+    if (!priceEl || !select) return;
+    var option = select.options[select.selectedIndex];
+    if (!option) return;
     var currency = getCurrency();
-    var unitPrice = currency === "USD" ? parseFloat(chip.dataset.priceUsd) : parseFloat(chip.dataset.priceIls);
+    var unitPrice = currency === "USD" ? parseFloat(option.dataset.priceUsd) : parseFloat(option.dataset.priceIls);
     priceEl.textContent = currency === "USD" ? "$" + unitPrice : unitPrice + " ₪";
   }
 
-  function renderSizeChips() {
+  function renderSizeOptions() {
     var currency = getCurrency();
     document.querySelectorAll(".js-currency-toggle").forEach(function (btn) {
       btn.classList.toggle("active", btn.dataset.currency === currency);
     });
-    document.querySelectorAll(".js-size-chip").forEach(function (chip) {
-      var label = currency === "USD" ? chip.dataset.labelIn : chip.dataset.labelCm;
-      var labelEl = chip.querySelector(".js-size-chip-label");
-      if (labelEl) labelEl.textContent = label;
+    document.querySelectorAll(".js-size-select option").forEach(function (option) {
+      var label = currency === "USD" ? option.dataset.labelIn : option.dataset.labelCm;
+      var disabledSuffix = option.disabled ? " (אזל)" : "";
+      option.textContent = option.dataset.materialName + " — " + label + disabledSuffix;
     });
   }
 
   updateCartBadge();
-  renderSizeChips();
+  renderSizeOptions();
   renderCartPage();
   document.querySelectorAll("[data-artwork-slug]").forEach(updateLivePrice);
 })();

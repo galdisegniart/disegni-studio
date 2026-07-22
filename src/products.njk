@@ -39,36 +39,17 @@ eleventyComputed:
         </div>
       </div>
 
-      {% if extraMaterials.length %}
       <div class="print-order-field">
-        <span class="print-order-field-label">בחרו סוג הדפסה</span>
-        <div class="material-cards">
+        <span class="print-order-field-label">מידה</span>
+        <select class="js-size-select" aria-label="בחירת גודל וסוג הדפסה">
           {% for material in pricing.materials %}
           {% if material.id == "paper" or material.id in extraMaterials %}
-          <button type="button" class="material-card js-material-card{% if loop.first %} active{% endif %}" data-material="{{ material.id }}">
-            <span class="material-card-name">{{ material.name }}</span>
-            <span class="material-card-desc">{{ material.description }}</span>
-          </button>
+          {% for size in material.sizes %}
+          <option value="{{ material.id }}:{{ size.id }}" data-material="{{ material.id }}" data-material-name="{{ material.name }}" data-note="{{ material.note }}" data-size-id="{{ size.id }}" data-label-in="{{ size.labelIn }}" data-label-cm="{{ size.labelCm }}" data-price-ils="{{ size.priceILS }}" data-price-usd="{{ size.priceUSD }}"{% if not size.available %} disabled{% endif %}>{{ material.name }} — {{ size.labelCm }}{% if not size.available %} (אזל){% endif %}</option>
+          {% endfor %}
           {% endif %}
           {% endfor %}
-        </div>
-      </div>
-      {% endif %}
-
-      <div class="print-order-field">
-        <span class="print-order-field-label">בחרו מידה</span>
-        {% for material in pricing.materials %}
-        {% if material.id == "paper" or material.id in extraMaterials %}
-        <div class="size-chip-group js-size-chip-group" data-material="{{ material.id }}" data-material-name="{{ material.name }}" data-note="{{ material.note }}"{% if not loop.first %} hidden{% endif %}>
-          {% for size in material.sizes %}
-          <button type="button" class="size-chip js-size-chip{% if loop.first %} active{% endif %}{% if not size.available %} unavailable{% endif %}" data-size-id="{{ size.id }}" data-label-in="{{ size.labelIn }}" data-label-cm="{{ size.labelCm }}" data-price-ils="{{ size.priceILS }}" data-price-usd="{{ size.priceUSD }}"{% if not size.available %} disabled{% endif %}>
-            <span class="js-size-chip-label">{{ size.labelCm }}</span>
-            {% if not size.available %}<span class="size-chip-badge">אזל</span>{% endif %}
-          </button>
-          {% endfor %}
-        </div>
-        {% endif %}
-        {% endfor %}
+        </select>
       </div>
 
       <p class="print-order-price">סה"כ <span class="js-live-price">0 ₪</span></p>
