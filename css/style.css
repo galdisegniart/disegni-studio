@@ -370,7 +370,7 @@ img {
 .home-art-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
+  gap: 3px;
   align-items: start;
   max-width: 1280px;
   margin: 0 auto;
@@ -380,7 +380,7 @@ img {
   .home-art-grid {
     grid-template-columns: repeat(3, minmax(0, 372px));
     justify-content: center;
-    gap: 18px;
+    gap: 34px;
   }
 }
 
@@ -430,7 +430,7 @@ img {
   text-overflow: ellipsis;
   text-align: center;
   direction: ltr;
-  color: var(--dim);
+  color: #968f86;
   font-family: var(--sans);
   line-height: 1;
   font-size: clamp(14px, 4.2vw, 18px);
