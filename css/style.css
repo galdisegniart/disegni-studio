@@ -419,8 +419,8 @@ img {
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  height: 30px;
-  padding: 5px 6px 0;
+  height: 26px;
+  padding: 2px 6px 0;
 }
 
 .gallery-item figcaption strong {
@@ -432,6 +432,7 @@ img {
   direction: ltr;
   color: var(--dim);
   font-family: var(--sans);
+  line-height: 1;
   font-size: clamp(14px, 4.2vw, 18px);
   font-weight: 500;
 }
