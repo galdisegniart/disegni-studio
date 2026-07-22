@@ -30,22 +30,18 @@
     <div class="print-order" data-artwork-slug="light" data-artwork-name="Light" data-paper-note="מחירי הדפס אמנותי על נייר איכותי. המחירים כוללים משלוח." data-canvas-note="מחירי בד מתוח (קנבס), הדפסת גיקלה ארכיונית. המחירים כוללים משלוח.">
       <div class="print-order-head">
         <span class="print-order-label">לרכישת הדפס אמנותי</span>
-        <div class="currency-toggle">
-          <button type="button" class="js-currency-toggle active" data-currency="ILS">₪ · ס"מ</button>
-          <button type="button" class="js-currency-toggle" data-currency="USD">$ · inch</button>
-        </div>
       </div>
       
       <div class="print-order-controls">
         <select class="js-size-select" data-material="paper" aria-label="בחירת גודל">
           
-          <option value="5x7" data-label-in="5×7 אינץ&#39;" data-label-cm="13×18 ס&quot;מ" data-price-ils="89" data-price-usd="24" data-popular="false">13×18 ס&quot;מ — 89 ₪</option>
+          <option value="5x7" data-label-in="5×7 אינץ&#39;" data-label-cm="13×18 ס&quot;מ" data-price-ils="89" data-price-usd="24" data-popular="false">13×18 ס&quot;מ</option>
           
-          <option value="12x18" data-label-in="12×18 אינץ&#39;" data-label-cm="30×46 ס&quot;מ" data-price-ils="169" data-price-usd="45" data-popular="false">30×46 ס&quot;מ — 169 ₪</option>
+          <option value="12x18" data-label-in="12×18 אינץ&#39;" data-label-cm="30×46 ס&quot;מ" data-price-ils="169" data-price-usd="45" data-popular="false">30×46 ס&quot;מ</option>
           
-          <option value="20x30" data-label-in="20×30 אינץ&#39;" data-label-cm="51×76 ס&quot;מ" data-price-ils="269" data-price-usd="69" data-popular="true">51×76 ס&quot;מ — 269 ₪ (הכי פופולרי)</option>
+          <option value="20x30" data-label-in="20×30 אינץ&#39;" data-label-cm="51×76 ס&quot;מ" data-price-ils="269" data-price-usd="69" data-popular="true">51×76 ס&quot;מ (הכי פופולרי)</option>
           
-          <option value="24x36" data-label-in="24×36 אינץ&#39;" data-label-cm="61×91 ס&quot;מ" data-price-ils="349" data-price-usd="89" data-popular="false">61×91 ס&quot;מ — 349 ₪</option>
+          <option value="24x36" data-label-in="24×36 אינץ&#39;" data-label-cm="61×91 ס&quot;מ" data-price-ils="349" data-price-usd="89" data-popular="false">61×91 ס&quot;מ</option>
           
         </select>
         
@@ -54,6 +50,11 @@
           <input class="js-qty-input" type="number" min="1" value="1" aria-label="כמות" inputmode="numeric" readonly>
           <button type="button" class="js-qty-inc" aria-label="הוספת כמות">+</button>
         </div>
+      </div>
+      <div class="currency-toggle-mini">
+        <button type="button" class="js-currency-toggle active" data-currency="ILS">₪ · ס"מ</button>
+        <span>·</span>
+        <button type="button" class="js-currency-toggle" data-currency="USD">$ · inch</button>
       </div>
       <p class="print-order-price">סה"כ: <span class="js-live-price">0 ₪</span></p>
       <button type="button" class="cta js-add-to-cart">הוספה לעגלה</button>

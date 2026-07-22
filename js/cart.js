@@ -282,8 +282,7 @@
       Array.prototype.forEach.call(select.options, function (option) {
         if (!option.value) return;
         var label = currency === "USD" ? option.dataset.labelIn : option.dataset.labelCm;
-        var price = currency === "USD" ? "$" + option.dataset.priceUsd : option.dataset.priceIls + " ₪";
-        option.textContent = label + " — " + price + (option.dataset.popular === "true" ? " (הכי פופולרי)" : "");
+        option.textContent = label + (option.dataset.popular === "true" ? " (הכי פופולרי)" : "");
       });
     });
   }
