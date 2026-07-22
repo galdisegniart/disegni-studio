@@ -41,7 +41,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -A -- index.html products originals about commissions collections workshops rights cart contact portfolio src/_data/printfulCatalog.json
+          git add -A -- index.html products originals about commissions collections workshops rights cart contact portfolio printful-status src/_data/printfulCatalog.json
           if git diff --cached --quiet; then
             echo "No changes to built output."
           else

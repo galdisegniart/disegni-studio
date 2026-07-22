@@ -1,0 +1,33 @@
+---
+layout: base-bare.njk
+title: "בדיקת חיבור Printful | גל דִּיסֵנִי"
+description: "עמוד בדיקה פנימי - לא לשימוש לקוחות."
+permalink: "/printful-status/index.html"
+---
+<section style="max-width: 640px; margin: 80px auto; padding: 0 24px; color: var(--bone); font-family: var(--sans);">
+  <h1 style="font-size: 24px; margin-bottom: 8px;">בדיקת חיבור Printful</h1>
+  <p style="color: var(--dim); margin-bottom: 32px;">עמוד פנימי זמני - מציג את הנתונים האחרונים שנמשכו מ-Printful בבנייה האחרונה של האתר.</p>
+
+  {% if printfulCatalog and printfulCatalog.length %}
+  {% for product in printfulCatalog %}
+  <div style="border: 1px solid var(--line); padding: 20px; margin-bottom: 16px;">
+    <p style="font-weight: 600; margin: 0 0 12px;">{{ product.name }}</p>
+    <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+      <tr style="color: var(--dim); text-align: right;">
+        <th style="padding: 4px 0;">גודל</th>
+        <th style="padding: 4px 0;">עלות פרינטפול ($)</th>
+      </tr>
+      {% for v in product.variants %}
+      <tr>
+        <td style="padding: 4px 0;">{{ v.size }}</td>
+        <td style="padding: 4px 0;">{{ v.printfulCostUSD }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+  {% endfor %}
+  <p style="color: var(--dim); font-size: 13px;">✓ החיבור פעיל - הנתונים למעלה נמשכו אוטומטית מ-Printful.</p>
+  {% else %}
+  <p style="color: #c0554d;">✗ לא נמצאו נתונים - החיבור עדיין לא פעל בהצלחה.</p>
+  {% endif %}
+</section>
