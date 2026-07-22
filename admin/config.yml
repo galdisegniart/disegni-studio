@@ -165,6 +165,41 @@ collections:
           - { label: "טקסט כפתור: הדפס אמנותי", name: "printLabel", widget: "string" }
           - { label: "טקסט כפתור: היצירה המקורית", name: "originalLabel", widget: "string" }
 
+      - name: "home"
+        label: "עמוד הבית (ראשי)"
+        file: "src/content/pages/home.json"
+        fields:
+          - { label: "תמונת הירו", name: "heroImage", widget: "image" }
+          - { label: "טקסט חלופי לתמונה", name: "heroImageAlt", widget: "string" }
+          - { label: "כותרת - שורה 1", name: "headingLine1", widget: "string" }
+          - { label: "כותרת - שורה 2", name: "headingLine2", widget: "string" }
+          - { label: "טקסט פתיחה", name: "leadText", widget: "text" }
+          - { label: "שורת הבטחה 1", name: "assuranceLine1", widget: "string" }
+          - { label: "שורת הבטחה 2", name: "assuranceLine2", widget: "string" }
+
+      - name: "settings"
+        label: "הגדרות אתר כלליות"
+        file: "src/_data/site.json"
+        fields:
+          - { label: "שם המותג", name: "brand", widget: "string" }
+          - { label: "תיאור קצר (בפוטר)", name: "tagline", widget: "string" }
+          - { label: "מספר וואטסאפ (בפורמט בינלאומי, ללא + או רווחים, לדוגמה 972501234567)", name: "whatsappNumber", widget: "string" }
+          - { label: "קישור עמוד יצירת קשר", name: "contactHref", widget: "string", hint: "לא לשנות בלי סיבה טובה - נתיב פנימי באתר" }
+          - name: "nav"
+            label: "תפריט ניווט"
+            widget: "list"
+            hint: "זהירות: שינוי כתובת (href) עלול לשבור קישור בתפריט. שינוי טקסט (label) בטוח."
+            fields:
+              - { label: "טקסט בתפריט", name: "label", widget: "string" }
+              - { label: "כתובת", name: "href", widget: "string" }
+          - name: "socials"
+            label: "רשתות חברתיות"
+            widget: "list"
+            hint: "הסדר קבוע: אינסטגרם, טיקטוק, פייסבוק - לא לשנות את הסדר"
+            fields:
+              - { label: "שם הרשת", name: "name", widget: "string" }
+              - { label: "קישור", name: "href", widget: "string" }
+
       - name: "about"
         label: "עמוד אודות"
         file: "src/content/pages/about.json"

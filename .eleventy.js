@@ -1,3 +1,5 @@
+const site = require("./src/_data/site.json");
+
 module.exports = function (eleventyConfig) {
   eleventyConfig.addWatchTarget("css");
   eleventyConfig.addWatchTarget("js");
@@ -7,7 +9,7 @@ module.exports = function (eleventyConfig) {
   });
 
   eleventyConfig.addFilter("waLink", function (message) {
-    return "https://wa.me/972552902934?text=" + encodeURIComponent(message);
+    return "https://wa.me/" + site.whatsappNumber + "?text=" + encodeURIComponent(message);
   });
 
   eleventyConfig.addFilter("artworkSequence", function (artworks, current) {

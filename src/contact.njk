@@ -35,9 +35,9 @@ eleventyComputed:
   <div class="section-label"><span>{{ p.socialLabel }}</span></div>
   <h2>{{ p.socialHeading }}</h2>
   <div class="contact-social-links">
-    <a class="cta cta-outline" href="https://www.instagram.com/galdisegniart/" target="_blank" rel="noopener noreferrer">אינסטגרם <span>↗</span></a>
-    <a class="cta cta-outline" href="https://www.tiktok.com/@galdisegniart" target="_blank" rel="noopener noreferrer">טיקטוק <span>↗</span></a>
-    <a class="cta cta-outline" href="https://www.facebook.com/gal.disegni" target="_blank" rel="noopener noreferrer">פייסבוק <span>↗</span></a>
+    <a class="cta cta-outline" href="{{ site.socials[0].href }}" target="_blank" rel="noopener noreferrer">{{ site.socials[0].name }} <span>↗</span></a>
+    <a class="cta cta-outline" href="{{ site.socials[1].href }}" target="_blank" rel="noopener noreferrer">{{ site.socials[1].name }} <span>↗</span></a>
+    <a class="cta cta-outline" href="{{ site.socials[2].href }}" target="_blank" rel="noopener noreferrer">{{ site.socials[2].name }} <span>↗</span></a>
   </div>
 </section>
 

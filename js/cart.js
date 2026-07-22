@@ -146,7 +146,8 @@
       "\nביצעתי/אבצע העברה בנקאית לפרטים באתר.";
     var waBtn = document.getElementById("cart-whatsapp");
     if (waBtn) {
-      waBtn.href = "https://wa.me/972552902934?text=" + encodeURIComponent(message);
+      var waNumber = document.body.dataset.whatsapp || "972552902934";
+      waBtn.href = "https://wa.me/" + waNumber + "?text=" + encodeURIComponent(message);
     }
   }
 
