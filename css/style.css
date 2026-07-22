@@ -429,6 +429,7 @@ img {
   white-space: nowrap;
   text-overflow: ellipsis;
   text-align: center;
+  direction: ltr;
   font-family: var(--sans);
   font-size: clamp(14px, 4.2vw, 18px);
   font-weight: 500;
@@ -820,6 +821,7 @@ footer {
   margin: 18px auto 0;
   color: #6f6a63;
   font-size: 13px;
+  font-weight: 500;
   line-height: 1.7;
 }
 
