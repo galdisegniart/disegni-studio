@@ -1,6 +1,6 @@
 (function () {
   var ZOOM = 2.2;
-  var LENS_SIZE = 160;
+  var LENS_SIZE = 220;
 
   function initZoom(figure) {
     var img = figure.querySelector("img");
@@ -22,15 +22,20 @@
         return;
       }
 
-      var figRect = figure.getBoundingClientRect();
       var half = LENS_SIZE / 2;
-      var lensX = Math.max(half, Math.min(figRect.width - half, clientX - figRect.left));
-      var lensY = Math.max(half, Math.min(figRect.height - half, clientY - figRect.top));
+      var halfSrc = half / ZOOM;
 
-      lens.style.left = (lensX - half) + "px";
-      lens.style.top = (lensY - half) + "px";
-      lens.style.backgroundSize = (rect.width * ZOOM) + "px " + (rect.height * ZOOM) + "px";
-      lens.style.backgroundPosition = -(x * ZOOM - half) + "px " + -(y * ZOOM - half) + "px";
+      // Screen position: clamp to the image's own rect so the lens never spills onto letterboxing.
+      var lensX = Math.max(half, Math.min(rect.width - half, x));
+      var lensY = Math.max(half, Math.min(rect.height - half, y));
+      lens.style.left = lensX - half + (rect.left - figure.getBoundingClientRect().left) + "px";
+      lens.style.top = lensY - half + (rect.top - figure.getBoundingClientRect().top) + "px";
+
+      // Sampled source point: clamp separately so the magnified view never shows past the image edge.
+      var srcX = Math.max(halfSrc, Math.min(rect.width - halfSrc, x));
+      var srcY = Math.max(halfSrc, Math.min(rect.height - halfSrc, y));
+      lens.style.backgroundSize = rect.width * ZOOM + "px " + rect.height * ZOOM + "px";
+      lens.style.backgroundPosition = -(srcX * ZOOM - half) + "px " + -(srcY * ZOOM - half) + "px";
       lens.classList.add("is-active");
     }
 
