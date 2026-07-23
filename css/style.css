@@ -213,18 +213,25 @@ img {
     right: 0;
     left: 0;
     bottom: 0;
-    height: calc(100vh - 82px);
+    height: calc(100dvh - 82px);
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
     flex-direction: column;
     align-items: flex-start;
     gap: 26px;
     padding: 34px;
+    padding-bottom: max(34px, env(safe-area-inset-bottom));
     background: var(--black);
     font-size: 28px;
   }
 
   .main-nav.open {
     display: flex;
+  }
+
+  body.nav-open-lock {
+    overflow: hidden;
   }
 
   .main-nav a::after {
