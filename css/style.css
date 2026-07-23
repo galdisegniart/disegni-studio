@@ -605,6 +605,13 @@ footer {
   object-fit: contain;
 }
 
+.artwork-zoom-frame {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  line-height: 0;
+}
+
 .artwork-zoom-lens {
   position: absolute;
   border-radius: 50%;
