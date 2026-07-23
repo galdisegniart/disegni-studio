@@ -2228,8 +2228,8 @@ footer {
   top: 14px;
   right: 14px;
   z-index: 2;
-  padding: 8px 18px;
-  border-radius: 4px;
+  padding: 11px 26px;
+  border-radius: 6px;
   background: var(--copper);
   color: #fff;
   font-family: var(--sans);
