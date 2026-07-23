@@ -84,7 +84,7 @@ eleventyComputed:
       <div><dt>מספר חשבון</dt><dd dir="ltr">{{ pay.accountNumber }}</dd></div>
       <div><dt>שם בעל החשבון</dt><dd>{{ pay.accountHolder }}</dd></div>
     </dl>
-    <a class="cta js-original-whatsapp" href="#" target="_blank" rel="noopener noreferrer" data-base-message="שלום גל, ביצעתי העברה בנקאית עבור היצירה המקורית &quot;{{ artwork.name }}&quot;. אשמח לתיאום המשלוח.">אישור העברה ב-WhatsApp <span>←</span></a>
+    <a class="cta js-original-whatsapp" href="#" target="_blank" rel="noopener noreferrer" data-artwork-slug="{{ artwork.slug }}" data-artwork-name="{{ artwork.name }}" data-price="{{ artwork.originalPrice }}" data-base-message="שלום גל, ביצעתי העברה בנקאית עבור היצירה המקורית &quot;{{ artwork.name }}&quot;. אשמח לתיאום המשלוח.">אישור העברה ב-WhatsApp <span>←</span></a>
     <p class="artwork-purchase-note">{{ pay.waNote }}</p>
   </div>
   {% endif %}

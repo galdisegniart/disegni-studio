@@ -2,6 +2,8 @@
   var CART_KEY = "disegniCart";
   var CURRENCY_KEY = "disegniCurrency";
   var CUSTOMER_KEY = "disegniCustomer";
+  var CART_ORDER_ID_KEY = "disegniCartOrderId";
+  var LAST_ORDER_KEY = "disegniLastOrder";
 
   function getCart() {
     try {
@@ -45,6 +47,31 @@
     localStorage.setItem(CUSTOMER_KEY, JSON.stringify(customer));
   }
 
+  function generateOrderId() {
+    var d = new Date();
+    var pad = function (n) { return String(n).padStart(2, "0"); };
+    var stamp = String(d.getFullYear()).slice(-2) + pad(d.getMonth() + 1) + pad(d.getDate());
+    var rand = Math.random().toString(36).slice(2, 6).toUpperCase();
+    return "GD-" + stamp + "-" + rand;
+  }
+
+  function getOrCreateOrderId(key) {
+    var id = localStorage.getItem(key);
+    if (!id) {
+      id = generateOrderId();
+      localStorage.setItem(key, id);
+    }
+    return id;
+  }
+
+  function clearOrderId(key) {
+    localStorage.removeItem(key);
+  }
+
+  function saveLastOrder(order) {
+    localStorage.setItem(LAST_ORDER_KEY, JSON.stringify(order));
+  }
+
   function customerLinesText(customer) {
     return (
       "\n\nפרטי לקוח:" +
@@ -61,8 +88,31 @@
     var customer = getCustomer();
     var waNumber = document.body.dataset.whatsapp || "972552902934";
     links.forEach(function (link) {
+      var slug = link.dataset.artworkSlug || "original";
+      var price = parseFloat(link.dataset.price || "0");
+      var orderId = getOrCreateOrderId("disegniOriginalOrderId:" + slug);
+
+      saveLastOrder({
+        orderId: orderId,
+        createdAt: new Date().toISOString(),
+        kind: "original",
+        currency: "ILS",
+        items: [{
+          artworkSlug: slug,
+          artworkName: link.dataset.artworkName || "",
+          qty: 1,
+          unitPrice: price,
+          lineTotal: price,
+        }],
+        customer: customer,
+        subtotal: price,
+        shipping: 0,
+        total: price,
+      });
+
       var base = link.dataset.baseMessage || "";
-      link.href = "https://wa.me/" + waNumber + "?text=" + encodeURIComponent(base + customerLinesText(customer));
+      var message = "מספר הזמנה: " + orderId + "\n\n" + base + customerLinesText(customer);
+      link.href = "https://wa.me/" + waNumber + "?text=" + encodeURIComponent(message);
     });
   }
 
@@ -149,6 +199,7 @@
       emptyEl.hidden = false;
       summaryEl.hidden = true;
       if (customerForm) customerForm.hidden = true;
+      clearOrderId(CART_ORDER_ID_KEY);
       return;
     }
     emptyEl.hidden = true;
@@ -235,6 +286,33 @@
       })
       .join("\n");
     var customer = getCustomer();
+    var orderId = getOrCreateOrderId(CART_ORDER_ID_KEY);
+
+    saveLastOrder({
+      orderId: orderId,
+      createdAt: new Date().toISOString(),
+      kind: "prints",
+      currency: currency,
+      items: cart.map(function (item) {
+        var unitPrice = currency === "USD" ? item.priceUSD : item.priceILS;
+        return {
+          artworkSlug: item.artworkSlug,
+          artworkName: item.artworkName,
+          material: item.material,
+          materialName: item.materialName,
+          sizeId: item.sizeId,
+          sizeLabel: sizeLabel(item, currency),
+          qty: item.qty,
+          unitPrice: unitPrice,
+          lineTotal: unitPrice * item.qty,
+        };
+      }),
+      customer: customer,
+      subtotal: subtotal,
+      shipping: shipping,
+      total: total,
+    });
+
     var customerLines =
       "\n\nפרטי לקוח:" +
       "\nשם: " + (customer.name || "") +
@@ -243,6 +321,7 @@
       "\nכתובת למשלוח: " + (customer.address || "");
     var message =
       "שלום גל, אשמח להזמין הדפסים אמנותיים:\n" +
+      "מספר הזמנה: " + orderId + "\n" +
       waLines +
       "\nסה\"כ: " + (currency === "USD" ? "$" + total : total + " ₪") +
       customerLines +
