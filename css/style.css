@@ -603,6 +603,24 @@ footer {
   height: auto;
   max-height: 80svh;
   object-fit: contain;
+  cursor: zoom-in;
+}
+
+.artwork-zoom-lens {
+  position: absolute;
+  border-radius: 50%;
+  border: 3px solid var(--bone);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  background-repeat: no-repeat;
+  background-color: var(--black);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 5;
+}
+
+.artwork-zoom-lens.is-active {
+  opacity: 1;
 }
 
 .artwork-detail-copy {
