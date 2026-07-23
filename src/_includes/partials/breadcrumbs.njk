@@ -1,0 +1,19 @@
+<nav class="breadcrumbs" aria-label="פירורי לחם">
+  {% for c in crumbs %}{% if c.href %}<a href="{{ c.href }}">{{ c.label }}</a>{% else %}<span aria-current="page">{{ c.label }}</span>{% endif %}{% if not loop.last %}<span class="breadcrumbs-sep" aria-hidden="true">/</span>{% endif %}{% endfor %}
+</nav>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {% for c in crumbs %}{
+      "@type": "ListItem",
+      "position": {{ loop.index }},
+      "name": {{ c.label | dump | safe }}{% if c.href %},
+      "item": "{{ site.siteUrl }}{{ c.href }}"{% endif %}
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>

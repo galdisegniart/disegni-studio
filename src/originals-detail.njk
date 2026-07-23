@@ -37,6 +37,12 @@ eleventyComputed:
 </script>
 
 <section class="artwork-detail">
+  {% set crumbs = [
+    { label: "בית", href: "/" },
+    { label: "מקוריות זמינות", href: "/collections/originals/" },
+    { label: artwork.name }
+  ] %}
+  {% include "partials/breadcrumbs.njk" %}
   <div class="artwork-utility">
     <a class="artwork-back" href="/collections/originals/"><span aria-hidden="true">→</span> חזרה למקוריות זמינות</a>
   </div>

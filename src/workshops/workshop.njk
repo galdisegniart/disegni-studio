@@ -45,6 +45,12 @@ scripts:
 
 <section class="daily-workshop-hero">
   <div class="daily-workshop-copy">
+    {% set crumbs = [
+      { label: "בית", href: "/" },
+      { label: "סדנאות", href: "/workshops/" },
+      { label: w.cardTitle }
+    ] %}
+    {% include "partials/breadcrumbs.njk" %}
     <a class="editorial-link" href="/workshops/"><span aria-hidden="true">→</span> חזרה לסדנאות</a>
     <p class="hero-eyebrow">{{ w.eyebrow }}</p>
     <h1>{{ w.heading }}</h1>
