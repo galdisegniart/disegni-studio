@@ -45,6 +45,27 @@
     localStorage.setItem(CUSTOMER_KEY, JSON.stringify(customer));
   }
 
+  function customerLinesText(customer) {
+    return (
+      "\n\nפרטי לקוח:" +
+      "\nשם: " + (customer.name || "") +
+      "\nטלפון: " + (customer.phone || "") +
+      (customer.email ? "\nדוא\"ל: " + customer.email : "") +
+      "\nכתובת למשלוח: " + (customer.address || "")
+    );
+  }
+
+  function updateOriginalWhatsAppLinks() {
+    var links = document.querySelectorAll(".js-original-whatsapp");
+    if (!links.length) return;
+    var customer = getCustomer();
+    var waNumber = document.body.dataset.whatsapp || "972552902934";
+    links.forEach(function (link) {
+      var base = link.dataset.baseMessage || "";
+      link.href = "https://wa.me/" + waNumber + "?text=" + encodeURIComponent(base + customerLinesText(customer));
+    });
+  }
+
   function loadCustomerForm() {
     var form = document.getElementById("cart-customer-form");
     if (!form) return;
@@ -57,6 +78,7 @@
     if (phoneInput) phoneInput.value = customer.phone || "";
     if (emailInput) emailInput.value = customer.email || "";
     if (addressInput) addressInput.value = customer.address || "";
+    updateOriginalWhatsAppLinks();
 
     form.addEventListener("input", function () {
       saveCustomer({
@@ -66,6 +88,7 @@
         address: addressInput ? addressInput.value : "",
       });
       renderCartPage();
+      updateOriginalWhatsAppLinks();
     });
   }
 
@@ -285,7 +308,7 @@
       return;
     }
 
-    var waBtn2 = e.target.closest("#cart-whatsapp");
+    var waBtn2 = e.target.closest("#cart-whatsapp, .js-original-whatsapp");
     if (waBtn2) {
       var form = document.getElementById("cart-customer-form");
       if (form && !form.reportValidity()) {

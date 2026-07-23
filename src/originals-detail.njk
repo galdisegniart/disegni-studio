@@ -6,6 +6,7 @@ pagination:
 permalink: "/originals/{{ artwork.slug }}/index.html"
 layout: base-bare.njk
 scripts:
+  - /js/cart.js
   - /js/sold-out.js
   - /js/share.js
 eleventyComputed:
@@ -55,13 +56,34 @@ eleventyComputed:
     <h2>{{ pay.heading }}</h2>
     <p class="artwork-purchase-lead">{{ pay.lead }}</p>
     <p class="artwork-purchase-original-note">לרכישת היצירה המקורית "{{ artwork.name }}" במחיר {{ artwork.originalPrice }} ₪, בצעו העברה בנקאית לפרטים שלהלן ואשרו ב-WhatsApp.</p>
+
+    <form id="cart-customer-form" class="cart-customer">
+      <h2 class="cart-customer-heading">פרטי משלוח ויצירת קשר</h2>
+      <div class="cart-customer-field">
+        <label for="customer-name">שם מלא *</label>
+        <input type="text" id="customer-name" required autocomplete="name">
+      </div>
+      <div class="cart-customer-field">
+        <label for="customer-phone">טלפון *</label>
+        <input type="tel" id="customer-phone" required autocomplete="tel">
+      </div>
+      <div class="cart-customer-field">
+        <label for="customer-email">דוא"ל (לא חובה)</label>
+        <input type="email" id="customer-email" autocomplete="email">
+      </div>
+      <div class="cart-customer-field">
+        <label for="customer-address">כתובת למשלוח *</label>
+        <textarea id="customer-address" required autocomplete="street-address" rows="2"></textarea>
+      </div>
+    </form>
+
     <dl class="artwork-purchase-bank">
       <div><dt>בנק</dt><dd>{{ pay.bankName }} ({{ pay.bankCode }})</dd></div>
       <div><dt>סניף</dt><dd>{{ pay.branch }}</dd></div>
       <div><dt>מספר חשבון</dt><dd dir="ltr">{{ pay.accountNumber }}</dd></div>
       <div><dt>שם בעל החשבון</dt><dd>{{ pay.accountHolder }}</dd></div>
     </dl>
-    <a class="cta js-whatsapp" href="{{ ('שלום גל, ביצעתי העברה בנקאית עבור היצירה המקורית \"' ~ artwork.name ~ '\". אשמח לתיאום המשלוח.') | waLink }}" target="_blank" rel="noopener noreferrer">אישור העברה ב-WhatsApp <span>←</span></a>
+    <a class="cta js-original-whatsapp" href="#" target="_blank" rel="noopener noreferrer" data-base-message="שלום גל, ביצעתי העברה בנקאית עבור היצירה המקורית &quot;{{ artwork.name }}&quot;. אשמח לתיאום המשלוח.">אישור העברה ב-WhatsApp <span>←</span></a>
     <p class="artwork-purchase-note">{{ pay.waNote }}</p>
   </div>
   {% endif %}
