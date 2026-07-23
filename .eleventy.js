@@ -8,6 +8,10 @@ module.exports = function (eleventyConfig) {
     return arr.slice(start, end);
   });
 
+  eleventyConfig.addFilter("startsWith", function (str, prefix) {
+    return typeof str === "string" && str.indexOf(prefix) === 0;
+  });
+
   eleventyConfig.addFilter("waLink", function (message) {
     return "https://wa.me/" + site.whatsappNumber + "?text=" + encodeURIComponent(message);
   });

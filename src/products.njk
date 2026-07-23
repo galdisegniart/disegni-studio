@@ -12,6 +12,7 @@ scripts:
 eleventyComputed:
   title: "{{ artwork.name }} | גל דִּיסֵנִי"
   description: "{{ artwork.name }}, {{ artwork.description }}"
+  ogImage: "{{ artwork.image }}"
 ---
 {% set seq = artworks | artworkSequence(artwork) %}
 {% set pricing = pages.pricing %}

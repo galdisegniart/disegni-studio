@@ -1,0 +1,19 @@
+---
+permalink: "/sitemap.xml"
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{%- for p in collections.all -%}
+{%- if p.url and p.url != "/cart/" and p.url != "/thank-you/" and p.url != "/printful-status/" and p.url != "/404.html" and not (p.url | startsWith("/products/")) and not (p.url | startsWith("/originals/")) and not (p.url != "/workshops/" and p.url | startsWith("/workshops/")) %}
+  <url><loc>{{ site.siteUrl }}{{ p.url }}</loc></url>
+{% endif -%}
+{%- endfor %}
+{%- for a in artworks %}
+  <url><loc>{{ site.siteUrl }}/products/{{ a.slug }}/</loc></url>
+  <url><loc>{{ site.siteUrl }}/originals/{{ a.slug }}/</loc></url>
+{%- endfor %}
+{%- for w in workshops %}
+  <url><loc>{{ site.siteUrl }}/workshops/{{ w.slug }}/</loc></url>
+{%- endfor %}
+</urlset>

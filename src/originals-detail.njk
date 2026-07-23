@@ -12,6 +12,7 @@ scripts:
 eleventyComputed:
   title: "{{ artwork.name }} — יצירה מקורית | גל דִּיסֵנִי"
   description: "{{ artwork.name }}, {{ artwork.description }}"
+  ogImage: "{{ artwork.image }}"
 ---
 {% set pay = pages.payment %}
 

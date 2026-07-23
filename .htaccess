@@ -3,3 +3,6 @@ RedirectMatch 301 ^/shop/?$ /collections/prints/
 
 # redirect old artwork URLs to the new products path
 RedirectMatch 301 ^/artwork/(.*)$ /products/$1
+
+# custom 404 page
+ErrorDocument 404 /404.html
