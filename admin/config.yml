@@ -193,6 +193,7 @@ collections:
           - { label: "שם המותג", name: "brand", widget: "string" }
           - { label: "תיאור קצר (בפוטר)", name: "tagline", widget: "string" }
           - { label: "מספר וואטסאפ (בפורמט בינלאומי, ללא + או רווחים, לדוגמה 972501234567)", name: "whatsappNumber", widget: "string" }
+          - { label: "מספר עוסק (פטור/מורשה)", name: "businessNumber", widget: "string", required: false, hint: "יוצג בתחתית האתר. השאירו ריק כדי לא להציג" }
           - { label: "קישור עמוד יצירת קשר", name: "contactHref", widget: "string", hint: "לא לשנות בלי סיבה טובה - נתיב פנימי באתר" }
           - name: "nav"
             label: "תפריט ניווט"
@@ -440,4 +441,21 @@ collections:
                 fields:
                   - { label: "טקסט", name: "label", widget: "string" }
                   - { label: "קישור", name: "href", widget: "string" }
+          - { label: "הערה משפטית", name: "legalNote", widget: "text" }
+
+      - name: "returns"
+        label: "עמוד ביטולים והחזרים"
+        file: "src/content/pages/returns.json"
+        fields:
+          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
+          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
+          - { label: "כיתוב קטן בהירו", name: "heroEyebrow", widget: "string" }
+          - { label: "כותרת הירו", name: "heroHeading", widget: "string" }
+          - { label: "טקסט הירו", name: "heroLead", widget: "text" }
+          - name: "sections"
+            label: "סעיפי המדיניות"
+            widget: "list"
+            fields:
+              - { label: "כותרת", name: "heading", widget: "string" }
+              - { label: "פסקאות", name: "paragraphs", widget: "list", field: { label: "פסקה", name: "text", widget: "text" } }
           - { label: "הערה משפטית", name: "legalNote", widget: "text" }
