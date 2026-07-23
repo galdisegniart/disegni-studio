@@ -1,0 +1,32 @@
+---
+layout: base.njk
+permalink: "/privacy/index.html"
+eleventyComputed:
+  title: "{{ pages.privacy.title }}"
+  description: "{{ pages.privacy.metaDescription }}"
+---
+{% set p = pages.privacy %}
+<section class="rights-hero">
+  <div class="rights-hero-copy">
+    <p class="hero-eyebrow">{{ p.heroEyebrow }}</p>
+    <h1>{{ p.heroHeading }}</h1>
+    <p>{{ p.heroLead }}</p>
+  </div>
+  <div class="rights-mark">🔒</div>
+</section>
+
+<section class="rights-policy section">
+  <div class="rights-policy-list">
+    {% for item in p.sections %}
+    <article>
+      <div>
+        <h2>{{ item.heading }}</h2>
+        {% for para in item.paragraphs %}
+        <p>{{ para }}</p>
+        {% endfor %}
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+  <p class="rights-legal-note">{{ p.legalNote }}</p>
+</section>

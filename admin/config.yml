@@ -460,6 +460,23 @@ collections:
               - { label: "פסקאות", name: "paragraphs", widget: "list", field: { label: "פסקה", name: "text", widget: "text" } }
           - { label: "הערה משפטית", name: "legalNote", widget: "text" }
 
+      - name: "privacy"
+        label: "עמוד מדיניות פרטיות"
+        file: "src/content/pages/privacy.json"
+        fields:
+          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
+          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
+          - { label: "כיתוב קטן בהירו", name: "heroEyebrow", widget: "string" }
+          - { label: "כותרת הירו", name: "heroHeading", widget: "string" }
+          - { label: "טקסט הירו", name: "heroLead", widget: "text" }
+          - name: "sections"
+            label: "סעיפי המדיניות"
+            widget: "list"
+            fields:
+              - { label: "כותרת", name: "heading", widget: "string" }
+              - { label: "פסקאות", name: "paragraphs", widget: "list", field: { label: "פסקה", name: "text", widget: "text" } }
+          - { label: "הערה משפטית", name: "legalNote", widget: "text" }
+
       - name: "thankYou"
         label: "עמוד תודה (אחרי הזמנה)"
         file: "src/content/pages/thankYou.json"
