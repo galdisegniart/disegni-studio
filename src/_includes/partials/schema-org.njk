@@ -1,0 +1,26 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "{{ site.siteUrl }}/#person",
+      "name": "{{ site.brand }}",
+      "url": "{{ site.siteUrl }}/about/",
+      "image": "{{ site.siteUrl }}/images/disegni-profile.webp",
+      "jobTitle": "אמן ויוצר חזותי",
+      "sameAs": [{% for s in site.socials %}"{{ s.href }}"{% if not loop.last %}, {% endif %}{% endfor %}]
+    },
+    {
+      "@type": "LocalBusiness",
+      "@id": "{{ site.siteUrl }}/#business",
+      "name": "{{ site.brand }}",
+      "url": "{{ site.siteUrl }}/",
+      "image": "{{ site.siteUrl }}/images/disegni-profile.webp",
+      "founder": { "@id": "{{ site.siteUrl }}/#person" },
+      "address": { "@type": "PostalAddress", "addressLocality": "חדרה", "addressCountry": "IL" },
+      "sameAs": [{% for s in site.socials %}"{{ s.href }}"{% if not loop.last %}, {% endif %}{% endfor %}]
+    }
+  ]
+}
+</script>

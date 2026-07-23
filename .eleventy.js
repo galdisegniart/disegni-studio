@@ -12,6 +12,21 @@ module.exports = function (eleventyConfig) {
     return typeof str === "string" && str.indexOf(prefix) === 0;
   });
 
+  eleventyConfig.addFilter("priceRange", function (materials, extraMaterials) {
+    const extras = extraMaterials || [];
+    let low = null;
+    let high = 0;
+    (materials || []).forEach((m) => {
+      if (m.id !== "paper" && extras.indexOf(m.id) === -1) return;
+      (m.sizes || []).forEach((s) => {
+        if (!s.available) return;
+        if (low === null || s.priceILS < low) low = s.priceILS;
+        if (s.priceILS > high) high = s.priceILS;
+      });
+    });
+    return { low: low || 0, high };
+  });
+
   eleventyConfig.addFilter("waLink", function (message) {
     return "https://wa.me/" + site.whatsappNumber + "?text=" + encodeURIComponent(message);
   });

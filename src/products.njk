@@ -18,6 +18,28 @@ eleventyComputed:
 {% set pricing = pages.pricing %}
 {% set extraMaterials = artwork.extraMaterials or [] %}
 
+{% set range = pricing.materials | priceRange(extraMaterials) %}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": {{ (artwork.name ~ " - הדפס אמנותי") | dump | safe }},
+  "image": "{{ site.siteUrl }}{{ artwork.image }}",
+  "description": {{ (artwork.name ~ ", " ~ artwork.description) | dump | safe }},
+  "url": "{{ site.siteUrl }}{{ page.url }}",
+  "brand": { "@id": "{{ site.siteUrl }}/#person" },
+  "offers": {
+    "@type": "AggregateOffer",
+    "priceCurrency": "ILS",
+    "lowPrice": "{{ range.low }}",
+    "highPrice": "{{ range.high }}",
+    "availability": "https://schema.org/InStock",
+    "url": "{{ site.siteUrl }}{{ page.url }}"
+  }
+}
+</script>
+
 <section class="artwork-detail">
   <div class="artwork-utility">
     <a class="artwork-back js-back-link" href="/"><span aria-hidden="true">→</span> <span class="js-back-label">חזרה לגלריה</span></a>

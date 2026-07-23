@@ -16,6 +16,25 @@ eleventyComputed:
 ---
 {% set pay = pages.payment %}
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VisualArtwork",
+  "name": {{ artwork.name | dump | safe }},
+  "image": "{{ site.siteUrl }}{{ artwork.image }}",
+  "description": {{ artwork.description | dump | safe }},
+  "url": "{{ site.siteUrl }}{{ page.url }}",
+  "creator": { "@id": "{{ site.siteUrl }}/#person" }{% if artwork.originalAvailable %},
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "ILS",
+    "price": "{{ artwork.originalPrice }}",
+    "availability": "https://schema.org/InStock",
+    "url": "{{ site.siteUrl }}{{ page.url }}"
+  }{% endif %}
+}
+</script>
+
 <section class="artwork-detail">
   <div class="artwork-utility">
     <a class="artwork-back" href="/collections/originals/"><span aria-hidden="true">→</span> חזרה למקוריות זמינות</a>

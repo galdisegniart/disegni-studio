@@ -12,6 +12,37 @@ eleventyComputed:
 scripts:
   - /js/reviews.js
 ---
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": {{ w.title | dump | safe }},
+  "description": {{ w.metaDescription | dump | safe }},
+  "image": "{{ site.siteUrl }}{{ w.heroImage }}",
+  "url": "{{ site.siteUrl }}{{ page.url }}",
+  "provider": { "@id": "{{ site.siteUrl }}/#business" },
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "ILS",
+    "price": "{{ w.priceFromILS }}",
+    "availability": "https://schema.org/InStock",
+    "url": "{{ site.siteUrl }}{{ page.url }}"
+  }{% if w.hasReviews and w.reviewsSummary and w.reviews.length %},
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "{{ w.reviewsSummary.score }}",
+    "reviewCount": "{{ w.reviews.length }}"
+  },
+  "review": [{% for r in w.reviews %}{
+    "@type": "Review",
+    "author": { "@type": "Person", "name": {{ r.name | dump | safe }} },
+    "datePublished": "{{ r.date }}",
+    "reviewBody": {{ r.full | dump | safe }},
+    "reviewRating": { "@type": "Rating", "ratingValue": "{{ w.reviewsSummary.score }}" }
+  }{% if not loop.last %},{% endif %}{% endfor %}]{% endif %}
+}
+</script>
+
 <section class="daily-workshop-hero">
   <div class="daily-workshop-copy">
     <a class="editorial-link" href="/workshops/"><span aria-hidden="true">→</span> חזרה לסדנאות</a>
