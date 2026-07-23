@@ -65,6 +65,7 @@ collections:
       - { label: "כיתוב קטן מעל הכותרת", name: "eyebrow", widget: "string" }
       - { label: "כותרת ראשית", name: "heading", widget: "string" }
       - { label: "טקסט פתיחה", name: "lead", widget: "text" }
+      - { label: "מחיר החל מ- (₪, מספר בלבד - לשימוש בנתונים מובנים ל-Google)", name: "priceFromILS", widget: "number" }
       - name: "quickMeta"
         label: "פרטים מהירים (4 שדות)"
         widget: "list"
