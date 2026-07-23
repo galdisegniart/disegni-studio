@@ -8,14 +8,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/style.css?v={{ buildTime }}">
 </head>
 <body id="top" data-whatsapp="{{ site.whatsappNumber }}">
 
 {{ content | safe }}
 
 {% for s in scripts %}
-<script src="{{ s }}"></script>
+<script src="{{ s }}?v={{ buildTime }}"></script>
 {% endfor %}
 </body>
 </html>

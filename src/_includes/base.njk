@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/style.css?v={{ buildTime }}">
 </head>
 <body id="top" data-whatsapp="{{ site.whatsappNumber }}">
 
@@ -45,9 +45,9 @@
 {% include "partials/footer.njk" %}
 
 {% for s in scripts %}
-<script src="{{ s }}"></script>
+<script src="{{ s }}?v={{ buildTime }}"></script>
 {% endfor %}
-<script src="/js/cart.js"></script>
-<script src="/js/nav-toggle.js"></script>
+<script src="/js/cart.js?v={{ buildTime }}"></script>
+<script src="/js/nav-toggle.js?v={{ buildTime }}"></script>
 </body>
 </html>

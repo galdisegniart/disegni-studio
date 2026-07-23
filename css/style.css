@@ -711,6 +711,7 @@ footer {
   margin: 38px auto 0;
   padding: 26px;
   border: 1px solid var(--line);
+  border-radius: 4px;
   text-align: right;
 }
 
@@ -757,22 +758,26 @@ footer {
 }
 
 .print-order-field {
+  display: flex;
+  align-items: center;
+  gap: 14px;
   margin-bottom: 16px;
 }
 
 .print-order-field-label {
-  display: block;
-  margin-bottom: 8px;
+  flex-shrink: 0;
   color: var(--dim);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
 }
 
 .js-size-select {
-  width: 100%;
+  flex: 1;
+  min-width: 0;
   min-height: 52px;
   padding: 0 16px;
   border: 1px solid var(--line);
+  border-radius: 4px;
   background: var(--black);
   color: var(--bone);
   font-family: var(--sans);
@@ -2222,8 +2227,9 @@ footer {
   right: 14px;
   z-index: 2;
   padding: 8px 18px;
-  background: var(--black);
-  color: var(--bone);
+  border-radius: 4px;
+  background: var(--copper);
+  color: var(--black);
   font-family: var(--sans);
   font-size: 13px;
   font-weight: 700;
