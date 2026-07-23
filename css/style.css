@@ -2867,6 +2867,56 @@ footer {
   color: var(--copper);
 }
 
+.cart-customer {
+  padding: 30px;
+  margin-bottom: 20px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+
+.cart-customer-heading {
+  margin: 0 0 20px;
+  color: var(--bone);
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.cart-customer-field {
+  margin-bottom: 16px;
+}
+
+.cart-customer-field:last-child {
+  margin-bottom: 0;
+}
+
+.cart-customer-field label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--dim);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.cart-customer-field input,
+.cart-customer-field textarea {
+  width: 100%;
+  min-height: 46px;
+  padding: 10px 16px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--black);
+  color: var(--bone);
+  font-family: var(--sans);
+  font-size: 15px;
+  resize: vertical;
+}
+
+.cart-customer-field input:focus,
+.cart-customer-field textarea:focus {
+  outline: none;
+  border-color: var(--copper);
+}
+
 .cart-summary {
   padding: 30px;
   border: 1px solid var(--line);

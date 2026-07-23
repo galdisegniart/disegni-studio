@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/style.css?v=caa2516">
+<link rel="stylesheet" href="/css/style.css?v=7d5f40a">
 </head>
 <body id="top" data-whatsapp="972552902934">
 
@@ -71,6 +71,26 @@
 
   <ul id="cart-items" class="cart-items"></ul>
 
+  <form id="cart-customer-form" class="cart-customer" hidden>
+    <h2 class="cart-customer-heading">פרטי משלוח ויצירת קשר</h2>
+    <div class="cart-customer-field">
+      <label for="customer-name">שם מלא *</label>
+      <input type="text" id="customer-name" required autocomplete="name">
+    </div>
+    <div class="cart-customer-field">
+      <label for="customer-phone">טלפון *</label>
+      <input type="tel" id="customer-phone" required autocomplete="tel">
+    </div>
+    <div class="cart-customer-field">
+      <label for="customer-email">דוא"ל (לא חובה)</label>
+      <input type="email" id="customer-email" autocomplete="email">
+    </div>
+    <div class="cart-customer-field">
+      <label for="customer-address">כתובת למשלוח *</label>
+      <textarea id="customer-address" required autocomplete="street-address" rows="2"></textarea>
+    </div>
+  </form>
+
   <div id="cart-summary" class="cart-summary" hidden>
     <div class="cart-summary-row"><span>סכום ביניים</span><span id="cart-subtotal"></span></div>
     <div class="cart-summary-row"><span>משלוח</span><span id="cart-shipping"></span></div>
@@ -111,7 +131,7 @@
 
 
 
-<script src="/js/cart.js?v=caa2516"></script>
-<script src="/js/nav-toggle.js?v=caa2516"></script>
+<script src="/js/cart.js?v=7d5f40a"></script>
+<script src="/js/nav-toggle.js?v=7d5f40a"></script>
 </body>
 </html>

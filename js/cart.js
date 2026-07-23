@@ -1,6 +1,7 @@
 (function () {
   var CART_KEY = "disegniCart";
   var CURRENCY_KEY = "disegniCurrency";
+  var CUSTOMER_KEY = "disegniCustomer";
 
   function getCart() {
     try {
@@ -30,6 +31,42 @@
 
   function sizeLabel(item, currency) {
     return currency === "USD" ? item.labelIn : item.labelCm;
+  }
+
+  function getCustomer() {
+    try {
+      return JSON.parse(localStorage.getItem(CUSTOMER_KEY)) || {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function saveCustomer(customer) {
+    localStorage.setItem(CUSTOMER_KEY, JSON.stringify(customer));
+  }
+
+  function loadCustomerForm() {
+    var form = document.getElementById("cart-customer-form");
+    if (!form) return;
+    var customer = getCustomer();
+    var nameInput = document.getElementById("customer-name");
+    var phoneInput = document.getElementById("customer-phone");
+    var emailInput = document.getElementById("customer-email");
+    var addressInput = document.getElementById("customer-address");
+    if (nameInput) nameInput.value = customer.name || "";
+    if (phoneInput) phoneInput.value = customer.phone || "";
+    if (emailInput) emailInput.value = customer.email || "";
+    if (addressInput) addressInput.value = customer.address || "";
+
+    form.addEventListener("input", function () {
+      saveCustomer({
+        name: nameInput ? nameInput.value : "",
+        phone: phoneInput ? phoneInput.value : "",
+        email: emailInput ? emailInput.value : "",
+        address: addressInput ? addressInput.value : "",
+      });
+      renderCartPage();
+    });
   }
 
   function updateCartBadge() {
@@ -78,6 +115,7 @@
     var itemsEl = document.getElementById("cart-items");
     var emptyEl = document.getElementById("cart-empty");
     var summaryEl = document.getElementById("cart-summary");
+    var customerForm = document.getElementById("cart-customer-form");
 
     document.querySelectorAll(".js-currency-toggle").forEach(function (btn) {
       btn.classList.toggle("active", btn.dataset.currency === currency);
@@ -87,10 +125,12 @@
       itemsEl.innerHTML = "";
       emptyEl.hidden = false;
       summaryEl.hidden = true;
+      if (customerForm) customerForm.hidden = true;
       return;
     }
     emptyEl.hidden = true;
     summaryEl.hidden = false;
+    if (customerForm) customerForm.hidden = false;
 
     itemsEl.innerHTML = "";
     cart.forEach(function (item, index) {
@@ -171,10 +211,18 @@
         return "- " + item.artworkName + " (" + item.materialName + ", " + sizeLabel(item, currency) + ") × " + item.qty;
       })
       .join("\n");
+    var customer = getCustomer();
+    var customerLines =
+      "\n\nפרטי לקוח:" +
+      "\nשם: " + (customer.name || "") +
+      "\nטלפון: " + (customer.phone || "") +
+      (customer.email ? "\nדוא\"ל: " + customer.email : "") +
+      "\nכתובת למשלוח: " + (customer.address || "");
     var message =
       "שלום גל, אשמח להזמין הדפסים אמנותיים:\n" +
       waLines +
       "\nסה\"כ: " + (currency === "USD" ? "$" + total : total + " ₪") +
+      customerLines +
       "\nביצעתי/אבצע העברה בנקאית לפרטים באתר.";
     var waBtn = document.getElementById("cart-whatsapp");
     if (waBtn) {
@@ -236,6 +284,15 @@
       removeFromCart(parseInt(removeBtn.dataset.index, 10));
       return;
     }
+
+    var waBtn2 = e.target.closest("#cart-whatsapp");
+    if (waBtn2) {
+      var form = document.getElementById("cart-customer-form");
+      if (form && !form.reportValidity()) {
+        e.preventDefault();
+      }
+      return;
+    }
   });
 
   document.addEventListener("change", function (e) {
@@ -273,6 +330,7 @@
 
   updateCartBadge();
   renderSizeOptions();
+  loadCustomerForm();
   renderCartPage();
   document.querySelectorAll("[data-artwork-slug]").forEach(updateLivePrice);
 })();
