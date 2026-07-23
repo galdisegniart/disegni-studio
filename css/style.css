@@ -617,7 +617,7 @@ footer {
 }
 
 .artwork-zoom-frame.is-zooming img {
-  filter: brightness(0.55);
+  filter: brightness(1.1);
 }
 
 .artwork-zoom-lens {
