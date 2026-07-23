@@ -612,6 +612,14 @@ footer {
   line-height: 0;
 }
 
+.artwork-zoom-frame img {
+  transition: filter 0.15s ease;
+}
+
+.artwork-zoom-frame.is-zooming img {
+  filter: brightness(0.55);
+}
+
 .artwork-zoom-lens {
   position: absolute;
   border-radius: 50%;

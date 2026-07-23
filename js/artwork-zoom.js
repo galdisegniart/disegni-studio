@@ -33,10 +33,12 @@
       lens.style.backgroundSize = rect.width * ZOOM + "px " + rect.height * ZOOM + "px";
       lens.style.backgroundPosition = -(x * ZOOM - half) + "px " + -(y * ZOOM - half) + "px";
       lens.classList.add("is-active");
+      frame.classList.add("is-zooming");
     }
 
     function hideLens() {
       lens.classList.remove("is-active");
+      frame.classList.remove("is-zooming");
     }
 
     frame.addEventListener("mousemove", function (e) {
