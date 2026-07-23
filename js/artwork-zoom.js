@@ -5,6 +5,7 @@
   function initZoom(figure) {
     var img = figure.querySelector("img");
     if (!img) return;
+    if (!window.matchMedia || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
 
     var frame = document.createElement("div");
     frame.className = "artwork-zoom-frame";
@@ -45,17 +46,6 @@
       moveLens(e.clientX, e.clientY);
     });
     frame.addEventListener("mouseleave", hideLens);
-
-    frame.addEventListener("touchstart", function (e) {
-      if (e.touches.length !== 1) return;
-      moveLens(e.touches[0].clientX, e.touches[0].clientY);
-    }, { passive: true });
-    frame.addEventListener("touchmove", function (e) {
-      if (e.touches.length !== 1) return;
-      moveLens(e.touches[0].clientX, e.touches[0].clientY);
-      e.preventDefault();
-    }, { passive: false });
-    frame.addEventListener("touchend", hideLens);
   }
 
   document.querySelectorAll(".artwork-stage").forEach(initZoom);
