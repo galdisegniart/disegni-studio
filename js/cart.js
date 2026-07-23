@@ -92,25 +92,57 @@
     emptyEl.hidden = true;
     summaryEl.hidden = false;
 
-    itemsEl.innerHTML = cart
-      .map(function (item, index) {
-        return (
-          '<li class="cart-line">' +
-          '<div class="cart-line-info">' +
-          "<strong>" + item.artworkName + "</strong>" +
-          '<span>' + item.materialName + ' · ' + sizeLabel(item, currency) + "</span>" +
-          "</div>" +
-          '<div class="cart-line-qty">' +
-          '<button type="button" class="js-qty-minus" data-index="' + index + '" aria-label="הפחתת כמות">−</button>' +
-          '<span>' + item.qty + '</span>' +
-          '<button type="button" class="js-qty-plus" data-index="' + index + '" aria-label="הוספת כמות">+</button>' +
-          "</div>" +
-          '<div class="cart-line-price">' + formatPrice(item, currency) + "</div>" +
-          '<button type="button" class="cart-line-remove js-remove" data-index="' + index + '" aria-label="הסרה מהעגלה">✕</button>' +
-          "</li>"
-        );
-      })
-      .join("");
+    itemsEl.innerHTML = "";
+    cart.forEach(function (item, index) {
+      var li = document.createElement("li");
+      li.className = "cart-line";
+
+      var info = document.createElement("div");
+      info.className = "cart-line-info";
+      var strong = document.createElement("strong");
+      strong.textContent = item.artworkName;
+      var span = document.createElement("span");
+      span.textContent = item.materialName + " · " + sizeLabel(item, currency);
+      info.appendChild(strong);
+      info.appendChild(span);
+
+      var qtyWrap = document.createElement("div");
+      qtyWrap.className = "cart-line-qty";
+      var minusBtn = document.createElement("button");
+      minusBtn.type = "button";
+      minusBtn.className = "js-qty-minus";
+      minusBtn.dataset.index = index;
+      minusBtn.setAttribute("aria-label", "הפחתת כמות");
+      minusBtn.textContent = "−";
+      var qtySpan = document.createElement("span");
+      qtySpan.textContent = item.qty;
+      var plusBtn = document.createElement("button");
+      plusBtn.type = "button";
+      plusBtn.className = "js-qty-plus";
+      plusBtn.dataset.index = index;
+      plusBtn.setAttribute("aria-label", "הוספת כמות");
+      plusBtn.textContent = "+";
+      qtyWrap.appendChild(minusBtn);
+      qtyWrap.appendChild(qtySpan);
+      qtyWrap.appendChild(plusBtn);
+
+      var priceDiv = document.createElement("div");
+      priceDiv.className = "cart-line-price";
+      priceDiv.textContent = formatPrice(item, currency);
+
+      var removeBtn = document.createElement("button");
+      removeBtn.type = "button";
+      removeBtn.className = "cart-line-remove js-remove";
+      removeBtn.dataset.index = index;
+      removeBtn.setAttribute("aria-label", "הסרה מהעגלה");
+      removeBtn.textContent = "✕";
+
+      li.appendChild(info);
+      li.appendChild(qtyWrap);
+      li.appendChild(priceDiv);
+      li.appendChild(removeBtn);
+      itemsEl.appendChild(li);
+    });
 
     var subtotal = cart.reduce(function (sum, item) {
       var price = currency === "USD" ? item.priceUSD : item.priceILS;
