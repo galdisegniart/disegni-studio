@@ -1,0 +1,18 @@
+---
+layout: base.njk
+permalink: "/thank-you/index.html"
+eleventyComputed:
+  title: "{{ pages.thankYou.title }}"
+  description: "{{ pages.thankYou.metaDescription }}"
+---
+{% set p = pages.thankYou %}
+<section class="thank-you section">
+  <div class="thank-you-mark">✓</div>
+  <h1>{{ p.heading }}</h1>
+  <p class="thank-you-lead">{{ p.lead }}</p>
+  <p class="thank-you-note">{{ p.note }}</p>
+  <div class="thank-you-actions">
+    <a class="cta" href="{{ p.ctaHref }}">{{ p.ctaLabel }} <span>←</span></a>
+    <a class="cta cta-outline" href="{{ p.contactCtaHref }}">{{ p.contactCtaLabel }} <span>←</span></a>
+  </div>
+</section>

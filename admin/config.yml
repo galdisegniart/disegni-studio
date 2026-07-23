@@ -459,3 +459,17 @@ collections:
               - { label: "כותרת", name: "heading", widget: "string" }
               - { label: "פסקאות", name: "paragraphs", widget: "list", field: { label: "פסקה", name: "text", widget: "text" } }
           - { label: "הערה משפטית", name: "legalNote", widget: "text" }
+
+      - name: "thankYou"
+        label: "עמוד תודה (אחרי הזמנה)"
+        file: "src/content/pages/thankYou.json"
+        fields:
+          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
+          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
+          - { label: "כותרת", name: "heading", widget: "string" }
+          - { label: "טקסט פתיחה", name: "lead", widget: "text" }
+          - { label: "הערה", name: "note", widget: "text" }
+          - { label: "טקסט כפתור 1", name: "ctaLabel", widget: "string" }
+          - { label: "קישור כפתור 1", name: "ctaHref", widget: "string" }
+          - { label: "טקסט כפתור 2", name: "contactCtaLabel", widget: "string" }
+          - { label: "קישור כפתור 2", name: "contactCtaHref", widget: "string" }
