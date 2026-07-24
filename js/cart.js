@@ -339,7 +339,7 @@
       var wrap = addBtn.closest("[data-artwork-slug]");
       var select = wrap.querySelector(".js-size-select");
       var option = select.options[select.selectedIndex];
-      if (!option || option.disabled) return;
+      if (!option || option.disabled || !option.value) return;
       addToCart({
         artworkSlug: wrap.dataset.artworkSlug,
         artworkName: wrap.dataset.artworkName,
