@@ -435,7 +435,6 @@
     if (e.target.classList.contains("js-size-select")) {
       var sizeWrap = e.target.closest("[data-artwork-slug]");
       if (isPrintfulDriven(sizeWrap)) {
-        populatePrintfulStyles(sizeWrap);
         updateLivePrice(sizeWrap);
         return;
       }
@@ -444,7 +443,7 @@
       var swrap = e.target.closest("[data-artwork-slug]");
       if (!swrap) return;
       if (isPrintfulDriven(swrap)) {
-        populatePrintfulFrames(swrap);
+        populatePrintfulSizes(swrap);
         updateLivePrice(swrap);
         return;
       }
@@ -452,11 +451,6 @@
       var snoteEl = swrap.querySelector(".js-print-order-note");
       if (snoteEl) snoteEl.textContent = "";
       updateLivePrice(swrap);
-      return;
-    }
-    if (e.target.classList.contains("js-frame-select")) {
-      var frameWrap = e.target.closest("[data-artwork-slug]");
-      if (frameWrap) updateLivePrice(frameWrap);
       return;
     }
     if (!e.target.classList.contains("js-size-select")) return;
@@ -492,59 +486,46 @@
     });
   }
 
+  function populatePrintfulTypes(wrap) {
+    var select = wrap.querySelector(".js-style-select");
+    var previous = select.value;
+    var types = uniqueBy(getPrintfulOptions(wrap), "productType");
+    var typeOrder = { poster: 0, canvas: 1, "framed-print": 2 };
+    types.sort(function (a, b) {
+      return typeOrder[a.productType] - typeOrder[b.productType];
+    });
+    select.innerHTML = '<option value="">בחרו סוג הדפס</option>';
+    types.forEach(function (item) {
+      var option = document.createElement("option");
+      option.value = item.productType;
+      option.textContent = item.productTypeName;
+      select.appendChild(option);
+    });
+    select.value = types.some(function (item) { return item.productType === previous; }) ? previous : "";
+    select.disabled = false;
+    populatePrintfulSizes(wrap);
+  }
+
   function populatePrintfulSizes(wrap) {
+    var productType = wrap.querySelector(".js-style-select").value;
     var select = wrap.querySelector(".js-size-select");
     var previous = select.value;
     var currency = getCurrency();
-    var sizes = uniqueBy(getPrintfulOptions(wrap), "sizeId");
-    select.innerHTML = '<option value="">בחרו גודל</option>';
-    sizes.forEach(function (item) {
-      var option = document.createElement("option");
-      option.value = item.sizeId;
-      option.textContent = currency === "USD" ? item.labelIn : item.labelCm;
-      select.appendChild(option);
+    var variants = getPrintfulOptions(wrap).filter(function (item) {
+      return item.productType === productType;
     });
-    select.value = sizes.some(function (item) { return item.sizeId === previous; }) ? previous : "";
-    select.disabled = false;
-    populatePrintfulStyles(wrap);
-  }
-
-  function populatePrintfulStyles(wrap) {
-    var size = wrap.querySelector(".js-size-select").value;
-    var select = wrap.querySelector(".js-style-select");
-    var previous = select.value;
-    var styles = uniqueBy(getPrintfulOptions(wrap).filter(function (item) {
-      return item.sizeId === size;
-    }), "style");
-    select.innerHTML = '<option value="">' + (size ? "בחרו סגנון" : "בחרו גודל קודם") + "</option>";
-    styles.forEach(function (item) {
-      var option = document.createElement("option");
-      option.value = item.style;
-      option.textContent = item.styleName;
-      select.appendChild(option);
+    variants.sort(function (a, b) {
+      return parseInt(a.sizeId, 10) - parseInt(b.sizeId, 10);
     });
-    select.value = styles.some(function (item) { return item.style === previous; }) ? previous : "";
-    select.disabled = !size;
-    populatePrintfulFrames(wrap);
-  }
-
-  function populatePrintfulFrames(wrap) {
-    var size = wrap.querySelector(".js-size-select").value;
-    var style = wrap.querySelector(".js-style-select").value;
-    var select = wrap.querySelector(".js-frame-select");
-    var previous = select.value;
-    var variants = uniqueBy(getPrintfulOptions(wrap).filter(function (item) {
-      return item.sizeId === size && item.style === style;
-    }), "frame");
-    select.innerHTML = '<option value="">' + (style ? "בחרו מסגור" : "בחרו סגנון קודם") + "</option>";
+    select.innerHTML = '<option value="">' + (productType ? "בחרו גודל" : "בחרו סוג הדפס קודם") + "</option>";
     variants.forEach(function (item) {
       var option = document.createElement("option");
       option.value = item.productId + ":" + (item.syncVariantId || item.sizeId);
-      option.textContent = item.frameName;
+      option.textContent = currency === "USD" ? item.labelIn : item.labelCm;
       option.dataset.material = item.style;
-      option.dataset.materialName = item.styleName;
+      option.dataset.materialName = item.productTypeName;
       option.dataset.frame = item.frame;
-      option.dataset.frameName = item.frameName;
+      option.dataset.frameName = "";
       option.dataset.sizeId = item.sizeId;
       option.dataset.labelIn = item.labelIn;
       option.dataset.labelCm = item.labelCm;
@@ -558,13 +539,11 @@
       return item.productId + ":" + (item.syncVariantId || item.sizeId) === previous;
     });
     select.value = matching ? previous : "";
-    select.disabled = !style;
+    select.disabled = !productType;
   }
 
   function getSelectedProductOption(wrap) {
-    var select = isPrintfulDriven(wrap)
-      ? wrap.querySelector(".js-frame-select")
-      : wrap.querySelector(".js-size-select");
+    var select = wrap.querySelector(".js-size-select");
     return select && select.options[select.selectedIndex];
   }
 
@@ -645,7 +624,7 @@
   loadCustomerForm();
   renderCartPage();
   document.querySelectorAll("[data-artwork-slug]").forEach(function (wrap) {
-    if (isPrintfulDriven(wrap)) populatePrintfulSizes(wrap);
+    if (isPrintfulDriven(wrap)) populatePrintfulTypes(wrap);
     updateLivePrice(wrap);
   });
 })();

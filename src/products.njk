@@ -119,31 +119,38 @@ eleventyComputed:
       {% endif %}
 
       <div class="print-order-selects{% if printfulOptions and printfulOptions.length %} is-printful-driven{% endif %}">
+        {% if printfulOptions and printfulOptions.length %}
+        <div class="print-order-field">
+          <span class="print-order-field-label">סוג הדפס</span>
+          <select class="js-style-select" aria-label="בחירת סוג הדפס">
+            <option value="" selected>בחרו סוג הדפס</option>
+          </select>
+        </div>
         <div class="print-order-field">
           <span class="print-order-field-label">גודל</span>
-          <select class="js-size-select" aria-label="בחירת גודל"{% if not printfulOptions.length %} disabled{% endif %}>
-            <option value="" selected>{% if printfulOptions.length %}בחרו גודל{% else %}בחרו סגנון קודם{% endif %}</option>
+          <select class="js-size-select" aria-label="בחירת גודל" disabled>
+            <option value="" selected>בחרו סוג הדפס קודם</option>
           </select>
         </div>
+        {% else %}
         <div class="print-order-field">
           <span class="print-order-field-label">סגנון</span>
-          <select class="js-style-select" aria-label="בחירת סגנון הדפסה"{% if printfulOptions.length %} disabled{% endif %}>
-            <option value="" selected>{% if printfulOptions.length %}בחרו גודל קודם{% else %}בחרו סגנון{% endif %}</option>
-            {% if not printfulOptions.length %}
-              {% for material in pricing.materials %}
-              {% if material.id == "paper" or material.id in extraMaterials %}
-              <option value="{{ material.id }}">{{ material.name }}</option>
-              {% endif %}
-              {% endfor %}
+          <select class="js-style-select" aria-label="בחירת סגנון הדפסה">
+            <option value="" selected>בחרו סגנון</option>
+            {% for material in pricing.materials %}
+            {% if material.id == "paper" or material.id in extraMaterials %}
+            <option value="{{ material.id }}">{{ material.name }}</option>
             {% endif %}
+            {% endfor %}
           </select>
         </div>
         <div class="print-order-field">
-          <span class="print-order-field-label">מסגור</span>
-          <select class="js-frame-select" aria-label="בחירת מסגור"{% if printfulOptions.length %} disabled{% endif %}>
-            <option value="" selected>{% if printfulOptions.length %}בחרו סגנון קודם{% else %}ללא מסגרת{% endif %}</option>
+          <span class="print-order-field-label">גודל</span>
+          <select class="js-size-select" aria-label="בחירת גודל" disabled>
+            <option value="" selected>בחרו סגנון קודם</option>
           </select>
         </div>
+        {% endif %}
       </div>
 
       <div class="print-order-field print-order-qty-field">

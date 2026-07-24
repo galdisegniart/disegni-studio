@@ -62,6 +62,16 @@ module.exports = function (eleventyConfig) {
       const name = String(product.name || "").toLowerCase();
       const style = name.includes("canvas") ? "canvas" : "paper";
       const frame = name.includes("framed") ? "framed" : "none";
+      const productType = style === "canvas"
+        ? "canvas"
+        : frame === "framed"
+          ? "framed-print"
+          : "poster";
+      const productTypeName = productType === "canvas"
+        ? "קנבס מתוח"
+        : productType === "framed-print"
+          ? "הדפס ממוסגר"
+          : "פוסטר";
 
       return (product.variants || []).map((variant) => {
         const readableSize = String(variant.size || "")
@@ -87,6 +97,8 @@ module.exports = function (eleventyConfig) {
           styleName: style === "canvas" ? "קנבס מתוח" : "נייר אמנותי",
           frame,
           frameName: frame === "framed" ? "ממוסגר" : "ללא מסגרת",
+          productType,
+          productTypeName,
           priceUSD: Number.isFinite(retailUSD) && retailUSD > 0
             ? retailUSD
             : fallback && fallback.priceUSD,
