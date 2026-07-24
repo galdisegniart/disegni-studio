@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://disegni.studio/workshops/</loc></url>
+
   <url><loc>https://disegni.studio/about/</loc></url>
-
-  <url><loc>https://disegni.studio/collections/originals/</loc></url>
-
-  <url><loc>https://disegni.studio/collections/prints/</loc></url>
-
-  <url><loc>https://disegni.studio/commissions/</loc></url>
-
-  <url><loc>https://disegni.studio/contact/</loc></url>
-
-  <url><loc>https://disegni.studio/</loc></url>
-
-  <url><loc>https://disegni.studio/portfolio/</loc></url>
-
-  <url><loc>https://disegni.studio/privacy/</loc></url>
-
-  <url><loc>https://disegni.studio/returns/</loc></url>
 
   <url><loc>https://disegni.studio/rights/</loc></url>
 
-  <url><loc>https://disegni.studio/workshops/</loc></url>
+  <url><loc>https://disegni.studio/portfolio/</loc></url>
+
+  <url><loc>https://disegni.studio/collections/prints/</loc></url>
+
+  <url><loc>https://disegni.studio/collections/originals/</loc></url>
+
+  <url><loc>https://disegni.studio/contact/</loc></url>
+
+  <url><loc>https://disegni.studio/returns/</loc></url>
+
+  <url><loc>https://disegni.studio/privacy/</loc></url>
+
+  <url><loc>https://disegni.studio/</loc></url>
+
+  <url><loc>https://disegni.studio/commissions/</loc></url>
 
   <url><loc>https://disegni.studio/products/light/</loc></url>
   <url><loc>https://disegni.studio/originals/light/</loc></url>

@@ -16,8 +16,14 @@
     lens.className = "artwork-zoom-lens";
     lens.style.width = LENS_SIZE + "px";
     lens.style.height = LENS_SIZE + "px";
-    lens.style.backgroundImage = "url('" + img.src + "')";
     frame.appendChild(lens);
+
+    function syncLensImage() {
+      lens.style.backgroundImage = "url('" + img.src + "')";
+    }
+
+    syncLensImage();
+    img.addEventListener("load", syncLensImage);
 
     function moveLens(clientX, clientY) {
       var rect = img.getBoundingClientRect();

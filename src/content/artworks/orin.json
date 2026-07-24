@@ -8,6 +8,12 @@
   "alt": "Orin, דמות מכונפת על רקע עולמות מנוגדים",
   "image": "/images/artworks/orin+WEB.webp",
   "thumb": "/images/gallery/orin+thumb.webp",
+  "gallery": [
+    {
+      "image": "/images/products/mockups/orin/hanging-print.webp",
+      "alt": "מוקאפ של היצירה Orin כהדפס תלוי על קיר"
+    }
+  ],
   "category": "mixed",
   "originalAvailable": false,
   "originalPrice": 0,

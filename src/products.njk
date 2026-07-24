@@ -9,6 +9,7 @@ scripts:
   - /js/cart.js
   - /js/back-link.js
   - /js/share.js
+  - /js/product-gallery.js
   - /js/artwork-zoom.js
 eleventyComputed:
   title: "{{ artwork.name }} | גל דִּיסֵנִי"
@@ -52,9 +53,27 @@ eleventyComputed:
     <a class="artwork-back js-back-link" href="/"><span aria-hidden="true">→</span> <span class="js-back-label">חזרה לגלריה</span></a>
   </div>
   <div class="artwork-detail-grid">
+  {% if artwork.gallery and artwork.gallery.length %}
+  <div class="artwork-gallery">
+    <figure class="artwork-stage">
+      <img class="js-product-gallery-main" src="{{ artwork.image }}" alt="{{ artwork.alt }}">
+    </figure>
+    <div class="artwork-thumbnails" aria-label="תמונות נוספות של {{ artwork.name }}">
+      <button class="artwork-thumbnail is-active js-product-gallery-thumb" type="button" data-image="{{ artwork.image }}" data-alt="{{ artwork.alt }}" aria-label="הצגת התמונה הראשית" aria-current="true">
+        <img src="{{ artwork.thumb or artwork.image }}" alt="" loading="lazy">
+      </button>
+      {% for galleryImage in artwork.gallery %}
+      <button class="artwork-thumbnail js-product-gallery-thumb" type="button" data-image="{{ galleryImage.image }}" data-alt="{{ galleryImage.alt or artwork.alt }}" aria-label="הצגת תמונה נוספת {{ loop.index }}">
+        <img src="{{ galleryImage.thumb or galleryImage.image }}" alt="" loading="lazy">
+      </button>
+      {% endfor %}
+    </div>
+  </div>
+  {% else %}
   <figure class="artwork-stage">
     <img src="{{ artwork.image }}" alt="{{ artwork.alt }}">
   </figure>
+  {% endif %}
   <div class="artwork-detail-copy">
     <p class="artwork-detail-medium">{{ artwork.detailMedium }}</p>
     <h1>{{ artwork.name }}</h1>

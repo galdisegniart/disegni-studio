@@ -698,6 +698,50 @@ footer {
   object-fit: contain;
 }
 
+.artwork-gallery {
+  width: min(100%, 1180px);
+  margin: 0 auto;
+}
+
+.artwork-gallery .artwork-stage {
+  width: 100%;
+}
+
+.artwork-thumbnails {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  overflow-x: auto;
+  padding: 2px 2px 8px;
+}
+
+.artwork-thumbnail {
+  flex: 0 0 72px;
+  width: 72px;
+  height: 72px;
+  padding: 3px;
+  border: 1px solid var(--line);
+  background: transparent;
+  cursor: pointer;
+  transition: border-color 0.2s, opacity 0.2s;
+}
+
+.artwork-thumbnail:hover,
+.artwork-thumbnail.is-active {
+  border-color: var(--copper);
+}
+
+.artwork-thumbnail:not(.is-active) {
+  opacity: 0.72;
+}
+
+.artwork-thumbnail img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
 .artwork-zoom-frame {
   position: relative;
   display: inline-block;
@@ -804,6 +848,16 @@ footer {
     flex: 1 1 55%;
     width: auto;
     margin: 0;
+  }
+
+  .artwork-detail-grid .artwork-gallery {
+    flex: 1 1 55%;
+    width: auto;
+    margin: 0;
+  }
+
+  .artwork-detail-grid .artwork-gallery .artwork-stage {
+    width: 100%;
   }
 
   .artwork-detail-grid .artwork-detail-copy {

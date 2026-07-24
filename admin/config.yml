@@ -32,6 +32,14 @@ collections:
       - { label: "טקסט חלופי לתמונה (נגישות)", name: "alt", widget: "string" }
       - { label: "תמונה בגודל מלא", name: "image", widget: "image" }
       - { label: "תמונה ממוזערת (גלריה)", name: "thumb", widget: "image" }
+      - label: "תמונות נוספות בעמוד המוצר"
+        name: "gallery"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "תמונה", name: "image", widget: "image" }
+          - { label: "תמונה ממוזערת (אופציונלי)", name: "thumb", widget: "image", required: false }
+          - { label: "טקסט חלופי לתמונה", name: "alt", widget: "string" }
       - { label: "היצירה המקורית זמינה למכירה?", name: "originalAvailable", widget: "boolean", default: false, hint: "סמנו רק אם המקור עדיין לא נמכר ואתם רוצים למכור אותו" }
       - { label: "מחיר היצירה המקורית (₪)", name: "originalPrice", widget: "number", default: 0, hint: "רלוונטי רק אם סימנתם 'זמינה למכירה' למעלה" }
       - label: "סוגי הדפסה נוספים (חוץ מנייר, שזמין תמיד)"
