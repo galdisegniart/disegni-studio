@@ -40,8 +40,11 @@
       }
 
       var half = LENS_SIZE / 2;
-      lens.style.left = x - half + "px";
-      lens.style.top = y - half + "px";
+      var frameRect = frame.getBoundingClientRect();
+      var imageOffsetX = rect.left - frameRect.left;
+      var imageOffsetY = rect.top - frameRect.top;
+      lens.style.left = imageOffsetX + x - half + "px";
+      lens.style.top = imageOffsetY + y - half + "px";
       lens.style.backgroundSize = rect.width * ZOOM + "px " + rect.height * ZOOM + "px";
       lens.style.backgroundPosition = -(x * ZOOM - half) + "px " + -(y * ZOOM - half) + "px";
       lens.classList.add("is-active");
