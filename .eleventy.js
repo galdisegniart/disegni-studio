@@ -12,6 +12,10 @@ module.exports = function (eleventyConfig) {
     return typeof str === "string" && str.indexOf(prefix) === 0;
   });
 
+  eleventyConfig.addFilter("relatedAvailableOriginals", function (artworks, currentSlug) {
+    return (artworks || []).filter((a) => a.originalAvailable && a.slug !== currentSlug);
+  });
+
   eleventyConfig.addFilter("priceRange", function (materials, extraMaterials) {
     const extras = extraMaterials || [];
     let low = null;

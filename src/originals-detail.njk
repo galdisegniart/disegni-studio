@@ -116,6 +116,24 @@ eleventyComputed:
   {% endif %}
 </section>
 
+{% set relatedOriginals = artworks | relatedAvailableOriginals(artwork.slug) %}
+{% if relatedOriginals.length %}
+<section class="artwork-more">
+  <div class="artwork-more-head">
+    <a class="artwork-back" href="/collections/originals/"><span aria-hidden="true">→</span> חזרה למקוריות זמינות</a>
+    <span class="artwork-more-label">עוד יצירות מקוריות זמינות</span>
+  </div>
+  <div class="artwork-more-grid">
+    {% for item in relatedOriginals %}
+    <a class="more-artwork-card" href="/originals/{{ item.slug }}/">
+      <span class="more-artwork-image"><img src="{{ item.thumb }}" alt="{{ item.name }}" loading="lazy"></span>
+      <span class="more-artwork-caption"><strong lang="en">{{ item.name }}</strong><small>{{ item.galleryMedium }}</small><i aria-hidden="true">←</i></span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
 <div class="sold-out-modal" id="sold-out-modal" hidden>
   <div class="sold-out-modal-box" role="alertdialog" aria-labelledby="sold-out-modal-title">
     <p class="sold-out-modal-title" id="sold-out-modal-title">לא ניתן לבצע רכישה</p>
