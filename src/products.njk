@@ -60,8 +60,21 @@ eleventyComputed:
     <h1>{{ artwork.name }}</h1>
     <p class="artwork-detail-description">{{ artwork.description }}</p>
     <div class="print-order" data-artwork-slug="{{ artwork.slug }}" data-artwork-name="{{ artwork.name }}">
+      <p class="print-order-kicker">{{ purchaseButtons.printLabel }}</p>
+
+      <div class="print-order-quality">
+        <p class="print-order-quality-label">איכות גבוהה</p>
+        <h2 class="print-order-quality-heading">אפשרויות הדפסה</h2>
+        <ul class="print-order-quality-list">
+          {% for material in pricing.materials %}
+          {% if material.id == "paper" or material.id in extraMaterials %}
+          <li><span class="print-order-quality-icon" aria-hidden="true">◈</span><span><strong>{{ material.name }}</strong> — {{ material.description }}</span></li>
+          {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+
       <div class="print-order-head">
-        <span class="print-order-label">{{ purchaseButtons.printLabel }}</span>
         <div class="currency-toggle-mini">
           <button type="button" class="js-currency-toggle active" data-currency="ILS">₪ · ס"מ</button>
           <span>·</span>
@@ -69,24 +82,60 @@ eleventyComputed:
         </div>
       </div>
 
-      <div class="print-order-field">
-        <span class="print-order-field-label">מידה</span>
-        <select class="js-size-select" aria-label="בחירת גודל וסוג הדפסה">
-          <option value="" selected>בחרו גודל וסוג הדפסה</option>
-          {% for material in pricing.materials %}
-          {% if material.id == "paper" or material.id in extraMaterials %}
-          {% for size in material.sizes %}
-          <option value="{{ material.id }}:{{ size.id }}" data-material="{{ material.id }}" data-material-name="{{ material.name }}" data-note="{{ material.note }}" data-size-id="{{ size.id }}" data-label-in="{{ size.labelIn }}" data-label-cm="{{ size.labelCm }}" data-price-ils="{{ size.priceILS }}" data-price-usd="{{ size.priceUSD }}"{% if not size.available %} disabled{% endif %}>{{ material.name }} — {{ size.labelCm }}{% if not size.available %} (אזל){% endif %}</option>
-          {% endfor %}
-          {% endif %}
-          {% endfor %}
-        </select>
+      <p class="print-order-price">סה"כ <span class="js-live-price">—</span></p>
+
+      <select class="js-size-data" hidden aria-hidden="true" tabindex="-1">
+        {% for material in pricing.materials %}
+        {% if material.id == "paper" or material.id in extraMaterials %}
+        {% for size in material.sizes %}
+        <option value="{{ material.id }}:{{ size.id }}" data-material="{{ material.id }}" data-material-name="{{ material.name }}" data-note="{{ material.note }}" data-size-id="{{ size.id }}" data-label-in="{{ size.labelIn }}" data-label-cm="{{ size.labelCm }}" data-price-ils="{{ size.priceILS }}" data-price-usd="{{ size.priceUSD }}"{% if not size.available %} disabled{% endif %}></option>
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
+      </select>
+
+      <div class="print-order-selects">
+        <div class="print-order-field">
+          <span class="print-order-field-label">סגנון</span>
+          <select class="js-style-select" aria-label="בחירת סגנון הדפסה">
+            <option value="" selected>בחרו סגנון</option>
+            {% for material in pricing.materials %}
+            {% if material.id == "paper" or material.id in extraMaterials %}
+            <option value="{{ material.id }}">{{ material.name }}</option>
+            {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+        <div class="print-order-field">
+          <span class="print-order-field-label">מידה</span>
+          <select class="js-size-select" aria-label="בחירת גודל" disabled>
+            <option value="" selected>בחרו סגנון קודם</option>
+          </select>
+        </div>
       </div>
 
-      <p class="print-order-price">סה"כ <span class="js-live-price">—</span></p>
+      <div class="print-order-field print-order-qty-field">
+        <span class="print-order-field-label">כמות</span>
+        <div class="qty-stepper">
+          <button type="button" class="js-order-qty-minus" aria-label="הפחתת כמות">−</button>
+          <span class="js-order-qty">1</span>
+          <button type="button" class="js-order-qty-plus" aria-label="הוספת כמות">+</button>
+        </div>
+      </div>
+
       <button type="button" class="cta js-add-to-cart">הוספה לעגלה</button>
+      <a class="cta cta-outline js-whatsapp" href="{{ ('שלום גל, יש לי שאלה לפני רכישת הדפס של \"' ~ artwork.name ~ '\".') | waLink }}" target="_blank" rel="noopener noreferrer">שאלות לפני רכישה ב-WhatsApp</a>
+
       <p class="print-order-note js-print-order-note"></p>
       <button class="artwork-share js-share" type="button" data-share-title="{{ artwork.name }} | {{ site.brand }}" data-share-text="{{ artwork.name }}, {{ artwork.description }}"><span aria-hidden="true">↗</span> <span class="js-share-label">שיתוף</span></button>
+
+      <details class="print-order-details">
+        <summary>פרטים נוספים</summary>
+        <div class="print-order-details-body">
+          <p><strong>קטגוריה:</strong> {{ artwork.galleryMedium }}</p>
+          <p>כל היצירות, הדימויים והתוכן באתר זה מוגנים בזכויות יוצרים של {{ site.brand }}. <a href="/rights/">למדיניות זכויות היוצרים המלאה</a></p>
+        </div>
+      </details>
     </div>
     <a class="original-crosslink" href="/originals/{{ artwork.slug }}/">מתעניינים ביצירה המקורית של "{{ artwork.name }}"? <span aria-hidden="true">←</span></a>
   </div>

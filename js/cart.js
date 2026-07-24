@@ -340,6 +340,8 @@
       var select = wrap.querySelector(".js-size-select");
       var option = select.options[select.selectedIndex];
       if (!option || option.disabled || !option.value) return;
+      var qtyEl = wrap.querySelector(".js-order-qty");
+      var orderQty = qtyEl ? parseInt(qtyEl.textContent, 10) || 1 : 1;
       addToCart({
         artworkSlug: wrap.dataset.artworkSlug,
         artworkName: wrap.dataset.artworkName,
@@ -350,7 +352,7 @@
         labelCm: option.dataset.labelCm,
         priceILS: parseFloat(option.dataset.priceIls),
         priceUSD: parseFloat(option.dataset.priceUsd),
-        qty: 1,
+        qty: orderQty,
       });
       window.location.href = "/cart/";
       return;
@@ -359,9 +361,32 @@
     var currencyBtn = e.target.closest(".js-currency-toggle");
     if (currencyBtn) {
       setCurrency(currencyBtn.dataset.currency);
-      renderSizeOptions();
+      document.querySelectorAll(".js-currency-toggle").forEach(function (btn) {
+        btn.classList.toggle("active", btn.dataset.currency === getCurrency());
+      });
+      document.querySelectorAll("[data-artwork-slug]").forEach(function (w) {
+        populateSizeOptions(w);
+        updateLivePrice(w);
+      });
       renderCartPage();
-      document.querySelectorAll("[data-artwork-slug]").forEach(updateLivePrice);
+      return;
+    }
+
+    var orderQtyMinus = e.target.closest(".js-order-qty-minus");
+    if (orderQtyMinus) {
+      var owrap = orderQtyMinus.closest("[data-artwork-slug]");
+      var oqtyEl = owrap.querySelector(".js-order-qty");
+      oqtyEl.textContent = Math.max(1, (parseInt(oqtyEl.textContent, 10) || 1) - 1);
+      updateLivePrice(owrap);
+      return;
+    }
+
+    var orderQtyPlus = e.target.closest(".js-order-qty-plus");
+    if (orderQtyPlus) {
+      var pwrap = orderQtyPlus.closest("[data-artwork-slug]");
+      var pqtyEl = pwrap.querySelector(".js-order-qty");
+      pqtyEl.textContent = (parseInt(pqtyEl.textContent, 10) || 1) + 1;
+      updateLivePrice(pwrap);
       return;
     }
 
@@ -398,14 +423,73 @@
   });
 
   document.addEventListener("change", function (e) {
+    if (e.target.classList.contains("js-style-select")) {
+      var swrap = e.target.closest("[data-artwork-slug]");
+      if (!swrap) return;
+      populateSizeOptions(swrap);
+      var snoteEl = swrap.querySelector(".js-print-order-note");
+      if (snoteEl) snoteEl.textContent = "";
+      updateLivePrice(swrap);
+      return;
+    }
     if (!e.target.classList.contains("js-size-select")) return;
     var wrap = e.target.closest("[data-artwork-slug]");
     if (!wrap) return;
     var noteEl = wrap.querySelector(".js-print-order-note");
     var option = e.target.options[e.target.selectedIndex];
-    if (noteEl && option) noteEl.textContent = option.dataset.note;
+    if (noteEl && option) noteEl.textContent = option.dataset.note || "";
     updateLivePrice(wrap);
   });
+
+  function populateSizeOptions(wrap) {
+    var styleSelect = wrap.querySelector(".js-style-select");
+    var sizeSelect = wrap.querySelector(".js-size-select");
+    var dataSelect = wrap.querySelector(".js-size-data");
+    if (!styleSelect || !sizeSelect || !dataSelect) return;
+
+    var material = styleSelect.value;
+    var previousValue = sizeSelect.value;
+    sizeSelect.innerHTML = "";
+
+    if (!material) {
+      sizeSelect.disabled = true;
+      var ph = document.createElement("option");
+      ph.value = "";
+      ph.textContent = "בחרו סגנון קודם";
+      ph.selected = true;
+      sizeSelect.appendChild(ph);
+      return;
+    }
+
+    sizeSelect.disabled = false;
+    var placeholder = document.createElement("option");
+    placeholder.value = "";
+    placeholder.textContent = "בחרו גודל";
+    sizeSelect.appendChild(placeholder);
+
+    var currency = getCurrency();
+    var matched = false;
+    Array.prototype.forEach.call(dataSelect.options, function (opt) {
+      if (opt.dataset.material !== material) return;
+      var clone = document.createElement("option");
+      clone.value = opt.value;
+      clone.dataset.material = opt.dataset.material;
+      clone.dataset.materialName = opt.dataset.materialName;
+      clone.dataset.note = opt.dataset.note;
+      clone.dataset.sizeId = opt.dataset.sizeId;
+      clone.dataset.labelIn = opt.dataset.labelIn;
+      clone.dataset.labelCm = opt.dataset.labelCm;
+      clone.dataset.priceIls = opt.dataset.priceIls;
+      clone.dataset.priceUsd = opt.dataset.priceUsd;
+      if (opt.disabled) clone.disabled = true;
+      var label = currency === "USD" ? opt.dataset.labelIn : opt.dataset.labelCm;
+      clone.textContent = label + (opt.disabled ? " (אזל)" : "");
+      if (opt.value === previousValue) matched = true;
+      sizeSelect.appendChild(clone);
+    });
+
+    sizeSelect.value = matched ? previousValue : "";
+  }
 
   function updateLivePrice(wrap) {
     var priceEl = wrap.querySelector(".js-live-price");
@@ -416,26 +500,18 @@
       priceEl.textContent = "—";
       return;
     }
+    var qtyEl = wrap.querySelector(".js-order-qty");
+    var qty = qtyEl ? parseInt(qtyEl.textContent, 10) || 1 : 1;
     var currency = getCurrency();
     var unitPrice = currency === "USD" ? parseFloat(option.dataset.priceUsd) : parseFloat(option.dataset.priceIls);
-    priceEl.textContent = currency === "USD" ? "$" + unitPrice : unitPrice + " ₪";
-  }
-
-  function renderSizeOptions() {
-    var currency = getCurrency();
-    document.querySelectorAll(".js-currency-toggle").forEach(function (btn) {
-      btn.classList.toggle("active", btn.dataset.currency === currency);
-    });
-    document.querySelectorAll(".js-size-select option").forEach(function (option) {
-      if (!option.value) return;
-      var label = currency === "USD" ? option.dataset.labelIn : option.dataset.labelCm;
-      var disabledSuffix = option.disabled ? " (אזל)" : "";
-      option.textContent = option.dataset.materialName + " — " + label + disabledSuffix;
-    });
+    var total = unitPrice * qty;
+    priceEl.textContent = currency === "USD" ? "$" + total : total + " ₪";
   }
 
   updateCartBadge();
-  renderSizeOptions();
+  document.querySelectorAll(".js-currency-toggle").forEach(function (btn) {
+    btn.classList.toggle("active", btn.dataset.currency === getCurrency());
+  });
   loadCustomerForm();
   renderCartPage();
   document.querySelectorAll("[data-artwork-slug]").forEach(updateLivePrice);
