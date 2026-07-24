@@ -442,8 +442,8 @@ img {
 
 .home-art-grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 18px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 3px;
   align-items: start;
   max-width: 1280px;
   margin: 0 auto;
@@ -451,7 +451,8 @@ img {
 
 @media (min-width: 921px) {
   .home-art-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 372px));
+    justify-content: center;
     gap: 34px;
   }
 }
@@ -472,7 +473,7 @@ img {
   overflow: hidden;
   background: var(--black);
   border: 1px solid var(--line);
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 1;
   transition: transform 0.35s, border-color 0.35s;
 }
 
