@@ -6,21 +6,33 @@
       {
         "name": "Framed photo paper poster \"Orin\" By Gal Disegni / 8″×10″",
         "size": "8″×10″",
+        "syncVariantId": 5411769866,
+        "variantId": 6882,
+        "retailPriceUSD": "27.00",
         "printfulCostUSD": "23.46"
       },
       {
         "name": "Framed photo paper poster \"Orin\" By Gal Disegni / 12″×16″",
         "size": "12″×16″",
+        "syncVariantId": 5411769867,
+        "variantId": 6886,
+        "retailPriceUSD": "42.50",
         "printfulCostUSD": "35.19"
       },
       {
         "name": "Framed photo paper poster \"Orin\" By Gal Disegni / 16″×20″",
         "size": "16″×20″",
+        "syncVariantId": 5411769868,
+        "variantId": 6889,
+        "retailPriceUSD": "59.00",
         "printfulCostUSD": "48.96"
       },
       {
         "name": "Framed photo paper poster \"Orin\" By Gal Disegni / 24″×36″",
         "size": "24″×36″",
+        "syncVariantId": 5411769869,
+        "variantId": 7846,
+        "retailPriceUSD": "108.00",
         "printfulCostUSD": "90.78"
       }
     ]
@@ -32,16 +44,25 @@
       {
         "name": "CANVAS PRINT \"Orin\" archival giclee print on canvas by Gal Disegni / 16″×20″",
         "size": "16″×20″",
+        "syncVariantId": 5407772514,
+        "variantId": 6,
+        "retailPriceUSD": "34.00",
         "printfulCostUSD": "28.56"
       },
       {
         "name": "CANVAS PRINT \"Orin\" archival giclee print on canvas by Gal Disegni / 18″×24″",
         "size": "18″×24″",
+        "syncVariantId": 5407772515,
+        "variantId": 7,
+        "retailPriceUSD": "39.50",
         "printfulCostUSD": "33.66"
       },
       {
         "name": "CANVAS PRINT \"Orin\" archival giclee print on canvas by Gal Disegni / 24″×36″",
         "size": "24″×36″",
+        "syncVariantId": 5407772516,
+        "variantId": 825,
+        "retailPriceUSD": "61.00",
         "printfulCostUSD": "52.02"
       }
     ]
@@ -53,21 +74,33 @@
       {
         "name": "Poster \"Orin\" by Gal Disegn / 12″×18″",
         "size": "12″×18″",
+        "syncVariantId": 5407613779,
+        "variantId": 3876,
+        "retailPriceUSD": "13.50",
         "printfulCostUSD": "11.39"
       },
       {
         "name": "Poster \"Orin\" by Gal Disegn / 20″×30″",
         "size": "20″×30″",
+        "syncVariantId": 5407613780,
+        "variantId": 16365,
+        "retailPriceUSD": "18.50",
         "printfulCostUSD": "12.89"
       },
       {
         "name": "Poster \"Orin\" by Gal Disegn / 24″×36″",
         "size": "24″×36″",
+        "syncVariantId": 5407613781,
+        "variantId": 2,
+        "retailPriceUSD": "21.00",
         "printfulCostUSD": "17.89"
       },
       {
         "name": "Poster \"Orin\" by Gal Disegn / 5″×7″",
         "size": "5″×7″",
+        "syncVariantId": 5407613782,
+        "variantId": 16364,
+        "retailPriceUSD": "7.50",
         "printfulCostUSD": "5.39"
       }
     ]
