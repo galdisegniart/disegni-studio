@@ -52,6 +52,28 @@ eleventyComputed:
   </div>
 </section>
 
+<section class="exclusive-commission section">
+  <div class="section-label"><span>{{ p.exclusiveLabel }}</span></div>
+  <h2>{{ p.exclusiveHeading }}</h2>
+  <div class="exclusive-copy">
+    {% for para in p.exclusiveParagraphs %}
+    <p>{{ para }}</p>
+    {% endfor %}
+  </div>
+  <a class="cta js-whatsapp" href="{{ p.exclusiveWaMessage | waLink }}" target="_blank" rel="noopener noreferrer">{{ p.exclusiveCtaLabel }} <span>←</span></a>
+
+  <div class="faq-list">
+    <div class="section-label"><span>{{ p.faqLabel }}</span></div>
+    <h3>{{ p.faqHeading }}</h3>
+    {% for item in p.faq %}
+    <details class="faq-item">
+      <summary>{{ item.q }}</summary>
+      <p>{{ item.a }}</p>
+    </details>
+    {% endfor %}
+  </div>
+</section>
+
 <section class="inquiry section">
   <div class="section-label"><span>{{ p.inquiryLabel }}</span></div>
   <div class="inquiry-intro">
