@@ -841,10 +841,9 @@ footer {
 .print-order {
   width: min(100%, 560px);
   margin: 38px auto 0;
-  padding: 32px;
-  border: 1px solid var(--line);
-  border-radius: 4px;
-  background: #171933;
+  padding: 0;
+  border: 0;
+  background: none;
   text-align: right;
 }
 
@@ -872,7 +871,7 @@ footer {
 
 .print-order-quality-heading {
   margin: 0 0 14px;
-  color: var(--bone);
+  color: var(--copper);
   font-size: 19px;
   font-weight: 600;
 }
@@ -890,8 +889,9 @@ footer {
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  color: var(--dim);
+  color: var(--bone);
   font-size: 14px;
+  font-weight: 500;
   line-height: 1.55;
 }
 
@@ -960,9 +960,9 @@ footer {
 
 .print-order-field-label {
   flex-shrink: 0;
-  color: var(--dim);
+  color: var(--bone);
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .js-size-select {
@@ -1121,7 +1121,7 @@ footer {
 
 .print-order-details-body p {
   margin: 0 0 10px;
-  color: var(--dim);
+  color: var(--bone);
   font-size: 13px;
   line-height: 1.6;
 }
