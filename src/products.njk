@@ -72,6 +72,7 @@ eleventyComputed:
       <div class="print-order-field">
         <span class="print-order-field-label">מידה</span>
         <select class="js-size-select" aria-label="בחירת גודל וסוג הדפסה">
+          <option value="" selected disabled hidden>בחרו גודל וסוג הדפסה</option>
           {% for material in pricing.materials %}
           {% if material.id == "paper" or material.id in extraMaterials %}
           {% for size in material.sizes %}
@@ -82,9 +83,9 @@ eleventyComputed:
         </select>
       </div>
 
-      <p class="print-order-price">סה"כ <span class="js-live-price">0 ₪</span></p>
+      <p class="print-order-price">סה"כ <span class="js-live-price">—</span></p>
       <button type="button" class="cta js-add-to-cart">הוספה לעגלה</button>
-      <p class="print-order-note js-print-order-note">{{ pricing.materials[0].note }}</p>
+      <p class="print-order-note js-print-order-note"></p>
       <button class="artwork-share js-share" type="button" data-share-title="{{ artwork.name }} | {{ site.brand }}" data-share-text="{{ artwork.name }}, {{ artwork.description }}"><span aria-hidden="true">↗</span> <span class="js-share-label">שיתוף</span></button>
     </div>
     <a class="original-crosslink" href="/originals/{{ artwork.slug }}/">מתעניינים ביצירה המקורית של "{{ artwork.name }}"? <span aria-hidden="true">←</span></a>

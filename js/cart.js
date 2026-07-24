@@ -412,7 +412,10 @@
     var select = wrap.querySelector(".js-size-select");
     if (!priceEl || !select) return;
     var option = select.options[select.selectedIndex];
-    if (!option) return;
+    if (!option || !option.value) {
+      priceEl.textContent = "—";
+      return;
+    }
     var currency = getCurrency();
     var unitPrice = currency === "USD" ? parseFloat(option.dataset.priceUsd) : parseFloat(option.dataset.priceIls);
     priceEl.textContent = currency === "USD" ? "$" + unitPrice : unitPrice + " ₪";
@@ -424,6 +427,7 @@
       btn.classList.toggle("active", btn.dataset.currency === currency);
     });
     document.querySelectorAll(".js-size-select option").forEach(function (option) {
+      if (!option.value) return;
       var label = currency === "USD" ? option.dataset.labelIn : option.dataset.labelCm;
       var disabledSuffix = option.disabled ? " (אזל)" : "";
       option.textContent = option.dataset.materialName + " — " + label + disabledSuffix;
