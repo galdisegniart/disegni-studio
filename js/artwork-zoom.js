@@ -26,6 +26,11 @@
     img.addEventListener("load", syncLensImage);
 
     function moveLens(clientX, clientY) {
+      if (img.getAttribute("data-zoom-enabled") === "false") {
+        hideLens();
+        return;
+      }
+
       var rect = img.getBoundingClientRect();
       var x = clientX - rect.left;
       var y = clientY - rect.top;

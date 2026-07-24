@@ -55,19 +55,19 @@ eleventyComputed:
   <div class="artwork-detail-grid">
   {% if artwork.gallery and artwork.gallery.length %}
   <div class="artwork-gallery">
-    <figure class="artwork-stage">
-      <img class="js-product-gallery-main" src="{{ artwork.image }}" alt="{{ artwork.alt }}">
-    </figure>
     <div class="artwork-thumbnails" aria-label="תמונות נוספות של {{ artwork.name }}">
-      <button class="artwork-thumbnail is-active js-product-gallery-thumb" type="button" data-image="{{ artwork.image }}" data-alt="{{ artwork.alt }}" aria-label="הצגת התמונה הראשית" aria-current="true">
-        <img src="{{ artwork.thumb or artwork.image }}" alt="" loading="lazy">
-      </button>
       {% for galleryImage in artwork.gallery %}
-      <button class="artwork-thumbnail js-product-gallery-thumb" type="button" data-image="{{ galleryImage.image }}" data-alt="{{ galleryImage.alt or artwork.alt }}" aria-label="הצגת תמונה נוספת {{ loop.index }}">
+      <button class="artwork-thumbnail{% if loop.first %} is-active{% endif %} js-product-gallery-thumb" type="button" data-image="{{ galleryImage.image }}" data-alt="{{ galleryImage.alt or artwork.alt }}" data-zoom="false" aria-label="הצגת מוקאפ {{ loop.index }}"{% if loop.first %} aria-current="true"{% endif %}>
         <img src="{{ galleryImage.thumb or galleryImage.image }}" alt="" loading="lazy">
       </button>
       {% endfor %}
+      <button class="artwork-thumbnail js-product-gallery-thumb" type="button" data-image="{{ artwork.image }}" data-alt="{{ artwork.alt }}" data-zoom="true" aria-label="הצגת היצירה המקורית">
+        <img src="{{ artwork.thumb or artwork.image }}" alt="" loading="lazy">
+      </button>
     </div>
+    <figure class="artwork-stage">
+      <img class="js-product-gallery-main" src="{{ artwork.gallery[0].image }}" alt="{{ artwork.gallery[0].alt or artwork.alt }}" data-zoom-enabled="false">
+    </figure>
   </div>
   {% else %}
   <figure class="artwork-stage">

@@ -11,6 +11,7 @@
 
         mainImage.src = nextImage;
         mainImage.alt = thumbnail.getAttribute("data-alt") || "";
+        mainImage.setAttribute("data-zoom-enabled", thumbnail.getAttribute("data-zoom") === "true" ? "true" : "false");
 
         thumbnails.forEach(function (item) {
           var isActive = item === thumbnail;
