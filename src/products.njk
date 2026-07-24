@@ -62,7 +62,7 @@ eleventyComputed:
       </button>
       {% endfor %}
       <button class="artwork-thumbnail js-product-gallery-thumb" type="button" data-image="{{ artwork.image }}" data-alt="{{ artwork.alt }}" data-zoom="true" aria-label="הצגת היצירה המקורית">
-        <img src="{{ artwork.thumb or artwork.image }}" alt="" loading="lazy">
+        <img src="{{ artwork.image }}" alt="" loading="lazy">
       </button>
     </div>
     <figure class="artwork-stage">
