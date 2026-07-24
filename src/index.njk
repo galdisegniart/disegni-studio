@@ -8,6 +8,9 @@ scripts:
   - /js/mark-list.js
 ---
 {% set p = pages.home %}
+{% set printFrom = pages.pricing.materials | priceRange([]) %}
+{% set commissionFrom = pages.commissions.works | minPrice("price") %}
+{% set workshopFrom = workshops | minPrice("priceFromILS") %}
 <section class="artist-opening">
   <a class="artist-opening-logo" href="/">
     <img class="artist-logo" src="/images/brand-label-white.webp" alt="{{ site.brand }}">
@@ -24,6 +27,37 @@ scripts:
       <p>{{ p.assuranceLine2 }}</p>
     </div>
   </div>
+</section>
+
+<section class="home-gates" aria-label="דרכים ליצור ולרכוש">
+  <a class="home-gate-card" href="/collections/originals/">
+    <span class="home-gate-image"><img src="{{ artworks[0].thumb }}" alt="" loading="lazy"></span>
+    <span class="home-gate-copy">
+      <strong>יצירות מקוריות</strong>
+      <small>עבודות חד-פעמיות, זמינות לרכישה</small>
+    </span>
+  </a>
+  <a class="home-gate-card" href="/collections/prints/">
+    <span class="home-gate-image"><img src="{{ artworks[1].thumb }}" alt="" loading="lazy"></span>
+    <span class="home-gate-copy">
+      <strong>הדפסים אמנותיים</strong>
+      <small>החל מ-{{ printFrom.low | numberFormat }} ₪</small>
+    </span>
+  </a>
+  <a class="home-gate-card" href="/commissions/">
+    <span class="home-gate-image"><img src="{{ pages.commissions.heroImage }}" alt="" loading="lazy"></span>
+    <span class="home-gate-copy">
+      <strong>יצירות בהזמנה</strong>
+      <small>החל מ-{{ commissionFrom | numberFormat }} ₪</small>
+    </span>
+  </a>
+  <a class="home-gate-card" href="/workshops/">
+    <span class="home-gate-image"><img src="{{ workshops[0].cardImage }}" alt="" loading="lazy"></span>
+    <span class="home-gate-copy">
+      <strong>סדנאות</strong>
+      <small>החל מ-{{ workshopFrom | numberFormat }} ₪</small>
+    </span>
+  </a>
 </section>
 
 <section class="gallery section home-gallery">

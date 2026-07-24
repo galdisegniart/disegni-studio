@@ -12,6 +12,21 @@ module.exports = function (eleventyConfig) {
     return typeof str === "string" && str.indexOf(prefix) === 0;
   });
 
+  eleventyConfig.addFilter("numberFormat", function (n) {
+    return Number(n).toLocaleString("en-US");
+  });
+
+  eleventyConfig.addFilter("minPrice", function (items, key) {
+    var nums = (items || []).map(function (i) {
+      var v = i[key];
+      if (typeof v === "number") return v;
+      var n = parseFloat(String(v).replace(/[^\d.]/g, ""));
+      return isNaN(n) ? Infinity : n;
+    });
+    var min = Math.min.apply(null, nums);
+    return isFinite(min) ? min : 0;
+  });
+
   eleventyConfig.addFilter("relatedAvailableOriginals", function (artworks, currentSlug) {
     return (artworks || []).filter((a) => a.originalAvailable && a.slug !== currentSlug);
   });
