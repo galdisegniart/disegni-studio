@@ -130,9 +130,30 @@ eleventyComputed:
       <button class="artwork-share js-share" type="button" data-share-title="{{ artwork.name }} | {{ site.brand }}" data-share-text="{{ artwork.name }}, {{ artwork.description }}"><span aria-hidden="true">↗</span> <span class="js-share-label">שיתוף</span></button>
 
       <details class="print-order-details">
-        <summary>פרטים נוספים</summary>
+        <summary><span aria-hidden="true">☰</span> פרטים</summary>
         <div class="print-order-details-body">
-          <p><strong>קטגוריה:</strong> {{ artwork.galleryMedium }}</p>
+          <p>היצירה המקורית נוצרה ב{{ artwork.detailMedium }}. ההדפס הוא רפרודוקציה איכותית שלה, מיוצר לפי הזמנה.</p>
+          <p>{{ pricing.materials[0].note }}</p>
+        </div>
+      </details>
+
+      <details class="print-order-details">
+        <summary><span aria-hidden="true">✦</span> השראה</summary>
+        <div class="print-order-details-body">
+          <p>{{ artwork.description }}</p>
+        </div>
+      </details>
+
+      <details class="print-order-details">
+        <summary><span aria-hidden="true">⬡</span> קולקציה</summary>
+        <div class="print-order-details-body">
+          <p>היצירה שייכת לעולם ה{{ artwork.galleryMedium }} של {{ site.brand }}.</p>
+        </div>
+      </details>
+
+      <details class="print-order-details">
+        <summary><span aria-hidden="true">©</span> זכויות יוצרים</summary>
+        <div class="print-order-details-body">
           <p>כל היצירות, הדימויים והתוכן באתר זה מוגנים בזכויות יוצרים של {{ site.brand }}. <a href="/rights/">למדיניות זכויות היוצרים המלאה</a></p>
         </div>
       </details>

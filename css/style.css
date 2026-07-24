@@ -744,7 +744,7 @@ footer {
 .artwork-detail-copy h1 {
   margin: 0;
   font-size: clamp(54px, 7vw, 96px);
-  font-weight: 500;
+  font-weight: 700;
   line-height: 0.95;
   direction: ltr;
 }
@@ -796,7 +796,7 @@ footer {
 @media (min-width: 921px) {
   .artwork-detail-grid {
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     gap: 56px;
   }
 
@@ -812,6 +812,8 @@ footer {
     max-width: none;
     margin: 0;
     text-align: right;
+    position: sticky;
+    top: 32px;
   }
 
   .artwork-detail-grid .artwork-detail-copy h1 {
@@ -842,7 +844,7 @@ footer {
   padding: 32px;
   border: 1px solid var(--line);
   border-radius: 4px;
-  background: rgba(255, 255, 255, 0.02);
+  background: #171933;
   text-align: right;
 }
 
@@ -855,8 +857,8 @@ footer {
 }
 
 .print-order-quality {
-  padding-bottom: 20px;
-  margin-bottom: 20px;
+  padding-bottom: 14px;
+  margin-bottom: 14px;
   border-bottom: 1px solid var(--line);
 }
 
@@ -881,7 +883,7 @@ footer {
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 7px;
 }
 
 .print-order-quality-list li {
@@ -978,7 +980,7 @@ footer {
 }
 
 .print-order .js-add-to-cart {
-  margin: 20px 0 0;
+  margin: 16px 0 0;
   min-height: 58px;
   width: 100%;
   font-size: 18px;
@@ -1000,7 +1002,7 @@ footer {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 14px;
-  margin-top: 20px;
+  margin-top: 14px;
 }
 
 .print-order-selects .print-order-field {
@@ -1034,7 +1036,7 @@ footer {
 }
 
 .print-order-qty-field {
-  margin-top: 16px;
+  margin-top: 12px;
   justify-content: space-between;
 }
 
@@ -1076,15 +1078,15 @@ footer {
 }
 
 .print-order .cta-outline {
-  margin: 12px 0 0;
-  min-height: 52px;
+  margin: 10px 0 0;
+  min-height: 48px;
   width: 100%;
   font-size: 15px;
 }
 
 .print-order-details {
-  margin-top: 20px;
-  padding-top: 16px;
+  margin-top: 12px;
+  padding-top: 12px;
   border-top: 1px solid var(--line);
 }
 
