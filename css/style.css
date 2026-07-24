@@ -839,9 +839,10 @@ footer {
 .print-order {
   width: min(100%, 560px);
   margin: 38px auto 0;
-  padding: 26px;
+  padding: 32px;
   border: 1px solid var(--line);
   border-radius: 4px;
+  background: rgba(255, 255, 255, 0.02);
   text-align: right;
 }
 
@@ -856,8 +857,8 @@ footer {
 
 .print-order-label {
   color: var(--copper);
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 17px;
+  font-weight: 700;
 }
 
 .currency-toggle-mini {
@@ -868,12 +869,13 @@ footer {
 }
 
 .currency-toggle-mini .js-currency-toggle {
-  padding: 3px 9px;
+  padding: 6px 13px;
   border: 0;
   border-radius: 4px;
   background: transparent;
   color: var(--dim);
-  font-size: 12px;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
 }
@@ -899,34 +901,37 @@ footer {
 .print-order-field-label {
   flex-shrink: 0;
   color: var(--dim);
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
 }
 
 .js-size-select {
   flex: 1;
   min-width: 0;
-  min-height: 52px;
+  min-height: 56px;
   padding: 0 16px;
   border: 1px solid var(--line);
   border-radius: 4px;
   background: var(--black);
   color: var(--bone);
   font-family: var(--sans);
-  font-size: 15px;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 .print-order .js-add-to-cart {
-  margin: 16px 0 0;
-  min-height: 46px;
+  margin: 20px 0 0;
+  min-height: 58px;
   width: 100%;
+  font-size: 18px;
+  font-weight: 700;
 }
 
 .print-order-price {
-  margin: 4px 0 0;
+  margin: 8px 0 0;
   color: var(--bone);
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 26px;
+  font-weight: 700;
 }
 
 .print-order-price .js-live-price {
