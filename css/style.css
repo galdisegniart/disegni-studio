@@ -1,10 +1,11 @@
 :root {
-  --black: #0f0f0e;
-  --ink: #0f0f0e;
+  --black: #11122a;
+  --ink: #11122a;
   --bone: #e8e2d7;
-  --dim: #aaa398;
-  --line: #3c3934;
-  --copper: #ad6046;
+  --dim: #a7a3b4;
+  --line: #2b2c47;
+  --copper: #cf9843;
+  --teal: #1a9bb0;
   --sans: "Assistant", Arial, sans-serif;
   --serif: "Assistant", Arial, sans-serif;
   --display: "Assistant", Arial, sans-serif;
@@ -441,8 +442,8 @@ img {
 
 .home-art-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 3px;
+  grid-template-columns: 1fr;
+  gap: 18px;
   align-items: start;
   max-width: 1280px;
   margin: 0 auto;
@@ -450,8 +451,7 @@ img {
 
 @media (min-width: 921px) {
   .home-art-grid {
-    grid-template-columns: repeat(3, minmax(0, 372px));
-    justify-content: center;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 34px;
   }
 }
@@ -470,9 +470,9 @@ img {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: #0d0d0c;
-  border: 1px solid #302e2a;
-  aspect-ratio: 1;
+  background: var(--black);
+  border: 1px solid var(--line);
+  aspect-ratio: 16 / 9;
   transition: transform 0.35s, border-color 0.35s;
 }
 
@@ -1136,8 +1136,8 @@ footer {
   display: block;
   aspect-ratio: 1;
   overflow: hidden;
-  border: 1px solid #302e2a;
-  background: #070706;
+  border: 1px solid var(--line);
+  background: var(--black);
   transition: border-color 0.25s, transform 0.3s;
 }
 
@@ -1449,7 +1449,7 @@ footer {
 
 .review-summary span {
   display: block;
-  color: #df8b6d;
+  color: var(--teal);
   font-size: 20px;
   letter-spacing: 0.07em;
 }
@@ -1525,7 +1525,7 @@ footer {
 }
 
 .review-stars {
-  color: #df8b6d;
+  color: var(--teal);
   font-size: 21px;
   letter-spacing: 0.07em;
   direction: ltr;
@@ -1820,7 +1820,7 @@ footer {
 .hero-review-score i {
   display: block;
   margin-top: 2px;
-  color: #df8b6d;
+  color: var(--teal);
   font-style: normal;
   font-size: 14px;
 }
@@ -1882,7 +1882,7 @@ footer {
 
 .daily-video-grid video {
   width: 100%;
-  background: #070706;
+  background: var(--black);
 }
 
 .daily-video-grid p {
@@ -2283,7 +2283,7 @@ footer {
 .gallery-intro-minimal {
   padding: 154px max(74px, calc(50vw - 640px)) 64px;
   border-bottom: 1px solid var(--line);
-  background: #0d0d0c;
+  background: var(--black);
 }
 
 .shop-intro-layout {
@@ -2399,8 +2399,8 @@ footer {
   display: block;
   aspect-ratio: 1;
   overflow: hidden;
-  border: 1px solid #302e2a;
-  background: #090909;
+  border: 1px solid var(--line);
+  background: var(--black);
   transition: border-color 0.25s, transform 0.3s;
 }
 
