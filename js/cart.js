@@ -155,7 +155,10 @@
   function addToCart(item) {
     var cart = getCart();
     var existing = cart.find(function (line) {
-      return line.artworkSlug === item.artworkSlug && line.sizeId === item.sizeId && line.material === item.material;
+      return line.artworkSlug === item.artworkSlug &&
+        line.sizeId === item.sizeId &&
+        line.material === item.material &&
+        (line.frame || "none") === (item.frame || "none");
     });
     if (existing) {
       existing.qty += item.qty;
@@ -216,7 +219,8 @@
       var strong = document.createElement("strong");
       strong.textContent = item.artworkName;
       var span = document.createElement("span");
-      span.textContent = item.materialName + " · " + sizeLabel(item, currency);
+      span.textContent = item.materialName + " · " + sizeLabel(item, currency) +
+        (item.frameName ? " · " + item.frameName : "");
       info.appendChild(strong);
       info.appendChild(span);
 
@@ -282,7 +286,8 @@
 
     var waLines = cart
       .map(function (item) {
-        return "- " + item.artworkName + " (" + item.materialName + ", " + sizeLabel(item, currency) + ") × " + item.qty;
+        return "- " + item.artworkName + " (" + item.materialName + ", " + sizeLabel(item, currency) +
+          (item.frameName ? ", " + item.frameName : "") + ") × " + item.qty;
       })
       .join("\n");
     var customer = getCustomer();
@@ -300,6 +305,8 @@
           artworkName: item.artworkName,
           material: item.material,
           materialName: item.materialName,
+          frame: item.frame || "none",
+          frameName: item.frameName || "",
           sizeId: item.sizeId,
           sizeLabel: sizeLabel(item, currency),
           qty: item.qty,
@@ -337,8 +344,7 @@
     var addBtn = e.target.closest(".js-add-to-cart");
     if (addBtn) {
       var wrap = addBtn.closest("[data-artwork-slug]");
-      var select = wrap.querySelector(".js-size-select");
-      var option = select.options[select.selectedIndex];
+      var option = getSelectedProductOption(wrap);
       if (!option || option.disabled || !option.value) return;
       var qtyEl = wrap.querySelector(".js-order-qty");
       var orderQty = qtyEl ? parseInt(qtyEl.textContent, 10) || 1 : 1;
@@ -347,6 +353,8 @@
         artworkName: wrap.dataset.artworkName,
         material: option.dataset.material,
         materialName: option.dataset.materialName,
+        frame: option.dataset.frame || "none",
+        frameName: option.dataset.frameName || "",
         sizeId: option.dataset.sizeId,
         labelIn: option.dataset.labelIn,
         labelCm: option.dataset.labelCm,
@@ -365,7 +373,8 @@
         btn.classList.toggle("active", btn.dataset.currency === getCurrency());
       });
       document.querySelectorAll("[data-artwork-slug]").forEach(function (w) {
-        populateSizeOptions(w);
+        if (isPrintfulDriven(w)) populatePrintfulSizes(w);
+        else populateSizeOptions(w);
         updateLivePrice(w);
       });
       renderCartPage();
@@ -423,13 +432,31 @@
   });
 
   document.addEventListener("change", function (e) {
+    if (e.target.classList.contains("js-size-select")) {
+      var sizeWrap = e.target.closest("[data-artwork-slug]");
+      if (isPrintfulDriven(sizeWrap)) {
+        populatePrintfulStyles(sizeWrap);
+        updateLivePrice(sizeWrap);
+        return;
+      }
+    }
     if (e.target.classList.contains("js-style-select")) {
       var swrap = e.target.closest("[data-artwork-slug]");
       if (!swrap) return;
+      if (isPrintfulDriven(swrap)) {
+        populatePrintfulFrames(swrap);
+        updateLivePrice(swrap);
+        return;
+      }
       populateSizeOptions(swrap);
       var snoteEl = swrap.querySelector(".js-print-order-note");
       if (snoteEl) snoteEl.textContent = "";
       updateLivePrice(swrap);
+      return;
+    }
+    if (e.target.classList.contains("js-frame-select")) {
+      var frameWrap = e.target.closest("[data-artwork-slug]");
+      if (frameWrap) updateLivePrice(frameWrap);
       return;
     }
     if (!e.target.classList.contains("js-size-select")) return;
@@ -440,6 +467,106 @@
     if (noteEl && option) noteEl.textContent = option.dataset.note || "";
     updateLivePrice(wrap);
   });
+
+  function isPrintfulDriven(wrap) {
+    return !!(wrap && wrap.querySelector(".js-printful-options"));
+  }
+
+  function getPrintfulOptions(wrap) {
+    var data = wrap.querySelector(".js-printful-options");
+    if (!data) return [];
+    try {
+      return JSON.parse(data.textContent) || [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function uniqueBy(items, key) {
+    var seen = {};
+    return items.filter(function (item) {
+      var value = item[key];
+      if (seen[value]) return false;
+      seen[value] = true;
+      return true;
+    });
+  }
+
+  function populatePrintfulSizes(wrap) {
+    var select = wrap.querySelector(".js-size-select");
+    var previous = select.value;
+    var currency = getCurrency();
+    var sizes = uniqueBy(getPrintfulOptions(wrap), "sizeId");
+    select.innerHTML = '<option value="">בחרו גודל</option>';
+    sizes.forEach(function (item) {
+      var option = document.createElement("option");
+      option.value = item.sizeId;
+      option.textContent = currency === "USD" ? item.labelIn : item.labelCm;
+      select.appendChild(option);
+    });
+    select.value = sizes.some(function (item) { return item.sizeId === previous; }) ? previous : "";
+    select.disabled = false;
+    populatePrintfulStyles(wrap);
+  }
+
+  function populatePrintfulStyles(wrap) {
+    var size = wrap.querySelector(".js-size-select").value;
+    var select = wrap.querySelector(".js-style-select");
+    var previous = select.value;
+    var styles = uniqueBy(getPrintfulOptions(wrap).filter(function (item) {
+      return item.sizeId === size;
+    }), "style");
+    select.innerHTML = '<option value="">' + (size ? "בחרו סגנון" : "בחרו גודל קודם") + "</option>";
+    styles.forEach(function (item) {
+      var option = document.createElement("option");
+      option.value = item.style;
+      option.textContent = item.styleName;
+      select.appendChild(option);
+    });
+    select.value = styles.some(function (item) { return item.style === previous; }) ? previous : "";
+    select.disabled = !size;
+    populatePrintfulFrames(wrap);
+  }
+
+  function populatePrintfulFrames(wrap) {
+    var size = wrap.querySelector(".js-size-select").value;
+    var style = wrap.querySelector(".js-style-select").value;
+    var select = wrap.querySelector(".js-frame-select");
+    var previous = select.value;
+    var variants = uniqueBy(getPrintfulOptions(wrap).filter(function (item) {
+      return item.sizeId === size && item.style === style;
+    }), "frame");
+    select.innerHTML = '<option value="">' + (style ? "בחרו מסגור" : "בחרו סגנון קודם") + "</option>";
+    variants.forEach(function (item) {
+      var option = document.createElement("option");
+      option.value = item.productId + ":" + (item.syncVariantId || item.sizeId);
+      option.textContent = item.frameName;
+      option.dataset.material = item.style;
+      option.dataset.materialName = item.styleName;
+      option.dataset.frame = item.frame;
+      option.dataset.frameName = item.frameName;
+      option.dataset.sizeId = item.sizeId;
+      option.dataset.labelIn = item.labelIn;
+      option.dataset.labelCm = item.labelCm;
+      option.dataset.priceIls = item.priceILS || "";
+      option.dataset.priceUsd = item.priceUSD || "";
+      option.dataset.productId = item.productId;
+      option.dataset.syncVariantId = item.syncVariantId || "";
+      select.appendChild(option);
+    });
+    var matching = variants.some(function (item) {
+      return item.productId + ":" + (item.syncVariantId || item.sizeId) === previous;
+    });
+    select.value = matching ? previous : "";
+    select.disabled = !style;
+  }
+
+  function getSelectedProductOption(wrap) {
+    var select = isPrintfulDriven(wrap)
+      ? wrap.querySelector(".js-frame-select")
+      : wrap.querySelector(".js-size-select");
+    return select && select.options[select.selectedIndex];
+  }
 
   function populateSizeOptions(wrap) {
     var styleSelect = wrap.querySelector(".js-style-select");
@@ -493,9 +620,8 @@
 
   function updateLivePrice(wrap) {
     var priceEl = wrap.querySelector(".js-live-price");
-    var select = wrap.querySelector(".js-size-select");
-    if (!priceEl || !select) return;
-    var option = select.options[select.selectedIndex];
+    var option = getSelectedProductOption(wrap);
+    if (!priceEl) return;
     if (!option || !option.value) {
       priceEl.textContent = "—";
       return;
@@ -504,6 +630,10 @@
     var qty = qtyEl ? parseInt(qtyEl.textContent, 10) || 1 : 1;
     var currency = getCurrency();
     var unitPrice = currency === "USD" ? parseFloat(option.dataset.priceUsd) : parseFloat(option.dataset.priceIls);
+    if (!Number.isFinite(unitPrice)) {
+      priceEl.textContent = "—";
+      return;
+    }
     var total = unitPrice * qty;
     priceEl.textContent = currency === "USD" ? "$" + total : total + " ₪";
   }
@@ -514,5 +644,8 @@
   });
   loadCustomerForm();
   renderCartPage();
-  document.querySelectorAll("[data-artwork-slug]").forEach(updateLivePrice);
+  document.querySelectorAll("[data-artwork-slug]").forEach(function (wrap) {
+    if (isPrintfulDriven(wrap)) populatePrintfulSizes(wrap);
+    updateLivePrice(wrap);
+  });
 })();

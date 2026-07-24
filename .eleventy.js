@@ -46,6 +46,56 @@ module.exports = function (eleventyConfig) {
     return { low: low || 0, high };
   });
 
+  eleventyConfig.addFilter("printfulOptions", function (catalog, artworkName, pricing) {
+    const target = String(artworkName || "").toLowerCase();
+    const products = (catalog || []).filter((product) =>
+      String(product.name || "").toLowerCase().includes(target)
+    );
+
+    const manualMaterials = (pricing && pricing.materials) || [];
+    const manualPrice = (style, sizeId) => {
+      const material = manualMaterials.find((item) => item.id === style);
+      return material && (material.sizes || []).find((size) => size.id === sizeId);
+    };
+
+    return products.flatMap((product) => {
+      const name = String(product.name || "").toLowerCase();
+      const style = name.includes("canvas") ? "canvas" : "paper";
+      const frame = name.includes("framed") ? "framed" : "none";
+
+      return (product.variants || []).map((variant) => {
+        const readableSize = String(variant.size || "")
+          .replace(/â€³/g, "″")
+          .replace(/Ã—/g, "×");
+        const dimensions = readableSize.match(/(\d+)\D+(\d+)/);
+        if (!dimensions) return null;
+
+        const width = Number(dimensions[1]);
+        const height = Number(dimensions[2]);
+        const sizeId = width + "x" + height;
+        const fallback = manualPrice(style, sizeId);
+        const retailUSD = Number(variant.retailPriceUSD);
+
+        return {
+          productId: product.id,
+          syncVariantId: variant.syncVariantId || null,
+          variantId: variant.variantId || null,
+          sizeId,
+          labelIn: width + "×" + height + " אינץ'",
+          labelCm: Math.round(width * 2.54) + "×" + Math.round(height * 2.54) + ' ס"מ',
+          style,
+          styleName: style === "canvas" ? "קנבס מתוח" : "נייר אמנותי",
+          frame,
+          frameName: frame === "framed" ? "ממוסגר" : "ללא מסגרת",
+          priceUSD: Number.isFinite(retailUSD) && retailUSD > 0
+            ? retailUSD
+            : fallback && fallback.priceUSD,
+          priceILS: fallback && fallback.priceILS,
+        };
+      }).filter(Boolean);
+    });
+  });
+
   eleventyConfig.addFilter("waLink", function (message) {
     return "https://wa.me/" + site.whatsappNumber + "?text=" + encodeURIComponent(message);
   });
