@@ -32,7 +32,7 @@ eleventyComputed:
     {% for work in p.works %}
     <article class="work">
       <div class="work-main">
-        <h3 lang="en">{{ work.titleEn | safe }}</h3>
+        <h3>{{ work.title }}</h3>
         <p class="work-intro">{{ work.intro }}</p>
       </div>
       <div class="work-includes">
@@ -65,8 +65,8 @@ eleventyComputed:
     <label><span>איזו יצירה מעניינת אתכם?</span>
       <select name="artwork" required>
         <option value="" selected disabled>בחרו אפשרות</option>
-        <option value="Classic Portrait">Classic Portrait</option>
-        <option value="Visionary Portrait">Visionary Portrait</option>
+        <option value="ציור נשמתי">ציור נשמתי</option>
+        <option value="פורטרט אישי">פורטרט אישי</option>
         <option value="עדיין לא בטוח/ה">עדיין לא בטוח/ה</option>
       </select>
     </label>

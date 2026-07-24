@@ -2561,7 +2561,6 @@ footer {
   font-size: clamp(30px, 3vw, 42px);
   font-weight: 500;
   line-height: 1.1;
-  direction: ltr;
   text-align: right;
 }
 
