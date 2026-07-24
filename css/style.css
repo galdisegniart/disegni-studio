@@ -2,7 +2,7 @@
   --black: #11122a;
   --ink: #11122a;
   --bone: #e8e2d7;
-  --dim: #a7a3b4;
+  --dim: #968f86;
   --line: #2b2c47;
   --copper: #cf9843;
   --teal: #1a9bb0;
@@ -67,7 +67,7 @@ img {
   align-items: center;
   justify-content: center;
   gap: clamp(20px, 2.2vw, 32px);
-  color: #a39d93;
+  color: var(--dim);
   font-size: calc(var(--utility-size) + 3px);
   direction: rtl;
 }
@@ -299,7 +299,7 @@ img {
 
 .artist-signature-line {
   margin: 6px 0 0;
-  color: #c8c2b9;
+  color: var(--dim);
   font-family: var(--display);
   font-size: 16px;
   font-weight: 400;
@@ -539,7 +539,7 @@ footer {
 }
 
 .footer-brand span {
-  color: var(--bone);
+  color: var(--dim);
   font-family: var(--serif);
   font-size: 16px;
 }
@@ -576,7 +576,7 @@ footer {
   place-items: center;
   border: 1px solid var(--line);
   border-radius: 50%;
-  color: #a8a097;
+  color: var(--dim);
   transition: border-color 0.2s, color 0.2s, transform 0.2s;
 }
 
@@ -1328,7 +1328,7 @@ footer {
   grid-column: 1 / -1;
   grid-row: 2;
   margin-top: 4px;
-  color: #df8b6d;
+  color: var(--dim);
   font-size: 16px;
   font-style: normal;
 }
@@ -2166,7 +2166,7 @@ footer {
 
 .about-world-card small {
   grid-column: 1 / -1;
-  color: #df8b6d;
+  color: var(--dim);
   font-size: 14px;
 }
 
@@ -2589,7 +2589,7 @@ footer {
 .work-includes li {
   padding: 10px 0;
   border-bottom: 1px solid #2c2a27;
-  color: #b7b0a5;
+  color: var(--dim);
   font-size: 15px;
 }
 
@@ -2751,7 +2751,7 @@ footer {
 .notes-list li {
   padding: 19px 0;
   border-bottom: 1px solid var(--line);
-  color: #bab2a6;
+  color: var(--dim);
   font-size: 16px;
 }
 
@@ -2767,7 +2767,7 @@ footer {
 
 .exclusive-copy p {
   margin: 0 0 18px;
-  color: #bab2a6;
+  color: var(--dim);
   font-size: 17px;
   line-height: 1.7;
 }
@@ -2911,7 +2911,7 @@ footer {
 
 .rights-quick-grid p {
   margin: 0;
-  color: #9d968c;
+  color: var(--dim);
   line-height: 1.75;
 }
 
