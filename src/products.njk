@@ -58,7 +58,7 @@ eleventyComputed:
   <div class="artwork-gallery">
     <div class="artwork-thumbnails" aria-label="תמונות נוספות של {{ artwork.name }}">
       {% for galleryImage in artwork.gallery %}
-      <button class="artwork-thumbnail{% if loop.first %} is-active{% endif %} js-product-gallery-thumb" type="button" data-image="{{ galleryImage.image }}" data-alt="{{ galleryImage.alt or artwork.alt }}" data-zoom="false" aria-label="הצגת מוקאפ {{ loop.index }}"{% if loop.first %} aria-current="true"{% endif %}>
+      <button class="artwork-thumbnail{% if loop.first %} is-active{% endif %} js-product-gallery-thumb" type="button" data-image="{{ galleryImage.image }}" data-alt="{{ galleryImage.alt or artwork.alt }}" data-zoom="false"{% if galleryImage.productType %} data-product-type="{{ galleryImage.productType }}"{% endif %}{% if galleryImage.sizeId %} data-size-id="{{ galleryImage.sizeId }}"{% endif %}{% if galleryImage.frameColor %} data-frame-color="{{ galleryImage.frameColor }}"{% endif %} aria-label="הצגת מוקאפ {{ loop.index }}"{% if loop.first %} aria-current="true"{% endif %}>
         <img src="{{ galleryImage.thumb or galleryImage.image }}" alt="" loading="lazy">
       </button>
       {% endfor %}

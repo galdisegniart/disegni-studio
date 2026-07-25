@@ -11,11 +11,41 @@
   "gallery": [
     {
       "image": "/images/products/mockups/orin/hanging-print.webp",
-      "alt": "מוקאפ של היצירה Orin כהדפס תלוי על קיר"
+      "alt": "מוקאפ של היצירה Orin כהדפס תלוי על קיר",
+      "productType": "poster"
     },
     {
       "image": "/images/products/mockups/orin/Orin_canvas_print_Luxury_bedroom.webp",
-      "alt": "מוקאפ של היצירה Orin כהדפס קנבס בחדר שינה מואר"
+      "alt": "מוקאפ של היצירה Orin כהדפס קנבס בחדר שינה מואר",
+      "productType": "canvas"
+    },
+    {
+      "image": "/images/products/mockups/orin/Orin_framed_poster-8x10_black.webp",
+      "alt": "מוקאפ של Orin כפוסטר ממוסגר שחור בגודל 8×10 אינץ'",
+      "productType": "framed-print",
+      "sizeId": "8x10",
+      "frameColor": "black"
+    },
+    {
+      "image": "/images/products/mockups/orin/Orin_framed_poster-12x16_black.webp",
+      "alt": "מוקאפ של Orin כפוסטר ממוסגר שחור בגודל 12×16 אינץ'",
+      "productType": "framed-print",
+      "sizeId": "12x16",
+      "frameColor": "black"
+    },
+    {
+      "image": "/images/products/mockups/orin/Orin_framed_poster-16x20_black.webp",
+      "alt": "מוקאפ של Orin כפוסטר ממוסגר שחור בגודל 16×20 אינץ'",
+      "productType": "framed-print",
+      "sizeId": "16x20",
+      "frameColor": "black"
+    },
+    {
+      "image": "/images/products/mockups/orin/Orin_framed_poster-24x36_black.webp",
+      "alt": "מוקאפ של Orin כפוסטר ממוסגר שחור בגודל 24×36 אינץ'",
+      "productType": "framed-print",
+      "sizeId": "24x36",
+      "frameColor": "black"
     }
   ],
   "category": "mixed",

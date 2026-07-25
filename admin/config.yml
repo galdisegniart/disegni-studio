@@ -40,6 +40,9 @@ collections:
           - { label: "תמונה", name: "image", widget: "image" }
           - { label: "תמונה ממוזערת (אופציונלי)", name: "thumb", widget: "image", required: false }
           - { label: "טקסט חלופי לתמונה", name: "alt", widget: "string" }
+          - { label: "סוג מוצר מקושר (אופציונלי)", name: "productType", widget: "select", required: false, options: [{ label: "פוסטר", value: "poster" }, { label: "קנבס מתוח", value: "canvas" }, { label: "פוסטר ממוסגר", value: "framed-print" }] }
+          - { label: "מידה מקושרת באינץ' (אופציונלי, לדוגמה 12x16)", name: "sizeId", widget: "string", required: false }
+          - { label: "צבע מסגרת (אופציונלי)", name: "frameColor", widget: "select", required: false, options: [{ label: "שחור", value: "black" }, { label: "לבן", value: "white" }, { label: "עץ", value: "wood" }] }
       - { label: "היצירה המקורית זמינה למכירה?", name: "originalAvailable", widget: "boolean", default: false, hint: "סמנו רק אם המקור עדיין לא נמכר ואתם רוצים למכור אותו" }
       - { label: "מחיר היצירה המקורית (₪)", name: "originalPrice", widget: "number", default: 0, hint: "רלוונטי רק אם סימנתם 'זמינה למכירה' למעלה" }
       - label: "סוגי הדפסה נוספים (חוץ מנייר, שזמין תמיד)"

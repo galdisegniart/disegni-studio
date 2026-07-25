@@ -436,6 +436,7 @@
       var sizeWrap = e.target.closest("[data-artwork-slug]");
       if (isPrintfulDriven(sizeWrap)) {
         updateLivePrice(sizeWrap);
+        notifyProductGallery(sizeWrap);
         return;
       }
     }
@@ -445,6 +446,7 @@
       if (isPrintfulDriven(swrap)) {
         populatePrintfulSizes(swrap);
         updateLivePrice(swrap);
+        notifyProductGallery(swrap);
         return;
       }
       populateSizeOptions(swrap);
@@ -525,6 +527,7 @@
       option.dataset.material = item.style;
       option.dataset.materialName = item.productTypeName;
       option.dataset.frame = item.frame;
+      option.dataset.frameColor = item.frameColor || (item.frame === "framed" ? "black" : "");
       option.dataset.frameName = "";
       option.dataset.sizeId = item.sizeId;
       option.dataset.labelIn = item.labelIn;
@@ -546,6 +549,45 @@
     var select = wrap.querySelector(".js-size-select");
     return select && select.options[select.selectedIndex];
   }
+
+  function notifyProductGallery(wrap) {
+    var styleSelect = wrap.querySelector(".js-style-select");
+    var option = getSelectedProductOption(wrap);
+    if (!styleSelect || !styleSelect.value) return;
+
+    document.dispatchEvent(new CustomEvent("product-options:change", {
+      detail: {
+        order: wrap,
+        productType: styleSelect.value,
+        sizeId: option && option.value ? option.dataset.sizeId || "" : "",
+        frameColor: option && option.value ? option.dataset.frameColor || "" : ""
+      }
+    }));
+  }
+
+  document.addEventListener("product-gallery:select", function (event) {
+    var detail = event.detail || {};
+    var grid = detail.gallery && detail.gallery.closest(".artwork-detail-grid");
+    var wrap = grid && grid.querySelector("[data-artwork-slug]");
+    if (!wrap || !isPrintfulDriven(wrap) || !detail.productType) return;
+
+    var styleSelect = wrap.querySelector(".js-style-select");
+    var sizeSelect = wrap.querySelector(".js-size-select");
+    styleSelect.value = detail.productType;
+    populatePrintfulSizes(wrap);
+
+    if (detail.sizeId) {
+      var matchingOption = Array.prototype.find.call(sizeSelect.options, function (option) {
+        var colorMatches = !detail.frameColor ||
+          !option.dataset.frameColor ||
+          option.dataset.frameColor === detail.frameColor;
+        return option.dataset.sizeId === detail.sizeId && colorMatches;
+      });
+      if (matchingOption) sizeSelect.value = matchingOption.value;
+    }
+
+    updateLivePrice(wrap);
+  });
 
   function populateSizeOptions(wrap) {
     var styleSelect = wrap.querySelector(".js-style-select");
