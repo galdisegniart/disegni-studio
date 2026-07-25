@@ -21,15 +21,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/style.css?v={{ buildTime }}">
 </head>
-<body id="top"{% if productHeader %} class="has-product-header"{% endif %} data-whatsapp="{{ site.whatsappNumber }}">
+<body id="top" data-whatsapp="{{ site.whatsappNumber }}">
 
-{% if productHeader %}
 {% include "partials/site-header.njk" %}
-{% endif %}
 {{ content | safe }}
 
 {% for s in scripts %}
 <script src="{{ s }}?v={{ buildTime }}"></script>
 {% endfor %}
+<script src="/js/cart.js?v={{ buildTime }}"></script>
+<script src="/js/nav-toggle.js?v={{ buildTime }}"></script>
+<script src="/js/header-search.js?v={{ buildTime }}"></script>
 </body>
 </html>

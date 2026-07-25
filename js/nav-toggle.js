@@ -19,6 +19,10 @@
   }
 
   toggle.addEventListener("click", function () {
+    var searchToggle = document.querySelector(".header-search-toggle");
+    if (searchToggle && searchToggle.getAttribute("aria-expanded") === "true") {
+      searchToggle.click();
+    }
     if (nav.classList.contains("open")) {
       closeNav();
     } else {

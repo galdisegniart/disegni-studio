@@ -42,33 +42,50 @@ img {
 /* Header */
 .site-header {
   height: 82px;
-  position: absolute;
+  position: sticky;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 4;
+  z-index: 30;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  margin: 0 34px;
-  border-bottom: 1px solid var(--line);
-  background: var(--black);
+  margin: 0;
+  padding: 0 clamp(22px, 2.8vw, 54px);
+  border-bottom: 1px solid rgba(232, 226, 215, 0.12);
+  background: #0b0c20;
   direction: ltr;
 }
 
 .brand {
-  display: none;
-}
-
-.main-nav {
   grid-column: 2;
   grid-row: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(20px, 2.2vw, 32px);
+  width: 52px;
+  height: 68px;
+  justify-self: center;
+}
+
+.brand img {
+  width: 46px;
+  height: 54px;
+  object-fit: contain;
+}
+
+.main-nav {
+  grid-column: 3;
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  justify-self: end;
+  gap: clamp(8px, 0.8vw, 14px);
   color: var(--dim);
-  font-size: calc(var(--utility-size) + 3px);
+  font-size: clamp(12px, 0.78vw, 14px);
+  font-weight: 500;
+  white-space: nowrap;
   direction: rtl;
 }
 
@@ -98,20 +115,37 @@ img {
   left: 0;
 }
 
+.header-actions {
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.header-search-toggle,
 .header-cart {
-  grid-column: 3;
-  justify-self: end;
   position: relative;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  background: transparent;
   color: var(--bone);
+  cursor: pointer;
   transition: color 0.2s;
 }
 
+.header-search-toggle:hover,
 .header-cart:hover {
   color: var(--copper);
 }
 
+.header-search-toggle svg,
 .header-cart svg {
   width: 22px;
   height: 22px;
@@ -146,47 +180,127 @@ img {
   display: none;
 }
 
-/* Compact sticky navigation used by product pages. */
-.product-site-header {
-  position: sticky;
-  z-index: 30;
-  height: 72px;
-  margin: 0;
-  padding: 0 clamp(24px, 4vw, 64px);
-  background: var(--black);
-  border-bottom-color: rgba(232, 226, 215, 0.14);
+.nav-toggle:focus,
+.header-search-toggle:focus,
+.header-search-close:focus,
+.header-cart:focus {
+  outline: none;
 }
 
-.product-site-header .brand {
-  grid-column: 2;
-  grid-row: 1;
+.nav-toggle:focus-visible span,
+.header-search-toggle:focus-visible,
+.header-search-close:focus-visible,
+.header-cart:focus-visible {
+  color: #fff;
+  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.42));
+}
+
+.header-search-panel {
+  position: fixed;
+  z-index: 40;
+  inset: 82px 0 0;
+  padding: clamp(28px, 6vw, 72px) 24px;
+  background: rgba(4, 5, 16, 0.78);
+}
+
+.header-search-panel[hidden] {
+  display: none;
+}
+
+.header-search-inner {
+  width: min(100%, 760px);
+  max-height: calc(100dvh - 150px);
+  margin: 0 auto;
+  padding: clamp(24px, 4vw, 42px);
+  overflow-y: auto;
+  border: 1px solid var(--line);
+  background: #0b0c20;
+}
+
+.header-search-field {
+  display: grid;
+  grid-template-columns: 24px 1fr 30px;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--bone);
+  direction: ltr;
+}
+
+.header-search-field svg {
+  width: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+.header-search-field input {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--bone);
+  font: 400 clamp(20px, 3vw, 30px) / 1.3 var(--sans);
+  text-align: right;
+  direction: rtl;
+}
+
+.header-search-field input::placeholder {
+  color: var(--dim);
+}
+
+.header-search-field input::-webkit-search-cancel-button {
+  display: none;
+  -webkit-appearance: none;
+}
+
+.header-search-close {
+  border: 0;
+  background: transparent;
+  color: var(--bone);
+  font: 300 30px/1 var(--sans);
+  cursor: pointer;
+}
+
+.header-search-hint {
+  margin: 18px 0 10px;
+  color: var(--dim);
+  font-size: 14px;
+}
+
+.header-search-results {
+  display: grid;
+}
+
+.header-search-result {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 58px;
-  justify-self: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--line);
 }
 
-.product-site-header .brand img {
-  width: 42px;
-  height: 48px;
-  object-fit: contain;
+.header-search-result[hidden] {
+  display: none;
 }
 
-.product-site-header .main-nav {
-  grid-column: 3;
-  justify-self: end;
-  gap: clamp(16px, 1.65vw, 26px);
-  font-size: clamp(15px, 1.05vw, 18px);
+.header-search-result span {
+  color: var(--dim);
+  font-size: 13px;
 }
 
-.product-site-header .header-cart {
-  grid-column: 1;
-  justify-self: start;
+.header-search-result strong {
+  font-size: 17px;
+  font-weight: 500;
 }
 
-.has-product-header .artwork-detail > .breadcrumbs {
+body.search-open-lock {
+  overflow: hidden;
+}
+
+.artwork-detail > .breadcrumbs {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -257,7 +371,7 @@ img {
   }
 }
 
-@media (max-width: 920px) {
+@media (max-width: 1180px) {
   .main-nav {
     display: none;
     position: fixed;
@@ -324,22 +438,22 @@ img {
     transform: translateY(-10.5px) rotate(-45deg);
   }
 
-  .product-site-header {
+  .site-header {
     height: 62px;
     padding: 0 20px;
   }
 
-  .product-site-header .brand {
+  .brand {
     width: 42px;
     height: 52px;
   }
 
-  .product-site-header .brand img {
+  .brand img {
     width: 36px;
     height: 43px;
   }
 
-  .product-site-header .main-nav {
+  .main-nav {
     top: 62px;
     width: 100vw;
     height: calc(100dvh - 62px);
@@ -350,19 +464,30 @@ img {
     direction: rtl;
   }
 
-  .product-site-header .main-nav a {
+  .main-nav a {
     width: 100%;
     text-align: right;
   }
 
-  .product-site-header .nav-toggle {
+  .nav-toggle {
     grid-column: 3;
     justify-self: end;
   }
 
-  .product-site-header .header-cart {
+  .header-actions {
     grid-column: 1;
     justify-self: start;
+    gap: 12px;
+  }
+
+  .header-search-panel {
+    inset: 62px 0 0;
+    padding: 18px;
+  }
+
+  .header-search-inner {
+    max-height: calc(100dvh - 98px);
+    padding: 22px;
   }
 }
 

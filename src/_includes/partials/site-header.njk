@@ -1,23 +1,50 @@
-<header class="header site-header{% if productHeader %} product-site-header{% endif %}">
+<header class="header site-header">
   <a class="brand" href="/" aria-label="{{ site.brand }}, דף הבית">
-    {% if productHeader %}
     <img src="/images/brand-label-white.webp" alt="" width="728" height="815">
-    {% else %}
-    {{ site.brand }}
-    {% endif %}
   </a>
+
   <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="פתיחת תפריט ניווט">
     <span></span><span></span><span></span>
   </button>
+
   <nav class="main-nav" id="main-nav" aria-label="ניווט ראשי">
     {% for item in site.nav %}
-    {% if not productHeader or item.href == "/" or item.href == "/collections/prints/" or item.href == "/collections/originals/" or item.href == "/commissions/" or item.href == "/about/" %}
     <a{% if item.label == activeNav %} class="active"{% endif %} href="{{ item.href }}">{{ item.label }}</a>
-    {% endif %}
     {% endfor %}
   </nav>
-  <a class="header-cart" href="/cart/" aria-label="עגלת קניות">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1.4"></circle><circle cx="18" cy="21" r="1.4"></circle><path d="M2.5 3h2l2.2 12.2a2 2 0 0 0 2 1.65h8.15a2 2 0 0 0 1.97-1.65L21 8H6"></path></svg>
-    <span class="js-cart-count" hidden>0</span>
-  </a>
+
+  <div class="header-actions">
+    <button class="header-search-toggle" type="button" aria-expanded="false" aria-controls="header-search" aria-label="חיפוש באתר">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.2 4.2"></path></svg>
+    </button>
+    <a class="header-cart" href="/cart/" aria-label="עגלת קניות">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1.4"></circle><circle cx="18" cy="21" r="1.4"></circle><path d="M2.5 3h2l2.2 12.2a2 2 0 0 0 2 1.65h8.15a2 2 0 0 0 1.97-1.65L21 8H6"></path></svg>
+      <span class="js-cart-count" hidden>0</span>
+    </a>
+  </div>
 </header>
+
+<div class="header-search-panel" id="header-search" hidden>
+  <div class="header-search-inner" role="search">
+    <div class="header-search-field">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.2 4.2"></path></svg>
+      <input class="js-header-search-input" type="search" placeholder="חיפוש יצירה או קטגוריה" aria-label="חיפוש יצירה או קטגוריה" autocomplete="off">
+      <button class="header-search-close" type="button" aria-label="סגירת החיפוש">×</button>
+    </div>
+    <p class="header-search-hint">הקלידו לפחות שתי אותיות</p>
+    <div class="header-search-results" aria-live="polite">
+      {% for item in site.nav %}
+      <a class="header-search-result" href="{{ item.href }}" data-search-text="{{ item.label }}" hidden>
+        <span>קטגוריה</span>
+        <strong>{{ item.label }}</strong>
+      </a>
+      {% endfor %}
+      {% for item in artworks %}
+      <a class="header-search-result" href="/products/{{ item.slug }}/" data-search-text="{{ item.name }} {{ item.description }}" hidden>
+        <span>יצירה</span>
+        <strong>{{ item.name }}</strong>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
