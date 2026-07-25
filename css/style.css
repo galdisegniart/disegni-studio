@@ -1407,6 +1407,11 @@ body.product-lightbox-lock {
   font-weight: 700;
 }
 
+.print-order .js-add-to-cart:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+
 .print-order-price {
   margin: 8px 0 0;
   color: var(--bone);

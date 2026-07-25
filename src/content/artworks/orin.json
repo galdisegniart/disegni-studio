@@ -15,9 +15,22 @@
       "productType": "poster"
     },
     {
-      "image": "/images/products/mockups/orin/Orin_canvas_print_Luxury_bedroom.webp",
-      "alt": "מוקאפ של היצירה Orin כהדפס קנבס בחדר שינה מואר",
-      "productType": "canvas"
+      "image": "/images/products/mockups/orin/Orin_canvas_print_16x20.webp",
+      "alt": "מוקאפ של Orin כהדפס קנבס בגודל 16×20 אינץ'",
+      "productType": "canvas",
+      "sizeId": "16x20"
+    },
+    {
+      "image": "/images/products/mockups/orin/Orin_canvas_print_18x24.webp",
+      "alt": "מוקאפ של Orin כהדפס קנבס בגודל 18×24 אינץ'",
+      "productType": "canvas",
+      "sizeId": "18x24"
+    },
+    {
+      "image": "/images/products/mockups/orin/Orin_canvas_print_24x36.webp",
+      "alt": "מוקאפ של Orin כהדפס קנבס בגודל 24×36 אינץ'",
+      "productType": "canvas",
+      "sizeId": "24x36"
     },
     {
       "image": "/images/products/mockups/orin/Orin_framed_poster-8x10_black.webp",

@@ -519,7 +519,7 @@
     variants.sort(function (a, b) {
       return parseInt(a.sizeId, 10) - parseInt(b.sizeId, 10);
     });
-    select.innerHTML = '<option value="">' + (productType ? "בחרו גודל" : "בחרו סוג הדפס קודם") + "</option>";
+    select.innerHTML = '<option value="">בחרו גודל</option>';
     variants.forEach(function (item) {
       var option = document.createElement("option");
       option.value = item.productId + ":" + (item.syncVariantId || item.sizeId);
@@ -641,10 +641,12 @@
 
   function updateLivePrice(wrap) {
     var priceEl = wrap.querySelector(".js-live-price");
+    var addButton = wrap.querySelector(".js-add-to-cart");
     var option = getSelectedProductOption(wrap);
     if (!priceEl) return;
     if (!option || !option.value) {
       priceEl.textContent = "—";
+      if (addButton) addButton.disabled = true;
       return;
     }
     var qtyEl = wrap.querySelector(".js-order-qty");
@@ -653,10 +655,12 @@
     var unitPrice = currency === "USD" ? parseFloat(option.dataset.priceUsd) : parseFloat(option.dataset.priceIls);
     if (!Number.isFinite(unitPrice)) {
       priceEl.textContent = "—";
+      if (addButton) addButton.disabled = true;
       return;
     }
     var total = unitPrice * qty;
     priceEl.textContent = currency === "USD" ? "$" + total : total + " ₪";
+    if (addButton) addButton.disabled = false;
   }
 
   updateCartBadge();
