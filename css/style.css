@@ -81,9 +81,9 @@ img {
   align-items: center;
   justify-content: flex-end;
   justify-self: end;
-  gap: clamp(8px, 0.8vw, 14px);
+  gap: clamp(8px, 0.65vw, 12px);
   color: var(--dim);
-  font-size: clamp(12px, 0.78vw, 14px);
+  font-size: clamp(15px, 1vw, 19px);
   font-weight: 500;
   white-space: nowrap;
   direction: rtl;
@@ -122,6 +122,15 @@ img {
   display: flex;
   align-items: center;
   gap: 18px;
+}
+
+.header-tagline {
+  margin-left: 18px;
+  color: var(--dim);
+  font-size: 14px;
+  font-weight: 400;
+  white-space: nowrap;
+  direction: rtl;
 }
 
 .header-search-toggle,
@@ -371,7 +380,7 @@ body.search-open-lock {
   }
 }
 
-@media (max-width: 1180px) {
+@media (max-width: 1320px) {
   .main-nav {
     display: none;
     position: fixed;
@@ -480,6 +489,10 @@ body.search-open-lock {
     gap: 12px;
   }
 
+  .header-tagline {
+    display: none;
+  }
+
   .header-search-panel {
     inset: 62px 0 0;
     padding: 18px;
@@ -501,27 +514,6 @@ body.search-open-lock {
   align-items: center;
   gap: 0;
   text-align: center;
-}
-
-.artist-opening-logo {
-  width: min(100%, 800px);
-  padding: 0 20px 18px;
-}
-
-.artist-logo {
-  width: 72px;
-  height: auto;
-  margin: 0 auto;
-  object-fit: contain;
-}
-
-.artist-signature-line {
-  margin: 6px 0 0;
-  color: var(--dim);
-  font-family: var(--display);
-  font-size: 16px;
-  font-weight: 400;
-  letter-spacing: 0.015em;
 }
 
 .artist-opening-art {

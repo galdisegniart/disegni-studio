@@ -12,10 +12,6 @@ scripts:
 {% set commissionFrom = pages.commissions.works | minPrice("price") %}
 {% set workshopFrom = workshops | minPrice("priceFromILS") %}
 <section class="artist-opening">
-  <a class="artist-opening-logo" href="/">
-    <img class="artist-logo" src="/images/brand-label-white.webp" alt="{{ site.brand }}">
-    <p class="artist-signature-line">יצירות מקוריות מאת {{ site.brand }}</p>
-  </a>
   <figure class="artist-opening-art">
     <img src="{{ p.heroImage }}" alt="{{ p.heroImageAlt }}">
   </figure>
