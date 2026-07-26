@@ -8,6 +8,14 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
+    if (url.pathname === "/payments/grow/create") {
+      return handleGrowCheckout(request, env);
+    }
+
+    if (url.pathname === "/smartbee/connection-test") {
+      return handleSmartBeeConnectionTest(request, env);
+    }
+
     if (url.pathname === "/auth") {
       const authUrl = new URL("https://github.com/login/oauth/authorize");
       authUrl.searchParams.set("client_id", env.GITHUB_CLIENT_ID);
@@ -51,6 +59,504 @@ export default {
     return new Response("Decap CMS OAuth provider is running.", { status: 200 });
   },
 };
+
+const ORIN_TEST_PRODUCT = {
+  artworkSlug: "orin",
+  productType: "poster",
+  sizeId: "5x7",
+  catalogNumber: "ORIN-POSTER-5X7",
+  productName: "Orin – פוסטר 5×7 אינץ׳",
+  unitPrice: 89,
+};
+
+async function handleGrowCheckout(request, env) {
+  const corsHeaders = getCorsHeaders(request, env);
+
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: corsHeaders ? 204 : 403,
+      headers: corsHeaders || noStoreHeaders(),
+    });
+  }
+
+  if (request.method !== "POST") {
+    return jsonResponse(
+      { ok: false, error: "Method not allowed" },
+      405,
+      corsHeaders,
+      { Allow: "POST, OPTIONS" }
+    );
+  }
+
+  if (!corsHeaders) {
+    return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
+  }
+
+  if (!env.MAKE_CHECKOUT_WEBHOOK_URL || !env.MAKE_CHECKOUT_API_KEY) {
+    return jsonResponse(
+      { ok: false, error: "Payment service is not configured" },
+      503,
+      corsHeaders
+    );
+  }
+
+  let input;
+  try {
+    input = await request.json();
+  } catch {
+    return jsonResponse({ ok: false, error: "Invalid JSON" }, 400, corsHeaders);
+  }
+
+  const quantity = Number(input.quantity);
+  const isAllowedProduct =
+    input.artworkSlug === ORIN_TEST_PRODUCT.artworkSlug &&
+    input.productType === ORIN_TEST_PRODUCT.productType &&
+    input.sizeId === ORIN_TEST_PRODUCT.sizeId;
+
+  if (!isAllowedProduct || !Number.isInteger(quantity) || quantity < 1 || quantity > 10) {
+    return jsonResponse(
+      { ok: false, error: "Product is not available for payment testing" },
+      400,
+      corsHeaders
+    );
+  }
+
+  const customer = input.customer || {};
+  const fullName = cleanText(customer.fullName, 120);
+  const phone = cleanText(customer.phone, 20);
+  const email = cleanText(customer.email, 160);
+  const address = cleanText(customer.address, 300);
+  if (fullName.length < 2 || !/^0\d{8,9}$/.test(phone)) {
+    return jsonResponse(
+      { ok: false, error: "Valid customer name and Israeli phone are required" },
+      400,
+      corsHeaders
+    );
+  }
+
+  const subtotal = ORIN_TEST_PRODUCT.unitPrice * quantity;
+  const shipping = subtotal >= 350 ? 0 : 29;
+  const total = subtotal + shipping;
+  const orderId = `GD-${new Date().toISOString().slice(0, 10).replaceAll("-", "")}-${crypto.randomUUID().slice(0, 6).toUpperCase()}`;
+  const payload = {
+    orderId,
+    fullName,
+    phone,
+    email,
+    address,
+    catalogNumber: ORIN_TEST_PRODUCT.catalogNumber,
+    productName: ORIN_TEST_PRODUCT.productName,
+    unitPrice: ORIN_TEST_PRODUCT.unitPrice,
+    quantity,
+    subtotal,
+    shipping,
+    total,
+    successUrl: "https://disegni.studio/thank-you/",
+  };
+
+  let makeResponse;
+  try {
+    makeResponse = await fetch(env.MAKE_CHECKOUT_WEBHOOK_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-make-apikey": env.MAKE_CHECKOUT_API_KEY,
+      },
+      body: JSON.stringify(payload),
+    });
+  } catch (error) {
+    console.error("Grow checkout webhook request failed", error);
+    return jsonResponse(
+      { ok: false, error: "Payment service is unavailable" },
+      502,
+      corsHeaders
+    );
+  }
+
+  if (!makeResponse.ok) {
+    console.error("Grow checkout webhook rejected the request", makeResponse.status);
+    return jsonResponse(
+      { ok: false, error: "Payment service rejected the request" },
+      502,
+      corsHeaders
+    );
+  }
+
+  let makeBody;
+  try {
+    makeBody = await makeResponse.json();
+  } catch {
+    return jsonResponse(
+      { ok: false, error: "Payment service returned an invalid response" },
+      502,
+      corsHeaders
+    );
+  }
+
+  const paymentUrl = cleanText(makeBody.url, 1000);
+  if (!isAllowedGrowPaymentUrl(paymentUrl)) {
+    return jsonResponse(
+      { ok: false, error: "Payment service did not return a valid payment link" },
+      502,
+      corsHeaders
+    );
+  }
+
+  return jsonResponse({ ok: true, orderId, paymentUrl }, 200, corsHeaders);
+}
+
+function cleanText(value, maxLength) {
+  return typeof value === "string" ? value.trim().slice(0, maxLength) : "";
+}
+
+function isAllowedGrowPaymentUrl(value) {
+  try {
+    const url = new URL(value);
+    return (
+      url.protocol === "https:" &&
+      (url.hostname === "grow.link" ||
+        url.hostname.endsWith(".grow.link") ||
+        url.hostname === "grow.business" ||
+        url.hostname.endsWith(".grow.business"))
+    );
+  } catch {
+    return false;
+  }
+}
+
+async function handleSmartBeeConnectionTest(request, env) {
+  const corsHeaders = getCorsHeaders(request, env);
+
+  if (request.method === "GET") {
+    return smartBeeTestPage(corsHeaders);
+  }
+
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: corsHeaders ? 204 : 403,
+      headers: corsHeaders || noStoreHeaders(),
+    });
+  }
+
+  if (request.method !== "POST") {
+    return jsonResponse(
+      { ok: false, error: "Method not allowed" },
+      405,
+      corsHeaders,
+      { Allow: "POST, OPTIONS" }
+    );
+  }
+
+  if (!corsHeaders) {
+    return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
+  }
+
+  const accessKey = request.headers.get("X-Disegni-Test-Key");
+  if (!env.SMARTBEE_TEST_ACCESS_KEY || accessKey !== env.SMARTBEE_TEST_ACCESS_KEY) {
+    return jsonResponse({ ok: false, error: "Unauthorized" }, 401, corsHeaders);
+  }
+
+  const missingSecrets = [
+    "SMARTBEE_TEST_CLIENT_ID",
+    "SMARTBEE_TEST_PASSWORD",
+    "SMARTBEE_PROVIDER_USER_TOKEN",
+  ].filter((name) => !env[name]);
+
+  if (missingSecrets.length) {
+    return jsonResponse(
+      { ok: false, error: "SmartBee test credentials are not configured" },
+      503,
+      corsHeaders
+    );
+  }
+
+  try {
+    const apiBase = (env.SMARTBEE_TEST_API_BASE || "https://test.smartbee.co.il/api/v1")
+      .replace(/\/+$/, "");
+    let authentication;
+    try {
+      authentication = await smartBeeRequest(
+        `${apiBase}/Login/authenticate`,
+        {
+          clientId: env.SMARTBEE_TEST_CLIENT_ID,
+          password: env.SMARTBEE_TEST_PASSWORD,
+        }
+      );
+    } catch (error) {
+      throw new SmartBeeConnectionError("client_authentication", error);
+    }
+
+    if (!authentication.token) {
+      throw new SmartBeeConnectionError(
+        "client_authentication",
+        new Error("SmartBee authentication did not return a token")
+      );
+    }
+
+    let documentSearch;
+    try {
+      documentSearch = await smartBeeRequest(
+        `${apiBase}/Documents/search`,
+        {
+          providerUserToken: env.SMARTBEE_PROVIDER_USER_TOKEN,
+          page: 1,
+          amountPerPage: 1,
+        },
+        authentication.token
+      );
+    } catch (error) {
+      throw new SmartBeeConnectionError("provider_user_token", error);
+    }
+
+    const hasValidationErrors =
+      documentSearch.validationErrors &&
+      Object.keys(documentSearch.validationErrors).length > 0;
+    if ([94, 98, 99].includes(documentSearch.resultCodeId) || hasValidationErrors) {
+      const requestError = new Error("SmartBee rejected the document search request");
+      requestError.resultCodeId = documentSearch.resultCodeId;
+      requestError.validationFields = Object.keys(
+        documentSearch.validationErrors || {}
+      );
+      throw new SmartBeeConnectionError("document_search", requestError);
+    }
+
+    return jsonResponse(
+      {
+        ok: true,
+        environment: "test",
+        apiTokenExpiresAt: authentication.expirationUtcDate || null,
+        providerUserTokenVerified: true,
+      },
+      200,
+      corsHeaders
+    );
+  } catch (error) {
+    console.error("SmartBee connection test failed", error);
+    return jsonResponse(
+      {
+        ok: false,
+        error: "SmartBee connection test failed",
+        stage: error instanceof SmartBeeConnectionError ? error.stage : "unknown",
+        diagnostic:
+          error instanceof SmartBeeConnectionError
+            ? safeSmartBeeDiagnostic(error.cause)
+            : null,
+      },
+      502,
+      corsHeaders
+    );
+  }
+}
+
+class SmartBeeConnectionError extends Error {
+  constructor(stage, cause) {
+    super(`SmartBee connection failed at ${stage}`, { cause });
+    this.name = "SmartBeeConnectionError";
+    this.stage = stage;
+  }
+}
+
+function safeSmartBeeDiagnostic(error) {
+  if (!error) return null;
+  return {
+    httpStatus: Number.isInteger(error.httpStatus) ? error.httpStatus : null,
+    resultCodeId: Number.isInteger(error.resultCodeId) ? error.resultCodeId : null,
+    validationFields: Array.isArray(error.validationFields)
+      ? error.validationFields
+      : [],
+  };
+}
+
+function smartBeeTestPage(corsHeaders) {
+  const html = `<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>בדיקת חיבור SmartBee</title>
+  <style>
+    :root { color-scheme: dark; font-family: Arial, sans-serif; }
+    body { margin: 0; background: #0f1028; color: #f7f5f1; }
+    main { width: min(520px, calc(100% - 40px)); margin: 12vh auto; }
+    h1 { font-size: 1.8rem; }
+    p { color: #c8c5ce; line-height: 1.6; }
+    label { display: block; margin: 24px 0 8px; }
+    input, button {
+      box-sizing: border-box;
+      width: 100%;
+      min-height: 48px;
+      border-radius: 8px;
+      font: inherit;
+    }
+    input { border: 1px solid #4e5067; background: #171832; color: #fff; padding: 10px 12px; }
+    button { margin-top: 12px; border: 0; background: #d9a13f; color: #111226; font-weight: 700; cursor: pointer; }
+    button:disabled { opacity: .6; cursor: wait; }
+    output { display: block; margin-top: 20px; padding: 14px; border-radius: 8px; background: #171832; line-height: 1.6; }
+    .success { color: #8ee7af; }
+    .error { color: #ff9a9a; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>בדיקת חיבור SmartBee</h1>
+    <p>הבדיקה מאמתת את החיבור לסביבת הטסט בלבד. היא אינה מחייבת ואינה יוצרת מסמך.</p>
+    <form id="test-form">
+      <label for="key">מפתח הבדיקה הפנימי</label>
+      <input id="key" type="password" required autocomplete="off">
+      <button type="submit">בדיקת חיבור</button>
+    </form>
+    <output id="result" hidden></output>
+  </main>
+  <script>
+    const form = document.getElementById("test-form");
+    const keyInput = document.getElementById("key");
+    const button = form.querySelector("button");
+    const result = document.getElementById("result");
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      button.disabled = true;
+      result.hidden = false;
+      result.className = "";
+      result.textContent = "בודק חיבור...";
+
+      try {
+        const response = await fetch(location.pathname, {
+          method: "POST",
+          headers: { "X-Disegni-Test-Key": keyInput.value },
+        });
+        const body = await response.json();
+        if (!response.ok || !body.ok) {
+          const stageMessages = {
+            client_authentication: "החיבור נכשל בשלב אימות ה-ClientId והסיסמה.",
+            provider_user_token: "החיבור נכשל בשלב אימות ה-Token.",
+            document_search: "SmartBee דחה את בקשת חיפוש המסמכים.",
+          };
+          const diagnostic = body.diagnostic || {};
+          const details = [
+            Number.isInteger(diagnostic.httpStatus)
+              ? "HTTP " + diagnostic.httpStatus
+              : "",
+            Number.isInteger(diagnostic.resultCodeId)
+              ? "קוד SmartBee " + diagnostic.resultCodeId
+              : "",
+            Array.isArray(diagnostic.validationFields) &&
+            diagnostic.validationFields.length
+              ? "שדות: " + diagnostic.validationFields.join(", ")
+              : "",
+          ].filter(Boolean).join(" · ");
+          throw new Error(
+            (stageMessages[body.stage] || "החיבור נכשל מסיבה לא ידועה.") +
+            (details ? " " + details : "")
+          );
+        }
+        result.className = "success";
+        result.textContent = "החיבור לסביבת הטסט הצליח.";
+      } catch (error) {
+        result.className = "error";
+        result.textContent = error.message || "החיבור נכשל. יש לבדוק את הפרטים שהוגדרו.";
+      } finally {
+        keyInput.value = "";
+        button.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>`;
+
+  return new Response(html, {
+    status: 200,
+    headers: {
+      "Content-Type": "text/html; charset=utf-8",
+      ...noStoreHeaders(),
+      ...(corsHeaders || {}),
+      "X-Robots-Tag": "noindex, nofollow",
+    },
+  });
+}
+
+async function smartBeeRequest(url, body, bearerToken) {
+  const headers = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  };
+  if (bearerToken) headers.Authorization = `Bearer ${bearerToken}`;
+
+  const response = await fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+  });
+
+  const text = await response.text();
+  let data = {};
+  if (text) {
+    try {
+      data = JSON.parse(text);
+    } catch {
+      const requestError = new Error(
+        `SmartBee returned a non-JSON response (${response.status})`
+      );
+      requestError.httpStatus = response.status;
+      throw requestError;
+    }
+  }
+
+  if (!response.ok) {
+    const requestError = new Error(`SmartBee request failed (${response.status})`);
+    requestError.httpStatus = response.status;
+    requestError.resultCodeId = Number.isInteger(data.resultCodeId)
+      ? data.resultCodeId
+      : null;
+    requestError.validationFields = Object.keys(data.validationErrors || {});
+    throw requestError;
+  }
+
+  return data;
+}
+
+function getCorsHeaders(request, env) {
+  const origin = request.headers.get("Origin");
+  const requestOrigin = new URL(request.url).origin;
+  const allowedOrigins = (
+    env.DISEGNI_ALLOWED_ORIGINS ||
+    env.SMARTBEE_ALLOWED_ORIGINS ||
+    "https://disegni.studio"
+  )
+    .split(",")
+    .map((value) => value.trim())
+    .filter(Boolean);
+
+  if (origin && origin !== requestOrigin && !allowedOrigins.includes(origin)) return null;
+
+  return {
+    ...noStoreHeaders(),
+    "Access-Control-Allow-Origin": origin || allowedOrigins[0],
+    "Access-Control-Allow-Headers": "Content-Type, X-Disegni-Test-Key",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    Vary: "Origin",
+  };
+}
+
+function noStoreHeaders() {
+  return {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff",
+  };
+}
+
+function jsonResponse(body, status, corsHeaders, extraHeaders = {}) {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      ...noStoreHeaders(),
+      ...(corsHeaders || {}),
+      ...extraHeaders,
+    },
+  });
+}
 
 function htmlResponse(body) {
   return new Response(body, { headers: { "Content-Type": "text/html; charset=utf-8" } });

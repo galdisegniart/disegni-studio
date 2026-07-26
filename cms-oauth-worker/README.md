@@ -40,3 +40,45 @@
 
 7. עדכן את `admin/config.yml` בשורש הפרויקט: הוסף שורת `base_url` עם הכתובת
    מה-worker (בלי `/callback` בסוף).
+
+## בדיקת חיבור ל-SmartBee
+
+ה-Worker כולל נקודת בדיקה מוגנת:
+
+`POST /smartbee/connection-test`
+
+הבדיקה מתחברת אך ורק ל-API של סביבת הטסט, מאמתת את לקוח ה-API ומבצעת
+חיפוש מסמכים לקריאה בלבד כדי לוודא את ה-`providerUserToken`. היא מחזירה
+רק סטטוס ותאריך תפוגת התחברות. היא אינה יוצרת מסמך ואינה מבצעת חיוב.
+
+את הערכים הסודיים יש להזין ישירות כ-Cloudflare Worker Secrets, ולא לשמור
+בקוד או ב-Git:
+
+```powershell
+npx wrangler secret put SMARTBEE_TEST_CLIENT_ID
+npx wrangler secret put SMARTBEE_TEST_PASSWORD
+npx wrangler secret put SMARTBEE_PROVIDER_USER_TOKEN
+npx wrangler secret put SMARTBEE_TEST_ACCESS_KEY
+```
+
+`SMARTBEE_TEST_ACCESS_KEY` הוא מפתח פנימי חדש שיש ליצור במיוחד לבדיקות.
+הוא אינו אחד מהפרטים שהתקבלו מ-SmartBee.
+
+לאחר פריסה, מריצים את הבדיקה עם כותרת
+`X-Disegni-Test-Key`. אסור להוסיף את המפתח לעמוד ציבורי או ל-JavaScript
+של האתר.
+
+## חיבור תשלום Grow דרך Make
+
+נקודת הקצה `POST /payments/grow/create` מאמתת את המוצר והמחיר בצד השרת,
+מעבירה את ההזמנה לוובהוק המוגן של Make ומחזירה לאתר רק קישור תשלום תקין.
+
+את פרטי Make שומרים כסודות בקלאודפלייר:
+
+```powershell
+npx wrangler secret put MAKE_CHECKOUT_WEBHOOK_URL
+npx wrangler secret put MAKE_CHECKOUT_API_KEY
+```
+
+בשלב הבדיקה מאושר רק פוסטר Orin בגודל 5×7 אינץ׳. המחיר והמשלוח מחושבים
+ב-Worker ואינם מתקבלים מהדפדפן.

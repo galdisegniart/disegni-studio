@@ -183,6 +183,16 @@
     renderCartPage();
   }
 
+  function isGrowTestEligible(cart, currency) {
+    if (new URLSearchParams(window.location.search).get("payment-test") !== "orin") return false;
+    if (currency !== "ILS" || cart.length !== 1) return false;
+    var item = cart[0];
+    return item.artworkSlug === "orin" &&
+      item.material === "paper" &&
+      (item.frame || "none") === "none" &&
+      item.sizeId === "5x7";
+  }
+
   function renderCartPage() {
     var root = document.getElementById("cart-root");
     if (!root) return;
@@ -338,9 +348,24 @@
       var waNumber = document.body.dataset.whatsapp || "972552902934";
       waBtn.href = "https://wa.me/" + waNumber + "?text=" + encodeURIComponent(message);
     }
+    var growBtn = document.getElementById("cart-grow-checkout");
+    var growError = document.getElementById("cart-grow-error");
+    var growNote = document.getElementById("cart-grow-note");
+    var bankNote = document.getElementById("cart-bank-note");
+    var bankDetails = document.getElementById("cart-bank-details");
+    var growEligible = isGrowTestEligible(cart, currency);
+    if (growBtn) growBtn.hidden = !growEligible;
+    if (growNote) growNote.hidden = !growEligible;
+    if (waBtn) waBtn.hidden = growEligible;
+    if (bankNote) bankNote.hidden = growEligible;
+    if (bankDetails) bankDetails.hidden = growEligible;
+    if (growError && !growEligible) {
+      growError.hidden = true;
+      growError.textContent = "";
+    }
   }
 
-  document.addEventListener("click", function (e) {
+  document.addEventListener("click", async function (e) {
     var addBtn = e.target.closest(".js-add-to-cart");
     if (addBtn) {
       var wrap = addBtn.closest("[data-artwork-slug]");
@@ -418,6 +443,60 @@
     var removeBtn = e.target.closest(".js-remove");
     if (removeBtn) {
       removeFromCart(parseInt(removeBtn.dataset.index, 10));
+      return;
+    }
+
+    var growBtn = e.target.closest("#cart-grow-checkout");
+    if (growBtn) {
+      var growForm = document.getElementById("cart-customer-form");
+      if (growForm && !growForm.reportValidity()) return;
+
+      var growCart = getCart();
+      if (!isGrowTestEligible(growCart, getCurrency())) return;
+
+      var growCustomer = getCustomer();
+      var growError = document.getElementById("cart-grow-error");
+      var originalLabel = growBtn.innerHTML;
+      growBtn.disabled = true;
+      growBtn.textContent = "יוצר קישור תשלום...";
+      if (growError) {
+        growError.hidden = true;
+        growError.textContent = "";
+      }
+
+      try {
+        var paymentResponse = await fetch(
+          "https://disegni-cms-oauth.galdisegniart.workers.dev/payments/grow/create",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              artworkSlug: "orin",
+              productType: "poster",
+              sizeId: "5x7",
+              quantity: growCart[0].qty,
+              customer: {
+                fullName: growCustomer.name || "",
+                phone: growCustomer.phone || "",
+                email: growCustomer.email || "",
+                address: growCustomer.address || "",
+              },
+            }),
+          }
+        );
+        var paymentBody = await paymentResponse.json();
+        if (!paymentResponse.ok || !paymentBody.paymentUrl) {
+          throw new Error("לא ניתן ליצור כרגע קישור תשלום.");
+        }
+        window.location.assign(paymentBody.paymentUrl);
+      } catch (error) {
+        if (growError) {
+          growError.textContent = error.message || "אירעה שגיאה ביצירת התשלום.";
+          growError.hidden = false;
+        }
+        growBtn.disabled = false;
+        growBtn.innerHTML = originalLabel;
+      }
       return;
     }
 

@@ -1,3 +1,7 @@
 name = "disegni-cms-oauth"
 main = "src/worker.js"
 compatibility_date = "2024-11-01"
+
+[vars]
+SMARTBEE_TEST_API_BASE = "https://test.smartbee.co.il/api/v1"
+SMARTBEE_ALLOWED_ORIGINS = "https://disegni.studio,https://www.disegni.studio"

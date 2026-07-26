@@ -43,9 +43,12 @@ permalink: "/cart/index.html"
     <div class="cart-summary-row"><span>סכום ביניים</span><span id="cart-subtotal"></span></div>
     <div class="cart-summary-row"><span>משלוח</span><span id="cart-shipping"></span></div>
     <div class="cart-summary-row cart-summary-total"><span>סה"כ</span><span id="cart-total"></span></div>
+    <button id="cart-grow-checkout" class="cta" type="button" hidden>מעבר לתשלום מאובטח <span>←</span></button>
+    <p id="cart-grow-note" class="cart-payment-note" hidden>סביבת בדיקה — לא מתבצע חיוב אמיתי.</p>
+    <p id="cart-grow-error" class="cart-payment-error" role="alert" hidden></p>
     <a id="cart-whatsapp" class="cta" href="#" target="_blank" rel="noopener noreferrer">המשך להזמנה ב-WhatsApp <span>←</span></a>
-    <p class="cart-summary-note">{{ pay.lead }}</p>
-    <dl class="artwork-purchase-bank">
+    <p id="cart-bank-note" class="cart-summary-note">{{ pay.lead }}</p>
+    <dl id="cart-bank-details" class="artwork-purchase-bank">
       <div><dt>בנק</dt><dd>{{ pay.bankName }} ({{ pay.bankCode }})</dd></div>
       <div><dt>סניף</dt><dd>{{ pay.branch }}</dd></div>
       <div><dt>מספר חשבון</dt><dd dir="ltr">{{ pay.accountNumber }}</dd></div>
