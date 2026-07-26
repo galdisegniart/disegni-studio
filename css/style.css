@@ -3952,3 +3952,172 @@ body.product-lightbox-lock {
     min-height: 0;
   }
 }
+
+/* Product purchase proportions — reference-aligned */
+.site-header {
+  border-bottom: 0;
+}
+
+.artwork-detail-medium {
+  font-size: 17px;
+}
+
+.artwork-detail-description {
+  font-size: 20px;
+  line-height: 1.75;
+}
+
+.print-order-kicker {
+  margin-bottom: 22px;
+  font-size: 16px;
+}
+
+.print-order-quality {
+  margin-bottom: 20px;
+  padding-bottom: 22px;
+}
+
+.print-order-quality-label {
+  margin-bottom: 5px;
+  font-size: 15px;
+}
+
+.print-order-quality-heading {
+  margin-bottom: 16px;
+  font-size: 22px;
+}
+
+.print-order-quality-list {
+  gap: 10px;
+}
+
+.print-order-quality-list li {
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+.print-order-quality-icon {
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.print-order-head {
+  margin-bottom: 12px;
+}
+
+.currency-toggle-mini .js-currency-toggle {
+  padding: 7px 14px;
+  font-size: 15px;
+}
+
+.print-order-price {
+  margin-top: 10px;
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.print-order-selects {
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.print-order-selects .print-order-field {
+  gap: 9px;
+}
+
+.print-order-selects .print-order-field-label,
+.print-order-qty-field .print-order-field-label {
+  font-size: 16px;
+}
+
+.print-order .js-style-select,
+.print-order .js-size-select,
+.print-order .js-frame-select {
+  min-height: 60px;
+  padding-inline: 18px;
+  border: 1.5px solid rgba(232, 226, 215, 0.34);
+  border-radius: 8px;
+  font-size: 18px;
+}
+
+.print-order-qty-field {
+  margin-top: 18px;
+}
+
+.qty-stepper {
+  border: 1.5px solid rgba(232, 226, 215, 0.34);
+  border-radius: 8px;
+}
+
+.qty-stepper button {
+  width: 44px;
+  height: 44px;
+}
+
+.qty-stepper .js-order-qty {
+  min-width: 36px;
+  font-size: 18px;
+}
+
+.print-order .js-add-to-cart {
+  min-height: 62px;
+  font-size: 19px;
+}
+
+.print-order .cta-outline {
+  min-height: 54px;
+  font-size: 17px;
+}
+
+.print-order-details summary {
+  font-size: 16px;
+}
+
+.print-order-details-body p,
+.print-order-note {
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.original-crosslink {
+  font-size: 15px;
+}
+
+@media (min-width: 921px) {
+  .artwork-detail {
+    padding-inline: max(74px, calc(50vw - 760px));
+  }
+
+  .artwork-detail-grid {
+    gap: 32px;
+  }
+
+  .artwork-detail-grid .artwork-gallery,
+  .artwork-detail-grid .artwork-detail-copy {
+    flex: 1 1 50%;
+  }
+
+  .artwork-detail-grid .artwork-detail-copy {
+    top: 110px;
+  }
+
+  .artwork-detail-grid .artwork-detail-copy h1 {
+    font-size: clamp(48px, 3.4vw, 64px);
+  }
+
+  .artwork-detail-grid .artwork-detail-description {
+    margin-top: 26px;
+  }
+
+  .artwork-detail-grid .print-order {
+    width: 100%;
+    max-width: none;
+    margin-top: 38px;
+  }
+}
+
+@media (max-width: 768px) {
+  .artwork-detail {
+    padding-inline: 18px;
+  }
+}
