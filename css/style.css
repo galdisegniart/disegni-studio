@@ -4121,3 +4121,55 @@ body.product-lightbox-lock {
     padding-inline: 18px;
   }
 }
+
+/* Desktop-only product gallery arrows */
+.artwork-gallery-arrow {
+  display: none;
+}
+
+@media (min-width: 921px) and (hover: hover) and (pointer: fine) {
+  .artwork-gallery-arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 7;
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    background: rgba(255, 255, 255, 0.88);
+    color: var(--black);
+    font: 300 34px/1 var(--sans);
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(-50%);
+    transition: opacity 0.18s ease, background-color 0.18s ease, color 0.18s ease;
+  }
+
+  .artwork-gallery-arrow span {
+    display: block;
+    transform: translateY(-1px);
+  }
+
+  .artwork-gallery-arrow-prev {
+    left: 0;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .artwork-gallery-arrow-next {
+    right: 0;
+    border-radius: 8px 0 0 8px;
+  }
+
+  .artwork-stage:hover .artwork-gallery-arrow {
+    opacity: 1;
+  }
+
+  .artwork-gallery-arrow:hover,
+  .artwork-gallery-arrow:focus-visible {
+    background: var(--gold);
+    color: var(--black);
+    outline: none;
+  }
+}
