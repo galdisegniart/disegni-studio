@@ -4134,42 +4134,50 @@ body.product-lightbox-lock {
     z-index: 7;
     display: grid;
     place-items: center;
-    width: 34px;
-    height: 44px;
+    width: 32px;
+    height: 32px;
     padding: 0;
     border: 0;
-    background: rgba(255, 255, 255, 0.88);
-    color: var(--black);
-    font: 300 34px/1 var(--sans);
+    border-radius: 8px;
+    background: rgb(14, 16, 35);
+    color: rgb(241, 242, 246);
     cursor: pointer;
+    direction: ltr;
     opacity: 0;
     transform: translateY(-50%);
     transition: opacity 0.18s ease, background-color 0.18s ease, color 0.18s ease;
   }
 
-  .artwork-gallery-arrow span {
+  .artwork-gallery-arrow svg {
     display: block;
-    transform: translateY(-1px);
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
   .artwork-gallery-arrow-prev {
     left: 0;
-    border-radius: 0 8px 8px 0;
   }
 
   .artwork-gallery-arrow-next {
     right: 0;
-    border-radius: 8px 0 0 8px;
   }
 
   .artwork-stage:hover .artwork-gallery-arrow {
     opacity: 1;
   }
 
+  .artwork-gallery-arrow:focus-visible {
+    opacity: 1;
+  }
+
   .artwork-gallery-arrow:hover,
   .artwork-gallery-arrow:focus-visible {
-    background: var(--gold);
-    color: var(--black);
-    outline: none;
+    background: rgba(14, 16, 35, 0.82);
+    color: #fff;
+    outline: 1px solid rgba(255, 255, 255, 0.7);
+    outline-offset: 1px;
   }
 }
