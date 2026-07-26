@@ -4158,11 +4158,11 @@ body.product-lightbox-lock {
   }
 
   .artwork-gallery-arrow-prev {
-    left: 0;
+    left: 5px;
   }
 
   .artwork-gallery-arrow-next {
-    right: 0;
+    right: 5px;
   }
 
   .artwork-stage:hover .artwork-gallery-arrow {
@@ -4175,8 +4175,8 @@ body.product-lightbox-lock {
 
   .artwork-gallery-arrow:hover,
   .artwork-gallery-arrow:focus-visible {
-    background: rgba(14, 16, 35, 0.82);
-    color: #fff;
+    background: rgb(14, 16, 35);
+    color: rgb(241, 242, 246);
     outline: 1px solid rgba(255, 255, 255, 0.7);
     outline-offset: 1px;
   }
