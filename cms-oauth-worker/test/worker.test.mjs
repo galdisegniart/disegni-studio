@@ -20,9 +20,13 @@ function growRequest(overrides = {}) {
     },
     body: JSON.stringify({
       artworkSlug: "orin",
-      productType: "poster",
-      sizeId: "5x7",
-      quantity: 1,
+      items: [
+        {
+          productType: "poster",
+          sizeId: "5x7",
+          quantity: 1,
+        },
+      ],
       customer: {
         fullName: "לקוח בדיקה",
         phone: "0500000000",
@@ -66,8 +70,17 @@ test("creates a server-priced Orin checkout request without exposing Make secret
     assert.equal(body.paymentUrl, "https://sandbox.grow.link/test-payment");
     assert.equal(payload.catalogNumber, "ORIN-POSTER-5X7");
     assert.equal(payload.unitPrice, 89);
-    assert.equal(payload.shipping, 29);
-    assert.equal(payload.total, 118);
+    assert.equal(payload.shipping, 45);
+    assert.equal(payload.total, 134);
+    assert.deepEqual(payload.items, [
+      {
+        catalogNumber: "ORIN-POSTER-5X7",
+        productName: "Orin – פוסטר 13×18 ס״מ",
+        unitPrice: 89,
+        quantity: 1,
+        lineTotal: 89,
+      },
+    ]);
     assert.equal(makeCall.options.headers["x-make-apikey"], "private-make-key");
     assert.equal(JSON.stringify(body).includes("private-make-key"), false);
   } finally {
@@ -75,9 +88,11 @@ test("creates a server-priced Orin checkout request without exposing Make secret
   }
 });
 
-test("rejects products outside the single approved Orin test variant", async () => {
+test("rejects products outside the approved Orin variants", async () => {
   const response = await worker.fetch(
-    growRequest({ sizeId: "24x36" }),
+    growRequest({
+      items: [{ productType: "poster", sizeId: "not-a-size", quantity: 1 }],
+    }),
     {
       ...ENV,
       MAKE_CHECKOUT_WEBHOOK_URL: "https://hook.example/orin",
@@ -90,6 +105,70 @@ test("rejects products outside the single approved Orin test variant", async () 
     ok: false,
     error: "Product is not available for payment testing",
   });
+});
+
+test("prices additional items from the same shipping category on the server", async () => {
+  const originalFetch = globalThis.fetch;
+  let payload;
+  globalThis.fetch = async (url, options) => {
+    payload = JSON.parse(options.body);
+    return Response.json({ url: "https://sandbox.grow.link/test-payment" });
+  };
+
+  try {
+    const response = await worker.fetch(
+      growRequest({
+        items: [{ productType: "poster", sizeId: "20x30", quantity: 2 }],
+      }),
+      {
+        ...ENV,
+        MAKE_CHECKOUT_WEBHOOK_URL: "https://hook.example/orin",
+        MAKE_CHECKOUT_API_KEY: "private-make-key",
+      }
+    );
+
+    assert.equal(response.status, 200);
+    assert.equal(payload.subtotal, 638);
+    assert.equal(payload.shipping, 59);
+    assert.equal(payload.total, 697);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("adds first-item shipping for each mixed product category", async () => {
+  const originalFetch = globalThis.fetch;
+  let payload;
+  globalThis.fetch = async (url, options) => {
+    payload = JSON.parse(options.body);
+    return Response.json({ url: "https://sandbox.grow.link/test-payment" });
+  };
+
+  try {
+    const response = await worker.fetch(
+      growRequest({
+        items: [
+          { productType: "poster", sizeId: "5x7", quantity: 1 },
+          { productType: "framed-print", sizeId: "8x10", quantity: 1 },
+          { productType: "canvas", sizeId: "16x20", quantity: 1 },
+        ],
+      }),
+      {
+        ...ENV,
+        MAKE_CHECKOUT_WEBHOOK_URL: "https://hook.example/orin",
+        MAKE_CHECKOUT_API_KEY: "private-make-key",
+      }
+    );
+
+    assert.equal(response.status, 200);
+    assert.equal(payload.subtotal, 867);
+    assert.equal(payload.shipping, 483);
+    assert.equal(payload.total, 1350);
+    assert.equal(payload.unitPrice, 867);
+    assert.equal(payload.quantity, 1);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
 });
 
 test("serves a no-index connection test page without exposing secrets", async () => {

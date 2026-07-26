@@ -31,6 +31,11 @@
     return item.priceILS + " ₪";
   }
 
+  function formatAmount(value, currency) {
+    var amount = Math.round(Number(value) * 100) / 100;
+    return currency === "USD" ? "$" + amount.toFixed(2) : amount + " ₪";
+  }
+
   function sizeLabel(item, currency) {
     return currency === "USD" ? item.labelIn : item.labelCm;
   }
@@ -185,12 +190,51 @@
 
   function isGrowTestEligible(cart, currency) {
     if (new URLSearchParams(window.location.search).get("payment-test") !== "orin") return false;
-    if (currency !== "ILS" || cart.length !== 1) return false;
-    var item = cart[0];
-    return item.artworkSlug === "orin" &&
-      item.material === "paper" &&
-      (item.frame || "none") === "none" &&
-      item.sizeId === "5x7";
+    if (currency !== "ILS" || cart.length === 0) return false;
+    return cart.every(function (item) {
+      return item.artworkSlug === "orin" &&
+        ["poster", "framed-print", "canvas"].indexOf(item.productType) !== -1 &&
+        Number.isInteger(item.qty) &&
+        item.qty >= 1 &&
+        item.qty <= 10;
+    });
+  }
+
+  function hasVariantShipping(cart, currency) {
+    var suffix = currency === "USD" ? "USD" : "ILS";
+    return cart.length > 0 && cart.every(function (item) {
+      return Number.isFinite(Number(item["shippingFirst" + suffix])) &&
+        Number.isFinite(Number(item["shippingAdditional" + suffix])) &&
+        !!item.productType;
+    });
+  }
+
+  function calculateVariantShipping(cart, currency) {
+    var suffix = currency === "USD" ? "USD" : "ILS";
+    var groups = {};
+
+    cart.forEach(function (item) {
+      var key = item.productType;
+      if (!groups[key]) groups[key] = [];
+      for (var index = 0; index < item.qty; index += 1) {
+        groups[key].push({
+          first: Number(item["shippingFirst" + suffix]),
+          additional: Number(item["shippingAdditional" + suffix]),
+        });
+      }
+    });
+
+    var total = Object.keys(groups).reduce(function (sum, key) {
+      var units = groups[key].sort(function (a, b) {
+        return b.first - a.first;
+      });
+      if (!units.length) return sum;
+      return sum + units[0].first + units.slice(1).reduce(function (groupSum, unit) {
+        return groupSum + unit.additional;
+      }, 0);
+    }, 0);
+
+    return Math.round(total * 100) / 100;
   }
 
   function renderCartPage() {
@@ -279,7 +323,10 @@
 
     var shipping = 0;
     var shippingLabel = "";
-    if (currency === "ILS") {
+    if (hasVariantShipping(cart, currency)) {
+      shipping = calculateVariantShipping(cart, currency);
+      shippingLabel = formatAmount(shipping, currency);
+    } else if (currency === "ILS") {
       var flat = parseFloat(root.dataset.shippingFlat || "0");
       var threshold = parseFloat(root.dataset.shippingThreshold || "0");
       shipping = subtotal >= threshold ? 0 : flat;
@@ -290,9 +337,9 @@
 
     var total = subtotal + shipping;
 
-    document.getElementById("cart-subtotal").textContent = (currency === "USD" ? "$" + subtotal : subtotal + " ₪");
+    document.getElementById("cart-subtotal").textContent = formatAmount(subtotal, currency);
     document.getElementById("cart-shipping").textContent = shippingLabel;
-    document.getElementById("cart-total").textContent = (currency === "USD" ? "$" + total : total + " ₪");
+    document.getElementById("cart-total").textContent = formatAmount(total, currency);
 
     var waLines = cart
       .map(function (item) {
@@ -315,6 +362,8 @@
           artworkName: item.artworkName,
           material: item.material,
           materialName: item.materialName,
+          productType: item.productType || "",
+          catalogNumber: item.catalogNumber || "",
           frame: item.frame || "none",
           frameName: item.frameName || "",
           sizeId: item.sizeId,
@@ -378,13 +427,19 @@
         artworkName: wrap.dataset.artworkName,
         material: option.dataset.material,
         materialName: option.dataset.materialName,
+        productType: option.dataset.productType || "",
         frame: option.dataset.frame || "none",
         frameName: option.dataset.frameName || "",
         sizeId: option.dataset.sizeId,
+        catalogNumber: option.dataset.catalogNumber || "",
         labelIn: option.dataset.labelIn,
         labelCm: option.dataset.labelCm,
         priceILS: parseFloat(option.dataset.priceIls),
         priceUSD: parseFloat(option.dataset.priceUsd),
+        shippingFirstILS: parseFloat(option.dataset.shippingFirstIls),
+        shippingAdditionalILS: parseFloat(option.dataset.shippingAdditionalIls),
+        shippingFirstUSD: parseFloat(option.dataset.shippingFirstUsd),
+        shippingAdditionalUSD: parseFloat(option.dataset.shippingAdditionalUsd),
         qty: orderQty,
       });
       window.location.href = "/cart/";
@@ -472,9 +527,13 @@
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               artworkSlug: "orin",
-              productType: "poster",
-              sizeId: "5x7",
-              quantity: growCart[0].qty,
+              items: growCart.map(function (item) {
+                return {
+                  productType: item.productType,
+                  sizeId: item.sizeId,
+                  quantity: item.qty,
+                };
+              }),
               customer: {
                 fullName: growCustomer.name || "",
                 phone: growCustomer.phone || "",
@@ -605,14 +664,20 @@
       option.textContent = currency === "USD" ? item.labelIn : item.labelCm;
       option.dataset.material = item.style;
       option.dataset.materialName = item.productTypeName;
+      option.dataset.productType = item.productType;
       option.dataset.frame = item.frame;
       option.dataset.frameColor = item.frameColor || (item.frame === "framed" ? "black" : "");
       option.dataset.frameName = "";
       option.dataset.sizeId = item.sizeId;
+      option.dataset.catalogNumber = item.catalogNumber || "";
       option.dataset.labelIn = item.labelIn;
       option.dataset.labelCm = item.labelCm;
       option.dataset.priceIls = item.priceILS || "";
       option.dataset.priceUsd = item.priceUSD || "";
+      option.dataset.shippingFirstIls = item.shippingFirstILS || "";
+      option.dataset.shippingAdditionalIls = item.shippingAdditionalILS || "";
+      option.dataset.shippingFirstUsd = item.shippingFirstUSD || "";
+      option.dataset.shippingAdditionalUsd = item.shippingAdditionalUSD || "";
       option.dataset.productId = item.productId;
       option.dataset.syncVariantId = item.syncVariantId || "";
       select.appendChild(option);

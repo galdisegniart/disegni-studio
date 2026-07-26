@@ -46,8 +46,9 @@ module.exports = function (eleventyConfig) {
     return { low: low || 0, high };
   });
 
-  eleventyConfig.addFilter("printfulOptions", function (catalog, artworkName, pricing) {
-    const target = String(artworkName || "").toLowerCase();
+  eleventyConfig.addFilter("printfulOptions", function (catalog, artwork, pricing) {
+    const target = String((artwork && artwork.name) || artwork || "").toLowerCase();
+    const approvedVariants = (artwork && artwork.purchaseVariants) || [];
     const products = (catalog || []).filter((product) =>
       String(product.name || "").toLowerCase().includes(target)
     );
@@ -84,6 +85,9 @@ module.exports = function (eleventyConfig) {
         const height = Number(dimensions[2]);
         const sizeId = width + "x" + height;
         const fallback = manualPrice(style, sizeId);
+        const approved = approvedVariants.find((item) =>
+          item.productType === productType && item.sizeId === sizeId
+        );
         const retailUSD = Number(variant.retailPriceUSD);
 
         return {
@@ -91,21 +95,38 @@ module.exports = function (eleventyConfig) {
           syncVariantId: variant.syncVariantId || null,
           variantId: variant.variantId || null,
           sizeId,
-          labelIn: width + "×" + height + " אינץ'",
-          labelCm: Math.round(width * 2.54) + "×" + Math.round(height * 2.54) + ' ס"מ',
+          labelIn: (approved && approved.labelIn) || width + "×" + height + " אינץ'",
+          labelCm: (approved && approved.labelCm) ||
+            Math.round(width * 2.54) + "×" + Math.round(height * 2.54) + ' ס"מ',
           style,
           styleName: style === "canvas" ? "קנבס מתוח" : "נייר אמנותי",
           frame,
           frameName: frame === "framed" ? "ממוסגר" : "ללא מסגרת",
           productType,
           productTypeName,
-          priceUSD: Number.isFinite(retailUSD) && retailUSD > 0
-            ? retailUSD
-            : fallback && fallback.priceUSD,
-          priceILS: fallback && fallback.priceILS,
+          catalogNumber: approved && approved.catalogNumber,
+          priceUSD: (approved && approved.priceUSD) ||
+            (Number.isFinite(retailUSD) && retailUSD > 0
+              ? retailUSD
+              : fallback && fallback.priceUSD),
+          priceILS: (approved && approved.priceILS) || (fallback && fallback.priceILS),
+          shippingFirstILS: approved && approved.shippingFirstILS,
+          shippingAdditionalILS: approved && approved.shippingAdditionalILS,
+          shippingFirstUSD: approved && approved.shippingFirstUSD,
+          shippingAdditionalUSD: approved && approved.shippingAdditionalUSD,
         };
       }).filter(Boolean);
     });
+  });
+
+  eleventyConfig.addFilter("optionPriceRange", function (options) {
+    const prices = (options || [])
+      .map((option) => Number(option.priceILS))
+      .filter((price) => Number.isFinite(price) && price > 0);
+    return {
+      low: prices.length ? Math.min(...prices) : 0,
+      high: prices.length ? Math.max(...prices) : 0,
+    };
   });
 
   eleventyConfig.addFilter("waLink", function (message) {

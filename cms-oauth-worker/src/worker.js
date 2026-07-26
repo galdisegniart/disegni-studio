@@ -60,14 +60,107 @@ export default {
   },
 };
 
-const ORIN_TEST_PRODUCT = {
-  artworkSlug: "orin",
-  productType: "poster",
-  sizeId: "5x7",
-  catalogNumber: "ORIN-POSTER-5X7",
-  productName: "Orin – פוסטר 5×7 אינץ׳",
-  unitPrice: 89,
-};
+const ORIN_PRODUCTS = [
+  {
+    productType: "poster",
+    sizeId: "5x7",
+    catalogNumber: "ORIN-POSTER-5X7",
+    productName: "Orin – פוסטר 13×18 ס״מ",
+    unitPrice: 89,
+    shippingFirst: 45,
+    shippingAdditional: 4,
+  },
+  {
+    productType: "poster",
+    sizeId: "12x18",
+    catalogNumber: "ORIN-POSTER-12X18",
+    productName: "Orin – פוסטר 30×45 ס״מ",
+    unitPrice: 189,
+    shippingFirst: 45,
+    shippingAdditional: 4,
+  },
+  {
+    productType: "poster",
+    sizeId: "20x30",
+    catalogNumber: "ORIN-POSTER-20X30",
+    productName: "Orin – פוסטר 50×75 ס״מ",
+    unitPrice: 319,
+    shippingFirst: 55,
+    shippingAdditional: 4,
+  },
+  {
+    productType: "poster",
+    sizeId: "24x36",
+    catalogNumber: "ORIN-POSTER-24X36",
+    productName: "Orin – פוסטר 60×90 ס״מ",
+    unitPrice: 429,
+    shippingFirst: 55,
+    shippingAdditional: 4,
+  },
+  {
+    productType: "framed-print",
+    sizeId: "8x10",
+    catalogNumber: "ORIN-FRAMED-8X10-BLACK",
+    productName: "Orin – פוסטר ממוסגר שחור 20×25 ס״מ",
+    unitPrice: 329,
+    shippingFirst: 59,
+    shippingAdditional: 29,
+  },
+  {
+    productType: "framed-print",
+    sizeId: "12x16",
+    catalogNumber: "ORIN-FRAMED-12X16-BLACK",
+    productName: "Orin – פוסטר ממוסגר שחור 30×40 ס״מ",
+    unitPrice: 469,
+    shippingFirst: 59,
+    shippingAdditional: 29,
+  },
+  {
+    productType: "framed-print",
+    sizeId: "16x20",
+    catalogNumber: "ORIN-FRAMED-16X20-BLACK",
+    productName: "Orin – פוסטר ממוסגר שחור 40×50 ס״מ",
+    unitPrice: 649,
+    shippingFirst: 145,
+    shippingAdditional: 75,
+  },
+  {
+    productType: "framed-print",
+    sizeId: "24x36",
+    catalogNumber: "ORIN-FRAMED-24X36-BLACK",
+    productName: "Orin – פוסטר ממוסגר שחור 60×90 ס״מ",
+    unitPrice: 1290,
+    shippingFirst: 185,
+    shippingAdditional: 95,
+  },
+  {
+    productType: "canvas",
+    sizeId: "16x20",
+    catalogNumber: "ORIN-CANVAS-16X20",
+    productName: "Orin – קנבס מתוח 40×50 ס״מ",
+    unitPrice: 449,
+    shippingFirst: 379,
+    shippingAdditional: 379,
+  },
+  {
+    productType: "canvas",
+    sizeId: "18x24",
+    catalogNumber: "ORIN-CANVAS-18X24",
+    productName: "Orin – קנבס מתוח 45×60 ס״מ",
+    unitPrice: 549,
+    shippingFirst: 379,
+    shippingAdditional: 379,
+  },
+  {
+    productType: "canvas",
+    sizeId: "24x36",
+    catalogNumber: "ORIN-CANVAS-24X36",
+    productName: "Orin – קנבס מתוח 60×90 ס״מ",
+    unitPrice: 899,
+    shippingFirst: 379,
+    shippingAdditional: 379,
+  },
+];
 
 async function handleGrowCheckout(request, env) {
   const corsHeaders = getCorsHeaders(request, env);
@@ -107,18 +200,35 @@ async function handleGrowCheckout(request, env) {
     return jsonResponse({ ok: false, error: "Invalid JSON" }, 400, corsHeaders);
   }
 
-  const quantity = Number(input.quantity);
-  const isAllowedProduct =
-    input.artworkSlug === ORIN_TEST_PRODUCT.artworkSlug &&
-    input.productType === ORIN_TEST_PRODUCT.productType &&
-    input.sizeId === ORIN_TEST_PRODUCT.sizeId;
-
-  if (!isAllowedProduct || !Number.isInteger(quantity) || quantity < 1 || quantity > 10) {
+  const requestedItems = Array.isArray(input.items) ? input.items : [];
+  if (input.artworkSlug !== "orin" || requestedItems.length < 1 || requestedItems.length > 11) {
     return jsonResponse(
       { ok: false, error: "Product is not available for payment testing" },
       400,
       corsHeaders
     );
+  }
+
+  const items = [];
+  for (const requestedItem of requestedItems) {
+    const quantity = Number(requestedItem.quantity);
+    const product = ORIN_PRODUCTS.find(
+      (candidate) =>
+        candidate.productType === requestedItem.productType &&
+        candidate.sizeId === requestedItem.sizeId
+    );
+    if (!product || !Number.isInteger(quantity) || quantity < 1 || quantity > 10) {
+      return jsonResponse(
+        { ok: false, error: "Product is not available for payment testing" },
+        400,
+        corsHeaders
+      );
+    }
+    items.push({
+      ...product,
+      quantity,
+      lineTotal: product.unitPrice * quantity,
+    });
   }
 
   const customer = input.customer || {};
@@ -134,20 +244,30 @@ async function handleGrowCheckout(request, env) {
     );
   }
 
-  const subtotal = ORIN_TEST_PRODUCT.unitPrice * quantity;
-  const shipping = subtotal >= 350 ? 0 : 29;
+  const subtotal = items.reduce((sum, item) => sum + item.lineTotal, 0);
+  const shipping = calculateShipping(items);
   const total = subtotal + shipping;
   const orderId = `GD-${new Date().toISOString().slice(0, 10).replaceAll("-", "")}-${crypto.randomUUID().slice(0, 6).toUpperCase()}`;
+  const singleItem = items.length === 1 ? items[0] : null;
   const payload = {
     orderId,
     fullName,
     phone,
     email,
     address,
-    catalogNumber: ORIN_TEST_PRODUCT.catalogNumber,
-    productName: ORIN_TEST_PRODUCT.productName,
-    unitPrice: ORIN_TEST_PRODUCT.unitPrice,
-    quantity,
+    catalogNumber: singleItem ? singleItem.catalogNumber : `ORIN-ORDER-${orderId}`,
+    productName: singleItem
+      ? singleItem.productName
+      : `הזמנת Orin – ${items.reduce((sum, item) => sum + item.quantity, 0)} פריטים`,
+    unitPrice: singleItem ? singleItem.unitPrice : subtotal,
+    quantity: singleItem ? singleItem.quantity : 1,
+    items: items.map((item) => ({
+      catalogNumber: item.catalogNumber,
+      productName: item.productName,
+      unitPrice: item.unitPrice,
+      quantity: item.quantity,
+      lineTotal: item.lineTotal,
+    })),
     subtotal,
     shipping,
     total,
@@ -203,6 +323,26 @@ async function handleGrowCheckout(request, env) {
   }
 
   return jsonResponse({ ok: true, orderId, paymentUrl }, 200, corsHeaders);
+}
+
+function calculateShipping(items) {
+  const groups = new Map();
+  for (const item of items) {
+    if (!groups.has(item.productType)) groups.set(item.productType, []);
+    for (let index = 0; index < item.quantity; index += 1) {
+      groups.get(item.productType).push(item);
+    }
+  }
+
+  let total = 0;
+  for (const units of groups.values()) {
+    units.sort((a, b) => b.shippingFirst - a.shippingFirst);
+    total += units[0].shippingFirst;
+    for (const additionalItem of units.slice(1)) {
+      total += additionalItem.shippingAdditional;
+    }
+  }
+  return total;
 }
 
 function cleanText(value, maxLength) {
