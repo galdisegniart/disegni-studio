@@ -19,29 +19,32 @@ bodyClass: "cart-view"
 
   <p id="cart-empty">העגלה שלכם ריקה. <a href="/">חזרה לגלריה</a> לבחירת יצירה.</p>
 
-  <ul id="cart-items" class="cart-items"></ul>
+  <div class="cart-checkout-grid">
+    <div class="cart-checkout-main">
+      <ul id="cart-items" class="cart-items"></ul>
 
-  <form id="cart-customer-form" class="cart-customer" hidden>
-    <h2 class="cart-customer-heading">פרטי משלוח ויצירת קשר</h2>
-    <div class="cart-customer-field">
-      <label for="customer-name">שם מלא *</label>
-      <input type="text" id="customer-name" required autocomplete="name">
+      <form id="cart-customer-form" class="cart-customer" hidden>
+        <h2 class="cart-customer-heading">פרטי משלוח ויצירת קשר</h2>
+        <div class="cart-customer-field">
+          <label for="customer-name">שם מלא *</label>
+          <input type="text" id="customer-name" required autocomplete="name">
+        </div>
+        <div class="cart-customer-field">
+          <label for="customer-phone">טלפון *</label>
+          <input type="tel" id="customer-phone" required autocomplete="tel">
+        </div>
+        <div class="cart-customer-field">
+          <label for="customer-email">דוא"ל (לא חובה)</label>
+          <input type="email" id="customer-email" autocomplete="email">
+        </div>
+        <div class="cart-customer-field">
+          <label for="customer-address">כתובת למשלוח *</label>
+          <textarea id="customer-address" required autocomplete="street-address" rows="2"></textarea>
+        </div>
+      </form>
     </div>
-    <div class="cart-customer-field">
-      <label for="customer-phone">טלפון *</label>
-      <input type="tel" id="customer-phone" required autocomplete="tel">
-    </div>
-    <div class="cart-customer-field">
-      <label for="customer-email">דוא"ל (לא חובה)</label>
-      <input type="email" id="customer-email" autocomplete="email">
-    </div>
-    <div class="cart-customer-field">
-      <label for="customer-address">כתובת למשלוח *</label>
-      <textarea id="customer-address" required autocomplete="street-address" rows="2"></textarea>
-    </div>
-  </form>
 
-  <div id="cart-summary" class="cart-summary" hidden>
+    <div id="cart-summary" class="cart-summary" hidden>
     <h2>סיכום לתשלום</h2>
     <div class="cart-summary-row"><span>סכום ביניים</span><span id="cart-subtotal"></span></div>
     <div class="cart-summary-row"><span>משלוח</span><span id="cart-shipping"></span></div>
@@ -65,6 +68,7 @@ bodyClass: "cart-view"
     <a class="cart-summary-continue" href="/collections/prints/">
       המשך בקנייה <span aria-hidden="true">←</span>
     </a>
+    </div>
   </div>
 </section>
 

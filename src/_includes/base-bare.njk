@@ -24,6 +24,8 @@
 <body id="top" data-whatsapp="{{ site.whatsappNumber }}">
 
 {% include "partials/site-header.njk" %}
+
+{% include "partials/cart-drawer.njk" %}
 {{ content | safe }}
 
 {% for s in scripts %}
