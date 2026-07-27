@@ -3,12 +3,14 @@ layout: base.njk
 title: "עגלת קניות | גל דִּיסֵנִי"
 description: "עגלת הקניות שלכם באתר גל דִּיסֵנִי."
 permalink: "/cart/index.html"
+bodyClass: "cart-view"
 ---
 {% set pay = pages.payment %}
 {% set pricing = pages.pricing %}
 <section class="cart-page section" id="cart-root" data-shipping-flat="{{ pricing.shippingIL.flatILS }}" data-shipping-threshold="{{ pricing.shippingIL.freeThresholdILS }}">
   <div class="section-label"><span>עגלת קניות</span></div>
   <h1>סיכום ההזמנה שלכם</h1>
+  <a class="cart-continue-shopping" href="/collections/prints/"><span aria-hidden="true">→</span> המשך בקנייה</a>
 
   <div class="currency-toggle cart-currency-toggle">
     <button type="button" class="js-currency-toggle active" data-currency="ILS">₪ · ס"מ</button>
@@ -40,6 +42,7 @@ permalink: "/cart/index.html"
   </form>
 
   <div id="cart-summary" class="cart-summary" hidden>
+    <h2>סיכום לתשלום</h2>
     <div class="cart-summary-row"><span>סכום ביניים</span><span id="cart-subtotal"></span></div>
     <div class="cart-summary-row"><span>משלוח</span><span id="cart-shipping"></span></div>
     <div class="cart-summary-row cart-summary-total"><span>סה"כ</span><span id="cart-total"></span></div>
@@ -54,5 +57,18 @@ permalink: "/cart/index.html"
       <div><dt>מספר חשבון</dt><dd dir="ltr">{{ pay.accountNumber }}</dd></div>
       <div><dt>שם בעל החשבון</dt><dd>{{ pay.accountHolder }}</dd></div>
     </dl>
+    <nav class="cart-policy-links" aria-label="מידע חשוב לרכישה">
+      <a href="/returns/">ביטולים והחזרים</a>
+      <a href="/privacy/">פרטיות</a>
+      <a href="/contact/">יצירת קשר</a>
+    </nav>
   </div>
 </section>
+
+<script id="cart-catalog-data" type="application/json">
+[
+{% for item in artworks %}
+  {"slug": {{ item.slug | dump | safe }}, "image": {{ item.image | dump | safe }}, "variants": {{ (item.purchaseVariants or []) | dump | safe }}}{% if not loop.last %},{% endif %}
+{% endfor %}
+]
+</script>

@@ -21,7 +21,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/style.css?v={{ buildTime }}">
 </head>
-<body id="top" data-whatsapp="{{ site.whatsappNumber }}">
+<body id="top"{% if bodyClass %} class="{{ bodyClass }}"{% endif %} data-whatsapp="{{ site.whatsappNumber }}">
 
 {% include "partials/site-header.njk" %}
 

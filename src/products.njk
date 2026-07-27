@@ -93,7 +93,7 @@ eleventyComputed:
     <p class="artwork-detail-medium">{{ artwork.detailMedium }}</p>
     <h1>{{ artwork.name }}</h1>
     <p class="artwork-detail-description">{{ artwork.description }}</p>
-    <div class="print-order" data-artwork-slug="{{ artwork.slug }}" data-artwork-name="{{ artwork.name }}">
+    <div class="print-order" data-artwork-slug="{{ artwork.slug }}" data-artwork-name="{{ artwork.name }}" data-artwork-image="{{ artwork.image }}">
       <p class="print-order-kicker">{{ purchaseButtons.printLabel }}</p>
 
       <div class="print-order-quality">

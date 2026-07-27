@@ -18,6 +18,59 @@
     updateCartBadge();
   }
 
+  function getCartCatalog() {
+    var data = document.getElementById("cart-catalog-data");
+    if (!data) return [];
+    try {
+      return JSON.parse(data.textContent) || [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function hydrateCart(cart) {
+    var catalog = getCartCatalog();
+    if (!catalog.length) return cart;
+    var changed = false;
+    var fields = [
+      "priceILS",
+      "priceUSD",
+      "shippingFirstILS",
+      "shippingAdditionalILS",
+      "shippingFirstUSD",
+      "shippingAdditionalUSD",
+      "catalogNumber",
+    ];
+
+    cart.forEach(function (item) {
+      var artwork = catalog.find(function (entry) {
+        return entry.slug === item.artworkSlug;
+      });
+      if (!artwork) return;
+
+      if (artwork.image && item.image !== artwork.image) {
+        item.image = artwork.image;
+        changed = true;
+      }
+
+      var variant = (artwork.variants || []).find(function (entry) {
+        return entry.productType === item.productType &&
+          String(entry.sizeId) === String(item.sizeId);
+      });
+      if (!variant) return;
+
+      fields.forEach(function (field) {
+        if (variant[field] !== undefined && item[field] !== variant[field]) {
+          item[field] = variant[field];
+          changed = true;
+        }
+      });
+    });
+
+    if (changed) saveCart(cart);
+    return cart;
+  }
+
   function getCurrency() {
     return localStorage.getItem(CURRENCY_KEY) === "USD" ? "USD" : "ILS";
   }
@@ -166,7 +219,11 @@
         (line.frame || "none") === (item.frame || "none");
     });
     if (existing) {
-      existing.qty += item.qty;
+      var nextQty = existing.qty + item.qty;
+      Object.keys(item).forEach(function (key) {
+        existing[key] = item[key];
+      });
+      existing.qty = nextQty;
     } else {
       cart.push(item);
     }
@@ -174,7 +231,7 @@
   }
 
   function removeFromCart(index) {
-    var cart = getCart();
+    var cart = hydrateCart(getCart());
     cart.splice(index, 1);
     saveCart(cart);
     renderCartPage();
@@ -268,14 +325,25 @@
       var li = document.createElement("li");
       li.className = "cart-line";
 
+      var thumbLink = document.createElement("a");
+      thumbLink.className = "cart-line-thumb";
+      thumbLink.href = "/products/" + item.artworkSlug + "/";
+      thumbLink.setAttribute("aria-label", "חזרה לעמוד המוצר " + item.artworkName);
+      var thumb = document.createElement("img");
+      thumb.src = item.image || "";
+      thumb.alt = "";
+      thumbLink.appendChild(thumb);
+
       var info = document.createElement("div");
       info.className = "cart-line-info";
-      var strong = document.createElement("strong");
-      strong.textContent = item.artworkName;
+      var productLink = document.createElement("a");
+      productLink.className = "cart-line-title";
+      productLink.href = "/products/" + item.artworkSlug + "/";
+      productLink.textContent = item.artworkName;
       var span = document.createElement("span");
       span.textContent = item.materialName + " · " + sizeLabel(item, currency) +
         (item.frameName ? " · " + item.frameName : "");
-      info.appendChild(strong);
+      info.appendChild(productLink);
       info.appendChild(span);
 
       var qtyWrap = document.createElement("div");
@@ -309,6 +377,7 @@
       removeBtn.setAttribute("aria-label", "הסרה מהעגלה");
       removeBtn.textContent = "✕";
 
+      li.appendChild(thumbLink);
       li.appendChild(info);
       li.appendChild(qtyWrap);
       li.appendChild(priceDiv);
@@ -425,6 +494,7 @@
       addToCart({
         artworkSlug: wrap.dataset.artworkSlug,
         artworkName: wrap.dataset.artworkName,
+        image: wrap.dataset.artworkImage || "",
         material: option.dataset.material,
         materialName: option.dataset.materialName,
         productType: option.dataset.productType || "",
