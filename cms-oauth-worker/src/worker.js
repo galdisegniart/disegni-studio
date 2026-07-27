@@ -691,32 +691,13 @@ async function handleSmartBeeCreateReceipt(request, env) {
     return jsonResponse({ ok: false, error: "Invalid JSON" }, 400, corsHeaders);
   }
 
-  const requestedItems = Array.isArray(input.items) ? input.items : [];
-  if (input.artworkSlug !== "orin" || requestedItems.length < 1 || requestedItems.length > 11) {
-    return jsonResponse(
-      { ok: false, error: "Order is not available for receipt testing" },
-      400,
-      corsHeaders
-    );
-  }
-
-  const items = [];
-  for (const requestedItem of requestedItems) {
-    const quantity = Number(requestedItem.quantity);
-    const product = ORIN_PRODUCTS.find(
-      (candidate) =>
-        candidate.productType === requestedItem.productType &&
-        candidate.sizeId === requestedItem.sizeId
-    );
-    if (!product || !Number.isInteger(quantity) || quantity < 1 || quantity > 10) {
-      return jsonResponse(
-        { ok: false, error: "Order is not available for receipt testing" },
-        400,
-        corsHeaders
-      );
-    }
-    items.push({ ...product, quantity });
-  }
+  // Two request shapes are supported:
+  // 1. Itemized (used by the manual test page): artworkSlug + items[] matching
+  //    ORIN_PRODUCTS, priced and validated server-side.
+  // 2. Simple total (used by the Make automation, which only has the payment
+  //    confirmation - name/phone/email/sum - not the original product/address
+  //    details): totalAmount + customer, billed as one generic line item.
+  const isSimpleTotal = input.items === undefined && input.totalAmount !== undefined;
 
   const customer = input.customer || {};
   const fullName = cleanText(customer.fullName, 100);
@@ -732,17 +713,56 @@ async function handleSmartBeeCreateReceipt(request, env) {
   }
 
   const orderId = cleanText(input.orderId, 60) || `GD-RECEIPT-${crypto.randomUUID().slice(0, 8)}`;
-  const shipping = calculateShipping(items);
-  const total = items.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0) + shipping;
 
-  try {
-    const apiBase = (env.SMARTBEE_TEST_API_BASE || "https://test.smartbee.co.il/api/v1").replace(
-      /\/+$/,
-      ""
-    );
-    const token = await smartBeeAuthenticate(apiBase, env);
+  let paymentItems;
+  let total;
 
-    const paymentItems = items.map((item) => ({
+  if (isSimpleTotal) {
+    const totalAmount = Number(input.totalAmount);
+    if (!Number.isFinite(totalAmount) || totalAmount <= 0 || totalAmount > 100000) {
+      return jsonResponse({ ok: false, error: "Invalid total amount" }, 400, corsHeaders);
+    }
+    total = totalAmount;
+    paymentItems = [
+      {
+        description: cleanText(input.description, 100) || "הזמנה מאתר גל דיסני",
+        quantity: 1,
+        pricePerUnit: total,
+        vatOption: "Free",
+      },
+    ];
+  } else {
+    const requestedItems = Array.isArray(input.items) ? input.items : [];
+    if (input.artworkSlug !== "orin" || requestedItems.length < 1 || requestedItems.length > 11) {
+      return jsonResponse(
+        { ok: false, error: "Order is not available for receipt testing" },
+        400,
+        corsHeaders
+      );
+    }
+
+    const items = [];
+    for (const requestedItem of requestedItems) {
+      const quantity = Number(requestedItem.quantity);
+      const product = ORIN_PRODUCTS.find(
+        (candidate) =>
+          candidate.productType === requestedItem.productType &&
+          candidate.sizeId === requestedItem.sizeId
+      );
+      if (!product || !Number.isInteger(quantity) || quantity < 1 || quantity > 10) {
+        return jsonResponse(
+          { ok: false, error: "Order is not available for receipt testing" },
+          400,
+          corsHeaders
+        );
+      }
+      items.push({ ...product, quantity });
+    }
+
+    const shipping = calculateShipping(items);
+    total = items.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0) + shipping;
+
+    paymentItems = items.map((item) => ({
       catNum: item.catalogNumber,
       description: item.productName,
       quantity: item.quantity,
@@ -757,6 +777,14 @@ async function handleSmartBeeCreateReceipt(request, env) {
         vatOption: "Free",
       });
     }
+  }
+
+  try {
+    const apiBase = (env.SMARTBEE_TEST_API_BASE || "https://test.smartbee.co.il/api/v1").replace(
+      /\/+$/,
+      ""
+    );
+    const token = await smartBeeAuthenticate(apiBase, env);
 
     const documentRequest = {
       providerMsgId: crypto.randomUUID(),

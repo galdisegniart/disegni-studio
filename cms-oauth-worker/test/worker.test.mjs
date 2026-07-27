@@ -431,6 +431,49 @@ test("creates a VAT-exempt Receipt document request without exposing tokens", as
   }
 });
 
+test("creates a single-line receipt from a total amount, for the Make automation", async () => {
+  const originalFetch = globalThis.fetch;
+  const calls = [];
+  globalThis.fetch = async (url, options) => {
+    calls.push({ url, options });
+    return mockSmartBeeCreateFetch()(url);
+  };
+
+  try {
+    const response = await worker.fetch(
+      receiptRequest({ artworkSlug: undefined, items: undefined, totalAmount: 134 }),
+      ENV
+    );
+    const body = await response.json();
+    const documentCall = calls.find((call) => call.url.endsWith("/Documents/create"));
+    const documentRequest = JSON.parse(documentCall.options.body);
+
+    assert.equal(response.status, 200);
+    assert.equal(body.ok, true);
+    assert.deepEqual(documentRequest.documentItems.paymentItems, [
+      {
+        description: "הזמנה מאתר גל דיסני",
+        quantity: 1,
+        pricePerUnit: 134,
+        vatOption: "Free",
+      },
+    ]);
+    assert.equal(documentRequest.receiptDetails.cashItems[0].sum, 134);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("rejects a non-positive total amount from the Make automation", async () => {
+  const response = await worker.fetch(
+    receiptRequest({ artworkSlug: undefined, items: undefined, totalAmount: 0 }),
+    ENV
+  );
+
+  assert.equal(response.status, 400);
+  assert.deepEqual(await response.json(), { ok: false, error: "Invalid total amount" });
+});
+
 test("surfaces SmartBee validation errors from receipt creation without a fake success", async () => {
   const originalFetch = globalThis.fetch;
   globalThis.fetch = mockSmartBeeCreateFetch({
