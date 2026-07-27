@@ -45,7 +45,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/style.css?v=6e278c5">
+<link rel="stylesheet" href="/css/style.css?v=366ce74">
 </head>
 <body id="top" data-whatsapp="972552902934">
 
@@ -84,7 +84,7 @@
     <button class="header-search-toggle" type="button" aria-expanded="false" aria-controls="header-search" aria-label="חיפוש באתר">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.2 4.2"></path></svg>
     </button>
-    <a class="header-cart" href="/cart/" aria-label="עגלת קניות">
+    <a class="header-cart" href="/cart/" aria-label="עגלת קניות" aria-controls="cart-drawer">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1.4"></circle><circle cx="18" cy="21" r="1.4"></circle><path d="M2.5 3h2l2.2 12.2a2 2 0 0 0 2 1.65h8.15a2 2 0 0 0 1.97-1.65L21 8H6"></path></svg>
       <span class="js-cart-count" hidden>0</span>
     </a>
@@ -253,6 +253,35 @@
 </div>
 
 
+<div class="cart-drawer-overlay js-cart-drawer-close" hidden></div>
+<aside class="cart-drawer" id="cart-drawer" aria-label="עגלת קניות" aria-hidden="true">
+  <div class="cart-drawer-header">
+    <h2>העגלה שלי <span class="cart-drawer-count"></span></h2>
+    <button class="cart-drawer-close js-cart-drawer-close" type="button" aria-label="סגירת העגלה">×</button>
+  </div>
+  <div class="cart-drawer-body">
+    <p class="cart-drawer-empty" hidden>העגלה עדיין ריקה.</p>
+    <ul class="cart-drawer-items"></ul>
+  </div>
+  <div class="cart-drawer-footer" hidden>
+    <div class="cart-drawer-summary-row">
+      <span>סכום ביניים</span>
+      <strong class="cart-drawer-subtotal"></strong>
+    </div>
+    <div class="cart-drawer-summary-row cart-drawer-shipping-row">
+      <span>משלוח</span>
+      <strong class="cart-drawer-shipping"></strong>
+    </div>
+    <div class="cart-drawer-summary-row cart-drawer-total-row">
+      <span>סה״כ</span>
+      <strong class="cart-drawer-total"></strong>
+    </div>
+    <a class="cart-drawer-checkout" href="/cart/">לעגלה ולתשלום <span aria-hidden="true">←</span></a>
+    <button class="cart-drawer-continue js-cart-drawer-close" type="button">המשך בקנייה</button>
+  </div>
+</aside>
+
+
 <nav class="quick-links-rail" aria-label="קישורים מהירים">
   <a href="/contact/" aria-label="יצירת קשר">
     <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m4 6.5 8 6 8-6"></path></svg>
@@ -301,8 +330,8 @@
 
 
 
-<script src="/js/cart.js?v=6e278c5"></script>
-<script src="/js/nav-toggle.js?v=6e278c5"></script>
-<script src="/js/header-search.js?v=6e278c5"></script>
+<script src="/js/cart.js?v=366ce74"></script>
+<script src="/js/nav-toggle.js?v=366ce74"></script>
+<script src="/js/header-search.js?v=366ce74"></script>
 </body>
 </html>
