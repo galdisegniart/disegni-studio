@@ -772,7 +772,7 @@ async function handleSmartBeeCreateReceipt(request, env) {
       receiptDetails: {
         otherItems: [
           {
-            description: "תשלום בכרטיס אשראי - סליקה חיצונית (Grow)",
+            description: "תשלום בכרטיס אשראי",
             sum: total,
             date: new Date().toISOString(),
           },
