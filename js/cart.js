@@ -766,7 +766,20 @@
         );
         var paymentBody = await paymentResponse.json();
         if (!paymentResponse.ok || !paymentBody.paymentUrl) {
-          throw new Error("לא ניתן ליצור כרגע קישור תשלום.");
+          var serverErrorMessages = {
+            "Valid customer name and Israeli phone are required": "יש להזין שם מלא וטלפון ישראלי תקין (לדוגמה 0501234567, בלי +972 ובלי מקפים).",
+            "Product is not available for payment testing": "המוצר או הכמות שבחרתם אינם זמינים כרגע לבדיקת תשלום.",
+            "Payment service is not configured": "שירות התשלום אינו מוגדר כרגע בצד השרת.",
+            "Payment service is unavailable": "שירות התשלום אינו זמין כרגע, נסו שוב בעוד רגע.",
+            "Payment service rejected the request": "שירות התשלום דחה את הבקשה.",
+            "Payment service returned an invalid response": "שירות התשלום החזיר תשובה לא תקינה.",
+            "Payment service did not return a valid payment link": "שירות התשלום לא החזיר קישור תשלום תקין.",
+          };
+          throw new Error(
+            (paymentBody && serverErrorMessages[paymentBody.error]) ||
+            (paymentBody && paymentBody.error) ||
+            "לא ניתן ליצור כרגע קישור תשלום."
+          );
         }
         window.location.assign(paymentBody.paymentUrl);
       } catch (error) {
