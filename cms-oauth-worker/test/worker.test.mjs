@@ -422,7 +422,7 @@ test("creates a VAT-exempt InvoiceReceipt document request without exposing toke
         vatOption: "Free",
       },
     ]);
-    assert.equal(documentRequest.receiptDetails.otherItems[0].sum, 134);
+    assert.equal(documentRequest.receiptDetails.cashItems[0].sum, 134);
     assert.equal(documentCall.options.headers.Authorization, "Bearer private-api-token");
     assert.equal(JSON.stringify(body).includes("private-api-token"), false);
     assert.equal(JSON.stringify(body).includes(ENV.SMARTBEE_PROVIDER_USER_TOKEN), false);

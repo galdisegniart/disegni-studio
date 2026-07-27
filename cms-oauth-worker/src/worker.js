@@ -770,9 +770,8 @@ async function handleSmartBeeCreateReceipt(request, env) {
       currency: { currencyType: "ILS" },
       documentItems: { paymentItems },
       receiptDetails: {
-        otherItems: [
+        cashItems: [
           {
-            description: "תשלום בכרטיס אשראי",
             sum: total,
             date: new Date().toISOString(),
           },
