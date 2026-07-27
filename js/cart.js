@@ -33,6 +33,10 @@
     if (!catalog.length) return cart;
     var changed = false;
     var fields = [
+      "productType",
+      "sizeId",
+      "labelIn",
+      "labelCm",
       "priceILS",
       "priceUSD",
       "shippingFirstILS",
@@ -41,6 +45,29 @@
       "shippingAdditionalUSD",
       "catalogNumber",
     ];
+    var productTypeNames = {
+      poster: "פוסטר",
+      "framed-print": "פוסטר ממוסגר",
+      canvas: "קנבס מתוח",
+    };
+
+    function normalizeSize(value) {
+      return String(value || "")
+        .toLowerCase()
+        .replace(/[×"'״׳\s]/g, "x")
+        .replace(/[^0-9x]/g, "")
+        .replace(/x+/g, "x")
+        .replace(/^x|x$/g, "");
+    }
+
+    function legacyProductType(item) {
+      if (item.productType) return item.productType;
+      var value = String(item.material || "").toLowerCase();
+      if (value.indexOf("canvas") !== -1) return "canvas";
+      if (value.indexOf("frame") !== -1) return "framed-print";
+      if (value.indexOf("paper") !== -1 || value.indexOf("poster") !== -1) return "poster";
+      return "";
+    }
 
     cart.forEach(function (item) {
       var artwork = catalog.find(function (entry) {
@@ -53,10 +80,29 @@
         changed = true;
       }
 
-      var variant = (artwork.variants || []).find(function (entry) {
-        return entry.productType === item.productType &&
-          String(entry.sizeId) === String(item.sizeId);
+      var variants = artwork.variants || [];
+      var expectedType = legacyProductType(item);
+      var expectedSize = normalizeSize(item.sizeId || item.labelIn || item.labelCm);
+      var variant = variants.find(function (entry) {
+        return entry.productType === expectedType &&
+          normalizeSize(entry.sizeId) === expectedSize;
       });
+
+      if (!variant && expectedSize) {
+        var sizeMatches = variants.filter(function (entry) {
+          return normalizeSize(entry.sizeId) === expectedSize ||
+            normalizeSize(entry.labelIn) === expectedSize ||
+            normalizeSize(entry.labelCm) === expectedSize;
+        });
+        if (sizeMatches.length === 1) variant = sizeMatches[0];
+      }
+
+      if (!variant) {
+        var priceMatches = variants.filter(function (entry) {
+          return Number(entry.priceILS) === Number(item.priceILS);
+        });
+        if (priceMatches.length === 1) variant = priceMatches[0];
+      }
       if (!variant) return;
 
       fields.forEach(function (field) {
@@ -65,6 +111,12 @@
           changed = true;
         }
       });
+
+      var materialName = productTypeNames[variant.productType];
+      if (materialName && item.materialName !== materialName) {
+        item.materialName = materialName;
+        changed = true;
+      }
     });
 
     if (changed) saveCart(cart);
@@ -297,7 +349,7 @@
   function renderCartPage() {
     var root = document.getElementById("cart-root");
     if (!root) return;
-    var cart = getCart();
+    var cart = hydrateCart(getCart());
     var currency = getCurrency();
     var itemsEl = document.getElementById("cart-items");
     var emptyEl = document.getElementById("cart-empty");
