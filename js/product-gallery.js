@@ -13,11 +13,54 @@
     lightbox.setAttribute("role", "dialog");
     lightbox.setAttribute("aria-modal", "true");
     lightbox.setAttribute("aria-label", "תצוגת תמונה מוגדלת");
-    lightbox.innerHTML = '<button class="product-lightbox-close" type="button" aria-label="סגירת התמונה המוגדלת">×</button><img alt="">';
+    lightbox.innerHTML =
+      '<div class="product-lightbox-head">' +
+        '<span class="product-lightbox-count" aria-live="polite"></span>' +
+        '<div class="product-lightbox-toolbar">' +
+          '<button class="product-lightbox-zoom" type="button" aria-label="הגדלת התמונה" aria-pressed="false">' +
+            '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m15.5 15.5 5 5M10.5 7.5v6M7.5 10.5h6"></path></svg>' +
+          '</button>' +
+          '<button class="product-lightbox-close" type="button" aria-label="סגירת התמונה המוגדלת">×</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="product-lightbox-stage"><img class="product-lightbox-image" alt=""></div>';
     document.body.appendChild(lightbox);
 
     var lightboxImage = lightbox.querySelector("img");
+    var lightboxCount = lightbox.querySelector(".product-lightbox-count");
+    var zoomButton = lightbox.querySelector(".product-lightbox-zoom");
     var closeButton = lightbox.querySelector(".product-lightbox-close");
+    var previousFocus = null;
+
+    function isMobileGallery() {
+      return window.matchMedia &&
+        window.matchMedia("(max-width: 620px), (pointer: coarse)").matches;
+    }
+
+    function activeThumbnailIndex() {
+      var activeIndex = 0;
+      thumbnails.forEach(function (thumbnail, index) {
+        if (thumbnail.classList.contains("is-active")) activeIndex = index;
+      });
+      return activeIndex;
+    }
+
+    function resetLightboxZoom() {
+      lightbox.classList.remove("is-zoomed");
+      zoomButton.setAttribute("aria-pressed", "false");
+      zoomButton.setAttribute("aria-label", "הגדלת התמונה");
+    }
+
+    function openLightbox() {
+      previousFocus = document.activeElement;
+      lightboxImage.src = mainImage.src;
+      lightboxImage.alt = mainImage.alt;
+      lightboxCount.textContent = (activeThumbnailIndex() + 1) + " / " + thumbnails.length;
+      resetLightboxZoom();
+      lightbox.classList.add("is-open");
+      document.body.classList.add("product-lightbox-lock");
+      closeButton.focus();
+    }
 
     function setEnlargementMode() {
       gallery.classList.toggle("is-lightbox-enabled", mainImage.getAttribute("data-zoom-enabled") !== "true");
@@ -25,7 +68,9 @@
 
     function closeLightbox() {
       lightbox.classList.remove("is-open");
+      resetLightboxZoom();
       document.body.classList.remove("product-lightbox-lock");
+      if (previousFocus && previousFocus.focus) previousFocus.focus();
     }
 
     function activateThumbnail(thumbnail, syncProductOptions) {
@@ -148,12 +193,14 @@
     });
 
     stage.addEventListener("click", function () {
-      if (mainImage.getAttribute("data-zoom-enabled") === "true") return;
-      lightboxImage.src = mainImage.src;
-      lightboxImage.alt = mainImage.alt;
-      lightbox.classList.add("is-open");
-      document.body.classList.add("product-lightbox-lock");
-      closeButton.focus();
+      if (!isMobileGallery() && mainImage.getAttribute("data-zoom-enabled") === "true") return;
+      openLightbox();
+    });
+
+    zoomButton.addEventListener("click", function () {
+      var isZoomed = lightbox.classList.toggle("is-zoomed");
+      zoomButton.setAttribute("aria-pressed", isZoomed ? "true" : "false");
+      zoomButton.setAttribute("aria-label", isZoomed ? "הקטנת התמונה" : "הגדלת התמונה");
     });
 
     closeButton.addEventListener("click", closeLightbox);
