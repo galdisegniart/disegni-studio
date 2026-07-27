@@ -46,7 +46,7 @@ module.exports = function (eleventyConfig) {
     return { low: low || 0, high };
   });
 
-  eleventyConfig.addFilter("printfulOptions", function (catalog, artwork, pricing) {
+  eleventyConfig.addFilter("printfulOptions", function (catalog, artwork, pricing, shipping) {
     const target = String((artwork && artwork.name) || artwork || "").toLowerCase();
     const approvedVariants = (artwork && artwork.purchaseVariants) || [];
     const products = (catalog || []).filter((product) =>
@@ -58,6 +58,10 @@ module.exports = function (eleventyConfig) {
       const material = manualMaterials.find((item) => item.id === style);
       return material && (material.sizes || []).find((size) => size.id === sizeId);
     };
+
+    const shippingVariants = (shipping && shipping.variants) || [];
+    const defaultShipping = (productType, sizeId) =>
+      shippingVariants.find((item) => item.productType === productType && item.sizeId === sizeId);
 
     return products.flatMap((product) => {
       const name = String(product.name || "").toLowerCase();
@@ -88,6 +92,7 @@ module.exports = function (eleventyConfig) {
         const approved = approvedVariants.find((item) =>
           item.productType === productType && item.sizeId === sizeId
         );
+        const shippingFallback = defaultShipping(productType, sizeId);
         const retailUSD = Number(variant.retailPriceUSD);
 
         return {
@@ -110,10 +115,14 @@ module.exports = function (eleventyConfig) {
               ? retailUSD
               : fallback && fallback.priceUSD),
           priceILS: (approved && approved.priceILS) || (fallback && fallback.priceILS),
-          shippingFirstILS: approved && approved.shippingFirstILS,
-          shippingAdditionalILS: approved && approved.shippingAdditionalILS,
-          shippingFirstUSD: approved && approved.shippingFirstUSD,
-          shippingAdditionalUSD: approved && approved.shippingAdditionalUSD,
+          shippingFirstILS: (approved && approved.shippingFirstILS) ||
+            (shippingFallback && shippingFallback.shippingFirstILS),
+          shippingAdditionalILS: (approved && approved.shippingAdditionalILS) ||
+            (shippingFallback && shippingFallback.shippingAdditionalILS),
+          shippingFirstUSD: (approved && approved.shippingFirstUSD) ||
+            (shippingFallback && shippingFallback.shippingFirstUSD),
+          shippingAdditionalUSD: (approved && approved.shippingAdditionalUSD) ||
+            (shippingFallback && shippingFallback.shippingAdditionalUSD),
         };
       }).filter(Boolean);
     });

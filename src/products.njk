@@ -18,8 +18,9 @@ eleventyComputed:
 ---
 {% set seq = artworks | artworkSequence(artwork) %}
 {% set pricing = pages.pricing %}
+{% set shipping = pages.shipping %}
 {% set extraMaterials = artwork.extraMaterials or [] %}
-{% set printfulOptions = printfulCatalog | printfulOptions(artwork, pricing) %}
+{% set printfulOptions = printfulCatalog | printfulOptions(artwork, pricing, shipping) %}
 
 {% if printfulOptions and printfulOptions.length %}
 {% set range = printfulOptions | optionPriceRange %}

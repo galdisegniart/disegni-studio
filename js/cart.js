@@ -109,6 +109,38 @@
     }
   }
 
+  function getShippingTable() {
+    var data = document.getElementById("cart-shipping-table");
+    if (!data) return [];
+    try {
+      return JSON.parse(data.textContent) || [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function applyShippingFallback(cart) {
+    var table = getShippingTable();
+    if (!table.length) return false;
+    var changed = false;
+    var suffixes = ["ILS", "USD"];
+    cart.forEach(function (item) {
+      var match = table.find(function (entry) {
+        return entry.productType === item.productType && entry.sizeId === item.sizeId;
+      });
+      if (!match) return;
+      suffixes.forEach(function (suffix) {
+        ["shippingFirst" + suffix, "shippingAdditional" + suffix].forEach(function (field) {
+          if (!Number.isFinite(Number(item[field])) && Number.isFinite(Number(match[field]))) {
+            item[field] = match[field];
+            changed = true;
+          }
+        });
+      });
+    });
+    return changed;
+  }
+
   function hydrateCart(cart) {
     var catalog = getCartCatalog();
     if (!catalog.length) return cart;
@@ -199,6 +231,8 @@
         changed = true;
       }
     });
+
+    if (applyShippingFallback(cart)) changed = true;
 
     if (changed) saveCart(cart);
     return cart;
@@ -396,11 +430,15 @@
     });
   }
 
+  function isFiniteShippingValue(value) {
+    return value !== "" && value !== null && value !== undefined && Number.isFinite(Number(value));
+  }
+
   function hasVariantShipping(cart, currency) {
     var suffix = currency === "USD" ? "USD" : "ILS";
     return cart.length > 0 && cart.every(function (item) {
-      return Number.isFinite(Number(item["shippingFirst" + suffix])) &&
-        Number.isFinite(Number(item["shippingAdditional" + suffix])) &&
+      return isFiniteShippingValue(item["shippingFirst" + suffix]) &&
+        isFiniteShippingValue(item["shippingAdditional" + suffix]) &&
         !!item.productType;
     });
   }
@@ -534,13 +572,8 @@
     if (hasVariantShipping(cart, currency)) {
       shipping = calculateVariantShipping(cart, currency);
       shippingLabel = formatAmount(shipping, currency);
-    } else if (currency === "ILS") {
-      var flat = parseFloat(root.dataset.shippingFlat || "0");
-      var threshold = parseFloat(root.dataset.shippingThreshold || "0");
-      shipping = subtotal >= threshold ? 0 : flat;
-      shippingLabel = shipping === 0 ? "חינם" : shipping + " ₪";
     } else {
-      shippingLabel = "כלול במחיר";
+      shippingLabel = "יחושב בתשלום";
     }
 
     var total = subtotal + shipping;
