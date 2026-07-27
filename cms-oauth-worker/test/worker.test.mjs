@@ -384,7 +384,7 @@ test("rejects a receipt request with an invalid phone number", async () => {
   });
 });
 
-test("creates a VAT-exempt InvoiceReceipt document request without exposing tokens", async () => {
+test("creates a VAT-exempt Receipt document request without exposing tokens", async () => {
   const originalFetch = globalThis.fetch;
   const calls = [];
   globalThis.fetch = async (url, options) => {
@@ -403,7 +403,7 @@ test("creates a VAT-exempt InvoiceReceipt document request without exposing toke
     assert.equal(body.orderId, "GD-20260101-TEST01");
     assert.equal(body.apiMessageId, "msg-123");
     assert.equal(body.resultCodeId, 101);
-    assert.equal(documentRequest.docType, "InvoiceReceipt");
+    assert.equal(documentRequest.docType, "Receipt");
     assert.equal(documentRequest.providerUserToken, ENV.SMARTBEE_PROVIDER_USER_TOKEN);
     assert.equal(documentRequest.providerMsgReferenceId, "GD-20260101-TEST01");
     assert.equal(documentRequest.customer.name, "לקוח בדיקה");

@@ -635,7 +635,9 @@ async function smartBeeAuthenticate(apiBase, env) {
   return authentication.token;
 }
 
-// docType: "InvoiceReceipt" (חשבונית מס קבלה). vatOption fixed to "Free" because
+// docType: "Receipt" (קבלה) - a VAT-exempt dealer (עוסק פטור) may not legally issue
+// "InvoiceReceipt" (חשבונית מס קבלה), which includes a tax-invoice component.
+// vatOption fixed to "Free" because
 // the business is a VAT-exempt dealer (עוסק פטור) - update if that ever changes.
 async function handleSmartBeeCreateReceipt(request, env) {
   const corsHeaders = getCorsHeaders(request, env);
@@ -766,7 +768,7 @@ async function handleSmartBeeCreateReceipt(request, env) {
         mainPhone: phone,
         address: address || undefined,
       },
-      docType: "InvoiceReceipt",
+      docType: "Receipt",
       currency: { currencyType: "ILS" },
       documentItems: { paymentItems },
       receiptDetails: {
