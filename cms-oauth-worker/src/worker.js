@@ -16,6 +16,14 @@ export default {
       return handleSmartBeeConnectionTest(request, env);
     }
 
+    if (url.pathname === "/smartbee/create-receipt") {
+      return handleSmartBeeCreateReceipt(request, env);
+    }
+
+    if (url.pathname === "/smartbee/receipt-status") {
+      return handleSmartBeeReceiptStatus(request, env);
+    }
+
     if (url.pathname === "/auth") {
       const authUrl = new URL("https://github.com/login/oauth/authorize");
       authUrl.searchParams.set("client_id", env.GITHUB_CLIENT_ID);
@@ -616,7 +624,360 @@ function smartBeeTestPage(corsHeaders) {
   });
 }
 
-async function smartBeeRequest(url, body, bearerToken) {
+async function smartBeeAuthenticate(apiBase, env) {
+  const authentication = await smartBeeRequest(`${apiBase}/Login/authenticate`, {
+    clientId: env.SMARTBEE_TEST_CLIENT_ID,
+    password: env.SMARTBEE_TEST_PASSWORD,
+  });
+  if (!authentication.token) {
+    throw new Error("SmartBee authentication did not return a token");
+  }
+  return authentication.token;
+}
+
+// docType: "InvoiceReceipt" (חשבונית מס קבלה). vatOption fixed to "Free" because
+// the business is a VAT-exempt dealer (עוסק פטור) - update if that ever changes.
+async function handleSmartBeeCreateReceipt(request, env) {
+  const corsHeaders = getCorsHeaders(request, env);
+
+  if (request.method === "GET") {
+    return smartBeeCreateReceiptTestPage(corsHeaders);
+  }
+
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: corsHeaders ? 204 : 403,
+      headers: corsHeaders || noStoreHeaders(),
+    });
+  }
+
+  if (request.method !== "POST") {
+    return jsonResponse(
+      { ok: false, error: "Method not allowed" },
+      405,
+      corsHeaders,
+      { Allow: "GET, POST, OPTIONS" }
+    );
+  }
+
+  if (!corsHeaders) {
+    return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
+  }
+
+  const accessKey = request.headers.get("X-Disegni-Test-Key");
+  if (!env.SMARTBEE_TEST_ACCESS_KEY || accessKey !== env.SMARTBEE_TEST_ACCESS_KEY) {
+    return jsonResponse({ ok: false, error: "Unauthorized" }, 401, corsHeaders);
+  }
+
+  const missingSecrets = [
+    "SMARTBEE_TEST_CLIENT_ID",
+    "SMARTBEE_TEST_PASSWORD",
+    "SMARTBEE_PROVIDER_USER_TOKEN",
+  ].filter((name) => !env[name]);
+  if (missingSecrets.length) {
+    return jsonResponse(
+      { ok: false, error: "SmartBee test credentials are not configured" },
+      503,
+      corsHeaders
+    );
+  }
+
+  let input;
+  try {
+    input = await request.json();
+  } catch {
+    return jsonResponse({ ok: false, error: "Invalid JSON" }, 400, corsHeaders);
+  }
+
+  const requestedItems = Array.isArray(input.items) ? input.items : [];
+  if (input.artworkSlug !== "orin" || requestedItems.length < 1 || requestedItems.length > 11) {
+    return jsonResponse(
+      { ok: false, error: "Order is not available for receipt testing" },
+      400,
+      corsHeaders
+    );
+  }
+
+  const items = [];
+  for (const requestedItem of requestedItems) {
+    const quantity = Number(requestedItem.quantity);
+    const product = ORIN_PRODUCTS.find(
+      (candidate) =>
+        candidate.productType === requestedItem.productType &&
+        candidate.sizeId === requestedItem.sizeId
+    );
+    if (!product || !Number.isInteger(quantity) || quantity < 1 || quantity > 10) {
+      return jsonResponse(
+        { ok: false, error: "Order is not available for receipt testing" },
+        400,
+        corsHeaders
+      );
+    }
+    items.push({ ...product, quantity });
+  }
+
+  const customer = input.customer || {};
+  const fullName = cleanText(customer.fullName, 100);
+  const phone = cleanText(customer.phone, 20);
+  const email = cleanText(customer.email, 160);
+  const address = cleanText(customer.address, 100);
+  if (fullName.length < 2 || !/^0\d{8,9}$/.test(phone)) {
+    return jsonResponse(
+      { ok: false, error: "Valid customer name and Israeli phone are required" },
+      400,
+      corsHeaders
+    );
+  }
+
+  const orderId = cleanText(input.orderId, 60) || `GD-RECEIPT-${crypto.randomUUID().slice(0, 8)}`;
+  const shipping = calculateShipping(items);
+  const total = items.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0) + shipping;
+
+  try {
+    const apiBase = (env.SMARTBEE_TEST_API_BASE || "https://test.smartbee.co.il/api/v1").replace(
+      /\/+$/,
+      ""
+    );
+    const token = await smartBeeAuthenticate(apiBase, env);
+
+    const paymentItems = items.map((item) => ({
+      catNum: item.catalogNumber,
+      description: item.productName,
+      quantity: item.quantity,
+      pricePerUnit: item.unitPrice,
+      vatOption: "Free",
+    }));
+    if (shipping > 0) {
+      paymentItems.push({
+        description: "משלוח",
+        quantity: 1,
+        pricePerUnit: shipping,
+        vatOption: "Free",
+      });
+    }
+
+    const documentRequest = {
+      providerMsgId: crypto.randomUUID(),
+      providerMsgReferenceId: orderId,
+      providerUserToken: env.SMARTBEE_PROVIDER_USER_TOKEN,
+      customer: {
+        name: fullName,
+        email: email || undefined,
+        mainPhone: phone,
+        address: address || undefined,
+      },
+      docType: "InvoiceReceipt",
+      currency: { currencyType: "ILS" },
+      documentItems: { paymentItems },
+      receiptDetails: {
+        otherItems: [
+          {
+            description: "תשלום בכרטיס אשראי - סליקה חיצונית (Grow)",
+            sum: total,
+            date: new Date().toISOString(),
+          },
+        ],
+      },
+    };
+
+    const createResult = await smartBeeRequest(
+      `${apiBase}/Documents/create`,
+      documentRequest,
+      token
+    );
+
+    if (createResult.validationErrors && Object.keys(createResult.validationErrors).length) {
+      return jsonResponse(
+        {
+          ok: false,
+          error: "SmartBee rejected the receipt request",
+          resultCodeId: createResult.resultCodeId,
+          validationFields: Object.keys(createResult.validationErrors),
+        },
+        502,
+        corsHeaders
+      );
+    }
+
+    return jsonResponse(
+      {
+        ok: true,
+        orderId,
+        apiMessageId: createResult.result,
+        resultCodeId: createResult.resultCodeId,
+      },
+      200,
+      corsHeaders
+    );
+  } catch (error) {
+    console.error("SmartBee receipt creation failed", error);
+    return jsonResponse(
+      {
+        ok: false,
+        error: "SmartBee receipt creation failed",
+        diagnostic: safeSmartBeeDiagnostic(error),
+      },
+      502,
+      corsHeaders
+    );
+  }
+}
+
+async function handleSmartBeeReceiptStatus(request, env) {
+  const corsHeaders = getCorsHeaders(request, env);
+
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: corsHeaders ? 204 : 403,
+      headers: corsHeaders || noStoreHeaders(),
+    });
+  }
+
+  if (request.method !== "GET") {
+    return jsonResponse(
+      { ok: false, error: "Method not allowed" },
+      405,
+      corsHeaders,
+      { Allow: "GET, OPTIONS" }
+    );
+  }
+
+  if (!corsHeaders) {
+    return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
+  }
+
+  const accessKey = request.headers.get("X-Disegni-Test-Key");
+  if (!env.SMARTBEE_TEST_ACCESS_KEY || accessKey !== env.SMARTBEE_TEST_ACCESS_KEY) {
+    return jsonResponse({ ok: false, error: "Unauthorized" }, 401, corsHeaders);
+  }
+
+  const apiMessageId = new URL(request.url).searchParams.get("id");
+  if (!apiMessageId) {
+    return jsonResponse({ ok: false, error: "Missing id" }, 400, corsHeaders);
+  }
+
+  try {
+    const apiBase = (env.SMARTBEE_TEST_API_BASE || "https://test.smartbee.co.il/api/v1").replace(
+      /\/+$/,
+      ""
+    );
+    const token = await smartBeeAuthenticate(apiBase, env);
+    const statusResult = await smartBeeRequest(
+      `${apiBase}/Documents/${encodeURIComponent(apiMessageId)}`,
+      null,
+      token,
+      "GET"
+    );
+    return jsonResponse({ ok: true, ...statusResult }, 200, corsHeaders);
+  } catch (error) {
+    console.error("SmartBee receipt status check failed", error);
+    return jsonResponse(
+      { ok: false, error: "SmartBee receipt status check failed", diagnostic: safeSmartBeeDiagnostic(error) },
+      502,
+      corsHeaders
+    );
+  }
+}
+
+function smartBeeCreateReceiptTestPage(corsHeaders) {
+  const html = `<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>בדיקת הפקת קבלה - SmartBee</title>
+  <style>
+    :root { color-scheme: dark; font-family: Arial, sans-serif; }
+    body { margin: 0; background: #0f1028; color: #f7f5f1; }
+    main { width: min(560px, calc(100% - 40px)); margin: 8vh auto; }
+    h1 { font-size: 1.6rem; }
+    p { color: #c8c5ce; line-height: 1.6; }
+    label { display: block; margin: 20px 0 8px; }
+    input, button {
+      box-sizing: border-box;
+      width: 100%;
+      min-height: 48px;
+      border-radius: 8px;
+      font: inherit;
+    }
+    input { border: 1px solid #4e5067; background: #171832; color: #fff; padding: 10px 12px; }
+    button { margin-top: 12px; border: 0; background: #d9a13f; color: #111226; font-weight: 700; cursor: pointer; }
+    button:disabled { opacity: .6; cursor: wait; }
+    output { display: block; margin-top: 20px; padding: 14px; border-radius: 8px; background: #171832; line-height: 1.6; white-space: pre-wrap; word-break: break-word; }
+    .success { color: #8ee7af; }
+    .error { color: #ff9a9a; }
+    a { color: #8ee7af; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>בדיקת הפקת קבלת טסט</h1>
+    <p>יוצר חשבונית מס קבלה אמיתית בסביבת הטסט של SmartBee, עבור פריט בדיקה קבוע (Orin, פוסטר 5×7, לקוח בדיקה). זו כן יצירת מסמך אמיתית (בסביבת הטסט בלבד) - בשונה מבדיקת החיבור.</p>
+    <form id="receipt-form">
+      <label for="key">מפתח הבדיקה הפנימי</label>
+      <input id="key" type="password" required autocomplete="off">
+      <button type="submit">יצירת קבלת בדיקה</button>
+    </form>
+    <output id="result" hidden></output>
+  </main>
+  <script>
+    const form = document.getElementById("receipt-form");
+    const keyInput = document.getElementById("key");
+    const button = form.querySelector("button");
+    const result = document.getElementById("result");
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      button.disabled = true;
+      result.hidden = false;
+      result.className = "";
+      result.textContent = "יוצר קבלה...";
+
+      try {
+        const response = await fetch(location.pathname, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "X-Disegni-Test-Key": keyInput.value },
+          body: JSON.stringify({
+            artworkSlug: "orin",
+            items: [{ productType: "poster", sizeId: "5x7", quantity: 1 }],
+            customer: {
+              fullName: "בדיקה בדיקה",
+              phone: "0500000000",
+              email: "",
+              address: "כתובת בדיקה"
+            }
+          }),
+        });
+        const body = await response.json();
+        if (!response.ok || !body.ok) {
+          throw new Error(body.error || "יצירת הקבלה נכשלה.");
+        }
+        result.className = "success";
+        result.textContent = "בקשת היצירה נשלחה בהצלחה.\\nמזהה הודעה: " + body.apiMessageId + "\\nקוד תוצאה: " + body.resultCodeId + "\\n\\nהיצירה אסינכרונית - יש לבדוק את הסטטוס בנפרד עם המזהה הזה כדי לקבל את קישור המסמך.";
+      } catch (error) {
+        result.className = "error";
+        result.textContent = error.message || "יצירת הקבלה נכשלה.";
+      } finally {
+        button.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>`;
+
+  return new Response(html, {
+    status: 200,
+    headers: {
+      "Content-Type": "text/html; charset=utf-8",
+      ...noStoreHeaders(),
+      ...(corsHeaders || {}),
+      "X-Robots-Tag": "noindex, nofollow",
+    },
+  });
+}
+
+async function smartBeeRequest(url, body, bearerToken, method = "POST") {
   const headers = {
     Accept: "application/json",
     "Content-Type": "application/json",
@@ -624,9 +985,9 @@ async function smartBeeRequest(url, body, bearerToken) {
   if (bearerToken) headers.Authorization = `Bearer ${bearerToken}`;
 
   const response = await fetch(url, {
-    method: "POST",
+    method,
     headers,
-    body: JSON.stringify(body),
+    body: method === "GET" ? undefined : JSON.stringify(body),
   });
 
   const text = await response.text();
@@ -674,7 +1035,7 @@ function getCorsHeaders(request, env) {
     ...noStoreHeaders(),
     "Access-Control-Allow-Origin": origin || allowedOrigins[0],
     "Access-Control-Allow-Headers": "Content-Type, X-Disegni-Test-Key",
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
     Vary: "Origin",
   };
 }
