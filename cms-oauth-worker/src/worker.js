@@ -842,6 +842,12 @@ async function handleSmartBeeReceiptStatus(request, env) {
     );
   }
 
+  const apiMessageId = new URL(request.url).searchParams.get("id");
+  const wantsHtml = (request.headers.get("Accept") || "").includes("text/html");
+  if (!apiMessageId && wantsHtml) {
+    return smartBeeReceiptStatusPage(corsHeaders);
+  }
+
   if (!corsHeaders) {
     return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
   }
@@ -851,7 +857,6 @@ async function handleSmartBeeReceiptStatus(request, env) {
     return jsonResponse({ ok: false, error: "Unauthorized" }, 401, corsHeaders);
   }
 
-  const apiMessageId = new URL(request.url).searchParams.get("id");
   if (!apiMessageId) {
     return jsonResponse({ ok: false, error: "Missing id" }, 400, corsHeaders);
   }
@@ -958,6 +963,97 @@ function smartBeeCreateReceiptTestPage(corsHeaders) {
       } catch (error) {
         result.className = "error";
         result.textContent = error.message || "יצירת הקבלה נכשלה.";
+      } finally {
+        button.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>`;
+
+  return new Response(html, {
+    status: 200,
+    headers: {
+      "Content-Type": "text/html; charset=utf-8",
+      ...noStoreHeaders(),
+      ...(corsHeaders || {}),
+      "X-Robots-Tag": "noindex, nofollow",
+    },
+  });
+}
+
+function smartBeeReceiptStatusPage(corsHeaders) {
+  const html = `<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>סטטוס קבלת בדיקה - SmartBee</title>
+  <style>
+    :root { color-scheme: dark; font-family: Arial, sans-serif; }
+    body { margin: 0; background: #0f1028; color: #f7f5f1; }
+    main { width: min(560px, calc(100% - 40px)); margin: 8vh auto; }
+    h1 { font-size: 1.6rem; }
+    p { color: #c8c5ce; line-height: 1.6; }
+    label { display: block; margin: 20px 0 8px; }
+    input, button {
+      box-sizing: border-box;
+      width: 100%;
+      min-height: 48px;
+      border-radius: 8px;
+      font: inherit;
+    }
+    input { border: 1px solid #4e5067; background: #171832; color: #fff; padding: 10px 12px; }
+    button { margin-top: 12px; border: 0; background: #d9a13f; color: #111226; font-weight: 700; cursor: pointer; }
+    button:disabled { opacity: .6; cursor: wait; }
+    output { display: block; margin-top: 20px; padding: 14px; border-radius: 8px; background: #171832; line-height: 1.6; white-space: pre-wrap; word-break: break-word; }
+    .success { color: #8ee7af; }
+    .error { color: #ff9a9a; }
+    a { color: #8ee7af; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>בדיקת סטטוס קבלה</h1>
+    <p>בודק את הסטטוס של מסמך שנוצר דרך בדיקת יצירת הקבלה, ומציג את קישור המסמך כשהוא מוכן.</p>
+    <form id="status-form">
+      <label for="key">מפתח הבדיקה הפנימי</label>
+      <input id="key" type="password" required autocomplete="off">
+      <label for="msgid">מזהה הודעה (apiMessageId)</label>
+      <input id="msgid" type="text" required autocomplete="off">
+      <button type="submit">בדיקת סטטוס</button>
+    </form>
+    <output id="result" hidden></output>
+  </main>
+  <script>
+    const form = document.getElementById("status-form");
+    const keyInput = document.getElementById("key");
+    const msgIdInput = document.getElementById("msgid");
+    const button = form.querySelector("button");
+    const result = document.getElementById("result");
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      button.disabled = true;
+      result.hidden = false;
+      result.className = "";
+      result.textContent = "בודק סטטוס...";
+
+      try {
+        const response = await fetch(location.pathname + "?id=" + encodeURIComponent(msgIdInput.value), {
+          method: "GET",
+          headers: { "X-Disegni-Test-Key": keyInput.value },
+        });
+        const body = await response.json();
+        if (!response.ok || !body.ok) {
+          throw new Error(body.error || "בדיקת הסטטוס נכשלה.");
+        }
+        result.className = "success";
+        result.textContent = JSON.stringify(body, null, 2);
+      } catch (error) {
+        result.className = "error";
+        result.textContent = error.message || "בדיקת הסטטוס נכשלה.";
       } finally {
         button.disabled = false;
       }
