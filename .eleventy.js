@@ -111,9 +111,8 @@ module.exports = function (eleventyConfig) {
           productTypeName,
           catalogNumber: approved && approved.catalogNumber,
           priceUSD: (approved && approved.priceUSD) ||
-            (Number.isFinite(retailUSD) && retailUSD > 0
-              ? retailUSD
-              : fallback && fallback.priceUSD),
+            (fallback && fallback.priceUSD) ||
+            (Number.isFinite(retailUSD) && retailUSD > 0 ? retailUSD : undefined),
           priceILS: (approved && approved.priceILS) || (fallback && fallback.priceILS),
           shippingFirstILS: (approved && approved.shippingFirstILS) ||
             (shippingFallback && shippingFallback.shippingFirstILS),
