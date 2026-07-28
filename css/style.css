@@ -2043,6 +2043,19 @@ body.product-lightbox-lock {
   text-underline-offset: 3px;
 }
 
+.print-quality-video {
+  width: 100%;
+  max-width: 640px;
+  border: 1px solid var(--line);
+  background: var(--black);
+}
+
+.print-quality-video-caption {
+  margin: 10px 0 0 !important;
+  color: var(--dim);
+  font-size: 13px;
+}
+
 .print-order-note {
   margin: 16px 0 0;
   color: #c9c2b8;
