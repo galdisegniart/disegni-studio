@@ -6,8 +6,10 @@
   "businessNumber": "",
   "nav": [
     { "label": "גלריה", "href": "/" },
-    { "label": "הדפסים", "href": "/collections/prints/" },
-    { "label": "מקוריות זמינות", "href": "/collections/originals/" },
+    { "label": "מוצרים", "href": "/collections/prints/", "children": [
+      { "label": "הדפסים", "href": "/collections/prints/" },
+      { "label": "מקוריות זמינות", "href": "/collections/originals/" }
+    ] },
     { "label": "יצירות בהזמנה", "href": "/commissions/" },
     { "label": "סדנאות", "href": "/workshops/" },
     { "label": "אודות", "href": "/about/" },

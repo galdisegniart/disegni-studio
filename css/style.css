@@ -81,7 +81,7 @@ img {
   align-items: center;
   justify-content: flex-end;
   justify-self: end;
-  gap: clamp(8px, 0.65vw, 12px);
+  gap: clamp(18px, 1.6vw, 30px);
   color: var(--dim);
   font-size: clamp(15px, 1vw, 19px);
   font-weight: 500;
@@ -101,18 +101,62 @@ img {
   left: 100%;
   bottom: -8px;
   height: 1px;
-  background: var(--copper);
+  background: var(--teal);
   transition: left 0.25s;
 }
 
 .main-nav a:hover,
 .main-nav a.active {
-  color: var(--bone);
+  color: var(--teal);
 }
 
 .main-nav a:hover::after,
 .main-nav a.active::after {
   left: 0;
+}
+
+.nav-item.has-dropdown {
+  position: relative;
+}
+
+.nav-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 14px;
+  min-width: 190px;
+  padding: 10px 0;
+  background: var(--black);
+  border: 1px solid var(--line);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+  z-index: 20;
+}
+
+.nav-item.has-dropdown:hover .nav-dropdown,
+.nav-item.has-dropdown:focus-within .nav-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.nav-dropdown a {
+  display: block;
+  padding: 10px 20px;
+  color: var(--dim);
+  white-space: nowrap;
+}
+
+.nav-dropdown a::after {
+  display: none;
+}
+
+.nav-dropdown a:hover,
+.nav-dropdown a.active {
+  color: var(--teal);
+  background: rgba(26, 155, 176, 0.08);
 }
 
 .header-actions {
@@ -612,6 +656,34 @@ body.cart-drawer-lock {
 
   .main-nav a::after {
     display: none;
+  }
+
+  .nav-item.has-dropdown {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: 100%;
+  }
+
+  .nav-dropdown {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    margin: 0;
+    padding: 0 0 0 0;
+    border: 0;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .nav-dropdown a {
+    padding: 0;
+    padding-right: 22px;
+    font-size: 22px;
+    color: var(--dim);
   }
 
   .nav-toggle {
