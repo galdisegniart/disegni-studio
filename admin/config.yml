@@ -54,6 +54,7 @@ collections:
         hint: "סמנו רק אחרי שהוספתם את היצירה כמוצר מתאים בפרינטפול, אחרת ההזמנה לא תעבוד"
         options:
           - { label: "קנבס מתוח", value: "canvas" }
+          - { label: "פוסטר ממוסגר", value: "framed-print" }
 
   - name: "workshops"
     label: "סדנאות"

@@ -88,7 +88,7 @@ module.exports = function (eleventyConfig) {
         const width = Number(dimensions[1]);
         const height = Number(dimensions[2]);
         const sizeId = width + "x" + height;
-        const fallback = manualPrice(style, sizeId);
+        const fallback = manualPrice(productType === "poster" ? "paper" : productType, sizeId);
         const approved = approvedVariants.find((item) =>
           item.productType === productType && item.sizeId === sizeId
         );

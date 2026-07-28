@@ -18,9 +18,28 @@
       "description": "מגיע מתוח ומוכן לתלייה",
       "note": "המחירים כוללים משלוח.",
       "sizes": [
-        { "id": "16x20", "labelIn": "16×20 אינץ'", "labelCm": "41×51 ס\"מ", "priceILS": 339, "priceUSD": 92, "popular": false, "available": true },
-        { "id": "18x24", "labelIn": "18×24 אינץ'", "labelCm": "46×61 ס\"מ", "priceILS": 399, "priceUSD": 108, "popular": true, "available": true },
-        { "id": "24x36", "labelIn": "24×36 אינץ'", "labelCm": "61×91 ס\"מ", "priceILS": 619, "priceUSD": 167, "popular": false, "available": true }
+        { "id": "8x10", "labelIn": "8×10 אינץ'", "labelCm": "20×25 ס\"מ", "priceILS": 229, "priceUSD": 62, "popular": false, "available": true },
+        { "id": "12x16", "labelIn": "12×16 אינץ'", "labelCm": "30×40 ס\"מ", "priceILS": 359, "priceUSD": 97, "popular": false, "available": true },
+        { "id": "16x20", "labelIn": "16×20 אינץ'", "labelCm": "41×51 ס\"מ", "priceILS": 449, "priceUSD": 132, "popular": false, "available": true },
+        { "id": "16x24", "labelIn": "16×24 אינץ'", "labelCm": "41×61 ס\"מ", "priceILS": 479, "priceUSD": 129, "popular": false, "available": true },
+        { "id": "18x24", "labelIn": "18×24 אינץ'", "labelCm": "46×61 ס\"מ", "priceILS": 549, "priceUSD": 161, "popular": true, "available": true },
+        { "id": "18x26", "labelIn": "18×26 אינץ'", "labelCm": "46×66 ס\"מ", "priceILS": 519, "priceUSD": 140, "popular": false, "available": true },
+        { "id": "20x28", "labelIn": "20×28 אינץ'", "labelCm": "51×71 ס\"מ", "priceILS": 559, "priceUSD": 151, "popular": false, "available": true },
+        { "id": "24x32", "labelIn": "24×32 אינץ'", "labelCm": "61×81 ס\"מ", "priceILS": 649, "priceUSD": 175, "popular": false, "available": true },
+        { "id": "24x36", "labelIn": "24×36 אינץ'", "labelCm": "61×91 ס\"מ", "priceILS": 899, "priceUSD": 264, "popular": false, "available": true }
+      ]
+    },
+    {
+      "id": "framed-print",
+      "name": "פוסטר ממוסגר",
+      "description": "מגיע ממוסגר ומוכן לתלייה",
+      "note": "המחירים כוללים משלוח.",
+      "sizes": [
+        { "id": "8x10", "labelIn": "8×10 אינץ'", "labelCm": "20×25 ס\"מ", "priceILS": 329, "priceUSD": 97, "popular": false, "available": true },
+        { "id": "12x16", "labelIn": "12×16 אינץ'", "labelCm": "30×40 ס\"מ", "priceILS": 469, "priceUSD": 138, "popular": false, "available": true },
+        { "id": "16x20", "labelIn": "16×20 אינץ'", "labelCm": "40×50 ס\"מ", "priceILS": 649, "priceUSD": 191, "popular": true, "available": true },
+        { "id": "18x24", "labelIn": "18×24 אינץ'", "labelCm": "46×61 ס\"מ", "priceILS": 979, "priceUSD": 280, "popular": false, "available": true },
+        { "id": "24x36", "labelIn": "24×36 אינץ'", "labelCm": "60×90 ס\"מ", "priceILS": 1290, "priceUSD": 379, "popular": false, "available": true }
       ]
     }
   ],

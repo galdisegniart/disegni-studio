@@ -8,8 +8,15 @@
     { "productType": "framed-print", "sizeId": "12x16", "shippingFirstILS": 59, "shippingAdditionalILS": 29, "shippingFirstUSD": 15.99, "shippingAdditionalUSD": 8 },
     { "productType": "framed-print", "sizeId": "16x20", "shippingFirstILS": 145, "shippingAdditionalILS": 75, "shippingFirstUSD": 39.99, "shippingAdditionalUSD": 21 },
     { "productType": "framed-print", "sizeId": "24x36", "shippingFirstILS": 185, "shippingAdditionalILS": 95, "shippingFirstUSD": 50.99, "shippingAdditionalUSD": 26 },
+    { "productType": "framed-print", "sizeId": "18x24", "shippingFirstILS": 145, "shippingAdditionalILS": 75, "shippingFirstUSD": 39.99, "shippingAdditionalUSD": 21 },
     { "productType": "canvas", "sizeId": "16x20", "shippingFirstILS": 379, "shippingAdditionalILS": 379, "shippingFirstUSD": 108.49, "shippingAdditionalUSD": 108.49 },
     { "productType": "canvas", "sizeId": "18x24", "shippingFirstILS": 379, "shippingAdditionalILS": 379, "shippingFirstUSD": 108.49, "shippingAdditionalUSD": 108.49 },
-    { "productType": "canvas", "sizeId": "24x36", "shippingFirstILS": 379, "shippingAdditionalILS": 379, "shippingFirstUSD": 108.49, "shippingAdditionalUSD": 108.49 }
+    { "productType": "canvas", "sizeId": "24x36", "shippingFirstILS": 379, "shippingAdditionalILS": 379, "shippingFirstUSD": 108.49, "shippingAdditionalUSD": 108.49 },
+    { "productType": "canvas", "sizeId": "8x10", "shippingFirstILS": 379, "shippingAdditionalILS": 379, "shippingFirstUSD": 108.49, "shippingAdditionalUSD": 108.49 },
+    { "productType": "canvas", "sizeId": "12x16", "shippingFirstILS": 379, "shippingAdditionalILS": 379, "shippingFirstUSD": 108.49, "shippingAdditionalUSD": 108.49 },
+    { "productType": "canvas", "sizeId": "16x24", "shippingFirstILS": 379, "shippingAdditionalILS": 379, "shippingFirstUSD": 108.49, "shippingAdditionalUSD": 108.49 },
+    { "productType": "canvas", "sizeId": "18x26", "shippingFirstILS": 379, "shippingAdditionalILS": 379, "shippingFirstUSD": 108.49, "shippingAdditionalUSD": 108.49 },
+    { "productType": "canvas", "sizeId": "20x28", "shippingFirstILS": 379, "shippingAdditionalILS": 379, "shippingFirstUSD": 108.49, "shippingAdditionalUSD": 108.49 },
+    { "productType": "canvas", "sizeId": "24x32", "shippingFirstILS": 379, "shippingAdditionalILS": 379, "shippingFirstUSD": 108.49, "shippingAdditionalUSD": 108.49 }
   ]
 }
