@@ -3541,8 +3541,8 @@ body.product-lightbox-lock {
   z-index: 2;
   padding: 5px 10px;
   border-radius: 6px;
-  background: var(--copper);
-  color: #fff;
+  background: var(--black);
+  color: var(--bone);
   font-family: var(--sans);
   font-size: 13px;
   font-weight: 700;
