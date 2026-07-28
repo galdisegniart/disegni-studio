@@ -1969,6 +1969,80 @@ body.product-lightbox-lock {
   text-underline-offset: 2px;
 }
 
+.print-quality {
+  padding: 78px max(74px, calc(50vw - 640px)) 100px;
+  border-top: 1px solid var(--line);
+}
+
+.print-quality-block {
+  padding: 40px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.print-quality-block:first-child {
+  padding-top: 0;
+}
+
+.print-quality-block:last-child {
+  border-bottom: 0;
+}
+
+.print-quality-limited {
+  position: relative;
+}
+
+.print-quality-limited h2 {
+  color: var(--copper);
+}
+
+.print-quality-block h2 {
+  margin: 0 0 14px;
+  font-size: clamp(24px, 2.4vw, 32px);
+  font-weight: 500;
+}
+
+.print-quality-block p {
+  margin: 0 0 18px;
+  max-width: 720px;
+  color: var(--dim);
+  line-height: 1.75;
+}
+
+.print-quality-block ul {
+  margin: 0 0 18px;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+  max-width: 640px;
+}
+
+.print-quality-block li {
+  position: relative;
+  padding-right: 24px;
+  color: var(--bone);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.print-quality-block li::before {
+  content: "◈";
+  position: absolute;
+  right: 0;
+  color: var(--teal);
+  font-size: 13px;
+}
+
+.print-quality-browse {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--teal);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .print-order-note {
   margin: 16px 0 0;
   color: #c9c2b8;

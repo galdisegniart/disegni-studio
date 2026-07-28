@@ -127,6 +127,16 @@ module.exports = function (eleventyConfig) {
     });
   });
 
+  eleventyConfig.addFilter("uniqueProductTypes", function (options) {
+    const seen = [];
+    (options || []).forEach((option) => {
+      if (option.productType && !seen.includes(option.productType)) {
+        seen.push(option.productType);
+      }
+    });
+    return seen;
+  });
+
   eleventyConfig.addFilter("optionPriceRange", function (options) {
     const prices = (options || [])
       .map((option) => Number(option.priceILS))

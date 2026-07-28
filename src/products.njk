@@ -221,6 +221,43 @@ eleventyComputed:
   </div>
 </section>
 
+{% set availableTypes = printfulOptions | uniqueProductTypes %}
+
+{% if availableTypes.length or artwork.originalAvailable %}
+<section class="print-quality section">
+  {% if artwork.originalAvailable %}
+  {% set le = pages.printQuality.limitedEdition %}
+  <div class="print-quality-block print-quality-limited">
+    <h2>{{ le.heading }}</h2>
+    <p>{{ le.text }}</p>
+    <ul>
+      {% for feature in le.features %}
+      <li>{{ feature }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+  {% for type in availableTypes %}
+  {% set pq = pages.printQuality[type] %}
+  {% if pq %}
+  <div class="print-quality-block">
+    <h2>{{ pq.heading }}</h2>
+    <p>{{ pq.text }}</p>
+    <ul>
+      {% for feature in pq.features %}
+      <li>{{ feature }}</li>
+      {% endfor %}
+    </ul>
+    {% if pq.browseHref %}
+    <a class="print-quality-browse" href="{{ pq.browseHref }}">{{ pq.browseLabel }} <span aria-hidden="true">←</span></a>
+    {% endif %}
+  </div>
+  {% endif %}
+  {% endfor %}
+</section>
+{% endif %}
+
 <section class="artwork-more">
   <div class="artwork-more-head">
     <a class="js-back-link" href="/"><span aria-hidden="true">→</span> <span class="js-back-label">חזרה לגלריה</span></a>

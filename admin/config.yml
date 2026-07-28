@@ -332,6 +332,45 @@ collections:
           - { label: "טקסט קישור למדיניות זכויות יוצרים", name: "copyrightLinkLabel", widget: "string" }
           - { label: "טקסט קישור ליצירה המקורית (השאירו {name} במקום שם היצירה)", name: "crosslinkText", widget: "string" }
 
+      - name: "printQuality"
+        label: "תוכן עומק - איכות ההדפסים (מוצג בכל עמוד יצירה)"
+        file: "src/content/pages/printQuality.json"
+        fields:
+          - name: "poster"
+            label: "פוסטר (נייר)"
+            widget: "object"
+            fields:
+              - { label: "כותרת", name: "heading", widget: "string" }
+              - { label: "טקסט", name: "text", widget: "text" }
+              - { label: "יתרונות (רשימה)", name: "features", widget: "list", field: { label: "יתרון", name: "item", widget: "string" } }
+              - { label: "טקסט קישור לקטלוג", name: "browseLabel", widget: "string" }
+              - { label: "קישור לקטלוג", name: "browseHref", widget: "string" }
+          - name: "canvas"
+            label: "קנבס מתוח"
+            widget: "object"
+            fields:
+              - { label: "כותרת", name: "heading", widget: "string" }
+              - { label: "טקסט", name: "text", widget: "text" }
+              - { label: "יתרונות (רשימה)", name: "features", widget: "list", field: { label: "יתרון", name: "item", widget: "string" } }
+              - { label: "טקסט קישור לקטלוג", name: "browseLabel", widget: "string" }
+              - { label: "קישור לקטלוג", name: "browseHref", widget: "string" }
+          - name: "framed-print"
+            label: "הדפס ממוסגר"
+            widget: "object"
+            fields:
+              - { label: "כותרת", name: "heading", widget: "string" }
+              - { label: "טקסט", name: "text", widget: "text" }
+              - { label: "יתרונות (רשימה)", name: "features", widget: "list", field: { label: "יתרון", name: "item", widget: "string" } }
+              - { label: "טקסט קישור לקטלוג", name: "browseLabel", widget: "string" }
+              - { label: "קישור לקטלוג", name: "browseHref", widget: "string" }
+          - name: "limitedEdition"
+            label: "מהדורה מוגבלת (יצירה מקורית זמינה)"
+            widget: "object"
+            fields:
+              - { label: "כותרת", name: "heading", widget: "string" }
+              - { label: "טקסט", name: "text", widget: "text" }
+              - { label: "יתרונות (רשימה)", name: "features", widget: "list", field: { label: "יתרון", name: "item", widget: "string" } }
+
   - name: "sitePages"
     label: "עמודי תוכן"
     files:
