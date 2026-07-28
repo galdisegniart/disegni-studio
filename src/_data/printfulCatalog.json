@@ -1,5 +1,179 @@
 [
   {
+    "id": 452454048,
+    "name": "Framed photo paper poster \"Mystical Yoni\" By Gal Disegni",
+    "variants": [
+      {
+        "name": "Framed photo paper poster \"Mystical Yoni\" By Gal Disegni / 12″×16″",
+        "size": "12″×16″",
+        "syncVariantId": 5416790136,
+        "variantId": 20256,
+        "retailPriceUSD": "43.50",
+        "printfulCostUSD": "35.70"
+      },
+      {
+        "name": "Framed photo paper poster \"Mystical Yoni\" By Gal Disegni / 16″×20″",
+        "size": "16″×20″",
+        "syncVariantId": 5416790137,
+        "variantId": 20262,
+        "retailPriceUSD": "54.00",
+        "printfulCostUSD": "44.83"
+      },
+      {
+        "name": "Framed photo paper poster \"Mystical Yoni\" By Gal Disegni / 18″×24″",
+        "size": "18″×24″",
+        "syncVariantId": 5416790138,
+        "variantId": 20265,
+        "retailPriceUSD": "60.00",
+        "printfulCostUSD": "49.93"
+      }
+    ]
+  },
+  {
+    "id": 452453725,
+    "name": "CANVAS PRINT \"Mystical Yoni\" by Gal Disegni",
+    "variants": [
+      {
+        "name": "CANVAS PRINT \"Mystical Yoni\" by Gal Disegni / 16″×24″",
+        "size": "16″×24″",
+        "syncVariantId": 5416787001,
+        "variantId": 19303,
+        "retailPriceUSD": "37.00",
+        "printfulCostUSD": "31.11"
+      },
+      {
+        "name": "CANVAS PRINT \"Mystical Yoni\" by Gal Disegni / 18″×26″",
+        "size": "18″×26″",
+        "syncVariantId": 5416787002,
+        "variantId": 19307,
+        "retailPriceUSD": "41.50",
+        "printfulCostUSD": "35.19"
+      },
+      {
+        "name": "CANVAS PRINT \"Mystical Yoni\" by Gal Disegni / 20″×28″",
+        "size": "20″×28″",
+        "syncVariantId": 5416787003,
+        "variantId": 19310,
+        "retailPriceUSD": "42.00",
+        "printfulCostUSD": "35.70"
+      },
+      {
+        "name": "CANVAS PRINT \"Mystical Yoni\" by Gal Disegni / 24″×32″",
+        "size": "24″×32″",
+        "syncVariantId": 5416787004,
+        "variantId": 19316,
+        "retailPriceUSD": "60.00",
+        "printfulCostUSD": "51.00"
+      }
+    ]
+  },
+  {
+    "id": 452441742,
+    "name": "Framed photo paper poster \"Soul DNA\" By Gal Disegni",
+    "variants": [
+      {
+        "name": "Framed photo paper poster \"Soul DNA\" By Gal Disegni / 12″×16″",
+        "size": "12″×16″",
+        "syncVariantId": 5416694772,
+        "variantId": 20256,
+        "retailPriceUSD": "39.50",
+        "printfulCostUSD": "35.70"
+      },
+      {
+        "name": "Framed photo paper poster \"Soul DNA\" By Gal Disegni / 16″×20″",
+        "size": "16″×20″",
+        "syncVariantId": 5416694773,
+        "variantId": 20262,
+        "retailPriceUSD": "49.50",
+        "printfulCostUSD": "44.83"
+      },
+      {
+        "name": "Framed photo paper poster \"Soul DNA\" By Gal Disegni / 18″×24″",
+        "size": "18″×24″",
+        "syncVariantId": 5416694774,
+        "variantId": 20265,
+        "retailPriceUSD": "55.00",
+        "printfulCostUSD": "49.93"
+      }
+    ]
+  },
+  {
+    "id": 452306373,
+    "name": "CANVAS PRINT \"Soul DNA\" by Gal Disegni",
+    "variants": [
+      {
+        "name": "CANVAS PRINT \"Soul DNA\" by Gal Disegni / 8″×10″",
+        "size": "8″×10″",
+        "syncVariantId": 5415680625,
+        "variantId": 19293,
+        "retailPriceUSD": "19.00",
+        "printfulCostUSD": "15.81"
+      },
+      {
+        "name": "CANVAS PRINT \"Soul DNA\" by Gal Disegni / 12″×16″",
+        "size": "12″×16″",
+        "syncVariantId": 5415680626,
+        "variantId": 5,
+        "retailPriceUSD": "27.50",
+        "printfulCostUSD": "23.41"
+      },
+      {
+        "name": "CANVAS PRINT \"Soul DNA\" by Gal Disegni / 16″×20″",
+        "size": "16″×20″",
+        "syncVariantId": 5415680627,
+        "variantId": 6,
+        "retailPriceUSD": "37.50",
+        "printfulCostUSD": "28.56"
+      },
+      {
+        "name": "CANVAS PRINT \"Soul DNA\" by Gal Disegni / 24″×36″",
+        "size": "24″×36″",
+        "syncVariantId": 5415680628,
+        "variantId": 825,
+        "retailPriceUSD": "67.00",
+        "printfulCostUSD": "52.02"
+      }
+    ]
+  },
+  {
+    "id": 452304962,
+    "name": "Framed photo paper poster \"Soul DNA\" By Gal Disegni",
+    "variants": [
+      {
+        "name": "Framed photo paper poster \"Soul DNA\" By Gal Disegni / 8″×10″",
+        "size": "8″×10″",
+        "syncVariantId": 5415671329,
+        "variantId": 6882,
+        "retailPriceUSD": "29.50",
+        "printfulCostUSD": "23.46"
+      },
+      {
+        "name": "Framed photo paper poster \"Soul DNA\" By Gal Disegni / 12″×16″",
+        "size": "12″×16″",
+        "syncVariantId": 5415671330,
+        "variantId": 6886,
+        "retailPriceUSD": "46.50",
+        "printfulCostUSD": "35.19"
+      },
+      {
+        "name": "Framed photo paper poster \"Soul DNA\" By Gal Disegni / 16″×20″",
+        "size": "16″×20″",
+        "syncVariantId": 5415671331,
+        "variantId": 6889,
+        "retailPriceUSD": "64.50",
+        "printfulCostUSD": "48.96"
+      },
+      {
+        "name": "Framed photo paper poster \"Soul DNA\" By Gal Disegni / 24″×36″",
+        "size": "24″×36″",
+        "syncVariantId": 5415671332,
+        "variantId": 7846,
+        "retailPriceUSD": "118.00",
+        "printfulCostUSD": "90.78"
+      }
+    ]
+  },
+  {
     "id": 452215454,
     "name": "Poster \"Soul DNA\" by Gal Disegn",
     "variants": [
@@ -191,10 +365,10 @@
   },
   {
     "id": 449983364,
-    "name": "CANVAS PRINT \"Orin\" archival giclee print on canvas by Gal Disegni",
+    "name": "CANVAS PRINT \"Orin\" by Gal Disegni",
     "variants": [
       {
-        "name": "CANVAS PRINT \"Orin\" archival giclee print on canvas by Gal Disegni / 16″×20″",
+        "name": "CANVAS PRINT \"Orin\" by Gal Disegni / 16″×20″",
         "size": "16″×20″",
         "syncVariantId": 5407772514,
         "variantId": 6,
@@ -202,7 +376,7 @@
         "printfulCostUSD": "28.56"
       },
       {
-        "name": "CANVAS PRINT \"Orin\" archival giclee print on canvas by Gal Disegni / 18″×24″",
+        "name": "CANVAS PRINT \"Orin\" by Gal Disegni / 18″×24″",
         "size": "18″×24″",
         "syncVariantId": 5407772515,
         "variantId": 7,
@@ -210,7 +384,7 @@
         "printfulCostUSD": "33.66"
       },
       {
-        "name": "CANVAS PRINT \"Orin\" archival giclee print on canvas by Gal Disegni / 24″×36″",
+        "name": "CANVAS PRINT \"Orin\" by Gal Disegni / 24″×36″",
         "size": "24″×36″",
         "syncVariantId": 5407772516,
         "variantId": 825,
