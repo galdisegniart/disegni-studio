@@ -283,7 +283,7 @@ collections:
             label: "סוגי היצירה (Classic / Visionary)"
             widget: "list"
             fields:
-              - { label: "שם באנגלית", name: "titleEn", widget: "string" }
+              - { label: "שם המסלול", name: "title", widget: "string" }
               - { label: "תיאור קצר", name: "intro", widget: "text" }
               - { label: "תווית 'כולל'", name: "includesLabel", widget: "string" }
               - { label: "רשימת מה כלול", name: "includes", widget: "list", field: { label: "פריט", name: "item", widget: "string" } }
@@ -306,6 +306,19 @@ collections:
           - { label: "תווית הערות", name: "notesLabel", widget: "string" }
           - { label: "כותרת הערות", name: "notesHeading", widget: "string" }
           - { label: "רשימת הערות", name: "notes", widget: "list", field: { label: "הערה", name: "text", widget: "string" } }
+          - { label: "תווית מסלול בלעדי", name: "exclusiveLabel", widget: "string" }
+          - { label: "כותרת מסלול בלעדי", name: "exclusiveHeading", widget: "string" }
+          - { label: "פסקאות מסלול בלעדי", name: "exclusiveParagraphs", widget: "list", field: { label: "פסקה", name: "text", widget: "text" } }
+          - { label: "טקסט כפתור מסלול בלעדי", name: "exclusiveCtaLabel", widget: "string" }
+          - { label: "הודעת WhatsApp - מסלול בלעדי", name: "exclusiveWaMessage", widget: "text" }
+          - { label: "תווית שאלות נפוצות", name: "faqLabel", widget: "string" }
+          - { label: "כותרת שאלות נפוצות", name: "faqHeading", widget: "string" }
+          - name: "faq"
+            label: "שאלות ותשובות"
+            widget: "list"
+            fields:
+              - { label: "שאלה", name: "q", widget: "string" }
+              - { label: "תשובה", name: "a", widget: "text" }
 
       - name: "prints"
         label: "קולקציה: הדפסים (/collections/prints/)"
