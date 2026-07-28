@@ -332,6 +332,37 @@ collections:
               - { label: "שאלה", name: "q", widget: "string" }
               - { label: "תשובה", name: "a", widget: "text" }
 
+      - name: "workshopsIndex"
+        label: "עמוד סדנאות ראשי (/workshops/)"
+        file: "src/content/pages/workshopsIndex.json"
+        fields:
+          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
+          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
+          - { label: "כיתוב פתיחה (השאירו {brand} במקום שם המותג)", name: "heroEyebrow", widget: "string" }
+          - { label: "תווית סקציית חוות דעת", name: "reviewsLabel", widget: "string" }
+          - { label: "כותרת סקציית חוות דעת", name: "reviewsHeading", widget: "string" }
+          - { label: "ציון דירוג (למשל 5.0)", name: "reviewsRatingValue", widget: "string" }
+          - { label: "טקסט נגישות לדירוג", name: "reviewsRatingAriaLabel", widget: "string" }
+          - { label: "טקסט מספר חוות הדעת", name: "reviewsCountLabel", widget: "string" }
+          - name: "featuredReview"
+            label: "חוות דעת מוצגת (מוזנת ידנית, לא מסונכרנת אוטומטית מהסדנאות)"
+            widget: "object"
+            fields:
+              - { label: "שם הממליץ/ה", name: "name", widget: "string" }
+              - { label: "תאריך (YYYY-MM-DD)", name: "date", widget: "string" }
+              - { label: "תאריך מוצג", name: "dateLabel", widget: "string" }
+              - { label: "טקסט נגישות לכוכבים", name: "starsAriaLabel", widget: "string" }
+              - { label: "תקציר", name: "excerpt", widget: "text" }
+              - { label: "טקסט מלא", name: "fullText", widget: "text" }
+          - { label: "כיתוב בחירת מסלול", name: "pickerEyebrow", widget: "string" }
+          - { label: "כותרת בחירת מסלול (אפשר &lt;br&gt; לשורה חדשה)", name: "pickerHeading", widget: "string" }
+          - { label: "טקסט בחירת מסלול", name: "pickerText", widget: "text" }
+          - { label: "כיתוב יצירת קשר", name: "contactEyebrow", widget: "string" }
+          - { label: "כותרת יצירת קשר (אפשר &lt;br&gt; לשורה חדשה)", name: "contactHeading", widget: "string" }
+          - { label: "טקסט יצירת קשר", name: "contactText", widget: "text" }
+          - { label: "טקסט כפתור יצירת קשר", name: "contactCtaLabel", widget: "string" }
+          - { label: "הודעת WhatsApp - יצירת קשר", name: "contactWaMessage", widget: "text" }
+
       - name: "prints"
         label: "קולקציה: הדפסים (/collections/prints/)"
         file: "src/content/pages/prints.json"
