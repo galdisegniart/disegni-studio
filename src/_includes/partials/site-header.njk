@@ -13,7 +13,12 @@
     {% set childActive = false %}
     {% for child in item.children %}{% if child.label == activeNav %}{% set childActive = true %}{% endif %}{% endfor %}
     <div class="nav-item has-dropdown">
-      <a{% if item.label == activeNav or childActive %} class="active"{% endif %} href="{{ item.href }}" aria-haspopup="true">{{ item.label }}</a>
+      <div class="nav-item-row">
+        <a{% if item.label == activeNav or childActive %} class="active"{% endif %} href="{{ item.href }}" aria-haspopup="true">{{ item.label }}</a>
+        <button type="button" class="nav-dropdown-toggle" aria-expanded="false" aria-label="הצגת תת-תפריט {{ item.label }}">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 7.5 10 12.5 15 7.5"></path></svg>
+        </button>
+      </div>
       <div class="nav-dropdown">
         {% for child in item.children %}
         <a{% if child.label == activeNav %} class="active"{% endif %} href="{{ child.href }}">{{ child.label }}</a>

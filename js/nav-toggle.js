@@ -16,6 +16,12 @@
     toggle.setAttribute("aria-expanded", "false");
     if (social) social.classList.remove("is-hidden");
     document.body.classList.remove("nav-open-lock");
+    nav.querySelectorAll(".nav-dropdown-toggle").forEach(function (dropdownToggle) {
+      dropdownToggle.setAttribute("aria-expanded", "false");
+    });
+    nav.querySelectorAll(".nav-dropdown.open").forEach(function (dropdown) {
+      dropdown.classList.remove("open");
+    });
   }
 
   toggle.addEventListener("click", function () {
@@ -32,6 +38,15 @@
 
   nav.querySelectorAll("a").forEach(function (link) {
     link.addEventListener("click", closeNav);
+  });
+
+  nav.querySelectorAll(".nav-dropdown-toggle").forEach(function (dropdownToggle) {
+    var dropdown = dropdownToggle.closest(".nav-item").querySelector(".nav-dropdown");
+    dropdownToggle.addEventListener("click", function () {
+      var expanded = dropdownToggle.getAttribute("aria-expanded") === "true";
+      dropdownToggle.setAttribute("aria-expanded", String(!expanded));
+      dropdown.classList.toggle("open", !expanded);
+    });
   });
 
   document.addEventListener("keydown", function (e) {
