@@ -730,7 +730,7 @@ body.cart-drawer-lock {
   .nav-dropdown a {
     padding: 0;
     padding-right: 18px;
-    font-size: 17px;
+    font-size: 24px;
     color: var(--dim);
   }
 
