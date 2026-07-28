@@ -181,11 +181,23 @@ collections:
     label: "עמודים בודדים"
     files:
       - name: "purchaseButtons"
-        label: "כפתורי רכישה (בעמוד יצירה)"
+        label: "טקסטים משותפים בעמוד יצירה"
         file: "src/_data/purchaseButtons.json"
         fields:
           - { label: "טקסט כפתור: הדפס אמנותי", name: "printLabel", widget: "string" }
           - { label: "טקסט כפתור: היצירה המקורית", name: "originalLabel", widget: "string" }
+          - { label: "טקסט כפתור: הוספה לעגלה", name: "addToCartLabel", widget: "string" }
+          - { label: "טקסט כפתור: שאלות ב-WhatsApp", name: "whatsappQuestionLabel", widget: "string" }
+          - { label: "הודעת WhatsApp (השאירו {name} במקום שם היצירה)", name: "whatsappQuestionMessage", widget: "text" }
+          - { label: "כותרת סקציית פרטים", name: "detailsLabel", widget: "string" }
+          - { label: "טקסט רפרודוקציה (השאירו {medium} במקום הטכניקה)", name: "detailsReproductionText", widget: "text" }
+          - { label: "כותרת סקציית השראה", name: "inspirationLabel", widget: "string" }
+          - { label: "כותרת סקציית קולקציה", name: "collectionLabel", widget: "string" }
+          - { label: "טקסט קולקציה (השאירו {galleryMedium} ו-{brand} במקום)", name: "collectionText", widget: "text" }
+          - { label: "כותרת סקציית זכויות יוצרים", name: "copyrightLabel", widget: "string" }
+          - { label: "טקסט זכויות יוצרים (השאירו {brand} במקום שם המותג)", name: "copyrightText", widget: "text" }
+          - { label: "טקסט קישור למדיניות זכויות יוצרים", name: "copyrightLinkLabel", widget: "string" }
+          - { label: "טקסט קישור ליצירה המקורית (השאירו {name} במקום שם היצירה)", name: "crosslinkText", widget: "string" }
 
       - name: "home"
         label: "עמוד הבית (ראשי)"

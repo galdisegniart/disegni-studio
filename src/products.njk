@@ -177,16 +177,16 @@ eleventyComputed:
         </div>
       </div>
 
-      <button type="button" class="cta js-add-to-cart" disabled>הוספה לעגלה</button>
-      <a class="cta cta-outline js-whatsapp" href="{{ ('שלום גל, יש לי שאלה לפני רכישת הדפס של \"' ~ artwork.name ~ '\".') | waLink }}" target="_blank" rel="noopener noreferrer">שאלות לפני רכישה ב-WhatsApp</a>
+      <button type="button" class="cta js-add-to-cart" disabled>{{ purchaseButtons.addToCartLabel }}</button>
+      <a class="cta cta-outline js-whatsapp" href="{{ (purchaseButtons.whatsappQuestionMessage | replace('{name}', artwork.name)) | waLink }}" target="_blank" rel="noopener noreferrer">{{ purchaseButtons.whatsappQuestionLabel }}</a>
 
       <p class="print-order-note js-print-order-note"></p>
       <button class="artwork-share js-share" type="button" data-share-title="{{ artwork.name }} | {{ site.brand }}" data-share-text="{{ artwork.name }}, {{ artwork.description }}"><span aria-hidden="true">↗</span> <span class="js-share-label">שיתוף</span></button>
 
       <details class="print-order-details">
-        <summary><span aria-hidden="true">☰</span> פרטים</summary>
+        <summary><span aria-hidden="true">☰</span> {{ purchaseButtons.detailsLabel }}</summary>
         <div class="print-order-details-body">
-          <p>היצירה המקורית נוצרה ב{{ artwork.detailMedium }}. ההדפס הוא רפרודוקציה איכותית שלה, מיוצר לפי הזמנה.</p>
+          <p>{{ purchaseButtons.detailsReproductionText | replace('{medium}', artwork.detailMedium) }}</p>
           {% if artwork.purchaseVariants and artwork.purchaseVariants.length %}
           <p>המשלוח מחושב בנפרד לפי סוג ההדפס, הגודל והכמות.</p>
           {% else %}
@@ -196,27 +196,27 @@ eleventyComputed:
       </details>
 
       <details class="print-order-details">
-        <summary><span aria-hidden="true">✦</span> השראה</summary>
+        <summary><span aria-hidden="true">✦</span> {{ purchaseButtons.inspirationLabel }}</summary>
         <div class="print-order-details-body">
           <p>{{ artwork.description }}</p>
         </div>
       </details>
 
       <details class="print-order-details">
-        <summary><span aria-hidden="true">⬡</span> קולקציה</summary>
+        <summary><span aria-hidden="true">⬡</span> {{ purchaseButtons.collectionLabel }}</summary>
         <div class="print-order-details-body">
-          <p>היצירה שייכת לעולם ה{{ artwork.galleryMedium }} של {{ site.brand }}.</p>
+          <p>{{ purchaseButtons.collectionText | replace('{galleryMedium}', artwork.galleryMedium) | replace('{brand}', site.brand) }}</p>
         </div>
       </details>
 
       <details class="print-order-details">
-        <summary><span aria-hidden="true">©</span> זכויות יוצרים</summary>
+        <summary><span aria-hidden="true">©</span> {{ purchaseButtons.copyrightLabel }}</summary>
         <div class="print-order-details-body">
-          <p>כל היצירות, הדימויים והתוכן באתר זה מוגנים בזכויות יוצרים של {{ site.brand }}. <a href="/rights/">למדיניות זכויות היוצרים המלאה</a></p>
+          <p>{{ purchaseButtons.copyrightText | replace('{brand}', site.brand) }} <a href="/rights/">{{ purchaseButtons.copyrightLinkLabel }}</a></p>
         </div>
       </details>
     </div>
-    <a class="original-crosslink" href="/originals/{{ artwork.slug }}/">מתעניינים ביצירה המקורית של "{{ artwork.name }}"? <span aria-hidden="true">←</span></a>
+    <a class="original-crosslink" href="/originals/{{ artwork.slug }}/">{{ purchaseButtons.crosslinkText | replace('{name}', artwork.name) }} <span aria-hidden="true">←</span></a>
   </div>
   </div>
 </section>

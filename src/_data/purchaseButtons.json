@@ -1,4 +1,16 @@
 {
   "printLabel": "לרכישת הדפס אמנותי",
-  "originalLabel": "לרכישת היצירה המקורית"
+  "originalLabel": "לרכישת היצירה המקורית",
+  "addToCartLabel": "הוספה לעגלה",
+  "whatsappQuestionLabel": "שאלות לפני רכישה ב-WhatsApp",
+  "whatsappQuestionMessage": "שלום גל, יש לי שאלה לפני רכישת הדפס של \"{name}\".",
+  "detailsLabel": "פרטים",
+  "detailsReproductionText": "היצירה המקורית נוצרה ב{medium}. ההדפס הוא רפרודוקציה איכותית שלה, מיוצר לפי הזמנה.",
+  "inspirationLabel": "השראה",
+  "collectionLabel": "קולקציה",
+  "collectionText": "היצירה שייכת לעולם ה{galleryMedium} של {brand}.",
+  "copyrightLabel": "זכויות יוצרים",
+  "copyrightText": "כל היצירות, הדימויים והתוכן באתר זה מוגנים בזכויות יוצרים של {brand}.",
+  "copyrightLinkLabel": "למדיניות זכויות היוצרים המלאה",
+  "crosslinkText": "מתעניינים ביצירה המקורית של \"{name}\"?"
 }
