@@ -9,7 +9,7 @@
   "image": "/images/artworks/absorbing-fire+WEB.webp",
   "thumb": "/images/gallery/absorbing-fire+thumb.webp",
   "category": "mixed",
-  "originalAvailable": false,
-  "originalPrice": 0,
+  "originalAvailable": true,
+  "originalPrice": 3500,
   "extraMaterials": []
 }

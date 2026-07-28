@@ -9,7 +9,7 @@
   "image": "/images/artworks/precious+WEB.webp",
   "thumb": "/images/gallery/precious+thumb.webp",
   "category": "mixed",
-  "originalAvailable": false,
-  "originalPrice": 0,
+  "originalAvailable": true,
+  "originalPrice": 2500,
   "extraMaterials": []
 }
