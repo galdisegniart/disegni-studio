@@ -177,28 +177,9 @@ collections:
       - { label: "טקסט כפתור סיום", name: "finalCtaLabel", widget: "string" }
       - { label: "הודעת WhatsApp (כפתור סיום)", name: "finalWaMessage", widget: "text" }
 
-  - name: "pages"
-    label: "עמודים בודדים"
+  - name: "homeAndSettings"
+    label: "דף הבית והגדרות כלליות"
     files:
-      - name: "purchaseButtons"
-        label: "טקסטים משותפים בעמוד יצירה"
-        file: "src/_data/purchaseButtons.json"
-        fields:
-          - { label: "טקסט כפתור: הדפס אמנותי", name: "printLabel", widget: "string" }
-          - { label: "טקסט כפתור: היצירה המקורית", name: "originalLabel", widget: "string" }
-          - { label: "טקסט כפתור: הוספה לעגלה", name: "addToCartLabel", widget: "string" }
-          - { label: "טקסט כפתור: שאלות ב-WhatsApp", name: "whatsappQuestionLabel", widget: "string" }
-          - { label: "הודעת WhatsApp (השאירו {name} במקום שם היצירה)", name: "whatsappQuestionMessage", widget: "text" }
-          - { label: "כותרת סקציית פרטים", name: "detailsLabel", widget: "string" }
-          - { label: "טקסט רפרודוקציה (השאירו {medium} במקום הטכניקה)", name: "detailsReproductionText", widget: "text" }
-          - { label: "כותרת סקציית השראה", name: "inspirationLabel", widget: "string" }
-          - { label: "כותרת סקציית קולקציה", name: "collectionLabel", widget: "string" }
-          - { label: "טקסט קולקציה (השאירו {galleryMedium} ו-{brand} במקום)", name: "collectionText", widget: "text" }
-          - { label: "כותרת סקציית זכויות יוצרים", name: "copyrightLabel", widget: "string" }
-          - { label: "טקסט זכויות יוצרים (השאירו {brand} במקום שם המותג)", name: "copyrightText", widget: "text" }
-          - { label: "טקסט קישור למדיניות זכויות יוצרים", name: "copyrightLinkLabel", widget: "string" }
-          - { label: "טקסט קישור ליצירה המקורית (השאירו {name} במקום שם היצירה)", name: "crosslinkText", widget: "string" }
-
       - name: "home"
         label: "עמוד הבית (ראשי)"
         file: "src/content/pages/home.json"
@@ -245,6 +226,110 @@ collections:
               - { label: "שם הרשת", name: "name", widget: "string" }
               - { label: "קישור", name: "href", widget: "string" }
 
+  - name: "shopContent"
+    label: "תוכן החנות (מחירים, הדפסים, מקוריות)"
+    files:
+      - name: "prints"
+        label: "קולקציה: הדפסים (/collections/prints/)"
+        file: "src/content/pages/prints.json"
+        fields:
+          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
+          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
+          - { label: "כותרת ראשית", name: "heading", widget: "string" }
+          - { label: "טקסט פתיחה", name: "heroText", widget: "text" }
+          - { label: "טקסט קישור ליצירות המקוריות", name: "originalsLinkLabel", widget: "string" }
+          - { label: "כותרת סקציית היצירות", name: "catalogHeading", widget: "string" }
+          - { label: "תווית מסנן: הכל", name: "filterAllLabel", widget: "string" }
+          - { label: "תווית מסנן: רישום ופורטרט", name: "filterDrawingLabel", widget: "string" }
+          - { label: "תווית מסנן: מיקס-מדיה", name: "filterMixedLabel", widget: "string" }
+
+      - name: "originals"
+        label: "קולקציה: מקוריות זמינות (/collections/originals/)"
+        file: "src/content/pages/originals.json"
+        fields:
+          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
+          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
+          - { label: "כותרת ראשית", name: "heading", widget: "string" }
+          - { label: "טקסט פתיחה", name: "heroText", widget: "text" }
+
+      - name: "pricing"
+        label: "מחירון הדפסים"
+        file: "src/content/pages/pricing.json"
+        fields:
+          - name: "materials"
+            label: "סוגי הדפסה"
+            widget: "list"
+            hint: "כל סוג הדפסה (נייר, קנבס, וכל מה שתוסיפו בעתיד) עם הגדלים והמחירים שלו. מזהה הסוג (id) חייב להתאים למה שנבחר ב'סוגי הדפסה נוספים' בכל יצירה"
+            fields:
+              - { label: "מזהה (אנגלית, ללא רווחים - למשל paper, canvas)", name: "id", widget: "string" }
+              - { label: "שם הסוג", name: "name", widget: "string" }
+              - { label: "תיאור קצר (מוצג בכרטיס הבחירה)", name: "description", widget: "string" }
+              - { label: "הערת מחירון", name: "note", widget: "text" }
+              - name: "sizes"
+                label: "גדלים ומחירים"
+                widget: "list"
+                fields:
+                  - { label: "מזהה (אנגלית, ללא רווחים)", name: "id", widget: "string" }
+                  - { label: "גודל באינץ'", name: "labelIn", widget: "string" }
+                  - { label: "גודל בס\"מ", name: "labelCm", widget: "string" }
+                  - { label: "מחיר בשקלים", name: "priceILS", widget: "number" }
+                  - { label: "מחיר בדולרים", name: "priceUSD", widget: "number" }
+                  - { label: "לסמן כ\"הכי פופולרי\"?", name: "popular", widget: "boolean", default: false }
+                  - { label: "זמין להזמנה?", name: "available", widget: "boolean", default: true, hint: "בטלו סימון כדי להציג את הגודל כ'אזל' בלי למחוק אותו" }
+          - { label: "הערת משלוח בינלאומי", name: "shippingIntlNote", widget: "string" }
+
+      - name: "shipping"
+        label: "מחירון משלוחים"
+        file: "src/content/pages/shipping.json"
+        fields:
+          - name: "variants"
+            label: "עלויות משלוח לפי סוג וגודל"
+            widget: "list"
+            hint: "עלות משלוח אמיתית מפרינטפול לישראל, לפי סוג מוצר וגודל. פריט ראשון מאותו סוג בהזמנה מקבל את 'עלות ראשונה', וכל פריט נוסף מאותו סוג מקבל את 'עלות נוספת'."
+            fields:
+              - { label: "סוג מוצר", name: "productType", widget: "select", options: [{ label: "פוסטר", value: "poster" }, { label: "פוסטר ממוסגר", value: "framed-print" }, { label: "קנבס מתוח", value: "canvas" }] }
+              - { label: "מזהה גודל (אנגלית, ללא רווחים - למשל 5x7)", name: "sizeId", widget: "string" }
+              - { label: "עלות ראשונה בשקלים", name: "shippingFirstILS", widget: "number" }
+              - { label: "עלות נוספת בשקלים", name: "shippingAdditionalILS", widget: "number" }
+              - { label: "עלות ראשונה בדולרים", name: "shippingFirstUSD", widget: "number" }
+              - { label: "עלות נוספת בדולרים", name: "shippingAdditionalUSD", widget: "number" }
+
+      - name: "payment"
+        label: "פרטי תשלום (בעמוד יצירה)"
+        file: "src/content/pages/payment.json"
+        fields:
+          - { label: "תווית סקציה", name: "sectionLabel", widget: "string" }
+          - { label: "כותרת", name: "heading", widget: "string" }
+          - { label: "טקסט הסבר", name: "lead", widget: "text" }
+          - { label: "שם הבנק", name: "bankName", widget: "string" }
+          - { label: "קוד בנק", name: "bankCode", widget: "string" }
+          - { label: "סניף", name: "branch", widget: "string" }
+          - { label: "מספר חשבון", name: "accountNumber", widget: "string" }
+          - { label: "שם בעל החשבון", name: "accountHolder", widget: "string" }
+          - { label: "הערה לגבי הודעת WhatsApp", name: "waNote", widget: "text" }
+
+      - name: "purchaseButtons"
+        label: "טקסטים משותפים בעמוד יצירה"
+        file: "src/_data/purchaseButtons.json"
+        fields:
+          - { label: "טקסט כפתור: הדפס אמנותי", name: "printLabel", widget: "string" }
+          - { label: "טקסט כפתור: היצירה המקורית", name: "originalLabel", widget: "string" }
+          - { label: "טקסט כפתור: הוספה לעגלה", name: "addToCartLabel", widget: "string" }
+          - { label: "טקסט כפתור: שאלות ב-WhatsApp", name: "whatsappQuestionLabel", widget: "string" }
+          - { label: "הודעת WhatsApp (השאירו {name} במקום שם היצירה)", name: "whatsappQuestionMessage", widget: "text" }
+          - { label: "כותרת סקציית פרטים", name: "detailsLabel", widget: "string" }
+          - { label: "טקסט רפרודוקציה (השאירו {medium} במקום הטכניקה)", name: "detailsReproductionText", widget: "text" }
+          - { label: "כותרת סקציית השראה", name: "inspirationLabel", widget: "string" }
+          - { label: "כותרת סקציית קולקציה", name: "collectionLabel", widget: "string" }
+          - { label: "טקסט קולקציה (השאירו {galleryMedium} ו-{brand} במקום)", name: "collectionText", widget: "text" }
+          - { label: "כותרת סקציית זכויות יוצרים", name: "copyrightLabel", widget: "string" }
+          - { label: "טקסט זכויות יוצרים (השאירו {brand} במקום שם המותג)", name: "copyrightText", widget: "text" }
+          - { label: "טקסט קישור למדיניות זכויות יוצרים", name: "copyrightLinkLabel", widget: "string" }
+          - { label: "טקסט קישור ליצירה המקורית (השאירו {name} במקום שם היצירה)", name: "crosslinkText", widget: "string" }
+
+  - name: "sitePages"
+    label: "עמודי תוכן"
+    files:
       - name: "about"
         label: "עמוד אודות"
         file: "src/content/pages/about.json"
@@ -373,85 +458,6 @@ collections:
           - { label: "טקסט כפתור יצירת קשר", name: "contactCtaLabel", widget: "string" }
           - { label: "הודעת WhatsApp - יצירת קשר", name: "contactWaMessage", widget: "text" }
 
-      - name: "prints"
-        label: "קולקציה: הדפסים (/collections/prints/)"
-        file: "src/content/pages/prints.json"
-        fields:
-          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
-          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
-          - { label: "כותרת ראשית", name: "heading", widget: "string" }
-          - { label: "טקסט פתיחה", name: "heroText", widget: "text" }
-          - { label: "טקסט קישור ליצירות המקוריות", name: "originalsLinkLabel", widget: "string" }
-          - { label: "כותרת סקציית היצירות", name: "catalogHeading", widget: "string" }
-          - { label: "תווית מסנן: הכל", name: "filterAllLabel", widget: "string" }
-          - { label: "תווית מסנן: רישום ופורטרט", name: "filterDrawingLabel", widget: "string" }
-          - { label: "תווית מסנן: מיקס-מדיה", name: "filterMixedLabel", widget: "string" }
-
-      - name: "originals"
-        label: "קולקציה: מקוריות זמינות (/collections/originals/)"
-        file: "src/content/pages/originals.json"
-        fields:
-          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
-          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
-          - { label: "כותרת ראשית", name: "heading", widget: "string" }
-          - { label: "טקסט פתיחה", name: "heroText", widget: "text" }
-
-      - name: "pricing"
-        label: "מחירון הדפסים"
-        file: "src/content/pages/pricing.json"
-        fields:
-          - name: "materials"
-            label: "סוגי הדפסה"
-            widget: "list"
-            hint: "כל סוג הדפסה (נייר, קנבס, וכל מה שתוסיפו בעתיד) עם הגדלים והמחירים שלו. מזהה הסוג (id) חייב להתאים למה שנבחר ב'סוגי הדפסה נוספים' בכל יצירה"
-            fields:
-              - { label: "מזהה (אנגלית, ללא רווחים - למשל paper, canvas)", name: "id", widget: "string" }
-              - { label: "שם הסוג", name: "name", widget: "string" }
-              - { label: "תיאור קצר (מוצג בכרטיס הבחירה)", name: "description", widget: "string" }
-              - { label: "הערת מחירון", name: "note", widget: "text" }
-              - name: "sizes"
-                label: "גדלים ומחירים"
-                widget: "list"
-                fields:
-                  - { label: "מזהה (אנגלית, ללא רווחים)", name: "id", widget: "string" }
-                  - { label: "גודל באינץ'", name: "labelIn", widget: "string" }
-                  - { label: "גודל בס\"מ", name: "labelCm", widget: "string" }
-                  - { label: "מחיר בשקלים", name: "priceILS", widget: "number" }
-                  - { label: "מחיר בדולרים", name: "priceUSD", widget: "number" }
-                  - { label: "לסמן כ\"הכי פופולרי\"?", name: "popular", widget: "boolean", default: false }
-                  - { label: "זמין להזמנה?", name: "available", widget: "boolean", default: true, hint: "בטלו סימון כדי להציג את הגודל כ'אזל' בלי למחוק אותו" }
-          - { label: "הערת משלוח בינלאומי", name: "shippingIntlNote", widget: "string" }
-
-      - name: "shipping"
-        label: "מחירון משלוחים"
-        file: "src/content/pages/shipping.json"
-        fields:
-          - name: "variants"
-            label: "עלויות משלוח לפי סוג וגודל"
-            widget: "list"
-            hint: "עלות משלוח אמיתית מפרינטפול לישראל, לפי סוג מוצר וגודל. פריט ראשון מאותו סוג בהזמנה מקבל את 'עלות ראשונה', וכל פריט נוסף מאותו סוג מקבל את 'עלות נוספת'."
-            fields:
-              - { label: "סוג מוצר", name: "productType", widget: "select", options: [{ label: "פוסטר", value: "poster" }, { label: "פוסטר ממוסגר", value: "framed-print" }, { label: "קנבס מתוח", value: "canvas" }] }
-              - { label: "מזהה גודל (אנגלית, ללא רווחים - למשל 5x7)", name: "sizeId", widget: "string" }
-              - { label: "עלות ראשונה בשקלים", name: "shippingFirstILS", widget: "number" }
-              - { label: "עלות נוספת בשקלים", name: "shippingAdditionalILS", widget: "number" }
-              - { label: "עלות ראשונה בדולרים", name: "shippingFirstUSD", widget: "number" }
-              - { label: "עלות נוספת בדולרים", name: "shippingAdditionalUSD", widget: "number" }
-
-      - name: "payment"
-        label: "פרטי תשלום (בעמוד יצירה)"
-        file: "src/content/pages/payment.json"
-        fields:
-          - { label: "תווית סקציה", name: "sectionLabel", widget: "string" }
-          - { label: "כותרת", name: "heading", widget: "string" }
-          - { label: "טקסט הסבר", name: "lead", widget: "text" }
-          - { label: "שם הבנק", name: "bankName", widget: "string" }
-          - { label: "קוד בנק", name: "bankCode", widget: "string" }
-          - { label: "סניף", name: "branch", widget: "string" }
-          - { label: "מספר חשבון", name: "accountNumber", widget: "string" }
-          - { label: "שם בעל החשבון", name: "accountHolder", widget: "string" }
-          - { label: "הערה לגבי הודעת WhatsApp", name: "waNote", widget: "text" }
-
       - name: "portfolio"
         label: "עמוד פורטפוליו"
         file: "src/content/pages/portfolio.json"
@@ -496,6 +502,23 @@ collections:
           - { label: "טקסט זכויות יוצרים", name: "legalNote", widget: "text" }
           - { label: "טקסט קישור למדיניות זכויות יוצרים", name: "legalCtaLabel", widget: "string" }
 
+      - name: "thankYou"
+        label: "עמוד תודה (אחרי הזמנה)"
+        file: "src/content/pages/thankYou.json"
+        fields:
+          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
+          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
+          - { label: "כותרת", name: "heading", widget: "string" }
+          - { label: "טקסט פתיחה", name: "lead", widget: "text" }
+          - { label: "הערה", name: "note", widget: "text" }
+          - { label: "טקסט כפתור 1", name: "ctaLabel", widget: "string" }
+          - { label: "קישור כפתור 1", name: "ctaHref", widget: "string" }
+          - { label: "טקסט כפתור 2", name: "contactCtaLabel", widget: "string" }
+          - { label: "קישור כפתור 2", name: "contactCtaHref", widget: "string" }
+
+  - name: "legalPages"
+    label: "מדיניות ומשפט"
+    files:
       - name: "rights"
         label: "עמוד זכויות יוצרים"
         file: "src/content/pages/rights.json"
@@ -565,17 +588,3 @@ collections:
               - { label: "כותרת", name: "heading", widget: "string" }
               - { label: "פסקאות", name: "paragraphs", widget: "list", field: { label: "פסקה", name: "text", widget: "text" } }
           - { label: "הערה משפטית", name: "legalNote", widget: "text" }
-
-      - name: "thankYou"
-        label: "עמוד תודה (אחרי הזמנה)"
-        file: "src/content/pages/thankYou.json"
-        fields:
-          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
-          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
-          - { label: "כותרת", name: "heading", widget: "string" }
-          - { label: "טקסט פתיחה", name: "lead", widget: "text" }
-          - { label: "הערה", name: "note", widget: "text" }
-          - { label: "טקסט כפתור 1", name: "ctaLabel", widget: "string" }
-          - { label: "קישור כפתור 1", name: "ctaHref", widget: "string" }
-          - { label: "טקסט כפתור 2", name: "contactCtaLabel", widget: "string" }
-          - { label: "קישור כפתור 2", name: "contactCtaHref", widget: "string" }
