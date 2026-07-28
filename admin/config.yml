@@ -25,7 +25,7 @@ collections:
       - { label: "מזהה בכתובת (אנגלית, ללא רווחים)", name: "slug", widget: "string", hint: "משמש בכתובת /products/<מזהה>/ - לא לשנות אחרי הפרסום" }
       - { label: "סדר הופעה בגלריה", name: "order", widget: "number" }
       - { label: "שם היצירה", name: "name", widget: "string" }
-      - { label: "קטגוריה", name: "category", widget: "select", options: [{ label: "רישום ופורטרט", value: "drawing" }, { label: "מיקס-מדיה", value: "mixed" }] }
+      - { label: "קטגוריה (טכניקה)", name: "category", widget: "string", hint: "הקלידו באנגלית, ללא רווחים (למשל pastel, mixed, acrylic, drawing, oil, digital). חייב להתאים בדיוק לערך (value) של אחד מכפתורי הסינון בעמוד 'הדפסים' (תוכן החנות > הדפסים) - אחרת היצירה לא תופיע כשמסננים לפי אותה קטגוריה." }
       - { label: "טכניקה (מוצג בגלריה ובחנות)", name: "galleryMedium", widget: "string" }
       - { label: "טכניקה (מוצג בעמוד היצירה)", name: "detailMedium", widget: "string" }
       - { label: "תיאור היצירה", name: "description", widget: "text" }
@@ -240,8 +240,13 @@ collections:
           - { label: "טקסט קישור ליצירות המקוריות", name: "originalsLinkLabel", widget: "string" }
           - { label: "כותרת סקציית היצירות", name: "catalogHeading", widget: "string" }
           - { label: "תווית מסנן: הכל", name: "filterAllLabel", widget: "string" }
-          - { label: "תווית מסנן: רישום ופורטרט", name: "filterDrawingLabel", widget: "string" }
-          - { label: "תווית מסנן: מיקס-מדיה", name: "filterMixedLabel", widget: "string" }
+          - name: "filters"
+            label: "כפתורי סינון לפי קטגוריה"
+            widget: "list"
+            hint: "הוסיפו כפתור לכל קטגוריה (טכניקה) שיש לכם. ה'ערך' (value) חייב להיות זהה בדיוק לשדה 'קטגוריה' שהזנתם ביצירות (באנגלית, ללא רווחים) - אחרת הכפתור לא יראה יצירות."
+            fields:
+              - { label: "טקסט הכפתור (עברית)", name: "label", widget: "string" }
+              - { label: "ערך (אנגלית, ללא רווחים - למשל pastel)", name: "value", widget: "string" }
 
       - name: "originals"
         label: "קולקציה: מקוריות זמינות (/collections/originals/)"

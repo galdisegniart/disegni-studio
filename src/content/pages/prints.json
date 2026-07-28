@@ -6,6 +6,10 @@
   "originalsLinkLabel": "ליצירות המקוריות",
   "catalogHeading": "יצירות לרכישה",
   "filterAllLabel": "הכל",
-  "filterDrawingLabel": "רישום ופורטרט",
-  "filterMixedLabel": "מיקס-מדיה"
+  "filters": [
+    { "label": "גירי פסטל", "value": "pastel" },
+    { "label": "מיקס-מדיה", "value": "mixed" },
+    { "label": "אקריליק", "value": "acrylic" },
+    { "label": "רישום ופורטרט", "value": "drawing" }
+  ]
 }

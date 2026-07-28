@@ -26,8 +26,9 @@ eleventyComputed:
     <h2>{{ p.catalogHeading }}</h2>
     <div class="catalog-filters">
       <button class="catalog-filter active" type="button" data-filter="all" aria-pressed="true">{{ p.filterAllLabel }}</button>
-      <button class="catalog-filter" type="button" data-filter="drawing" aria-pressed="false">{{ p.filterDrawingLabel }}</button>
-      <button class="catalog-filter" type="button" data-filter="mixed" aria-pressed="false">{{ p.filterMixedLabel }}</button>
+      {% for filter in p.filters %}
+      <button class="catalog-filter" type="button" data-filter="{{ filter.value }}" aria-pressed="false">{{ filter.label }}</button>
+      {% endfor %}
     </div>
   </div>
   <div class="artwork-grid">
