@@ -203,6 +203,8 @@ collections:
         label: "עמוד הבית (ראשי)"
         file: "src/content/pages/home.json"
         fields:
+          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
+          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
           - { label: "תמונת הירו", name: "heroImage", widget: "image" }
           - { label: "טקסט חלופי לתמונה", name: "heroImageAlt", widget: "string" }
           - { label: "כותרת - שורה 1", name: "headingLine1", widget: "string" }
@@ -210,6 +212,14 @@ collections:
           - { label: "טקסט פתיחה", name: "leadText", widget: "text" }
           - { label: "שורת הבטחה 1", name: "assuranceLine1", widget: "string" }
           - { label: "שורת הבטחה 2", name: "assuranceLine2", widget: "string" }
+          - { label: "טקסט נגישות לסקציית הכרטיסיות", name: "gatesAriaLabel", widget: "string" }
+          - { label: "קידומת מחיר (למשל 'החל מ-')", name: "gatesPricePrefix", widget: "string" }
+          - name: "gates"
+            label: "כרטיסיות (לפי הסדר: מקוריות, הדפסים, הזמנה, סדנאות - אל תשנו את הסדר או תמחקו שורה)"
+            widget: "list"
+            fields:
+              - { label: "כותרת", name: "label", widget: "string" }
+              - { label: "תת-כותרת (רלוונטי רק לכרטיסיה הראשונה - השאר מוצג מחיר אוטומטית)", name: "subtitle", widget: "string", required: false }
 
       - name: "settings"
         label: "הגדרות אתר כלליות"
