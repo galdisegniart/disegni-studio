@@ -8,8 +8,44 @@
   "alt": "Mystical Yoni, דימוי אורגני מיסטי ורב שכבות",
   "image": "/images/artworks/mystical-yoni+WEB.webp",
   "thumb": "/images/gallery/mystical-yoni+thumb.webp",
+  "gallery": [
+    {
+      "image": "/images/products/mockups/mystical-yoni/mystical-yoni-poster.webp",
+      "alt": "מוקאפ של היצירה Mystical Yoni כהדפס תלוי על קיר",
+      "productType": "poster"
+    },
+    {
+      "image": "/images/products/mockups/mystical-yoni/mystical-yoni-canvas-24x32.webp",
+      "alt": "מוקאפ של Mystical Yoni כהדפס קנבס בגודל 24×32 אינץ'",
+      "productType": "canvas",
+      "sizeId": "24x32"
+    },
+    {
+      "image": "/images/products/mockups/mystical-yoni/mystical-yoni-framed-12x16-black.webp",
+      "alt": "מוקאפ של Mystical Yoni כפוסטר ממוסגר שחור בגודל 12×16 אינץ'",
+      "productType": "framed-print",
+      "sizeId": "12x16",
+      "frameColor": "black"
+    },
+    {
+      "image": "/images/products/mockups/mystical-yoni/mystical-yoni-framed-16x20-black.webp",
+      "alt": "מוקאפ של Mystical Yoni כפוסטר ממוסגר שחור בגודל 16×20 אינץ'",
+      "productType": "framed-print",
+      "sizeId": "16x20",
+      "frameColor": "black"
+    },
+    {
+      "image": "/images/products/mockups/mystical-yoni/mystical-yoni-framed-18x24-black.webp",
+      "alt": "מוקאפ של Mystical Yoni כפוסטר ממוסגר שחור בגודל 18×24 אינץ'",
+      "productType": "framed-print",
+      "sizeId": "18x24",
+      "frameColor": "black"
+    }
+  ],
   "category": "mixed",
   "originalAvailable": false,
   "originalPrice": 0,
-  "extraMaterials": []
+  "extraMaterials": [
+    "canvas"
+  ]
 }
