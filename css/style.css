@@ -1151,10 +1151,6 @@ footer {
 }
 
 /* Artwork detail page */
-.page-spacer {
-  height: 82px;
-}
-
 .artwork-detail {
   padding: 30px max(74px, calc(50vw - 640px)) 92px;
   border-bottom: 1px solid var(--line);
@@ -1755,12 +1751,6 @@ body.product-lightbox-lock {
   margin-bottom: 10px;
 }
 
-.print-order-label {
-  color: var(--copper);
-  font-size: 17px;
-  font-weight: 700;
-}
-
 .currency-toggle-mini {
   display: flex;
   align-items: center;
@@ -1879,18 +1869,6 @@ body.product-lightbox-lock {
 .js-size-select:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-}
-
-.js-frame-select {
-  min-height: 56px;
-  padding: 0 16px;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: var(--black);
-  color: var(--bone);
-  font-family: var(--sans);
-  font-size: 16px;
-  font-weight: 500;
 }
 
 .print-order-qty-field {
@@ -4028,10 +4006,6 @@ body.product-lightbox-lock {
   border-left: 1px solid var(--line);
 }
 
-.rights-number {
-  display: none;
-}
-
 .rights-quick-grid h2 {
   margin: 0 0 14px;
   font-size: 28px;
@@ -4800,14 +4774,6 @@ body.product-lightbox-lock {
 
 .print-order .js-style-select,
 .print-order .js-size-select,
-.print-order .js-frame-select {
-  min-height: 60px;
-  padding-inline: 18px;
-  border: 1.5px solid rgba(232, 226, 215, 0.34);
-  border-radius: 8px;
-  font-size: 18px;
-}
-
 .print-order-qty-field {
   margin-top: 18px;
 }
