@@ -995,12 +995,23 @@
     sizeSelect.dispatchEvent(new Event("change", { bubbles: true }));
   }
 
+  function getOptionThumbnails(wrap) {
+    var data = wrap.querySelector(".js-option-thumbnails");
+    if (!data) return {};
+    try {
+      return JSON.parse(data.textContent) || {};
+    } catch (e) {
+      return {};
+    }
+  }
+
   function buildOptionCards(wrap) {
     var container = wrap.querySelector(".print-order-cards");
     if (!container) return;
     clearGeneratedCards(container);
     var currency = getCurrency();
     var typeOrder = { poster: 0, canvas: 1, "framed-print": 2 };
+    var thumbnails = getOptionThumbnails(wrap);
     var frag = document.createDocumentFragment();
 
     if (isPrintfulDriven(wrap)) {
@@ -1013,12 +1024,14 @@
         var price = currency === "USD" ? item.priceUSD : item.priceILS;
         if (!Number.isFinite(Number(price))) return;
         var value = item.productId + ":" + (item.syncVariantId || item.sizeId);
+        var thumb = thumbnails[item.productType] || "";
         var card = document.createElement("button");
         card.type = "button";
         card.className = "option-card";
         card.dataset.value = value;
         card.setAttribute("aria-pressed", "false");
         card.innerHTML =
+          (thumb ? '<img class="option-card-image" src="' + thumb + '" alt="" loading="lazy">' : '') +
           '<span class="option-card-label">' + item.productTypeName + '</span>' +
           '<span class="option-card-meta">' + (currency === "USD" ? item.labelIn : item.labelCm) + '</span>' +
           '<span class="option-card-price">' + (currency === "USD" ? "$" + price : price + " ₪") + '</span>';
@@ -1035,12 +1048,15 @@
           if (opt.disabled || !opt.value) return;
           var price = currency === "USD" ? opt.dataset.priceUsd : opt.dataset.priceIls;
           if (!Number.isFinite(Number(price))) return;
+          var materialType = opt.dataset.material === "paper" ? "poster" : opt.dataset.material;
+          var thumb = thumbnails[materialType] || "";
           var card = document.createElement("button");
           card.type = "button";
           card.className = "option-card";
           card.dataset.value = opt.value;
           card.setAttribute("aria-pressed", "false");
           card.innerHTML =
+            (thumb ? '<img class="option-card-image" src="' + thumb + '" alt="" loading="lazy">' : '') +
             '<span class="option-card-label">' + opt.dataset.materialName + '</span>' +
             '<span class="option-card-meta">' + (currency === "USD" ? opt.dataset.labelIn : opt.dataset.labelCm) + '</span>' +
             '<span class="option-card-price">' + (currency === "USD" ? "$" + price : price + " ₪") + '</span>';

@@ -16,6 +16,19 @@ module.exports = function (eleventyConfig) {
     return Number(n).toLocaleString("en-US");
   });
 
+  eleventyConfig.addFilter("productTypeThumbnails", function (gallery, fallbackImage) {
+    const byType = {};
+    (gallery || []).forEach((item) => {
+      if (item.productType && !byType[item.productType]) {
+        byType[item.productType] = item.thumb || item.image;
+      }
+    });
+    ["poster", "canvas", "framed-print"].forEach((type) => {
+      if (!byType[type]) byType[type] = fallbackImage;
+    });
+    return byType;
+  });
+
   eleventyConfig.addFilter("minPrice", function (items, key) {
     var nums = (items || []).map(function (i) {
       var v = i[key];

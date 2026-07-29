@@ -96,21 +96,8 @@ eleventyComputed:
     <h1>{{ artwork.name }}</h1>
     <p class="artwork-detail-description">{{ artwork.description }}</p>
     <div class="print-order" data-artwork-slug="{{ artwork.slug }}" data-artwork-name="{{ artwork.name }}" data-artwork-image="{{ artwork.image }}">
-      <p class="print-order-kicker">{{ purchaseButtons.printLabel }}</p>
-
-      <div class="print-order-quality">
-        <p class="print-order-quality-label">איכות גבוהה</p>
-        <h2 class="print-order-quality-heading">אפשרויות הדפסה</h2>
-        <ul class="print-order-quality-list">
-          {% for material in pricing.materials %}
-          {% if material.id == "paper" or material.id in extraMaterials %}
-          <li><span class="print-order-quality-icon" aria-hidden="true">◈</span><span><strong>{{ material.name }}</strong> — {{ material.description }}</span></li>
-          {% endif %}
-          {% endfor %}
-        </ul>
-      </div>
-
       <div class="print-order-head">
+        <p class="print-order-kicker">{{ purchaseButtons.printLabel }}</p>
         <div class="currency-toggle-mini">
           <button type="button" class="js-currency-toggle active" data-currency="ILS">₪ · ס"מ</button>
           <span>·</span>
@@ -118,7 +105,10 @@ eleventyComputed:
         </div>
       </div>
 
+      <h2 class="print-order-quality-heading">אפשרויות הדפסה</h2>
       <p class="print-order-price">סה"כ <span class="js-live-price">—</span></p>
+
+      <script class="js-option-thumbnails" type="application/json">{{ artwork.gallery | productTypeThumbnails(artwork.image) | dump | safe }}</script>
 
       <select class="js-size-data" hidden aria-hidden="true" tabindex="-1">
         {% for material in pricing.materials %}
@@ -172,6 +162,7 @@ eleventyComputed:
       <div class="print-order-cards" role="group" aria-label="בחירת אפשרות">
         {% if artwork.handEmbellished and artwork.handEmbellished.available %}
         <a class="option-card option-card-special" href="#hand-embellished">
+          <img class="option-card-image" src="{{ artwork.image }}" alt="" loading="lazy">
           <span class="option-card-label">{{ purchaseButtons.handEmbellishedLabel }}</span>
           <span class="option-card-meta">{{ artwork.handEmbellished.sizeLabel }}</span>
           <span class="option-card-price">{{ artwork.handEmbellished.price | numberFormat }} ₪</span>
@@ -179,6 +170,7 @@ eleventyComputed:
         {% endif %}
         {% if artwork.originalAvailable %}
         <a class="option-card option-card-special option-card-original" href="#original-purchase">
+          <img class="option-card-image" src="{{ artwork.image }}" alt="" loading="lazy">
           <span class="option-card-label">{{ purchaseButtons.originalLabel }}</span>
           <span class="option-card-meta">{{ pages.printQuality.limitedEdition.heading }}</span>
           <span class="option-card-price">{{ artwork.originalPrice | numberFormat }} ₪</span>
