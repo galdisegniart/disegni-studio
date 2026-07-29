@@ -92,7 +92,6 @@ eleventyComputed:
   </figure>
   {% endif %}
   <div class="artwork-detail-copy">
-    <p class="artwork-detail-medium">{{ artwork.detailMedium }}</p>
     <h1>{{ artwork.name }}</h1>
     <div class="print-order" data-artwork-slug="{{ artwork.slug }}" data-artwork-name="{{ artwork.name }}" data-artwork-image="{{ artwork.image }}">
       <p class="print-order-startprice">{{ purchaseButtons.startingFromLabel }} <span>{{ range.low | numberFormat }} ₪</span></p>
@@ -155,7 +154,7 @@ eleventyComputed:
 
       <div class="print-order-cards" role="group" aria-label="בחירת אפשרות">
         {% if artwork.handEmbellished and artwork.handEmbellished.available %}
-        <a class="option-card option-card-special" href="#hand-embellished">
+        <a class="option-card" href="#hand-embellished">
           <img class="option-card-image" src="{{ artwork.image }}" alt="" loading="lazy">
           <span class="option-card-text">
             <span class="option-card-label">{{ purchaseButtons.handEmbellishedLabel }}</span>
@@ -165,7 +164,7 @@ eleventyComputed:
         </a>
         {% endif %}
         {% if artwork.originalAvailable %}
-        <a class="option-card option-card-special option-card-original" href="#original-purchase">
+        <a class="option-card" href="#original-purchase">
           <img class="option-card-image" src="{{ artwork.image }}" alt="" loading="lazy">
           <span class="option-card-text">
             <span class="option-card-label">{{ purchaseButtons.originalLabel }}</span>
@@ -175,6 +174,8 @@ eleventyComputed:
         </a>
         {% endif %}
       </div>
+
+      <button type="button" class="print-order-clear js-clear-selection" hidden>{{ purchaseButtons.clearSelectionLabel }}</button>
 
       <div class="print-order-footrow">
         <p class="print-order-price">סה"כ <span class="js-live-price">—</span></p>

@@ -1562,13 +1562,6 @@ body.product-lightbox-lock {
   text-align: center;
 }
 
-.artwork-detail-medium {
-  margin: 0 0 14px;
-  color: var(--copper);
-  font-size: 15px;
-  font-weight: 600;
-}
-
 .artwork-detail-copy h1 {
   margin: 0;
   font-size: clamp(54px, 7vw, 96px);
@@ -1951,22 +1944,26 @@ body.product-lightbox-lock {
   font-weight: 700;
 }
 
-.option-card-special {
-  border-color: var(--teal);
-  background: rgba(26, 155, 176, 0.06);
+.print-order-clear {
+  display: block;
+  margin: 10px 0 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--dim);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
 }
 
-.option-card-special .option-card-price {
-  color: var(--teal);
+.print-order-clear:hover {
+  color: var(--bone);
 }
 
-.option-card-special.option-card-original {
-  border-color: var(--copper);
-  background: rgba(207, 152, 67, 0.06);
-}
-
-.option-card-special.option-card-original .option-card-price {
-  color: var(--copper);
+.print-order-clear[hidden] {
+  display: none;
 }
 
 .print-order-qty-field {
@@ -4906,10 +4903,6 @@ body.product-lightbox-lock {
 /* Product purchase proportions — reference-aligned */
 .site-header {
   border-bottom: 0;
-}
-
-.artwork-detail-medium {
-  font-size: 17px;
 }
 
 .print-order-quality-heading {

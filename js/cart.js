@@ -711,6 +711,9 @@
         else populateSizeOptions(w);
         buildOptionCards(w);
         updateLivePrice(w);
+        var cardsContainer = w.querySelector(".print-order-cards");
+        var sizeSelect = w.querySelector(".js-size-select");
+        if (cardsContainer && sizeSelect) markActiveCard(cardsContainer, sizeSelect.value);
       });
       renderCartPage();
       return;
@@ -973,6 +976,21 @@
       card.classList.toggle("is-active", active);
       card.setAttribute("aria-pressed", active ? "true" : "false");
     });
+    var wrap = container.closest("[data-artwork-slug]");
+    var clearBtn = wrap && wrap.querySelector(".js-clear-selection");
+    if (clearBtn) clearBtn.hidden = !value;
+  }
+
+  function clearSelection(wrap) {
+    var styleSelect = wrap.querySelector(".js-style-select");
+    var sizeSelect = wrap.querySelector(".js-size-select");
+    if (!styleSelect || !sizeSelect) return;
+    styleSelect.value = "";
+    sizeSelect.innerHTML = "";
+    sizeSelect.disabled = true;
+    var cardsContainer = wrap.querySelector(".print-order-cards");
+    if (cardsContainer) markActiveCard(cardsContainer, "");
+    styleSelect.dispatchEvent(new Event("change", { bubbles: true }));
   }
 
   function selectPrintfulVariant(wrap, item) {
@@ -1207,5 +1225,11 @@
     if (isPrintfulDriven(wrap)) populatePrintfulTypes(wrap);
     buildOptionCards(wrap);
     updateLivePrice(wrap);
+    var clearBtn = wrap.querySelector(".js-clear-selection");
+    if (clearBtn) {
+      clearBtn.addEventListener("click", function () {
+        clearSelection(wrap);
+      });
+    }
   });
 })();

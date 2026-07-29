@@ -350,6 +350,7 @@ collections:
           - { label: "כותרת קטנה מעל אפשרויות רכישה", name: "optionsEyebrow", widget: "string" }
           - { label: "כותרת: בחרו פורמט", name: "chooseFormatLabel", widget: "string" }
           - { label: "טקסט: החל מ-", name: "startingFromLabel", widget: "string" }
+          - { label: "טקסט: נקו בחירה", name: "clearSelectionLabel", widget: "string" }
           - { label: "טקסט כפתור: היצירה המקורית", name: "originalLabel", widget: "string" }
           - { label: "טקסט כפתור: הדפס בעיטור ידני", name: "handEmbellishedLabel", widget: "string" }
           - { label: "טקסט כפתור: הוספה לעגלה", name: "addToCartLabel", widget: "string" }
