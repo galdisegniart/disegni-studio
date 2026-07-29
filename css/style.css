@@ -1719,11 +1719,19 @@ body.product-lightbox-lock {
 }
 
 .print-order-head {
+  margin-bottom: 4px;
+}
+
+.print-order-heading-row {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 4px;
+  margin-bottom: 14px;
+}
+
+.print-order-heading-row .print-order-quality-heading {
+  margin-bottom: 0;
 }
 
 .print-order-footrow {
@@ -1957,7 +1965,7 @@ body.product-lightbox-lock {
   background: none;
   color: var(--bone);
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 400;
   text-decoration: underline;
   text-underline-offset: 3px;
   cursor: pointer;
