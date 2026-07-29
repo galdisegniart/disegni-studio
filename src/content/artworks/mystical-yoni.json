@@ -45,6 +45,11 @@
   "category": "mixed",
   "originalAvailable": true,
   "originalPrice": 8800,
+  "handEmbellished": {
+    "available": true,
+    "price": 880,
+    "sizeLabel": "16×24 קנבס מתוח"
+  },
   "extraMaterials": [
     "canvas"
   ]
