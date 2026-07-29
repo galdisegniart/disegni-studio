@@ -709,6 +709,7 @@
       document.querySelectorAll("[data-artwork-slug]").forEach(function (w) {
         if (isPrintfulDriven(w)) populatePrintfulSizes(w);
         else populateSizeOptions(w);
+        buildOptionCards(w);
         updateLivePrice(w);
       });
       renderCartPage();
@@ -960,6 +961,101 @@
     select.disabled = !productType;
   }
 
+  function clearGeneratedCards(container) {
+    Array.prototype.slice.call(container.querySelectorAll(".option-card[data-value]")).forEach(function (card) {
+      card.remove();
+    });
+  }
+
+  function markActiveCard(container, value) {
+    Array.prototype.forEach.call(container.querySelectorAll(".option-card[data-value]"), function (card) {
+      var active = card.dataset.value === value;
+      card.classList.toggle("is-active", active);
+      card.setAttribute("aria-pressed", active ? "true" : "false");
+    });
+  }
+
+  function selectPrintfulVariant(wrap, item) {
+    var styleSelect = wrap.querySelector(".js-style-select");
+    var sizeSelect = wrap.querySelector(".js-size-select");
+    styleSelect.value = item.productType;
+    populatePrintfulSizes(wrap);
+    sizeSelect.value = item.productId + ":" + (item.syncVariantId || item.sizeId);
+    styleSelect.dispatchEvent(new Event("change", { bubbles: true }));
+    sizeSelect.dispatchEvent(new Event("change", { bubbles: true }));
+  }
+
+  function selectMaterialVariant(wrap, materialId, sizeValue) {
+    var styleSelect = wrap.querySelector(".js-style-select");
+    var sizeSelect = wrap.querySelector(".js-size-select");
+    styleSelect.value = materialId;
+    populateSizeOptions(wrap);
+    sizeSelect.value = sizeValue;
+    styleSelect.dispatchEvent(new Event("change", { bubbles: true }));
+    sizeSelect.dispatchEvent(new Event("change", { bubbles: true }));
+  }
+
+  function buildOptionCards(wrap) {
+    var container = wrap.querySelector(".print-order-cards");
+    if (!container) return;
+    clearGeneratedCards(container);
+    var currency = getCurrency();
+    var typeOrder = { poster: 0, canvas: 1, "framed-print": 2 };
+    var frag = document.createDocumentFragment();
+
+    if (isPrintfulDriven(wrap)) {
+      var options = getPrintfulOptions(wrap).slice().sort(function (a, b) {
+        var byType = (typeOrder[a.productType] || 0) - (typeOrder[b.productType] || 0);
+        if (byType !== 0) return byType;
+        return parseInt(a.sizeId, 10) - parseInt(b.sizeId, 10);
+      });
+      options.forEach(function (item) {
+        var price = currency === "USD" ? item.priceUSD : item.priceILS;
+        if (!Number.isFinite(Number(price))) return;
+        var value = item.productId + ":" + (item.syncVariantId || item.sizeId);
+        var card = document.createElement("button");
+        card.type = "button";
+        card.className = "option-card";
+        card.dataset.value = value;
+        card.setAttribute("aria-pressed", "false");
+        card.innerHTML =
+          '<span class="option-card-label">' + item.productTypeName + '</span>' +
+          '<span class="option-card-meta">' + (currency === "USD" ? item.labelIn : item.labelCm) + '</span>' +
+          '<span class="option-card-price">' + (currency === "USD" ? "$" + price : price + " ₪") + '</span>';
+        card.addEventListener("click", function () {
+          selectPrintfulVariant(wrap, item);
+          markActiveCard(container, value);
+        });
+        frag.appendChild(card);
+      });
+    } else {
+      var dataSelect = wrap.querySelector(".js-size-data");
+      if (dataSelect) {
+        Array.prototype.forEach.call(dataSelect.options, function (opt) {
+          if (opt.disabled || !opt.value) return;
+          var price = currency === "USD" ? opt.dataset.priceUsd : opt.dataset.priceIls;
+          if (!Number.isFinite(Number(price))) return;
+          var card = document.createElement("button");
+          card.type = "button";
+          card.className = "option-card";
+          card.dataset.value = opt.value;
+          card.setAttribute("aria-pressed", "false");
+          card.innerHTML =
+            '<span class="option-card-label">' + opt.dataset.materialName + '</span>' +
+            '<span class="option-card-meta">' + (currency === "USD" ? opt.dataset.labelIn : opt.dataset.labelCm) + '</span>' +
+            '<span class="option-card-price">' + (currency === "USD" ? "$" + price : price + " ₪") + '</span>';
+          card.addEventListener("click", function () {
+            selectMaterialVariant(wrap, opt.dataset.material, opt.value);
+            markActiveCard(container, opt.value);
+          });
+          frag.appendChild(card);
+        });
+      }
+    }
+
+    container.insertBefore(frag, container.firstChild);
+  }
+
   function getSelectedProductOption(wrap) {
     var select = wrap.querySelector(".js-size-select");
     return select && select.options[select.selectedIndex];
@@ -1001,6 +1097,8 @@
       if (matchingOption) sizeSelect.value = matchingOption.value;
     }
 
+    var cardsContainer = wrap.querySelector(".print-order-cards");
+    if (cardsContainer) markActiveCard(cardsContainer, sizeSelect.value);
     updateLivePrice(wrap);
   });
 
@@ -1087,6 +1185,7 @@
   renderCartDrawer();
   document.querySelectorAll("[data-artwork-slug]").forEach(function (wrap) {
     if (isPrintfulDriven(wrap)) populatePrintfulTypes(wrap);
+    buildOptionCards(wrap);
     updateLivePrice(wrap);
   });
 })();

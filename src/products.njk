@@ -95,16 +95,6 @@ eleventyComputed:
     <p class="artwork-detail-medium">{{ artwork.detailMedium }}</p>
     <h1>{{ artwork.name }}</h1>
     <p class="artwork-detail-description">{{ artwork.description }}</p>
-    {% if artwork.originalAvailable or (artwork.handEmbellished and artwork.handEmbellished.available) %}
-    <div class="special-options">
-      {% if artwork.originalAvailable %}
-      <a class="special-option-link" href="#original-purchase">{{ purchaseButtons.originalLabel }} <span aria-hidden="true">←</span></a>
-      {% endif %}
-      {% if artwork.handEmbellished and artwork.handEmbellished.available %}
-      <a class="special-option-link" href="#hand-embellished">{{ purchaseButtons.handEmbellishedLabel }} <span aria-hidden="true">←</span></a>
-      {% endif %}
-    </div>
-    {% endif %}
     <div class="print-order" data-artwork-slug="{{ artwork.slug }}" data-artwork-name="{{ artwork.name }}" data-artwork-image="{{ artwork.image }}">
       <p class="print-order-kicker">{{ purchaseButtons.printLabel }}</p>
 
@@ -144,24 +134,24 @@ eleventyComputed:
       <script class="js-printful-options" type="application/json">{{ printfulOptions | dump | safe }}</script>
       {% endif %}
 
-      <div class="print-order-selects{% if printfulOptions and printfulOptions.length %} is-printful-driven{% endif %}">
+      <div class="print-order-selects{% if printfulOptions and printfulOptions.length %} is-printful-driven{% endif %}" hidden aria-hidden="true">
         {% if printfulOptions and printfulOptions.length %}
         <div class="print-order-field">
           <span class="print-order-field-label">סוג הדפס</span>
-          <select class="js-style-select" aria-label="בחירת סוג הדפס">
+          <select class="js-style-select" aria-label="בחירת סוג הדפס" tabindex="-1">
             <option value="" selected>בחרו סוג הדפס</option>
           </select>
         </div>
         <div class="print-order-field">
           <span class="print-order-field-label">גודל</span>
-          <select class="js-size-select" aria-label="בחירת גודל" disabled>
+          <select class="js-size-select" aria-label="בחירת גודל" disabled tabindex="-1">
             <option value="" selected>בחרו גודל</option>
           </select>
         </div>
         {% else %}
         <div class="print-order-field">
           <span class="print-order-field-label">סגנון</span>
-          <select class="js-style-select" aria-label="בחירת סגנון הדפסה">
+          <select class="js-style-select" aria-label="בחירת סגנון הדפסה" tabindex="-1">
             <option value="" selected>בחרו סגנון</option>
             {% for material in pricing.materials %}
             {% if material.id == "paper" or material.id in extraMaterials %}
@@ -172,10 +162,27 @@ eleventyComputed:
         </div>
         <div class="print-order-field">
           <span class="print-order-field-label">גודל</span>
-          <select class="js-size-select" aria-label="בחירת גודל" disabled>
+          <select class="js-size-select" aria-label="בחירת גודל" disabled tabindex="-1">
             <option value="" selected>בחרו סגנון קודם</option>
           </select>
         </div>
+        {% endif %}
+      </div>
+
+      <div class="print-order-cards" role="group" aria-label="בחירת אפשרות">
+        {% if artwork.handEmbellished and artwork.handEmbellished.available %}
+        <a class="option-card option-card-special" href="#hand-embellished">
+          <span class="option-card-label">{{ purchaseButtons.handEmbellishedLabel }}</span>
+          <span class="option-card-meta">{{ artwork.handEmbellished.sizeLabel }}</span>
+          <span class="option-card-price">{{ artwork.handEmbellished.price | numberFormat }} ₪</span>
+        </a>
+        {% endif %}
+        {% if artwork.originalAvailable %}
+        <a class="option-card option-card-special option-card-original" href="#original-purchase">
+          <span class="option-card-label">{{ purchaseButtons.originalLabel }}</span>
+          <span class="option-card-meta">{{ pages.printQuality.limitedEdition.heading }}</span>
+          <span class="option-card-price">{{ artwork.originalPrice | numberFormat }} ₪</span>
+        </a>
         {% endif %}
       </div>
 

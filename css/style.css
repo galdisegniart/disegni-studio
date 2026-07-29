@@ -1894,6 +1894,93 @@ body.product-lightbox-lock {
   cursor: not-allowed;
 }
 
+.print-order-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.option-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--black);
+  color: var(--bone);
+  text-align: right;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.option-card:hover {
+  border-color: var(--dim);
+}
+
+.option-card.is-active {
+  border-color: var(--teal);
+  background: rgba(26, 155, 176, 0.1);
+}
+
+.option-card-label {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.option-card-meta {
+  color: var(--dim);
+  font-size: 12px;
+}
+
+.option-card-price {
+  margin-top: 4px;
+  color: var(--copper);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.option-card-special {
+  grid-column: span 2;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-color: var(--teal);
+  background: rgba(26, 155, 176, 0.06);
+}
+
+.option-card-special .option-card-meta {
+  flex: 1;
+  margin: 0 12px;
+}
+
+.option-card-special.option-card-original {
+  border-color: var(--copper);
+  background: rgba(207, 152, 67, 0.06);
+}
+
+.option-card-special.option-card-original .option-card-price {
+  color: var(--copper);
+}
+
+.option-card-special:not(.option-card-original) .option-card-price {
+  color: var(--teal);
+}
+
+@media (max-width: 420px) {
+  .option-card-special {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .option-card-special .option-card-meta {
+    margin: 0;
+  }
+}
+
 .print-order-qty-field {
   margin-top: 12px;
   justify-content: space-between;
