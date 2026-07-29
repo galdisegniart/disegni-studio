@@ -1719,6 +1719,10 @@ body.product-lightbox-lock {
 }
 
 .print-order-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   margin-bottom: 4px;
 }
 
@@ -1946,20 +1950,21 @@ body.product-lightbox-lock {
 
 .print-order-clear {
   display: block;
-  margin: 10px 0 0;
+  flex-shrink: 0;
+  margin: 0;
   padding: 0;
   border: 0;
   background: none;
-  color: var(--dim);
-  font-size: 13px;
-  font-weight: 600;
+  color: var(--bone);
+  font-size: 15px;
+  font-weight: 700;
   text-decoration: underline;
-  text-underline-offset: 2px;
+  text-underline-offset: 3px;
   cursor: pointer;
 }
 
 .print-order-clear:hover {
-  color: var(--bone);
+  color: var(--copper);
 }
 
 .print-order-clear[hidden] {

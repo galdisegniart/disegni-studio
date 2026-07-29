@@ -97,6 +97,7 @@ eleventyComputed:
       <p class="print-order-startprice">{{ purchaseButtons.startingFromLabel }} <span>{{ range.low | numberFormat }} ₪</span></p>
       <div class="print-order-head">
         <p class="print-order-kicker">{{ purchaseButtons.optionsEyebrow }}</p>
+        <button type="button" class="print-order-clear js-clear-selection" hidden>{{ purchaseButtons.clearSelectionLabel }}</button>
       </div>
 
       <h2 class="print-order-quality-heading">{{ purchaseButtons.chooseFormatLabel }}</h2>
@@ -174,8 +175,6 @@ eleventyComputed:
         </a>
         {% endif %}
       </div>
-
-      <button type="button" class="print-order-clear js-clear-selection" hidden>{{ purchaseButtons.clearSelectionLabel }}</button>
 
       <div class="print-order-footrow">
         <p class="print-order-price">סה"כ <span class="js-live-price">—</span></p>
