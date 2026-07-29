@@ -1606,17 +1606,24 @@ body.product-lightbox-lock {
 }
 
 .original-crosslink {
-  display: inline-block;
-  margin-top: 20px;
-  color: #6f6a63;
-  font-size: 13px;
-  font-weight: 500;
-  text-decoration: underline;
-  text-underline-offset: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 20px 0;
+  padding: 16px 20px;
+  border: 1px solid var(--copper);
+  border-radius: 8px;
+  background: rgba(207, 152, 67, 0.08);
+  color: var(--copper);
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.2s;
 }
 
 .original-crosslink:hover {
-  color: var(--bone);
+  background: rgba(207, 152, 67, 0.16);
 }
 
 @media (min-width: 921px) {

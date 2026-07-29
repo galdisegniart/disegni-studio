@@ -11,7 +11,6 @@ eleventyExcludeFromCollections: true
 {%- endfor %}
 {%- for a in artworks %}
   <url><loc>{{ site.siteUrl }}/products/{{ a.slug }}/</loc></url>
-  <url><loc>{{ site.siteUrl }}/originals/{{ a.slug }}/</loc></url>
 {%- endfor %}
 {%- for w in workshops %}
   <url><loc>{{ site.siteUrl }}/workshops/{{ w.slug }}/</loc></url>

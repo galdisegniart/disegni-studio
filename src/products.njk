@@ -19,6 +19,7 @@ eleventyComputed:
 {% set seq = artworks | artworkSequence(artwork) %}
 {% set pricing = pages.pricing %}
 {% set shipping = pages.shipping %}
+{% set pay = pages.payment %}
 {% set extraMaterials = artwork.extraMaterials or [] %}
 {% set printfulOptions = printfulCatalog | printfulOptions(artwork, pricing, shipping) %}
 
@@ -94,6 +95,9 @@ eleventyComputed:
     <p class="artwork-detail-medium">{{ artwork.detailMedium }}</p>
     <h1>{{ artwork.name }}</h1>
     <p class="artwork-detail-description">{{ artwork.description }}</p>
+    {% if artwork.originalAvailable %}
+    <a class="original-crosslink" href="#original-purchase">{{ purchaseButtons.originalLabel }} — {{ artwork.originalPrice | numberFormat }} ₪ <span aria-hidden="true">←</span></a>
+    {% endif %}
     <div class="print-order" data-artwork-slug="{{ artwork.slug }}" data-artwork-name="{{ artwork.name }}" data-artwork-image="{{ artwork.image }}">
       <p class="print-order-kicker">{{ purchaseButtons.printLabel }}</p>
 
@@ -216,10 +220,47 @@ eleventyComputed:
         </div>
       </details>
     </div>
-    <a class="original-crosslink" href="/originals/{{ artwork.slug }}/">{{ purchaseButtons.crosslinkText | replace('{name}', artwork.name) }} <span aria-hidden="true">←</span></a>
   </div>
   </div>
 </section>
+
+{% if artwork.originalAvailable %}
+<section class="artwork-purchase" id="original-purchase">
+  <div class="section-label"><span>{{ pay.sectionLabel }}</span></div>
+  <h2>{{ pages.printQuality.limitedEdition.heading }}</h2>
+  <p class="artwork-purchase-lead">{{ pay.lead }}</p>
+  <p class="artwork-purchase-original-note">לרכישת היצירה המקורית "{{ artwork.name }}" במחיר {{ artwork.originalPrice | numberFormat }} ₪, בצעו העברה בנקאית לפרטים שלהלן ואשרו ב-WhatsApp.</p>
+
+  <form id="cart-customer-form" class="cart-customer">
+    <h2 class="cart-customer-heading">פרטי משלוח ויצירת קשר</h2>
+    <div class="cart-customer-field">
+      <label for="customer-name">שם מלא *</label>
+      <input type="text" id="customer-name" required autocomplete="name">
+    </div>
+    <div class="cart-customer-field">
+      <label for="customer-phone">טלפון *</label>
+      <input type="tel" id="customer-phone" required autocomplete="tel">
+    </div>
+    <div class="cart-customer-field">
+      <label for="customer-email">דוא"ל (לא חובה)</label>
+      <input type="email" id="customer-email" autocomplete="email">
+    </div>
+    <div class="cart-customer-field">
+      <label for="customer-address">כתובת למשלוח *</label>
+      <textarea id="customer-address" required autocomplete="street-address" rows="2"></textarea>
+    </div>
+  </form>
+
+  <dl class="artwork-purchase-bank">
+    <div><dt>בנק</dt><dd>{{ pay.bankName }} ({{ pay.bankCode }})</dd></div>
+    <div><dt>סניף</dt><dd>{{ pay.branch }}</dd></div>
+    <div><dt>מספר חשבון</dt><dd dir="ltr">{{ pay.accountNumber }}</dd></div>
+    <div><dt>שם בעל החשבון</dt><dd>{{ pay.accountHolder }}</dd></div>
+  </dl>
+  <a class="cta js-original-whatsapp" href="#" target="_blank" rel="noopener noreferrer" data-artwork-slug="{{ artwork.slug }}" data-artwork-name="{{ artwork.name }}" data-price="{{ artwork.originalPrice }}" data-base-message="שלום גל, ביצעתי העברה בנקאית עבור היצירה המקורית &quot;{{ artwork.name }}&quot;. אשמח לתיאום המשלוח.">אישור העברה ב-WhatsApp <span>←</span></a>
+  <p class="artwork-purchase-note">{{ pay.waNote }}</p>
+</section>
+{% endif %}
 
 {% set availableTypes = printfulOptions | uniqueProductTypes %}
 {% set hasStory = artwork.story and artwork.story.paragraphs and artwork.story.paragraphs.length %}
