@@ -1032,9 +1032,11 @@
         card.setAttribute("aria-pressed", "false");
         card.innerHTML =
           (thumb ? '<img class="option-card-image" src="' + thumb + '" alt="" loading="lazy">' : '') +
+          '<span class="option-card-text">' +
           '<span class="option-card-label">' + item.productTypeName + '</span>' +
           '<span class="option-card-meta">' + (currency === "USD" ? item.labelIn : item.labelCm) + '</span>' +
-          '<span class="option-card-price">' + (currency === "USD" ? "$" + price : price + " ₪") + '</span>';
+          '<span class="option-card-price">' + (currency === "USD" ? "$" + price : price + " ₪") + '</span>' +
+          '</span>';
         card.addEventListener("click", function () {
           selectPrintfulVariant(wrap, item);
           markActiveCard(container, value);
@@ -1057,9 +1059,11 @@
           card.setAttribute("aria-pressed", "false");
           card.innerHTML =
             (thumb ? '<img class="option-card-image" src="' + thumb + '" alt="" loading="lazy">' : '') +
+            '<span class="option-card-text">' +
             '<span class="option-card-label">' + opt.dataset.materialName + '</span>' +
             '<span class="option-card-meta">' + (currency === "USD" ? opt.dataset.labelIn : opt.dataset.labelCm) + '</span>' +
-            '<span class="option-card-price">' + (currency === "USD" ? "$" + price : price + " ₪") + '</span>';
+            '<span class="option-card-price">' + (currency === "USD" ? "$" + price : price + " ₪") + '</span>' +
+            '</span>';
           card.addEventListener("click", function () {
             selectMaterialVariant(wrap, opt.dataset.material, opt.value);
             markActiveCard(container, opt.value);

@@ -94,19 +94,13 @@ eleventyComputed:
   <div class="artwork-detail-copy">
     <p class="artwork-detail-medium">{{ artwork.detailMedium }}</p>
     <h1>{{ artwork.name }}</h1>
-    <p class="artwork-detail-description">{{ artwork.description }}</p>
     <div class="print-order" data-artwork-slug="{{ artwork.slug }}" data-artwork-name="{{ artwork.name }}" data-artwork-image="{{ artwork.image }}">
+      <p class="print-order-startprice">{{ purchaseButtons.startingFromLabel }} <span>{{ range.low | numberFormat }} ₪</span></p>
       <div class="print-order-head">
-        <p class="print-order-kicker">{{ purchaseButtons.printLabel }}</p>
-        <div class="currency-toggle-mini">
-          <button type="button" class="js-currency-toggle active" data-currency="ILS">₪ · ס"מ</button>
-          <span>·</span>
-          <button type="button" class="js-currency-toggle" data-currency="USD">$ · inch</button>
-        </div>
+        <p class="print-order-kicker">{{ purchaseButtons.optionsEyebrow }}</p>
       </div>
 
-      <h2 class="print-order-quality-heading">אפשרויות הדפסה</h2>
-      <p class="print-order-price">סה"כ <span class="js-live-price">—</span></p>
+      <h2 class="print-order-quality-heading">{{ purchaseButtons.chooseFormatLabel }}</h2>
 
       <script class="js-option-thumbnails" type="application/json">{{ artwork.gallery | productTypeThumbnails(artwork.image) | dump | safe }}</script>
 
@@ -163,19 +157,32 @@ eleventyComputed:
         {% if artwork.handEmbellished and artwork.handEmbellished.available %}
         <a class="option-card option-card-special" href="#hand-embellished">
           <img class="option-card-image" src="{{ artwork.image }}" alt="" loading="lazy">
-          <span class="option-card-label">{{ purchaseButtons.handEmbellishedLabel }}</span>
-          <span class="option-card-meta">{{ artwork.handEmbellished.sizeLabel }}</span>
-          <span class="option-card-price">{{ artwork.handEmbellished.price | numberFormat }} ₪</span>
+          <span class="option-card-text">
+            <span class="option-card-label">{{ purchaseButtons.handEmbellishedLabel }}</span>
+            <span class="option-card-meta">{{ artwork.handEmbellished.sizeLabel }}</span>
+            <span class="option-card-price">{{ artwork.handEmbellished.price | numberFormat }} ₪</span>
+          </span>
         </a>
         {% endif %}
         {% if artwork.originalAvailable %}
         <a class="option-card option-card-special option-card-original" href="#original-purchase">
           <img class="option-card-image" src="{{ artwork.image }}" alt="" loading="lazy">
-          <span class="option-card-label">{{ purchaseButtons.originalLabel }}</span>
-          <span class="option-card-meta">{{ pages.printQuality.limitedEdition.heading }}</span>
-          <span class="option-card-price">{{ artwork.originalPrice | numberFormat }} ₪</span>
+          <span class="option-card-text">
+            <span class="option-card-label">{{ purchaseButtons.originalLabel }}</span>
+            <span class="option-card-meta">{{ pages.printQuality.limitedEdition.heading }}</span>
+            <span class="option-card-price">{{ artwork.originalPrice | numberFormat }} ₪</span>
+          </span>
         </a>
         {% endif %}
+      </div>
+
+      <div class="print-order-footrow">
+        <p class="print-order-price">סה"כ <span class="js-live-price">—</span></p>
+        <div class="currency-toggle-mini">
+          <button type="button" class="js-currency-toggle active" data-currency="ILS">₪ · ס"מ</button>
+          <span>·</span>
+          <button type="button" class="js-currency-toggle" data-currency="USD">$ · inch</button>
+        </div>
       </div>
 
       <div class="print-order-field print-order-qty-field">

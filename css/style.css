@@ -1577,14 +1577,6 @@ body.product-lightbox-lock {
   direction: ltr;
 }
 
-.artwork-detail-description {
-  max-width: 700px;
-  margin: 28px auto 0;
-  color: var(--dim);
-  font-size: 19px;
-  line-height: 1.8;
-}
-
 .original-price {
   margin: 28px 0 18px;
   color: var(--bone);
@@ -1681,11 +1673,6 @@ body.product-lightbox-lock {
     font-size: clamp(36px, 3.6vw, 60px);
   }
 
-  .artwork-detail-grid .artwork-detail-description {
-    max-width: none;
-    margin: 24px 0 0;
-  }
-
   .artwork-detail-grid .print-order {
     margin: 32px 0 0;
     width: 100%;
@@ -1708,30 +1695,47 @@ body.product-lightbox-lock {
   text-align: right;
 }
 
+.print-order-startprice {
+  margin: 0 0 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+  color: var(--bone);
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.print-order-startprice span {
+  color: var(--copper);
+  font-weight: 700;
+}
+
 .print-order-kicker {
   margin: 0;
   color: var(--teal);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .print-order-quality-heading {
-  margin: 0 0 6px;
+  margin: 0 0 14px;
   color: var(--bone);
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 600;
 }
 
 .print-order-head {
+  margin-bottom: 4px;
+}
+
+.print-order-footrow {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 12px;
-  margin-bottom: 14px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid var(--line);
+  margin-top: 16px;
 }
 
 .currency-toggle-mini {
@@ -1807,10 +1811,10 @@ body.product-lightbox-lock {
 }
 
 .print-order-price {
-  margin: 0 0 16px;
+  margin: 0;
   color: var(--bone);
-  font-size: 26px;
-  font-weight: 700;
+  font-size: 18px;
+  font-weight: 600;
 }
 
 .print-order-price .js-live-price {
@@ -1822,6 +1826,10 @@ body.product-lightbox-lock {
   grid-template-columns: 1fr;
   gap: 14px;
   margin-top: 14px;
+}
+
+.print-order-selects[hidden] {
+  display: none;
 }
 
 .print-order-selects .print-order-field {
@@ -1862,6 +1870,7 @@ body.product-lightbox-lock {
 }
 
 .option-card {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -1881,8 +1890,24 @@ body.product-lightbox-lock {
 }
 
 .option-card.is-active {
-  border-color: var(--teal);
-  background: rgba(26, 155, 176, 0.1);
+  border-color: var(--bone);
+  background: rgba(232, 226, 215, 0.08);
+}
+
+.option-card.is-active::after {
+  content: "✓";
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--bone);
+  color: var(--black);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 16px;
+  text-align: center;
 }
 
 .option-card-image {
@@ -1894,11 +1919,20 @@ body.product-lightbox-lock {
   background: var(--line);
 }
 
+.option-card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
 .option-card-label {
   display: block;
   font-size: 13px;
   font-weight: 700;
   line-height: 1.3;
+  overflow-wrap: break-word;
 }
 
 .option-card-meta {
@@ -1906,6 +1940,7 @@ body.product-lightbox-lock {
   color: var(--dim);
   font-size: 11px;
   line-height: 1.3;
+  overflow-wrap: break-word;
 }
 
 .option-card-price {
@@ -4877,21 +4912,8 @@ body.product-lightbox-lock {
   font-size: 17px;
 }
 
-.artwork-detail-description {
-  font-size: 20px;
-  line-height: 1.75;
-}
-
-.print-order-kicker {
-  font-size: 16px;
-}
-
 .print-order-quality-heading {
-  font-size: 22px;
-}
-
-.print-order-head {
-  margin-bottom: 12px;
+  font-size: 24px;
 }
 
 .currency-toggle-mini .js-currency-toggle {
@@ -4900,9 +4922,7 @@ body.product-lightbox-lock {
 }
 
 .print-order-price {
-  margin-top: 10px;
-  font-size: 30px;
-  font-weight: 600;
+  font-size: 19px;
 }
 
 .print-order-selects {
@@ -4984,10 +5004,6 @@ body.product-lightbox-lock {
 
   .artwork-detail-grid .artwork-detail-copy h1 {
     font-size: clamp(48px, 3.4vw, 64px);
-  }
-
-  .artwork-detail-grid .artwork-detail-description {
-    margin-top: 26px;
   }
 
   .artwork-detail-grid .print-order {
