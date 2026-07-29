@@ -225,7 +225,7 @@ eleventyComputed:
 {% set hasStory = artwork.story and artwork.story.paragraphs and artwork.story.paragraphs.length %}
 {% set hasTestimony = artwork.testimony and (artwork.testimony.text or (artwork.testimony.video and artwork.testimony.video.file)) %}
 
-{% if availableTypes.length or artwork.originalAvailable or hasStory or hasTestimony %}
+{% if availableTypes.length or hasStory or hasTestimony %}
 <section class="print-quality section">
   {% if hasStory %}
   <div class="print-quality-block">
@@ -267,18 +267,6 @@ eleventyComputed:
   </div>
   {% endif %}
 
-  {% if artwork.originalAvailable %}
-  {% set le = pages.printQuality.limitedEdition %}
-  <div class="print-quality-block print-quality-limited">
-    <h2>{{ le.heading }}</h2>
-    <p>{{ le.text }}</p>
-    <ul>
-      {% for feature in le.features %}
-      <li>{{ feature }}</li>
-      {% endfor %}
-    </ul>
-  </div>
-  {% endif %}
 </section>
 {% endif %}
 

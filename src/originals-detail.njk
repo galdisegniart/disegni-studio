@@ -115,6 +115,48 @@ eleventyComputed:
   {% endif %}
 </section>
 
+{% set hasStory = artwork.story and artwork.story.paragraphs and artwork.story.paragraphs.length %}
+{% set hasTestimony = artwork.testimony and (artwork.testimony.text or (artwork.testimony.video and artwork.testimony.video.file)) %}
+
+{% if hasStory or hasTestimony or artwork.originalAvailable %}
+<section class="print-quality section">
+  {% if hasStory %}
+  <div class="print-quality-block">
+    {% if artwork.story.heading %}<h2>{{ artwork.story.heading }}</h2>{% endif %}
+    {% for paragraph in artwork.story.paragraphs %}
+    <p>{{ paragraph }}</p>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if hasTestimony %}
+  <div class="print-quality-block">
+    {% if artwork.testimony.heading %}<h2>{{ artwork.testimony.heading }}</h2>{% endif %}
+    {% if artwork.testimony.text %}<p>{{ artwork.testimony.text }}</p>{% endif %}
+    {% if artwork.testimony.video and artwork.testimony.video.file %}
+    <video class="print-quality-video" controls playsinline{% if artwork.testimony.video.poster %} poster="{{ artwork.testimony.video.poster }}"{% endif %}>
+      <source src="{{ artwork.testimony.video.file }}" type="video/mp4">
+    </video>
+    {% if artwork.testimony.video.caption %}<p class="print-quality-video-caption">{{ artwork.testimony.video.caption }}</p>{% endif %}
+    {% endif %}
+  </div>
+  {% endif %}
+
+  {% if artwork.originalAvailable %}
+  {% set le = pages.printQuality.limitedEdition %}
+  <div class="print-quality-block print-quality-limited">
+    <h2>{{ le.heading }}</h2>
+    <p>{{ le.text }}</p>
+    <ul>
+      {% for feature in le.features %}
+      <li>{{ feature }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+</section>
+{% endif %}
+
 {% set relatedOriginals = artworks | relatedAvailableOriginals(artwork.slug) %}
 {% if relatedOriginals.length %}
 <section class="artwork-more">
