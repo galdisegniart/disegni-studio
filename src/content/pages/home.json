@@ -28,12 +28,12 @@
       "label": "סדנאות",
       "image": "/images/workshops/daily-main.webp",
       "href": "/workshops/",
-      "ctaLabel": "לצפייה בסדנאות",
+      "ctaLabel": "הירשמו היום",
       "visible": true
     }
   ],
-  "galleryHeading": "מבחר יצירות מהגלריה",
   "leadText": "כל יצירה מתחילה בחיבור אישי ומקבלת נוכחות וסיפור משלה.",
+  "galleryHeading": "מבחר יצירות מהגלריה",
   "assuranceLine1": "מקורי לחלוטין. ללא בינה מלאכותית.",
   "assuranceLine2": "נוצר ביד על נייר, קנבס, עץ או קיר.",
   "metaDescription": "הגלריה של גל דִּיסֵנִי, יצירות מקוריות, פורטרטים אישיים וסדנאות אמנות בחדרה.",
