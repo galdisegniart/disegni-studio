@@ -7,21 +7,21 @@
       "label": "יצירות מקוריות",
       "image": "/images/gallery/orin+thumb.webp",
       "href": "/collections/originals/",
-      "ctaLabel": "ליצירות המקוריות",
+      "ctaLabel": "רכשו יצירה יחידה במינה",
       "visible": true
     },
     {
       "label": "הדפסים אמנותיים",
       "image": "/images/gallery/mystical-yoni+thumb.webp",
       "href": "/collections/prints/",
-      "ctaLabel": "לבחירת הדפס",
+      "ctaLabel": "בחרו אמנות לבית",
       "visible": true
     },
     {
       "label": "יצירות בהזמנה",
       "image": "/images/gallery/precious+thumb.webp",
       "href": "/commissions/",
-      "ctaLabel": "להזמנת יצירה",
+      "ctaLabel": "יצירה ייחודית אישית",
       "visible": true
     },
     {
