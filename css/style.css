@@ -1016,7 +1016,6 @@ body.cart-drawer-lock {
 
 .gallery-link:hover .gallery-frame {
   transform: translateY(-6px);
-  border-color: var(--copper);
 }
 
 .gallery-frame img {
@@ -2402,7 +2401,6 @@ body.product-lightbox-lock {
 }
 
 .more-artwork-card:hover .more-artwork-image {
-  border-color: var(--copper);
   transform: translateY(-4px);
 }
 
