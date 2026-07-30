@@ -3,6 +3,7 @@ const site = require("./src/_data/site.json");
 module.exports = function (eleventyConfig) {
   eleventyConfig.addWatchTarget("css");
   eleventyConfig.addWatchTarget("js");
+  eleventyConfig.addPassthroughCopy({ "src/images/uploads": "images/uploads" });
 
   eleventyConfig.addFilter("arraySlice", function (arr, start, end) {
     return arr.slice(start, end);
