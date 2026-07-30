@@ -44,6 +44,11 @@ module.exports = function (eleventyConfig) {
     return (artworks || []).filter((a) => a.originalAvailable && a.slug !== currentSlug);
   });
 
+  eleventyConfig.addFilter("artworksBySlugs", function (artworks, slugs) {
+    const bySlug = new Map((artworks || []).map((artwork) => [artwork.slug, artwork]));
+    return (slugs || []).map((slug) => bySlug.get(slug)).filter(Boolean);
+  });
+
   eleventyConfig.addFilter("priceRange", function (materials, extraMaterials) {
     const extras = extraMaterials || [];
     let low = null;

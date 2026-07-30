@@ -1,36 +1,56 @@
 {
-  "title": "פורטפוליו | גל דִּיסֵנִי",
-  "metaDescription": "פורטפוליו העבודות של גל דִּיסֵנִי - רישום ופורטרט, מיקס-מדיה ועבודות בהזמנה.",
-  "heroEyebrow": "עבודות נבחרות",
-  "heroHeading": "פורטפוליו",
-  "heroLead": "מבט על העולמות השונים שבהם אני עובד. העמוד הזה עוד בבנייה ויתעצב בהמשך.",
+  "title": "גלריה | גל דִּיסֵנִי",
+  "metaDescription": "גלריית האמנות של גל דִּיסֵנִי, המחולקת למסעות נשמה משותפים ולמסעות חזון אישיים.",
+  "heroHeading": "גלריה",
   "categories": [
     {
-      "href": "/collections/prints/",
-      "image": "/images/artworks/light+WEB.webp",
-      "alt": "רישום ופורטרט מאת גל דִּיסֵנִי",
-      "small": "רישום ופורטרט",
-      "title": "עבודות רישום",
-      "text": "רישומים ריאליסטיים ופורטרטים אישיים, בעפרון, פחם ועפרונות צבעוניים.",
-      "ctaLabel": "לצפייה ברישומים"
+      "slug": "shared-soul-journeys",
+      "title": "Shared Soul Journeys",
+      "image": "/images/artworks/Estis_memory+WEB.webp",
+      "alt": "פרט מתוך היצירה Estis Memory מאת גל דִּיסֵנִי",
+      "imagePosition": "center",
+      "ctaLabel": "לצפייה ביצירות",
+      "artworks": [
+        "absorbing-fire",
+        "dragon-bloom",
+        "harmonized-electric-earth",
+        "moon-cycle-of-healing",
+        "mystical-yoni",
+        "soul-dna",
+        "divine-feminine-rivers",
+        "estis-memory",
+        "exaltation",
+        "goddess-of-truth",
+        "peace-with-femininity",
+        "power-crystal",
+        "pure-masculine-and-feminine",
+        "release-control",
+        "seed-of-joy",
+        "the-protector-of-earth",
+        "the-pyramid-of-the-one",
+        "third-eye-engine",
+        "transforming-fire-to-water",
+        "womb-of-creation",
+        "ying-yang-couple",
+        "hypno-medicine"
+      ]
     },
     {
-      "href": "/collections/prints/",
-      "image": "/images/artworks/orin+WEB.webp",
-      "alt": "מיקס-מדיה מאת גל דִּיסֵנִי",
-      "small": "טכניקה משולבת",
-      "title": "מיקס-מדיה",
-      "text": "עבודות בטכניקה משולבת שנעות בין דמיון, סמליות ועולמות פנימיים.",
-      "ctaLabel": "לצפייה במיקס-מדיה"
-    },
-    {
-      "href": "/commissions/",
+      "slug": "personal-visionary-journeys",
+      "title": "Personal Visionary Journeys",
       "image": "/images/artworks/precious+WEB.webp",
-      "alt": "עבודה בהזמנה מאת גל דִּיסֵנִי",
-      "small": "יצירה אישית",
-      "title": "עבודות בהזמנה",
-      "text": "יצירה מותאמת אישית שמתחילה בסיפור שלכם ומקבלת נוכחות משלה.",
-      "ctaLabel": "לפרטים על הזמנה אישית"
+      "alt": "פרט מתוך היצירה Precious מאת גל דִּיסֵנִי",
+      "imagePosition": "center",
+      "ctaLabel": "לצפייה ביצירות",
+      "artworks": [
+        "balanced-human",
+        "dreaming-reality",
+        "light",
+        "orin",
+        "precious",
+        "surender-to-fear",
+        "vulnerability-is-strength"
+      ]
     }
   ]
 }

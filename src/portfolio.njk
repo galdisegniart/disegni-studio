@@ -7,20 +7,24 @@ eleventyComputed:
   description: "{{ pages.portfolio.metaDescription }}"
 ---
 {% set p = pages.portfolio %}
-<section class="gallery-intro-minimal">
-  <p class="hero-eyebrow">{{ p.heroEyebrow }}</p>
-  <h1>{{ p.heroHeading }}</h1>
-  <p>{{ p.heroLead }}</p>
-</section>
 
-{% for c in p.categories %}
-<section class="portfolio-row{% if loop.index is even %} reverse{% endif %}">
-  <figure><img src="{{ c.image }}" alt="{{ c.alt }}"></figure>
-  <div class="portfolio-row-copy">
-    <p class="hero-eyebrow">{{ c.small }}</p>
-    <h2>{{ c.title }}</h2>
-    <p>{{ c.text }}</p>
-    <a class="cta" href="{{ c.href }}">{{ c.ctaLabel }} <span>←</span></a>
-  </div>
-</section>
-{% endfor %}
+<header class="portfolio-gallery-heading">
+  <h1>{{ p.heroHeading }}</h1>
+</header>
+
+<div class="portfolio-category-index">
+  {% for category in p.categories %}
+  <a class="portfolio-category-band" href="/portfolio/{{ category.slug }}/">
+    <img
+      src="{{ category.image }}"
+      alt="{{ category.alt }}"
+      style="object-position: {{ category.imagePosition or 'center' }}"
+      {% if not loop.first %}loading="lazy"{% endif %}>
+    <span class="portfolio-category-shade" aria-hidden="true"></span>
+    <span class="portfolio-category-copy">
+      <span class="portfolio-category-title">{{ category.title }}</span>
+      <span class="portfolio-category-cta">{{ category.ctaLabel }}</span>
+    </span>
+  </a>
+  {% endfor %}
+</div>

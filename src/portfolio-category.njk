@@ -1,0 +1,31 @@
+---
+layout: base.njk
+activeNav: "פורטפוליו"
+pagination:
+  data: pages.portfolio.categories
+  size: 1
+  alias: category
+permalink: "/portfolio/{{ category.slug }}/index.html"
+eleventyComputed:
+  title: "{{ category.title }} | גל דִּיסֵנִי"
+  description: "{{ category.title }} — מבחר יצירות מאת גל דִּיסֵנִי."
+---
+{% set categoryArtworks = artworks | artworksBySlugs(category.artworks) %}
+
+<header class="portfolio-collection-heading">
+  <a class="portfolio-back-link" href="/portfolio/">→ חזרה לגלריה</a>
+  <h1>{{ category.title }}</h1>
+</header>
+
+<section class="gallery section portfolio-collection-gallery" aria-label="{{ category.title }}">
+  <div class="gallery-editorial home-art-grid">
+    {% for artwork in categoryArtworks %}
+    <article class="gallery-item">
+      <a class="gallery-link" href="/products/{{ artwork.slug }}/">
+        <img src="{{ artwork.thumb or artwork.image }}" alt="{{ artwork.alt }}" loading="lazy">
+        <span>{{ artwork.name }}</span>
+      </a>
+    </article>
+    {% endfor %}
+  </div>
+</section>
