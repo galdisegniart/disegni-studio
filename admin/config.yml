@@ -230,6 +230,7 @@ collections:
             widget: "list"
             fields:
               - { label: "כותרת", name: "label", widget: "string" }
+              - { label: "תמונת הכרטיס", name: "image", widget: "image", hint: "התמונה שתוצג בכרטיס הקטגוריה בעמוד הראשי" }
               - { label: "תת-כותרת (רלוונטי רק לכרטיסיה הראשונה - השאר מוצג מחיר אוטומטית)", name: "subtitle", widget: "string", required: false }
 
       - name: "settings"

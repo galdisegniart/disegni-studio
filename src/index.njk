@@ -28,28 +28,28 @@ scripts:
 
 <section class="home-gates" aria-label="{{ p.gatesAriaLabel }}">
   <a class="home-gate-card" href="/collections/originals/">
-    <span class="home-gate-image"><img src="{{ artworks[0].thumb }}" alt="" loading="lazy"></span>
+    <span class="home-gate-image"><img src="{{ p.gates[0].image }}" alt="{{ p.gates[0].label }}" loading="lazy"></span>
     <span class="home-gate-copy">
       <strong>{{ p.gates[0].label }}</strong>
       <small>{{ p.gates[0].subtitle }}</small>
     </span>
   </a>
   <a class="home-gate-card" href="/collections/prints/">
-    <span class="home-gate-image"><img src="{{ artworks[1].thumb }}" alt="" loading="lazy"></span>
+    <span class="home-gate-image"><img src="{{ p.gates[1].image }}" alt="{{ p.gates[1].label }}" loading="lazy"></span>
     <span class="home-gate-copy">
       <strong>{{ p.gates[1].label }}</strong>
       <small>{{ p.gatesPricePrefix }}{{ printFrom.low | numberFormat }} ₪</small>
     </span>
   </a>
   <a class="home-gate-card" href="/commissions/">
-    <span class="home-gate-image"><img src="{{ pages.commissions.heroImage }}" alt="" loading="lazy"></span>
+    <span class="home-gate-image"><img src="{{ p.gates[2].image }}" alt="{{ p.gates[2].label }}" loading="lazy"></span>
     <span class="home-gate-copy">
       <strong>{{ p.gates[2].label }}</strong>
       <small>{{ p.gatesPricePrefix }}{{ commissionFrom | numberFormat }} ₪</small>
     </span>
   </a>
   <a class="home-gate-card" href="/workshops/">
-    <span class="home-gate-image"><img src="{{ workshops[0].cardImage }}" alt="" loading="lazy"></span>
+    <span class="home-gate-image"><img src="{{ p.gates[3].image }}" alt="{{ p.gates[3].label }}" loading="lazy"></span>
     <span class="home-gate-copy">
       <strong>{{ p.gates[3].label }}</strong>
       <small>{{ p.gatesPricePrefix }}{{ workshopFrom | numberFormat }} ₪</small>

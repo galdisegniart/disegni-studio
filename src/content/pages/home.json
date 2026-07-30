@@ -11,9 +11,9 @@
   "gatesAriaLabel": "דרכים ליצור ולרכוש",
   "gatesPricePrefix": "החל מ-",
   "gates": [
-    { "label": "יצירות מקוריות", "subtitle": "עבודות חד-פעמיות, זמינות לרכישה" },
-    { "label": "הדפסים אמנותיים" },
-    { "label": "יצירות בהזמנה" },
-    { "label": "סדנאות" }
+    { "label": "יצירות מקוריות", "subtitle": "עבודות חד-פעמיות, זמינות לרכישה", "image": "/images/gallery/light+thumb.webp" },
+    { "label": "הדפסים אמנותיים", "image": "/images/gallery/precious+thumb.webp" },
+    { "label": "יצירות בהזמנה", "image": "/images/artworks/light+WEB.webp" },
+    { "label": "סדנאות", "image": "/images/workshops/daily-main.webp" }
   ]
 }
