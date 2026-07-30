@@ -1,9 +1,9 @@
 ---
 layout: base.njk
 activeNav: "יצירות בהזמנה"
-permalink: "/commissions/index.html"
 scripts:
   - /js/lead-form.js
+permalink: "/commissions/index.html"
 eleventyComputed:
   title: "{{ pages.commissions.title }}"
   description: "{{ pages.commissions.metaDescription }}"
@@ -15,12 +15,35 @@ eleventyComputed:
     <p class="hero-eyebrow">{{ p.heroEyebrow }}</p>
     <h1>{{ p.heroHeading | safe }}</h1>
     <p>{{ p.heroLead }}</p>
-    <a class="cta" href="#options">לבחירת כיוון <span>↓</span></a>
+    <div class="commission-hero-ctas">
+      <a class="cta" href="#inquiry-form">{{ p.heroPrimaryCtaLabel }}</a>
+      <a class="cta cta-outline" href="#options">{{ p.heroSecondaryCtaLabel }}</a>
+    </div>
   </div>
   <figure class="inner-hero-art commission-feature-art">
     <img src="{{ p.heroImage }}" alt="{{ p.heroImageAlt }}">
-    <figcaption>{{ p.heroImageCaption }}</figcaption>
+    {% if p.heroImageCaption %}<figcaption>{{ p.heroImageCaption }}</figcaption>{% endif %}
   </figure>
+</section>
+{% endif %}
+
+{% if p.introVideoVisible != false and (p.introVideoFile or p.introVideoUrl or p.introVideoPoster) %}
+<section class="intro-video section">
+  <div class="intro-video-copy">
+    <div class="section-label"><span>{{ p.introVideoLabel }}</span></div>
+    <h2>{{ p.introVideoHeading }}</h2>
+    <p>{{ p.introVideoText }}</p>
+  </div>
+  <div class="intro-video-media js-intro-video"
+    {% if p.introVideoFile %}data-video-file="{{ p.introVideoFile }}"{% endif %}
+    {% if p.introVideoUrl %}data-video-url="{{ p.introVideoUrl }}"{% endif %}>
+    {% if p.introVideoPoster %}
+    <img class="intro-video-poster" src="{{ p.introVideoPoster }}" alt="{{ p.introVideoPosterAlt }}">
+    {% endif %}
+    <button type="button" class="intro-video-play js-intro-video-play" aria-label="הפעלת הסרטון">
+      <span aria-hidden="true">▶</span>
+    </button>
+  </div>
 </section>
 {% endif %}
 
@@ -34,99 +57,43 @@ eleventyComputed:
   <div class="works-list">
     {% for work in p.works %}
     {% if work.visible != false %}
-    <article class="work">
-      <div class="work-main">
+    <article class="work-card{% if work.recommended %} work-card-recommended{% endif %}">
+      {% if work.recommended %}<span class="work-card-badge">{{ p.recommendedLabel }}</span>{% endif %}
+      {% if work.image %}
+      <div class="work-card-image">
+        <img src="{{ work.image }}" alt="{{ work.imageAlt or work.title }}" loading="lazy">
+      </div>
+      {% endif %}
+      <div class="work-card-body">
         <h3>{{ work.title }}</h3>
-        <p class="work-intro">{{ work.intro }}</p>
+        {% if work.personaLine %}<p class="work-card-persona">{{ work.personaLine }}</p>{% endif %}
+        <p class="work-card-intro">{{ work.intro }}</p>
+        {% if work.includes and work.includes.length %}
+        <div class="work-card-includes">
+          {% if work.includesLabel %}<span>{{ work.includesLabel }}</span>{% endif %}
+          <ul>
+            {% for item in work.includes %}
+            <li>{{ item }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+        <div class="work-card-meta">
+          {% if work.timeEstimate %}<span class="work-card-meta-item"><strong>זמן יצירה:</strong> {{ work.timeEstimate }}</span>{% endif %}
+          {% if work.spotsAvailable %}<span class="work-card-meta-item"><strong>מקומות פנויים:</strong> {{ work.spotsAvailable }}</span>{% endif %}
+        </div>
+        {% if work.paymentNote %}<p class="work-card-payment-note">{{ work.paymentNote }}</p>{% endif %}
       </div>
-      <div class="work-includes">
-        <span>{{ work.includesLabel }}</span>
-        <ul>
-          {% for item in work.includes %}
-          <li>{{ item }}</li>
-          {% endfor %}
-        </ul>
-      </div>
-      <div class="work-price">
-        {% if work.priceFrom %}<span class="from">החל מ-</span>{% endif %}<strong>{{ work.price }}</strong><span>₪</span>
-        <a class="js-whatsapp" href="{{ work.waMessage | waLink }}" target="_blank" rel="noopener noreferrer">לשיחת היכרות ←</a>
+      <div class="work-card-footer">
+        {% if work.price %}
+        <p class="work-card-price">{% if work.priceFrom %}<span class="from">החל מ-</span>{% endif %}<strong>{{ work.price }}</strong><span>₪</span></p>
+        {% endif %}
+        <button type="button" class="cta js-path-select" data-path="{{ work.title }}">{{ work.pathCtaLabel or "לבחירת המסלול" }} <span aria-hidden="true">←</span></button>
       </div>
     </article>
     {% endif %}
     {% endfor %}
   </div>
-</section>
-{% endif %}
-
-{% if p.exclusiveVisible != false or p.faqVisible != false %}
-<section class="exclusive-commission section">
-  {% if p.exclusiveVisible != false %}
-  <div class="section-label"><span>{{ p.exclusiveLabel }}</span></div>
-  <h2>{{ p.exclusiveHeading }}</h2>
-  <div class="exclusive-copy">
-    {% for para in p.exclusiveParagraphs %}
-    <p>{{ para }}</p>
-    {% endfor %}
-  </div>
-  <a class="cta js-whatsapp" href="{{ p.exclusiveWaMessage | waLink }}" target="_blank" rel="noopener noreferrer">{{ p.exclusiveCtaLabel }} <span>←</span></a>
-  {% endif %}
-
-  {% if p.faqVisible != false %}
-  <div class="faq-list">
-    <div class="section-label"><span>{{ p.faqLabel }}</span></div>
-    <h3>{{ p.faqHeading }}</h3>
-    {% for item in p.faq %}
-    {% if item.visible != false %}
-    <details class="faq-item">
-      <summary>{{ item.q }}</summary>
-      <p>{{ item.a }}</p>
-    </details>
-    {% endif %}
-    {% endfor %}
-  </div>
-  {% endif %}
-</section>
-{% endif %}
-
-{% if p.inquiryVisible != false %}
-<section class="inquiry section">
-  <div class="section-label"><span>{{ p.inquiryLabel }}</span></div>
-  <div class="inquiry-intro">
-    <h2>{{ p.inquiryHeading | safe }}</h2>
-    <div>
-      <p>{{ p.inquiryText }}</p>
-      <p class="inquiry-note">{{ p.inquiryNote }}</p>
-    </div>
-  </div>
-  <form class="lead-form" id="lead-form">
-    <label><span>איזו יצירה מעניינת אתכם?</span>
-      <select name="artwork" required>
-        <option value="" selected disabled>בחרו אפשרות</option>
-        <option value="ציור נִשְׁמָתִי">ציור נִשְׁמָתִי</option>
-        <option value="פורטרט אישי">פורטרט אישי</option>
-        <option value="עדיין לא בטוח/ה">עדיין לא בטוח/ה</option>
-      </select>
-    </label>
-    <label><span>למי היצירה מיועדת?</span>
-      <select name="purpose" required>
-        <option value="" selected disabled>בחרו אפשרות</option>
-        <option value="עבורי">עבורי</option>
-        <option value="מתנה לאדם קרוב">מתנה לאדם קרוב</option>
-        <option value="הנצחה וזיכרון">הנצחה וזיכרון</option>
-        <option value="מטרה אחרת">מטרה אחרת</option>
-      </select>
-    </label>
-    <label><span>מתי תרצו לקבל אותה?</span>
-      <select name="timeline" required>
-        <option value="" selected disabled>בחרו אפשרות</option>
-        <option value="בחודשיים הקרובים">בחודשיים הקרובים</option>
-        <option value="בשלושה עד שישה חודשים">בשלושה עד שישה חודשים</option>
-        <option value="אין תאריך מסוים">אין תאריך מסוים</option>
-        <option value="רק בודק/ת אפשרויות כרגע">רק בודק/ת אפשרויות כרגע</option>
-      </select>
-    </label>
-    <button class="cta lead-submit" type="submit">פתיחת הודעה מוכנה ב-WhatsApp <span>←</span></button>
-  </form>
 </section>
 {% endif %}
 
@@ -140,10 +107,50 @@ eleventyComputed:
   <ol class="steps">
     {% for step in p.steps %}
     {% if step.visible != false %}
-    <li><h3>{{ step.title }}</h3><p>{{ step.text }}</p></li>
+    <li>
+      <span class="step-number">{{ loop.index }}</span>
+      {% if step.icon %}<img class="step-icon" src="{{ step.icon }}" alt="" loading="lazy">{% endif %}
+      <h3>{{ step.title }}</h3>
+      <p>{{ step.text }}</p>
+    </li>
     {% endif %}
     {% endfor %}
   </ol>
+</section>
+{% endif %}
+
+{% if p.caseStudiesVisible != false and p.caseStudies and p.caseStudies.length %}
+<section class="case-studies section">
+  <div class="section-label"><span>{{ p.caseStudiesLabel }}</span></div>
+  <div class="process-title">
+    <h2>{{ p.caseStudiesHeading }}</h2>
+    <p>{{ p.caseStudiesLead }}</p>
+  </div>
+  <div class="case-studies-list">
+    {% for cs in p.caseStudies %}
+    {% if cs.visible != false %}
+    <article class="case-study">
+      {% if cs.image %}
+      <figure class="case-study-image">
+        <img src="{{ cs.image }}" alt="{{ cs.imageAlt or cs.displayName }}" loading="lazy">
+      </figure>
+      {% endif %}
+      <div class="case-study-body">
+        {% if cs.pathLabel %}<span class="case-study-path">{{ cs.pathLabel }}</span>{% endif %}
+        {% if cs.showName != false and cs.displayName %}<h3>{{ cs.displayName }}</h3>{% endif %}
+        {% if cs.story %}<p class="case-study-story">{{ cs.story }}</p>{% endif %}
+        {% if cs.testimonialText %}<p class="case-study-testimonial">&ldquo;{{ cs.testimonialText }}&rdquo;</p>{% endif %}
+        {% if cs.testimonialVideo %}
+        <video class="case-study-video" controls playsinline{% if cs.testimonialVideoPoster %} poster="{{ cs.testimonialVideoPoster }}"{% endif %}>
+          <source src="{{ cs.testimonialVideo }}" type="video/mp4">
+        </video>
+        {% endif %}
+        {% if cs.duration %}<span class="case-study-duration">משך היצירה: {{ cs.duration }}</span>{% endif %}
+      </div>
+    </article>
+    {% endif %}
+    {% endfor %}
+  </div>
 </section>
 {% endif %}
 
@@ -158,3 +165,97 @@ eleventyComputed:
   </ul>
 </section>
 {% endif %}
+
+{% if p.faqVisible != false %}
+<section class="faq section">
+  <div class="faq-list">
+    <div class="section-label"><span>{{ p.faqLabel }}</span></div>
+    <h3>{{ p.faqHeading }}</h3>
+    {% for item in p.faq %}
+    {% if item.visible != false %}
+    <details class="faq-item">
+      <summary>{{ item.q }}</summary>
+      <p>{{ item.a }}</p>
+    </details>
+    {% endif %}
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if p.exclusiveVisible != false %}
+<section class="exclusive-commission section">
+  <div class="section-label"><span>{{ p.exclusiveLabel }}</span></div>
+  <h2>{{ p.exclusiveHeading }}</h2>
+  <div class="exclusive-copy">
+    {% for para in p.exclusiveParagraphs %}
+    <p>{{ para }}</p>
+    {% endfor %}
+  </div>
+  <a class="cta js-whatsapp" href="{{ p.exclusiveWaMessage | waLink }}" target="_blank" rel="noopener noreferrer">{{ p.exclusiveCtaLabel }} <span>←</span></a>
+</section>
+{% endif %}
+
+{% if p.inquiryVisible != false %}
+<section class="inquiry section" id="inquiry-form">
+  <div class="section-label"><span>{{ p.inquiryLabel }}</span></div>
+  <div class="inquiry-intro">
+    <h2>{{ p.inquiryHeading | safe }}</h2>
+    <div>
+      <p>{{ p.inquiryText }}</p>
+      <p class="inquiry-note">{{ p.inquiryNote }}</p>
+    </div>
+  </div>
+  <form class="lead-form" id="lead-form" novalidate>
+    <label><span>{{ p.inquiryNameLabel }}</span>
+      <input type="text" name="name" required autocomplete="name">
+    </label>
+    <label><span>{{ p.inquiryContactLabel }}</span>
+      <input type="text" name="contact" required autocomplete="tel">
+    </label>
+    <label><span>{{ p.inquiryPathLabel }}</span>
+      <select name="path" required>
+        <option value="" selected disabled>בחרו אפשרות</option>
+        {% for work in p.works %}
+        {% if work.visible != false %}
+        <option value="{{ work.title }}">{{ work.title }}</option>
+        {% endif %}
+        {% endfor %}
+        <option value="עדיין לא בטוח/ה">עדיין לא בטוח/ה</option>
+      </select>
+    </label>
+    <label><span>{{ p.inquiryPurposeLabel }}</span>
+      <select name="purpose" required>
+        <option value="" selected disabled>בחרו אפשרות</option>
+        {% for option in p.inquiryPurposeOptions %}
+        <option value="{{ option }}">{{ option }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label class="lead-form-full"><span>{{ p.inquiryMessageLabel }}</span>
+      <textarea name="message" rows="3"></textarea>
+    </label>
+    {% if p.inquiryBudgetOptions and p.inquiryBudgetOptions.length %}
+    <label><span>{{ p.inquiryBudgetLabel }}</span>
+      <select name="budget">
+        <option value="" selected>לא רלוונטי</option>
+        {% for option in p.inquiryBudgetOptions %}
+        <option value="{{ option }}">{{ option }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    {% endif %}
+    <label class="lead-form-checkbox lead-form-full">
+      <input type="checkbox" name="privacy" required>
+      <span>{{ p.inquiryPrivacyLabel }} <a href="/privacy/" target="_blank" rel="noopener noreferrer">{{ p.inquiryPrivacyLinkLabel }}</a></span>
+    </label>
+    <button class="cta lead-submit" type="submit">{{ p.inquirySubmitLabel }} <span>←</span></button>
+    <p class="lead-form-success js-lead-success" role="status" hidden>{{ p.inquirySuccessMessage }}</p>
+  </form>
+</section>
+{% endif %}
+
+<div class="commission-sticky-cta js-sticky-cta" hidden>
+  <span class="commission-sticky-cta-path js-sticky-cta-path"></span>
+  <a href="#inquiry-form" class="cta js-sticky-cta-link">{{ p.heroPrimaryCtaLabel }}</a>
+</div>

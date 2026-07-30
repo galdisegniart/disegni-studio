@@ -482,29 +482,60 @@ collections:
           - { label: "תמונת הירו", name: "heroImage", widget: "image", required: false }
           - { label: "טקסט חלופי לתמונה", name: "heroImageAlt", widget: "string", required: false }
           - { label: "כיתוב מתחת לתמונה", name: "heroImageCaption", widget: "string", required: false }
-          - { label: "להציג את סוגי היצירות והשירותים", name: "worksVisible", widget: "boolean", default: true }
-          - { label: "תווית סקציית ההצעות", name: "worksLabel", widget: "string", required: false }
-          - { label: "כותרת סקציית ההצעות", name: "worksHeading", widget: "string", required: false }
-          - { label: "טקסט סקציית ההצעות", name: "worksLead", widget: "text", required: false }
+          - { label: "טקסט כפתור ראשי (גולל/פותח את הטופס)", name: "heroPrimaryCtaLabel", widget: "string", required: false }
+          - { label: "טקסט כפתור משני (גולל למסלולים)", name: "heroSecondaryCtaLabel", widget: "string", required: false }
+          - { label: "להציג אזור סרטון הסבר", name: "introVideoVisible", widget: "boolean", default: true }
+          - { label: "תווית קטנה מעל הסרטון", name: "introVideoLabel", widget: "string", required: false }
+          - { label: "כותרת הסרטון", name: "introVideoHeading", widget: "string", required: false }
+          - { label: "טקסט ליד הסרטון", name: "introVideoText", widget: "text", required: false }
+          - { label: "קישור חיצוני לסרטון (יוטיוב/וימאו) - עדיפות לקובץ מקומי אם קיים", name: "introVideoUrl", widget: "string", required: false }
+          - { label: "קובץ וידאו מקומי", name: "introVideoFile", widget: "file", required: false }
+          - { label: "תמונת כיסוי לסרטון", name: "introVideoPoster", widget: "image", required: false }
+          - { label: "טקסט חלופי לתמונת הכיסוי", name: "introVideoPosterAlt", widget: "string", required: false }
+          - { label: "להציג את המסלולים", name: "worksVisible", widget: "boolean", default: true }
+          - { label: "תווית סקציית המסלולים", name: "worksLabel", widget: "string", required: false }
+          - { label: "כותרת סקציית המסלולים", name: "worksHeading", widget: "string", required: false }
+          - { label: "טקסט סקציית המסלולים", name: "worksLead", widget: "text", required: false }
+          - { label: "תווית 'מסלול מומלץ'", name: "recommendedLabel", widget: "string", required: false }
           - name: "works"
-            label: "סוגי היצירה (Classic / Visionary)"
+            label: "מסלולי ההזמנה"
             widget: "list"
             required: false
             summary: "{{fields.title}}"
             fields:
-              - { label: "להציג את השירות", name: "visible", widget: "boolean", default: true }
+              - { label: "להציג את המסלול", name: "visible", widget: "boolean", default: true }
               - { label: "שם המסלול", name: "title", widget: "string", required: false }
               - { label: "תיאור קצר", name: "intro", widget: "text", required: false }
+              - { label: "למי זה מתאים (משפט קצר)", name: "personaLine", widget: "string", required: false }
+              - { label: "תמונת המסלול", name: "image", widget: "image", required: false }
+              - { label: "טקסט חלופי לתמונה", name: "imageAlt", widget: "string", required: false }
               - { label: "תווית 'כולל'", name: "includesLabel", widget: "string", required: false }
               - { label: "רשימת מה כלול", name: "includes", widget: "list", required: false, field: { label: "פריט", name: "item", widget: "string" } }
+              - { label: "זמן יצירה משוער", name: "timeEstimate", widget: "string", required: false }
               - { label: "מחיר 'החל מ-'?", name: "priceFrom", widget: "boolean", default: false }
-              - { label: "מחיר (מספר)", name: "price", widget: "string", required: false }
+              - { label: "מחיר (מספר, ריק = לפי הצעה)", name: "price", widget: "string", required: false }
+              - { label: "מסלול מומלץ?", name: "recommended", widget: "boolean", default: false }
+              - { label: "מספר מקומות פנויים (לא חובה)", name: "spotsAvailable", widget: "string", required: false }
+              - { label: "הערת תשלום (לא חובה)", name: "paymentNote", widget: "text", required: false }
+              - { label: "טקסט כפתור המסלול", name: "pathCtaLabel", widget: "string", required: false }
               - { label: "הודעת WhatsApp", name: "waMessage", widget: "text", required: false }
           - { label: "להציג את טופס הפנייה", name: "inquiryVisible", widget: "boolean", default: true }
           - { label: "תווית טופס הפנייה", name: "inquiryLabel", widget: "string", required: false }
           - { label: "כותרת טופס הפנייה", name: "inquiryHeading", widget: "string", required: false }
           - { label: "טקסט טופס הפנייה", name: "inquiryText", widget: "text", required: false }
           - { label: "הערת פרטיות", name: "inquiryNote", widget: "text", required: false }
+          - { label: "תווית שדה: שם", name: "inquiryNameLabel", widget: "string", required: false }
+          - { label: "תווית שדה: טלפון/אימייל", name: "inquiryContactLabel", widget: "string", required: false }
+          - { label: "תווית שדה: בחירת מסלול", name: "inquiryPathLabel", widget: "string", required: false }
+          - { label: "תווית שדה: עבור מי", name: "inquiryPurposeLabel", widget: "string", required: false }
+          - { label: "אפשרויות 'עבור מי'", name: "inquiryPurposeOptions", widget: "list", required: false, field: { label: "אפשרות", name: "item", widget: "string" } }
+          - { label: "תווית שדה: כמה מילים על הבקשה", name: "inquiryMessageLabel", widget: "string", required: false }
+          - { label: "תווית שדה: טווח תקציב", name: "inquiryBudgetLabel", widget: "string", required: false }
+          - { label: "אפשרויות טווח תקציב", name: "inquiryBudgetOptions", widget: "list", required: false, field: { label: "אפשרות", name: "item", widget: "string" } }
+          - { label: "תווית אישור מדיניות פרטיות", name: "inquiryPrivacyLabel", widget: "string", required: false }
+          - { label: "טקסט קישור למדיניות הפרטיות", name: "inquiryPrivacyLinkLabel", widget: "string", required: false }
+          - { label: "טקסט כפתור השליחה", name: "inquirySubmitLabel", widget: "string", required: false }
+          - { label: "הודעת הצלחה אחרי שליחה", name: "inquirySuccessMessage", widget: "string", required: false }
           - { label: "להציג את שלבי התהליך", name: "processVisible", widget: "boolean", default: true }
           - { label: "תווית תהליך", name: "processLabel", widget: "string", required: false }
           - { label: "כותרת תהליך", name: "processHeading", widget: "string", required: false }
@@ -518,11 +549,33 @@ collections:
               - { label: "להציג את השלב", name: "visible", widget: "boolean", default: true }
               - { label: "כותרת", name: "title", widget: "string", required: false }
               - { label: "טקסט", name: "text", widget: "text", required: false }
+              - { label: "אייקון (לא חובה)", name: "icon", widget: "image", required: false }
+          - { label: "להציג סיפורים ותהליכים אמיתיים", name: "caseStudiesVisible", widget: "boolean", default: true }
+          - { label: "תווית סקציית סיפורים", name: "caseStudiesLabel", widget: "string", required: false }
+          - { label: "כותרת סקציית סיפורים", name: "caseStudiesHeading", widget: "string", required: false }
+          - { label: "טקסט סקציית סיפורים", name: "caseStudiesLead", widget: "text", required: false }
+          - name: "caseStudies"
+            label: "סיפורים ותהליכים אמיתיים"
+            widget: "list"
+            required: false
+            summary: "{{fields.displayName}}"
+            fields:
+              - { label: "להציג את הסיפור", name: "visible", widget: "boolean", default: true }
+              - { label: "תמונת היצירה", name: "image", widget: "image", required: false }
+              - { label: "טקסט חלופי לתמונה", name: "imageAlt", widget: "string", required: false }
+              - { label: "להציג שם?", name: "showName", widget: "boolean", default: true }
+              - { label: "שם (אמיתי או בדוי)", name: "displayName", widget: "string", required: false }
+              - { label: "סוג המסלול", name: "pathLabel", widget: "string", required: false }
+              - { label: "סיפור קצר", name: "story", widget: "text", required: false }
+              - { label: "עדות בטקסט (לא חובה)", name: "testimonialText", widget: "text", required: false }
+              - { label: "עדות בווידאו (לא חובה)", name: "testimonialVideo", widget: "file", required: false }
+              - { label: "תמונת כיסוי לעדות הווידאו", name: "testimonialVideoPoster", widget: "image", required: false }
+              - { label: "משך יצירת העבודה (לא חובה)", name: "duration", widget: "string", required: false }
           - { label: "להציג את אזור ההערות", name: "notesVisible", widget: "boolean", default: true }
           - { label: "תווית הערות", name: "notesLabel", widget: "string", required: false }
           - { label: "כותרת הערות", name: "notesHeading", widget: "string", required: false }
           - { label: "רשימת הערות", name: "notes", widget: "list", required: false, field: { label: "הערה", name: "text", widget: "string" } }
-          - { label: "להציג את המסלול הבלעדי", name: "exclusiveVisible", widget: "boolean", default: true }
+          - { label: "להציג את המסלול הבלעדי כסקציה נפרדת (כפול לכרטיס השלישי - השאירו כבוי)", name: "exclusiveVisible", widget: "boolean", default: true }
           - { label: "תווית מסלול בלעדי", name: "exclusiveLabel", widget: "string", required: false }
           - { label: "כותרת מסלול בלעדי", name: "exclusiveHeading", widget: "string", required: false }
           - { label: "פסקאות מסלול בלעדי", name: "exclusiveParagraphs", widget: "list", required: false, field: { label: "פסקה", name: "text", widget: "text" } }
