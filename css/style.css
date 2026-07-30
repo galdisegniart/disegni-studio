@@ -601,7 +601,6 @@ body.cart-drawer-lock {
 }
 
 .quick-links-rail a:hover {
-  color: var(--copper);
   transform: translateX(-3px);
 }
 
