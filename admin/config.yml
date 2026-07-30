@@ -102,6 +102,7 @@ collections:
       - { label: "שם הסדנה בכרטיס", name: "cardTitle", widget: "string" }
       - { label: "תמונת כרטיס", name: "cardImage", widget: "image" }
       - { label: "טקסט חלופי לתמונת כרטיס", name: "cardImageAlt", widget: "string" }
+      - { label: "משפט קצר: למי הסדנה מתאימה (מוצג בעמוד רשימת הסדנאות)", name: "personaLine", widget: "string", required: false }
       - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
       - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
       - { label: "כיתוב קטן מעל הכותרת", name: "eyebrow", widget: "string" }
@@ -601,24 +602,45 @@ collections:
           - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
           - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
           - { label: "כיתוב פתיחה (השאירו {brand} במקום שם המותג)", name: "heroEyebrow", widget: "string" }
-          - { label: "תווית סקציית חוות דעת", name: "reviewsLabel", widget: "string" }
-          - { label: "כותרת סקציית חוות דעת", name: "reviewsHeading", widget: "string" }
-          - { label: "ציון דירוג (למשל 5.0)", name: "reviewsRatingValue", widget: "string" }
-          - { label: "טקסט נגישות לדירוג", name: "reviewsRatingAriaLabel", widget: "string" }
-          - { label: "טקסט מספר חוות הדעת", name: "reviewsCountLabel", widget: "string" }
+          - { label: "כותרת פתיחה (אפשר &lt;br&gt; לשורה חדשה)", name: "introHeading", widget: "string", required: false }
+          - { label: "טקסט פתיחה", name: "introText", widget: "text", required: false }
+          - { label: "טקסט כפתור 'לפרטי הסדנה' על הכרטיסים", name: "cardDetailsCtaLabel", widget: "string" }
+          - { label: "להציג סרטון פרומו", name: "promoVideoVisible", widget: "boolean", default: true }
+          - { label: "כותרת סרטון פרומו", name: "promoVideoHeading", widget: "string", required: false }
+          - { label: "טקסט סרטון פרומו", name: "promoVideoText", widget: "text", required: false }
+          - { label: "סוג הווידאו", name: "promoVideoType", widget: "select", options: [{ label: "קובץ מקומי", value: "local" }, { label: "יוטיוב", value: "youtube" }, { label: "וימאו", value: "vimeo" }], default: "local" }
+          - { label: "קובץ וידאו מקומי (אם סוג = קובץ מקומי)", name: "promoVideoFile", widget: "file", required: false }
+          - { label: "קישור יוטיוב/וימאו (אם סוג = יוטיוב/וימאו)", name: "promoVideoUrl", widget: "string", required: false }
+          - { label: "תמונת כיסוי לסרטון", name: "promoVideoPoster", widget: "image", required: false }
+          - { label: "טקסט חלופי לתמונת הכיסוי", name: "promoVideoPosterAlt", widget: "string", required: false }
+          - { label: "טקסט כפתור נוסף לצד הסרטון (לא חובה)", name: "promoVideoButtonLabel", widget: "string", required: false }
+          - { label: "קישור כפתור נוסף (לא חובה)", name: "promoVideoButtonUrl", widget: "string", required: false }
+          - { label: "תווית סקציית חוות דעת (ישנה, לא בשימוש בעמוד הראשי כרגע)", name: "reviewsLabel", widget: "string", required: false }
+          - { label: "כותרת סקציית חוות דעת (ישנה, לא בשימוש בעמוד הראשי כרגע)", name: "reviewsHeading", widget: "string", required: false }
+          - { label: "ציון דירוג (ישן, לא בשימוש בעמוד הראשי כרגע)", name: "reviewsRatingValue", widget: "string", required: false }
+          - { label: "טקסט נגישות לדירוג (ישן)", name: "reviewsRatingAriaLabel", widget: "string", required: false }
+          - { label: "טקסט מספר חוות הדעת (ישן)", name: "reviewsCountLabel", widget: "string", required: false }
           - name: "featuredReview"
-            label: "חוות דעת מוצגת (מוזנת ידנית, לא מסונכרנת אוטומטית מהסדנאות)"
+            label: "חוות דעת ישנה (לא מוצגת יותר בעמוד הראשי - הוחלפה בעדויות אמיתיות מהסדנאות)"
             widget: "object"
+            required: false
             fields:
-              - { label: "שם הממליץ/ה", name: "name", widget: "string" }
-              - { label: "תאריך (YYYY-MM-DD)", name: "date", widget: "string" }
-              - { label: "תאריך מוצג", name: "dateLabel", widget: "string" }
-              - { label: "טקסט נגישות לכוכבים", name: "starsAriaLabel", widget: "string" }
-              - { label: "תקציר", name: "excerpt", widget: "text" }
-              - { label: "טקסט מלא", name: "fullText", widget: "text" }
-          - { label: "כיתוב בחירת מסלול", name: "pickerEyebrow", widget: "string" }
-          - { label: "כותרת בחירת מסלול (אפשר &lt;br&gt; לשורה חדשה)", name: "pickerHeading", widget: "string" }
-          - { label: "טקסט בחירת מסלול", name: "pickerText", widget: "text" }
+              - { label: "שם הממליץ/ה", name: "name", widget: "string", required: false }
+              - { label: "תאריך (YYYY-MM-DD)", name: "date", widget: "string", required: false }
+              - { label: "תאריך מוצג", name: "dateLabel", widget: "string", required: false }
+              - { label: "טקסט נגישות לכוכבים", name: "starsAriaLabel", widget: "string", required: false }
+              - { label: "תקציר", name: "excerpt", widget: "text", required: false }
+              - { label: "טקסט מלא", name: "fullText", widget: "text", required: false }
+          - { label: "כיתוב השוואת מסלולים", name: "pickerEyebrow", widget: "string" }
+          - { label: "כותרת השוואת מסלולים (אפשר &lt;br&gt; לשורה חדשה)", name: "pickerHeading", widget: "string" }
+          - { label: "טקסט השוואת מסלולים", name: "pickerText", widget: "text" }
+          - { label: "להציג את טבלת ההשוואה", name: "comparisonVisible", widget: "boolean", default: true }
+          - { label: "תווית עמודה: מתאים למי", name: "comparisonPersonaLabel", widget: "string", required: false }
+          - { label: "תווית עמודה: אופי התהליך", name: "comparisonProcessLabel", widget: "string", required: false }
+          - { label: "תווית עמודה: משך/תדירות", name: "comparisonDurationLabel", widget: "string", required: false }
+          - { label: "להציג עדויות אמיתיות מהסדנאות", name: "testimonialsVisible", widget: "boolean", default: true }
+          - { label: "כיתוב עדויות", name: "testimonialsEyebrow", widget: "string", required: false }
+          - { label: "כותרת עדויות", name: "testimonialsHeading", widget: "string", required: false }
           - { label: "כיתוב יצירת קשר", name: "contactEyebrow", widget: "string" }
           - { label: "כותרת יצירת קשר (אפשר &lt;br&gt; לשורה חדשה)", name: "contactHeading", widget: "string" }
           - { label: "טקסט יצירת קשר", name: "contactText", widget: "text" }

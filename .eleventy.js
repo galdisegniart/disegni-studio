@@ -16,6 +16,20 @@ module.exports = function (eleventyConfig) {
     return Number(n).toLocaleString("en-US");
   });
 
+  eleventyConfig.addFilter("realWorkshopTestimonials", function (workshopList, limit) {
+    const out = [];
+    (workshopList || []).forEach((w) => {
+      if (w.hasReviews && w.reviews && w.reviews.length) {
+        out.push({
+          review: w.reviews[0],
+          workshopSlug: w.slug,
+          workshopTitle: w.cardTitle,
+        });
+      }
+    });
+    return out.slice(0, limit || 3);
+  });
+
   eleventyConfig.addFilter("productTypeThumbnails", function (gallery, fallbackImage) {
     const byType = {};
     (gallery || []).forEach((item) => {

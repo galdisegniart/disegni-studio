@@ -6,47 +6,111 @@ eleventyComputed:
 activeNav: "סדנאות"
 permalink: "/workshops/index.html"
 scripts:
-  - /js/reviews.js
+  - /js/workshop-promo-video.js
 ---
 {% set w = pages.workshopsIndex %}
 <section class="workshop-visual-hero">
   <p class="hero-eyebrow">{{ w.heroEyebrow | replace('{brand}', site.brand) }}</p>
-  <div class="workshop-visual-grid">
+  {% if w.introHeading %}<h1>{{ w.introHeading | safe }}</h1>{% endif %}
+  {% if w.introText %}<p class="workshop-intro-text">{{ w.introText }}</p>{% endif %}
+</section>
+
+{% if w.promoVideoVisible != false and (w.promoVideoFile or w.promoVideoUrl or w.promoVideoPoster) %}
+<section class="workshop-promo-video section">
+  <div class="workshop-promo-video-copy">
+    {% if w.promoVideoHeading %}<h2>{{ w.promoVideoHeading }}</h2>{% endif %}
+    {% if w.promoVideoText %}<p>{{ w.promoVideoText }}</p>{% endif %}
+    {% if w.promoVideoButtonLabel and w.promoVideoButtonUrl %}
+    <a class="cta cta-outline" href="{{ w.promoVideoButtonUrl }}">{{ w.promoVideoButtonLabel }} <span aria-hidden="true">←</span></a>
+    {% endif %}
+  </div>
+  <div class="workshop-promo-video-media js-promo-video"
+    data-video-type="{{ w.promoVideoType or 'local' }}"
+    {% if w.promoVideoFile %}data-video-file="{{ w.promoVideoFile }}"{% endif %}
+    {% if w.promoVideoUrl %}data-video-url="{{ w.promoVideoUrl }}"{% endif %}>
+    {% if w.promoVideoPoster %}
+    <img class="workshop-promo-video-poster" src="{{ w.promoVideoPoster }}" alt="{{ w.promoVideoPosterAlt }}">
+    {% endif %}
+    {% if w.promoVideoFile or w.promoVideoUrl %}
+    <button type="button" class="workshop-promo-video-play js-promo-video-play" aria-label="הפעלת הסרטון">
+      <span aria-hidden="true">▶</span>
+    </button>
+    {% endif %}
+  </div>
+</section>
+{% endif %}
+
+<section class="workshop-cards section">
+  <div class="workshop-cards-grid">
     {% for item in workshops %}
-    <a class="workshop-visual-card" href="/workshops/{{ item.slug }}/" aria-label="ל{{ item.cardTitle }}">
-      <figure><img src="{{ item.cardImage }}" alt="{{ item.cardImageAlt }}"></figure>
-      <span><small>{{ item.cardLabel }}</small><strong>{{ item.cardTitle }}</strong><i aria-hidden="true">←</i></span>
-    </a>
+    <article class="workshop-card">
+      <a class="workshop-card-link" href="/workshops/{{ item.slug }}/" aria-label="לפרטי {{ item.cardTitle }}">
+        <div class="workshop-card-image">
+          <img src="{{ item.cardImage }}" alt="{{ item.cardImageAlt }}" loading="lazy">
+        </div>
+        <div class="workshop-card-body">
+          {% if item.cardLabel %}<span class="workshop-card-label">{{ item.cardLabel }}</span>{% endif %}
+          <h2>{{ item.cardTitle }}</h2>
+          {% if item.personaLine %}<p class="workshop-card-persona">{{ item.personaLine }}</p>{% endif %}
+          <div class="workshop-card-meta">
+            {% if item.quickMeta and item.quickMeta.length %}
+            <span><strong>{{ item.quickMeta[0].label }}:</strong> {{ item.quickMeta[0].value }}</span>
+            {% endif %}
+            {% if item.priceFromILS %}
+            <span><strong>מחיר:</strong> החל מ-{{ item.priceFromILS | numberFormat }} ₪</span>
+            {% endif %}
+          </div>
+          <span class="cta cta-outline workshop-card-cta">{{ w.cardDetailsCtaLabel or "לפרטי הסדנה" }} <span aria-hidden="true">←</span></span>
+        </div>
+      </a>
+    </article>
     {% endfor %}
   </div>
 </section>
 
-<section class="reviews-section reviews-centered section">
-  <div class="reviews-heading">
-    <p class="hero-eyebrow">{{ w.reviewsLabel }}</p>
-    <h2>{{ w.reviewsHeading }}</h2>
-    <div class="review-summary" aria-label="{{ w.reviewsRatingAriaLabel }}"><strong>{{ w.reviewsRatingValue }}</strong><span aria-hidden="true">★★★★★</span><small>{{ w.reviewsCountLabel }}</small></div>
-  </div>
-
-  <details class="review-card">
-    <summary>
-      <span class="review-card-top"><span><strong>{{ w.featuredReview.name }}</strong><time datetime="{{ w.featuredReview.date }}">{{ w.featuredReview.dateLabel }}</time></span><span class="review-stars" aria-label="{{ w.featuredReview.starsAriaLabel }}">★★★★★</span></span>
-      <span class="review-excerpt">{{ w.featuredReview.excerpt }}</span>
-      <span class="review-read-more">לקריאת חוות הדעת המלאה <b aria-hidden="true">＋</b></span>
-    </summary>
-    <blockquote>{{ w.featuredReview.fullText }}</blockquote>
-  </details>
-</section>
-
-<section class="workshop-picker section">
-  <div class="workshop-picker-heading">
-    <div>
-      <p class="hero-eyebrow">{{ w.pickerEyebrow }}</p>
-      <h1>{{ w.pickerHeading | safe }}</h1>
-    </div>
+{% if w.comparisonVisible != false %}
+<section class="workshop-compare section">
+  <div class="section-label"><span>{{ w.pickerEyebrow }}</span></div>
+  <div class="workshop-compare-title">
+    <h2>{{ w.pickerHeading | safe }}</h2>
     <p>{{ w.pickerText }}</p>
   </div>
+  <div class="workshop-compare-table">
+    <div class="workshop-compare-row workshop-compare-head" aria-hidden="true">
+      <span></span>
+      <span>{{ w.comparisonPersonaLabel or "מתאים למי" }}</span>
+      <span>{{ w.comparisonProcessLabel or "אופי התהליך" }}</span>
+      <span>{{ w.comparisonDurationLabel or "משך או תדירות" }}</span>
+      <span></span>
+    </div>
+    {% for item in workshops %}
+    <a class="workshop-compare-row" href="/workshops/{{ item.slug }}/">
+      <span class="workshop-compare-name">{{ item.cardTitle }}</span>
+      <span data-label="{{ w.comparisonPersonaLabel or 'מתאים למי' }}:">{{ item.personaLine }}</span>
+      <span data-label="{{ w.comparisonProcessLabel or 'אופי התהליך' }}:">{{ item.cardLabel }}</span>
+      <span data-label="{{ w.comparisonDurationLabel or 'משך או תדירות' }}:">{% if item.quickMeta and item.quickMeta.length %}{{ item.quickMeta[0].value }}{% endif %}</span>
+      <span class="workshop-compare-arrow" aria-hidden="true">←</span>
+    </a>
+    {% endfor %}
+  </div>
 </section>
+{% endif %}
+
+{% set testimonials = workshops | realWorkshopTestimonials(3) %}
+{% if w.testimonialsVisible != false and testimonials.length %}
+<section class="workshop-testimonials section">
+  <div class="section-label"><span>{{ w.testimonialsEyebrow }}</span></div>
+  {% if w.testimonialsHeading %}<h2>{{ w.testimonialsHeading }}</h2>{% endif %}
+  <div class="workshop-testimonials-grid">
+    {% for t in testimonials %}
+    <a class="workshop-testimonial" href="/workshops/{{ t.workshopSlug }}/#reviews">
+      <blockquote>{{ t.review.excerpt }}</blockquote>
+      <span>{{ t.review.name }} · {{ t.workshopTitle }}</span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
 
 <section class="workshop-overview-contact section">
   <div class="workshop-overview-contact-copy">

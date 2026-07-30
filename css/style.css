@@ -6,6 +6,7 @@
   --line: #2b2c47;
   --copper: #cf9843;
   --teal: #1a9bb0;
+  --radius: 8px;
   --sans: "Assistant", Arial, sans-serif;
   --serif: "Assistant", Arial, sans-serif;
   --display: "Assistant", Arial, sans-serif;
@@ -2620,7 +2621,7 @@ body.product-lightbox-lock {
 
 /* Workshops: main listing page */
 .workshop-visual-hero {
-  min-height: 620px;
+  min-height: 0;
   padding: 132px max(74px, calc(50vw - 640px)) 54px;
   border-bottom: 1px solid var(--line);
 }
@@ -2630,109 +2631,295 @@ body.product-lightbox-lock {
   margin-bottom: 24px;
 }
 
-.workshop-visual-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-  direction: rtl;
+.workshop-visual-hero h1 {
+  margin: 0 0 20px;
+  font-size: clamp(44px, 5vw, 72px);
+  font-weight: 500;
+  line-height: 1.08;
 }
 
-.workshop-visual-card {
-  position: relative;
-  display: block;
-  min-width: 0;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  background: #0a0a09;
-}
-
-.workshop-visual-card figure {
-  position: relative;
-  height: 420px;
+.workshop-intro-text {
+  max-width: 620px;
   margin: 0;
+  color: var(--dim);
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+/* Promo video */
+.workshop-promo-video-copy h2 {
+  margin: 0 0 14px;
+  font-size: clamp(28px, 3vw, 38px);
+  font-weight: 500;
+}
+
+.workshop-promo-video-copy p {
+  margin: 0 0 20px;
+  max-width: 640px;
+  color: var(--dim);
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.workshop-promo-video-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #0a0a09;
   overflow: hidden;
 }
 
-.workshop-visual-card figure img {
+.workshop-promo-video-poster {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.workshop-visual-card figure::after {
-  content: "";
+.workshop-promo-video-play {
   position: absolute;
   inset: 0;
-  background: linear-gradient(rgba(0, 0, 0, 0) 38%, rgba(7, 7, 6, 0.88));
-}
-
-.workshop-visual-card span {
-  position: absolute;
-  left: 25px;
-  right: 25px;
-  bottom: 30px;
-  display: grid;
-  grid-template-columns: 1fr 25px;
-  grid-template-rows: auto auto;
-  gap: 4px 20px;
-}
-
-.workshop-visual-card small {
-  grid-column: 1 / -1;
-  grid-row: 2;
-  margin-top: 4px;
-  color: var(--dim);
-  font-size: 16px;
-  font-style: normal;
-}
-
-.workshop-visual-card strong {
-  grid-column: 1;
-  grid-row: 1;
-  font-size: clamp(24px, 2.2vw, 34px);
-  font-weight: 500;
-  line-height: 1.1;
+  margin: auto;
+  width: 76px;
+  height: 76px;
+  border: 1px solid var(--copper);
+  border-radius: 50%;
+  background: rgba(11, 12, 32, 0.72);
   color: var(--bone);
+  font-size: 22px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
 }
 
-.workshop-visual-card i {
-  grid-column: 2;
-  grid-row: 1;
-  align-self: end;
-  color: var(--copper);
-  font-size: 25px;
-  font-style: normal;
-  transition: transform 0.25s;
+.workshop-promo-video-play:hover {
+  background: var(--copper);
+  color: var(--black);
+  transform: scale(1.05);
 }
 
-.workshop-visual-card:hover i {
-  transform: translateX(-6px);
+.workshop-promo-video-play:focus-visible {
+  outline: 2px solid var(--copper);
+  outline-offset: 3px;
 }
 
-.workshop-picker {
-  padding-top: 82px;
+.workshop-promo-video-media.is-playing .workshop-promo-video-poster,
+.workshop-promo-video-media.is-playing .workshop-promo-video-play {
+  display: none;
 }
 
-.workshop-picker-heading {
+.workshop-promo-video-media video,
+.workshop-promo-video-media iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+/* Workshop cards */
+.workshop-cards-grid {
   display: grid;
-  grid-template-columns: 1fr 0.75fr;
-  gap: 80px;
-  align-items: end;
-  margin-bottom: 44px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
 }
 
-.workshop-picker-heading h1 {
+.workshop-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color 0.25s;
+}
+
+.workshop-card:hover {
+  border-color: var(--copper);
+}
+
+.workshop-card-link {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+.workshop-card-image {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.workshop-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.workshop-card:hover .workshop-card-image img {
+  transform: scale(1.04);
+}
+
+.workshop-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px;
+}
+
+.workshop-card-label {
+  color: var(--copper);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.workshop-card-body h2 {
   margin: 0;
-  font-size: clamp(52px, 5.8vw, 82px);
+  font-size: clamp(22px, 2.2vw, 27px);
   font-weight: 500;
-  line-height: 1;
+  line-height: 1.15;
 }
 
-.workshop-picker-heading p {
-  max-width: 520px;
+.workshop-card-persona {
   margin: 0;
+  color: var(--dim);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.workshop-card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: auto;
+  padding-top: 10px;
+  color: var(--dim);
+  font-size: 14px;
+}
+
+.workshop-card-meta strong {
+  color: var(--bone);
+  font-weight: 600;
+}
+
+.workshop-card-cta {
+  margin-top: 8px;
+  min-height: 48px;
+  min-width: 0;
+  width: 100%;
+  padding: 0 20px;
+  justify-content: center;
+  gap: 10px;
+  font-size: 15px;
+}
+
+/* Comparison table */
+.workshop-compare-title {
+  margin-bottom: 36px;
+}
+
+.workshop-compare-title h2 {
+  margin: 0 0 12px;
+  font-size: clamp(32px, 3.6vw, 46px);
+  font-weight: 500;
+}
+
+.workshop-compare-title p {
+  margin: 0;
+  max-width: 620px;
   color: var(--dim);
   font-size: 17px;
+  line-height: 1.7;
+}
+
+.workshop-compare-table {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.workshop-compare-row {
+  display: grid;
+  grid-template-columns: 1.1fr 1.3fr 1fr 1fr 24px;
+  gap: 18px;
+  align-items: center;
+  padding: 18px 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--dim);
+  font-size: 15px;
+  text-decoration: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.workshop-compare-head {
+  border-color: transparent;
+  padding: 0 22px;
+  color: var(--copper);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+a.workshop-compare-row:hover {
+  border-color: var(--copper);
+  background: rgba(207, 152, 67, 0.05);
+}
+
+.workshop-compare-name {
+  color: var(--bone);
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.workshop-compare-arrow {
+  color: var(--copper);
+  font-size: 18px;
+  transition: transform 0.2s;
+}
+
+a.workshop-compare-row:hover .workshop-compare-arrow {
+  transform: translateX(-4px);
+}
+
+/* Testimonials */
+.workshop-testimonials h2 {
+  margin: 0 0 32px;
+  font-size: clamp(28px, 3vw, 38px);
+  font-weight: 500;
+}
+
+.workshop-testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.workshop-testimonial {
+  display: block;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 0.2s;
+}
+
+.workshop-testimonial:hover {
+  border-color: var(--copper);
+}
+
+.workshop-testimonial blockquote {
+  margin: 0 0 14px;
+  color: var(--bone);
+  font-size: 16px;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+.workshop-testimonial span {
+  color: var(--dim);
+  font-size: 13px;
 }
 
 .workshop-overview-contact {
@@ -2758,10 +2945,44 @@ body.product-lightbox-lock {
 }
 
 @media (max-width: 920px) {
-  .workshop-visual-grid {
+  .workshop-promo-video.section {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .workshop-promo-video-media {
+    order: -1;
+    margin-bottom: 24px;
+  }
+
+  .workshop-cards-grid,
+  .workshop-testimonials-grid {
     grid-template-columns: 1fr;
   }
-  .workshop-picker-heading,
+
+  .workshop-compare-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    text-align: right;
+  }
+
+  .workshop-compare-head {
+    display: none;
+  }
+
+  .workshop-compare-row span:not(.workshop-compare-name):not(:empty)::before {
+    content: attr(data-label);
+    display: inline-block;
+    margin-left: 6px;
+    color: var(--copper);
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .workshop-compare-arrow {
+    display: none;
+  }
+
   .workshop-overview-contact {
     grid-template-columns: 1fr;
     gap: 24px;
@@ -2820,27 +3041,6 @@ body.product-lightbox-lock {
   margin: 0;
   color: var(--dim);
   font-size: 15px;
-}
-
-.reviews-centered .reviews-heading {
-  display: block;
-  text-align: center;
-  margin-bottom: 32px;
-}
-
-.reviews-centered .reviews-heading .hero-eyebrow {
-  font-size: 20px;
-}
-
-.reviews-centered .review-summary {
-  margin: 14px auto 0;
-  text-align: center;
-  direction: rtl;
-}
-
-.reviews-centered .review-card {
-  max-width: 720px;
-  margin: 0 auto;
 }
 
 .review-card {
@@ -3913,6 +4113,7 @@ body.product-lightbox-lock {
   position: relative;
   aspect-ratio: 16 / 9;
   border: 1px solid var(--line);
+  border-radius: var(--radius);
   background: #0a0a09;
   overflow: hidden;
 }
@@ -3996,6 +4197,7 @@ body.product-lightbox-lock {
   display: flex;
   flex-direction: column;
   border: 1px solid var(--line);
+  border-radius: var(--radius);
   padding: 28px;
 }
 
@@ -4020,6 +4222,7 @@ body.product-lightbox-lock {
   margin: -28px -28px 22px;
   aspect-ratio: 4 / 3;
   overflow: hidden;
+  border-radius: var(--radius) var(--radius) 0 0;
   background: var(--line);
 }
 
@@ -4218,6 +4421,7 @@ body.product-lightbox-lock {
   aspect-ratio: 4 / 5;
   overflow: hidden;
   border: 1px solid var(--line);
+  border-radius: var(--radius);
 }
 
 .case-study-image img {
@@ -4260,6 +4464,8 @@ body.product-lightbox-lock {
 .case-study-video {
   width: 100%;
   border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
 }
 
 .case-study-duration {
@@ -4425,7 +4631,7 @@ body.product-lightbox-lock {
   min-height: 58px;
   padding: 14px 17px;
   border: 1px solid #4a4640;
-  border-radius: 0;
+  border-radius: var(--radius);
   background: #151514;
   color: var(--bone);
   font: 400 15px/1.4 var(--sans);
@@ -4630,7 +4836,7 @@ body.product-lightbox-lock {
 .lead-form textarea {
   min-height: 62px;
   border-color: #555064;
-  border-radius: 8px;
+  border-radius: var(--radius);
   background: #11122a;
   font-size: 17px;
 }
@@ -4686,7 +4892,7 @@ body.product-lightbox-lock {
 
 #inquiry-form,
 #options {
-  scroll-margin-top: 100px;
+  scroll-margin-top: 90px;
 }
 
 @media (max-width: 920px) {
