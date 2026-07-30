@@ -5,7 +5,8 @@
   "categories": [
     {
       "slug": "shared-soul-journeys",
-      "title": "Shared Soul Journeys",
+      "title": "מסעות נשמה משותפים",
+      "description": "יצירות שנולדו מתוך תהליך אישי או זוגי, במרחב של דמיון מודרך, הקשבה ויצירה משותפת.",
       "image": "/images/artworks/Estis_memory+WEB.webp",
       "alt": "פרט מתוך היצירה Estis Memory מאת גל דִּיסֵנִי",
       "imagePosition": "center",
@@ -37,7 +38,8 @@
     },
     {
       "slug": "personal-visionary-journeys",
-      "title": "Personal Visionary Journeys",
+      "title": "מסעות חזיוניים אישיים",
+      "description": "יצירות שנולדו מתוך מסעות פנימיים, תהליכי עומק ודימויים שהתפתחו לאורך זמן.",
       "image": "/images/artworks/precious+WEB.webp",
       "alt": "פרט מתוך היצירה Precious מאת גל דִּיסֵנִי",
       "imagePosition": "center",

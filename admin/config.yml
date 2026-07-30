@@ -558,6 +558,7 @@ collections:
             fields:
               - { label: "מזהה לקישור באנגלית", name: "slug", widget: "string", hint: "אותיות קטנות ומקפים בלבד. שינוי השדה ישנה את כתובת העמוד." }
               - { label: "כותרת הקטגוריה", name: "title", widget: "string" }
+              - { label: "הסבר קצר בעמוד הקטגוריה", name: "description", widget: "text" }
               - { label: "תמונת הרקע הרחבה", name: "image", widget: "image" }
               - { label: "טקסט חלופי", name: "alt", widget: "string" }
               - { label: "מיקום התמונה בתוך החיתוך", name: "imagePosition", widget: "select", options: [{ label: "מרכז", value: "center" }, { label: "עליון", value: "center top" }, { label: "תחתון", value: "center bottom" }, { label: "ימין", value: "right center" }, { label: "שמאל", value: "left center" }], default: "center" }
