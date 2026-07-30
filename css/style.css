@@ -908,8 +908,11 @@ body.cart-drawer-lock {
 .home-gates {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 2px;
-  background: var(--black);
+  gap: 18px;
+  width: min(100% - 48px, 1780px);
+  margin: 0 auto;
+  padding: 72px 0 82px;
+  background: transparent;
 }
 
 @media (min-width: 921px) {
@@ -921,8 +924,9 @@ body.cart-drawer-lock {
 .home-gate-card {
   position: relative;
   display: block;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
+  border-radius: 14px;
 }
 
 .home-gate-image {
@@ -945,28 +949,57 @@ body.cart-drawer-lock {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(15, 15, 14, 0.88) 0%, rgba(15, 15, 14, 0.15) 55%, rgba(15, 15, 14, 0) 100%);
+  background: rgba(4, 5, 24, 0.38);
 }
 
 .home-gate-copy {
   position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  padding: 16px;
+  inset: 0;
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  text-align: center;
 }
 
 .home-gate-copy strong {
   color: var(--bone);
-  font: 700 clamp(14px, 1.6vw, 17px) / 1.3 var(--display);
+  font: 600 clamp(22px, 2vw, 34px) / 1.2 var(--display);
 }
 
-.home-gate-copy small {
-  color: var(--dim);
-  font: 500 12px/1.3 var(--sans);
+.home-gate-cta {
+  min-width: 156px;
+  padding: 13px 22px;
+  border-radius: 9px;
+  background: var(--copper);
+  color: #111;
+  font: 600 14px/1 var(--sans);
+  transition: transform 180ms ease, background-color 180ms ease;
+}
+
+.home-gate-card:hover .home-gate-cta,
+.home-gate-card:focus-visible .home-gate-cta {
+  transform: translateY(-2px);
+  background: var(--bone);
+}
+
+.home-journeys {
+  padding-top: 14px;
+  background: var(--black);
+}
+
+.home-gallery-heading {
+  margin: 0 auto 42px;
+  text-align: center;
+}
+
+.home-gallery-heading h2 {
+  margin: 0;
+  color: var(--bone);
+  font-size: clamp(30px, 3.6vw, 48px);
+  font-weight: 500;
 }
 
 /* Gallery */

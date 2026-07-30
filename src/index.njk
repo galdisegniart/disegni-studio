@@ -9,9 +9,7 @@ scripts:
   - /js/mark-list.js
 ---
 {% set p = pages.home %}
-{% set printFrom = pages.pricing.materials | priceRange([]) %}
-{% set commissionFrom = pages.commissions.works | minPrice("price") %}
-{% set workshopFrom = workshops | minPrice("priceFromILS") %}
+
 <section class="artist-opening">
   <figure class="artist-opening-art">
     <img src="{{ p.heroImage }}" alt="{{ p.heroImageAlt }}">
@@ -26,38 +24,45 @@ scripts:
   </div>
 </section>
 
-<section class="home-gates" aria-label="{{ p.gatesAriaLabel }}">
-  <a class="home-gate-card" href="/collections/originals/">
-    <span class="home-gate-image"><img src="{{ p.gates[0].image }}" alt="{{ p.gates[0].label }}" loading="lazy"></span>
-    <span class="home-gate-copy">
-      <strong>{{ p.gates[0].label }}</strong>
-      <small>{{ p.gates[0].subtitle }}</small>
+<section class="home-journeys" aria-label="קטגוריות הגלריה">
+  {% for category in pages.portfolio.categories %}
+  {% if category.visible != false %}
+  <a class="portfolio-category-band" href="/portfolio/{{ category.slug }}/">
+    <img
+      src="{{ category.image }}"
+      alt="{{ category.alt }}"
+      style="object-position: {{ category.imagePosition or 'center' }}"
+      loading="lazy">
+    <span class="portfolio-category-shade" aria-hidden="true"></span>
+    <span class="portfolio-category-copy">
+      <span class="portfolio-category-title">{{ category.title }}</span>
+      <span class="portfolio-category-cta">{{ category.ctaLabel }}</span>
     </span>
   </a>
-  <a class="home-gate-card" href="/collections/prints/">
-    <span class="home-gate-image"><img src="{{ p.gates[1].image }}" alt="{{ p.gates[1].label }}" loading="lazy"></span>
+  {% endif %}
+  {% endfor %}
+</section>
+
+<section class="home-gates" id="commercial" aria-label="{{ p.gatesAriaLabel }}">
+  {% for gate in p.gates %}
+  {% if gate.visible != false %}
+  <a class="home-gate-card" href="{{ gate.href }}">
+    <span class="home-gate-image">
+      <img src="{{ gate.image }}" alt="{{ gate.label }}" loading="lazy">
+    </span>
     <span class="home-gate-copy">
-      <strong>{{ p.gates[1].label }}</strong>
-      <small>{{ p.gatesPricePrefix }}{{ printFrom.low | numberFormat }} ₪</small>
+      <strong>{{ gate.label }}</strong>
+      <span class="home-gate-cta">{{ gate.ctaLabel }}</span>
     </span>
   </a>
-  <a class="home-gate-card" href="/commissions/">
-    <span class="home-gate-image"><img src="{{ p.gates[2].image }}" alt="{{ p.gates[2].label }}" loading="lazy"></span>
-    <span class="home-gate-copy">
-      <strong>{{ p.gates[2].label }}</strong>
-      <small>{{ p.gatesPricePrefix }}{{ commissionFrom | numberFormat }} ₪</small>
-    </span>
-  </a>
-  <a class="home-gate-card" href="/workshops/">
-    <span class="home-gate-image"><img src="{{ p.gates[3].image }}" alt="{{ p.gates[3].label }}" loading="lazy"></span>
-    <span class="home-gate-copy">
-      <strong>{{ p.gates[3].label }}</strong>
-      <small>{{ p.gatesPricePrefix }}{{ workshopFrom | numberFormat }} ₪</small>
-    </span>
-  </a>
+  {% endif %}
+  {% endfor %}
 </section>
 
 <section class="gallery section home-gallery">
+  <header class="home-gallery-heading">
+    <h2>{{ p.galleryHeading }}</h2>
+  </header>
   <div class="gallery-editorial home-art-grid">
     {% for artwork in artworks %}
     <figure class="gallery-item">

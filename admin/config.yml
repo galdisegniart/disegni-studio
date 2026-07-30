@@ -224,14 +224,17 @@ collections:
           - { label: "שורת הבטחה 1", name: "assuranceLine1", widget: "string" }
           - { label: "שורת הבטחה 2", name: "assuranceLine2", widget: "string" }
           - { label: "טקסט נגישות לסקציית הכרטיסיות", name: "gatesAriaLabel", widget: "string" }
-          - { label: "קידומת מחיר (למשל 'החל מ-')", name: "gatesPricePrefix", widget: "string" }
+          - { label: "כותרת מעל גלריית הציורים", name: "galleryHeading", widget: "string" }
           - name: "gates"
-            label: "כרטיסיות (לפי הסדר: מקוריות, הדפסים, הזמנה, סדנאות - אל תשנו את הסדר או תמחקו שורה)"
+            label: "ארבע הכניסות המסחריות"
             widget: "list"
+            summary: "{{fields.label}}"
             fields:
               - { label: "כותרת", name: "label", widget: "string" }
               - { label: "תמונת הכרטיס", name: "image", widget: "image", hint: "התמונה שתוצג בכרטיס הקטגוריה בעמוד הראשי" }
-              - { label: "תת-כותרת (רלוונטי רק לכרטיסיה הראשונה - השאר מוצג מחיר אוטומטית)", name: "subtitle", widget: "string", required: false }
+              - { label: "כתובת הכפתור", name: "href", widget: "string" }
+              - { label: "טקסט הכפתור", name: "ctaLabel", widget: "string" }
+              - { label: "להציג בעמוד הבית", name: "visible", widget: "boolean", default: true }
 
       - name: "settings"
         label: "הגדרות אתר כלליות"
@@ -249,6 +252,15 @@ collections:
             fields:
               - { label: "טקסט בתפריט", name: "label", widget: "string" }
               - { label: "כתובת", name: "href", widget: "string" }
+              - { label: "להציג בתפריט", name: "visible", widget: "boolean", default: true }
+              - name: "children"
+                label: "תת-תפריט"
+                widget: "list"
+                required: false
+                fields:
+                  - { label: "טקסט בתפריט", name: "label", widget: "string" }
+                  - { label: "כתובת", name: "href", widget: "string" }
+                  - { label: "להציג בתפריט", name: "visible", widget: "boolean", default: true }
           - name: "socials"
             label: "רשתות חברתיות"
             widget: "list"
@@ -559,6 +571,7 @@ collections:
               - { label: "מזהה לקישור באנגלית", name: "slug", widget: "string", hint: "אותיות קטנות ומקפים בלבד. שינוי השדה ישנה את כתובת העמוד." }
               - { label: "כותרת הקטגוריה", name: "title", widget: "string" }
               - { label: "הסבר קצר בעמוד הקטגוריה", name: "description", widget: "text" }
+              - { label: "להציג את הקטגוריה", name: "visible", widget: "boolean", default: true }
               - { label: "תמונת הרקע הרחבה", name: "image", widget: "image" }
               - { label: "טקסט חלופי", name: "alt", widget: "string" }
               - { label: "מיקום התמונה בתוך החיתוך", name: "imagePosition", widget: "select", options: [{ label: "מרכז", value: "center" }, { label: "עליון", value: "center top" }, { label: "תחתון", value: "center bottom" }, { label: "ימין", value: "right center" }, { label: "שמאל", value: "left center" }], default: "center" }

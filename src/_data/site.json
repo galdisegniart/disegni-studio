@@ -1,21 +1,26 @@
 {
-  "brand": "גל דִּיסֵנִי",
+  "brand": "גל דִּיסֵנִי",
   "siteUrl": "https://disegni.studio",
   "tagline": "אמנות מקורית · פורטרטים · סדנאות",
   "whatsappNumber": "972552902934",
   "businessNumber": "",
   "nav": [
-    { "label": "גלריה", "href": "/" },
-    { "label": "מוצרים", "href": "/collections/prints/", "children": [
-      { "label": "הדפסים", "href": "/collections/prints/" },
-      { "label": "מקוריות זמינות", "href": "/collections/originals/" }
-    ] },
-    { "label": "יצירות בהזמנה", "href": "/commissions/" },
-    { "label": "סדנאות", "href": "/workshops/" },
-    { "label": "אודות", "href": "/about/" },
-    { "label": "פורטפוליו", "href": "/portfolio/" },
-    { "label": "זכויות", "href": "/rights/" },
-    { "label": "יצירת קשר", "href": "/contact/" }
+    { "label": "גלריה", "href": "/", "visible": true },
+    {
+      "label": "מוצרים",
+      "href": "/collections/prints/",
+      "visible": true,
+      "children": [
+        { "label": "הדפסים", "href": "/collections/prints/", "visible": true },
+        { "label": "מקוריות זמינות", "href": "/collections/originals/", "visible": true }
+      ]
+    },
+    { "label": "יצירות בהזמנה", "href": "/commissions/", "visible": true },
+    { "label": "סדנאות", "href": "/workshops/", "visible": true },
+    { "label": "אודות", "href": "/about/", "visible": true },
+    { "label": "פורטפוליו", "href": "/portfolio/", "visible": false },
+    { "label": "זכויות", "href": "/rights/", "visible": true },
+    { "label": "יצירת קשר", "href": "/contact/", "visible": true }
   ],
   "contactHref": "/contact/",
   "socials": [

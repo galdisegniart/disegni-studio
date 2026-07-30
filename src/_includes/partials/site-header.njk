@@ -9,6 +9,7 @@
 
   <nav class="main-nav" id="main-nav" aria-label="ניווט ראשי">
     {% for item in site.nav %}
+    {% if item.visible != false %}
     {% if item.children %}
     {% set childActive = false %}
     {% for child in item.children %}{% if child.label == activeNav %}{% set childActive = true %}{% endif %}{% endfor %}
@@ -21,12 +22,15 @@
       </div>
       <div class="nav-dropdown">
         {% for child in item.children %}
+        {% if child.visible != false %}
         <a{% if child.label == activeNav %} class="active"{% endif %} href="{{ child.href }}">{{ child.label }}</a>
+        {% endif %}
         {% endfor %}
       </div>
     </div>
     {% else %}
     <a{% if item.label == activeNav %} class="active"{% endif %} href="{{ item.href }}">{{ item.label }}</a>
+    {% endif %}
     {% endif %}
     {% endfor %}
   </nav>
@@ -53,18 +57,22 @@
     <p class="header-search-hint">הקלידו לפחות שתי אותיות</p>
     <div class="header-search-results" aria-live="polite">
       {% for item in site.nav %}
+      {% if item.visible != false %}
       {% if item.children %}
       {% for child in item.children %}
+      {% if child.visible != false %}
       <a class="header-search-result" href="{{ child.href }}" data-search-text="{{ child.label }}" hidden>
         <span>קטגוריה</span>
         <strong>{{ child.label }}</strong>
       </a>
+      {% endif %}
       {% endfor %}
       {% else %}
       <a class="header-search-result" href="{{ item.href }}" data-search-text="{{ item.label }}" hidden>
         <span>קטגוריה</span>
         <strong>{{ item.label }}</strong>
       </a>
+      {% endif %}
       {% endif %}
       {% endfor %}
       {% for item in artworks %}
