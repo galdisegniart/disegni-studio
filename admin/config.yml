@@ -475,55 +475,71 @@ collections:
         fields:
           - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
           - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
-          - { label: "כיתוב קטן בהירו", name: "heroEyebrow", widget: "string" }
-          - { label: "כותרת הירו", name: "heroHeading", widget: "string" }
-          - { label: "טקסט הירו", name: "heroLead", widget: "text" }
-          - { label: "תמונת הירו", name: "heroImage", widget: "image" }
-          - { label: "טקסט חלופי לתמונה", name: "heroImageAlt", widget: "string" }
-          - { label: "כיתוב מתחת לתמונה", name: "heroImageCaption", widget: "string" }
-          - { label: "תווית סקציית ההצעות", name: "worksLabel", widget: "string" }
-          - { label: "כותרת סקציית ההצעות", name: "worksHeading", widget: "string" }
-          - { label: "טקסט סקציית ההצעות", name: "worksLead", widget: "text" }
+          - { label: "להציג את אזור הפתיחה", name: "heroVisible", widget: "boolean", default: true }
+          - { label: "כיתוב קטן בהירו", name: "heroEyebrow", widget: "string", required: false }
+          - { label: "כותרת הירו", name: "heroHeading", widget: "string", required: false }
+          - { label: "טקסט הירו", name: "heroLead", widget: "text", required: false }
+          - { label: "תמונת הירו", name: "heroImage", widget: "image", required: false }
+          - { label: "טקסט חלופי לתמונה", name: "heroImageAlt", widget: "string", required: false }
+          - { label: "כיתוב מתחת לתמונה", name: "heroImageCaption", widget: "string", required: false }
+          - { label: "להציג את סוגי היצירות והשירותים", name: "worksVisible", widget: "boolean", default: true }
+          - { label: "תווית סקציית ההצעות", name: "worksLabel", widget: "string", required: false }
+          - { label: "כותרת סקציית ההצעות", name: "worksHeading", widget: "string", required: false }
+          - { label: "טקסט סקציית ההצעות", name: "worksLead", widget: "text", required: false }
           - name: "works"
             label: "סוגי היצירה (Classic / Visionary)"
             widget: "list"
+            required: false
+            summary: "{{fields.title}}"
             fields:
-              - { label: "שם המסלול", name: "title", widget: "string" }
-              - { label: "תיאור קצר", name: "intro", widget: "text" }
-              - { label: "תווית 'כולל'", name: "includesLabel", widget: "string" }
-              - { label: "רשימת מה כלול", name: "includes", widget: "list", field: { label: "פריט", name: "item", widget: "string" } }
+              - { label: "להציג את השירות", name: "visible", widget: "boolean", default: true }
+              - { label: "שם המסלול", name: "title", widget: "string", required: false }
+              - { label: "תיאור קצר", name: "intro", widget: "text", required: false }
+              - { label: "תווית 'כולל'", name: "includesLabel", widget: "string", required: false }
+              - { label: "רשימת מה כלול", name: "includes", widget: "list", required: false, field: { label: "פריט", name: "item", widget: "string" } }
               - { label: "מחיר 'החל מ-'?", name: "priceFrom", widget: "boolean", default: false }
-              - { label: "מחיר (מספר)", name: "price", widget: "string" }
-              - { label: "הודעת WhatsApp", name: "waMessage", widget: "text" }
-          - { label: "תווית טופס הפנייה", name: "inquiryLabel", widget: "string" }
-          - { label: "כותרת טופס הפנייה", name: "inquiryHeading", widget: "string" }
-          - { label: "טקסט טופס הפנייה", name: "inquiryText", widget: "text" }
-          - { label: "הערת פרטיות", name: "inquiryNote", widget: "text" }
-          - { label: "תווית תהליך", name: "processLabel", widget: "string" }
-          - { label: "כותרת תהליך", name: "processHeading", widget: "string" }
-          - { label: "טקסט תהליך", name: "processLead", widget: "text" }
+              - { label: "מחיר (מספר)", name: "price", widget: "string", required: false }
+              - { label: "הודעת WhatsApp", name: "waMessage", widget: "text", required: false }
+          - { label: "להציג את טופס הפנייה", name: "inquiryVisible", widget: "boolean", default: true }
+          - { label: "תווית טופס הפנייה", name: "inquiryLabel", widget: "string", required: false }
+          - { label: "כותרת טופס הפנייה", name: "inquiryHeading", widget: "string", required: false }
+          - { label: "טקסט טופס הפנייה", name: "inquiryText", widget: "text", required: false }
+          - { label: "הערת פרטיות", name: "inquiryNote", widget: "text", required: false }
+          - { label: "להציג את שלבי התהליך", name: "processVisible", widget: "boolean", default: true }
+          - { label: "תווית תהליך", name: "processLabel", widget: "string", required: false }
+          - { label: "כותרת תהליך", name: "processHeading", widget: "string", required: false }
+          - { label: "טקסט תהליך", name: "processLead", widget: "text", required: false }
           - name: "steps"
             label: "שלבי התהליך"
             widget: "list"
+            required: false
+            summary: "{{fields.title}}"
             fields:
-              - { label: "כותרת", name: "title", widget: "string" }
-              - { label: "טקסט", name: "text", widget: "text" }
-          - { label: "תווית הערות", name: "notesLabel", widget: "string" }
-          - { label: "כותרת הערות", name: "notesHeading", widget: "string" }
-          - { label: "רשימת הערות", name: "notes", widget: "list", field: { label: "הערה", name: "text", widget: "string" } }
-          - { label: "תווית מסלול בלעדי", name: "exclusiveLabel", widget: "string" }
-          - { label: "כותרת מסלול בלעדי", name: "exclusiveHeading", widget: "string" }
-          - { label: "פסקאות מסלול בלעדי", name: "exclusiveParagraphs", widget: "list", field: { label: "פסקה", name: "text", widget: "text" } }
-          - { label: "טקסט כפתור מסלול בלעדי", name: "exclusiveCtaLabel", widget: "string" }
-          - { label: "הודעת WhatsApp - מסלול בלעדי", name: "exclusiveWaMessage", widget: "text" }
-          - { label: "תווית שאלות נפוצות", name: "faqLabel", widget: "string" }
-          - { label: "כותרת שאלות נפוצות", name: "faqHeading", widget: "string" }
+              - { label: "להציג את השלב", name: "visible", widget: "boolean", default: true }
+              - { label: "כותרת", name: "title", widget: "string", required: false }
+              - { label: "טקסט", name: "text", widget: "text", required: false }
+          - { label: "להציג את אזור ההערות", name: "notesVisible", widget: "boolean", default: true }
+          - { label: "תווית הערות", name: "notesLabel", widget: "string", required: false }
+          - { label: "כותרת הערות", name: "notesHeading", widget: "string", required: false }
+          - { label: "רשימת הערות", name: "notes", widget: "list", required: false, field: { label: "הערה", name: "text", widget: "string" } }
+          - { label: "להציג את המסלול הבלעדי", name: "exclusiveVisible", widget: "boolean", default: true }
+          - { label: "תווית מסלול בלעדי", name: "exclusiveLabel", widget: "string", required: false }
+          - { label: "כותרת מסלול בלעדי", name: "exclusiveHeading", widget: "string", required: false }
+          - { label: "פסקאות מסלול בלעדי", name: "exclusiveParagraphs", widget: "list", required: false, field: { label: "פסקה", name: "text", widget: "text" } }
+          - { label: "טקסט כפתור מסלול בלעדי", name: "exclusiveCtaLabel", widget: "string", required: false }
+          - { label: "הודעת WhatsApp - מסלול בלעדי", name: "exclusiveWaMessage", widget: "text", required: false }
+          - { label: "להציג שאלות נפוצות", name: "faqVisible", widget: "boolean", default: true }
+          - { label: "תווית שאלות נפוצות", name: "faqLabel", widget: "string", required: false }
+          - { label: "כותרת שאלות נפוצות", name: "faqHeading", widget: "string", required: false }
           - name: "faq"
             label: "שאלות ותשובות"
             widget: "list"
+            required: false
+            summary: "{{fields.q}}"
             fields:
-              - { label: "שאלה", name: "q", widget: "string" }
-              - { label: "תשובה", name: "a", widget: "text" }
+              - { label: "להציג את השאלה", name: "visible", widget: "boolean", default: true }
+              - { label: "שאלה", name: "q", widget: "string", required: false }
+              - { label: "תשובה", name: "a", widget: "text", required: false }
 
       - name: "workshopsIndex"
         label: "עמוד סדנאות ראשי (/workshops/)"
