@@ -23,12 +23,14 @@ scripts:
   <a class="editorial-link" href="/workshops/{{ w.slug }}/"><span aria-hidden="true">→</span> חזרה ל{{ w.cardTitle }}</a>
   <p class="hero-eyebrow">תיאום מועד</p>
   <h1>בוחרים תאריך ושעה<br>ל{{ w.cardTitle }}.</h1>
+  <p class="booking-note">
+    כאן ניתן לבדוק זמינות ולתאם יום ושעה שנוחים לך. לא ניתן להזמין מהיום להיום דרך האתר, אבל לפעמים אני כן פנוי :) מוזמנים להתקשר ולבדוק: <a href="tel:+972552902934">055-290-2934</a> או לשלוח הודעה ב<a class="js-whatsapp" data-option="{{ w.cardTitle }}" href="{{ w.waMessage | waLink }}" target="_blank" rel="noopener noreferrer">WhatsApp</a>.
+  </p>
 </section>
 
-<section class="section">
+<section class="booking-page-section section">
   <div class="booking-layout">
     <aside class="booking-summary">
-      <figure><img src="{{ w.cardImage }}" alt="{{ w.cardImageAlt }}"></figure>
       <h2>{{ w.cardTitle }}</h2>
       {% if w.personaLine %}<p>{{ w.personaLine }}</p>{% endif %}
       <div class="workshop-quick-meta" aria-label="עיקרי הסדנה">
@@ -57,8 +59,4 @@ scripts:
       </div>
     </div>
   </div>
-
-  <p class="booking-note">
-    כאן ניתן לבדוק זמינות ולתאם יום ושעה שנוחים לך. לא ניתן להזמין מהיום להיום דרך האתר, אבל לפעמים אני כן פנוי :) מוזמנים להתקשר ולבדוק: <a href="tel:+972552902934">055-290-2934</a> או לשלוח הודעה ב<a class="js-whatsapp" data-option="{{ w.cardTitle }}" href="{{ w.waMessage | waLink }}" target="_blank" rel="noopener noreferrer">WhatsApp</a>.
-  </p>
 </section>
