@@ -7,8 +7,8 @@ eleventyComputed:
   description: "{{ pages.about.metaDescription }}"
 ---
 {% set p = pages.about %}
-<section class="about-artist-hero">
-  <figure class="about-artist-portrait">
+<section class="about-artist-hero{% if p.portraitPosition == 'left' %} is-image-left{% endif %}">
+  <figure class="about-artist-portrait{% if p.portraitSize == 'small' %} is-size-small{% elif p.portraitSize == 'wide' %} is-size-wide{% endif %}">
     <img src="{{ p.portrait }}" alt="{{ p.portraitAlt }}">
   </figure>
   <div class="about-artist-intro">

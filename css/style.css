@@ -131,6 +131,8 @@ img {
   padding: 10px 0;
   background: var(--black);
   border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
   opacity: 0;
   visibility: hidden;
   transform: translateY(-6px);
@@ -274,6 +276,7 @@ img {
   padding: clamp(24px, 4vw, 42px);
   overflow-y: auto;
   border: 1px solid var(--line);
+  border-radius: var(--radius);
   background: #0b0c20;
 }
 
@@ -833,8 +836,7 @@ body.cart-drawer-lock {
 /* Hero / artist opening */
 .artist-opening {
   background: var(--black);
-  min-height: 100svh;
-  padding: 96px max(74px, calc((100vw - 1280px) / 2)) 46px;
+  padding: clamp(64px, 10vh, 96px) max(74px, calc((100vw - 1280px) / 2)) clamp(32px, 6vh, 46px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -908,12 +910,18 @@ body.cart-drawer-lock {
 /* Home gates */
 .home-gates {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
+  grid-template-columns: 1fr;
+  gap: 16px;
   width: min(100% - 48px, 1780px);
   margin: 0 auto;
   padding: 72px 0 82px;
   background: transparent;
+}
+
+@media (min-width: 481px) {
+  .home-gates {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (min-width: 921px) {
@@ -925,9 +933,15 @@ body.cart-drawer-lock {
 .home-gate-card {
   position: relative;
   display: block;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 4 / 5;
   overflow: hidden;
-  border-radius: 14px;
+  border-radius: var(--radius);
+}
+
+@media (min-width: 921px) {
+  .home-gate-card {
+    aspect-ratio: 1 / 1;
+  }
 }
 
 .home-gate-image {
@@ -956,28 +970,40 @@ body.cart-drawer-lock {
 .home-gate-copy {
   position: absolute;
   inset: 0;
-  padding: 24px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 18px;
+  gap: 12px;
   text-align: center;
 }
 
 .home-gate-copy strong {
   color: var(--bone);
-  font: 600 clamp(22px, 2vw, 34px) / 1.2 var(--display);
+  font: 600 clamp(18px, 4.5vw, 34px) / 1.2 var(--display);
 }
 
 .home-gate-cta {
-  min-width: 156px;
-  padding: 13px 22px;
-  border-radius: 9px;
+  max-width: 100%;
+  padding: 11px 16px;
+  border-radius: var(--radius);
   background: var(--copper);
   color: #111;
-  font: 600 14px/1 var(--sans);
+  font: 600 clamp(12px, 3vw, 14px)/1.2 var(--sans);
+  text-align: center;
   transition: transform 180ms ease, background-color 180ms ease;
+}
+
+@media (min-width: 481px) {
+  .home-gate-copy {
+    padding: 24px;
+    gap: 18px;
+  }
+
+  .home-gate-cta {
+    padding: 13px 22px;
+  }
 }
 
 .home-gate-card:hover .home-gate-cta,
@@ -1042,6 +1068,7 @@ body.cart-drawer-lock {
   overflow: hidden;
   background: var(--black);
   border: 1px solid var(--line);
+  border-radius: var(--radius);
   aspect-ratio: 1;
   transition: transform 0.35s, border-color 0.35s;
 }
@@ -2193,6 +2220,8 @@ body.product-lightbox-lock {
   width: 100%;
   max-width: 640px;
   border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
   background: var(--black);
 }
 
@@ -2254,6 +2283,7 @@ body.product-lightbox-lock {
   padding: 32px 26px;
   background: var(--black);
   border: 1px solid var(--line);
+  border-radius: var(--radius);
   text-align: center;
 }
 
@@ -2327,6 +2357,7 @@ body.product-lightbox-lock {
   margin: 0 0 34px;
   padding: 26px;
   border: 1px solid var(--line);
+  border-radius: var(--radius);
   text-align: right;
 }
 
@@ -2422,6 +2453,7 @@ body.product-lightbox-lock {
   aspect-ratio: 1;
   overflow: hidden;
   border: 1px solid var(--line);
+  border-radius: var(--radius);
   background: var(--black);
   transition: border-color 0.25s, transform 0.3s;
 }
@@ -3046,6 +3078,7 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
 .review-card {
   padding: 34px;
   border: 1px solid var(--line);
+  border-radius: var(--radius);
   background: var(--black);
   cursor: pointer;
 }
@@ -3124,6 +3157,7 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
 .review-write-panel {
   margin-top: 14px;
   border: 1px solid var(--line);
+  border-radius: var(--radius);
   background: #0c0c0b;
 }
 
@@ -3607,18 +3641,35 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
 
 /* About page */
 .about-artist-hero {
-  min-height: 100vh;
-  padding-top: 82px;
+  min-height: 0;
+  padding: 132px max(74px, calc(50vw - 640px)) 72px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: clamp(48px, 6vw, 84px);
+  align-items: center;
   border-bottom: 1px solid var(--line);
+}
+
+.about-artist-hero.is-image-left .about-artist-portrait {
+  order: -1;
 }
 
 .about-artist-portrait {
   margin: 0;
-  min-height: 690px;
+  max-height: 620px;
+  aspect-ratio: 4 / 5;
   overflow: hidden;
+  border-radius: var(--radius);
   background: #0c0c0b;
+}
+
+.about-artist-portrait.is-size-small {
+  max-height: 460px;
+}
+
+.about-artist-portrait.is-size-wide {
+  aspect-ratio: 4 / 3;
+  max-height: 560px;
 }
 
 .about-artist-portrait img {
@@ -3631,7 +3682,7 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: clamp(60px, 8vw, 130px);
+  padding: 0;
 }
 
 .about-artist-intro h1 {
@@ -3692,6 +3743,7 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
   min-height: 480px;
   overflow: hidden;
   border: 1px solid var(--line);
+  border-radius: var(--radius);
   background: #0b0b0a;
 }
 
@@ -3818,6 +3870,15 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
   .about-biography-grid,
   .about-closing {
     grid-template-columns: 1fr;
+  }
+  .about-artist-hero {
+    padding: 96px 24px 56px;
+  }
+  .about-artist-portrait,
+  .about-artist-portrait.is-size-small,
+  .about-artist-portrait.is-size-wide {
+    max-height: 420px;
+    aspect-ratio: 4 / 3;
   }
   .about-worlds-grid {
     grid-template-columns: 1fr;
@@ -3954,6 +4015,7 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
   aspect-ratio: 1;
   overflow: hidden;
   border: 1px solid var(--line);
+  border-radius: var(--radius);
   background: var(--black);
   transition: border-color 0.25s, transform 0.3s;
 }
@@ -4852,6 +4914,8 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
 
 .steps {
   border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
 }
 
 .steps li {
@@ -4872,6 +4936,8 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
 }
 
 .notes-list li {
@@ -5038,6 +5104,8 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
 }
 
 .rights-quick-grid article {

@@ -48,7 +48,7 @@ scripts:
   {% if gate.visible != false %}
   <a class="home-gate-card" href="{{ gate.href }}">
     <span class="home-gate-image">
-      <img src="{{ gate.image }}" alt="{{ gate.label }}" loading="lazy">
+      <img src="{{ gate.image }}" alt="{{ gate.alt or gate.label }}" style="object-position: {{ gate.imagePosition or 'center' }}" loading="lazy">
     </span>
     <span class="home-gate-copy">
       <strong>{{ gate.label }}</strong>

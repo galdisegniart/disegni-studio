@@ -233,6 +233,8 @@ collections:
             fields:
               - { label: "כותרת", name: "label", widget: "string" }
               - { label: "תמונת הכרטיס", name: "image", widget: "image", hint: "התמונה שתוצג בכרטיס הקטגוריה בעמוד הראשי" }
+              - { label: "טקסט חלופי לתמונה", name: "alt", widget: "string", required: false }
+              - { label: "מיקום התמונה בחיתוך (object-position, למשל 'center' או 'top')", name: "imagePosition", widget: "string", required: false }
               - { label: "כתובת הכפתור", name: "href", widget: "string" }
               - { label: "טקסט הכפתור", name: "ctaLabel", widget: "string" }
               - { label: "להציג בעמוד הבית", name: "visible", widget: "boolean", default: true }
@@ -437,6 +439,8 @@ collections:
           - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
           - { label: "תמונת פורטרט", name: "portrait", widget: "image" }
           - { label: "טקסט חלופי לפורטרט", name: "portraitAlt", widget: "string" }
+          - { label: "רוחב תצוגת הפורטרט", name: "portraitSize", widget: "select", options: [{ label: "קטן", value: "small" }, { label: "בינוני", value: "medium" }, { label: "רחב", value: "wide" }], default: "medium" }
+          - { label: "מיקום הפורטרט", name: "portraitPosition", widget: "select", options: [{ label: "ימין", value: "right" }, { label: "שמאל", value: "left" }], default: "right" }
           - { label: "כיתוב קטן בהירו", name: "heroEyebrow", widget: "string" }
           - { label: "כותרת הירו", name: "heroHeading", widget: "string" }
           - { label: "טקסט הירו", name: "heroLead", widget: "text" }
