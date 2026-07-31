@@ -3533,32 +3533,23 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
 }
 
 .booking-page-section.section {
-  padding-top: 40px;
+  padding-top: 32px;
+  padding-bottom: 72px;
 }
 
-.booking-layout {
-  display: grid;
-  grid-template-columns: 0.42fr 0.58fr;
-  gap: clamp(32px, 5vw, 64px);
-  align-items: start;
+.booking-container {
+  max-width: 640px;
+  margin: 0 auto;
 }
 
-.booking-summary h2 {
-  margin: 0 0 10px;
-  font-size: 22px;
-  font-weight: 500;
-}
-
-.booking-summary > p {
-  margin: 0 0 20px;
-  color: var(--dim);
-  font-size: 15px;
-  line-height: 1.7;
+.booking-summary-meta {
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--line);
 }
 
 /* On-site booking calendar */
 .calendar-widget {
-  max-width: 520px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: clamp(20px, 2.5vw, 32px);
@@ -3710,12 +3701,6 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
   color: var(--black);
 }
 
-@media (max-width: 820px) {
-  .booking-layout {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
-}
 
 .workshop-photo-collage,
 .workshop-gallery-expanded {

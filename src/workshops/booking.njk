@@ -29,16 +29,12 @@ scripts:
 </section>
 
 <section class="booking-page-section section">
-  <div class="booking-layout">
-    <aside class="booking-summary">
-      <h2>{{ w.cardTitle }}</h2>
-      {% if w.personaLine %}<p>{{ w.personaLine }}</p>{% endif %}
-      <div class="workshop-quick-meta" aria-label="עיקרי הסדנה">
-        {% for m in w.quickMeta %}
-        <span><small>{{ m.label }}</small><strong>{{ m.value }}</strong></span>
-        {% endfor %}
-      </div>
-    </aside>
+  <div class="booking-container">
+    <div class="workshop-quick-meta booking-summary-meta" aria-label="עיקרי הסדנה">
+      {% for m in w.quickMeta %}
+      <span><small>{{ m.label }}</small><strong>{{ m.value }}</strong></span>
+      {% endfor %}
+    </div>
 
     <div class="calendar-widget" data-calendar-root data-wa-base="https://wa.me/{{ site.whatsappNumber }}?text=" data-card-title="{{ w.cardTitle }}">
       <script type="application/json" data-calendar-slots>{{ w.availableSlots | dump | safe }}</script>
