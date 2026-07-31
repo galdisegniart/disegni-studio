@@ -583,7 +583,7 @@ body.cart-drawer-lock {
   z-index: 5;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  align-items: center;
   transition: opacity 0.2s;
 }
 
@@ -592,6 +592,7 @@ body.cart-drawer-lock {
   pointer-events: none;
 }
 
+.quick-links-toggle,
 .quick-links-rail a {
   width: 42px;
   height: 42px;
@@ -601,6 +602,7 @@ body.cart-drawer-lock {
   background: var(--black);
   border: 1px solid var(--line);
   color: var(--bone);
+  cursor: pointer;
   transition: border-color 0.2s, color 0.2s, transform 0.2s;
 }
 
@@ -608,6 +610,41 @@ body.cart-drawer-lock {
   transform: translateX(-3px);
 }
 
+.quick-links-toggle:hover,
+.quick-links-rail.is-open .quick-links-toggle {
+  border-color: var(--copper);
+  color: var(--copper);
+}
+
+.quick-links-toggle svg {
+  transition: transform 0.25s;
+}
+
+.quick-links-rail.is-open .quick-links-toggle svg {
+  transform: rotate(45deg);
+}
+
+.quick-links-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+  margin-top: 0;
+  transition: max-height 0.25s ease, opacity 0.2s ease, margin-top 0.25s ease;
+}
+
+.quick-links-rail.is-open .quick-links-menu {
+  max-height: 220px;
+  opacity: 1;
+  pointer-events: auto;
+  margin-top: 10px;
+}
+
+.quick-links-toggle svg,
 .quick-links-rail svg {
   width: 19px;
   height: 19px;
@@ -622,10 +659,12 @@ body.cart-drawer-lock {
   .quick-links-rail {
     right: 10px;
   }
+  .quick-links-toggle,
   .quick-links-rail a {
     width: 36px;
     height: 36px;
   }
+  .quick-links-toggle svg,
   .quick-links-rail svg {
     width: 16px;
     height: 16px;
@@ -2682,7 +2721,7 @@ body.product-lightbox-lock {
 
 /* Full-bleed looping background video behind the hero text */
 .workshop-visual-hero.has-media {
-  min-height: clamp(260px, 40vh, 460px);
+  min-height: clamp(220px, 34vh, 460px);
   display: flex;
   align-items: flex-end;
   border-bottom: none;
@@ -2763,7 +2802,7 @@ body.product-lightbox-lock {
 }
 
 .workshop-card-image {
-  aspect-ratio: 21 / 9;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
   background: var(--line);
 }
@@ -2772,6 +2811,7 @@ body.product-lightbox-lock {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 35%;
   transition: transform 0.3s;
 }
 
@@ -2783,8 +2823,8 @@ body.product-lightbox-lock {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 18px;
+  gap: 6px;
+  padding: 16px;
 }
 
 .workshop-card-label {
@@ -3258,12 +3298,11 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
 }
 
 .daily-workshop-hero {
-  min-height: 760px;
-  padding: 132px max(74px, calc(50vw - 640px)) 70px;
+  padding: 84px max(74px, calc(50vw - 640px)) 70px;
   display: grid;
   grid-template-columns: minmax(360px, 0.82fr) minmax(480px, 1.18fr);
   gap: clamp(48px, 7vw, 100px);
-  align-items: center;
+  align-items: start;
   border-bottom: 1px solid var(--line);
 }
 
@@ -3314,14 +3353,14 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
 
 .workshop-quick-meta small {
   color: var(--copper);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
 }
 
 .workshop-quick-meta strong {
-  margin-top: 3px;
+  margin-top: 5px;
   color: var(--bone);
-  font-size: 16px;
+  font-size: 19px;
   font-weight: 500;
 }
 
@@ -3393,6 +3432,7 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 35%;
 }
 
 .daily-workshop-story-grid,
@@ -3502,12 +3542,12 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
 
 /* Booking calendar page */
 .booking-hero {
-  padding: 132px max(74px, calc(50vw - 640px)) 40px;
+  padding: 84px max(74px, calc(50vw - 640px)) 28px;
 }
 
 .booking-hero .hero-eyebrow {
   display: block;
-  margin: 20px 0 10px;
+  margin: 16px 0 8px;
 }
 
 .booking-hero h1 {
@@ -3533,8 +3573,8 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
 }
 
 .booking-page-section.section {
-  padding-top: 32px;
-  padding-bottom: 72px;
+  padding-top: 20px;
+  padding-bottom: 56px;
 }
 
 .booking-container {
@@ -3543,7 +3583,7 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
 }
 
 .booking-summary-meta {
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   padding-bottom: 24px;
   border-bottom: 1px solid var(--line);
 }

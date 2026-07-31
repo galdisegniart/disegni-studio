@@ -13,13 +13,6 @@ scripts:
   - /js/booking-calendar.js
 ---
 <section class="booking-hero">
-  {% set crumbs = [
-    { label: "בית", href: "/" },
-    { label: "סדנאות", href: "/workshops/" },
-    { label: w.cardTitle, href: "/workshops/" + w.slug + "/" },
-    { label: "תיאום מועד" }
-  ] %}
-  {% include "partials/breadcrumbs.njk" %}
   <a class="editorial-link" href="/workshops/{{ w.slug }}/"><span aria-hidden="true">→</span> חזרה ל{{ w.cardTitle }}</a>
   <p class="hero-eyebrow">תיאום מועד</p>
   <h1>בוחרים תאריך ושעה<br>ל{{ w.cardTitle }}.</h1>
