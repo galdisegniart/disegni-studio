@@ -2678,24 +2678,10 @@ body.product-lightbox-lock {
   line-height: 1.7;
 }
 
-/* Promo video */
-.workshop-promo-video-copy h2 {
-  margin: 0 0 14px;
-  font-size: clamp(28px, 3vw, 38px);
-  font-weight: 500;
-}
-
-.workshop-promo-video-copy p {
-  margin: 0 0 20px;
-  max-width: 640px;
-  color: var(--dim);
-  font-size: 17px;
-  line-height: 1.7;
-}
-
-.workshop-promo-video-media {
-  position: relative;
-  width: 100%;
+/* Looping hero video */
+.workshop-loop-video {
+  width: min(100%, 900px);
+  margin: 40px auto 0;
   aspect-ratio: 16 / 9;
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -2703,48 +2689,10 @@ body.product-lightbox-lock {
   overflow: hidden;
 }
 
-.workshop-promo-video-poster {
+.workshop-loop-video video {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.workshop-promo-video-play {
-  position: absolute;
-  inset: 0;
-  margin: auto;
-  width: 76px;
-  height: 76px;
-  border: 1px solid var(--copper);
-  border-radius: 50%;
-  background: rgba(11, 12, 32, 0.72);
-  color: var(--bone);
-  font-size: 22px;
-  cursor: pointer;
-  transition: background 0.2s, transform 0.2s;
-}
-
-.workshop-promo-video-play:hover {
-  background: var(--copper);
-  color: var(--black);
-  transform: scale(1.05);
-}
-
-.workshop-promo-video-play:focus-visible {
-  outline: 2px solid var(--copper);
-  outline-offset: 3px;
-}
-
-.workshop-promo-video-media.is-playing .workshop-promo-video-poster,
-.workshop-promo-video-media.is-playing .workshop-promo-video-play {
-  display: none;
-}
-
-.workshop-promo-video-media video,
-.workshop-promo-video-media iframe {
-  width: 100%;
-  height: 100%;
-  border: 0;
   display: block;
 }
 
@@ -2962,16 +2910,6 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
 }
 
 @media (max-width: 920px) {
-  .workshop-promo-video.section {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .workshop-promo-video-media {
-    order: -1;
-    margin-bottom: 24px;
-  }
-
   .workshop-cards-grid,
   .workshop-testimonials-grid {
     grid-template-columns: 1fr;

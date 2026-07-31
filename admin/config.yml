@@ -115,6 +115,7 @@ collections:
         fields:
           - { label: "תווית", name: "label", widget: "string" }
           - { label: "ערך", name: "value", widget: "string" }
+      - { label: "קישור לקביעת מועד (הזמנה חיצונית, למשל בסלון) - אם ריק, הכפתורים יפתחו WhatsApp", name: "bookingUrl", widget: "string", required: false }
       - { label: "טקסט כפתור פעולה ראשי", name: "heroCtaLabel", widget: "string" }
       - { label: "הודעת WhatsApp (כפתור ראשי)", name: "waMessage", widget: "text" }
       - { label: "תמונה ראשית", name: "heroImage", widget: "image" }

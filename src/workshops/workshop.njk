@@ -63,7 +63,11 @@ scripts:
     </div>
 
     <div class="workshop-single-actions">
+      {% if w.bookingUrl %}
+      <a class="cta" href="{{ w.bookingUrl }}" target="_blank" rel="noopener noreferrer">{{ w.heroCtaLabel }} <span>←</span></a>
+      {% else %}
       <a class="cta js-whatsapp" data-option="{{ w.cardTitle }}" href="{{ w.waMessage | waLink }}" target="_blank" rel="noopener noreferrer">{{ w.heroCtaLabel }} <span>←</span></a>
+      {% endif %}
       <button class="workshop-share" type="button"><span>↗</span> שיתוף העמוד</button>
     </div>
 
@@ -134,7 +138,11 @@ scripts:
       {% for tier in w.pricing.tiers %}
       <article><span>{{ tier.label }}</span><strong>{{ tier.value }}</strong></article>
       {% endfor %}
+      {% if w.bookingUrl %}
+      <a class="cta" href="{{ w.bookingUrl }}" target="_blank" rel="noopener noreferrer">{{ w.pricing.ctaLabel }} <span>←</span></a>
+      {% else %}
       <a class="cta js-whatsapp" data-option="{{ w.cardTitle }}" href="{{ w.waMessage | waLink }}" target="_blank" rel="noopener noreferrer">{{ w.pricing.ctaLabel }} <span>←</span></a>
+      {% endif %}
     </div>
   </div>
 </section>

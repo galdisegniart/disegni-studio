@@ -18,7 +18,8 @@
     { "label": "מחיר", "value": "החל מ-210 ₪" },
     { "label": "ניסיון קודם", "value": "לא נדרש" }
   ],
-  "heroCtaLabel": "לבדיקת מועד ומקום",
+  "bookingUrl": "https://basalon.co.il/sd/1347942",
+  "heroCtaLabel": "לקביעת מועד",
   "waMessage": "שלום גל, הגעתי דרך האתר ואשמח לבדוק מועד ומקום בסדנת האמנויות היומית החווייתית - מרחב חופשי ליצור, גם בלי ניסיון.",
   "heroImage": "/images/workshops/daily-main.webp",
   "heroImageAlt": "משתתפות בסדנת אמנות מציגות יחד יצירה קבוצתית",

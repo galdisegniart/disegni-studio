@@ -18,7 +18,8 @@
     { "label": "מחיר", "value": "950 ₪ לחודש" },
     { "label": "מפגש ראשון", "value": "ללא עלות" }
   ],
-  "heroCtaLabel": "לתיאום מפגש ניסיון",
+  "bookingUrl": "https://basalon.co.il/sd/1373659",
+  "heroCtaLabel": "לקביעת מועד",
   "waMessage": "שלום גל, הגעתי דרך האתר ואשמח לתאם מפגש ניסיון לסדנה המתמשכת.",
   "heroImage": "/images/workshops/monthly-main.jpg",
   "heroImageAlt": "פינת היצירה בסטודיו שבה מתקיימת הסדנה החודשית",

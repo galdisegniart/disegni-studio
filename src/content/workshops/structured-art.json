@@ -18,7 +18,8 @@
     { "label": "חומרים", "value": "הכול כלול" },
     { "label": "ניסיון קודם", "value": "לא נדרש" }
   ],
-  "heroCtaLabel": "לבדיקת מקום",
+  "bookingUrl": "https://basalon.co.il/sd/1352520",
+  "heroCtaLabel": "לקביעת מועד",
   "waMessage": "שלום גל, הגעתי דרך האתר ואשמח לבדוק מקום במסלול האמנות של 8 מפגשים.",
   "heroImage": "/images/workshops/structured-main.webp",
   "heroImageAlt": "קבוצה יוצרת יחד בסדנת הציור התהליכית",
