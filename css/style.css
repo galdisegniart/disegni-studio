@@ -981,16 +981,16 @@ body.cart-drawer-lock {
 
 .home-gate-copy strong {
   color: var(--bone);
-  font: 600 clamp(18px, 4.5vw, 34px) / 1.2 var(--display);
+  font: 600 clamp(26px, 7.5vw, 46px) / 1.15 var(--display);
 }
 
 .home-gate-cta {
   max-width: 100%;
-  padding: 11px 16px;
+  padding: 16px 20px;
   border-radius: var(--radius);
   background: var(--copper);
   color: #111;
-  font: 600 clamp(12px, 3vw, 14px)/1.2 var(--sans);
+  font: 600 clamp(16px, 4.5vw, 20px)/1.2 var(--sans);
   text-align: center;
   transition: transform 180ms ease, background-color 180ms ease;
 }
@@ -5786,14 +5786,12 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
 }
 
 .portfolio-category-cta {
-  min-width: min(480px, 100%);
-  max-width: 100%;
-  padding: 42px 60px;
-  border: 2px solid rgba(255, 255, 255, 0.9);
+  min-width: 154px;
+  padding: 14px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.9);
   border-radius: var(--radius);
-  font-size: 44px;
+  font-size: 15px;
   line-height: 1;
-  white-space: normal;
 }
 
 .portfolio-category-band:hover > img,
@@ -5856,8 +5854,8 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
   }
 
   .portfolio-category-band {
-    height: min(90vh, 760px);
-    min-height: 640px;
+    height: min(62vh, 520px);
+    min-height: 360px;
     margin-bottom: 10px;
   }
 
@@ -5866,12 +5864,12 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
   }
 
   .portfolio-category-copy {
-    gap: 20px;
+    gap: 22px;
     padding-inline: 18px;
   }
 
   .portfolio-category-title {
-    font-size: clamp(84px, 30vw, 128px);
+    font-size: clamp(30px, 10vw, 44px);
   }
 
   .portfolio-collection-heading {
