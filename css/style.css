@@ -5786,11 +5786,11 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
 }
 
 .portfolio-category-cta {
-  min-width: 185px;
-  padding: 17px 29px;
+  min-width: 240px;
+  padding: 21px 36px;
   border: 1px solid rgba(255, 255, 255, 0.9);
   border-radius: var(--radius);
-  font-size: 18px;
+  font-size: 22px;
   line-height: 1;
 }
 
@@ -5869,7 +5869,7 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
   }
 
   .portfolio-category-title {
-    font-size: clamp(36px, 12vw, 53px);
+    font-size: clamp(42px, 15vw, 64px);
   }
 
   .portfolio-collection-heading {
