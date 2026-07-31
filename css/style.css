@@ -2820,23 +2820,8 @@ body.product-lightbox-lock {
   line-height: 1.55;
 }
 
-.workshop-card-meta {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  margin-top: auto;
-  padding-top: 10px;
-  color: var(--dim);
-  font-size: 14px;
-}
-
-.workshop-card-meta strong {
-  color: var(--bone);
-  font-weight: 600;
-}
-
 .workshop-card-cta {
-  margin-top: 8px;
+  margin-top: auto;
   min-height: 48px;
   min-width: 0;
   width: 100%;

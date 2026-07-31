@@ -52,14 +52,6 @@ scripts:
           {% if item.cardLabel %}<span class="workshop-card-label">{{ item.cardLabel }}</span>{% endif %}
           <h2>{{ item.cardTitle }}</h2>
           {% if item.personaLine %}<p class="workshop-card-persona">{{ item.personaLine }}</p>{% endif %}
-          <div class="workshop-card-meta">
-            {% if item.quickMeta and item.quickMeta.length %}
-            <span><strong>{{ item.quickMeta[0].label }}:</strong> {{ item.quickMeta[0].value }}</span>
-            {% endif %}
-            {% if item.priceFromILS %}
-            <span><strong>מחיר:</strong> החל מ-{{ item.priceFromILS | numberFormat }} ₪</span>
-            {% endif %}
-          </div>
           <span class="cta cta-outline workshop-card-cta">{{ w.cardDetailsCtaLabel or "לפרטי הסדנה" }} <span aria-hidden="true">←</span></span>
         </div>
       </a>
