@@ -836,7 +836,7 @@ body.cart-drawer-lock {
 /* Hero / artist opening */
 .artist-opening {
   background: var(--black);
-  padding: clamp(64px, 10vh, 96px) max(74px, calc((100vw - 1280px) / 2)) clamp(32px, 6vh, 46px);
+  padding: clamp(64px, 10vh, 96px) max(74px, calc((100vw - 1280px) / 2)) clamp(56px, 10vh, 88px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1013,7 +1013,7 @@ body.cart-drawer-lock {
 }
 
 .home-journeys {
-  padding-top: 14px;
+  padding-top: 32px;
   background: var(--black);
 }
 
