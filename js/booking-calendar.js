@@ -9,6 +9,10 @@
     return year + "-" + pad2(monthIndex + 1) + "-" + pad2(day);
   }
 
+  function toDateObj(iso) {
+    return new Date(iso + "T00:00:00");
+  }
+
   function initCalendar(root) {
     var slotsEl = root.querySelector("[data-calendar-slots]");
     if (!slotsEl) return;
@@ -34,14 +38,20 @@
     var today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    var firstSlotDate = new Date(sortedDates[0] + "T00:00:00");
-    var viewYear = firstSlotDate < today ? today.getFullYear() : firstSlotDate.getFullYear();
-    var viewMonth = firstSlotDate < today ? today.getMonth() : firstSlotDate.getMonth();
+    // Same-day booking isn't offered through the site - earliest bookable date is tomorrow.
+    var firstAvailable = sortedDates.filter(function (iso) {
+      return toDateObj(iso) > today;
+    })[0];
+
+    var initialTarget = firstAvailable ? toDateObj(firstAvailable) : today;
+    var viewYear = initialTarget.getFullYear();
+    var viewMonth = initialTarget.getMonth();
 
     var monthLabel = root.querySelector("[data-cal-month-label]");
     var grid = root.querySelector("[data-cal-grid]");
     var prevBtn = root.querySelector("[data-cal-prev]");
     var nextBtn = root.querySelector("[data-cal-next]");
+    var nextAvailableBtn = root.querySelector("[data-cal-next-available]");
     var timesWrap = root.querySelector("[data-cal-times]");
     var timesLabel = root.querySelector("[data-cal-date-label]");
     var timesList = root.querySelector("[data-cal-times-list]");
@@ -70,7 +80,14 @@
       timesWrap.hidden = false;
     }
 
-    function render() {
+    function selectDay(btn, iso) {
+      var current = grid.querySelectorAll(".calendar-day.is-selected");
+      for (var j = 0; j < current.length; j++) current[j].classList.remove("is-selected");
+      btn.classList.add("is-selected");
+      showTimes(iso);
+    }
+
+    function render(selectIso) {
       grid.innerHTML = "";
       timesWrap.hidden = true;
       monthLabel.textContent = HEB_MONTHS[viewMonth] + " " + viewYear;
@@ -93,22 +110,27 @@
         btn.className = "calendar-day";
         btn.textContent = String(d);
 
-        if (byDate[iso] && dateObj >= today) {
+        if (byDate[iso] && dateObj > today) {
           btn.classList.add("is-available");
-          btn.addEventListener("click", (function (dayIso) {
+          btn.addEventListener("click", (function (dayBtn, dayIso) {
             return function () {
-              var current = grid.querySelectorAll(".calendar-day.is-selected");
-              for (var j = 0; j < current.length; j++) current[j].classList.remove("is-selected");
-              btn.classList.add("is-selected");
-              showTimes(dayIso);
+              selectDay(dayBtn, dayIso);
             };
-          })(iso));
+          })(btn, iso));
+
+          if (selectIso && iso === selectIso) {
+            btn.classList.add("is-selected");
+          }
         } else {
           btn.disabled = true;
           btn.classList.add("is-disabled");
         }
 
         grid.appendChild(btn);
+      }
+
+      if (selectIso && byDate[selectIso]) {
+        showTimes(selectIso);
       }
     }
 
@@ -130,7 +152,20 @@
       render();
     });
 
-    render();
+    if (nextAvailableBtn) {
+      if (!firstAvailable) {
+        nextAvailableBtn.hidden = true;
+      } else {
+        nextAvailableBtn.addEventListener("click", function () {
+          var d = toDateObj(firstAvailable);
+          viewYear = d.getFullYear();
+          viewMonth = d.getMonth();
+          render(firstAvailable);
+        });
+      }
+    }
+
+    render(firstAvailable);
   }
 
   document.querySelectorAll("[data-calendar-root]").forEach(initCalendar);

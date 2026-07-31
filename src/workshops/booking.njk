@@ -1,0 +1,64 @@
+---
+pagination:
+  data: bookableWorkshops
+  size: 1
+  alias: w
+permalink: "/workshops/{{ w.slug }}/booking-calendar/index.html"
+layout: base.njk
+eleventyComputed:
+  title: "תיאום מועד - {{ w.cardTitle }} | גל דִּיסֵנִי"
+  description: "בדקו זמינות ותאמו יום ושעה ל{{ w.cardTitle }} עם גל דִּיסֵנִי."
+  activeNav: "{{ w.cardTitle }}"
+scripts:
+  - /js/booking-calendar.js
+---
+<section class="booking-hero">
+  {% set crumbs = [
+    { label: "בית", href: "/" },
+    { label: "סדנאות", href: "/workshops/" },
+    { label: w.cardTitle, href: "/workshops/" + w.slug + "/" },
+    { label: "תיאום מועד" }
+  ] %}
+  {% include "partials/breadcrumbs.njk" %}
+  <a class="editorial-link" href="/workshops/{{ w.slug }}/"><span aria-hidden="true">→</span> חזרה ל{{ w.cardTitle }}</a>
+  <p class="hero-eyebrow">תיאום מועד</p>
+  <h1>בוחרים תאריך ושעה<br>ל{{ w.cardTitle }}.</h1>
+</section>
+
+<section class="section">
+  <div class="booking-layout">
+    <aside class="booking-summary">
+      <figure><img src="{{ w.cardImage }}" alt="{{ w.cardImageAlt }}"></figure>
+      <h2>{{ w.cardTitle }}</h2>
+      {% if w.personaLine %}<p>{{ w.personaLine }}</p>{% endif %}
+      <div class="workshop-quick-meta" aria-label="עיקרי הסדנה">
+        {% for m in w.quickMeta %}
+        <span><small>{{ m.label }}</small><strong>{{ m.value }}</strong></span>
+        {% endfor %}
+      </div>
+    </aside>
+
+    <div class="calendar-widget" data-calendar-root data-wa-base="https://wa.me/{{ site.whatsappNumber }}?text=" data-card-title="{{ w.cardTitle }}">
+      <script type="application/json" data-calendar-slots>{{ w.availableSlots | dump | safe }}</script>
+      <p class="calendar-timezone">שעון ישראל (קיץ) (GMT+3)</p>
+      <div class="calendar-nav">
+        <button type="button" class="calendar-nav-btn" data-cal-prev aria-label="חודש קודם">‹</button>
+        <strong data-cal-month-label></strong>
+        <button type="button" class="calendar-nav-btn" data-cal-next aria-label="חודש הבא">›</button>
+      </div>
+      <button type="button" class="calendar-next-available" data-cal-next-available>התאריך הפנוי הבא</button>
+      <div class="calendar-weekdays">
+        <span>א</span><span>ב</span><span>ג</span><span>ד</span><span>ה</span><span>ו</span><span>ש</span>
+      </div>
+      <div class="calendar-grid" data-cal-grid></div>
+      <div class="calendar-times" data-cal-times hidden>
+        <p class="calendar-times-label" data-cal-date-label></p>
+        <div class="calendar-times-list" data-cal-times-list></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="booking-note">
+    כאן ניתן לבדוק זמינות ולתאם יום ושעה שנוחים לך. לא ניתן להזמין מהיום להיום דרך האתר, אבל לפעמים אני כן פנוי :) מוזמנים להתקשר ולבדוק: <a href="tel:+972552902934">055-290-2934</a> או לשלוח הודעה ב<a class="js-whatsapp" data-option="{{ w.cardTitle }}" href="{{ w.waMessage | waLink }}" target="_blank" rel="noopener noreferrer">WhatsApp</a>.
+  </p>
+</section>
