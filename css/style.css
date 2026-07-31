@@ -2653,9 +2653,11 @@ body.product-lightbox-lock {
 
 /* Workshops: main listing page */
 .workshop-visual-hero {
+  position: relative;
   min-height: 0;
   padding: 132px max(74px, calc(50vw - 640px)) 54px;
   border-bottom: 1px solid var(--line);
+  overflow: hidden;
 }
 
 .workshop-visual-hero .hero-eyebrow {
@@ -2678,22 +2680,50 @@ body.product-lightbox-lock {
   line-height: 1.7;
 }
 
-/* Looping hero video */
-.workshop-loop-video {
-  width: min(100%, 900px);
-  margin: 40px auto 0;
-  aspect-ratio: 16 / 9;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: #0a0a09;
-  overflow: hidden;
+/* Full-bleed looping background video behind the hero text */
+.workshop-visual-hero.has-media {
+  min-height: min(90vh, 780px);
+  display: flex;
+  align-items: flex-end;
+  border-bottom: none;
 }
 
-.workshop-loop-video video {
+.workshop-hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.workshop-hero-media video {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+.workshop-hero-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(4, 5, 24, 0.18) 0%, rgba(4, 5, 24, 0.82) 100%);
+}
+
+.workshop-hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+}
+
+.workshop-visual-hero.has-media .hero-eyebrow {
+  color: var(--copper);
+}
+
+.workshop-visual-hero.has-media h1 {
+  color: var(--bone);
+}
+
+.workshop-visual-hero.has-media .workshop-intro-text {
+  color: rgba(232, 226, 215, 0.82);
 }
 
 /* Workshop cards */
@@ -3357,7 +3387,8 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
 
 .daily-workshop-story-grid,
 .daily-video-grid,
-.pricing-layout {
+.pricing-layout,
+.calendar-layout {
   display: grid;
   grid-template-columns: 0.78fr 1.22fr;
   gap: clamp(55px, 8vw, 120px);
@@ -3460,6 +3491,131 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
   font-weight: 500;
 }
 
+/* On-site booking calendar */
+.calendar-widget {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 28px;
+}
+
+.calendar-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.calendar-nav strong {
+  color: var(--bone);
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.calendar-nav-btn {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--bone);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 0.25s, color 0.25s;
+}
+
+.calendar-nav-btn:hover {
+  border-color: var(--copper);
+  color: var(--copper);
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 8px;
+}
+
+.calendar-weekdays span {
+  text-align: center;
+  color: var(--dim);
+  font-size: 13px;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.calendar-day {
+  aspect-ratio: 1 / 1;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--dim);
+  font-size: 15px;
+  cursor: default;
+}
+
+.calendar-day-empty {
+  border: none;
+}
+
+.calendar-day.is-disabled {
+  color: var(--dim);
+  opacity: 0.35;
+}
+
+.calendar-day.is-available {
+  border-color: var(--line);
+  color: var(--bone);
+  cursor: pointer;
+  transition: border-color 0.25s, background 0.25s, color 0.25s;
+}
+
+.calendar-day.is-available:hover {
+  border-color: var(--copper);
+  color: var(--copper);
+}
+
+.calendar-day.is-selected {
+  background: var(--copper);
+  border-color: var(--copper);
+  color: var(--black);
+}
+
+.calendar-times {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.calendar-times-label {
+  margin: 0 0 14px;
+  color: var(--bone);
+  font-size: 16px;
+}
+
+.calendar-times-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.calendar-time-btn {
+  padding: 10px 20px;
+  border: 1px solid var(--copper);
+  border-radius: 999px;
+  color: var(--copper);
+  font-size: 15px;
+  transition: background 0.25s, color 0.25s;
+}
+
+.calendar-time-btn:hover {
+  background: var(--copper);
+  color: var(--black);
+}
+
 .workshop-photo-collage,
 .workshop-gallery-expanded {
   display: grid;
@@ -3537,7 +3693,8 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
   .daily-workshop-hero,
   .daily-workshop-story-grid,
   .daily-video-grid,
-  .pricing-layout {
+  .pricing-layout,
+  .calendar-layout {
     grid-template-columns: 1fr;
     gap: 32px;
   }

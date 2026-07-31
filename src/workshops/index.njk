@@ -7,18 +7,20 @@ activeNav: "סדנאות"
 permalink: "/workshops/index.html"
 ---
 {% set w = pages.workshopsIndex %}
-<section class="workshop-visual-hero">
-  <p class="hero-eyebrow">{{ w.heroEyebrow | replace('{brand}', site.brand) }}</p>
-  {% if w.introHeading %}<h1>{{ w.introHeading | safe }}</h1>{% endif %}
-  {% if w.introText %}<p class="workshop-intro-text">{{ w.introText }}</p>{% endif %}
-
-  {% if w.promoVideoVisible != false and w.promoVideoFile %}
-  <div class="workshop-loop-video">
+{% set hasHeroVideo = w.promoVideoVisible != false and w.promoVideoFile %}
+<section class="workshop-visual-hero{{ ' has-media' if hasHeroVideo }}">
+  {% if hasHeroVideo %}
+  <div class="workshop-hero-media">
     <video autoplay muted loop playsinline{% if w.promoVideoPoster %} poster="{{ w.promoVideoPoster }}"{% endif %}>
       <source src="{{ w.promoVideoFile }}" type="video/mp4">
     </video>
   </div>
   {% endif %}
+  <div class="workshop-hero-content">
+    <p class="hero-eyebrow">{{ w.heroEyebrow | replace('{brand}', site.brand) }}</p>
+    {% if w.introHeading %}<h1>{{ w.introHeading | safe }}</h1>{% endif %}
+    {% if w.introText %}<p class="workshop-intro-text">{{ w.introText }}</p>{% endif %}
+  </div>
 </section>
 
 <section class="workshop-cards section">

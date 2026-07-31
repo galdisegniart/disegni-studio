@@ -115,8 +115,16 @@ collections:
         fields:
           - { label: "תווית", name: "label", widget: "string" }
           - { label: "ערך", name: "value", widget: "string" }
-      - { label: "קישור לקביעת מועד (הזמנה חיצונית, למשל בסלון) - אם ריק, הכפתורים יפתחו WhatsApp", name: "bookingUrl", widget: "string", required: false }
       - { label: "טקסט כפתור פעולה ראשי", name: "heroCtaLabel", widget: "string" }
+      - name: "availableSlots"
+        label: "מועדים פנויים ליומן קביעת תור (אם ריק, הכפתורים יפתחו WhatsApp ישירות במקום יומן)"
+        widget: "list"
+        required: false
+        summary: "{{dateLabel}} · {{time}}"
+        fields:
+          - { label: "תאריך (YYYY-MM-DD)", name: "date", widget: "string", hint: "לדוגמה: 2026-08-10" }
+          - { label: "תאריך לתצוגה", name: "dateLabel", widget: "string", hint: "לדוגמה: יום שני, 10 באוגוסט" }
+          - { label: "שעה", name: "time", widget: "string", hint: "לדוגמה: 16:00–17:30" }
       - { label: "הודעת WhatsApp (כפתור ראשי)", name: "waMessage", widget: "text" }
       - { label: "תמונה ראשית", name: "heroImage", widget: "image" }
       - { label: "טקסט חלופי לתמונה ראשית", name: "heroImageAlt", widget: "string" }

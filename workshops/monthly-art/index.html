@@ -533,7 +533,7 @@
 
     <div class="workshop-single-actions">
       
-      <a class="cta" href="https://basalon.co.il/sd/1373659" target="_blank" rel="noopener noreferrer">לקביעת מועד <span>←</span></a>
+      <a class="cta" href="#booking-calendar">לקביעת מועד <span>↓</span></a>
       
       <button class="workshop-share" type="button"><span>↗</span> שיתוף העמוד</button>
     </div>
@@ -600,11 +600,39 @@
       <article><span>מפגש ניסיון ראשון</span><strong>ללא עלות</strong></article>
       
       
-      <a class="cta" href="https://basalon.co.il/sd/1373659" target="_blank" rel="noopener noreferrer">לתיאום מפגש ניסיון <span>←</span></a>
+      <a class="cta" href="#booking-calendar">לתיאום מפגש ניסיון <span>↓</span></a>
       
     </div>
   </div>
 </section>
+
+
+<section class="workshop-calendar section" id="booking-calendar">
+  <div class="section-label"><span>תיאום מועד</span></div>
+  <div class="calendar-layout">
+    <div>
+      <h2>בוחרים תאריך<br>ושעה שמתאימים לכם.</h2>
+      <p style="margin-top:16px;color:var(--dim);font-size:17px;line-height:1.7">בחרו יום מסומן ביומן, ואז שעה פנויה. הפרטים יישלחו אליי ב-WhatsApp לאישור סופי של המקום.</p>
+    </div>
+    <div class="calendar-widget" data-calendar-root data-wa-base="https://wa.me/972552902934?text=" data-card-title="סדנה מתמשכת">
+      <script type="application/json" data-calendar-slots>[{"date":"2026-08-03","dateLabel":"יום שני, 3 באוגוסט","time":"16:00–17:30"},{"date":"2026-08-10","dateLabel":"יום שני, 10 באוגוסט","time":"16:00–17:30"},{"date":"2026-08-17","dateLabel":"יום שני, 17 באוגוסט","time":"16:00–17:30"}]</script>
+      <div class="calendar-nav">
+        <button type="button" class="calendar-nav-btn" data-cal-prev aria-label="חודש קודם">‹</button>
+        <strong data-cal-month-label></strong>
+        <button type="button" class="calendar-nav-btn" data-cal-next aria-label="חודש הבא">›</button>
+      </div>
+      <div class="calendar-weekdays">
+        <span>א</span><span>ב</span><span>ג</span><span>ד</span><span>ה</span><span>ו</span><span>ש</span>
+      </div>
+      <div class="calendar-grid" data-cal-grid></div>
+      <div class="calendar-times" data-cal-times hidden>
+        <p class="calendar-times-label" data-cal-date-label></p>
+        <div class="calendar-times-list" data-cal-times-list></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 
 
 
@@ -681,6 +709,8 @@
 
 
 <script src="/js/reviews.js?v=5dd6bcf9"></script>
+
+<script src="/js/booking-calendar.js?v=5dd6bcf9"></script>
 
 <script src="/js/cart.js?v=5dd6bcf9"></script>
 <script src="/js/nav-toggle.js?v=5dd6bcf9"></script>

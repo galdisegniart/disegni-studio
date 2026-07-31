@@ -18,8 +18,12 @@
     { "label": "מחיר", "value": "950 ₪ לחודש" },
     { "label": "מפגש ראשון", "value": "ללא עלות" }
   ],
-  "bookingUrl": "https://basalon.co.il/sd/1373659",
   "heroCtaLabel": "לקביעת מועד",
+  "availableSlots": [
+    { "date": "2026-08-03", "dateLabel": "יום שני, 3 באוגוסט", "time": "16:00–17:30" },
+    { "date": "2026-08-10", "dateLabel": "יום שני, 10 באוגוסט", "time": "16:00–17:30" },
+    { "date": "2026-08-17", "dateLabel": "יום שני, 17 באוגוסט", "time": "16:00–17:30" }
+  ],
   "waMessage": "שלום גל, הגעתי דרך האתר ואשמח לתאם מפגש ניסיון לסדנה המתמשכת.",
   "heroImage": "/images/workshops/monthly-main.jpg",
   "heroImageAlt": "פינת היצירה בסטודיו שבה מתקיימת הסדנה החודשית",
