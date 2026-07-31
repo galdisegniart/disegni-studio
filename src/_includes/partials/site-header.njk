@@ -10,9 +10,14 @@
   <nav class="main-nav" id="main-nav" aria-label="ניווט ראשי">
     {% for item in site.nav %}
     {% if item.visible != false %}
-    {% if item.children %}
+    {% if item.href == "/workshops/" %}
+    {% set navChildren = workshops | workshopNavChildren %}
+    {% else %}
+    {% set navChildren = item.children %}
+    {% endif %}
+    {% if navChildren and navChildren.length %}
     {% set childActive = false %}
-    {% for child in item.children %}{% if child.label == activeNav %}{% set childActive = true %}{% endif %}{% endfor %}
+    {% for child in navChildren %}{% if child.label == activeNav %}{% set childActive = true %}{% endif %}{% endfor %}
     <div class="nav-item has-dropdown">
       <div class="nav-item-row">
         <a{% if item.label == activeNav or childActive %} class="active"{% endif %} href="{{ item.href }}" aria-haspopup="true">{{ item.label }}</a>
@@ -21,7 +26,7 @@
         </button>
       </div>
       <div class="nav-dropdown">
-        {% for child in item.children %}
+        {% for child in navChildren %}
         {% if child.visible != false %}
         <a{% if child.label == activeNav %} class="active"{% endif %} href="{{ child.href }}">{{ child.label }}</a>
         {% endif %}

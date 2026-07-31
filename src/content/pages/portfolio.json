@@ -10,7 +10,7 @@
       "visible": true,
       "image": "/images/artworks/Estis_memory+WEB.webp",
       "alt": "פרט מתוך היצירה Estis Memory מאת גל דִּיסֵנִי",
-      "imagePosition": "center",
+      "imagePosition": "center 30%",
       "ctaLabel": "לצפייה ביצירות",
       "artworks": [
         "absorbing-fire",
@@ -44,7 +44,7 @@
       "visible": true,
       "image": "/images/artworks/precious+WEB.webp",
       "alt": "פרט מתוך היצירה Precious מאת גל דִּיסֵנִי",
-      "imagePosition": "center",
+      "imagePosition": "left 30%",
       "ctaLabel": "לצפייה ביצירות",
       "artworks": [
         "balanced-human",

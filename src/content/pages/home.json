@@ -4,17 +4,10 @@
   "heroImageAlt": "גל דִּיסֵנִי בסטודיו",
   "gates": [
     {
-      "label": "יצירות מקוריות",
+      "label": "חנות",
       "image": "/images/gallery/orin+thumb.webp",
-      "href": "/collections/originals/",
-      "ctaLabel": "רכשו יצירה יחידה במינה",
-      "visible": true
-    },
-    {
-      "label": "הדפסים אמנותיים",
-      "image": "/images/gallery/mystical-yoni+thumb.webp",
       "href": "/collections/prints/",
-      "ctaLabel": "בחרו אמנות לבית",
+      "ctaLabel": "לצפייה בחנות",
       "visible": true
     },
     {

@@ -5,10 +5,10 @@ pagination:
   alias: w
 permalink: "/workshops/{{ w.slug }}/index.html"
 layout: base.njk
-activeNav: "סדנאות"
 eleventyComputed:
   title: "{{ w.title }}"
   description: "{{ w.metaDescription }}"
+  activeNav: "{{ w.cardTitle }}"
 scripts:
   - /js/reviews.js
 ---

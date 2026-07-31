@@ -17,6 +17,14 @@ module.exports = function (eleventyConfig) {
     return Number(n).toLocaleString("en-US");
   });
 
+  eleventyConfig.addFilter("workshopNavChildren", function (workshopList) {
+    return (workshopList || []).map((w) => ({
+      label: w.cardTitle,
+      href: "/workshops/" + w.slug + "/",
+      visible: true,
+    }));
+  });
+
   eleventyConfig.addFilter("realWorkshopTestimonials", function (workshopList, limit) {
     const out = [];
     (workshopList || []).forEach((w) => {
