@@ -11,6 +11,7 @@ eleventyComputed:
     <p class="hero-eyebrow">{{ p.heroEyebrow }}</p>
     <h1>{{ p.heroHeading }}</h1>
     <p>{{ p.heroLead }}</p>
+    {% if p.updatedLabel %}<p class="rights-updated">{{ p.updatedLabel }}</p>{% endif %}
   </div>
   <div class="rights-mark">↺</div>
 </section>

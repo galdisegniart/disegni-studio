@@ -3,6 +3,7 @@ layout: base.njk
 title: "עגלת קניות | גל דִּיסֵנִי"
 description: "עגלת הקניות שלכם באתר גל דִּיסֵנִי."
 permalink: "/cart/index.html"
+noindex: true
 bodyClass: "cart-view"
 ---
 {% set pay = pages.payment %}
@@ -41,6 +42,12 @@ bodyClass: "cart-view"
         <div class="cart-customer-field">
           <label for="customer-address">כתובת למשלוח *</label>
           <textarea id="customer-address" required autocomplete="street-address" rows="2"></textarea>
+        </div>
+        <div class="cart-customer-field cart-consent-field">
+          <label class="cart-consent-label" for="customer-consent">
+            <input type="checkbox" id="customer-consent" required>
+            <span>קראתי ואני מאשר/ת את <a href="/privacy/" target="_blank" rel="noopener noreferrer">מדיניות הפרטיות</a> ואת <a href="/returns/" target="_blank" rel="noopener noreferrer">תנאי הרכישה, הביטולים וההחזרים</a> *</span>
+          </label>
         </div>
       </form>
     </div>

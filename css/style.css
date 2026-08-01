@@ -5577,6 +5577,12 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
   line-height: 1.7;
 }
 
+.rights-updated {
+  margin-top: 12px;
+  font-size: 14px !important;
+  opacity: 0.65;
+}
+
 .rights-mark {
   color: transparent;
   -webkit-text-stroke: 1px var(--copper);
@@ -5977,6 +5983,33 @@ body:has(.commission-sticky-cta:not([hidden])) .quick-links-rail {
 .cart-customer-field textarea:focus {
   outline: none;
   border-color: var(--copper);
+}
+
+.cart-customer-field .cart-consent-label {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 0;
+  color: var(--dim);
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.cart-consent-label input {
+  flex-shrink: 0;
+  width: 20px;
+  min-height: 0;
+  height: 20px;
+  margin-top: 2px;
+  padding: 0;
+  accent-color: var(--copper);
+}
+
+.cart-consent-label a {
+  color: var(--copper);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .cart-summary {
