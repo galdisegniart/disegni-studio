@@ -3627,6 +3627,7 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
   max-width: 640px;
   color: var(--dim);
   font-size: 16px;
+  font-weight: 500;
   line-height: 1.7;
 }
 
@@ -3649,7 +3650,7 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
 .booking-flow {
   display: flex;
   align-items: stretch;
-  border: 1px solid var(--line);
+  border: 2px solid rgba(242, 238, 229, 0.28);
   border-radius: var(--radius);
 }
 
@@ -3660,7 +3661,7 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
 }
 
 .booking-col + .booking-col {
-  border-inline-start: 1px solid var(--line);
+  border-inline-start: 2px solid rgba(242, 238, 229, 0.28);
 }
 
 .booking-col-times {
@@ -3674,7 +3675,7 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
 
   .booking-col + .booking-col {
     border-inline-start: none;
-    border-top: 1px solid var(--line);
+    border-top: 2px solid rgba(242, 238, 229, 0.28);
   }
 }
 
@@ -3683,6 +3684,7 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
   margin: 0 0 14px;
   color: var(--dim);
   font-size: 13px;
+  font-weight: 500;
 }
 
 .calendar-group-size {
@@ -3768,6 +3770,7 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
   text-align: center;
   color: var(--dim);
   font-size: 11px;
+  font-weight: 500;
 }
 
 .calendar-grid {
@@ -3783,7 +3786,8 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
   border-radius: 50%;
   background: transparent;
   color: var(--dim);
-  font-size: 12px;
+  font-size: 13px;
+  font-weight: 500;
   font-variant-numeric: tabular-nums;
   cursor: default;
 }
@@ -3794,12 +3798,12 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
 
 .calendar-day.is-disabled {
   color: var(--dim);
-  opacity: 0.3;
+  opacity: 0.55;
 }
 
 .calendar-day.is-available {
   color: var(--bone);
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   transition: background 0.25s, color 0.25s;
 }
@@ -3912,6 +3916,7 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
 .booking-summary-list dt {
   color: var(--dim);
   font-size: 13px;
+  font-weight: 500;
 }
 
 .booking-summary-list dd {
