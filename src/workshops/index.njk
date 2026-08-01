@@ -27,12 +27,12 @@ permalink: "/workshops/index.html"
 </section>
 
 <section class="workshop-cards section">
-  <div class="workshop-cards-grid" style="--card-image-height: {{ w.cardImageHeight or 140 }}px;">
+  <div class="workshop-cards-grid" style="--card-image-height: {{ w.cardImageHeight or 140 }}px; --card-text-gap: {{ w.cardTextGap or 3 }}px;">
     {% for item in workshops %}
     <article class="workshop-card">
       <a class="workshop-card-link" href="/workshops/{{ item.slug }}/" aria-label="לפרטי {{ item.cardTitle }}">
         <div class="workshop-card-image">
-          <img src="{{ item.cardImage }}" alt="{{ item.cardImageAlt }}" loading="lazy">
+          <img src="{{ item.cardImage }}" alt="{{ item.cardImageAlt }}" loading="lazy" style="object-position: {{ item.cardImagePosition or 'center' }};">
         </div>
         <div class="workshop-card-body">
           {% if item.cardLabel %}<span class="workshop-card-label">{{ item.cardLabel }}</span>{% endif %}
