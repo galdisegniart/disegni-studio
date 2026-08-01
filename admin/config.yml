@@ -617,7 +617,7 @@ collections:
         fields:
           - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
           - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
-          - { label: "כיתוב פתיחה (השאירו {brand} במקום שם המותג)", name: "heroEyebrow", widget: "string" }
+          - { label: "כיתוב פתיחה (השאירו {brand} במקום שם המותג)", name: "heroEyebrow", widget: "string", required: false }
           - { label: "כותרת פתיחה (אפשר &lt;br&gt; לשורה חדשה)", name: "introHeading", widget: "string", required: false }
           - { label: "טקסט פתיחה", name: "introText", widget: "text", required: false }
           - { label: "טקסט כפתור 'לפרטי הסדנה' על הכרטיסים", name: "cardDetailsCtaLabel", widget: "string" }
