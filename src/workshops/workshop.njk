@@ -106,7 +106,13 @@ scripts:
       <p>{{ w.video.text }}</p>
     </div>
     <figure style="margin:0;aspect-ratio:16/10;overflow:hidden;background:#070706">
+      {% if w.video.file %}
+      <video controls playsinline preload="metadata"{% if w.video.poster %} poster="{{ w.video.poster }}"{% endif %} style="width:100%;height:100%;object-fit:cover">
+        <source src="{{ w.video.file }}" type="video/mp4">
+      </video>
+      {% else %}
       <img src="{{ w.video.poster }}" alt="{{ w.video.posterAlt }}" style="width:100%;height:100%;object-fit:cover">
+      {% endif %}
     </figure>
   </div>
 </section>

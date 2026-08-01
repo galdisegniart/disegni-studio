@@ -23,7 +23,7 @@ eleventyComputed:
     {% for artwork in categoryArtworks %}
     <article class="gallery-item">
       <a class="gallery-link" href="/products/{{ artwork.slug }}/">
-        <img src="{{ artwork.thumb or artwork.image }}" alt="{{ artwork.alt }}" loading="lazy">
+        <span class="gallery-frame"><img src="{{ artwork.thumb or artwork.image }}" alt="{{ artwork.alt }}" loading="lazy"></span>
         <span>{{ artwork.name }}</span>
       </a>
     </article>
