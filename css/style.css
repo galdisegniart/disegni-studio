@@ -3606,7 +3606,15 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
 
 /* Booking calendar page */
 .booking-hero {
-  padding: 84px max(74px, calc(50vw - 640px)) 28px;
+  padding: 40px max(74px, calc(50vw - 640px)) 64px;
+  display: grid;
+  grid-template-columns: 0.85fr 1fr;
+  gap: clamp(40px, 6vw, 80px);
+  align-items: start;
+}
+
+.booking-hero-copy {
+  max-width: 560px;
 }
 
 .booking-hero .hero-eyebrow {
@@ -3616,7 +3624,6 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
 
 .booking-hero h1 {
   margin: 0;
-  max-width: 700px;
   font-size: clamp(28px, 3vw, 38px);
   font-weight: 500;
   line-height: 1.12;
@@ -3624,7 +3631,6 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
 
 .booking-note {
   margin: 16px 0 0;
-  max-width: 640px;
   color: var(--dim);
   font-size: 16px;
   line-height: 1.7;
@@ -3636,19 +3642,21 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
   text-underline-offset: 3px;
 }
 
-.booking-page-section.section {
-  padding-top: 20px;
-  padding-bottom: 56px;
-}
-
-.booking-container {
-  max-width: 640px;
-}
-
 .booking-summary-meta {
-  margin-bottom: 20px;
-  padding-bottom: 24px;
-  border-bottom: 1px solid var(--line);
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+@media (max-width: 920px) {
+  .booking-hero {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .booking-hero-copy {
+    max-width: none;
+  }
 }
 
 /* On-site booking calendar */
