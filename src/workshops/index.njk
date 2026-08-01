@@ -11,7 +11,7 @@ permalink: "/workshops/index.html"
 {% set hasHeroText = w.heroEyebrow or w.introHeading or w.introText %}
 <section class="workshop-visual-hero{{ ' has-media' if hasHeroVideo }}"{% if hasHeroVideo %} style="--hero-video-height: {{ w.heroVideoHeight or 550 }}px; --hero-video-position: {{ w.heroVideoPosition or 'center' }};"{% endif %}>
   {% if hasHeroVideo %}
-  <div class="workshop-hero-media">
+  <div class="workshop-hero-media{{ ' has-overlay' if w.heroVideoOverlay }}">
     <video autoplay muted loop playsinline{% if w.promoVideoPoster %} poster="{{ w.promoVideoPoster }}"{% endif %}>
       <source src="{{ w.promoVideoFile }}" type="video/mp4">
     </video>

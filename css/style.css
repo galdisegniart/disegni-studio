@@ -2801,7 +2801,7 @@ body.product-lightbox-lock {
   display: block;
 }
 
-.workshop-hero-media::after {
+.workshop-hero-media.has-overlay::after {
   content: "";
   position: absolute;
   inset: 0;
