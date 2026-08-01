@@ -3606,15 +3606,7 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
 
 /* Booking calendar page */
 .booking-hero {
-  padding: 40px max(74px, calc(50vw - 640px)) 64px;
-  display: grid;
-  grid-template-columns: 0.85fr 1fr;
-  gap: clamp(40px, 6vw, 80px);
-  align-items: start;
-}
-
-.booking-hero-copy {
-  max-width: 560px;
+  padding: 40px max(74px, calc(50vw - 640px)) 0;
 }
 
 .booking-hero .hero-eyebrow {
@@ -3624,6 +3616,7 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
 
 .booking-hero h1 {
   margin: 0;
+  max-width: 700px;
   font-size: clamp(28px, 3vw, 38px);
   font-weight: 500;
   line-height: 1.12;
@@ -3631,6 +3624,7 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
 
 .booking-note {
   margin: 16px 0 0;
+  max-width: 640px;
   color: var(--dim);
   font-size: 16px;
   line-height: 1.7;
@@ -3643,58 +3637,75 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
 }
 
 .booking-summary-meta {
-  margin-top: 24px;
-  padding-top: 24px;
+  margin-top: 20px;
+  padding-top: 20px;
   border-top: 1px solid var(--line);
 }
 
-@media (max-width: 920px) {
-  .booking-hero {
-    grid-template-columns: 1fr;
-    gap: 32px;
+.booking-flow-section {
+  padding: 28px max(74px, calc(50vw - 640px)) 64px;
+}
+
+.booking-flow {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.booking-col {
+  flex: 1;
+  min-width: 0;
+  padding: 20px;
+}
+
+.booking-col + .booking-col {
+  border-inline-start: 1px solid var(--line);
+}
+
+.booking-col-times {
+  flex: 0.8;
+}
+
+@media (max-width: 820px) {
+  .booking-flow {
+    flex-direction: column;
   }
 
-  .booking-hero-copy {
-    max-width: none;
+  .booking-col + .booking-col {
+    border-inline-start: none;
+    border-top: 1px solid var(--line);
   }
 }
 
 /* On-site booking calendar */
-.calendar-widget {
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: clamp(20px, 2.5vw, 32px);
-}
-
 .calendar-timezone {
-  margin: 0 0 24px;
+  margin: 0 0 14px;
   color: var(--dim);
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .calendar-group-size {
-  margin-bottom: 24px;
-  padding-bottom: 24px;
-  border-bottom: 1px solid var(--line);
+  margin-bottom: 14px;
 }
 
 .calendar-group-size label {
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
   color: var(--copper);
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 600;
 }
 
 .calendar-group-size select {
   width: 100%;
-  min-height: 52px;
-  padding: 12px 16px;
+  min-height: 42px;
+  padding: 8px 14px;
   border: 1px solid #4a4640;
   border-radius: var(--radius);
   background: #151514;
   color: var(--bone);
-  font: 400 15px/1.4 var(--sans);
+  font: 400 14px/1.4 var(--sans);
   direction: rtl;
 }
 
@@ -3702,23 +3713,23 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 24px;
+  margin-bottom: 12px;
 }
 
 .calendar-nav strong {
   color: var(--bone);
-  font-size: 24px;
+  font-size: 16px;
   font-weight: 500;
 }
 
 .calendar-nav-btn {
-  width: 44px;
-  height: 44px;
+  width: 28px;
+  height: 28px;
   border: 1px solid var(--line);
   border-radius: 999px;
   background: transparent;
   color: var(--bone);
-  font-size: 20px;
+  font-size: 15px;
   line-height: 1;
   cursor: pointer;
   transition: border-color 0.25s, color 0.25s;
@@ -3730,13 +3741,13 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
 }
 
 .calendar-next-available {
-  margin-bottom: 24px;
-  padding: 12px 24px;
+  margin-bottom: 12px;
+  padding: 6px 14px;
   border: 1px solid var(--copper);
   border-radius: 999px;
   background: transparent;
   color: var(--copper);
-  font-size: 19px;
+  font-size: 13px;
   font-weight: 500;
   cursor: pointer;
   transition: background 0.25s, color 0.25s;
@@ -3750,28 +3761,29 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
 .calendar-weekdays {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  margin-bottom: 10px;
+  margin-bottom: 4px;
 }
 
 .calendar-weekdays span {
   text-align: center;
   color: var(--dim);
-  font-size: 14px;
+  font-size: 11px;
 }
 
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 8px;
+  gap: 2px;
 }
 
 .calendar-day {
-  aspect-ratio: 1 / 1;
-  border: 1px solid transparent;
-  border-radius: var(--radius);
+  position: relative;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
   background: transparent;
   color: var(--dim);
-  font-size: 18px;
+  font-size: 12px;
   font-variant-numeric: tabular-nums;
   cursor: default;
 }
@@ -3786,56 +3798,141 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
 }
 
 .calendar-day.is-available {
-  border-color: var(--line);
   color: var(--bone);
   font-weight: 600;
   cursor: pointer;
-  transition: border-color 0.25s, background 0.25s, color 0.25s;
+  transition: background 0.25s, color 0.25s;
+}
+
+.calendar-day.is-available::after {
+  content: "";
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--copper);
+  transform: translateX(-50%);
 }
 
 .calendar-day.is-available:hover {
-  border-color: var(--copper);
-  color: var(--copper);
+  background: rgba(207, 152, 67, 0.16);
 }
 
 .calendar-day.is-selected {
   background: var(--copper);
-  border-color: var(--copper);
   color: var(--black);
 }
 
-.calendar-times {
-  margin-top: 32px;
-  padding-top: 32px;
-  border-top: 1px solid var(--line);
+.calendar-day.is-selected::after {
+  background: var(--black);
 }
 
 .calendar-times-label {
-  margin: 0 0 16px;
+  margin: 0 0 12px;
   color: var(--bone);
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 500;
 }
 
 .calendar-times-list {
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .calendar-time-btn {
-  padding: 14px 26px;
-  border: 1px solid var(--copper);
-  border-radius: 999px;
-  color: var(--copper);
-  font-size: 20px;
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--bone);
+  font-size: 14px;
   font-weight: 500;
-  transition: background 0.25s, color 0.25s;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.25s, background 0.25s, color 0.25s;
 }
 
 .calendar-time-btn:hover {
+  border-color: var(--copper);
+  color: var(--copper);
+}
+
+.calendar-time-btn.is-selected {
   background: var(--copper);
+  border-color: var(--copper);
   color: var(--black);
+}
+
+.booking-service-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.booking-service-head h2 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.booking-reset {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--copper);
+  font-size: 13px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.booking-summary-details {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.booking-summary-details summary {
+  color: var(--copper);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.booking-summary-list {
+  margin: 12px 0 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 12px;
+}
+
+.booking-summary-list dt {
+  color: var(--dim);
+  font-size: 13px;
+}
+
+.booking-summary-list dd {
+  margin: 0;
+  color: var(--bone);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.booking-cta {
+  margin-top: 16px;
+  min-width: 0;
+  width: 100%;
+  min-height: 48px;
+  padding: 0 20px;
+  font-size: 15px;
+}
+
+.booking-cta[aria-disabled="true"] {
+  opacity: 0.4;
+  pointer-events: none;
 }
 
 
@@ -6194,6 +6291,7 @@ body:has(.commission-sticky-cta:not([hidden])) .quick-links-rail {
   .workshop-visual-hero,
   .daily-workshop-hero,
   .booking-hero,
+  .booking-flow-section,
   .gallery-intro-minimal,
   .inner-hero,
   .rights-hero {
