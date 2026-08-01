@@ -508,7 +508,26 @@
         <summary>יותר פרטים</summary>
         <dl class="booking-summary-list" data-booking-summary-list></dl>
       </details>
-      <a class="cta booking-cta" data-booking-cta target="_blank" rel="noopener noreferrer" aria-disabled="true">קביעה ב-WhatsApp <span>←</span></a>
+      <button type="button" class="cta booking-cta" data-booking-next disabled>הבא <span>←</span></button>
+    </div>
+  </div>
+</section>
+
+<section class="booking-confirm" data-booking-confirm hidden>
+  <a class="editorial-link" href="#" data-booking-back><span aria-hidden="true">→</span> חזרה</a>
+  <h1>לסיכום ואישור</h1>
+  <div class="booking-confirm-grid">
+    <aside class="booking-confirm-summary">
+      <h2>פרטי ההזמנה</h2>
+      <dl class="booking-summary-list" data-booking-confirm-details></dl>
+      <div class="booking-confirm-total">
+        <span>סך הכל</span>
+        <strong data-booking-confirm-total></strong>
+      </div>
+    </aside>
+    <div class="booking-confirm-action">
+      <p>לחיצה על הכפתור תפתח הודעת WhatsApp מוכנה עם כל הפרטים - שולחים אותה ומאשרים איתי את המקום.</p>
+      <a class="cta booking-confirm-cta" data-booking-confirm-cta target="_blank" rel="noopener noreferrer">קביעה עכשיו ב-WhatsApp <span>←</span></a>
     </div>
   </div>
 </section>

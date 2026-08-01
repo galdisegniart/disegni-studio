@@ -3932,12 +3932,91 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
   width: 100%;
   min-height: 48px;
   padding: 0 20px;
+  border: none;
+  font-family: inherit;
   font-size: 15px;
+  cursor: pointer;
 }
 
-.booking-cta[aria-disabled="true"] {
+.booking-cta:disabled {
   opacity: 0.4;
-  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.booking-confirm {
+  padding: 40px max(74px, calc(50vw - 640px)) 64px;
+}
+
+.booking-confirm h1 {
+  margin: 20px 0 32px;
+  font-size: clamp(28px, 3vw, 38px);
+  font-weight: 500;
+}
+
+.booking-confirm-grid {
+  display: flex;
+  align-items: stretch;
+  max-width: 900px;
+  border: 2px solid rgba(242, 238, 229, 0.28);
+  border-radius: var(--radius);
+}
+
+.booking-confirm-summary,
+.booking-confirm-action {
+  flex: 1;
+  min-width: 0;
+  padding: 28px;
+}
+
+.booking-confirm-summary {
+  border-inline-start: 2px solid rgba(242, 238, 229, 0.28);
+}
+
+.booking-confirm-summary h2 {
+  margin: 0 0 16px;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.booking-confirm-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  font-size: 16px;
+}
+
+.booking-confirm-total strong {
+  color: var(--copper);
+  font-size: 22px;
+}
+
+.booking-confirm-action p {
+  margin: 0 0 20px;
+  color: var(--dim);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.7;
+}
+
+.booking-confirm-cta {
+  margin-top: 0;
+  min-width: 0;
+  width: 100%;
+  min-height: 52px;
+}
+
+@media (max-width: 700px) {
+  .booking-confirm-grid {
+    flex-direction: column;
+  }
+
+  .booking-confirm-summary {
+    border-inline-start: none;
+    border-bottom: 2px solid rgba(242, 238, 229, 0.28);
+  }
 }
 
 
@@ -6297,6 +6376,7 @@ body:has(.commission-sticky-cta:not([hidden])) .quick-links-rail {
   .daily-workshop-hero,
   .booking-hero,
   .booking-flow-section,
+  .booking-confirm,
   .gallery-intro-minimal,
   .inner-hero,
   .rights-hero {

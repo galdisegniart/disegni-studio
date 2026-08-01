@@ -49,8 +49,8 @@
 
     var monthLabel = root.querySelector("[data-cal-month-label]");
     var grid = root.querySelector("[data-cal-grid]");
-    var prevBtn = root.querySelector("[data-cal-prev]");
-    var nextBtn = root.querySelector("[data-cal-next]");
+    var prevMonthBtn = root.querySelector("[data-cal-prev]");
+    var nextMonthBtn = root.querySelector("[data-cal-next]");
     var nextAvailableBtn = root.querySelector("[data-cal-next-available]");
     var timesCol = root.querySelector("[data-cal-times]");
     var timesLabel = root.querySelector("[data-cal-date-label]");
@@ -59,7 +59,14 @@
     var resetBtn = root.querySelector("[data-booking-reset]");
     var summaryDetails = root.querySelector("[data-booking-summary]");
     var summaryList = root.querySelector("[data-booking-summary-list]");
-    var ctaLink = root.querySelector("[data-booking-cta]");
+    var nextStepBtn = root.querySelector("[data-booking-next]");
+
+    var flowSection = document.querySelector(".booking-flow-section");
+    var confirmSection = document.querySelector("[data-booking-confirm]");
+    var confirmDetails = document.querySelector("[data-booking-confirm-details]");
+    var confirmTotal = document.querySelector("[data-booking-confirm-total]");
+    var confirmCta = document.querySelector("[data-booking-confirm-cta]");
+    var backLink = document.querySelector("[data-booking-back]");
 
     var waBase = root.getAttribute("data-wa-base") || "";
     var cardTitle = root.getAttribute("data-card-title") || "";
@@ -71,35 +78,35 @@
       return groupSelect ? groupSelect.selectedOptions[0] : null;
     }
 
-    function updateCta() {
-      var hasSelection = selectedIso && selectedTime;
-      if (resetBtn) resetBtn.hidden = !hasSelection;
-
-      if (!hasSelection) {
-        if (ctaLink) {
-          ctaLink.setAttribute("aria-disabled", "true");
-          ctaLink.removeAttribute("href");
-        }
-        if (summaryDetails) summaryDetails.hidden = true;
-        return;
-      }
-
+    function currentEntry() {
+      if (!selectedIso || !selectedTime) return null;
       var entries = byDate[selectedIso] || [];
-      var entry = entries.filter(function (e) {
+      return entries.filter(function (e) {
         return e.time === selectedTime;
-      })[0];
-      if (!entry) return;
+      })[0] || null;
+    }
 
-      var option = groupOption();
+    function buildMessage(entry, option) {
       var msg = "שלום גל, הגעתי דרך האתר ואשמח לקבוע מקום ב" + cardTitle + " בתאריך " + (entry.dateLabel || selectedIso) + ", בשעה " + entry.time + ".";
       if (option) {
         msg += " כמות משתתפים: " + option.dataset.label + " (" + option.dataset.price + ").";
       }
+      return msg;
+    }
 
-      if (ctaLink) {
-        ctaLink.href = waBase + encodeURIComponent(msg);
-        ctaLink.removeAttribute("aria-disabled");
+    function updateSelection() {
+      var hasSelection = selectedIso && selectedTime;
+      if (resetBtn) resetBtn.hidden = !hasSelection;
+      if (nextStepBtn) nextStepBtn.disabled = !hasSelection;
+
+      if (!hasSelection) {
+        if (summaryDetails) summaryDetails.hidden = true;
+        return;
       }
+
+      var entry = currentEntry();
+      if (!entry) return;
+      var option = groupOption();
 
       if (summaryDetails && summaryList) {
         summaryList.innerHTML = "";
@@ -118,6 +125,47 @@
         });
         summaryDetails.hidden = false;
       }
+    }
+
+    function goToConfirm() {
+      var entry = currentEntry();
+      if (!entry) return;
+      var option = groupOption();
+
+      if (confirmDetails) {
+        confirmDetails.innerHTML = "";
+        var rows = [
+          ["סדנה", cardTitle],
+          ["תאריך", entry.dateLabel || selectedIso],
+          ["שעה", entry.time]
+        ];
+        if (option) rows.push(["בחירה", option.dataset.label]);
+        rows.forEach(function (pair) {
+          var dt = document.createElement("dt");
+          dt.textContent = pair[0];
+          var dd = document.createElement("dd");
+          dd.textContent = pair[1];
+          confirmDetails.appendChild(dt);
+          confirmDetails.appendChild(dd);
+        });
+      }
+
+      if (confirmTotal) {
+        confirmTotal.textContent = option ? option.dataset.price : "";
+      }
+
+      if (confirmCta) {
+        confirmCta.href = waBase + encodeURIComponent(buildMessage(entry, option));
+      }
+
+      if (flowSection) flowSection.hidden = true;
+      if (confirmSection) confirmSection.hidden = false;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function backToFlow() {
+      if (confirmSection) confirmSection.hidden = true;
+      if (flowSection) flowSection.hidden = false;
     }
 
     function showTimes(iso) {
@@ -139,13 +187,13 @@
           for (var j = 0; j < current.length; j++) current[j].classList.remove("is-selected");
           btn.classList.add("is-selected");
           selectedTime = entry.time;
-          updateCta();
+          updateSelection();
         });
         timesList.appendChild(btn);
       });
 
       timesCol.hidden = false;
-      updateCta();
+      updateSelection();
     }
 
     function selectDay(btn, iso) {
@@ -162,7 +210,7 @@
       var current = grid.querySelectorAll(".calendar-day.is-selected");
       for (var j = 0; j < current.length; j++) current[j].classList.remove("is-selected");
       if (groupSelect) groupSelect.selectedIndex = 0;
-      updateCta();
+      updateSelection();
     }
 
     function render(selectIso) {
@@ -211,7 +259,7 @@
       }
     }
 
-    prevBtn.addEventListener("click", function () {
+    prevMonthBtn.addEventListener("click", function () {
       viewMonth -= 1;
       if (viewMonth < 0) {
         viewMonth = 11;
@@ -220,7 +268,7 @@
       render();
     });
 
-    nextBtn.addEventListener("click", function () {
+    nextMonthBtn.addEventListener("click", function () {
       viewMonth += 1;
       if (viewMonth > 11) {
         viewMonth = 0;
@@ -243,15 +291,26 @@
     }
 
     if (groupSelect) {
-      groupSelect.addEventListener("change", updateCta);
+      groupSelect.addEventListener("change", updateSelection);
     }
 
     if (resetBtn) {
       resetBtn.addEventListener("click", reset);
     }
 
+    if (nextStepBtn) {
+      nextStepBtn.addEventListener("click", goToConfirm);
+    }
+
+    if (backLink) {
+      backLink.addEventListener("click", function (e) {
+        e.preventDefault();
+        backToFlow();
+      });
+    }
+
     render();
-    updateCta();
+    updateSelection();
   }
 
   document.querySelectorAll("[data-calendar-root]").forEach(initCalendar);
