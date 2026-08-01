@@ -630,6 +630,33 @@
 
 
 <footer>
+  <div class="footer-contact">
+    <h2>דברו איתי</h2>
+    <form id="footer-contact-form" class="lead-form" novalidate>
+      <label>
+        <span>שם פרטי *</span>
+        <input type="text" name="firstName" required>
+      </label>
+      <label>
+        <span>שם משפחה</span>
+        <input type="text" name="lastName">
+      </label>
+      <label>
+        <span>דוא"ל *</span>
+        <input type="email" name="email" required>
+      </label>
+      <label>
+        <span>טלפון *</span>
+        <input type="tel" name="phone" required>
+      </label>
+      <label class="lead-form-full">
+        <span>הודעה</span>
+        <textarea name="message" rows="3"></textarea>
+      </label>
+      <button type="submit" class="cta lead-submit">שליחה</button>
+      <p class="lead-form-success js-footer-contact-success" role="status" hidden>ההודעה מוכנה - נפתח WhatsApp כדי לשלוח אותה.</p>
+    </form>
+  </div>
   <div class="footer-meta">
     <span>אמנות מקורית · פורטרטים · סדנאות</span>
   </div>
@@ -659,5 +686,6 @@
 <script src="/js/nav-toggle.js?v=ac4ada19"></script>
 <script src="/js/header-search.js?v=ac4ada19"></script>
 <script src="/js/quick-links-toggle.js?v=ac4ada19"></script>
+<script src="/js/footer-contact.js?v=ac4ada19"></script>
 </body>
 </html>

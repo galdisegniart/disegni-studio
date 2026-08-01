@@ -173,6 +173,7 @@ collections:
             fields:
               - { label: "תווית", name: "label", widget: "string" }
               - { label: "מחיר", name: "value", widget: "string" }
+              - { label: "כמות משתתפים (למילוי רק אם המחיר תלוי בכמות - מפעיל בורר כמות ביומן קביעת מועד)", name: "count", widget: "number", required: false }
           - { label: "טקסט כפתור", name: "ctaLabel", widget: "string" }
       - name: "gallery"
         label: "גלריית תמונות (השאירו ריק אם אין)"

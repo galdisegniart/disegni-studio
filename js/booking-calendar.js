@@ -58,13 +58,18 @@
 
     var waBase = root.getAttribute("data-wa-base") || "";
     var cardTitle = root.getAttribute("data-card-title") || "";
+    var groupSelect = root.querySelector("[data-group-size-select]");
+    var currentIso = null;
 
     function showTimes(iso) {
       var entries = byDate[iso] || [];
       if (!entries.length) return;
 
+      currentIso = iso;
       timesList.innerHTML = "";
       timesLabel.textContent = entries[0].dateLabel || iso;
+
+      var groupOption = groupSelect ? groupSelect.selectedOptions[0] : null;
 
       entries.forEach(function (entry) {
         var link = document.createElement("a");
@@ -72,12 +77,21 @@
         link.target = "_blank";
         link.rel = "noopener noreferrer";
         var msg = "שלום גל, הגעתי דרך האתר ואשמח לקבוע מקום ב" + cardTitle + " בתאריך " + (entry.dateLabel || iso) + ", בשעה " + entry.time + ".";
+        if (groupOption) {
+          msg += " כמות משתתפים: " + groupOption.dataset.label + " (" + groupOption.dataset.price + ").";
+        }
         link.href = waBase + encodeURIComponent(msg);
         link.textContent = entry.time;
         timesList.appendChild(link);
       });
 
       timesWrap.hidden = false;
+    }
+
+    if (groupSelect) {
+      groupSelect.addEventListener("change", function () {
+        if (currentIso) showTimes(currentIso);
+      });
     }
 
     function selectDay(btn, iso) {

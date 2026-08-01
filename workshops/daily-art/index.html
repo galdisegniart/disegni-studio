@@ -478,7 +478,7 @@
   "offers": {
     "@type": "Offer",
     "priceCurrency": "ILS",
-    "price": "210",
+    "price": "390",
     "availability": "https://schema.org/InStock",
     "url": "https://disegni.studio/workshops/daily-art/"
   },
@@ -508,9 +508,9 @@
       
       <span><small>משך</small><strong>כשעתיים</strong></span>
       
-      <span><small>קבוצה</small><strong>3-6 משתתפים</strong></span>
+      <span><small>קבוצה</small><strong>עד 8 משתתפים</strong></span>
       
-      <span><small>מחיר</small><strong>החל מ-210 ₪</strong></span>
+      <span><small>מחיר</small><strong>החל מ-390 ₪</strong></span>
       
       <span><small>ניסיון קודם</small><strong>לא נדרש</strong></span>
       
@@ -587,15 +587,25 @@
   <div class="pricing-layout">
     <div>
       <h2>בחרו איך<br>להגיע.</h2>
-      <p style="margin-top:16px;color:var(--dim);font-size:17px;line-height:1.7">הפעילות מתקיימת בתיאום אישי. לקבוצה פרטית, צוות או הגעה לבית הלקוח אפשר לבנות פורמט מותאם.</p>
+      <p style="margin-top:16px;color:var(--dim);font-size:17px;line-height:1.7">המחיר נקבע לפי כמות המשתתפים בקבוצה. לקבוצה פרטית, צוות או הגעה לבית הלקוח אפשר לבנות פורמט מותאם.</p>
     </div>
     <div class="price-cards">
       
-      <article><span>משתתף.ת</span><strong>250 ₪</strong></article>
+      <article><span>יחיד/ה</span><strong>390 ₪</strong></article>
       
-      <article><span>סטודנט.ית / חייל.ת</span><strong>210 ₪</strong></article>
+      <article><span>זוג</span><strong>590 ₪</strong></article>
       
-      <article><span>זוג</span><strong>450 ₪</strong></article>
+      <article><span>3 משתתפים</span><strong>725 ₪</strong></article>
+      
+      <article><span>4 משתתפים</span><strong>1,000 ₪</strong></article>
+      
+      <article><span>5 משתתפים</span><strong>1,275 ₪</strong></article>
+      
+      <article><span>6 משתתפים</span><strong>1,550 ₪</strong></article>
+      
+      <article><span>7 משתתפים</span><strong>1,825 ₪</strong></article>
+      
+      <article><span>8 משתתפים</span><strong>2,100 ₪</strong></article>
       
       
       <a class="cta" href="/workshops/daily-art/booking-calendar/">לבחירת מועד <span>←</span></a>
@@ -709,6 +719,33 @@
 
 
 <footer>
+  <div class="footer-contact">
+    <h2>דברו איתי</h2>
+    <form id="footer-contact-form" class="lead-form" novalidate>
+      <label>
+        <span>שם פרטי *</span>
+        <input type="text" name="firstName" required>
+      </label>
+      <label>
+        <span>שם משפחה</span>
+        <input type="text" name="lastName">
+      </label>
+      <label>
+        <span>דוא"ל *</span>
+        <input type="email" name="email" required>
+      </label>
+      <label>
+        <span>טלפון *</span>
+        <input type="tel" name="phone" required>
+      </label>
+      <label class="lead-form-full">
+        <span>הודעה</span>
+        <textarea name="message" rows="3"></textarea>
+      </label>
+      <button type="submit" class="cta lead-submit">שליחה</button>
+      <p class="lead-form-success js-footer-contact-success" role="status" hidden>ההודעה מוכנה - נפתח WhatsApp כדי לשלוח אותה.</p>
+    </form>
+  </div>
   <div class="footer-meta">
     <span>אמנות מקורית · פורטרטים · סדנאות</span>
   </div>
@@ -738,5 +775,6 @@
 <script src="/js/nav-toggle.js?v=ac4ada19"></script>
 <script src="/js/header-search.js?v=ac4ada19"></script>
 <script src="/js/quick-links-toggle.js?v=ac4ada19"></script>
+<script src="/js/footer-contact.js?v=ac4ada19"></script>
 </body>
 </html>
