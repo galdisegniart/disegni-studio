@@ -11,6 +11,7 @@ eleventyComputed:
   activeNav: "{{ w.cardTitle }}"
 scripts:
   - /js/reviews.js
+  - /js/intro-video.js
 ---
 <script type="application/ld+json">
 {
@@ -105,15 +106,22 @@ scripts:
       <h2>{{ w.video.heading | safe }}</h2>
       <p>{{ w.video.text }}</p>
     </div>
-    <figure style="margin:0;aspect-ratio:16/10;overflow:hidden;background:#070706">
-      {% if w.video.file %}
-      <video controls playsinline preload="metadata"{% if w.video.poster %} poster="{{ w.video.poster }}"{% endif %} style="width:100%;height:100%;object-fit:cover">
-        <source src="{{ w.video.file }}" type="video/mp4">
-      </video>
-      {% else %}
-      <img src="{{ w.video.poster }}" alt="{{ w.video.posterAlt }}" style="width:100%;height:100%;object-fit:cover">
+    {% if w.video.file or w.video.url %}
+    <div class="intro-video-media daily-workshop-video-media js-intro-video"
+      {% if w.video.file %}data-video-file="{{ w.video.file }}"{% endif %}
+      {% if w.video.url %}data-video-url="{{ w.video.url }}"{% endif %}>
+      {% if w.video.poster %}
+      <img class="intro-video-poster" src="{{ w.video.poster }}" alt="{{ w.video.posterAlt }}">
       {% endif %}
+      <button type="button" class="intro-video-play js-intro-video-play" aria-label="הפעלת הסרטון">
+        <span aria-hidden="true">▶</span>
+      </button>
+    </div>
+    {% else %}
+    <figure style="margin:0;aspect-ratio:16/10;overflow:hidden;background:#070706">
+      <img src="{{ w.video.poster }}" alt="{{ w.video.posterAlt }}" style="width:100%;height:100%;object-fit:cover">
     </figure>
+    {% endif %}
   </div>
 </section>
 {% endif %}

@@ -3536,6 +3536,10 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
   background: var(--black);
 }
 
+.daily-workshop-video-media {
+  aspect-ratio: 16 / 10;
+}
+
 .daily-video-grid p {
   margin-top: 16px;
   color: var(--dim);

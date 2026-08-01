@@ -146,7 +146,8 @@ collections:
           - { label: "כיתוב קטן", name: "eyebrow", widget: "string" }
           - { label: "כותרת", name: "heading", widget: "string" }
           - { label: "טקסט", name: "text", widget: "string" }
-          - { label: "קובץ וידאו (השאירו ריק כדי להציג רק את תמונת השער)", name: "file", widget: "file", required: false }
+          - { label: "קובץ וידאו מקומי (השאירו ריק אם משתמשים בקישור יוטיוב/וימאו למטה)", name: "file", widget: "file", required: false }
+          - { label: "או - קישור יוטיוב/וימאו (השאירו ריק אם מעלים קובץ מקומי למעלה)", name: "url", widget: "string", required: false }
           - { label: "תמונת שער", name: "poster", widget: "image" }
           - { label: "טקסט חלופי לתמונת השער", name: "posterAlt", widget: "string" }
       - name: "included"
