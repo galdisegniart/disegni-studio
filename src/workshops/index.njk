@@ -9,7 +9,7 @@ permalink: "/workshops/index.html"
 {% set w = pages.workshopsIndex %}
 {% set hasHeroVideo = w.promoVideoVisible != false and w.promoVideoFile %}
 {% set hasHeroText = w.heroEyebrow or w.introHeading or w.introText %}
-<section class="workshop-visual-hero{{ ' has-media' if hasHeroVideo }}">
+<section class="workshop-visual-hero{{ ' has-media' if hasHeroVideo }}"{% if hasHeroVideo %} style="--hero-video-height: {{ w.heroVideoHeight or 550 }}px;"{% endif %}>
   {% if hasHeroVideo %}
   <div class="workshop-hero-media">
     <video autoplay muted loop playsinline{% if w.promoVideoPoster %} poster="{{ w.promoVideoPoster }}"{% endif %}>
@@ -27,7 +27,7 @@ permalink: "/workshops/index.html"
 </section>
 
 <section class="workshop-cards section">
-  <div class="workshop-cards-grid">
+  <div class="workshop-cards-grid" style="--card-image-height: {{ w.cardImageHeight or 140 }}px;">
     {% for item in workshops %}
     <article class="workshop-card">
       <a class="workshop-card-link" href="/workshops/{{ item.slug }}/" aria-label="לפרטי {{ item.cardTitle }}">

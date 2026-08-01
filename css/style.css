@@ -2776,7 +2776,7 @@ body.product-lightbox-lock {
 
 /* Full-bleed looping background video behind the hero text */
 .workshop-visual-hero.has-media {
-  min-height: clamp(220px, 34vh, 460px);
+  min-height: var(--hero-video-height, 550px);
   display: flex;
   align-items: flex-end;
   border-bottom: none;
@@ -2857,7 +2857,7 @@ body.product-lightbox-lock {
 }
 
 .workshop-card-image {
-  aspect-ratio: 16 / 9;
+  height: var(--card-image-height, 140px);
   overflow: hidden;
   background: var(--line);
 }

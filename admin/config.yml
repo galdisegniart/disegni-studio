@@ -631,6 +631,8 @@ collections:
           - { label: "טקסט חלופי לתמונת הכיסוי", name: "promoVideoPosterAlt", widget: "string", required: false }
           - { label: "טקסט כפתור נוסף לצד הסרטון (לא חובה)", name: "promoVideoButtonLabel", widget: "string", required: false }
           - { label: "קישור כפתור נוסף (לא חובה)", name: "promoVideoButtonUrl", widget: "string", required: false }
+          - { label: "גובה פריים הסרטון הראשי (בפיקסלים)", name: "heroVideoHeight", widget: "number", default: 550, hint: "ככל שהערך גדול יותר, הסרטון גבוה יותר וכרטיסי הסדנאות יורדים בהתאם" }
+          - { label: "גובה תמונות כרטיסי הסדנאות (בפיקסלים)", name: "cardImageHeight", widget: "number", default: 140, hint: "התאימו יחד עם גובה הסרטון כדי שהכל יכנס למסך בלי גלילה" }
           - { label: "תווית סקציית חוות דעת (ישנה, לא בשימוש בעמוד הראשי כרגע)", name: "reviewsLabel", widget: "string", required: false }
           - { label: "כותרת סקציית חוות דעת (ישנה, לא בשימוש בעמוד הראשי כרגע)", name: "reviewsHeading", widget: "string", required: false }
           - { label: "ציון דירוג (ישן, לא בשימוש בעמוד הראשי כרגע)", name: "reviewsRatingValue", widget: "string", required: false }
