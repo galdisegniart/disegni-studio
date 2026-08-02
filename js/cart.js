@@ -849,6 +849,12 @@
             "לא ניתן ליצור כרגע קישור תשלום."
           );
         }
+        // Grow's redirect back to successUrl doesn't reliably preserve the
+        // ?order= query param, so stash it here too as a fallback for the
+        // thank-you page to read.
+        if (paymentBody.orderId) {
+          sessionStorage.setItem("disegniGrowOrderId", paymentBody.orderId);
+        }
         window.location.assign(paymentBody.paymentUrl);
       } catch (error) {
         if (growError) {

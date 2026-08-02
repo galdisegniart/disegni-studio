@@ -24,6 +24,14 @@
 
   var orderId = new URLSearchParams(window.location.search).get("order");
   if (!orderId) {
+    // Some payment providers don't preserve query params on redirect back;
+    // fall back to what cart.js stashed right before sending the browser
+    // to the payment page.
+    orderId = sessionStorage.getItem("disegniGrowOrderId");
+  }
+  sessionStorage.removeItem("disegniGrowOrderId");
+
+  if (!orderId) {
     showState("Notfound");
     return;
   }
