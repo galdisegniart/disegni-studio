@@ -4,6 +4,34 @@
   var CUSTOMER_KEY = "disegniCustomer";
   var CART_ORDER_ID_KEY = "disegniCartOrderId";
   var LAST_ORDER_KEY = "disegniLastOrder";
+  var GROW_IDEMPOTENCY_KEY = "disegniGrowIdemKey";
+  var WORKER_ORIGIN = "https://disegni-cms-oauth.galdisegniart.workers.dev";
+
+  // Whether the Grow sandbox checkout is enabled is decided by the server
+  // (a Worker secret, never a public URL parameter), fetched once per page load.
+  var growTestEnabled = false;
+  function refreshGrowTestFlag() {
+    fetch(WORKER_ORIGIN + "/payments/grow/status")
+      .then(function (res) {
+        return res.json();
+      })
+      .then(function (data) {
+        growTestEnabled = !!(data && data.enabled);
+        renderCartPage();
+      })
+      .catch(function () {
+        growTestEnabled = false;
+      });
+  }
+
+  function getGrowIdempotencyKey() {
+    var key = sessionStorage.getItem(GROW_IDEMPOTENCY_KEY);
+    if (!key) {
+      key = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random());
+      sessionStorage.setItem(GROW_IDEMPOTENCY_KEY, key);
+    }
+    return key;
+  }
 
   function getCart() {
     try {
@@ -419,10 +447,10 @@
   }
 
   function isGrowTestEligible(cart, currency) {
-    if (new URLSearchParams(window.location.search).get("payment-test") !== "orin") return false;
+    if (!growTestEnabled) return false;
     if (currency !== "ILS" || cart.length === 0) return false;
     return cart.every(function (item) {
-      return item.artworkSlug === "orin" &&
+      return !!item.artworkSlug &&
         ["poster", "framed-print", "canvas"].indexOf(item.productType) !== -1 &&
         Number.isInteger(item.qty) &&
         item.qty >= 1 &&
@@ -784,9 +812,10 @@
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              artworkSlug: "orin",
+              idempotencyKey: getGrowIdempotencyKey(),
               items: growCart.map(function (item) {
                 return {
+                  artworkSlug: item.artworkSlug,
                   productType: item.productType,
                   sizeId: item.sizeId,
                   quantity: item.qty,
@@ -811,6 +840,8 @@
             "Payment service rejected the request": "שירות התשלום דחה את הבקשה.",
             "Payment service returned an invalid response": "שירות התשלום החזיר תשובה לא תקינה.",
             "Payment service did not return a valid payment link": "שירות התשלום לא החזיר קישור תשלום תקין.",
+            "Payment testing is not currently enabled": "אפשרות התשלום אינה זמינה כרגע.",
+            "Too many requests, please try again shortly": "יותר מדי ניסיונות, נסו שוב בעוד כמה דקות.",
           };
           throw new Error(
             (paymentBody && serverErrorMessages[paymentBody.error]) ||
@@ -1220,6 +1251,7 @@
   });
   loadCustomerForm();
   renderCartPage();
+  if (document.getElementById("cart-root")) refreshGrowTestFlag();
   renderCartDrawer();
   document.querySelectorAll("[data-artwork-slug]").forEach(function (wrap) {
     if (isPrintfulDriven(wrap)) populatePrintfulTypes(wrap);

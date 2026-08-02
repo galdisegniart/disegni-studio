@@ -730,9 +730,17 @@ collections:
         fields:
           - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
           - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
-          - { label: "כותרת", name: "heading", widget: "string" }
-          - { label: "טקסט פתיחה", name: "lead", widget: "text" }
-          - { label: "הערה", name: "note", widget: "text" }
+          - { label: "כותרת - בזמן בדיקת הסטטוס", name: "checkingHeading", widget: "string" }
+          - { label: "טקסט - בזמן בדיקת הסטטוס", name: "checkingLead", widget: "text" }
+          - { label: "כותרת - תשלום אושר", name: "heading", widget: "string" }
+          - { label: "טקסט פתיחה - תשלום אושר", name: "lead", widget: "text" }
+          - { label: "כותרת - תשלום בבדיקה", name: "pendingHeading", widget: "string" }
+          - { label: "טקסט - תשלום בבדיקה", name: "pendingLead", widget: "text" }
+          - { label: "כותרת - התשלום נכשל", name: "failedHeading", widget: "string" }
+          - { label: "טקסט - התשלום נכשל", name: "failedLead", widget: "text" }
+          - { label: "כותרת - הזמנה לא נמצאה", name: "notFoundHeading", widget: "string" }
+          - { label: "טקסט - הזמנה לא נמצאה", name: "notFoundLead", widget: "text" }
+          - { label: "הערה (מוצגת בכל המצבים)", name: "note", widget: "text" }
           - { label: "טקסט כפתור 1", name: "ctaLabel", widget: "string" }
           - { label: "קישור כפתור 1", name: "ctaHref", widget: "string" }
           - { label: "טקסט כפתור 2", name: "contactCtaLabel", widget: "string" }

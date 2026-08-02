@@ -9,7 +9,94 @@ const ENV = {
   SMARTBEE_TEST_CLIENT_ID: "test-client-id",
   SMARTBEE_TEST_PASSWORD: "test-password",
   SMARTBEE_PROVIDER_USER_TOKEN: "test-provider-token",
+  GROW_TEST_ENABLED: "true",
 };
+
+function createMockKV() {
+  const store = new Map();
+  return {
+    async get(key) {
+      const entry = store.get(key);
+      if (!entry) return null;
+      if (entry.expiresAt && entry.expiresAt < Date.now()) {
+        store.delete(key);
+        return null;
+      }
+      return entry.value;
+    },
+    async put(key, value, options = {}) {
+      const expiresAt = options.expirationTtl ? Date.now() + options.expirationTtl * 1000 : null;
+      store.set(key, { value, expiresAt });
+    },
+  };
+}
+
+const PURCHASE_CATALOG_URL = "https://disegni.studio/purchase-catalog.json";
+
+const TEST_CATALOG = [
+  {
+    artworkSlug: "orin",
+    productType: "poster",
+    sizeId: "5x7",
+    catalogNumber: "ORIN-POSTER-5X7",
+    productName: "Orin – פוסטר 13×18 ס״מ",
+    unitPriceILS: 89,
+    shippingFirstILS: 45,
+    shippingAdditionalILS: 4,
+  },
+  {
+    artworkSlug: "orin",
+    productType: "poster",
+    sizeId: "20x30",
+    catalogNumber: "ORIN-POSTER-20X30",
+    productName: "Orin – פוסטר 50×75 ס״מ",
+    unitPriceILS: 319,
+    shippingFirstILS: 55,
+    shippingAdditionalILS: 4,
+  },
+  {
+    artworkSlug: "orin",
+    productType: "framed-print",
+    sizeId: "8x10",
+    catalogNumber: "ORIN-FRAMED-8X10-BLACK",
+    productName: "Orin – פוסטר ממוסגר שחור 20×25 ס״מ",
+    unitPriceILS: 329,
+    shippingFirstILS: 59,
+    shippingAdditionalILS: 29,
+  },
+  {
+    artworkSlug: "orin",
+    productType: "canvas",
+    sizeId: "16x20",
+    catalogNumber: "ORIN-CANVAS-16X20",
+    productName: "Orin – קנבס מתוח 40×50 ס״מ",
+    unitPriceILS: 449,
+    shippingFirstILS: 379,
+    shippingAdditionalILS: 379,
+  },
+];
+
+// Installs a fetch mock that serves the (fake) purchase catalog for the
+// catalog URL and delegates everything else (the Make webhook call) to
+// makeHandler. Returns a restore() to put the real fetch back, and captures
+// every non-catalog call for assertions.
+function mockGrowFetch(makeHandler, catalog = TEST_CATALOG) {
+  const originalFetch = globalThis.fetch;
+  const calls = [];
+  globalThis.fetch = async (url, options) => {
+    if (String(url) === PURCHASE_CATALOG_URL) {
+      return Response.json(catalog);
+    }
+    calls.push({ url, options });
+    return makeHandler ? makeHandler(url, options) : Response.json({ url: "https://sandbox.grow.link/test-payment" });
+  };
+  return {
+    calls,
+    restore() {
+      globalThis.fetch = originalFetch;
+    },
+  };
+}
 
 function growRequest(overrides = {}) {
   return new Request("https://worker.example/payments/grow/create", {
@@ -19,9 +106,9 @@ function growRequest(overrides = {}) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      artworkSlug: "orin",
       items: [
         {
+          artworkSlug: "orin",
           productType: "poster",
           sizeId: "5x7",
           quantity: 1,
@@ -93,12 +180,7 @@ function mockSmartBeeCreateFetch(createResponse) {
 }
 
 test("creates a server-priced Orin checkout request without exposing Make secrets", async () => {
-  const originalFetch = globalThis.fetch;
-  let makeCall;
-  globalThis.fetch = async (url, options) => {
-    makeCall = { url, options };
-    return Response.json({ url: "https://sandbox.grow.link/test-payment" });
-  };
+  const mock = mockGrowFetch();
 
   try {
     const response = await worker.fetch(growRequest(), {
@@ -107,6 +189,7 @@ test("creates a server-priced Orin checkout request without exposing Make secret
       MAKE_CHECKOUT_API_KEY: "private-make-key",
     });
     const body = await response.json();
+    const makeCall = mock.calls[0];
     const payload = JSON.parse(makeCall.options.body);
 
     assert.equal(response.status, 200);
@@ -128,41 +211,16 @@ test("creates a server-priced Orin checkout request without exposing Make secret
     assert.equal(makeCall.options.headers["x-make-apikey"], "private-make-key");
     assert.equal(JSON.stringify(body).includes("private-make-key"), false);
   } finally {
-    globalThis.fetch = originalFetch;
+    mock.restore();
   }
 });
 
-test("rejects products outside the approved Orin variants", async () => {
-  const response = await worker.fetch(
-    growRequest({
-      items: [{ productType: "poster", sizeId: "not-a-size", quantity: 1 }],
-    }),
-    {
-      ...ENV,
-      MAKE_CHECKOUT_WEBHOOK_URL: "https://hook.example/orin",
-      MAKE_CHECKOUT_API_KEY: "private-make-key",
-    }
-  );
-
-  assert.equal(response.status, 400);
-  assert.deepEqual(await response.json(), {
-    ok: false,
-    error: "Product is not available for payment testing",
-  });
-});
-
-test("prices additional items from the same shipping category on the server", async () => {
-  const originalFetch = globalThis.fetch;
-  let payload;
-  globalThis.fetch = async (url, options) => {
-    payload = JSON.parse(options.body);
-    return Response.json({ url: "https://sandbox.grow.link/test-payment" });
-  };
-
+test("rejects products outside the approved catalog", async () => {
+  const mock = mockGrowFetch();
   try {
     const response = await worker.fetch(
       growRequest({
-        items: [{ productType: "poster", sizeId: "20x30", quantity: 2 }],
+        items: [{ artworkSlug: "orin", productType: "poster", sizeId: "not-a-size", quantity: 1 }],
       }),
       {
         ...ENV,
@@ -171,30 +229,71 @@ test("prices additional items from the same shipping category on the server", as
       }
     );
 
+    assert.equal(response.status, 400);
+    assert.deepEqual(await response.json(), {
+      ok: false,
+      error: "Product is not available for payment testing",
+    });
+  } finally {
+    mock.restore();
+  }
+});
+
+test("rejects a product that exists but belongs to a different artwork", async () => {
+  const mock = mockGrowFetch();
+  try {
+    const response = await worker.fetch(
+      growRequest({
+        items: [{ artworkSlug: "some-other-artwork", productType: "poster", sizeId: "5x7", quantity: 1 }],
+      }),
+      {
+        ...ENV,
+        MAKE_CHECKOUT_WEBHOOK_URL: "https://hook.example/orin",
+        MAKE_CHECKOUT_API_KEY: "private-make-key",
+      }
+    );
+
+    assert.equal(response.status, 400);
+  } finally {
+    mock.restore();
+  }
+});
+
+test("prices additional items from the same shipping category on the server", async () => {
+  const mock = mockGrowFetch();
+
+  try {
+    const response = await worker.fetch(
+      growRequest({
+        items: [{ artworkSlug: "orin", productType: "poster", sizeId: "20x30", quantity: 2 }],
+      }),
+      {
+        ...ENV,
+        MAKE_CHECKOUT_WEBHOOK_URL: "https://hook.example/orin",
+        MAKE_CHECKOUT_API_KEY: "private-make-key",
+      }
+    );
+    const payload = JSON.parse(mock.calls[0].options.body);
+
     assert.equal(response.status, 200);
     assert.equal(payload.subtotal, 638);
     assert.equal(payload.shipping, 59);
     assert.equal(payload.total, 697);
   } finally {
-    globalThis.fetch = originalFetch;
+    mock.restore();
   }
 });
 
 test("adds first-item shipping for each mixed product category", async () => {
-  const originalFetch = globalThis.fetch;
-  let payload;
-  globalThis.fetch = async (url, options) => {
-    payload = JSON.parse(options.body);
-    return Response.json({ url: "https://sandbox.grow.link/test-payment" });
-  };
+  const mock = mockGrowFetch();
 
   try {
     const response = await worker.fetch(
       growRequest({
         items: [
-          { productType: "poster", sizeId: "5x7", quantity: 1 },
-          { productType: "framed-print", sizeId: "8x10", quantity: 1 },
-          { productType: "canvas", sizeId: "16x20", quantity: 1 },
+          { artworkSlug: "orin", productType: "poster", sizeId: "5x7", quantity: 1 },
+          { artworkSlug: "orin", productType: "framed-print", sizeId: "8x10", quantity: 1 },
+          { artworkSlug: "orin", productType: "canvas", sizeId: "16x20", quantity: 1 },
         ],
       }),
       {
@@ -203,6 +302,7 @@ test("adds first-item shipping for each mixed product category", async () => {
         MAKE_CHECKOUT_API_KEY: "private-make-key",
       }
     );
+    const payload = JSON.parse(mock.calls[0].options.body);
 
     assert.equal(response.status, 200);
     assert.equal(payload.subtotal, 867);
@@ -211,7 +311,172 @@ test("adds first-item shipping for each mixed product category", async () => {
     assert.equal(payload.unitPrice, 867);
     assert.equal(payload.quantity, 1);
   } finally {
-    globalThis.fetch = originalFetch;
+    mock.restore();
+  }
+});
+
+test("blocks Grow checkout when the server test flag is not enabled", async () => {
+  const response = await worker.fetch(growRequest(), {
+    ...ENV,
+    GROW_TEST_ENABLED: undefined,
+    MAKE_CHECKOUT_WEBHOOK_URL: "https://hook.example/orin",
+    MAKE_CHECKOUT_API_KEY: "private-make-key",
+  });
+
+  assert.equal(response.status, 403);
+  assert.deepEqual(await response.json(), {
+    ok: false,
+    error: "Payment testing is not currently enabled",
+  });
+});
+
+test("reports whether Grow test checkout is enabled without requiring auth", async () => {
+  const enabledResponse = await worker.fetch(
+    new Request("https://worker.example/payments/grow/status", {
+      headers: { Origin: "https://disegni.studio" },
+    }),
+    ENV
+  );
+  assert.deepEqual(await enabledResponse.json(), { ok: true, enabled: true });
+
+  const disabledResponse = await worker.fetch(
+    new Request("https://worker.example/payments/grow/status", {
+      headers: { Origin: "https://disegni.studio" },
+    }),
+    { ...ENV, GROW_TEST_ENABLED: undefined }
+  );
+  assert.deepEqual(await disabledResponse.json(), { ok: true, enabled: false });
+});
+
+test("reusing the same idempotency key returns the original order instead of creating a second one", async () => {
+  const mock = mockGrowFetch();
+
+  const env = {
+    ...ENV,
+    MAKE_CHECKOUT_WEBHOOK_URL: "https://hook.example/orin",
+    MAKE_CHECKOUT_API_KEY: "private-make-key",
+    ORDERS_KV: createMockKV(),
+  };
+
+  try {
+    const first = await worker.fetch(growRequest({ idempotencyKey: "same-attempt-1" }), env);
+    const firstBody = await first.json();
+
+    const second = await worker.fetch(growRequest({ idempotencyKey: "same-attempt-1" }), env);
+    const secondBody = await second.json();
+
+    assert.equal(mock.calls.length, 1, "Make should only be called once for the same idempotency key");
+    assert.equal(secondBody.orderId, firstBody.orderId);
+    assert.equal(secondBody.paymentUrl, firstBody.paymentUrl);
+  } finally {
+    mock.restore();
+  }
+});
+
+test("orders/status returns the stored status without leaking customer details", async () => {
+  const mock = mockGrowFetch();
+
+  const env = {
+    ...ENV,
+    MAKE_CHECKOUT_WEBHOOK_URL: "https://hook.example/orin",
+    MAKE_CHECKOUT_API_KEY: "private-make-key",
+    ORDERS_KV: createMockKV(),
+  };
+
+  try {
+    const createResponse = await worker.fetch(growRequest(), env);
+    const { orderId } = await createResponse.json();
+
+    const statusResponse = await worker.fetch(
+      new Request(
+        `https://worker.example/orders/status?orderId=${encodeURIComponent(orderId)}`,
+        { headers: { Origin: "https://disegni.studio" } }
+      ),
+      env
+    );
+    const statusBody = await statusResponse.json();
+
+    assert.equal(statusResponse.status, 200);
+    assert.equal(statusBody.status, "pending");
+    assert.equal(statusBody.orderId, orderId);
+    assert.equal(JSON.stringify(statusBody).includes("לקוח בדיקה"), false);
+  } finally {
+    mock.restore();
+  }
+});
+
+test("orders/status reports 404 for an unknown order", async () => {
+  const response = await worker.fetch(
+    new Request("https://worker.example/orders/status?orderId=GD-does-not-exist", {
+      headers: { Origin: "https://disegni.studio" },
+    }),
+    { ...ENV, ORDERS_KV: createMockKV() }
+  );
+
+  assert.equal(response.status, 404);
+});
+
+test("grow/confirm requires the shared secret", async () => {
+  const response = await worker.fetch(
+    new Request("https://worker.example/payments/grow/confirm", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ orderId: "GD-test", status: "paid" }),
+    }),
+    { ...ENV, GROW_CONFIRM_SECRET: "make-secret", ORDERS_KV: createMockKV() }
+  );
+
+  assert.equal(response.status, 401);
+});
+
+test("grow/confirm marks an order paid, and a duplicate notification is a no-op", async () => {
+  const mock = mockGrowFetch();
+
+  const env = {
+    ...ENV,
+    MAKE_CHECKOUT_WEBHOOK_URL: "https://hook.example/orin",
+    MAKE_CHECKOUT_API_KEY: "private-make-key",
+    GROW_CONFIRM_SECRET: "make-secret",
+    ORDERS_KV: createMockKV(),
+  };
+
+  try {
+    const createResponse = await worker.fetch(growRequest(), env);
+    const { orderId } = await createResponse.json();
+
+    function confirmRequest(status) {
+      return new Request("https://worker.example/payments/grow/confirm", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Grow-Confirm-Secret": "make-secret",
+        },
+        body: JSON.stringify({ orderId, status, providerRef: "grow-tx-1" }),
+      });
+    }
+
+    const first = await worker.fetch(confirmRequest("paid"), env);
+    const firstBody = await first.json();
+    assert.equal(first.status, 200);
+    assert.equal(firstBody.status, "paid");
+    assert.equal(firstBody.alreadyApplied, undefined);
+
+    const second = await worker.fetch(confirmRequest("paid"), env);
+    const secondBody = await second.json();
+    assert.equal(second.status, 200);
+    assert.equal(secondBody.alreadyApplied, true);
+
+    const statusResponse = await worker.fetch(
+      new Request(
+        `https://worker.example/orders/status?orderId=${encodeURIComponent(orderId)}`,
+        { headers: { Origin: "https://disegni.studio" } }
+      ),
+      env
+    );
+    const statusBody = await statusResponse.json();
+    assert.equal(statusBody.status, "paid");
+  } finally {
+    mock.restore();
   }
 });
 

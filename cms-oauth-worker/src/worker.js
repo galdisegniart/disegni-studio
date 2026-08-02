@@ -12,6 +12,18 @@ export default {
       return handleGrowCheckout(request, env);
     }
 
+    if (url.pathname === "/payments/grow/confirm") {
+      return handleGrowConfirm(request, env);
+    }
+
+    if (url.pathname === "/payments/grow/status") {
+      return handleGrowTestStatus(request, env);
+    }
+
+    if (url.pathname === "/orders/status") {
+      return handleOrderStatus(request, env);
+    }
+
     if (url.pathname === "/smartbee/connection-test") {
       return handleSmartBeeConnectionTest(request, env);
     }
@@ -170,6 +182,79 @@ const ORIN_PRODUCTS = [
   },
 ];
 
+const ORDER_STATUSES = ["created", "pending", "paid", "failed", "cancelled", "refunded"];
+const ORDER_TTL_SECONDS = 60 * 60 * 24 * 30; // 30 days
+const IDEMPOTENCY_TTL_SECONDS = 60 * 15; // 15 minutes
+const RATE_LIMIT_WINDOW_SECONDS = 5 * 60;
+const RATE_LIMIT_MAX_REQUESTS = 8;
+
+async function kvGetJSON(env, key) {
+  if (!env.ORDERS_KV) return null;
+  const raw = await env.ORDERS_KV.get(key);
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
+async function kvPutJSON(env, key, value, ttlSeconds) {
+  if (!env.ORDERS_KV) return;
+  await env.ORDERS_KV.put(key, JSON.stringify(value), {
+    expirationTtl: ttlSeconds,
+  });
+}
+
+async function getOrder(env, orderId) {
+  return kvGetJSON(env, `order:${orderId}`);
+}
+
+async function saveOrder(env, order) {
+  await kvPutJSON(env, `order:${order.orderId}`, order, ORDER_TTL_SECONDS);
+}
+
+// Best-effort request throttling. Cloudflare KV writes are not atomic, so under
+// heavy concurrent load this can under-count — acceptable for this site's traffic,
+// not a substitute for Cloudflare's own account-level rate limiting on abuse.
+async function isRateLimited(env, bucketKey, limit = RATE_LIMIT_MAX_REQUESTS, windowSeconds = RATE_LIMIT_WINDOW_SECONDS) {
+  if (!env.ORDERS_KV) return false;
+  const windowStart = Math.floor(Date.now() / 1000 / windowSeconds);
+  const key = `ratelimit:${bucketKey}:${windowStart}`;
+  const current = Number((await env.ORDERS_KV.get(key)) || "0");
+  if (current >= limit) return true;
+  await env.ORDERS_KV.put(key, String(current + 1), { expirationTtl: windowSeconds + 5 });
+  return false;
+}
+
+function clientIp(request) {
+  return request.headers.get("CF-Connecting-IP") || "unknown";
+}
+
+const PURCHASE_CATALOG_URL = "https://disegni.studio/purchase-catalog.json";
+const PURCHASE_CATALOG_CACHE_TTL_SECONDS = 5 * 60;
+
+// The source of truth for price/product validation is the live site's own
+// build output (regenerated on every deploy from the CMS content), not a
+// hardcoded list in this file — so any artwork with approved purchaseVariants
+// becomes purchasable here automatically, without a Worker code change.
+async function fetchPurchaseCatalog(env) {
+  const cached = await kvGetJSON(env, "purchase-catalog");
+  if (cached) return cached;
+
+  try {
+    const response = await fetch(PURCHASE_CATALOG_URL, { cf: { cacheTtl: 60 } });
+    if (!response.ok) return [];
+    const catalog = await response.json();
+    if (!Array.isArray(catalog)) return [];
+    await kvPutJSON(env, "purchase-catalog", catalog, PURCHASE_CATALOG_CACHE_TTL_SECONDS);
+    return catalog;
+  } catch (error) {
+    console.error("Failed to fetch purchase catalog", error.message);
+    return [];
+  }
+}
+
 async function handleGrowCheckout(request, env) {
   const corsHeaders = getCorsHeaders(request, env);
 
@@ -193,10 +278,29 @@ async function handleGrowCheckout(request, env) {
     return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
   }
 
+  // Test/sandbox checkout is off by default. It is enabled only via a Worker
+  // secret set directly in Cloudflare (never a public URL parameter, never
+  // visible in browser code), so an ordinary visitor has no way to turn it on.
+  if (env.GROW_TEST_ENABLED !== "true") {
+    return jsonResponse(
+      { ok: false, error: "Payment testing is not currently enabled" },
+      403,
+      corsHeaders
+    );
+  }
+
   if (!env.MAKE_CHECKOUT_WEBHOOK_URL || !env.MAKE_CHECKOUT_API_KEY) {
     return jsonResponse(
       { ok: false, error: "Payment service is not configured" },
       503,
+      corsHeaders
+    );
+  }
+
+  if (await isRateLimited(env, `grow-create:${clientIp(request)}`)) {
+    return jsonResponse(
+      { ok: false, error: "Too many requests, please try again shortly" },
+      429,
       corsHeaders
     );
   }
@@ -208,8 +312,25 @@ async function handleGrowCheckout(request, env) {
     return jsonResponse({ ok: false, error: "Invalid JSON" }, 400, corsHeaders);
   }
 
+  const idempotencyKey = cleanText(input.idempotencyKey, 80);
+  if (idempotencyKey) {
+    const existingOrderId = await kvGetJSON(env, `idem:${idempotencyKey}`);
+    if (existingOrderId && existingOrderId.orderId) {
+      const existingOrder = await getOrder(env, existingOrderId.orderId);
+      if (existingOrder && existingOrder.paymentUrl) {
+        // Same checkout attempt retried (double-click, refresh, back button):
+        // return the original order instead of creating a second one with Make.
+        return jsonResponse(
+          { ok: true, orderId: existingOrder.orderId, paymentUrl: existingOrder.paymentUrl },
+          200,
+          corsHeaders
+        );
+      }
+    }
+  }
+
   const requestedItems = Array.isArray(input.items) ? input.items : [];
-  if (input.artworkSlug !== "orin" || requestedItems.length < 1 || requestedItems.length > 11) {
+  if (requestedItems.length < 1 || requestedItems.length > 20) {
     return jsonResponse(
       { ok: false, error: "Product is not available for payment testing" },
       400,
@@ -217,11 +338,13 @@ async function handleGrowCheckout(request, env) {
     );
   }
 
+  const purchaseCatalog = await fetchPurchaseCatalog(env);
   const items = [];
   for (const requestedItem of requestedItems) {
     const quantity = Number(requestedItem.quantity);
-    const product = ORIN_PRODUCTS.find(
+    const product = purchaseCatalog.find(
       (candidate) =>
+        candidate.artworkSlug === requestedItem.artworkSlug &&
         candidate.productType === requestedItem.productType &&
         candidate.sizeId === requestedItem.sizeId
     );
@@ -233,9 +356,14 @@ async function handleGrowCheckout(request, env) {
       );
     }
     items.push({
-      ...product,
+      productType: product.productType,
+      catalogNumber: product.catalogNumber,
+      productName: product.productName,
+      unitPrice: product.unitPriceILS,
+      shippingFirst: product.shippingFirstILS,
+      shippingAdditional: product.shippingAdditionalILS,
       quantity,
-      lineTotal: product.unitPrice * quantity,
+      lineTotal: product.unitPriceILS * quantity,
     });
   }
 
@@ -257,16 +385,29 @@ async function handleGrowCheckout(request, env) {
   const total = subtotal + shipping;
   const orderId = `GD-${new Date().toISOString().slice(0, 10).replaceAll("-", "")}-${crypto.randomUUID().slice(0, 6).toUpperCase()}`;
   const singleItem = items.length === 1 ? items[0] : null;
+  const nowIso = new Date().toISOString();
+
+  await saveOrder(env, {
+    orderId,
+    status: "created",
+    subtotal,
+    shipping,
+    total,
+    currency: "ILS",
+    createdAt: nowIso,
+    updatedAt: nowIso,
+  });
+
   const payload = {
     orderId,
     fullName,
     phone,
     email,
     address,
-    catalogNumber: singleItem ? singleItem.catalogNumber : `ORIN-ORDER-${orderId}`,
+    catalogNumber: singleItem ? singleItem.catalogNumber : `ORDER-${orderId}`,
     productName: singleItem
       ? singleItem.productName
-      : `הזמנת Orin – ${items.reduce((sum, item) => sum + item.quantity, 0)} פריטים`,
+      : `הזמנה – ${items.reduce((sum, item) => sum + item.quantity, 0)} פריטים`,
     unitPrice: singleItem ? singleItem.unitPrice : subtotal,
     quantity: singleItem ? singleItem.quantity : 1,
     items: items.map((item) => ({
@@ -279,7 +420,7 @@ async function handleGrowCheckout(request, env) {
     subtotal,
     shipping,
     total,
-    successUrl: "https://disegni.studio/thank-you/",
+    successUrl: `https://disegni.studio/thank-you/?order=${encodeURIComponent(orderId)}`,
   };
 
   let makeResponse;
@@ -293,7 +434,17 @@ async function handleGrowCheckout(request, env) {
       body: JSON.stringify(payload),
     });
   } catch (error) {
-    console.error("Grow checkout webhook request failed", error);
+    console.error("Grow checkout webhook request failed", orderId);
+    await saveOrder(env, {
+      orderId,
+      status: "failed",
+      subtotal,
+      shipping,
+      total,
+      currency: "ILS",
+      createdAt: nowIso,
+      updatedAt: new Date().toISOString(),
+    });
     return jsonResponse(
       { ok: false, error: "Payment service is unavailable" },
       502,
@@ -302,7 +453,17 @@ async function handleGrowCheckout(request, env) {
   }
 
   if (!makeResponse.ok) {
-    console.error("Grow checkout webhook rejected the request", makeResponse.status);
+    console.error("Grow checkout webhook rejected the request", orderId, makeResponse.status);
+    await saveOrder(env, {
+      orderId,
+      status: "failed",
+      subtotal,
+      shipping,
+      total,
+      currency: "ILS",
+      createdAt: nowIso,
+      updatedAt: new Date().toISOString(),
+    });
     return jsonResponse(
       { ok: false, error: "Payment service rejected the request" },
       502,
@@ -330,7 +491,170 @@ async function handleGrowCheckout(request, env) {
     );
   }
 
+  await saveOrder(env, {
+    orderId,
+    status: "pending",
+    subtotal,
+    shipping,
+    total,
+    currency: "ILS",
+    paymentUrl,
+    createdAt: nowIso,
+    updatedAt: new Date().toISOString(),
+  });
+
+  if (idempotencyKey) {
+    await kvPutJSON(env, `idem:${idempotencyKey}`, { orderId }, IDEMPOTENCY_TTL_SECONDS);
+  }
+
   return jsonResponse({ ok: true, orderId, paymentUrl }, 200, corsHeaders);
+}
+
+// Called by the Make scenario after it has confirmed payment with Grow
+// (i.e. after Grow's webhook fires and Make runs "Approve Transaction").
+// Protected by a shared secret so only Make can move an order to a final state.
+async function handleGrowConfirm(request, env) {
+  const corsHeaders = getCorsHeaders(request, env);
+
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: corsHeaders ? 204 : 403,
+      headers: corsHeaders || noStoreHeaders(),
+    });
+  }
+
+  if (request.method !== "POST") {
+    return jsonResponse(
+      { ok: false, error: "Method not allowed" },
+      405,
+      corsHeaders,
+      { Allow: "POST, OPTIONS" }
+    );
+  }
+
+  const sharedSecret = request.headers.get("X-Grow-Confirm-Secret");
+  if (!env.GROW_CONFIRM_SECRET || sharedSecret !== env.GROW_CONFIRM_SECRET) {
+    return jsonResponse({ ok: false, error: "Unauthorized" }, 401, corsHeaders || noStoreHeaders());
+  }
+
+  let input;
+  try {
+    input = await request.json();
+  } catch {
+    return jsonResponse({ ok: false, error: "Invalid JSON" }, 400, corsHeaders);
+  }
+
+  const orderId = cleanText(input.orderId, 60);
+  const status = cleanText(input.status, 20);
+  if (!orderId || !ORDER_STATUSES.includes(status) || status === "created") {
+    return jsonResponse({ ok: false, error: "Invalid orderId or status" }, 400, corsHeaders);
+  }
+
+  const order = await getOrder(env, orderId);
+  if (!order) {
+    return jsonResponse({ ok: false, error: "Order not found" }, 404, corsHeaders);
+  }
+
+  // Idempotent: a duplicate webhook/notification for an order already in this
+  // (or a later, final) state is accepted as a no-op rather than reapplied,
+  // so a retried "paid" notification can never trigger a second receipt.
+  const finalStates = ["paid", "failed", "cancelled", "refunded"];
+  if (order.status === status) {
+    return jsonResponse({ ok: true, orderId, status: order.status, alreadyApplied: true }, 200, corsHeaders);
+  }
+  if (finalStates.includes(order.status) && status !== "refunded") {
+    return jsonResponse({ ok: true, orderId, status: order.status, alreadyApplied: true }, 200, corsHeaders);
+  }
+
+  const providerRef = cleanText(input.providerRef, 200);
+  await saveOrder(env, {
+    ...order,
+    status,
+    providerRef: providerRef || order.providerRef || "",
+    updatedAt: new Date().toISOString(),
+  });
+
+  return jsonResponse({ ok: true, orderId, status }, 200, corsHeaders);
+}
+
+// Public, non-sensitive flag: whether the Grow sandbox checkout button should
+// be shown at all. Controlled only by a Worker secret set in Cloudflare —
+// never a client-visible URL parameter — so a regular visitor cannot enable it.
+async function handleGrowTestStatus(request, env) {
+  const corsHeaders = getCorsHeaders(request, env);
+
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: corsHeaders ? 204 : 403,
+      headers: corsHeaders || noStoreHeaders(),
+    });
+  }
+
+  if (request.method !== "GET") {
+    return jsonResponse(
+      { ok: false, error: "Method not allowed" },
+      405,
+      corsHeaders,
+      { Allow: "GET, OPTIONS" }
+    );
+  }
+
+  return jsonResponse({ ok: true, enabled: env.GROW_TEST_ENABLED === "true" }, 200, corsHeaders);
+}
+
+// Lets the thank-you page ask "what actually happened to this order" instead
+// of trusting that landing on /thank-you/ means payment succeeded. Returns only
+// non-sensitive fields — no name/phone/email/address.
+async function handleOrderStatus(request, env) {
+  const corsHeaders = getCorsHeaders(request, env);
+  const url = new URL(request.url);
+
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: corsHeaders ? 204 : 403,
+      headers: corsHeaders || noStoreHeaders(),
+    });
+  }
+
+  if (request.method !== "GET") {
+    return jsonResponse(
+      { ok: false, error: "Method not allowed" },
+      405,
+      corsHeaders,
+      { Allow: "GET, OPTIONS" }
+    );
+  }
+
+  if (!corsHeaders) {
+    return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
+  }
+
+  if (await isRateLimited(env, `order-status:${clientIp(request)}`, 30, 60)) {
+    return jsonResponse({ ok: false, error: "Too many requests" }, 429, corsHeaders);
+  }
+
+  const orderId = cleanText(url.searchParams.get("orderId"), 60);
+  if (!orderId) {
+    return jsonResponse({ ok: false, error: "Missing orderId" }, 400, corsHeaders);
+  }
+
+  const order = await getOrder(env, orderId);
+  if (!order) {
+    return jsonResponse({ ok: false, error: "Order not found" }, 404, corsHeaders);
+  }
+
+  return jsonResponse(
+    {
+      ok: true,
+      orderId: order.orderId,
+      status: order.status,
+      total: order.total,
+      currency: order.currency,
+      updatedAt: order.updatedAt,
+    },
+    200,
+    corsHeaders
+  );
 }
 
 function calculateShipping(items) {
@@ -1159,7 +1483,7 @@ function getCorsHeaders(request, env) {
   return {
     ...noStoreHeaders(),
     "Access-Control-Allow-Origin": origin || allowedOrigins[0],
-    "Access-Control-Allow-Headers": "Content-Type, X-Disegni-Test-Key",
+    "Access-Control-Allow-Headers": "Content-Type, X-Disegni-Test-Key, X-Grow-Confirm-Secret",
     "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
     Vary: "Origin",
   };

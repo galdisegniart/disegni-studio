@@ -9,15 +9,23 @@ eleventyComputed:
   description: "{{ pages.thankYou.metaDescription }}"
 ---
 {% set p = pages.thankYou %}
-<section class="thank-you section">
+<section class="thank-you section" data-thank-you
+  data-heading-paid="{{ p.heading }}"
+  data-lead-paid="{{ p.lead }}"
+  data-heading-pending="{{ p.pendingHeading }}"
+  data-lead-pending="{{ p.pendingLead }}"
+  data-heading-failed="{{ p.failedHeading }}"
+  data-lead-failed="{{ p.failedLead }}"
+  data-heading-notfound="{{ p.notFoundHeading }}"
+  data-lead-notfound="{{ p.notFoundLead }}">
   <div class="thank-you-inner">
     <div class="thank-you-mark" aria-hidden="true">
       <svg viewBox="0 0 32 32">
         <path d="m8 16.5 5 5L24 10"></path>
       </svg>
     </div>
-    <h1>{{ p.heading }}</h1>
-    <p class="thank-you-lead">{{ p.lead }}</p>
+    <h1 data-thank-you-heading>{{ p.checkingHeading }}</h1>
+    <p class="thank-you-lead" data-thank-you-lead>{{ p.checkingLead }}</p>
     <p class="thank-you-note">{{ p.note }}</p>
     <div class="thank-you-actions">
       <a class="cta" href="{{ p.ctaHref }}">{{ p.ctaLabel }} <span>←</span></a>

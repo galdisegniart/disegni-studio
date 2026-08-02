@@ -80,7 +80,63 @@ npx wrangler secret put MAKE_CHECKOUT_WEBHOOK_URL
 npx wrangler secret put MAKE_CHECKOUT_API_KEY
 ```
 
-בשלב הבדיקה מאושרות 11 הווריאציות של Orin: פוסטר, פוסטר ממוסגר וקנבס.
 המחירים והמשלוח לפי קטגוריה וכמות מחושבים ב-Worker ואינם מתקבלים
 מהדפדפן. בהזמנה שמשלבת קטגוריות, עלות המשלוח הראשונה מחושבת לכל
 קטגוריה בנפרד.
+
+**הקטלוג אינו קשיח לאמן/יצירה אחת.** הוורקר שולף בכל בקשה (עם קאש
+של 5 דקות ב-KV) את `https://disegni.studio/purchase-catalog.json` —
+קובץ שנוצר אוטומטית בכל build מתוך `src/_data/purchaseCatalog.js`,
+וכולל כל יצירה שיש לה שדה `purchaseVariants` מאושר ב-CMS ותואמת
+מוצר ב-Printful. כדי לפתוח יצירה נוספת לתשלום, אין צורך בשינוי קוד -
+רק למלא `purchaseVariants` עבורה ב-CMS ולבנות מחדש.
+
+## סטטוס הזמנה, מניעת כפילויות וסגירת מסלול הטסט
+
+מסלול התשלום שומר מצב הזמנה אמיתי (KV), כדי שניתן יהיה לדעת בוודאות
+מה קרה להזמנה, למנוע יצירת שתי הזמנות מאותה לחיצה כפולה/רענון, ולמנוע
+הפקת מסמך כפול. חובה להריץ פעם אחת:
+
+```powershell
+cd cms-oauth-worker
+npx wrangler kv namespace create ORDERS_KV
+```
+
+הפקודה תדפיס `id` — יש להעתיק אותו לתוך `wrangler.toml`, בשורה
+`id = "REPLACE_WITH_KV_NAMESPACE_ID"`, במקום הטקסט הזה.
+
+**מסלול הטסט (Sandbox) סגור כברירת מחדל.** בעבר הוא היה נגיש לכל אחד
+דרך פרמטר URL ציבורי (`?payment-test=orin`) — זה הוסר. עכשיו כפתור
+התשלום מוצג רק אם הדגל הבא מוגדר לערך `true` ישירות ב-Cloudflare:
+
+```powershell
+npx wrangler secret put GROW_TEST_ENABLED
+```
+
+כדי לכבות את מסלול הטסט, פשוט משנים את הערך ל-`false` (או מוחקים את
+הסוד) ופורסים מחדש. אין שום דרך להפעיל את זה מהדפדפן או מכתובת URL.
+
+**אישור תשלום מ-Make:** לאחר ש-Make מריץ `Approve Transaction` מול
+Grow, הוא צריך לשלוח בקשה חזרה לוורקר כדי לעדכן את סטטוס ההזמנה
+בפועל ל-`paid` (או `failed`/`cancelled`/`refunded`):
+
+```
+POST /payments/grow/confirm
+Header: X-Grow-Confirm-Secret: <הסוד>
+Body: { "orderId": "GD-...", "status": "paid", "providerRef": "..." }
+```
+
+ההגדרה הנדרשת:
+
+```powershell
+npx wrangler secret put GROW_CONFIRM_SECRET
+```
+
+יש להזין את אותו ערך גם בהגדרת ה-HTTP request/webhook היוצא ב-Make
+(בכותרת `X-Grow-Confirm-Secret`), כדי שהוורקר יידע שהקריאה באמת הגיעה
+מ-Make ולא מגורם אחר. הבקשה **אידמפוטנטית**: אישור כפול לאותה הזמנה
+לא ישנה שום דבר בפעם השנייה.
+
+עמוד "תודה על הרכישה" קורא בעצמו ל-`GET /orders/status?orderId=...`
+ומציג "שולם בהצלחה" רק אם הסטטוס בפועל הוא `paid` — לא סתם כי הגולש
+הגיע לעמוד.
