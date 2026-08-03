@@ -221,6 +221,11 @@
         changed = true;
       }
 
+      if (artwork.paymentImage && item.paymentImage !== artwork.paymentImage) {
+        item.paymentImage = artwork.paymentImage;
+        changed = true;
+      }
+
       var variants = artwork.variants || [];
       var expectedType = legacyProductType(item);
       var expectedSize = normalizeSize(item.sizeId || item.labelIn || item.labelCm);
@@ -695,6 +700,7 @@
         artworkSlug: wrap.dataset.artworkSlug,
         artworkName: wrap.dataset.artworkName,
         image: wrap.dataset.artworkImage || "",
+        paymentImage: option.dataset.paymentImage || wrap.dataset.paymentImage || "",
         material: option.dataset.material,
         materialName: option.dataset.materialName,
         productType: option.dataset.productType || "",
@@ -819,6 +825,7 @@
                   productType: item.productType,
                   sizeId: item.sizeId,
                   quantity: item.qty,
+                  imageUrl: item.paymentImage ? new URL(item.paymentImage, window.location.origin).href : "",
                 };
               }),
               customer: {
@@ -977,6 +984,7 @@
       option.dataset.material = item.style;
       option.dataset.materialName = item.productTypeName;
       option.dataset.productType = item.productType;
+      option.dataset.paymentImage = item.paymentImage || wrap.dataset.paymentImage || "";
       option.dataset.frame = item.frame;
       option.dataset.frameColor = item.frameColor || (item.frame === "framed" ? "black" : "");
       option.dataset.frameName = "";
@@ -1217,6 +1225,14 @@
       clone.dataset.labelCm = opt.dataset.labelCm;
       clone.dataset.priceIls = opt.dataset.priceIls;
       clone.dataset.priceUsd = opt.dataset.priceUsd;
+      clone.dataset.paymentImage = opt.dataset.paymentImage || wrap.dataset.paymentImage || "";
+      // Without these the cart records productType "" and NaN shipping, which
+      // silently priced shipping at 0 on every non-Printful product page.
+      if (opt.dataset.productType) clone.dataset.productType = opt.dataset.productType;
+      if (opt.dataset.shippingFirstIls) clone.dataset.shippingFirstIls = opt.dataset.shippingFirstIls;
+      if (opt.dataset.shippingAdditionalIls) clone.dataset.shippingAdditionalIls = opt.dataset.shippingAdditionalIls;
+      if (opt.dataset.shippingFirstUsd) clone.dataset.shippingFirstUsd = opt.dataset.shippingFirstUsd;
+      if (opt.dataset.shippingAdditionalUsd) clone.dataset.shippingAdditionalUsd = opt.dataset.shippingAdditionalUsd;
       if (opt.disabled) clone.disabled = true;
       var label = currency === "USD" ? opt.dataset.labelIn : opt.dataset.labelCm;
       clone.textContent = label + (opt.disabled ? " (אזל)" : "");

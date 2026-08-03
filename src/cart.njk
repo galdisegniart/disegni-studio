@@ -84,7 +84,7 @@ bodyClass: "cart-view"
 <script id="cart-catalog-data" type="application/json">
 [
 {% for item in artworks %}
-  {"slug": {{ item.slug | dump | safe }}, "image": {{ item.image | dump | safe }}, "variants": {{ (item.purchaseVariants or []) | dump | safe }}}{% if not loop.last %},{% endif %}
+  {"slug": {{ item.slug | dump | safe }}, "image": {{ item.image | dump | safe }}, "paymentImage": {{ (item.paymentImage or '') | dump | safe }}, "variants": {{ (item.purchaseVariants or []) | dump | safe }}}{% if not loop.last %},{% endif %}
 {% endfor %}
 ]
 </script>

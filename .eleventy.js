@@ -87,6 +87,25 @@ module.exports = function (eleventyConfig) {
     return { low: low || 0, high };
   });
 
+  // pricing.json calls the paper material "paper"; shipping.json calls the same
+  // thing "poster". Every other id matches. Keep this the single place that knows.
+  const materialToProductType = (materialId) =>
+    materialId === "paper" ? "poster" : materialId;
+
+  eleventyConfig.addFilter("productTypeFor", materialToProductType);
+
+  // Shipping row for a pricing.json material+size, so non-Printful product pages
+  // can carry real shipping data instead of leaving it empty (which billed 0).
+  eleventyConfig.addFilter("shippingFor", function (shipping, materialId, sizeId) {
+    const variants = (shipping && shipping.variants) || [];
+    const productType = materialToProductType(materialId);
+    return (
+      variants.find(
+        (item) => item.productType === productType && item.sizeId === sizeId
+      ) || null
+    );
+  });
+
   eleventyConfig.addFilter("printfulOptions", function (catalog, artwork, pricing, shipping) {
     const target = String((artwork && artwork.name) || artwork || "").toLowerCase();
     const approvedVariants = (artwork && artwork.purchaseVariants) || [];
@@ -150,6 +169,7 @@ module.exports = function (eleventyConfig) {
           frameName: frame === "framed" ? "ממוסגר" : "ללא מסגרת",
           productType,
           productTypeName,
+          paymentImage: (approved && approved.paymentImage) || (artwork && artwork.paymentImage) || "",
           catalogNumber: approved && approved.catalogNumber,
           priceUSD: (approved && approved.priceUSD) ||
             (fallback && fallback.priceUSD) ||

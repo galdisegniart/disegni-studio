@@ -9,6 +9,14 @@ const path = require("path");
 // field) are included — an artwork with no approved variants yet contributes
 // nothing here and stays on the manual WhatsApp/bank-transfer checkout path.
 module.exports = () => {
+  const siteOrigin = "https://disegni.studio";
+  const paymentImageUrl = (value) => {
+    const image = String(value || "").trim();
+    if (!/\.(?:jpe?g|png)(?:\?.*)?$/i.test(image)) return "";
+    if (/^https:\/\//i.test(image)) return image;
+    return image.startsWith("/") ? siteOrigin + image : "";
+  };
+
   const contentDir = path.join(__dirname, "..", "content");
 
   const artworksDir = path.join(contentDir, "artworks");
@@ -90,6 +98,7 @@ module.exports = () => {
           sizeId,
           catalogNumber: approved.catalogNumber,
           productName: `${artwork.name} – ${productTypeName} ${approved.labelCm || ""}`.trim(),
+          imageUrl: paymentImageUrl(approved.paymentImage || artwork.paymentImage),
           unitPriceILS: approved.priceILS,
           shippingFirstILS,
           shippingAdditionalILS: Number.isFinite(shippingAdditionalILS) ? shippingAdditionalILS : 0,

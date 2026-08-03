@@ -40,6 +40,7 @@ const TEST_CATALOG = [
     sizeId: "5x7",
     catalogNumber: "ORIN-POSTER-5X7",
     productName: "Orin – פוסטר 13×18 ס״מ",
+    imageUrl: "https://disegni.studio/images/products/mockups/orin/orin-payment.jpg",
     unitPriceILS: 89,
     shippingFirstILS: 45,
     shippingAdditionalILS: 4,
@@ -112,6 +113,7 @@ function growRequest(overrides = {}) {
           productType: "poster",
           sizeId: "5x7",
           quantity: 1,
+          imageUrl: "https://disegni.studio/images/products/mockups/orin/orin-payment.jpg",
         },
       ],
       customer: {
@@ -199,10 +201,12 @@ test("creates a server-priced Orin checkout request without exposing Make secret
     assert.equal(payload.unitPrice, 89);
     assert.equal(payload.shipping, 45);
     assert.equal(payload.total, 134);
+    assert.equal(payload.imageUrl, "https://disegni.studio/images/products/mockups/orin/orin-payment.jpg");
     assert.deepEqual(payload.items, [
       {
         catalogNumber: "ORIN-POSTER-5X7",
         productName: "Orin – פוסטר 13×18 ס״מ",
+        imageUrl: "https://disegni.studio/images/products/mockups/orin/orin-payment.jpg",
         unitPrice: 89,
         quantity: 1,
         lineTotal: 89,
