@@ -1,32 +1,77 @@
 {
-  "brand": "גל דִּיסֵנִי",
-  "siteUrl": "https://disegni.studio",
-  "tagline": "אמנות מקורית · פורטרטים · סדנאות",
-  "whatsappNumber": "972552902934",
-  "businessNumber": "",
-  "businessAddress": "",
   "nav": [
-    { "label": "גלריה", "href": "/", "visible": true },
+    {
+      "label": "גלריה",
+      "href": "/",
+      "visible": true
+    },
     {
       "label": "מוצרים",
       "href": "/collections/prints/",
       "visible": true,
       "children": [
-        { "label": "הדפסים", "href": "/collections/prints/", "visible": true },
-        { "label": "מקוריות זמינות", "href": "/collections/originals/", "visible": true }
+        {
+          "label": "הדפסים",
+          "href": "/collections/prints/",
+          "visible": true
+        },
+        {
+          "label": "מקוריות זמינות",
+          "href": "/collections/originals/",
+          "visible": true
+        }
       ]
     },
-    { "label": "יצירות בהזמנה", "href": "/commissions/", "visible": true },
-    { "label": "סדנאות", "href": "/workshops/", "visible": true },
-    { "label": "אודות", "href": "/about/", "visible": true },
-    { "label": "פורטפוליו", "href": "/portfolio/", "visible": false },
-    { "label": "זכויות", "href": "/rights/", "visible": true },
-    { "label": "יצירת קשר", "href": "/contact/", "visible": true }
+    {
+      "label": "יצירות בהזמנה",
+      "href": "/commissions/",
+      "visible": true
+    },
+    {
+      "label": "סדנאות",
+      "href": "/workshops/",
+      "visible": true
+    },
+    {
+      "label": "אודות",
+      "href": "/about/",
+      "visible": true
+    },
+    {
+      "label": "פורטפוליו",
+      "href": "/portfolio/",
+      "visible": false
+    },
+    {
+      "label": "זכויות",
+      "href": "/rights/",
+      "visible": true
+    },
+    {
+      "label": "יצירת קשר",
+      "href": "/contact/",
+      "visible": true
+    }
   ],
-  "contactHref": "/contact/",
   "socials": [
-    { "name": "אינסטגרם", "href": "https://www.instagram.com/galdisegniart/" },
-    { "name": "טיקטוק", "href": "https://www.tiktok.com/@galdisegniart" },
-    { "name": "פייסבוק", "href": "https://www.facebook.com/gal.disegni" }
-  ]
+    {
+      "name": "אינסטגרם",
+      "href": "https://www.instagram.com/galdisegniart/"
+    },
+    {
+      "name": "טיקטוק",
+      "href": "https://www.tiktok.com/@galdisegniart"
+    },
+    {
+      "name": "פייסבוק",
+      "href": "https://www.facebook.com/gal.disegni"
+    }
+  ],
+  "brand": "גל דִּיסֵנִי",
+  "siteUrl": "https://disegni.studio",
+  "businessNumber": "033749326",
+  "contactHref": "/contact/",
+  "tagline": "אמנות מקורית · פורטרטים · סדנאות",
+  "businessAddress": "בוטקובסקי 30, חדרה",
+  "whatsappNumber": "972552902934"
 }
