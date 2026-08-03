@@ -1,17 +1,18 @@
 {
-  "brand": "גל דִּיסֵנִי",
+  "brand": "גל דִּיסֵנִי",
   "siteUrl": "https://disegni.studio",
   "tagline": "אמנות מקורית · פורטרטים · סדנאות",
   "whatsappNumber": "972552902934",
   "businessLegalName": "גל דיסני",
   "businessStatus": "עוסק פטור",
-  "businessNumber": "",
-  "businessAddress": "",
+  "businessNumber": "033749326",
+  "businessAddress": "בוטקובסקי 30",
   "businessCity": "חדרה",
   "businessPhone": "055-2902934",
   "businessPhoneLink": "+972552902934",
   "supportEmail": "galdisegniart@gmail.com",
   "responseTimeLabel": "עד 3 ימי עסקים",
+  "contactHref": "/contact/",
   "nav": [
     { "label": "גלריה", "href": "/", "visible": true },
     {
@@ -30,7 +31,6 @@
     { "label": "זכויות", "href": "/rights/", "visible": true },
     { "label": "יצירת קשר", "href": "/contact/", "visible": true }
   ],
-  "contactHref": "/contact/",
   "socials": [
     { "name": "אינסטגרם", "href": "https://www.instagram.com/galdisegniart/" },
     { "name": "טיקטוק", "href": "https://www.tiktok.com/@galdisegniart" },

@@ -260,9 +260,9 @@ collections:
           - { label: "תיאור קצר (בפוטר)", name: "tagline", widget: "string" }
           - { label: "מספר וואטסאפ (בפורמט בינלאומי, ללא + או רווחים, לדוגמה 972501234567)", name: "whatsappNumber", widget: "string" }
           - { label: "שם העוסק המלא (כפי שרשום ברשויות)", name: "businessLegalName", widget: "string", required: false, hint: "חובה בחוק בעסקת מכר מרחוק. יוצג בפוטר, בתקנון ובמדיניות הפרטיות" }
-          - { label: "סוג העוסק", name: "businessStatus", widget: "select", options: ["עוסק פטור", "עוסק מורשה"], default: "עוסק פטור", required: false }
+          - { label: "סוג העוסק", name: "businessStatus", widget: "string", default: "עוסק פטור", required: false, hint: "העסק הוא עוסק פטור. לא לשנות אלא אם המעמד ברשויות באמת השתנה" }
           - { label: "מספר עוסק", name: "businessNumber", widget: "string", required: false, hint: "חובה בחוק. השאירו ריק כדי לא להציג" }
-          - { label: "כתובת העסק (רחוב ומספר)", name: "businessAddress", widget: "string", required: false, hint: "חובה בחוק. השאירו ריק כדי לא להציג" }
+          - { label: "כתובת העסק (רחוב ומספר בלבד, בלי עיר)", name: "businessAddress", widget: "string", required: false, hint: "לדוגמה 'בוטקובסקי 30'. העיר נכנסת בשדה הנפרד שמתחת - אל תכתבו אותה כאן פעמיים" }
           - { label: "עיר", name: "businessCity", widget: "string", required: false }
           - { label: "טלפון להצגה", name: "businessPhone", widget: "string", required: false, hint: "לדוגמה 055-2902934" }
           - { label: "טלפון לחיוג (פורמט בינלאומי)", name: "businessPhoneLink", widget: "string", required: false, hint: "לדוגמה +972552902934" }
