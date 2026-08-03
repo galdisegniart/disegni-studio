@@ -24,10 +24,20 @@
 </head>
 <body id="top" data-whatsapp="{{ site.whatsappNumber }}">
 
+<a class="skip-link" href="#main-content">דילוג לתוכן הראשי</a>
+
 {% include "partials/site-header.njk" %}
 
 {% include "partials/cart-drawer.njk" %}
+<main id="main-content">
 {{ content | safe }}
+</main>
+
+<footer class="bare-footer">
+  <div class="footer-legal">
+    {% include "partials/legal-links.njk" %}
+  </div>
+</footer>
 
 {% for s in scripts %}
 <script src="{{ s }}?v={{ buildTime }}"></script>

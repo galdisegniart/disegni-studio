@@ -3,8 +3,15 @@
   "siteUrl": "https://disegni.studio",
   "tagline": "אמנות מקורית · פורטרטים · סדנאות",
   "whatsappNumber": "972552902934",
+  "businessLegalName": "גל דיסני",
+  "businessStatus": "עוסק פטור",
   "businessNumber": "",
   "businessAddress": "",
+  "businessCity": "חדרה",
+  "businessPhone": "055-2902934",
+  "businessPhoneLink": "+972552902934",
+  "supportEmail": "galdisegniart@gmail.com",
+  "responseTimeLabel": "עד 3 ימי עסקים",
   "nav": [
     { "label": "גלריה", "href": "/", "visible": true },
     {

@@ -46,9 +46,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/style.css?v=cda104a0">
+<link rel="stylesheet" href="/css/style.css?v=b39100fe">
 </head>
 <body id="top" data-whatsapp="972552902934">
+
+<a class="skip-link" href="#main-content">דילוג לתוכן הראשי</a>
 
 <header class="header site-header">
   <a class="brand" href="/" aria-label="גל דִּיסֵנִי, דף הבית">
@@ -467,6 +469,7 @@
   </div>
 </nav>
 
+<main id="main-content">
 <section class="booking-hero">
   <a class="editorial-link" href="/workshops/daily-art/"><span aria-hidden="true">→</span> חזרה לסדנת אמנות יומית</a>
   <p class="hero-eyebrow">תיאום מועד</p>
@@ -551,11 +554,17 @@
     </aside>
     <div class="booking-confirm-action">
       <p>לחיצה על הכפתור תפתח הודעת WhatsApp מוכנה עם כל הפרטים - שולחים אותה ומאשרים איתי את המקום.</p>
-      <a class="cta booking-confirm-cta" data-booking-confirm-cta target="_blank" rel="noopener noreferrer">קביעה עכשיו ב-WhatsApp <span>←</span></a>
+      <p class="booking-cancellation-note">שימו לב: ביטול הרשמה לסדנה אפשרי עד 14 יום ממועד ההרשמה, ובלבד שנעשה לפחות יומיים (שאינם ימי מנוחה) לפני מועד הסדנה. הפירוט המלא ב<a href="/returns/" target="_blank" rel="noopener noreferrer">מדיניות הביטולים וההחזרים</a>.</p>
+      <label class="cart-consent-label booking-consent" for="booking-consent">
+        <input type="checkbox" id="booking-consent" data-booking-consent>
+        <span>קראתי ואני מאשר/ת את <a href="/terms/" target="_blank" rel="noopener noreferrer">תקנון האתר</a>, את <a href="/returns/" target="_blank" rel="noopener noreferrer">מדיניות הביטולים וההחזרים</a> ואת <a href="/privacy/" target="_blank" rel="noopener noreferrer">מדיניות הפרטיות</a> *</span>
+      </label>
+      <a class="cta booking-confirm-cta" data-booking-confirm-cta target="_blank" rel="noopener noreferrer" aria-disabled="true">קביעה עכשיו ב-WhatsApp <span>←</span></a>
     </div>
   </div>
 </section>
 
+</main>
 
 <footer>
   <div class="footer-contact">
@@ -603,17 +612,22 @@
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 21v-8h2.8l.45-3H14V8.2c0-.9.3-1.5 1.65-1.5h1.75V4.05c-.3-.05-1.35-.15-2.55-.15-2.5 0-4.2 1.5-4.2 4.35V10H8v3h2.65v8H14Z"></path></svg>
     </a>
   </nav>
-  <p class="footer-legal">© 2026 גל דִּיסֵנִי. כל הזכויות שמורות. <a href="/rights/">מדיניות זכויות יוצרים</a> · <a href="/returns/">מדיניות ביטולים והחזרים</a> · <a href="/privacy/">מדיניות פרטיות</a></p>
+  <div class="footer-legal">
+    <p class="footer-legal-links"><a href="/terms/">תקנון ומדיניות רכישה</a> · <a href="/returns/">מדיניות ביטולים והחזרים</a> · <a href="/rights/">מדיניות זכויות יוצרים</a> · <a href="/privacy/">מדיניות פרטיות</a> · <a href="/accessibility/">הצהרת נגישות</a> · <a href="/contact/">יצירת קשר</a></p>
+<p class="footer-legal-business">גל דיסני · חדרה · <a href="tel:+972552902934" dir="ltr">055-2902934</a> · <a href="mailto:galdisegniart@gmail.com" dir="ltr">galdisegniart@gmail.com</a></p>
+<p class="footer-legal-copy">© 2026 גל דִּיסֵנִי. כל הזכויות שמורות.</p>
+
+  </div>
 </footer>
 
 
 
-<script src="/js/booking-calendar.js?v=cda104a0"></script>
+<script src="/js/booking-calendar.js?v=b39100fe"></script>
 
-<script src="/js/cart.js?v=cda104a0"></script>
-<script src="/js/nav-toggle.js?v=cda104a0"></script>
-<script src="/js/header-search.js?v=cda104a0"></script>
-<script src="/js/quick-links-toggle.js?v=cda104a0"></script>
-<script src="/js/footer-contact.js?v=cda104a0"></script>
+<script src="/js/cart.js?v=b39100fe"></script>
+<script src="/js/nav-toggle.js?v=b39100fe"></script>
+<script src="/js/header-search.js?v=b39100fe"></script>
+<script src="/js/quick-links-toggle.js?v=b39100fe"></script>
+<script src="/js/footer-contact.js?v=b39100fe"></script>
 </body>
 </html>

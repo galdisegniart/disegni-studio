@@ -66,7 +66,27 @@
     var confirmDetails = document.querySelector("[data-booking-confirm-details]");
     var confirmTotal = document.querySelector("[data-booking-confirm-total]");
     var confirmCta = document.querySelector("[data-booking-confirm-cta]");
+    var consentBox = document.querySelector("[data-booking-consent]");
     var backLink = document.querySelector("[data-booking-back]");
+
+    function syncConsent() {
+      if (!confirmCta) return;
+      var ok = !consentBox || consentBox.checked;
+      confirmCta.setAttribute("aria-disabled", ok ? "false" : "true");
+      confirmCta.classList.toggle("is-disabled", !ok);
+    }
+
+    if (consentBox) {
+      consentBox.addEventListener("change", syncConsent);
+    }
+    if (confirmCta) {
+      confirmCta.addEventListener("click", function (e) {
+        if (consentBox && !consentBox.checked) {
+          e.preventDefault();
+          consentBox.focus();
+        }
+      });
+    }
 
     var waBase = root.getAttribute("data-wa-base") || "";
     var cardTitle = root.getAttribute("data-card-title") || "";
@@ -157,6 +177,7 @@
       if (confirmCta) {
         confirmCta.href = waBase + encodeURIComponent(buildMessage(entry, option));
       }
+      syncConsent();
 
       if (flowSection) flowSection.hidden = true;
       if (confirmSection) confirmSection.hidden = false;

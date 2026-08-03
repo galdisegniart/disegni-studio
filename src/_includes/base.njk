@@ -24,6 +24,8 @@
 </head>
 <body id="top"{% if bodyClass %} class="{{ bodyClass }}"{% endif %} data-whatsapp="{{ site.whatsappNumber }}">
 
+<a class="skip-link" href="#main-content">דילוג לתוכן הראשי</a>
+
 {% include "partials/site-header.njk" %}
 
 {% include "partials/cart-drawer.njk" %}
@@ -45,7 +47,9 @@
   </div>
 </nav>
 
+<main id="main-content">
 {{ content | safe }}
+</main>
 
 {% include "partials/footer.njk" %}
 

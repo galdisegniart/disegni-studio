@@ -11,6 +11,7 @@
     { "label": "לרכישת יצירות, סדנאות ופניות כלליות", "address": "galdisegniart@gmail.com" },
     { "label": "לפניות אחרות", "address": "gal.disegni@gmail.com" }
   ],
+  "businessLabel": "פרטי העסק",
   "waCtaLabel": "לשיחה קצרה ב-WhatsApp",
   "waMessage": "שלום גל, אשמח ליצור איתך קשר.",
   "socialLabel": "מוזמנים לעקוב",

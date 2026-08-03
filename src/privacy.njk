@@ -17,6 +17,18 @@ eleventyComputed:
 </section>
 
 <section class="rights-policy section">
+  <div class="legal-identity">
+    <h2>{{ p.identityHeading }}</h2>
+    <dl class="legal-identity-list">
+      {% if site.businessLegalName %}<div><dt>בעל המידע</dt><dd>{{ site.businessLegalName }}</dd></div>{% endif %}
+      {% if site.businessNumber %}<div><dt>{{ site.businessStatus }} מס'</dt><dd dir="ltr">{{ site.businessNumber }}</dd></div>{% endif %}
+      {% if site.businessAddress %}<div><dt>כתובת</dt><dd>{{ site.businessAddress }}, {{ site.businessCity }}</dd></div>{% endif %}
+      <div><dt>דוא"ל</dt><dd><a href="mailto:{{ site.supportEmail }}" dir="ltr">{{ site.supportEmail }}</a></dd></div>
+      <div><dt>טלפון</dt><dd><a href="tel:{{ site.businessPhoneLink }}" dir="ltr">{{ site.businessPhone }}</a></dd></div>
+      <div><dt>WhatsApp</dt><dd><a href="{{ p.waMessage | waLink }}" target="_blank" rel="noopener noreferrer">שליחת הודעה</a></dd></div>
+    </dl>
+  </div>
+
   <div class="rights-policy-list">
     {% for item in p.sections %}
     <article>
@@ -25,6 +37,13 @@ eleventyComputed:
         {% for para in item.paragraphs %}
         <p>{{ para }}</p>
         {% endfor %}
+        {% if item.bullets %}
+        <ul class="legal-bullets">
+          {% for bullet in item.bullets %}
+          <li>{{ bullet | safe }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
       </div>
     </article>
     {% endfor %}

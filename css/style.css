@@ -1246,14 +1246,47 @@ footer {
 .footer-legal {
   grid-area: legal;
   justify-self: center;
+  display: grid;
+  row-gap: 8px;
+  max-width: 900px;
   margin: 0;
-  color: #625d55;
+  color: #9a9389;
   letter-spacing: 0.02em;
   font-size: 12px;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.footer-legal p {
+  margin: 0;
+  line-height: 1.8;
+}
+
+.footer-legal-copy {
+  color: #8a8378;
+}
+
+/* Legal strip for pages built on base-bare.njk (product pages) */
+.bare-footer {
+  display: grid;
+  grid-template-areas: "legal";
+  margin-inline: 34px;
+  padding: 38px 0 48px;
+  border-top: 1px solid var(--line);
+  color: #706b63;
+  letter-spacing: 0.1em;
+  font-size: 13px;
+}
+
+@media (max-width: 620px) {
+  .bare-footer {
+    margin-inline: 20px;
+    padding: 28px 0 36px;
+  }
 }
 
 .footer-legal a {
-  color: #8a8378;
+  color: #b5ada2;
   text-decoration: underline;
   text-underline-offset: 2px;
 }
@@ -5543,10 +5576,33 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .intro-video-play,
-  .work-card-footer .cta {
-    transition: none;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
+}
+
+/* Skip to main content */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  inset-inline-start: 20px;
+  z-index: 999;
+  padding: 12px 22px;
+  border-radius: 0 0 8px 8px;
+  background: var(--copper);
+  color: #fff;
+  font-size: 15px;
+  text-decoration: none;
+  transition: top 0.15s;
+}
+
+.skip-link:focus {
+  top: 0;
 }
 
 /* Rights page */
@@ -5649,9 +5705,93 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
 .rights-legal-note {
   max-width: 850px;
   margin: 30px 0 0;
-  color: #6f6a63;
+  color: #9a9389;
   font-size: 13px;
   line-height: 1.8;
+}
+
+/* Legal pages: business identity block + bullet lists */
+.legal-identity {
+  margin-bottom: 54px;
+  padding: 34px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.legal-identity h2 {
+  margin: 0 0 26px;
+  font-size: clamp(22px, 2.4vw, 30px);
+  font-weight: 500;
+}
+
+.legal-identity-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px 18px;
+  margin: 0;
+}
+
+.legal-identity-list dt {
+  margin: 0 0 4px;
+  color: var(--dim);
+  font-size: 13px;
+}
+
+.legal-identity-list dd {
+  margin: 0;
+  color: var(--bone);
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.legal-identity-list a {
+  color: var(--copper);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.legal-bullets {
+  margin: 4px 0 16px;
+  padding-inline-start: 20px;
+  color: #aaa39a;
+  font-size: 18px;
+  line-height: 1.9;
+}
+
+.legal-bullets li {
+  margin-bottom: 10px;
+}
+
+.legal-bullets strong {
+  color: var(--bone);
+  font-weight: 500;
+}
+
+.contact-business {
+  margin-top: 54px;
+  margin-bottom: 0;
+}
+
+.booking-cancellation-note {
+  margin: 0 0 18px;
+  color: #8a8378;
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+.booking-cancellation-note a {
+  color: var(--copper);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.booking-consent {
+  margin-bottom: 22px;
+}
+
+.cta.is-disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
 @media (max-width: 920px) {
@@ -5667,6 +5807,21 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
   .rights-policy-list article {
     grid-template-columns: 1fr;
     gap: 12px;
+  }
+  .legal-identity-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .legal-identity {
+    padding: 24px 20px;
+  }
+  .legal-identity-list {
+    grid-template-columns: 1fr;
+  }
+  .legal-bullets {
+    font-size: 16px;
   }
 }
 
