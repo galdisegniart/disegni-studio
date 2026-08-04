@@ -1,0 +1,81 @@
+---
+layout: base-bare.njk
+title: "ביטול הזמנה והחזר כספי | גל דִּיסֵנִי"
+description: "עמוד אדמין פנימי - לא לשימוש לקוחות."
+permalink: "/admin-cancel-order/index.html"
+noindex: true
+---
+<section style="max-width: 520px; margin: 80px auto; padding: 0 24px; color: var(--bone); font-family: var(--sans);">
+  <h1 style="font-size: 24px; margin-bottom: 8px;">ביטול הזמנה והחזר כספי</h1>
+  <p style="color: var(--dim); margin-bottom: 8px;">
+    פעולה זו מבטלת הזמנה ששולמה ומריצה החזר כספי מלא מול Grow -
+    לפני משלוח בלבד. הסטטוס יתעדכן בפועל רק אחרי שההחזר הצליח בפועל.
+  </p>
+  <p style="color: #c0554d; font-size: 14px; margin-bottom: 32px;">
+    שימו לב: הקבלה ב-SmartBee לא מבוטלת/מתוקנת אוטומטית - צריך לטפל
+    בזה בנפרד, ידנית, מול SmartBee.
+  </p>
+
+  <form id="cancel-form" style="display: flex; flex-direction: column; gap: 16px;">
+    <label style="display: flex; flex-direction: column; gap: 6px;">
+      <span>מפתח אדמין</span>
+      <input type="password" id="admin-key" required autocomplete="off"
+        style="padding: 10px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
+    </label>
+    <label style="display: flex; flex-direction: column; gap: 6px;">
+      <span>מספר הזמנה (orderId)</span>
+      <input type="text" id="order-id" required autocomplete="off" placeholder="GD-..."
+        style="padding: 10px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
+    </label>
+    <button type="submit" style="padding: 12px; background: #c0554d; color: #fff; border: none; cursor: pointer;">
+      בטל הזמנה ובצע החזר מלא
+    </button>
+  </form>
+
+  <p id="result" style="margin-top: 24px; font-size: 14px; white-space: pre-wrap;"></p>
+</section>
+
+<script>
+(function () {
+  var WORKER_ORIGIN = "https://disegni-cms-oauth.galdisegniart.workers.dev";
+  var form = document.getElementById("cancel-form");
+  var resultEl = document.getElementById("result");
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    var adminKey = document.getElementById("admin-key").value.trim();
+    var orderId = document.getElementById("order-id").value.trim();
+    if (!adminKey || !orderId) return;
+
+    resultEl.style.color = "var(--dim)";
+    resultEl.textContent = "שולח בקשה...";
+
+    fetch(WORKER_ORIGIN + "/admin/orders/cancel", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Disegni-Admin-Key": adminKey,
+      },
+      body: JSON.stringify({ orderId: orderId }),
+    })
+      .then(function (response) {
+        return response.json().then(function (body) {
+          return { ok: response.ok, body: body };
+        });
+      })
+      .then(function (result) {
+        if (result.ok && result.body.ok) {
+          resultEl.style.color = "#5c8a5c";
+          resultEl.textContent = "בקשת הביטול נשלחה בהצלחה. ההזמנה תעודכן ל'הוחזר' לאחר שההחזר יאושר בפועל.";
+        } else {
+          resultEl.style.color = "#c0554d";
+          resultEl.textContent = "שגיאה: " + (result.body && result.body.error ? result.body.error : "לא ידוע");
+        }
+      })
+      .catch(function (error) {
+        resultEl.style.color = "#c0554d";
+        resultEl.textContent = "שגיאת רשת: " + error.message;
+      });
+  });
+})();
+</script>

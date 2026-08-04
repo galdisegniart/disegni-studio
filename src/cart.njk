@@ -54,7 +54,16 @@ bodyClass: "cart-view"
 
     <div id="cart-summary" class="cart-summary" hidden>
     <h2>סיכום לתשלום</h2>
+    <div class="cart-coupon-field">
+      <label for="cart-coupon-code">קוד קופון</label>
+      <div class="cart-coupon-row">
+        <input type="text" id="cart-coupon-code" autocomplete="off" placeholder="הזינו קוד">
+        <button type="button" id="cart-coupon-apply">החל</button>
+      </div>
+      <p id="cart-coupon-message" class="cart-coupon-message" hidden></p>
+    </div>
     <div class="cart-summary-row"><span>סכום ביניים</span><span id="cart-subtotal"></span></div>
+    <div class="cart-summary-row" id="cart-discount-row" hidden><span>הנחה</span><span id="cart-discount"></span></div>
     <div class="cart-summary-row"><span>משלוח</span><span id="cart-shipping"></span></div>
     <div class="cart-summary-row cart-summary-total"><span>סה"כ</span><span id="cart-total"></span></div>
     <button id="cart-grow-checkout" class="cta" type="button" hidden>מעבר לתשלום מאובטח <span>←</span></button>

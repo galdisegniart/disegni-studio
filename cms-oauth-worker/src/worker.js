@@ -24,6 +24,26 @@ export default {
       return handleOrderStatus(request, env);
     }
 
+    if (url.pathname === "/payments/coupons/check") {
+      return handleCouponCheck(request, env);
+    }
+
+    if (url.pathname === "/admin/orders/cancel") {
+      return handleAdminCancelOrder(request, env);
+    }
+
+    if (url.pathname === "/admin/coupons/list") {
+      return handleAdminCouponsList(request, env);
+    }
+
+    if (url.pathname === "/admin/coupons/create") {
+      return handleAdminCouponsCreate(request, env);
+    }
+
+    if (url.pathname === "/admin/coupons/delete") {
+      return handleAdminCouponsDelete(request, env);
+    }
+
     if (url.pathname === "/smartbee/connection-test") {
       return handleSmartBeeConnectionTest(request, env);
     }
@@ -191,6 +211,8 @@ const ORDER_TTL_SECONDS = 60 * 60 * 24 * 30; // 30 days
 const IDEMPOTENCY_TTL_SECONDS = 60 * 15; // 15 minutes
 const RATE_LIMIT_WINDOW_SECONDS = 5 * 60;
 const RATE_LIMIT_MAX_REQUESTS = 8;
+const COUPON_CODE_PATTERN = /^[A-Z0-9]{3,20}$/;
+const COUPON_MAX_PERCENT_OFF = 90;
 
 async function kvGetJSON(env, key) {
   if (!env.ORDERS_KV) return null;
@@ -216,6 +238,48 @@ async function getOrder(env, orderId) {
 
 async function saveOrder(env, order) {
   await kvPutJSON(env, `order:${order.orderId}`, order, ORDER_TTL_SECONDS);
+}
+
+// Coupons have no expiry (unlike orders/idempotency keys) - they stay valid
+// until an admin deletes them.
+async function kvPutJSONPermanent(env, key, value) {
+  if (!env.ORDERS_KV) return;
+  await env.ORDERS_KV.put(key, JSON.stringify(value));
+}
+
+async function getCoupon(env, code) {
+  return kvGetJSON(env, `coupon:${code}`);
+}
+
+async function saveCoupon(env, coupon) {
+  await kvPutJSONPermanent(env, `coupon:${coupon.code}`, coupon);
+}
+
+// Server-side only - never trusts a discount amount the browser might send.
+// Re-validated here even if the cart already showed the customer a preview.
+async function validateCoupon(env, rawCode, phone, subtotal) {
+  const code = String(rawCode || "").trim().toUpperCase();
+  if (!code) return { valid: false, error: "לא הוזן קוד קופון" };
+  if (!COUPON_CODE_PATTERN.test(code)) {
+    return { valid: false, error: "קוד קופון לא תקין" };
+  }
+
+  const coupon = await getCoupon(env, code);
+  if (!coupon || !coupon.active) {
+    return { valid: false, error: "קוד הקופון אינו קיים או אינו פעיל" };
+  }
+  if (coupon.maxUses && coupon.usesCount >= coupon.maxUses) {
+    return { valid: false, error: "קוד הקופון מוצה" };
+  }
+  if (phone) {
+    const alreadyUsed = await kvGetJSON(env, `couponuse:${code}:${phone}`);
+    if (alreadyUsed) {
+      return { valid: false, error: "כבר נעשה שימוש בקוד הזה עבור מספר הטלפון הזה" };
+    }
+  }
+
+  const discountILS = Math.round(subtotal * (coupon.percentOff / 100));
+  return { valid: true, code, percentOff: coupon.percentOff, discountILS };
 }
 
 // Best-effort request throttling. Cloudflare KV writes are not atomic, so under
@@ -387,7 +451,20 @@ async function handleGrowCheckout(request, env) {
 
   const subtotal = items.reduce((sum, item) => sum + item.lineTotal, 0);
   const shipping = calculateShipping(items);
-  const total = subtotal + shipping;
+
+  let couponCode = "";
+  let discountILS = 0;
+  const requestedCouponCode = cleanText(input.couponCode, 20);
+  if (requestedCouponCode) {
+    const couponResult = await validateCoupon(env, requestedCouponCode, phone, subtotal);
+    if (!couponResult.valid) {
+      return jsonResponse({ ok: false, error: couponResult.error }, 400, corsHeaders);
+    }
+    couponCode = couponResult.code;
+    discountILS = couponResult.discountILS;
+  }
+
+  const total = subtotal - discountILS + shipping;
   const orderId = `GD-${new Date().toISOString().slice(0, 10).replaceAll("-", "")}-${crypto.randomUUID().slice(0, 6).toUpperCase()}`;
   const singleItem = items.length === 1 ? items[0] : null;
   const nowIso = new Date().toISOString();
@@ -397,11 +474,23 @@ async function handleGrowCheckout(request, env) {
     status: "created",
     subtotal,
     shipping,
+    couponCode,
+    discountILS,
     total,
     currency: "ILS",
+    phone,
     createdAt: nowIso,
     updatedAt: nowIso,
   });
+
+  // Grow only ever charges based on this single price × quantity line (plus
+  // the separate shipping line) - there is no separate "total" field it
+  // reads - so the coupon discount has to be baked into unitPrice itself,
+  // not just recorded on our own order total.
+  const discountedSubtotal = subtotal - discountILS;
+  const payloadQuantity = singleItem ? singleItem.quantity : 1;
+  const payloadUnitPrice = Math.round((discountedSubtotal / payloadQuantity) * 100) / 100;
+  const discountSuffix = couponCode ? ` (קופון ${couponCode}: -${discountILS}₪)` : "";
 
   const payload = {
     orderId,
@@ -410,11 +499,12 @@ async function handleGrowCheckout(request, env) {
     email,
     address,
     catalogNumber: singleItem ? singleItem.catalogNumber : `ORDER-${orderId}`,
-    productName: singleItem
-      ? singleItem.productName
-      : `הזמנה – ${items.reduce((sum, item) => sum + item.quantity, 0)} פריטים`,
-    unitPrice: singleItem ? singleItem.unitPrice : subtotal,
-    quantity: singleItem ? singleItem.quantity : 1,
+    productName:
+      (singleItem
+        ? singleItem.productName
+        : `הזמנה – ${items.reduce((sum, item) => sum + item.quantity, 0)} פריטים`) + discountSuffix,
+    unitPrice: payloadUnitPrice,
+    quantity: payloadQuantity,
     imageUrl: singleItem ? singleItem.imageUrl : "",
     items: items.map((item) => ({
       catalogNumber: item.catalogNumber,
@@ -426,6 +516,8 @@ async function handleGrowCheckout(request, env) {
     })),
     subtotal,
     shipping,
+    couponCode,
+    discountILS,
     total,
     successUrl: `https://disegni.studio/thank-you/?order=${encodeURIComponent(orderId)}`,
   };
@@ -447,8 +539,11 @@ async function handleGrowCheckout(request, env) {
       status: "failed",
       subtotal,
       shipping,
+      couponCode,
+      discountILS,
       total,
       currency: "ILS",
+      phone,
       createdAt: nowIso,
       updatedAt: new Date().toISOString(),
     });
@@ -466,8 +561,11 @@ async function handleGrowCheckout(request, env) {
       status: "failed",
       subtotal,
       shipping,
+      couponCode,
+      discountILS,
       total,
       currency: "ILS",
+      phone,
       createdAt: nowIso,
       updatedAt: new Date().toISOString(),
     });
@@ -503,8 +601,11 @@ async function handleGrowCheckout(request, env) {
     status: "pending",
     subtotal,
     shipping,
+    couponCode,
+    discountILS,
     total,
     currency: "ILS",
+    phone,
     paymentUrl,
     createdAt: nowIso,
     updatedAt: new Date().toISOString(),
@@ -574,12 +675,29 @@ async function handleGrowConfirm(request, env) {
   }
 
   const providerRef = cleanText(input.providerRef, 200);
+  const transactionToken = cleanText(input.transactionToken, 200);
   await saveOrder(env, {
     ...order,
     status,
     providerRef: providerRef || order.providerRef || "",
+    transactionToken: transactionToken || order.transactionToken || "",
     updatedAt: new Date().toISOString(),
   });
+
+  // Coupon usage is only recorded once a payment is actually confirmed paid -
+  // not at checkout time - so an abandoned or failed payment attempt never
+  // burns the customer's one-time use of the code.
+  if (status === "paid" && order.couponCode && order.phone) {
+    await kvPutJSONPermanent(env, `couponuse:${order.couponCode}:${order.phone}`, {
+      orderId,
+      usedAt: new Date().toISOString(),
+    });
+    const coupon = await getCoupon(env, order.couponCode);
+    if (coupon) {
+      coupon.usesCount = (coupon.usesCount || 0) + 1;
+      await saveCoupon(env, coupon);
+    }
+  }
 
   return jsonResponse({ ok: true, orderId, status }, 200, corsHeaders);
 }
@@ -662,6 +780,296 @@ async function handleOrderStatus(request, env) {
     200,
     corsHeaders
   );
+}
+
+// Lets the cart show live feedback ("10% off applied") before the customer
+// commits to checkout. Never marks the code as used - only the real checkout
+// (handleGrowCheckout, re-validated there too) and a confirmed payment do that.
+async function handleCouponCheck(request, env) {
+  const corsHeaders = getCorsHeaders(request, env);
+
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: corsHeaders ? 204 : 403,
+      headers: corsHeaders || noStoreHeaders(),
+    });
+  }
+  if (request.method !== "POST") {
+    return jsonResponse({ ok: false, error: "Method not allowed" }, 405, corsHeaders, { Allow: "POST, OPTIONS" });
+  }
+  if (!corsHeaders) {
+    return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
+  }
+  if (await isRateLimited(env, `coupon-check:${clientIp(request)}`, 20, 60)) {
+    return jsonResponse({ ok: false, error: "Too many requests, please try again shortly" }, 429, corsHeaders);
+  }
+
+  let input;
+  try {
+    input = await request.json();
+  } catch {
+    return jsonResponse({ ok: false, error: "Invalid JSON" }, 400, corsHeaders);
+  }
+
+  const phone = cleanText(input.phone, 20);
+  const subtotal = Number(input.subtotal);
+  if (!Number.isFinite(subtotal) || subtotal <= 0) {
+    return jsonResponse({ ok: false, error: "Invalid subtotal" }, 400, corsHeaders);
+  }
+
+  const result = await validateCoupon(env, input.code, phone, subtotal);
+  return jsonResponse({ ok: true, ...result }, 200, corsHeaders);
+}
+
+const ADMIN_CANCEL_WEBHOOK_URL_ENV = "ADMIN_CANCEL_ORDER_WEBHOOK_URL";
+
+// Internal-only: Gal manually triggers this from the admin page after a
+// customer messages him about a mistaken order, before it's shipped. Only
+// starts the refund - the order is not marked refunded until Make confirms
+// Grow's refund actually succeeded (same "don't trust the request" pattern
+// as payment confirmation), via the existing /payments/grow/confirm.
+async function handleAdminCancelOrder(request, env) {
+  const corsHeaders = getCorsHeaders(request, env);
+
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: corsHeaders ? 204 : 403,
+      headers: corsHeaders || noStoreHeaders(),
+    });
+  }
+
+  if (request.method !== "POST") {
+    return jsonResponse(
+      { ok: false, error: "Method not allowed" },
+      405,
+      corsHeaders,
+      { Allow: "POST, OPTIONS" }
+    );
+  }
+
+  if (!corsHeaders) {
+    return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
+  }
+
+  const adminKey = request.headers.get("X-Disegni-Admin-Key");
+  if (!env.DISEGNI_ADMIN_KEY || adminKey !== env.DISEGNI_ADMIN_KEY) {
+    return jsonResponse({ ok: false, error: "Unauthorized" }, 401, corsHeaders);
+  }
+
+  if (!env[ADMIN_CANCEL_WEBHOOK_URL_ENV]) {
+    return jsonResponse(
+      { ok: false, error: "Cancel/refund service is not configured" },
+      503,
+      corsHeaders
+    );
+  }
+
+  let input;
+  try {
+    input = await request.json();
+  } catch {
+    return jsonResponse({ ok: false, error: "Invalid JSON" }, 400, corsHeaders);
+  }
+
+  const orderId = cleanText(input.orderId, 60);
+  if (!orderId) {
+    return jsonResponse({ ok: false, error: "Missing orderId" }, 400, corsHeaders);
+  }
+
+  const order = await getOrder(env, orderId);
+  if (!order) {
+    return jsonResponse({ ok: false, error: "Order not found" }, 404, corsHeaders);
+  }
+
+  if (order.status !== "paid") {
+    return jsonResponse(
+      { ok: false, error: `Order status is "${order.status}", not "paid" - nothing to refund` },
+      400,
+      corsHeaders
+    );
+  }
+
+  if (!order.providerRef || !order.transactionToken) {
+    return jsonResponse(
+      { ok: false, error: "Order is missing the Grow transaction details needed to refund it" },
+      400,
+      corsHeaders
+    );
+  }
+
+  try {
+    const makeResponse = await fetch(env[ADMIN_CANCEL_WEBHOOK_URL_ENV], {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        orderId,
+        transactionId: order.providerRef,
+        transactionToken: order.transactionToken,
+        refundSum: order.total,
+      }),
+    });
+    if (!makeResponse.ok) {
+      throw new Error(`Cancel webhook responded ${makeResponse.status}`);
+    }
+  } catch (error) {
+    console.error("Admin cancel order webhook call failed", orderId);
+    return jsonResponse(
+      { ok: false, error: "Could not start the refund - please try again" },
+      502,
+      corsHeaders
+    );
+  }
+
+  return jsonResponse(
+    { ok: true, orderId, message: "Refund started - status will update once Grow confirms it" },
+    200,
+    corsHeaders
+  );
+}
+
+function requireAdminKey(request, env, corsHeaders) {
+  const adminKey = request.headers.get("X-Disegni-Admin-Key");
+  if (!env.DISEGNI_ADMIN_KEY || adminKey !== env.DISEGNI_ADMIN_KEY) {
+    return jsonResponse({ ok: false, error: "Unauthorized" }, 401, corsHeaders);
+  }
+  return null;
+}
+
+async function handleAdminCouponsList(request, env) {
+  const corsHeaders = getCorsHeaders(request, env);
+
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: corsHeaders ? 204 : 403,
+      headers: corsHeaders || noStoreHeaders(),
+    });
+  }
+  if (request.method !== "GET") {
+    return jsonResponse({ ok: false, error: "Method not allowed" }, 405, corsHeaders, { Allow: "GET, OPTIONS" });
+  }
+  if (!corsHeaders) {
+    return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
+  }
+  const authError = requireAdminKey(request, env, corsHeaders);
+  if (authError) return authError;
+
+  if (!env.ORDERS_KV) {
+    return jsonResponse({ ok: true, coupons: [] }, 200, corsHeaders);
+  }
+
+  const listing = await env.ORDERS_KV.list({ prefix: "coupon:" });
+  const coupons = [];
+  for (const key of listing.keys) {
+    const coupon = await kvGetJSON(env, key.name);
+    if (coupon) coupons.push(coupon);
+  }
+  coupons.sort((a, b) => (b.createdAt || "").localeCompare(a.createdAt || ""));
+
+  return jsonResponse({ ok: true, coupons }, 200, corsHeaders);
+}
+
+async function handleAdminCouponsCreate(request, env) {
+  const corsHeaders = getCorsHeaders(request, env);
+
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: corsHeaders ? 204 : 403,
+      headers: corsHeaders || noStoreHeaders(),
+    });
+  }
+  if (request.method !== "POST") {
+    return jsonResponse({ ok: false, error: "Method not allowed" }, 405, corsHeaders, { Allow: "POST, OPTIONS" });
+  }
+  if (!corsHeaders) {
+    return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
+  }
+  const authError = requireAdminKey(request, env, corsHeaders);
+  if (authError) return authError;
+
+  let input;
+  try {
+    input = await request.json();
+  } catch {
+    return jsonResponse({ ok: false, error: "Invalid JSON" }, 400, corsHeaders);
+  }
+
+  const code = String(input.code || "").trim().toUpperCase();
+  if (!COUPON_CODE_PATTERN.test(code)) {
+    return jsonResponse(
+      { ok: false, error: "קוד קופון חייב להכיל 3-20 אותיות/ספרות באנגלית בלבד" },
+      400,
+      corsHeaders
+    );
+  }
+
+  const percentOff = Number(input.percentOff);
+  if (!Number.isInteger(percentOff) || percentOff < 1 || percentOff > COUPON_MAX_PERCENT_OFF) {
+    return jsonResponse(
+      { ok: false, error: `אחוז ההנחה חייב להיות בין 1 ל-${COUPON_MAX_PERCENT_OFF}` },
+      400,
+      corsHeaders
+    );
+  }
+
+  let maxUses = null;
+  if (input.maxUses !== undefined && input.maxUses !== null && input.maxUses !== "") {
+    const parsedMaxUses = Number(input.maxUses);
+    if (!Number.isInteger(parsedMaxUses) || parsedMaxUses < 1) {
+      return jsonResponse({ ok: false, error: "מספר השימושים המרבי חייב להיות מספר שלם חיובי" }, 400, corsHeaders);
+    }
+    maxUses = parsedMaxUses;
+  }
+
+  const existing = await getCoupon(env, code);
+  const coupon = {
+    code,
+    percentOff,
+    maxUses,
+    active: true,
+    usesCount: existing ? existing.usesCount || 0 : 0,
+    createdAt: existing ? existing.createdAt : new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
+  await saveCoupon(env, coupon);
+
+  return jsonResponse({ ok: true, coupon }, 200, corsHeaders);
+}
+
+async function handleAdminCouponsDelete(request, env) {
+  const corsHeaders = getCorsHeaders(request, env);
+
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: corsHeaders ? 204 : 403,
+      headers: corsHeaders || noStoreHeaders(),
+    });
+  }
+  if (request.method !== "POST") {
+    return jsonResponse({ ok: false, error: "Method not allowed" }, 405, corsHeaders, { Allow: "POST, OPTIONS" });
+  }
+  if (!corsHeaders) {
+    return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
+  }
+  const authError = requireAdminKey(request, env, corsHeaders);
+  if (authError) return authError;
+
+  let input;
+  try {
+    input = await request.json();
+  } catch {
+    return jsonResponse({ ok: false, error: "Invalid JSON" }, 400, corsHeaders);
+  }
+
+  const code = String(input.code || "").trim().toUpperCase();
+  if (!code) {
+    return jsonResponse({ ok: false, error: "Missing code" }, 400, corsHeaders);
+  }
+
+  if (env.ORDERS_KV) {
+    await env.ORDERS_KV.delete(`coupon:${code}`);
+  }
+
+  return jsonResponse({ ok: true, code }, 200, corsHeaders);
 }
 
 function calculateShipping(items) {
@@ -1648,7 +2056,7 @@ function getCorsHeaders(request, env) {
   return {
     ...noStoreHeaders(),
     "Access-Control-Allow-Origin": origin || allowedOrigins[0],
-    "Access-Control-Allow-Headers": "Content-Type, X-Disegni-Test-Key, X-Grow-Confirm-Secret, X-SmartBee-Live-Key",
+    "Access-Control-Allow-Headers": "Content-Type, X-Disegni-Test-Key, X-Grow-Confirm-Secret, X-SmartBee-Live-Key, X-Disegni-Admin-Key",
     "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
     Vary: "Origin",
   };

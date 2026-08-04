@@ -28,6 +28,15 @@ function createMockKV() {
       const expiresAt = options.expirationTtl ? Date.now() + options.expirationTtl * 1000 : null;
       store.set(key, { value, expiresAt });
     },
+    async delete(key) {
+      store.delete(key);
+    },
+    async list({ prefix = "" } = {}) {
+      const keys = [...store.keys()]
+        .filter((key) => key.startsWith(prefix))
+        .map((name) => ({ name }));
+      return { keys, list_complete: true, cursor: "" };
+    },
   };
 }
 
@@ -798,4 +807,353 @@ test("checks receipt status by proxying to SmartBee without exposing the access 
   } finally {
     globalThis.fetch = originalFetch;
   }
+});
+
+function adminCancelRequest(orderId, adminKey = "admin-secret") {
+  return new Request("https://worker.example/admin/orders/cancel", {
+    method: "POST",
+    headers: {
+      Origin: "https://disegni.studio",
+      "Content-Type": "application/json",
+      "X-Disegni-Admin-Key": adminKey,
+    },
+    body: JSON.stringify({ orderId }),
+  });
+}
+
+async function createPaidOrderForTest(env) {
+  const mock = mockGrowFetch();
+  try {
+    const createResponse = await worker.fetch(growRequest(), env);
+    const { orderId } = await createResponse.json();
+
+    const confirmResponse = await worker.fetch(
+      new Request("https://worker.example/payments/grow/confirm", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Grow-Confirm-Secret": env.GROW_CONFIRM_SECRET,
+        },
+        body: JSON.stringify({
+          orderId,
+          status: "paid",
+          providerRef: "531811",
+          transactionToken: "e997c445a0d35018064c1972ce902388",
+        }),
+      }),
+      env
+    );
+    assert.equal(confirmResponse.status, 200);
+    return orderId;
+  } finally {
+    mock.restore();
+  }
+}
+
+test("admin cancel: requires the admin key", async () => {
+  const response = await worker.fetch(
+    adminCancelRequest("GD-test", "wrong-key"),
+    { ...ENV, DISEGNI_ADMIN_KEY: "admin-secret", ORDERS_KV: createMockKV() }
+  );
+  assert.equal(response.status, 401);
+});
+
+test("admin cancel: rejects an unknown order", async () => {
+  const response = await worker.fetch(
+    adminCancelRequest("GD-does-not-exist"),
+    {
+      ...ENV,
+      DISEGNI_ADMIN_KEY: "admin-secret",
+      ADMIN_CANCEL_ORDER_WEBHOOK_URL: "https://hook.example/cancel",
+      ORDERS_KV: createMockKV(),
+    }
+  );
+  assert.equal(response.status, 404);
+});
+
+test("admin cancel: rejects an order that isn't paid", async () => {
+  const env = {
+    ...ENV,
+    MAKE_CHECKOUT_WEBHOOK_URL: "https://hook.example/orin",
+    MAKE_CHECKOUT_API_KEY: "private-make-key",
+    DISEGNI_ADMIN_KEY: "admin-secret",
+    ADMIN_CANCEL_ORDER_WEBHOOK_URL: "https://hook.example/cancel",
+    ORDERS_KV: createMockKV(),
+  };
+  const mock = mockGrowFetch();
+  let orderId;
+  try {
+    const createResponse = await worker.fetch(growRequest(), env);
+    orderId = (await createResponse.json()).orderId;
+  } finally {
+    mock.restore();
+  }
+
+  const response = await worker.fetch(adminCancelRequest(orderId), env);
+  assert.equal(response.status, 400);
+  const body = await response.json();
+  assert.match(body.error, /not "paid"/);
+});
+
+test("admin cancel: starts a refund for a paid order without changing its status itself", async () => {
+  const env = {
+    ...ENV,
+    MAKE_CHECKOUT_WEBHOOK_URL: "https://hook.example/orin",
+    MAKE_CHECKOUT_API_KEY: "private-make-key",
+    GROW_CONFIRM_SECRET: "grow-confirm-secret",
+    DISEGNI_ADMIN_KEY: "admin-secret",
+    ADMIN_CANCEL_ORDER_WEBHOOK_URL: "https://hook.example/cancel",
+    ORDERS_KV: createMockKV(),
+  };
+
+  const orderId = await createPaidOrderForTest(env);
+
+  const originalFetch = globalThis.fetch;
+  let cancelWebhookCall;
+  globalThis.fetch = async (url, options) => {
+    cancelWebhookCall = { url, options };
+    return new Response(null, { status: 200 });
+  };
+
+  try {
+    const response = await worker.fetch(adminCancelRequest(orderId), env);
+    const body = await response.json();
+
+    assert.equal(response.status, 200);
+    assert.equal(body.ok, true);
+    const sentPayload = JSON.parse(cancelWebhookCall.options.body);
+    assert.equal(sentPayload.orderId, orderId);
+    assert.equal(sentPayload.transactionId, "531811");
+    assert.equal(sentPayload.transactionToken, "e997c445a0d35018064c1972ce902388");
+    assert.equal(sentPayload.refundSum, 134);
+
+    // Status is NOT flipped by this endpoint - only Make's confirmation of the
+    // actual refund (via /payments/grow/confirm) does that.
+    const statusResponse = await worker.fetch(
+      new Request(`https://worker.example/orders/status?orderId=${encodeURIComponent(orderId)}`, {
+        headers: { Origin: "https://disegni.studio" },
+      }),
+      env
+    );
+    const statusBody = await statusResponse.json();
+    assert.equal(statusBody.status, "paid");
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+function adminCouponsRequest(path, body, adminKey = "admin-secret") {
+  return new Request(`https://worker.example/admin/coupons/${path}`, {
+    method: "POST",
+    headers: {
+      Origin: "https://disegni.studio",
+      "Content-Type": "application/json",
+      "X-Disegni-Admin-Key": adminKey,
+    },
+    body: JSON.stringify(body),
+  });
+}
+
+test("coupon admin: requires the admin key to create a coupon", async () => {
+  const env = { ...ENV, DISEGNI_ADMIN_KEY: "admin-secret", ORDERS_KV: createMockKV() };
+  const response = await worker.fetch(
+    adminCouponsRequest("create", { code: "SUMMER10", percentOff: 10 }, "wrong-key"),
+    env
+  );
+  assert.equal(response.status, 401);
+});
+
+test("coupon admin: rejects an invalid percent-off value", async () => {
+  const env = { ...ENV, DISEGNI_ADMIN_KEY: "admin-secret", ORDERS_KV: createMockKV() };
+  const response = await worker.fetch(
+    adminCouponsRequest("create", { code: "SUMMER10", percentOff: 150 }),
+    env
+  );
+  assert.equal(response.status, 400);
+});
+
+test("coupon admin: creates and lists a coupon", async () => {
+  const env = { ...ENV, DISEGNI_ADMIN_KEY: "admin-secret", ORDERS_KV: createMockKV() };
+  const createResponse = await worker.fetch(
+    adminCouponsRequest("create", { code: "summer10", percentOff: 10 }),
+    env
+  );
+  assert.equal(createResponse.status, 200);
+  const createBody = await createResponse.json();
+  assert.equal(createBody.coupon.code, "SUMMER10");
+  assert.equal(createBody.coupon.usesCount, 0);
+
+  const listResponse = await worker.fetch(
+    new Request("https://worker.example/admin/coupons/list", {
+      headers: { Origin: "https://disegni.studio", "X-Disegni-Admin-Key": "admin-secret" },
+    }),
+    env
+  );
+  const listBody = await listResponse.json();
+  assert.equal(listBody.coupons.length, 1);
+  assert.equal(listBody.coupons[0].code, "SUMMER10");
+});
+
+test("coupon admin: deletes a coupon", async () => {
+  const env = { ...ENV, DISEGNI_ADMIN_KEY: "admin-secret", ORDERS_KV: createMockKV() };
+  await worker.fetch(adminCouponsRequest("create", { code: "SUMMER10", percentOff: 10 }), env);
+  const deleteResponse = await worker.fetch(adminCouponsRequest("delete", { code: "SUMMER10" }), env);
+  assert.equal(deleteResponse.status, 200);
+
+  const listResponse = await worker.fetch(
+    new Request("https://worker.example/admin/coupons/list", {
+      headers: { Origin: "https://disegni.studio", "X-Disegni-Admin-Key": "admin-secret" },
+    }),
+    env
+  );
+  const listBody = await listResponse.json();
+  assert.equal(listBody.coupons.length, 0);
+});
+
+test("coupon check: reports an unknown code as invalid without exposing internals", async () => {
+  const env = { ...ENV, DISEGNI_ADMIN_KEY: "admin-secret", ORDERS_KV: createMockKV() };
+  const response = await worker.fetch(
+    new Request("https://worker.example/payments/coupons/check", {
+      method: "POST",
+      headers: { Origin: "https://disegni.studio", "Content-Type": "application/json" },
+      body: JSON.stringify({ code: "NOPE", phone: "0500000000", subtotal: 100 }),
+    }),
+    env
+  );
+  const body = await response.json();
+  assert.equal(body.valid, false);
+});
+
+test("coupon checkout: applies a percent discount to the order total and the amount actually charged", async () => {
+  const env = {
+    ...ENV,
+    MAKE_CHECKOUT_WEBHOOK_URL: "https://hook.example/orin",
+    MAKE_CHECKOUT_API_KEY: "private-make-key",
+    DISEGNI_ADMIN_KEY: "admin-secret",
+    ORDERS_KV: createMockKV(),
+  };
+  await worker.fetch(adminCouponsRequest("create", { code: "SUMMER10", percentOff: 10 }), env);
+
+  const mock = mockGrowFetch();
+  let orderId;
+  try {
+    const response = await worker.fetch(growRequest({ couponCode: "summer10" }), env);
+    assert.equal(response.status, 200);
+    const body = await response.json();
+    orderId = body.orderId;
+
+    // subtotal 89, 10% off = 8.9 -> rounds to 9; shipping 45 stays untouched.
+    const makeCall = mock.calls[0];
+    const sentBody = JSON.parse(makeCall.options.body);
+    assert.equal(sentBody.couponCode, "SUMMER10");
+    assert.equal(sentBody.discountILS, 9);
+    assert.equal(sentBody.unitPrice, 80);
+    assert.equal(sentBody.total, 89 - 9 + 45);
+  } finally {
+    mock.restore();
+  }
+
+  const statusResponse = await worker.fetch(
+    new Request(`https://worker.example/orders/status?orderId=${encodeURIComponent(orderId)}`, {
+      headers: { Origin: "https://disegni.studio" },
+    }),
+    env
+  );
+  const statusBody = await statusResponse.json();
+  assert.equal(statusBody.total, 89 - 9 + 45);
+});
+
+test("coupon checkout: rejects an unknown coupon code instead of silently ignoring it", async () => {
+  const env = {
+    ...ENV,
+    MAKE_CHECKOUT_WEBHOOK_URL: "https://hook.example/orin",
+    MAKE_CHECKOUT_API_KEY: "private-make-key",
+    ORDERS_KV: createMockKV(),
+  };
+  const mock = mockGrowFetch();
+  try {
+    const response = await worker.fetch(growRequest({ couponCode: "NOPE" }), env);
+    assert.equal(response.status, 400);
+  } finally {
+    mock.restore();
+  }
+});
+
+test("coupon checkout: blocks reusing the same code twice with the same phone number after payment", async () => {
+  const env = {
+    ...ENV,
+    MAKE_CHECKOUT_WEBHOOK_URL: "https://hook.example/orin",
+    MAKE_CHECKOUT_API_KEY: "private-make-key",
+    GROW_CONFIRM_SECRET: "grow-confirm-secret",
+    DISEGNI_ADMIN_KEY: "admin-secret",
+    ORDERS_KV: createMockKV(),
+  };
+  await worker.fetch(adminCouponsRequest("create", { code: "SUMMER10", percentOff: 10 }), env);
+
+  const mock = mockGrowFetch();
+  let firstOrderId;
+  try {
+    const first = await worker.fetch(growRequest({ couponCode: "SUMMER10" }), env);
+    firstOrderId = (await first.json()).orderId;
+  } finally {
+    mock.restore();
+  }
+
+  await worker.fetch(
+    new Request("https://worker.example/payments/grow/confirm", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Grow-Confirm-Secret": env.GROW_CONFIRM_SECRET },
+      body: JSON.stringify({ orderId: firstOrderId, status: "paid", providerRef: "531811" }),
+    }),
+    env
+  );
+
+  const mock2 = mockGrowFetch();
+  try {
+    const second = await worker.fetch(growRequest({ couponCode: "SUMMER10" }), env);
+    assert.equal(second.status, 400);
+    const body = await second.json();
+    assert.match(body.error, /כבר נעשה שימוש/);
+  } finally {
+    mock2.restore();
+  }
+
+  const listResponse = await worker.fetch(
+    new Request("https://worker.example/admin/coupons/list", {
+      headers: { Origin: "https://disegni.studio", "X-Disegni-Admin-Key": "admin-secret" },
+    }),
+    env
+  );
+  const listBody = await listResponse.json();
+  assert.equal(listBody.coupons[0].usesCount, 1);
+});
+
+test("admin cancel: rejects a second cancel attempt once already refunded", async () => {
+  const env = {
+    ...ENV,
+    MAKE_CHECKOUT_WEBHOOK_URL: "https://hook.example/orin",
+    MAKE_CHECKOUT_API_KEY: "private-make-key",
+    GROW_CONFIRM_SECRET: "grow-confirm-secret",
+    DISEGNI_ADMIN_KEY: "admin-secret",
+    ADMIN_CANCEL_ORDER_WEBHOOK_URL: "https://hook.example/cancel",
+    ORDERS_KV: createMockKV(),
+  };
+
+  const orderId = await createPaidOrderForTest(env);
+
+  // Simulate Make confirming the refund succeeded.
+  await worker.fetch(
+    new Request("https://worker.example/payments/grow/confirm", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Grow-Confirm-Secret": env.GROW_CONFIRM_SECRET,
+      },
+      body: JSON.stringify({ orderId, status: "refunded" }),
+    }),
+    env
+  );
+
+  const response = await worker.fetch(adminCancelRequest(orderId), env);
+  assert.equal(response.status, 400);
 });

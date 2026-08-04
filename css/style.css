@@ -6183,6 +6183,73 @@ body:has(.commission-sticky-cta:not([hidden])) .quick-links-rail {
   font-weight: 600;
 }
 
+.cart-coupon-field {
+  margin-bottom: 24px;
+}
+
+.cart-coupon-field label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--bone);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.cart-coupon-row {
+  display: flex;
+  gap: 8px;
+}
+
+.cart-coupon-row input {
+  flex: 1;
+  min-width: 0;
+  min-height: 46px;
+  padding: 10px 14px;
+  border: 1.5px solid rgba(242, 238, 229, 0.34);
+  border-radius: 10px;
+  background: rgba(5, 6, 27, 0.55);
+  color: var(--bone);
+  font-family: var(--sans);
+  font-size: 15px;
+  text-transform: uppercase;
+}
+
+.cart-coupon-row input:focus {
+  outline: none;
+  border-color: var(--copper);
+}
+
+.cart-coupon-row button {
+  flex-shrink: 0;
+  padding: 0 18px;
+  border: 1.5px solid var(--copper);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--copper);
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cart-coupon-row button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.cart-coupon-message {
+  margin: 8px 0 0;
+  font-size: 14px;
+}
+
+.cart-coupon-message.is-success {
+  color: #9bd39b;
+}
+
+.cart-coupon-message.is-error {
+  color: #ff9a9a;
+}
+
 .cart-summary-row {
   display: flex;
   justify-content: space-between;

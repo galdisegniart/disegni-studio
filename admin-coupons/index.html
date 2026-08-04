@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>עגלת קניות | גל דִּיסֵנִי</title>
-<meta name="description" content="עגלת הקניות שלכם באתר גל דִּיסֵנִי.">
+<title>ניהול קופונים | גל דִּיסֵנִי</title>
+<meta name="description" content="עמוד אדמין פנימי - לא לשימוש לקוחות.">
 <meta name="robots" content="noindex, nofollow">
-<link rel="canonical" href="https://disegni.studio/cart/">
+<link rel="canonical" href="https://disegni.studio/admin-coupons/">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="he_IL">
 <meta property="og:site_name" content="גל דִּיסֵנִי">
-<meta property="og:title" content="עגלת קניות | גל דִּיסֵנִי">
-<meta property="og:description" content="עגלת הקניות שלכם באתר גל דִּיסֵנִי.">
-<meta property="og:url" content="https://disegni.studio/cart/">
+<meta property="og:title" content="ניהול קופונים | גל דִּיסֵנִי">
+<meta property="og:description" content="עמוד אדמין פנימי - לא לשימוש לקוחות.">
+<meta property="og:url" content="https://disegni.studio/admin-coupons/">
 <meta property="og:image" content="https://disegni.studio/images/disegni-profile.webp">
 <meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">
@@ -48,7 +48,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/style.css?v=7525bc12">
 </head>
-<body id="top" class="cart-view" data-whatsapp="972552902934">
+<body id="top" data-whatsapp="972552902934">
 
 <a class="skip-link" href="#main-content">דילוג לתוכן הראשי</a>
 
@@ -451,222 +451,171 @@
   </div>
 </aside>
 
-
-<nav class="quick-links-rail" aria-label="קישורים מהירים">
-  <button type="button" class="quick-links-toggle" aria-expanded="false" aria-controls="quick-links-menu" aria-label="קישורים מהירים">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
-  </button>
-  <div class="quick-links-menu" id="quick-links-menu">
-    <a href="/contact/" aria-label="יצירת קשר">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m4 6.5 8 6 8-6"></path></svg>
-    </a>
-    <a href="https://www.tiktok.com/@galdisegniart" target="_blank" rel="noopener noreferrer" aria-label="טיקטוק של גל דִּיסֵנִי">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.2 3v11.1a4.7 4.7 0 1 1-4.1-4.65v3.05a1.8 1.8 0 1 0 1.2 1.7V3h2.9Zm0 0c.35 2.05 1.55 3.45 3.8 3.8v3.1c-1.55-.05-2.85-.5-3.8-1.25"></path></svg>
-    </a>
-    <a href="https://www.instagram.com/galdisegniart/" target="_blank" rel="noopener noreferrer" aria-label="אינסטגרם של גל דִּיסֵנִי">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4.2"></circle><circle cx="17.4" cy="6.7" r="1"></circle></svg>
-    </a>
-  </div>
-</nav>
-
 <main id="main-content">
+<section style="max-width: 680px; margin: 80px auto; padding: 0 24px; color: var(--bone); font-family: var(--sans);">
+  <h1 style="font-size: 24px; margin-bottom: 8px;">ניהול קופונים והנחות</h1>
+  <p style="color: var(--dim); margin-bottom: 32px;">
+    כל קוד נותן אחוז הנחה קבוע, וניתן לשימוש פעם אחת בלבד לכל מספר טלפון
+    (נבדק בפועל רק לאחר תשלום מוצלח).
+  </p>
 
+  <label style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 24px;">
+    <span>מפתח אדמין</span>
+    <input type="password" id="admin-key" autocomplete="off"
+      style="padding: 10px; background: transparent; border: 1px solid var(--line); color: var(--bone); max-width: 320px;" />
+  </label>
 
+  <form id="coupon-form" style="display: flex; flex-wrap: wrap; gap: 12px; align-items: end; margin-bottom: 16px; padding: 20px; border: 1px solid var(--line);">
+    <label style="display: flex; flex-direction: column; gap: 6px;">
+      <span>קוד קופון</span>
+      <input type="text" id="coupon-code" required autocomplete="off" placeholder="SUMMER10" style="text-transform: uppercase; padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone); width: 160px;" />
+    </label>
+    <label style="display: flex; flex-direction: column; gap: 6px;">
+      <span>אחוז הנחה</span>
+      <input type="number" id="coupon-percent" required min="1" max="90" placeholder="10" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone); width: 100px;" />
+    </label>
+    <label style="display: flex; flex-direction: column; gap: 6px;">
+      <span>שימושים מקסימלי (לא חובה)</span>
+      <input type="number" id="coupon-max-uses" min="1" placeholder="ללא הגבלה" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone); width: 140px;" />
+    </label>
+    <button type="submit" style="padding: 10px 18px; background: #c0554d; color: #fff; border: none; cursor: pointer; height: 38px;">
+      שמור קופון
+    </button>
+  </form>
 
-<section class="cart-page section" id="cart-root">
-  <div class="section-label"><span>עגלת קניות</span></div>
-  <h1>סיכום ההזמנה שלכם</h1>
-  <a class="cart-continue-shopping" href="/collections/prints/"><span aria-hidden="true">→</span> המשך בקנייה</a>
+  <p id="coupon-form-message" style="font-size: 14px; margin-bottom: 24px;"></p>
 
-  <div class="currency-toggle cart-currency-toggle">
-    <button type="button" class="js-currency-toggle active" data-currency="ILS">₪ · ס"מ</button>
-    <button type="button" class="js-currency-toggle" data-currency="USD">$ · inch</button>
+  <div style="overflow-x: auto;">
+    <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+      <thead>
+        <tr style="color: var(--dim); text-align: right;">
+          <th style="padding: 8px 4px; border-bottom: 1px solid var(--line);">קוד</th>
+          <th style="padding: 8px 4px; border-bottom: 1px solid var(--line);">הנחה</th>
+          <th style="padding: 8px 4px; border-bottom: 1px solid var(--line);">שימושים</th>
+          <th style="padding: 8px 4px; border-bottom: 1px solid var(--line);"></th>
+        </tr>
+      </thead>
+      <tbody id="coupon-list-body"></tbody>
+    </table>
   </div>
-
-  <p id="cart-empty">העגלה שלכם ריקה. <a href="/">חזרה לגלריה</a> לבחירת יצירה.</p>
-
-  <div class="cart-checkout-grid">
-    <div class="cart-checkout-main">
-      <ul id="cart-items" class="cart-items"></ul>
-
-      <form id="cart-customer-form" class="cart-customer" hidden>
-        <h2 class="cart-customer-heading">פרטי משלוח ויצירת קשר</h2>
-        <div class="cart-customer-field">
-          <label for="customer-name">שם מלא *</label>
-          <input type="text" id="customer-name" required autocomplete="name">
-        </div>
-        <div class="cart-customer-field">
-          <label for="customer-phone">טלפון *</label>
-          <input type="tel" id="customer-phone" required autocomplete="tel">
-        </div>
-        <div class="cart-customer-field">
-          <label for="customer-email">דוא"ל (לא חובה)</label>
-          <input type="email" id="customer-email" autocomplete="email">
-        </div>
-        <div class="cart-customer-field">
-          <label for="customer-address">כתובת למשלוח *</label>
-          <textarea id="customer-address" required autocomplete="street-address" rows="2"></textarea>
-        </div>
-        <div class="cart-customer-field cart-consent-field">
-          <label class="cart-consent-label" for="customer-consent">
-            <input type="checkbox" id="customer-consent" required>
-            <span>קראתי ואני מאשר/ת את <a href="/terms/" target="_blank" rel="noopener noreferrer">תקנון האתר</a>, את <a href="/returns/" target="_blank" rel="noopener noreferrer">מדיניות הביטולים וההחזרים</a> ואת <a href="/privacy/" target="_blank" rel="noopener noreferrer">מדיניות הפרטיות</a> *</span>
-          </label>
-        </div>
-      </form>
-    </div>
-
-    <div id="cart-summary" class="cart-summary" hidden>
-    <h2>סיכום לתשלום</h2>
-    <div class="cart-coupon-field">
-      <label for="cart-coupon-code">קוד קופון</label>
-      <div class="cart-coupon-row">
-        <input type="text" id="cart-coupon-code" autocomplete="off" placeholder="הזינו קוד">
-        <button type="button" id="cart-coupon-apply">החל</button>
-      </div>
-      <p id="cart-coupon-message" class="cart-coupon-message" hidden></p>
-    </div>
-    <div class="cart-summary-row"><span>סכום ביניים</span><span id="cart-subtotal"></span></div>
-    <div class="cart-summary-row" id="cart-discount-row" hidden><span>הנחה</span><span id="cart-discount"></span></div>
-    <div class="cart-summary-row"><span>משלוח</span><span id="cart-shipping"></span></div>
-    <div class="cart-summary-row cart-summary-total"><span>סה"כ</span><span id="cart-total"></span></div>
-    <button id="cart-grow-checkout" class="cta" type="button" hidden>מעבר לתשלום מאובטח <span>←</span></button>
-    <p id="cart-grow-note" class="cart-payment-note" hidden>סביבת בדיקה — לא מתבצע חיוב אמיתי.</p>
-    <p id="cart-grow-error" class="cart-payment-error" role="alert" hidden></p>
-    <a id="cart-whatsapp" class="cta" href="#" target="_blank" rel="noopener noreferrer">המשך להזמנה ב-WhatsApp <span>←</span></a>
-    <p id="cart-bank-note" class="cart-summary-note">בחרו הדפס אמנותי או יצירה מקורית, בצעו העברה בנקאית לפרטים שלמטה, וציינו בהערה את שם היצירה ואת סוג הרכישה. לאחר ההעברה שלחו לי אישור קצר ב-WhatsApp ואחזור אליכם לתיאום המשלוח.</p>
-    <dl id="cart-bank-details" class="artwork-purchase-bank">
-      <div><dt>בנק</dt><dd>דואר פיננסים (09)</dd></div>
-      <div><dt>סניף</dt><dd>001</dd></div>
-      <div><dt>מספר חשבון</dt><dd dir="ltr">30037930</dd></div>
-      <div><dt>שם בעל החשבון</dt><dd>גל דיסני</dd></div>
-    </dl>
-    <nav class="cart-policy-links" aria-label="מידע חשוב לרכישה">
-      <a href="/terms/">תקנון</a>
-      <a href="/returns/">ביטולים והחזרים</a>
-      <a href="/privacy/">פרטיות</a>
-      <a href="/contact/">יצירת קשר</a>
-    </nav>
-    <a class="cart-summary-continue" href="/collections/prints/">
-      המשך בקנייה <span aria-hidden="true">←</span>
-    </a>
-    </div>
-  </div>
+  <p id="coupon-list-message" style="color: var(--dim); font-size: 14px; margin-top: 16px;">הזינו מפתח אדמין למעלה כדי לטעון את רשימת הקופונים.</p>
 </section>
 
-<script id="cart-catalog-data" type="application/json">
-[
+<script>
+(function () {
+  var WORKER_ORIGIN = "https://disegni-cms-oauth.galdisegniart.workers.dev";
 
-  {"slug": "light", "image": "/images/artworks/light+WEB.webp", "paymentImage": "", "variants": []},
+  function adminKey() {
+    return document.getElementById("admin-key").value.trim();
+  }
 
-  {"slug": "precious", "image": "/images/artworks/precious+WEB.webp", "paymentImage": "", "variants": []},
+  function loadCoupons() {
+    var key = adminKey();
+    var listMessage = document.getElementById("coupon-list-message");
+    var body = document.getElementById("coupon-list-body");
+    if (!key) {
+      listMessage.textContent = "הזינו מפתח אדמין למעלה כדי לטעון את רשימת הקופונים.";
+      body.innerHTML = "";
+      return;
+    }
 
-  {"slug": "dreaming-reality", "image": "/images/artworks/dreaming-reality+WEB.webp", "paymentImage": "", "variants": []},
+    fetch(WORKER_ORIGIN + "/admin/coupons/list", {
+      headers: { "X-Disegni-Admin-Key": key },
+    })
+      .then(function (response) {
+        return response.json().then(function (data) {
+          return { ok: response.ok, data: data };
+        });
+      })
+      .then(function (result) {
+        if (!result.ok || !result.data.ok) {
+          listMessage.style.color = "#c0554d";
+          listMessage.textContent = "שגיאה: " + ((result.data && result.data.error) || "לא ניתן לטעון קופונים");
+          body.innerHTML = "";
+          return;
+        }
+        listMessage.style.color = "var(--dim)";
+        listMessage.textContent = result.data.coupons.length ? "" : "אין עדיין קופונים.";
+        body.innerHTML = "";
+        result.data.coupons.forEach(function (coupon) {
+          var tr = document.createElement("tr");
+          var usesText = coupon.usesCount + (coupon.maxUses ? " / " + coupon.maxUses : "");
+          tr.innerHTML =
+            "<td style=\"padding: 8px 4px; border-bottom: 1px solid var(--line);\">" + coupon.code + "</td>" +
+            "<td style=\"padding: 8px 4px; border-bottom: 1px solid var(--line);\">" + coupon.percentOff + "%</td>" +
+            "<td style=\"padding: 8px 4px; border-bottom: 1px solid var(--line);\">" + usesText + "</td>" +
+            "<td style=\"padding: 8px 4px; border-bottom: 1px solid var(--line);\"></td>";
+          var deleteBtn = document.createElement("button");
+          deleteBtn.type = "button";
+          deleteBtn.textContent = "מחק";
+          deleteBtn.style.cssText = "padding: 4px 10px; background: transparent; border: 1px solid #c0554d; color: #c0554d; cursor: pointer;";
+          deleteBtn.addEventListener("click", function () {
+            if (!confirm("למחוק את הקופון " + coupon.code + "?")) return;
+            fetch(WORKER_ORIGIN + "/admin/coupons/delete", {
+              method: "POST",
+              headers: { "Content-Type": "application/json", "X-Disegni-Admin-Key": adminKey() },
+              body: JSON.stringify({ code: coupon.code }),
+            }).then(loadCoupons);
+          });
+          tr.lastElementChild.appendChild(deleteBtn);
+          body.appendChild(tr);
+        });
+      })
+      .catch(function () {
+        listMessage.style.color = "#c0554d";
+        listMessage.textContent = "שגיאת רשת.";
+      });
+  }
 
-  {"slug": "orin", "image": "/images/artworks/orin+WEB.webp", "paymentImage": "/images/products/mockups/orin/orin-payment.jpg", "variants": [{"productType":"poster","sizeId":"5x7","labelIn":"5×7 אינץ'","labelCm":"13×18 ס\"מ","catalogNumber":"ORIN-POSTER-5X7","priceILS":89,"priceUSD":26,"shippingFirstILS":45,"shippingAdditionalILS":4,"shippingFirstUSD":11.99,"shippingAdditionalUSD":1},{"productType":"poster","sizeId":"12x18","labelIn":"12×18 אינץ'","labelCm":"30×45 ס\"מ","catalogNumber":"ORIN-POSTER-12X18","priceILS":189,"priceUSD":56,"shippingFirstILS":45,"shippingAdditionalILS":4,"shippingFirstUSD":11.99,"shippingAdditionalUSD":1},{"productType":"poster","sizeId":"20x30","labelIn":"20×30 אינץ'","labelCm":"50×75 ס\"מ","catalogNumber":"ORIN-POSTER-20X30","priceILS":319,"priceUSD":94,"shippingFirstILS":55,"shippingAdditionalILS":4,"shippingFirstUSD":13.99,"shippingAdditionalUSD":1},{"productType":"poster","sizeId":"24x36","labelIn":"24×36 אינץ'","labelCm":"60×90 ס\"מ","catalogNumber":"ORIN-POSTER-24X36","priceILS":429,"priceUSD":126,"shippingFirstILS":55,"shippingAdditionalILS":4,"shippingFirstUSD":13.99,"shippingAdditionalUSD":1},{"productType":"framed-print","sizeId":"8x10","labelIn":"8×10 אינץ'","labelCm":"20×25 ס\"מ","catalogNumber":"ORIN-FRAMED-8X10-BLACK","priceILS":329,"priceUSD":97,"shippingFirstILS":59,"shippingAdditionalILS":29,"shippingFirstUSD":15.99,"shippingAdditionalUSD":8},{"productType":"framed-print","sizeId":"12x16","labelIn":"12×16 אינץ'","labelCm":"30×40 ס\"מ","catalogNumber":"ORIN-FRAMED-12X16-BLACK","priceILS":469,"priceUSD":138,"shippingFirstILS":59,"shippingAdditionalILS":29,"shippingFirstUSD":15.99,"shippingAdditionalUSD":8},{"productType":"framed-print","sizeId":"16x20","labelIn":"16×20 אינץ'","labelCm":"40×50 ס\"מ","catalogNumber":"ORIN-FRAMED-16X20-BLACK","priceILS":649,"priceUSD":191,"shippingFirstILS":145,"shippingAdditionalILS":75,"shippingFirstUSD":39.99,"shippingAdditionalUSD":21},{"productType":"framed-print","sizeId":"24x36","labelIn":"24×36 אינץ'","labelCm":"60×90 ס\"מ","catalogNumber":"ORIN-FRAMED-24X36-BLACK","priceILS":1290,"priceUSD":379,"shippingFirstILS":185,"shippingAdditionalILS":95,"shippingFirstUSD":50.99,"shippingAdditionalUSD":26},{"productType":"canvas","sizeId":"16x20","labelIn":"16×20 אינץ'","labelCm":"40×50 ס\"מ","catalogNumber":"ORIN-CANVAS-16X20","priceILS":449,"priceUSD":132,"shippingFirstILS":379,"shippingAdditionalILS":379,"shippingFirstUSD":108.49,"shippingAdditionalUSD":108.49},{"productType":"canvas","sizeId":"18x24","labelIn":"18×24 אינץ'","labelCm":"45×60 ס\"מ","catalogNumber":"ORIN-CANVAS-18X24","priceILS":549,"priceUSD":161,"shippingFirstILS":379,"shippingAdditionalILS":379,"shippingFirstUSD":108.49,"shippingAdditionalUSD":108.49},{"productType":"canvas","sizeId":"24x36","labelIn":"24×36 אינץ'","labelCm":"60×90 ס\"מ","catalogNumber":"ORIN-CANVAS-24X36","priceILS":899,"priceUSD":264,"shippingFirstILS":379,"shippingAdditionalILS":379,"shippingFirstUSD":108.49,"shippingAdditionalUSD":108.49}]},
+  document.getElementById("admin-key").addEventListener("change", loadCoupons);
 
-  {"slug": "vulnerability-is-strength", "image": "/images/artworks/vulnerability-is-strength+WEB.webp", "paymentImage": "", "variants": []},
+  document.getElementById("coupon-form").addEventListener("submit", function (event) {
+    event.preventDefault();
+    var key = adminKey();
+    var message = document.getElementById("coupon-form-message");
+    if (!key) {
+      message.style.color = "#c0554d";
+      message.textContent = "יש להזין מפתח אדמין קודם.";
+      return;
+    }
 
-  {"slug": "seed-of-joy", "image": "/images/artworks/seed-of-joy+WEB.webp", "paymentImage": "", "variants": []},
-
-  {"slug": "pure-masculine-and-feminine", "image": "/images/artworks/pure-masculine-and-feminine+WEB.webp", "paymentImage": "", "variants": []},
-
-  {"slug": "moon-cycle-of-healing", "image": "/images/artworks/moon-cycle-of-healing+WEB.webp", "paymentImage": "", "variants": []},
-
-  {"slug": "third-eye-engine", "image": "/images/artworks/third-eye-engine+WEB.webp", "paymentImage": "", "variants": []},
-
-  {"slug": "power-crystal", "image": "/images/artworks/power-crystal+WEB.webp", "paymentImage": "", "variants": []},
-
-  {"slug": "exaltation", "image": "/images/artworks/exaltation+WEB.webp", "paymentImage": "", "variants": []},
-
-  {"slug": "soul-dna", "image": "/images/artworks/soul-dna+WEB.webp", "paymentImage": "", "variants": []},
-
-  {"slug": "the-pyramid-of-the-one", "image": "/images/artworks/the-pyramid-of-the-one+WEB.webp", "paymentImage": "", "variants": []},
-
-  {"slug": "ying-yang-couple", "image": "/images/artworks/ying-yang-couple+WEB.webp", "paymentImage": "", "variants": []},
-
-  {"slug": "release-control", "image": "/images/artworks/release-control+WEB.webp", "paymentImage": "", "variants": []},
-
-  {"slug": "divine-feminine-rivers", "image": "/images/artworks/divine-feminine-rivers+WEB.webp", "paymentImage": "", "variants": []},
-
-  {"slug": "absorbing-fire", "image": "/images/artworks/absorbing-fire+WEB.webp", "paymentImage": "", "variants": []},
-
-  {"slug": "peace-with-femininity", "image": "/images/artworks/peace-with-femininity+WEB.webp", "paymentImage": "", "variants": []},
-
-  {"slug": "mystical-yoni", "image": "/images/artworks/mystical-yoni+WEB.webp", "paymentImage": "", "variants": [{"productType":"framed-print","sizeId":"12x16","catalogNumber":"MYSTICAL-YONI-FRAMED-PRINT-12X16","priceILS":469,"labelIn":"12×16 אינץ'","labelCm":"30×41 ס\"מ","shippingFirstILS":59,"shippingAdditionalILS":29},{"productType":"framed-print","sizeId":"16x20","catalogNumber":"MYSTICAL-YONI-FRAMED-PRINT-16X20","priceILS":649,"labelIn":"16×20 אינץ'","labelCm":"41×51 ס\"מ","shippingFirstILS":145,"shippingAdditionalILS":75},{"productType":"framed-print","sizeId":"18x24","catalogNumber":"MYSTICAL-YONI-FRAMED-PRINT-18X24","priceILS":979,"labelIn":"18×24 אינץ'","labelCm":"46×61 ס\"מ","shippingFirstILS":145,"shippingAdditionalILS":75},{"productType":"canvas","sizeId":"16x24","catalogNumber":"MYSTICAL-YONI-CANVAS-16X24","priceILS":479,"labelIn":"16×24 אינץ'","labelCm":"41×61 ס\"מ","shippingFirstILS":379,"shippingAdditionalILS":379},{"productType":"canvas","sizeId":"18x26","catalogNumber":"MYSTICAL-YONI-CANVAS-18X26","priceILS":519,"labelIn":"18×26 אינץ'","labelCm":"46×66 ס\"מ","shippingFirstILS":379,"shippingAdditionalILS":379},{"productType":"canvas","sizeId":"20x28","catalogNumber":"MYSTICAL-YONI-CANVAS-20X28","priceILS":559,"labelIn":"20×28 אינץ'","labelCm":"51×71 ס\"מ","shippingFirstILS":379,"shippingAdditionalILS":379},{"productType":"canvas","sizeId":"24x32","catalogNumber":"MYSTICAL-YONI-CANVAS-24X32","priceILS":649,"labelIn":"24×32 אינץ'","labelCm":"61×81 ס\"מ","shippingFirstILS":379,"shippingAdditionalILS":379},{"productType":"poster","sizeId":"12x18","catalogNumber":"MYSTICAL-YONI-POSTER-12X18","priceILS":169,"labelIn":"12×18 אינץ'","labelCm":"30×46 ס\"מ","shippingFirstILS":45,"shippingAdditionalILS":4},{"productType":"poster","sizeId":"20x30","catalogNumber":"MYSTICAL-YONI-POSTER-20X30","priceILS":269,"labelIn":"20×30 אינץ'","labelCm":"51×76 ס\"מ","shippingFirstILS":55,"shippingAdditionalILS":4},{"productType":"poster","sizeId":"24x36","catalogNumber":"MYSTICAL-YONI-POSTER-24X36","priceILS":349,"labelIn":"24×36 אינץ'","labelCm":"61×91 ס\"מ","shippingFirstILS":55,"shippingAdditionalILS":4},{"productType":"poster","sizeId":"5x7","catalogNumber":"MYSTICAL-YONI-POSTER-5X7","priceILS":89,"labelIn":"5×7 אינץ'","labelCm":"13×18 ס\"מ","shippingFirstILS":45,"shippingAdditionalILS":4}]},
-
-  {"slug": "transforming-fire-to-water", "image": "/images/artworks/transforming-fire-to-water+WEB.webp", "paymentImage": "", "variants": []},
-
-  {"slug": "dragon-bloom", "image": "/images/artworks/Dragon_Bloom+WEB.webp", "paymentImage": "", "variants": []},
-
-  {"slug": "estis-memory", "image": "/images/artworks/Estis_memory+WEB.webp", "paymentImage": "", "variants": []},
-
-  {"slug": "harmonized-electric-earth", "image": "/images/artworks/Harmonized_Electric_Earth+WEB.webp", "paymentImage": "", "variants": []},
-
-  {"slug": "hypno-medicine", "image": "/images/artworks/Hypno-Medicine.webp", "paymentImage": "", "variants": []},
-
-  {"slug": "the-protector-of-earth", "image": "/images/artworks/The_Protector_Of_Earth+WEB.webp", "paymentImage": "", "variants": []},
-
-  {"slug": "womb-of-creation", "image": "/images/artworks/Womb-Of-Creation+WEB.webp", "paymentImage": "", "variants": []},
-
-  {"slug": "balanced-human", "image": "/images/artworks/balanced_human+WEB.webp", "paymentImage": "", "variants": []},
-
-  {"slug": "goddess-of-truth", "image": "/images/artworks/goddess_of_truth+WEB.webp", "paymentImage": "", "variants": []},
-
-  {"slug": "surender-to-fear", "image": "/images/artworks/surender_to_fear+WEB.webp", "paymentImage": "", "variants": []}
-
-]
+    var maxUsesValue = document.getElementById("coupon-max-uses").value;
+    fetch(WORKER_ORIGIN + "/admin/coupons/create", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Disegni-Admin-Key": key },
+      body: JSON.stringify({
+        code: document.getElementById("coupon-code").value,
+        percentOff: Number(document.getElementById("coupon-percent").value),
+        maxUses: maxUsesValue ? Number(maxUsesValue) : null,
+      }),
+    })
+      .then(function (response) {
+        return response.json().then(function (data) {
+          return { ok: response.ok, data: data };
+        });
+      })
+      .then(function (result) {
+        if (!result.ok || !result.data.ok) {
+          message.style.color = "#c0554d";
+          message.textContent = "שגיאה: " + ((result.data && result.data.error) || "לא ידוע");
+          return;
+        }
+        message.style.color = "#5c8a5c";
+        message.textContent = "הקופון " + result.data.coupon.code + " נשמר בהצלחה.";
+        document.getElementById("coupon-form").reset();
+        loadCoupons();
+      })
+      .catch(function () {
+        message.style.color = "#c0554d";
+        message.textContent = "שגיאת רשת.";
+      });
+  });
+})();
 </script>
-<script id="cart-shipping-table" type="application/json">[{"productType":"poster","sizeId":"5x7","shippingFirstILS":45,"shippingAdditionalILS":4,"shippingFirstUSD":11.99,"shippingAdditionalUSD":1},{"productType":"poster","sizeId":"12x18","shippingFirstILS":45,"shippingAdditionalILS":4,"shippingFirstUSD":11.99,"shippingAdditionalUSD":1},{"productType":"poster","sizeId":"20x30","shippingFirstILS":55,"shippingAdditionalILS":4,"shippingFirstUSD":13.99,"shippingAdditionalUSD":1},{"productType":"poster","sizeId":"24x36","shippingFirstILS":55,"shippingAdditionalILS":4,"shippingFirstUSD":13.99,"shippingAdditionalUSD":1},{"productType":"framed-print","sizeId":"8x10","shippingFirstILS":59,"shippingAdditionalILS":29,"shippingFirstUSD":15.99,"shippingAdditionalUSD":8},{"productType":"framed-print","sizeId":"12x16","shippingFirstILS":59,"shippingAdditionalILS":29,"shippingFirstUSD":15.99,"shippingAdditionalUSD":8},{"productType":"framed-print","sizeId":"16x20","shippingFirstILS":145,"shippingAdditionalILS":75,"shippingFirstUSD":39.99,"shippingAdditionalUSD":21},{"productType":"framed-print","sizeId":"24x36","shippingFirstILS":185,"shippingAdditionalILS":95,"shippingFirstUSD":50.99,"shippingAdditionalUSD":26},{"productType":"framed-print","sizeId":"18x24","shippingFirstILS":145,"shippingAdditionalILS":75,"shippingFirstUSD":39.99,"shippingAdditionalUSD":21},{"productType":"canvas","sizeId":"16x20","shippingFirstILS":379,"shippingAdditionalILS":379,"shippingFirstUSD":108.49,"shippingAdditionalUSD":108.49},{"productType":"canvas","sizeId":"18x24","shippingFirstILS":379,"shippingAdditionalILS":379,"shippingFirstUSD":108.49,"shippingAdditionalUSD":108.49},{"productType":"canvas","sizeId":"24x36","shippingFirstILS":379,"shippingAdditionalILS":379,"shippingFirstUSD":108.49,"shippingAdditionalUSD":108.49},{"productType":"canvas","sizeId":"8x10","shippingFirstILS":379,"shippingAdditionalILS":379,"shippingFirstUSD":108.49,"shippingAdditionalUSD":108.49},{"productType":"canvas","sizeId":"12x16","shippingFirstILS":379,"shippingAdditionalILS":379,"shippingFirstUSD":108.49,"shippingAdditionalUSD":108.49},{"productType":"canvas","sizeId":"16x24","shippingFirstILS":379,"shippingAdditionalILS":379,"shippingFirstUSD":108.49,"shippingAdditionalUSD":108.49},{"productType":"canvas","sizeId":"18x26","shippingFirstILS":379,"shippingAdditionalILS":379,"shippingFirstUSD":108.49,"shippingAdditionalUSD":108.49},{"productType":"canvas","sizeId":"20x28","shippingFirstILS":379,"shippingAdditionalILS":379,"shippingFirstUSD":108.49,"shippingAdditionalUSD":108.49},{"productType":"canvas","sizeId":"24x32","shippingFirstILS":379,"shippingAdditionalILS":379,"shippingFirstUSD":108.49,"shippingAdditionalUSD":108.49}]</script>
 
 </main>
 
-<footer>
-  <div class="footer-contact">
-    <h2>דברו איתי</h2>
-    <form id="footer-contact-form" class="lead-form" novalidate>
-      <label>
-        <span>שם פרטי *</span>
-        <input type="text" name="firstName" required>
-      </label>
-      <label>
-        <span>שם משפחה</span>
-        <input type="text" name="lastName">
-      </label>
-      <label>
-        <span>דוא"ל *</span>
-        <input type="email" name="email" required>
-      </label>
-      <label>
-        <span>טלפון *</span>
-        <input type="tel" name="phone" required>
-      </label>
-      <label class="lead-form-full">
-        <span>הודעה</span>
-        <textarea name="message" rows="3"></textarea>
-      </label>
-      <button type="submit" class="cta lead-submit">שליחה</button>
-      <p class="lead-form-success js-footer-contact-success" role="status" hidden>ההודעה מוכנה - נפתח WhatsApp כדי לשלוח אותה.</p>
-    </form>
-  </div>
-  <div class="footer-meta">
-    <span>אמנות מקורית · פורטרטים · סדנאות</span>
-  </div>
-  <div class="footer-brand">
-    <span>גל דִּיסֵנִי</span>
-    <a href="#top">חזרה למעלה ↑</a>
-  </div>
-  <nav class="site-socials" aria-label="גל דִּיסֵנִי ברשתות החברתיות">
-    <a href="https://www.instagram.com/galdisegniart/" target="_blank" rel="noopener noreferrer" aria-label="אינסטגרם של גל דִּיסֵנִי">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4.2"></circle><circle cx="17.4" cy="6.7" r="1"></circle></svg>
-    </a>
-    <a href="https://www.tiktok.com/@galdisegniart" target="_blank" rel="noopener noreferrer" aria-label="טיקטוק של גל דִּיסֵנִי">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.2 3v11.1a4.7 4.7 0 1 1-4.1-4.65v3.05a1.8 1.8 0 1 0 1.2 1.7V3h2.9Zm0 0c.35 2.05 1.55 3.45 3.8 3.8v3.1c-1.55-.05-2.85-.5-3.8-1.25"></path></svg>
-    </a>
-    <a href="https://www.facebook.com/gal.disegni" target="_blank" rel="noopener noreferrer" aria-label="פייסבוק של גל דִּיסֵנִי">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 21v-8h2.8l.45-3H14V8.2c0-.9.3-1.5 1.65-1.5h1.75V4.05c-.3-.05-1.35-.15-2.55-.15-2.5 0-4.2 1.5-4.2 4.35V10H8v3h2.65v8H14Z"></path></svg>
-    </a>
-  </nav>
+<footer class="bare-footer">
   <div class="footer-legal">
     <p class="footer-legal-links"><a href="/terms/">תקנון ומדיניות רכישה</a> · <a href="/returns/">מדיניות ביטולים והחזרים</a> · <a href="/rights/">מדיניות זכויות יוצרים</a> · <a href="/privacy/">מדיניות פרטיות</a> · <a href="/accessibility/">הצהרת נגישות</a> · <a href="/contact/">יצירת קשר</a></p>
 <p class="footer-legal-business">גל דיסני · עוסק פטור 033749326 · בוטקובסקי 30, חדרה · <a href="tel:+972552902934" dir="ltr">055-2902934</a> · <a href="mailto:galdisegniart@gmail.com" dir="ltr">galdisegniart@gmail.com</a></p>
@@ -676,11 +625,8 @@
 </footer>
 
 
-
 <script src="/js/cart.js?v=7525bc12"></script>
 <script src="/js/nav-toggle.js?v=7525bc12"></script>
 <script src="/js/header-search.js?v=7525bc12"></script>
-<script src="/js/quick-links-toggle.js?v=7525bc12"></script>
-<script src="/js/footer-contact.js?v=7525bc12"></script>
 </body>
 </html>

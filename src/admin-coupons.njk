@@ -1,0 +1,167 @@
+---
+layout: base-bare.njk
+title: "ניהול קופונים | גל דִּיסֵנִי"
+description: "עמוד אדמין פנימי - לא לשימוש לקוחות."
+permalink: "/admin-coupons/index.html"
+noindex: true
+---
+<section style="max-width: 680px; margin: 80px auto; padding: 0 24px; color: var(--bone); font-family: var(--sans);">
+  <h1 style="font-size: 24px; margin-bottom: 8px;">ניהול קופונים והנחות</h1>
+  <p style="color: var(--dim); margin-bottom: 32px;">
+    כל קוד נותן אחוז הנחה קבוע, וניתן לשימוש פעם אחת בלבד לכל מספר טלפון
+    (נבדק בפועל רק לאחר תשלום מוצלח).
+  </p>
+
+  <label style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 24px;">
+    <span>מפתח אדמין</span>
+    <input type="password" id="admin-key" autocomplete="off"
+      style="padding: 10px; background: transparent; border: 1px solid var(--line); color: var(--bone); max-width: 320px;" />
+  </label>
+
+  <form id="coupon-form" style="display: flex; flex-wrap: wrap; gap: 12px; align-items: end; margin-bottom: 16px; padding: 20px; border: 1px solid var(--line);">
+    <label style="display: flex; flex-direction: column; gap: 6px;">
+      <span>קוד קופון</span>
+      <input type="text" id="coupon-code" required autocomplete="off" placeholder="SUMMER10" style="text-transform: uppercase; padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone); width: 160px;" />
+    </label>
+    <label style="display: flex; flex-direction: column; gap: 6px;">
+      <span>אחוז הנחה</span>
+      <input type="number" id="coupon-percent" required min="1" max="90" placeholder="10" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone); width: 100px;" />
+    </label>
+    <label style="display: flex; flex-direction: column; gap: 6px;">
+      <span>שימושים מקסימלי (לא חובה)</span>
+      <input type="number" id="coupon-max-uses" min="1" placeholder="ללא הגבלה" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone); width: 140px;" />
+    </label>
+    <button type="submit" style="padding: 10px 18px; background: #c0554d; color: #fff; border: none; cursor: pointer; height: 38px;">
+      שמור קופון
+    </button>
+  </form>
+
+  <p id="coupon-form-message" style="font-size: 14px; margin-bottom: 24px;"></p>
+
+  <div style="overflow-x: auto;">
+    <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+      <thead>
+        <tr style="color: var(--dim); text-align: right;">
+          <th style="padding: 8px 4px; border-bottom: 1px solid var(--line);">קוד</th>
+          <th style="padding: 8px 4px; border-bottom: 1px solid var(--line);">הנחה</th>
+          <th style="padding: 8px 4px; border-bottom: 1px solid var(--line);">שימושים</th>
+          <th style="padding: 8px 4px; border-bottom: 1px solid var(--line);"></th>
+        </tr>
+      </thead>
+      <tbody id="coupon-list-body"></tbody>
+    </table>
+  </div>
+  <p id="coupon-list-message" style="color: var(--dim); font-size: 14px; margin-top: 16px;">הזינו מפתח אדמין למעלה כדי לטעון את רשימת הקופונים.</p>
+</section>
+
+<script>
+(function () {
+  var WORKER_ORIGIN = "https://disegni-cms-oauth.galdisegniart.workers.dev";
+
+  function adminKey() {
+    return document.getElementById("admin-key").value.trim();
+  }
+
+  function loadCoupons() {
+    var key = adminKey();
+    var listMessage = document.getElementById("coupon-list-message");
+    var body = document.getElementById("coupon-list-body");
+    if (!key) {
+      listMessage.textContent = "הזינו מפתח אדמין למעלה כדי לטעון את רשימת הקופונים.";
+      body.innerHTML = "";
+      return;
+    }
+
+    fetch(WORKER_ORIGIN + "/admin/coupons/list", {
+      headers: { "X-Disegni-Admin-Key": key },
+    })
+      .then(function (response) {
+        return response.json().then(function (data) {
+          return { ok: response.ok, data: data };
+        });
+      })
+      .then(function (result) {
+        if (!result.ok || !result.data.ok) {
+          listMessage.style.color = "#c0554d";
+          listMessage.textContent = "שגיאה: " + ((result.data && result.data.error) || "לא ניתן לטעון קופונים");
+          body.innerHTML = "";
+          return;
+        }
+        listMessage.style.color = "var(--dim)";
+        listMessage.textContent = result.data.coupons.length ? "" : "אין עדיין קופונים.";
+        body.innerHTML = "";
+        result.data.coupons.forEach(function (coupon) {
+          var tr = document.createElement("tr");
+          var usesText = coupon.usesCount + (coupon.maxUses ? " / " + coupon.maxUses : "");
+          tr.innerHTML =
+            "<td style=\"padding: 8px 4px; border-bottom: 1px solid var(--line);\">" + coupon.code + "</td>" +
+            "<td style=\"padding: 8px 4px; border-bottom: 1px solid var(--line);\">" + coupon.percentOff + "%</td>" +
+            "<td style=\"padding: 8px 4px; border-bottom: 1px solid var(--line);\">" + usesText + "</td>" +
+            "<td style=\"padding: 8px 4px; border-bottom: 1px solid var(--line);\"></td>";
+          var deleteBtn = document.createElement("button");
+          deleteBtn.type = "button";
+          deleteBtn.textContent = "מחק";
+          deleteBtn.style.cssText = "padding: 4px 10px; background: transparent; border: 1px solid #c0554d; color: #c0554d; cursor: pointer;";
+          deleteBtn.addEventListener("click", function () {
+            if (!confirm("למחוק את הקופון " + coupon.code + "?")) return;
+            fetch(WORKER_ORIGIN + "/admin/coupons/delete", {
+              method: "POST",
+              headers: { "Content-Type": "application/json", "X-Disegni-Admin-Key": adminKey() },
+              body: JSON.stringify({ code: coupon.code }),
+            }).then(loadCoupons);
+          });
+          tr.lastElementChild.appendChild(deleteBtn);
+          body.appendChild(tr);
+        });
+      })
+      .catch(function () {
+        listMessage.style.color = "#c0554d";
+        listMessage.textContent = "שגיאת רשת.";
+      });
+  }
+
+  document.getElementById("admin-key").addEventListener("change", loadCoupons);
+
+  document.getElementById("coupon-form").addEventListener("submit", function (event) {
+    event.preventDefault();
+    var key = adminKey();
+    var message = document.getElementById("coupon-form-message");
+    if (!key) {
+      message.style.color = "#c0554d";
+      message.textContent = "יש להזין מפתח אדמין קודם.";
+      return;
+    }
+
+    var maxUsesValue = document.getElementById("coupon-max-uses").value;
+    fetch(WORKER_ORIGIN + "/admin/coupons/create", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Disegni-Admin-Key": key },
+      body: JSON.stringify({
+        code: document.getElementById("coupon-code").value,
+        percentOff: Number(document.getElementById("coupon-percent").value),
+        maxUses: maxUsesValue ? Number(maxUsesValue) : null,
+      }),
+    })
+      .then(function (response) {
+        return response.json().then(function (data) {
+          return { ok: response.ok, data: data };
+        });
+      })
+      .then(function (result) {
+        if (!result.ok || !result.data.ok) {
+          message.style.color = "#c0554d";
+          message.textContent = "שגיאה: " + ((result.data && result.data.error) || "לא ידוע");
+          return;
+        }
+        message.style.color = "#5c8a5c";
+        message.textContent = "הקופון " + result.data.coupon.code + " נשמר בהצלחה.";
+        document.getElementById("coupon-form").reset();
+        loadCoupons();
+      })
+      .catch(function () {
+        message.style.color = "#c0554d";
+        message.textContent = "שגיאת רשת.";
+      });
+  });
+})();
+</script>

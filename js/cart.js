@@ -7,6 +7,11 @@
   var GROW_IDEMPOTENCY_KEY = "disegniGrowIdemKey";
   var WORKER_ORIGIN = "https://disegni-cms-oauth.galdisegniart.workers.dev";
 
+  // Set only by a successful /payments/coupons/check call - re-validated for
+  // real (including per-customer usage) by the server at actual checkout,
+  // so this is purely for showing the customer a live preview.
+  var appliedCoupon = null;
+
   // Whether the Grow sandbox checkout is enabled is decided by the server
   // (a Worker secret, never a public URL parameter), fetched once per page load.
   var growTestEnabled = false;
@@ -609,11 +614,22 @@
       shippingLabel = "יחושב בתשלום";
     }
 
-    var total = subtotal + shipping;
+    // Coupons only apply to the real (ILS) Grow checkout, same currency
+    // restriction as the checkout button itself.
+    var discount = (appliedCoupon && currency === "ILS") ? appliedCoupon.discountILS : 0;
+    var total = subtotal - discount + shipping;
 
     document.getElementById("cart-subtotal").textContent = formatAmount(subtotal, currency);
     document.getElementById("cart-shipping").textContent = shippingLabel;
     document.getElementById("cart-total").textContent = formatAmount(total, currency);
+
+    var discountRow = document.getElementById("cart-discount-row");
+    if (discountRow) {
+      discountRow.hidden = !discount;
+      if (discount) {
+        document.getElementById("cart-discount").textContent = "-" + formatAmount(discount, currency);
+      }
+    }
 
     var waLines = cart
       .map(function (item) {
@@ -734,6 +750,68 @@
       return;
     }
 
+    var couponBtn = e.target.closest("#cart-coupon-apply");
+    if (couponBtn) {
+      var couponInput = document.getElementById("cart-coupon-code");
+      var couponMessage = document.getElementById("cart-coupon-message");
+      var code = couponInput ? couponInput.value.trim() : "";
+      if (!code) return;
+
+      var couponCart = getCart();
+      var couponCurrency = getCurrency();
+      var couponSubtotal = couponCart.reduce(function (sum, item) {
+        var price = couponCurrency === "USD" ? item.priceUSD : item.priceILS;
+        return sum + price * item.qty;
+      }, 0);
+
+      couponBtn.disabled = true;
+      couponBtn.textContent = "בודק...";
+
+      try {
+        var couponResponse = await fetch(WORKER_ORIGIN + "/payments/coupons/check", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            code: code,
+            phone: (getCustomer().phone || ""),
+            subtotal: couponSubtotal,
+          }),
+        });
+        var couponBody = await couponResponse.json();
+        if (couponResponse.ok && couponBody.valid) {
+          appliedCoupon = {
+            code: couponBody.code,
+            percentOff: couponBody.percentOff,
+            discountILS: couponBody.discountILS,
+          };
+          if (couponMessage) {
+            couponMessage.hidden = false;
+            couponMessage.className = "cart-coupon-message is-success";
+            couponMessage.textContent = "קוד הופעל: " + couponBody.percentOff + "% הנחה";
+          }
+        } else {
+          appliedCoupon = null;
+          if (couponMessage) {
+            couponMessage.hidden = false;
+            couponMessage.className = "cart-coupon-message is-error";
+            couponMessage.textContent = (couponBody && couponBody.error) || "קוד קופון לא תקין";
+          }
+        }
+      } catch (error) {
+        appliedCoupon = null;
+        if (couponMessage) {
+          couponMessage.hidden = false;
+          couponMessage.className = "cart-coupon-message is-error";
+          couponMessage.textContent = "שגיאת רשת - נסו שוב";
+        }
+      }
+
+      couponBtn.disabled = false;
+      couponBtn.textContent = "החל";
+      renderCartPage();
+      return;
+    }
+
     var currencyBtn = e.target.closest(".js-currency-toggle");
     if (currencyBtn) {
       setCurrency(currencyBtn.dataset.currency);
@@ -819,6 +897,7 @@
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               idempotencyKey: getGrowIdempotencyKey(),
+              couponCode: appliedCoupon ? appliedCoupon.code : undefined,
               items: growCart.map(function (item) {
                 return {
                   artworkSlug: item.artworkSlug,
