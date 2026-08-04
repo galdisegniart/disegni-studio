@@ -52,5 +52,117 @@
   },
   "extraMaterials": [
     "canvas"
+  ],
+  "purchaseVariants": [
+    {
+      "productType": "framed-print",
+      "sizeId": "12x16",
+      "catalogNumber": "MYSTICAL-YONI-FRAMED-PRINT-12X16",
+      "priceILS": 469,
+      "labelIn": "12×16 אינץ'",
+      "labelCm": "30×41 ס\"מ",
+      "shippingFirstILS": 59,
+      "shippingAdditionalILS": 29
+    },
+    {
+      "productType": "framed-print",
+      "sizeId": "16x20",
+      "catalogNumber": "MYSTICAL-YONI-FRAMED-PRINT-16X20",
+      "priceILS": 649,
+      "labelIn": "16×20 אינץ'",
+      "labelCm": "41×51 ס\"מ",
+      "shippingFirstILS": 145,
+      "shippingAdditionalILS": 75
+    },
+    {
+      "productType": "framed-print",
+      "sizeId": "18x24",
+      "catalogNumber": "MYSTICAL-YONI-FRAMED-PRINT-18X24",
+      "priceILS": 979,
+      "labelIn": "18×24 אינץ'",
+      "labelCm": "46×61 ס\"מ",
+      "shippingFirstILS": 145,
+      "shippingAdditionalILS": 75
+    },
+    {
+      "productType": "canvas",
+      "sizeId": "16x24",
+      "catalogNumber": "MYSTICAL-YONI-CANVAS-16X24",
+      "priceILS": 479,
+      "labelIn": "16×24 אינץ'",
+      "labelCm": "41×61 ס\"מ",
+      "shippingFirstILS": 379,
+      "shippingAdditionalILS": 379
+    },
+    {
+      "productType": "canvas",
+      "sizeId": "18x26",
+      "catalogNumber": "MYSTICAL-YONI-CANVAS-18X26",
+      "priceILS": 519,
+      "labelIn": "18×26 אינץ'",
+      "labelCm": "46×66 ס\"מ",
+      "shippingFirstILS": 379,
+      "shippingAdditionalILS": 379
+    },
+    {
+      "productType": "canvas",
+      "sizeId": "20x28",
+      "catalogNumber": "MYSTICAL-YONI-CANVAS-20X28",
+      "priceILS": 559,
+      "labelIn": "20×28 אינץ'",
+      "labelCm": "51×71 ס\"מ",
+      "shippingFirstILS": 379,
+      "shippingAdditionalILS": 379
+    },
+    {
+      "productType": "canvas",
+      "sizeId": "24x32",
+      "catalogNumber": "MYSTICAL-YONI-CANVAS-24X32",
+      "priceILS": 649,
+      "labelIn": "24×32 אינץ'",
+      "labelCm": "61×81 ס\"מ",
+      "shippingFirstILS": 379,
+      "shippingAdditionalILS": 379
+    },
+    {
+      "productType": "poster",
+      "sizeId": "12x18",
+      "catalogNumber": "MYSTICAL-YONI-POSTER-12X18",
+      "priceILS": 169,
+      "labelIn": "12×18 אינץ'",
+      "labelCm": "30×46 ס\"מ",
+      "shippingFirstILS": 45,
+      "shippingAdditionalILS": 4
+    },
+    {
+      "productType": "poster",
+      "sizeId": "20x30",
+      "catalogNumber": "MYSTICAL-YONI-POSTER-20X30",
+      "priceILS": 269,
+      "labelIn": "20×30 אינץ'",
+      "labelCm": "51×76 ס\"מ",
+      "shippingFirstILS": 55,
+      "shippingAdditionalILS": 4
+    },
+    {
+      "productType": "poster",
+      "sizeId": "24x36",
+      "catalogNumber": "MYSTICAL-YONI-POSTER-24X36",
+      "priceILS": 349,
+      "labelIn": "24×36 אינץ'",
+      "labelCm": "61×91 ס\"מ",
+      "shippingFirstILS": 55,
+      "shippingAdditionalILS": 4
+    },
+    {
+      "productType": "poster",
+      "sizeId": "5x7",
+      "catalogNumber": "MYSTICAL-YONI-POSTER-5X7",
+      "priceILS": 89,
+      "labelIn": "5×7 אינץ'",
+      "labelCm": "13×18 ס\"מ",
+      "shippingFirstILS": 45,
+      "shippingAdditionalILS": 4
+    }
   ]
 }

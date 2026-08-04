@@ -1,13 +1,18 @@
 const fs = require("fs");
 const path = require("path");
 
-// Flattened, server-verifiable list of every approved, Printful-fulfilled
+// Flattened, server-verifiable list of every purchasable Printful-fulfilled
 // print variant across the whole catalog (not just one test artwork).
 // Consumed by the payment Worker (cms-oauth-worker) to validate price/product
-// server-side instead of trusting the browser. Only variants with an explicit
-// approved catalogNumber (set per-artwork via the "purchaseVariants" CMS
-// field) are included — an artwork with no approved variants yet contributes
-// nothing here and stays on the manual WhatsApp/bank-transfer checkout path.
+// server-side instead of trusting the browser.
+//
+// For each artwork/productType/sizeId, an explicit entry in the artwork's
+// "purchaseVariants" CMS field (a human-approved price/catalog-number
+// override) wins if present. Otherwise the variant is auto-priced from the
+// same site-wide pricing.json/shipping.json tables the rest of the site
+// uses - no manual per-artwork approval required. Either way, a variant is
+// only ever included if a real price AND real shipping value were found;
+// there is no such thing as a 0-priced or unpriced entry here.
 module.exports = () => {
   const siteOrigin = "https://disegni.studio";
   const paymentImageUrl = (value) => {
@@ -41,6 +46,12 @@ module.exports = () => {
     printfulCatalog = [];
   }
 
+  const manualMaterials = pricing.materials || [];
+  const manualPrice = (style, sizeId) => {
+    const material = manualMaterials.find((item) => item.id === style);
+    return material && (material.sizes || []).find((size) => size.id === sizeId);
+  };
+
   const shippingVariants = shipping.variants || [];
   const defaultShipping = (productType, sizeId) =>
     shippingVariants.find(
@@ -52,7 +63,6 @@ module.exports = () => {
   artworks.forEach((artwork) => {
     const target = String(artwork.name || "").toLowerCase();
     const approvedVariants = artwork.purchaseVariants || [];
-    if (!approvedVariants.length) return;
 
     const products = printfulCatalog.filter((product) =>
       String(product.name || "").toLowerCase().includes(target)
@@ -85,21 +95,40 @@ module.exports = () => {
         const approved = approvedVariants.find(
           (item) => item.productType === productType && item.sizeId === sizeId
         );
-        if (!approved || !approved.catalogNumber || !approved.priceILS) return;
 
+        const priceFallback = manualPrice(
+          productType === "poster" ? "paper" : productType,
+          sizeId
+        );
         const shippingFallback = defaultShipping(productType, sizeId);
-        const shippingFirstILS = approved.shippingFirstILS || (shippingFallback && shippingFallback.shippingFirstILS);
-        const shippingAdditionalILS = approved.shippingAdditionalILS || (shippingFallback && shippingFallback.shippingAdditionalILS);
+
+        const catalogNumber =
+          (approved && approved.catalogNumber) ||
+          `${artwork.slug}-${productType}-${sizeId}`.toUpperCase();
+        const unitPriceILS = (approved && approved.priceILS) || (priceFallback && priceFallback.priceILS);
+        const labelCm = (approved && approved.labelCm) || undefined;
+        const shippingFirstILS =
+          (approved && approved.shippingFirstILS) ||
+          (shippingFallback && shippingFallback.shippingFirstILS);
+        const shippingAdditionalILS =
+          (approved && approved.shippingAdditionalILS) ||
+          (shippingFallback && shippingFallback.shippingAdditionalILS);
+
+        // Never emit a variant with no real price or no real shipping value -
+        // an approved override with a partial price, or a size/material
+        // combo pricing.json/shipping.json don't cover, is skipped rather
+        // than sold at 0 or an unknown shipping cost.
+        if (!Number.isFinite(unitPriceILS) || unitPriceILS <= 0) return;
         if (!Number.isFinite(shippingFirstILS)) return;
 
         catalog.push({
           artworkSlug: artwork.slug,
           productType,
           sizeId,
-          catalogNumber: approved.catalogNumber,
-          productName: `${artwork.name} – ${productTypeName} ${approved.labelCm || ""}`.trim(),
-          imageUrl: paymentImageUrl(approved.paymentImage || artwork.paymentImage),
-          unitPriceILS: approved.priceILS,
+          catalogNumber,
+          productName: `${artwork.name} – ${productTypeName} ${labelCm || ""}`.trim(),
+          imageUrl: paymentImageUrl((approved && approved.paymentImage) || artwork.paymentImage),
+          unitPriceILS,
           shippingFirstILS,
           shippingAdditionalILS: Number.isFinite(shippingAdditionalILS) ? shippingAdditionalILS : 0,
         });

@@ -85,6 +85,21 @@ collections:
         options:
           - { label: "קנבס מתוח", value: "canvas" }
           - { label: "פוסטר ממוסגר", value: "framed-print" }
+      - label: "וריאנטים מאושרים לתשלום מקוון (Grow)"
+        name: "purchaseVariants"
+        widget: "list"
+        required: false
+        default: []
+        hint: "כל שורה כאן = גודל/חומר אחד שאפשר לשלם עליו דרך הכפתור האוטומטי בעגלה. אפשר למלא את זה ידנית, אבל הכי מהיר להריץ קודם 'node scripts/generate-purchase-variants.js <slug>' - זה ממלא טיוטה אוטומטית מהמחירון הרגיל ומהקטלוג של פרינטפול, ואז רק לבדוק/לתקן כאן."
+        fields:
+          - { label: "סוג מוצר", name: "productType", widget: "select", options: [{ label: "פוסטר", value: "poster" }, { label: "קנבס מתוח", value: "canvas" }, { label: "פוסטר ממוסגר", value: "framed-print" }] }
+          - { label: "מידה (למשל 12x16, כמו בפרינטפול)", name: "sizeId", widget: "string" }
+          - { label: "מספר קטלוג (מפרינטפול)", name: "catalogNumber", widget: "string" }
+          - { label: "מחיר ש\"ח", name: "priceILS", widget: "number" }
+          - { label: "תווית גודל באינץ'", name: "labelIn", widget: "string", required: false }
+          - { label: "תווית גודל בס\"מ", name: "labelCm", widget: "string", required: false }
+          - { label: "משלוח פריט ראשון (ש\"ח, אופציונלי - אם ריק נלקח מהטבלה הכללית)", name: "shippingFirstILS", widget: "number", required: false }
+          - { label: "משלוח פריט נוסף (ש\"ח, אופציונלי)", name: "shippingAdditionalILS", widget: "number", required: false }
 
   - name: "workshops"
     label: "סדנאות"
