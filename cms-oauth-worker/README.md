@@ -68,6 +68,30 @@ npx wrangler secret put SMARTBEE_TEST_ACCESS_KEY
 `X-Disegni-Test-Key`. אסור להוסיף את המפתח לעמוד ציבורי או ל-JavaScript
 של האתר.
 
+## SmartBee — סביבת production
+
+`POST /smartbee/create-receipt-live` הוא נקודת הקצה שה-scenario "Integration
+Grow" ב-Make קורא לה בפועל אחרי אישור תשלום אמיתי מ-Grow. היא נפרדת
+לחלוטין מהטסט (endpoint שונה, סודות שונים), כדי שלא יהיה סיכוי שסביבת
+הבדיקה תיצור בטעות מסמך אמיתי, או ההפך.
+
+יש להזין את פרטי ה-production שהתקבלו מ-SmartBee. שימו לב:
+`SMARTBEE_LIVE_PROVIDER_USER_TOKEN` הוא סוד **נפרד** מ-`SMARTBEE_PROVIDER_USER_TOKEN`
+של הטסט - לא לבלבל ביניהם, אחרת סביבת הטסט תישבר:
+
+```powershell
+npx wrangler secret put SMARTBEE_CLIENT_ID
+npx wrangler secret put SMARTBEE_PASSWORD
+npx wrangler secret put SMARTBEE_LIVE_PROVIDER_USER_TOKEN
+```
+
+`SMARTBEE_API_BASE` (כתובת ה-API האמיתית, בלי "test") כבר מוגדרת
+כ-`[vars]` רגיל ב-`wrangler.toml`, לא כסוד.
+
+`SMARTBEE_LIVE_KEY` הוא סוד נוסף, פנימי, שנוצר כדי לוודא שרק ה-scenario
+ב-Make (עם header בשם `X-SmartBee-Live-Key`) יכול לקרוא לנקודת הקצה
+הזו — אין להשתמש בו בשום מקום אחר.
+
 ## חיבור תשלום Grow דרך Make
 
 נקודת הקצה `POST /payments/grow/create` מאמתת את המוצר והמחיר בצד השרת,
