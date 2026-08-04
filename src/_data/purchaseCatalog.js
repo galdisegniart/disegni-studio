@@ -60,12 +60,16 @@ module.exports = () => {
 
   const catalog = [];
 
+  // Whitespace-insensitive so Printful product titles with slightly different
+  // spacing (e.g. "masculine&feminine" vs. our "Masculine & Feminine") still match.
+  const normalizeForMatch = (value) => String(value || "").toLowerCase().replace(/\s+/g, "");
+
   artworks.forEach((artwork) => {
-    const target = String(artwork.name || "").toLowerCase();
+    const target = normalizeForMatch(artwork.name);
     const approvedVariants = artwork.purchaseVariants || [];
 
     const products = printfulCatalog.filter((product) =>
-      String(product.name || "").toLowerCase().includes(target)
+      normalizeForMatch(product.name).includes(target)
     );
 
     products.forEach((product) => {

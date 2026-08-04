@@ -65,9 +65,12 @@ const defaultShipping = (productType, sizeId) =>
     (item) => item.productType === productType && item.sizeId === sizeId
   );
 
-const target = String(artwork.name || "").toLowerCase();
+// Whitespace-insensitive so Printful product titles with slightly different
+// spacing still match (e.g. "masculine&feminine" vs. our "Masculine & Feminine").
+const normalizeForMatch = (value) => String(value || "").toLowerCase().replace(/\s+/g, "");
+const target = normalizeForMatch(artwork.name);
 const products = printfulCatalog.filter((product) =>
-  String(product.name || "").toLowerCase().includes(target)
+  normalizeForMatch(product.name).includes(target)
 );
 
 if (!products.length) {
