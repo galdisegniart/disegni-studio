@@ -406,6 +406,7 @@ collections:
           - { label: "טקסט: בחירה מרובה", name: "multiSelectLabel", widget: "string" }
           - { label: "טקסט כפתור: הוסף הכל לעגלה (בחירה מרובה)", name: "addAllToCartLabel", widget: "string" }
           - { label: "טקסט: X פריטים נבחרו (השאירו {count} ו-{total} במקום המספר והסכום)", name: "itemsSelectedLabel", widget: "string" }
+          - { label: "טקסט הנחיה בבחירה מרובה (מוצג לפני שנבחר משהו)", name: "multiSelectHintLabel", widget: "string" }
           - { label: "טקסט כפתור: היצירה המקורית", name: "originalLabel", widget: "string" }
           - { label: "טקסט כפתור: הדפס בעיטור ידני", name: "handEmbellishedLabel", widget: "string" }
           - { label: "טקסט כפתור: הוספה לעגלה", name: "addToCartLabel", widget: "string" }

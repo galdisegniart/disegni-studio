@@ -8,6 +8,15 @@
   "alt": "Dragon Bloom, פריחה צבעונית מקרינה סביב עין מרכזית",
   "image": "/images/artworks/Dragon_Bloom+WEB.webp",
   "thumb": "/images/artworks/Dragon_Bloom+WEB.webp",
+  "gallery": [
+    {
+      "image": "/images/products/mockups/dragon-bloom/Dragon_Bloom_framed_poster-18x24_black.webp",
+      "alt": "מוקאפ של Dragon Bloom כפוסטר ממוסגר שחור עם מט כפול בגודל 18×24 אינץ'",
+      "productType": "framed-print",
+      "sizeId": "18x24",
+      "frameColor": "black"
+    }
+  ],
   "category": "pastel",
   "originalAvailable": true,
   "originalPrice": 4500,

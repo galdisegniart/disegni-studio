@@ -521,9 +521,31 @@
   </div>
   <div class="artwork-detail-grid">
   
-  <figure class="artwork-stage">
-    <img src="/images/artworks/Dragon_Bloom+WEB.webp" alt="Dragon Bloom, פריחה צבעונית מקרינה סביב עין מרכזית">
-  </figure>
+  <div class="artwork-gallery">
+    <div class="artwork-thumbnails" aria-label="תמונות נוספות של Dragon Bloom">
+      <button class="artwork-thumbnail is-active js-product-gallery-thumb" type="button" data-image="/images/artworks/Dragon_Bloom+WEB.webp" data-alt="Dragon Bloom, פריחה צבעונית מקרינה סביב עין מרכזית" data-zoom="true" aria-label="הצגת היצירה המקורית" aria-current="true">
+        <img src="/images/artworks/Dragon_Bloom+WEB.webp" alt="" loading="lazy">
+      </button>
+      
+      <button class="artwork-thumbnail js-product-gallery-thumb" type="button" data-image="/images/products/mockups/dragon-bloom/Dragon_Bloom_framed_poster-18x24_black.webp" data-alt="מוקאפ של Dragon Bloom כפוסטר ממוסגר שחור עם מט כפול בגודל 18×24 אינץ&#39;" data-zoom="false" data-product-type="framed-print" data-size-id="18x24" data-frame-color="black" aria-label="הצגת מוקאפ 1">
+        <img src="/images/products/mockups/dragon-bloom/Dragon_Bloom_framed_poster-18x24_black.webp" alt="" loading="lazy">
+      </button>
+      
+    </div>
+    <figure class="artwork-stage">
+      <img class="js-product-gallery-main" src="/images/artworks/Dragon_Bloom+WEB.webp" alt="Dragon Bloom, פריחה צבעונית מקרינה סביב עין מרכזית" data-zoom-enabled="true">
+      <button class="artwork-gallery-arrow artwork-gallery-arrow-prev js-product-gallery-prev" type="button" aria-label="התמונה הקודמת">
+        <svg aria-hidden="true" viewBox="0 0 20 20" width="20" height="20">
+          <path d="M13 5L8 10L13 15"></path>
+        </svg>
+      </button>
+      <button class="artwork-gallery-arrow artwork-gallery-arrow-next js-product-gallery-next" type="button" aria-label="התמונה הבאה">
+        <svg aria-hidden="true" viewBox="0 0 20 20" width="20" height="20">
+          <path d="M8 5L13 10L8 15"></path>
+        </svg>
+      </button>
+    </figure>
+  </div>
   
   <div class="artwork-detail-copy">
     <h1>Dragon Bloom</h1>
@@ -539,7 +561,7 @@
         <button type="button" class="print-order-clear js-clear-selection" hidden>ניקוי בחירה</button>
       </div>
 
-      <script class="js-option-thumbnails" type="application/json">{"poster":"/images/artworks/Dragon_Bloom+WEB.webp","canvas":"/images/artworks/Dragon_Bloom+WEB.webp","framed-print":"/images/artworks/Dragon_Bloom+WEB.webp"}</script>
+      <script class="js-option-thumbnails" type="application/json">{"framed-print":"/images/products/mockups/dragon-bloom/Dragon_Bloom_framed_poster-18x24_black.webp","poster":"/images/artworks/Dragon_Bloom+WEB.webp","canvas":"/images/artworks/Dragon_Bloom+WEB.webp"}</script>
 
       <select class="js-size-data" hidden aria-hidden="true" tabindex="-1">
         
@@ -620,7 +642,7 @@
 
       <button type="button" class="cta js-add-to-cart" disabled>הוספה לעגלה</button>
 
-      <div class="print-order-multiselect-summary" data-template="{count} פריטים נבחרו · סה&quot;כ {total}" hidden>
+      <div class="print-order-multiselect-summary" data-template="{count} פריטים נבחרו · סה&quot;כ {total}" data-hint="בחרו כמה פורמטים והוסיפו הכל לעגלה יחד" hidden>
         <p class="print-order-multiselect-count js-multiselect-count"></p>
         <button type="button" class="cta js-add-all-to-cart" disabled>הוסף הכל לעגלה</button>
       </div>

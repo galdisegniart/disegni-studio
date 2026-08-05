@@ -1128,18 +1128,17 @@
     var addBtn = wrap.querySelector(".js-add-to-cart");
     var priceEl = wrap.querySelector(".print-order-price");
     var summary = wrap.querySelector(".print-order-multiselect-summary");
-    var clearBtn = wrap.querySelector(".js-clear-selection");
     if (qtyField) qtyField.hidden = active;
     if (addBtn) addBtn.hidden = active;
     if (priceEl) priceEl.hidden = active;
     if (summary) summary.hidden = !active;
-    if (clearBtn && active) clearBtn.hidden = true;
   }
 
   function renderMultiSelectSummary(wrap) {
     var countEl = wrap.querySelector(".js-multiselect-count");
     var addAllBtn = wrap.querySelector(".js-add-all-to-cart");
     var summary = wrap.querySelector(".print-order-multiselect-summary");
+    var clearBtn = wrap.querySelector(".js-clear-selection");
     var cards = getMultiSelectedCards(wrap);
     var currency = getCurrency();
     var total = 0;
@@ -1147,12 +1146,14 @@
       var price = currency === "USD" ? parseFloat(card.dataset.priceUsd) : parseFloat(card.dataset.priceIls);
       if (Number.isFinite(price)) total += price;
     });
+    if (clearBtn) clearBtn.hidden = cards.length === 0;
     if (countEl) {
       var template = (summary && summary.dataset.template) || '{count} פריטים נבחרו · סה"כ {total}';
+      var hint = (summary && summary.dataset.hint) || "";
       var totalText = currency === "USD" ? "$" + total : total + " ₪";
       countEl.textContent = cards.length
         ? template.replace("{count}", cards.length).replace("{total}", totalText)
-        : "";
+        : hint;
     }
     if (addAllBtn) addAllBtn.disabled = cards.length === 0;
   }

@@ -200,7 +200,7 @@ eleventyComputed:
 
       <button type="button" class="cta js-add-to-cart" disabled>{{ purchaseButtons.addToCartLabel }}</button>
 
-      <div class="print-order-multiselect-summary" data-template="{{ purchaseButtons.itemsSelectedLabel }}" hidden>
+      <div class="print-order-multiselect-summary" data-template="{{ purchaseButtons.itemsSelectedLabel }}" data-hint="{{ purchaseButtons.multiSelectHintLabel }}" hidden>
         <p class="print-order-multiselect-count js-multiselect-count"></p>
         <button type="button" class="cta js-add-all-to-cart" disabled>{{ purchaseButtons.addAllToCartLabel }}</button>
       </div>
