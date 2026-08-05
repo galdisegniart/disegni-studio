@@ -10,6 +10,25 @@
   "thumb": "/images/artworks/Dragon_Bloom+WEB.webp",
   "gallery": [
     {
+      "image": "/images/products/mockups/dragon-bloom/Dragon_Bloom_hanging_poster.webp",
+      "alt": "מוקאפ של היצירה Dragon Bloom כהדפס תלוי על קיר",
+      "productType": "poster"
+    },
+    {
+      "image": "/images/products/mockups/dragon-bloom/Dragon_Bloom_framed_poster-12x16_black.webp",
+      "alt": "מוקאפ של Dragon Bloom כפוסטר ממוסגר שחור עם מט כפול בגודל 12×16 אינץ'",
+      "productType": "framed-print",
+      "sizeId": "12x16",
+      "frameColor": "black"
+    },
+    {
+      "image": "/images/products/mockups/dragon-bloom/Dragon_Bloom_framed_poster-16x20_black.webp",
+      "alt": "מוקאפ של Dragon Bloom כפוסטר ממוסגר שחור עם מט כפול בגודל 16×20 אינץ'",
+      "productType": "framed-print",
+      "sizeId": "16x20",
+      "frameColor": "black"
+    },
+    {
       "image": "/images/products/mockups/dragon-bloom/Dragon_Bloom_framed_poster-18x24_black.webp",
       "alt": "מוקאפ של Dragon Bloom כפוסטר ממוסגר שחור עם מט כפול בגודל 18×24 אינץ'",
       "productType": "framed-print",

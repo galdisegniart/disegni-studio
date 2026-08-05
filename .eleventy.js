@@ -132,10 +132,11 @@ module.exports = function (eleventyConfig) {
         : frame === "framed"
           ? "framed-print"
           : "poster";
+      const hasDoubleMat = name.includes("with mat");
       const productTypeName = productType === "canvas"
         ? "קנבס מתוח"
         : productType === "framed-print"
-          ? "הדפס ממוסגר"
+          ? (hasDoubleMat ? "פוסטר ממוסגר ופספרטו כפול" : "הדפס ממוסגר")
           : "פוסטר";
 
       return (product.variants || []).map((variant) => {

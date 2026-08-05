@@ -78,11 +78,12 @@ module.exports = () => {
       const frame = name.includes("framed") ? "framed" : "none";
       const productType =
         style === "canvas" ? "canvas" : frame === "framed" ? "framed-print" : "poster";
+      const hasDoubleMat = name.includes("with mat");
       const productTypeName =
         productType === "canvas"
           ? "קנבס מתוח"
           : productType === "framed-print"
-            ? "הדפס ממוסגר"
+            ? (hasDoubleMat ? "פוסטר ממוסגר ופספרטו כפול" : "הדפס ממוסגר")
             : "פוסטר";
 
       (product.variants || []).forEach((variant) => {
