@@ -1689,3 +1689,131 @@ test("admin bit receipt reject: rejects a second attempt on an already-resolved 
   );
   assert.equal(second.status, 400);
 });
+
+function bitCheckStatusRequest(overrides = {}, adminKey = "admin-secret") {
+  const headers = { Origin: "https://disegni.studio", "Content-Type": "application/json" };
+  if (adminKey !== null) headers["X-Disegni-Admin-Key"] = adminKey;
+  return new Request("https://worker.example/admin/bit-receipts/check-status", {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ requestId: "BIT-20260805-0001", ...overrides }),
+  });
+}
+
+test("admin bit receipt check-status: requires the admin key", async () => {
+  const env = bitAdminEnv();
+  const response = await worker.fetch(bitCheckStatusRequest({}, "wrong-key"), env);
+  assert.equal(response.status, 401);
+});
+
+test("admin bit receipt check-status: rejects a missing requestId", async () => {
+  const env = bitAdminEnv();
+  const response = await worker.fetch(bitCheckStatusRequest({ requestId: "" }), env);
+  assert.equal(response.status, 400);
+});
+
+test("admin bit receipt check-status: polls SmartBee for a processing record without creating a document", async () => {
+  const env = bitAdminEnv();
+  await worker.fetch(bitIntakeRequest(), env);
+
+  const originalFetch = globalThis.fetch;
+  const calls = [];
+  let allowCreate = true;
+  globalThis.fetch = async (url, options) => {
+    calls.push(url);
+    if (url.endsWith("/Login/authenticate")) {
+      return Response.json({ token: "private-live-token" });
+    }
+    if (url.endsWith("/Documents/create")) {
+      if (!allowCreate) throw new Error("check-status must never call Documents/create");
+      return Response.json({ resultCodeId: 101, result: "bit-msg-1", validationErrors: {} });
+    }
+    return Response.json({ resultCodeId: 101, result: "bit-msg-1", validationErrors: {} });
+  };
+
+  try {
+    // Approve first so the record is genuinely "processing" with an apiMessageId.
+    await worker.fetch(
+      new Request("https://worker.example/admin/bit-receipts/approve", {
+        method: "POST",
+        headers: { Origin: "https://disegni.studio", "Content-Type": "application/json", "X-Disegni-Admin-Key": "admin-secret" },
+        body: JSON.stringify({ requestId: "BIT-20260805-0001" }),
+      }),
+      env
+    );
+    allowCreate = false;
+    calls.length = 0;
+
+    const response = await worker.fetch(bitCheckStatusRequest(), env);
+    const body = await response.json();
+
+    assert.equal(response.status, 200);
+    assert.equal(body.status, "processing");
+    assert.equal(calls.some((url) => url.endsWith("/Documents/create")), false);
+    assert.equal(calls.some((url) => url.endsWith("/Documents/bit-msg-1")), true);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("admin bit receipt check-status: returns an issued record without contacting SmartBee", async () => {
+  const env = bitAdminEnv();
+  await worker.fetch(bitIntakeRequest(), env);
+  await env.ORDERS_KV.put(
+    "smartbee-bit:request:BIT-20260805-0001",
+    JSON.stringify({
+      requestId: "BIT-20260805-0001",
+      status: "issued",
+      apiMessageId: "bit-msg-1",
+      documentId: "document-bit-1",
+      linkToOriginal: "https://documents.example/bit-original.pdf",
+      linkToCopy: "https://documents.example/bit-copy.pdf",
+    })
+  );
+
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async (url) => {
+    throw new Error(`check-status must not contact SmartBee for an already-issued record, fetched: ${url}`);
+  };
+
+  try {
+    const response = await worker.fetch(bitCheckStatusRequest(), env);
+    const body = await response.json();
+
+    assert.equal(response.status, 200);
+    assert.equal(body.status, "issued");
+    assert.equal(body.documentId, "document-bit-1");
+    assert.equal(body.linkToOriginal, "https://documents.example/bit-original.pdf");
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("admin bit receipt check-status: returns a failed record without contacting SmartBee", async () => {
+  const env = bitAdminEnv();
+  await worker.fetch(bitIntakeRequest(), env);
+  await env.ORDERS_KV.put(
+    "smartbee-bit:request:BIT-20260805-0001",
+    JSON.stringify({
+      requestId: "BIT-20260805-0001",
+      status: "failed",
+      apiMessageId: "",
+      documentId: "",
+    })
+  );
+
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async (url) => {
+    throw new Error(`check-status must not contact SmartBee for an already-failed record, fetched: ${url}`);
+  };
+
+  try {
+    const response = await worker.fetch(bitCheckStatusRequest(), env);
+    const body = await response.json();
+
+    assert.equal(response.status, 200);
+    assert.equal(body.status, "failed");
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});

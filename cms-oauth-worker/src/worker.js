@@ -60,6 +60,10 @@ export default {
       return handleAdminBitReceiptReject(request, env);
     }
 
+    if (url.pathname === "/admin/bit-receipts/check-status") {
+      return handleAdminBitReceiptCheckStatus(request, env);
+    }
+
     if (url.pathname === "/smartbee/connection-test") {
       return handleSmartBeeConnectionTest(request, env);
     }
@@ -2439,6 +2443,64 @@ async function handleAdminBitReceiptReject(request, env) {
   await saveBitReceiptRecord(env, { ...record, status: "rejected", updatedAt: new Date().toISOString() });
 
   return jsonResponse({ ok: true, requestId, status: "rejected" }, 200, corsHeaders);
+}
+
+// Read-only status check: never creates a document (uses the GET status
+// endpoint, not Documents/create) and never invokes approve. Reuses the
+// exact same handleSmartBeeBitReceiptStatusLive() the Make-facing status
+// endpoint uses, called internally so MAKE_BIT_RECEIPTS_SECRET never
+// reaches the browser.
+async function handleAdminBitReceiptCheckStatus(request, env) {
+  const corsHeaders = getCorsHeaders(request, env);
+
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: corsHeaders ? 204 : 403,
+      headers: corsHeaders || noStoreHeaders(),
+    });
+  }
+  if (request.method !== "POST") {
+    return jsonResponse({ ok: false, error: "Method not allowed" }, 405, corsHeaders, { Allow: "POST, OPTIONS" });
+  }
+  if (!corsHeaders) {
+    return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
+  }
+  const authError = requireAdminKey(request, env, corsHeaders);
+  if (authError) return authError;
+
+  if (!env.ORDERS_KV) {
+    return jsonResponse({ ok: false, error: "Receipt storage is not configured" }, 503, corsHeaders);
+  }
+  if (!env.MAKE_BIT_RECEIPTS_SECRET) {
+    return jsonResponse({ ok: false, error: "Bit receipt status check is not configured" }, 503, corsHeaders);
+  }
+
+  let input;
+  try {
+    input = await request.json();
+  } catch {
+    return jsonResponse({ ok: false, error: "Invalid JSON" }, 400, corsHeaders);
+  }
+
+  const requestId = cleanText(input.requestId, 80);
+  if (!BIT_REQUEST_ID_PATTERN.test(requestId)) {
+    return jsonResponse({ ok: false, error: "Invalid requestId" }, 400, corsHeaders);
+  }
+
+  const statusUrl = new URL("https://internal.worker/smartbee/receipt-status-live");
+  statusUrl.searchParams.set("requestId", requestId);
+  const internalRequest = new Request(statusUrl, {
+    method: "GET",
+    headers: {
+      Origin: corsHeaders["Access-Control-Allow-Origin"],
+      Authorization: `Bearer ${env.MAKE_BIT_RECEIPTS_SECRET}`,
+    },
+  });
+
+  const statusResponse = await handleSmartBeeBitReceiptStatusLive(internalRequest, env);
+  const statusBody = await statusResponse.json();
+
+  return jsonResponse(statusBody, statusResponse.status, corsHeaders);
 }
 
 async function handleSmartBeeReceiptStatus(request, env) {

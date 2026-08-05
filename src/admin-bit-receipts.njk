@@ -24,6 +24,23 @@ noindex: true
 
   <p id="list-message" style="color: var(--dim); font-size: 14px;">הזינו מפתח אדמין ולחצו "טען בקשות ממתינות".</p>
   <div id="receipts-list"></div>
+
+  <hr style="border-color: var(--line); margin: 40px 0;" />
+
+  <h2 style="font-size: 18px; margin-bottom: 8px;">בדיקת סטטוס קבלה</h2>
+  <p style="color: var(--dim); margin-bottom: 16px; font-size: 14px;">
+    בדיקה בלבד מול SmartBee (לא יוצרת מסמך ולא מפעילה אישור) - שימושי אחרי
+    שבקשה כבר אושרה ואינה מופיעה יותר ברשימת הבקשות הממתינות למעלה.
+  </p>
+  <label style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; max-width: 320px;">
+    <span>מזהה בקשה (requestId)</span>
+    <input type="text" id="check-status-request-id"
+      style="padding: 10px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
+  </label>
+  <button type="button" id="check-status-btn" style="padding: 10px 18px; background: transparent; border: 1px solid var(--copper); color: var(--copper); cursor: pointer;">
+    בדוק סטטוס
+  </button>
+  <p id="check-status-message" style="margin-top: 12px; font-size: 14px;"></p>
 </section>
 
 <script>
@@ -175,6 +192,71 @@ noindex: true
       .catch(function () {
         rowMessage.style.color = "#c0554d";
         rowMessage.textContent = "שגיאת רשת.";
+      });
+  });
+
+  document.getElementById("check-status-btn").addEventListener("click", function () {
+    var key = adminKey();
+    var requestId = document.getElementById("check-status-request-id").value.trim();
+    var msg = document.getElementById("check-status-message");
+
+    if (!key) {
+      msg.style.color = "#c0554d";
+      msg.textContent = "הזינו מפתח אדמין קודם.";
+      return;
+    }
+    if (!requestId) {
+      msg.style.color = "#c0554d";
+      msg.textContent = "הזינו מזהה בקשה (requestId).";
+      return;
+    }
+
+    msg.style.color = "var(--dim)";
+    msg.textContent = "בודק...";
+
+    fetch(WORKER_ORIGIN + "/admin/bit-receipts/check-status", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Disegni-Admin-Key": key },
+      body: JSON.stringify({ requestId: requestId }),
+    })
+      .then(function (response) {
+        return response.json().then(function (data) {
+          return { ok: response.ok, data: data };
+        });
+      })
+      .then(function (result) {
+        if (!result.ok || !result.data.ok) {
+          msg.style.color = "#c0554d";
+          msg.textContent = "שגיאה: " + ((result.data && result.data.error) || "לא ידוע");
+          return;
+        }
+        var data = result.data;
+        var text = "סטטוס: " + data.status;
+        if (data.status === "issued") {
+          msg.style.color = "#5c8a5c";
+          text += " | מספר מסמך: " + (data.documentId || "-");
+          if (data.linkToOriginal) {
+            text += " | ";
+          }
+          msg.innerHTML = "";
+          msg.appendChild(document.createTextNode(text));
+          if (data.linkToOriginal) {
+            var link = document.createElement("a");
+            link.href = data.linkToOriginal;
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            link.textContent = "קישור ל-PDF";
+            link.style.color = "var(--copper)";
+            msg.appendChild(link);
+          }
+        } else {
+          msg.style.color = "var(--dim)";
+          msg.textContent = text;
+        }
+      })
+      .catch(function () {
+        msg.style.color = "#c0554d";
+        msg.textContent = "שגיאת רשת.";
       });
   });
 })();
