@@ -54,6 +54,7 @@ noindex: true
 
   function renderReceipt(receipt) {
     var wrap = document.createElement("div");
+    wrap.className = "js-receipt-row";
     wrap.style.cssText = "border: 1px solid var(--line); padding: 20px; margin-bottom: 16px;";
     var prefix = receipt.requestId;
 
@@ -125,7 +126,7 @@ noindex: true
     if (!approveBtn && !rejectBtn) return;
 
     var requestId = (approveBtn || rejectBtn).dataset.requestId;
-    var row = (approveBtn || rejectBtn).closest("div");
+    var row = (approveBtn || rejectBtn).closest(".js-receipt-row");
     var rowMessage = row.querySelector(".js-row-message");
     var key = adminKey();
     if (!key) {
