@@ -73,6 +73,20 @@
       if (previousFocus && previousFocus.focus) previousFocus.focus();
     }
 
+    function applyStageAspectRatio() {
+      if (!stage) return;
+      function setRatio() {
+        if (mainImage.naturalWidth && mainImage.naturalHeight) {
+          stage.style.aspectRatio = mainImage.naturalWidth + " / " + mainImage.naturalHeight;
+        }
+      }
+      if (mainImage.complete && mainImage.naturalWidth) {
+        setRatio();
+      } else {
+        mainImage.addEventListener("load", setRatio, { once: true });
+      }
+    }
+
     function activateThumbnail(thumbnail, syncProductOptions) {
       var nextImage = thumbnail.getAttribute("data-image");
       if (!nextImage) return;
@@ -81,6 +95,7 @@
       mainImage.alt = thumbnail.getAttribute("data-alt") || "";
       mainImage.setAttribute("data-zoom-enabled", thumbnail.getAttribute("data-zoom") === "true" ? "true" : "false");
       setEnlargementMode();
+      applyStageAspectRatio();
 
       thumbnails.forEach(function (item) {
         var isActive = item === thumbnail;
@@ -134,6 +149,7 @@
     }
 
     setEnlargementMode();
+    applyStageAspectRatio();
 
     thumbnails.forEach(function (thumbnail) {
       thumbnail.addEventListener("click", function () {
