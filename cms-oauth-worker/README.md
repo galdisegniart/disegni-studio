@@ -126,6 +126,32 @@ Bit. `requestId` משמש גם כ-`providerMsgId` יציב מול SmartBee. בק
 מוכן, תגובת הסטטוס יכולה לכלול `documentId`, `linkToOriginal` ו-`linkToCopy`.
 אין לחשוף את `MAKE_BIT_RECEIPTS_SECRET` בדפדפן ציבורי; הוא מיועד לתרחיש Make מאובטח בלבד.
 
+### אישור ידני של קבלות Bit (שכבת ביקורת לפני SmartBee)
+
+לפני שבקשת Bit מגיעה בפועל ל-SmartBee, היא עוברת שלב ביקורת ידני על ידי
+גל בעמוד `/admin-bit-receipts/` (`noindex`, דורש `X-Disegni-Admin-Key`):
+
+- `POST /admin/bit-receipts/intake` - נקודת קצה חדשה שתרחיש ה-Make (שעדיין
+  כבוי, מזהה `6837739`) יצטרך לקרוא לה **במקום** לקרוא ישירות ל-
+  `create-bit-receipt-live`. שומרת את הבקשה בסטטוס `pending` בלבד - **לא**
+  פונה ל-SmartBee. דורשת Bearer token נפרד:
+  ```powershell
+  npx wrangler secret put BIT_RECEIPT_INTAKE_SECRET
+  ```
+  מונעת כפילות באותו אופן בדיוק כמו `create-bit-receipt-live` (לפי
+  `requestId` ו-`bitReference`), כי היא כותבת לאותם מפתחות KV בדיוק.
+- `GET /admin/bit-receipts` - רשימת הבקשות הממתינות לעמוד האדמין.
+- `POST /admin/bit-receipts/approve` - רק כאן נוצרת קבלה אמיתית. מקבל
+  שדות מתוקנים (אם גל ערך משהו בעמוד), ואז קורא **פנימית** (באותו
+  Worker, בלי קריאת רשת חיצונית) לאותה `handleSmartBeeCreateBitReceiptLive`
+  שכבר קיימת - אין שום לוגיקת SmartBee כפולה. הבקשה עוברת מ-`pending`
+  ל-`processing`/`issued`/`failed` בדיוק כמו זרימת ה-Make הרגילה.
+- `POST /admin/bit-receipts/reject` - מסמן `rejected` בלי לגעת ב-SmartBee
+  בכלל.
+
+כל שלוש נקודות הקצה של האדמין (מלבד `intake`) דורשות `X-Disegni-Admin-Key` -
+אותו סוד שכבר משמש לביטול הזמנות ולקופונים.
+
 ## חיבור תשלום Grow דרך Make
 
 נקודת הקצה `POST /payments/grow/create` מאמתת את המוצר והמחיר בצד השרת,

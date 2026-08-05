@@ -1472,3 +1472,220 @@ test("admin cancel: rejects a second cancel attempt once already refunded", asyn
   const response = await worker.fetch(adminCancelRequest(orderId), env);
   assert.equal(response.status, 400);
 });
+
+function bitIntakeRequest(overrides = {}, bearerToken = "intake-secret") {
+  const headers = { Origin: "https://disegni.studio", "Content-Type": "application/json" };
+  if (bearerToken !== null) headers.Authorization = `Bearer ${bearerToken}`;
+  return new Request("https://worker.example/admin/bit-receipts/intake", {
+    method: "POST",
+    headers,
+    body: JSON.stringify({
+      requestId: "BIT-20260805-0001",
+      customerName: "לקוחה בדיקה",
+      phone: "0500000000",
+      email: "customer@example.com",
+      amount: 134,
+      paymentDate: "2026-08-05T09:30:00+03:00",
+      description: "יצירת אמנות",
+      bitReference: "BIT-REF-10001",
+      ...overrides,
+    }),
+  });
+}
+
+function bitAdminEnv(kv = createMockKV()) {
+  return { ...ENV, ORDERS_KV: kv, DISEGNI_ADMIN_KEY: "admin-secret", BIT_RECEIPT_INTAKE_SECRET: "intake-secret" };
+}
+
+test("bit receipt intake: requires the dedicated bearer secret", async () => {
+  const env = bitAdminEnv();
+  const response = await worker.fetch(bitIntakeRequest({}, "wrong-secret"), env);
+  assert.equal(response.status, 401);
+});
+
+test("bit receipt intake: rejects invalid fields", async () => {
+  const env = bitAdminEnv();
+  const response = await worker.fetch(bitIntakeRequest({ phone: "not-a-phone" }), env);
+  assert.equal(response.status, 400);
+});
+
+test("bit receipt intake: stores a pending record without contacting SmartBee", async () => {
+  const env = bitAdminEnv();
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async (url) => {
+    throw new Error(`Intake must not call SmartBee, but fetched: ${url}`);
+  };
+  try {
+    const response = await worker.fetch(bitIntakeRequest(), env);
+    const body = await response.json();
+    assert.equal(response.status, 200);
+    assert.equal(body.status, "pending");
+
+    const stored = JSON.parse(await env.ORDERS_KV.get("smartbee-bit:request:BIT-20260805-0001"));
+    assert.equal(stored.status, "pending");
+    assert.equal(stored.customerName, "לקוחה בדיקה");
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("bit receipt intake: is idempotent for a repeated requestId", async () => {
+  const env = bitAdminEnv();
+  await worker.fetch(bitIntakeRequest(), env);
+  const second = await worker.fetch(bitIntakeRequest({ customerName: "שם אחר לגמרי" }), env);
+  const body = await second.json();
+  assert.equal(body.idempotent, true);
+
+  const stored = JSON.parse(await env.ORDERS_KV.get("smartbee-bit:request:BIT-20260805-0001"));
+  assert.equal(stored.customerName, "לקוחה בדיקה");
+});
+
+test("bit receipt intake: rejects a bitReference already used by a different request", async () => {
+  const env = bitAdminEnv();
+  await worker.fetch(bitIntakeRequest(), env);
+  const response = await worker.fetch(
+    bitIntakeRequest({ requestId: "BIT-20260805-0002" }),
+    env
+  );
+  assert.equal(response.status, 409);
+});
+
+test("admin bit receipts list: requires the admin key", async () => {
+  const env = bitAdminEnv();
+  const response = await worker.fetch(
+    new Request("https://worker.example/admin/bit-receipts", {
+      headers: { Origin: "https://disegni.studio", "X-Disegni-Admin-Key": "wrong-key" },
+    }),
+    env
+  );
+  assert.equal(response.status, 401);
+});
+
+test("admin bit receipts list: returns only pending records", async () => {
+  const env = bitAdminEnv();
+  await worker.fetch(bitIntakeRequest(), env);
+  await worker.fetch(bitIntakeRequest({ requestId: "BIT-20260805-0002", bitReference: "BIT-REF-10002" }), env);
+  await worker.fetch(
+    new Request("https://worker.example/admin/bit-receipts/reject", {
+      method: "POST",
+      headers: { Origin: "https://disegni.studio", "Content-Type": "application/json", "X-Disegni-Admin-Key": "admin-secret" },
+      body: JSON.stringify({ requestId: "BIT-20260805-0002" }),
+    }),
+    env
+  );
+
+  const response = await worker.fetch(
+    new Request("https://worker.example/admin/bit-receipts", {
+      headers: { Origin: "https://disegni.studio", "X-Disegni-Admin-Key": "admin-secret" },
+    }),
+    env
+  );
+  const body = await response.json();
+  assert.equal(body.receipts.length, 1);
+  assert.equal(body.receipts[0].requestId, "BIT-20260805-0001");
+});
+
+test("admin bit receipt approve: rejects a request that isn't pending", async () => {
+  const env = bitAdminEnv();
+  const response = await worker.fetch(
+    new Request("https://worker.example/admin/bit-receipts/approve", {
+      method: "POST",
+      headers: { Origin: "https://disegni.studio", "Content-Type": "application/json", "X-Disegni-Admin-Key": "admin-secret" },
+      body: JSON.stringify({ requestId: "BIT-DOES-NOT-EXIST" }),
+    }),
+    env
+  );
+  assert.equal(response.status, 404);
+});
+
+test("admin bit receipt approve: applies corrected fields and creates the live receipt", async () => {
+  const env = bitAdminEnv();
+  await worker.fetch(bitIntakeRequest(), env);
+
+  const originalFetch = globalThis.fetch;
+  let createBody = null;
+  globalThis.fetch = async (url, options) => {
+    if (url.endsWith("/Login/authenticate")) {
+      return Response.json({ token: "private-live-token" });
+    }
+    if (url.endsWith("/Documents/create")) {
+      createBody = JSON.parse(options.body);
+      return Response.json({ resultCodeId: 101, result: "bit-msg-1", validationErrors: {} });
+    }
+    throw new Error(`Unexpected URL: ${url}`);
+  };
+
+  try {
+    const response = await worker.fetch(
+      new Request("https://worker.example/admin/bit-receipts/approve", {
+        method: "POST",
+        headers: { Origin: "https://disegni.studio", "Content-Type": "application/json", "X-Disegni-Admin-Key": "admin-secret" },
+        body: JSON.stringify({ requestId: "BIT-20260805-0001", customerName: "שם מתוקן" }),
+      }),
+      env
+    );
+    const body = await response.json();
+
+    assert.equal(response.status, 200);
+    assert.equal(body.ok, true);
+    assert.equal(body.status, "processing");
+    assert.equal(createBody.customer.name, "שם מתוקן");
+
+    const stored = JSON.parse(await env.ORDERS_KV.get("smartbee-bit:request:BIT-20260805-0001"));
+    assert.equal(stored.status, "processing");
+    assert.equal(stored.customerName, "שם מתוקן");
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("admin bit receipt reject: marks a pending record rejected without contacting SmartBee", async () => {
+  const env = bitAdminEnv();
+  await worker.fetch(bitIntakeRequest(), env);
+
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async (url) => {
+    throw new Error(`Reject must not call SmartBee, but fetched: ${url}`);
+  };
+
+  try {
+    const response = await worker.fetch(
+      new Request("https://worker.example/admin/bit-receipts/reject", {
+        method: "POST",
+        headers: { Origin: "https://disegni.studio", "Content-Type": "application/json", "X-Disegni-Admin-Key": "admin-secret" },
+        body: JSON.stringify({ requestId: "BIT-20260805-0001" }),
+      }),
+      env
+    );
+    const body = await response.json();
+    assert.equal(response.status, 200);
+    assert.equal(body.status, "rejected");
+
+    const stored = JSON.parse(await env.ORDERS_KV.get("smartbee-bit:request:BIT-20260805-0001"));
+    assert.equal(stored.status, "rejected");
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("admin bit receipt reject: rejects a second attempt on an already-resolved request", async () => {
+  const env = bitAdminEnv();
+  await worker.fetch(bitIntakeRequest(), env);
+  await worker.fetch(
+    new Request("https://worker.example/admin/bit-receipts/reject", {
+      method: "POST",
+      headers: { Origin: "https://disegni.studio", "Content-Type": "application/json", "X-Disegni-Admin-Key": "admin-secret" },
+      body: JSON.stringify({ requestId: "BIT-20260805-0001" }),
+    }),
+    env
+  );
+  const second = await worker.fetch(
+    new Request("https://worker.example/admin/bit-receipts/reject", {
+      method: "POST",
+      headers: { Origin: "https://disegni.studio", "Content-Type": "application/json", "X-Disegni-Admin-Key": "admin-secret" },
+      body: JSON.stringify({ requestId: "BIT-20260805-0001" }),
+    }),
+    env
+  );
+  assert.equal(second.status, 400);
+});

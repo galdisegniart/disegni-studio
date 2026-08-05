@@ -44,6 +44,22 @@ export default {
       return handleAdminCouponsDelete(request, env);
     }
 
+    if (url.pathname === "/admin/bit-receipts/intake") {
+      return handleBitReceiptIntake(request, env);
+    }
+
+    if (url.pathname === "/admin/bit-receipts") {
+      return handleAdminBitReceiptsList(request, env);
+    }
+
+    if (url.pathname === "/admin/bit-receipts/approve") {
+      return handleAdminBitReceiptApprove(request, env);
+    }
+
+    if (url.pathname === "/admin/bit-receipts/reject") {
+      return handleAdminBitReceiptReject(request, env);
+    }
+
     if (url.pathname === "/smartbee/connection-test") {
       return handleSmartBeeConnectionTest(request, env);
     }
@@ -2172,6 +2188,264 @@ function bitReceiptPublicResponse(record, idempotent) {
   };
 }
 
+function bitReceiptAdminResponse(record) {
+  return {
+    requestId: record.requestId,
+    status: record.status,
+    customerName: record.customerName,
+    phone: record.phone,
+    email: record.email,
+    amount: record.amount,
+    paymentDate: record.paymentDate,
+    description: record.description,
+    bitReference: record.bitReference,
+    documentId: record.documentId || null,
+    linkToOriginal: record.linkToOriginal || null,
+    linkToCopy: record.linkToCopy || null,
+    createdAt: record.createdAt,
+    updatedAt: record.updatedAt,
+  };
+}
+
+// Called by Make (the new, still-inactive "Disegni – Bit Receipt Pending"
+// scenario) the moment a Bit payment notification comes in - before Gal has
+// looked at it. Only stores the record as "pending" for review; never
+// touches SmartBee. Reuses the exact same validation/storage helpers as the
+// live receipt endpoint above so a request that's later approved flows
+// through the identical requestId/bitReference record, just with its status
+// naturally progressing pending -> processing -> issued/failed.
+async function handleBitReceiptIntake(request, env) {
+  const corsHeaders = getCorsHeaders(request, env);
+
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: corsHeaders ? 204 : 403,
+      headers: corsHeaders || noStoreHeaders(),
+    });
+  }
+
+  if (request.method !== "POST") {
+    return jsonResponse({ ok: false, error: "Method not allowed" }, 405, corsHeaders, { Allow: "POST, OPTIONS" });
+  }
+
+  const authorization = request.headers.get("Authorization") || "";
+  const match = authorization.match(/^Bearer\s+(.+)$/i);
+  if (!env.BIT_RECEIPT_INTAKE_SECRET || !match || match[1] !== env.BIT_RECEIPT_INTAKE_SECRET) {
+    return jsonResponse({ ok: false, error: "Unauthorized" }, 401, corsHeaders || noStoreHeaders());
+  }
+
+  if (!env.ORDERS_KV) {
+    return jsonResponse({ ok: false, error: "Receipt storage is not configured" }, 503, corsHeaders);
+  }
+
+  let input;
+  try {
+    input = await request.json();
+  } catch {
+    return jsonResponse({ ok: false, error: "Invalid JSON" }, 400, corsHeaders);
+  }
+
+  const validated = validateBitReceiptInput(input);
+  if (!validated.ok) {
+    return jsonResponse({ ok: false, error: validated.error, fields: validated.fields || [] }, 400, corsHeaders);
+  }
+
+  const receipt = validated.value;
+  const requestKey = bitReceiptRequestKey(receipt.requestId);
+  const existing = await kvGetJSON(env, requestKey);
+  if (existing) {
+    // Same requestId sent twice (Make retry) - no-op, return what's there.
+    return jsonResponse({ ok: true, requestId: existing.requestId, status: existing.status, idempotent: true }, 200, corsHeaders);
+  }
+
+  const referenceKey = bitReceiptReferenceKey(receipt.bitReference);
+  const existingReference = await kvGetJSON(env, referenceKey);
+  if (existingReference && existingReference.requestId !== receipt.requestId) {
+    return jsonResponse(
+      { ok: false, error: "Bit reference already belongs to another request", code: "duplicate_bit_reference" },
+      409,
+      corsHeaders
+    );
+  }
+
+  const now = new Date().toISOString();
+  const pendingRecord = {
+    ...receipt,
+    status: "pending",
+    apiMessageId: "",
+    documentId: "",
+    linkToOriginal: "",
+    linkToCopy: "",
+    createdAt: now,
+    updatedAt: now,
+  };
+  await saveBitReceiptRecord(env, pendingRecord);
+
+  return jsonResponse({ ok: true, requestId: receipt.requestId, status: "pending" }, 200, corsHeaders);
+}
+
+async function handleAdminBitReceiptsList(request, env) {
+  const corsHeaders = getCorsHeaders(request, env);
+
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: corsHeaders ? 204 : 403,
+      headers: corsHeaders || noStoreHeaders(),
+    });
+  }
+  if (request.method !== "GET") {
+    return jsonResponse({ ok: false, error: "Method not allowed" }, 405, corsHeaders, { Allow: "GET, OPTIONS" });
+  }
+  if (!corsHeaders) {
+    return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
+  }
+  const authError = requireAdminKey(request, env, corsHeaders);
+  if (authError) return authError;
+
+  if (!env.ORDERS_KV) {
+    return jsonResponse({ ok: true, receipts: [] }, 200, corsHeaders);
+  }
+
+  const listing = await env.ORDERS_KV.list({ prefix: "smartbee-bit:request:" });
+  const receipts = [];
+  for (const key of listing.keys) {
+    const record = await kvGetJSON(env, key.name);
+    if (record && record.status === "pending") receipts.push(bitReceiptAdminResponse(record));
+  }
+  receipts.sort((a, b) => (a.createdAt || "").localeCompare(b.createdAt || ""));
+
+  return jsonResponse({ ok: true, receipts }, 200, corsHeaders);
+}
+
+// The only step that actually touches SmartBee. Re-validates whatever Gal
+// corrected in the admin page, then hands off to the exact same
+// handleSmartBeeCreateBitReceiptLive() the Make-facing endpoint uses -
+// no duplicated SmartBee call logic - so a request that's approved goes
+// through the identical pending -> processing -> issued/failed transition.
+async function handleAdminBitReceiptApprove(request, env) {
+  const corsHeaders = getCorsHeaders(request, env);
+
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: corsHeaders ? 204 : 403,
+      headers: corsHeaders || noStoreHeaders(),
+    });
+  }
+  if (request.method !== "POST") {
+    return jsonResponse({ ok: false, error: "Method not allowed" }, 405, corsHeaders, { Allow: "POST, OPTIONS" });
+  }
+  if (!corsHeaders) {
+    return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
+  }
+  const authError = requireAdminKey(request, env, corsHeaders);
+  if (authError) return authError;
+
+  if (!env.ORDERS_KV) {
+    return jsonResponse({ ok: false, error: "Receipt storage is not configured" }, 503, corsHeaders);
+  }
+  if (!env.MAKE_BIT_RECEIPTS_SECRET) {
+    return jsonResponse({ ok: false, error: "Bit receipt creation is not configured" }, 503, corsHeaders);
+  }
+
+  let input;
+  try {
+    input = await request.json();
+  } catch {
+    return jsonResponse({ ok: false, error: "Invalid JSON" }, 400, corsHeaders);
+  }
+
+  const requestId = cleanText(input.requestId, 80);
+  if (!BIT_REQUEST_ID_PATTERN.test(requestId)) {
+    return jsonResponse({ ok: false, error: "Invalid requestId" }, 400, corsHeaders);
+  }
+
+  const record = await kvGetJSON(env, bitReceiptRequestKey(requestId));
+  if (!record) {
+    return jsonResponse({ ok: false, error: "Receipt request not found" }, 404, corsHeaders);
+  }
+  if (record.status !== "pending") {
+    return jsonResponse(
+      { ok: false, error: `Request status is "${record.status}", not "pending" - already resolved` },
+      400,
+      corsHeaders
+    );
+  }
+
+  // Gal's corrected fields, falling back to what came in from Make.
+  const correctedFields = {
+    requestId,
+    customerName: input.customerName !== undefined ? input.customerName : record.customerName,
+    phone: input.phone !== undefined ? input.phone : record.phone,
+    email: input.email !== undefined ? input.email : record.email,
+    amount: input.amount !== undefined ? input.amount : record.amount,
+    paymentDate: input.paymentDate !== undefined ? input.paymentDate : record.paymentDate,
+    description: input.description !== undefined ? input.description : record.description,
+    bitReference: input.bitReference !== undefined ? input.bitReference : record.bitReference,
+  };
+
+  const internalRequest = new Request("https://internal.worker/smartbee/create-bit-receipt-live", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Origin: corsHeaders["Access-Control-Allow-Origin"],
+      Authorization: `Bearer ${env.MAKE_BIT_RECEIPTS_SECRET}`,
+    },
+    body: JSON.stringify(correctedFields),
+  });
+
+  const liveResponse = await handleSmartBeeCreateBitReceiptLive(internalRequest, env);
+  const liveBody = await liveResponse.json();
+
+  return jsonResponse(liveBody, liveResponse.status, corsHeaders);
+}
+
+async function handleAdminBitReceiptReject(request, env) {
+  const corsHeaders = getCorsHeaders(request, env);
+
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: corsHeaders ? 204 : 403,
+      headers: corsHeaders || noStoreHeaders(),
+    });
+  }
+  if (request.method !== "POST") {
+    return jsonResponse({ ok: false, error: "Method not allowed" }, 405, corsHeaders, { Allow: "POST, OPTIONS" });
+  }
+  if (!corsHeaders) {
+    return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
+  }
+  const authError = requireAdminKey(request, env, corsHeaders);
+  if (authError) return authError;
+
+  let input;
+  try {
+    input = await request.json();
+  } catch {
+    return jsonResponse({ ok: false, error: "Invalid JSON" }, 400, corsHeaders);
+  }
+
+  const requestId = cleanText(input.requestId, 80);
+  if (!BIT_REQUEST_ID_PATTERN.test(requestId)) {
+    return jsonResponse({ ok: false, error: "Invalid requestId" }, 400, corsHeaders);
+  }
+
+  const record = await kvGetJSON(env, bitReceiptRequestKey(requestId));
+  if (!record) {
+    return jsonResponse({ ok: false, error: "Receipt request not found" }, 404, corsHeaders);
+  }
+  if (record.status !== "pending") {
+    return jsonResponse(
+      { ok: false, error: `Request status is "${record.status}", not "pending" - already resolved` },
+      400,
+      corsHeaders
+    );
+  }
+
+  await saveBitReceiptRecord(env, { ...record, status: "rejected", updatedAt: new Date().toISOString() });
+
+  return jsonResponse({ ok: true, requestId, status: "rejected" }, 200, corsHeaders);
+}
+
 async function handleSmartBeeReceiptStatus(request, env) {
   const corsHeaders = getCorsHeaders(request, env);
 
@@ -2479,7 +2753,7 @@ function getCorsHeaders(request, env) {
   return {
     ...noStoreHeaders(),
     "Access-Control-Allow-Origin": origin || allowedOrigins[0],
-    "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Disegni-Test-Key, X-Grow-Confirm-Secret, X-SmartBee-Live-Key, X-Disegni-Admin-Key",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Disegni-Test-Key, X-Grow-Confirm-Secret, X-SmartBee-Live-Key, X-Disegni-Admin-Key, X-Bit-Intake-Secret",
     "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
     Vary: "Origin",
   };

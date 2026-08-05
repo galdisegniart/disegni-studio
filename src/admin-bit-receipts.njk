@@ -1,0 +1,172 @@
+---
+layout: base-bare.njk
+title: "אישור קבלות Bit | גל דִּיסֵנִי"
+description: "עמוד אדמין פנימי - לא לשימוש לקוחות."
+permalink: "/admin-bit-receipts/index.html"
+noindex: true
+---
+<section style="max-width: 720px; margin: 80px auto; padding: 0 24px; color: var(--bone); font-family: var(--sans);">
+  <h1 style="font-size: 24px; margin-bottom: 8px;">אישור קבלות Bit</h1>
+  <p style="color: var(--dim); margin-bottom: 32px;">
+    בקשות שממתינות לאישור אחרי תשלום Bit. אפשר לתקן פרטים לפני שמפיקים
+    בפועל קבלה אמיתית ב-SmartBee, או לדחות בקשה שגויה/כפולה בלי להפיק כלום.
+  </p>
+
+  <label style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 24px;">
+    <span>מפתח אדמין</span>
+    <input type="password" id="admin-key" autocomplete="off"
+      style="padding: 10px; background: transparent; border: 1px solid var(--line); color: var(--bone); max-width: 320px;" />
+  </label>
+
+  <button type="button" id="load-btn" style="padding: 10px 18px; background: transparent; border: 1px solid var(--copper); color: var(--copper); cursor: pointer; margin-bottom: 24px;">
+    טען בקשות ממתינות
+  </button>
+
+  <p id="list-message" style="color: var(--dim); font-size: 14px;">הזינו מפתח אדמין ולחצו "טען בקשות ממתינות".</p>
+  <div id="receipts-list"></div>
+</section>
+
+<script>
+(function () {
+  var WORKER_ORIGIN = "https://disegni-cms-oauth.galdisegniart.workers.dev";
+
+  function adminKey() {
+    return document.getElementById("admin-key").value.trim();
+  }
+
+  function fieldRow(labelText, id, value, type) {
+    return (
+      '<label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">' +
+      '<span style="font-size: 13px; color: var(--dim);">' + labelText + '</span>' +
+      '<input type="' + (type || "text") + '" id="' + id + '" value="' + (value == null ? "" : String(value).replace(/"/g, "&quot;")) + '" ' +
+      'style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />' +
+      '</label>'
+    );
+  }
+
+  function renderReceipt(receipt) {
+    var wrap = document.createElement("div");
+    wrap.style.cssText = "border: 1px solid var(--line); padding: 20px; margin-bottom: 16px;";
+    var prefix = receipt.requestId;
+
+    wrap.innerHTML =
+      '<p style="font-weight: 600; margin: 0 0 12px;">' + receipt.requestId + '</p>' +
+      fieldRow("שם מלא", prefix + "-name", receipt.customerName) +
+      fieldRow("טלפון", prefix + "-phone", receipt.phone) +
+      fieldRow("דוא\"ל", prefix + "-email", receipt.email) +
+      fieldRow("סכום (₪)", prefix + "-amount", receipt.amount, "number") +
+      fieldRow("תאריך תשלום", prefix + "-date", receipt.paymentDate) +
+      fieldRow("תיאור", prefix + "-description", receipt.description) +
+      fieldRow("אסמכתת Bit", prefix + "-ref", receipt.bitReference) +
+      '<div style="display: flex; gap: 10px; margin-top: 12px;">' +
+      '<button type="button" class="js-approve" data-request-id="' + receipt.requestId + '" style="padding: 10px 18px; background: #5c8a5c; color: #fff; border: none; cursor: pointer;">אשר והפק קבלה</button>' +
+      '<button type="button" class="js-reject" data-request-id="' + receipt.requestId + '" style="padding: 10px 18px; background: transparent; border: 1px solid #c0554d; color: #c0554d; cursor: pointer;">דחה</button>' +
+      '</div>' +
+      '<p class="js-row-message" style="margin-top: 10px; font-size: 14px;"></p>';
+
+    return wrap;
+  }
+
+  function loadReceipts() {
+    var key = adminKey();
+    var listMessage = document.getElementById("list-message");
+    var listEl = document.getElementById("receipts-list");
+    if (!key) {
+      listMessage.textContent = "הזינו מפתח אדמין קודם.";
+      return;
+    }
+
+    listMessage.textContent = "טוען...";
+    fetch(WORKER_ORIGIN + "/admin/bit-receipts", {
+      headers: { "X-Disegni-Admin-Key": key },
+    })
+      .then(function (response) {
+        return response.json().then(function (data) {
+          return { ok: response.ok, data: data };
+        });
+      })
+      .then(function (result) {
+        if (!result.ok || !result.data.ok) {
+          listMessage.style.color = "#c0554d";
+          listMessage.textContent = "שגיאה: " + ((result.data && result.data.error) || "לא ידוע");
+          listEl.innerHTML = "";
+          return;
+        }
+        listMessage.style.color = "var(--dim)";
+        listEl.innerHTML = "";
+        if (!result.data.receipts.length) {
+          listMessage.textContent = "אין בקשות ממתינות כרגע.";
+          return;
+        }
+        listMessage.textContent = "";
+        result.data.receipts.forEach(function (receipt) {
+          listEl.appendChild(renderReceipt(receipt));
+        });
+      })
+      .catch(function () {
+        listMessage.style.color = "#c0554d";
+        listMessage.textContent = "שגיאת רשת.";
+      });
+  }
+
+  document.getElementById("load-btn").addEventListener("click", loadReceipts);
+
+  document.getElementById("receipts-list").addEventListener("click", function (event) {
+    var approveBtn = event.target.closest(".js-approve");
+    var rejectBtn = event.target.closest(".js-reject");
+    if (!approveBtn && !rejectBtn) return;
+
+    var requestId = (approveBtn || rejectBtn).dataset.requestId;
+    var row = (approveBtn || rejectBtn).closest("div");
+    var rowMessage = row.querySelector(".js-row-message");
+    var key = adminKey();
+    if (!key) {
+      rowMessage.style.color = "#c0554d";
+      rowMessage.textContent = "הזינו מפתח אדמין קודם.";
+      return;
+    }
+
+    var path = approveBtn ? "/admin/bit-receipts/approve" : "/admin/bit-receipts/reject";
+    var body = { requestId: requestId };
+    if (approveBtn) {
+      body.customerName = document.getElementById(requestId + "-name").value;
+      body.phone = document.getElementById(requestId + "-phone").value;
+      body.email = document.getElementById(requestId + "-email").value;
+      body.amount = Number(document.getElementById(requestId + "-amount").value);
+      body.paymentDate = document.getElementById(requestId + "-date").value;
+      body.description = document.getElementById(requestId + "-description").value;
+      body.bitReference = document.getElementById(requestId + "-ref").value;
+    }
+
+    rowMessage.style.color = "var(--dim)";
+    rowMessage.textContent = "שולח...";
+
+    fetch(WORKER_ORIGIN + path, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Disegni-Admin-Key": key },
+      body: JSON.stringify(body),
+    })
+      .then(function (response) {
+        return response.json().then(function (data) {
+          return { ok: response.ok, data: data };
+        });
+      })
+      .then(function (result) {
+        if (!result.ok || !result.data.ok) {
+          rowMessage.style.color = "#c0554d";
+          rowMessage.textContent = "שגיאה: " + ((result.data && result.data.error) || "לא ידוע");
+          return;
+        }
+        rowMessage.style.color = "#5c8a5c";
+        rowMessage.textContent = approveBtn
+          ? "אושר - סטטוס: " + result.data.status
+          : "הבקשה נדחתה.";
+        setTimeout(loadReceipts, 1200);
+      })
+      .catch(function () {
+        rowMessage.style.color = "#c0554d";
+        rowMessage.textContent = "שגיאת רשת.";
+      });
+  });
+})();
+</script>
