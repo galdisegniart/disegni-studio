@@ -1,0 +1,52 @@
+---
+layout: base.njk
+title: "פרטי תשלום Bit | גל דִּיסֵנִי"
+description: "טופס להזנת פרטי תשלום שבוצע ב-Bit, לצורך הפקת קבלה לאחר אימות."
+permalink: "/bit-payment-details/index.html"
+noindex: true
+scripts:
+  - /js/bit-payment-details.js
+---
+<section class="section bit-payment-section">
+  <div class="bit-payment-inner">
+    <h1>פרטי תשלום Bit</h1>
+    <p class="bit-payment-lead">
+      מלאו את פרטי התשלום שבוצע ב-Bit. הפרטים משמשים להפקת קבלה לאחר אימות
+      התשלום.
+    </p>
+
+    <form id="bit-payment-form" class="lead-form" novalidate>
+      <label>
+        <span>שם מלא *</span>
+        <input type="text" name="customerName" required>
+      </label>
+      <label>
+        <span>טלפון *</span>
+        <input type="tel" name="phone" required>
+      </label>
+      <label>
+        <span>דוא"ל לקבלת קבלה *</span>
+        <input type="email" name="email" required>
+      </label>
+      <label>
+        <span>סכום ששולם (₪) *</span>
+        <input type="number" name="amount" min="0.01" step="0.01" inputmode="decimal" required>
+      </label>
+      <label>
+        <span>תאריך התשלום *</span>
+        <input type="date" name="paymentDate" required>
+      </label>
+      <label class="lead-form-full">
+        <span>מה נרכש *</span>
+        <input type="text" name="description" required>
+      </label>
+      <label class="lead-form-full">
+        <span>אסמכתת Bit *</span>
+        <input type="text" name="bitReference" required>
+      </label>
+      <button type="submit" class="cta lead-submit">שליחה</button>
+      <p class="lead-form-success js-bit-payment-success" role="status" hidden>הפרטים התקבלו ונשלחו לבדיקה.</p>
+      <p class="lead-form-error js-bit-payment-error" role="alert" hidden></p>
+    </form>
+  </div>
+</section>

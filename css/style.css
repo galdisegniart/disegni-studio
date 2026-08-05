@@ -5348,6 +5348,40 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
   display: none;
 }
 
+.lead-form-error {
+  grid-column: 1 / -1;
+  justify-self: end;
+  margin: 0;
+  color: #d97757;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.lead-form-error[hidden] {
+  display: none;
+}
+
+.bit-payment-section {
+  padding-top: 96px;
+}
+
+.bit-payment-inner {
+  width: min(100%, 760px);
+  margin: 0 auto;
+}
+
+.bit-payment-inner h1 {
+  margin-bottom: 14px;
+}
+
+.bit-payment-lead {
+  color: var(--dim);
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 8px;
+  max-width: 560px;
+}
+
 /* Mobile sticky CTA */
 .commission-sticky-cta {
   position: fixed;
