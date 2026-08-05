@@ -969,7 +969,7 @@ test("creates a pending Bit receipt request with a stable id and no email delive
       },
     ]);
     assert.equal(documentRequest.receiptDetails.cashItems, undefined);
-    assert.equal(documentRequest.creationMetadata.sendOriginalToCustomer, false);
+    assert.equal(documentRequest.creationMetadata, undefined);
     assert.equal(documentRequest.customer.email, "customer@example.com");
     assert.equal(JSON.stringify(body).includes("private-live-token"), false);
     assert.equal(JSON.stringify(body).includes(ENV.SMARTBEE_LIVE_PROVIDER_USER_TOKEN), false);

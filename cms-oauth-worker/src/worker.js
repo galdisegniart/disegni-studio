@@ -1916,11 +1916,6 @@ async function handleSmartBeeCreateBitReceiptLive(request, env) {
       },
       docDate: receipt.paymentDate,
       isDraft: false,
-      creationMetadata: {
-        language: "Hebrew",
-        currencyTarget: "ILS",
-        sendOriginalToCustomer: false,
-      },
     };
 
     const createResult = await smartBeeRequest(
