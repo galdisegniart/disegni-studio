@@ -34,10 +34,18 @@ noindex: true
     return document.getElementById("admin-key").value.trim();
   }
 
-  function fieldRow(labelText, id, value, type) {
+  function formatReadableDate(value) {
+    var date = new Date(value);
+    if (isNaN(date.getTime())) return "";
+    var day = String(date.getDate()).padStart(2, "0");
+    var month = String(date.getMonth() + 1).padStart(2, "0");
+    return day + "/" + month + "/" + date.getFullYear();
+  }
+
+  function fieldRow(labelText, id, value, type, hint) {
     return (
       '<label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">' +
-      '<span style="font-size: 13px; color: var(--dim);">' + labelText + '</span>' +
+      '<span style="font-size: 13px; color: var(--dim);">' + labelText + (hint ? ' (' + hint + ')' : '') + '</span>' +
       '<input type="' + (type || "text") + '" id="' + id + '" value="' + (value == null ? "" : String(value).replace(/"/g, "&quot;")) + '" ' +
       'style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />' +
       '</label>'
@@ -55,7 +63,7 @@ noindex: true
       fieldRow("טלפון", prefix + "-phone", receipt.phone) +
       fieldRow("דוא\"ל", prefix + "-email", receipt.email) +
       fieldRow("סכום (₪)", prefix + "-amount", receipt.amount, "number") +
-      fieldRow("תאריך תשלום", prefix + "-date", receipt.paymentDate) +
+      fieldRow("תאריך תשלום", prefix + "-date", receipt.paymentDate, "text", formatReadableDate(receipt.paymentDate)) +
       fieldRow("תיאור", prefix + "-description", receipt.description) +
       fieldRow("אסמכתת Bit", prefix + "-ref", receipt.bitReference) +
       '<div style="display: flex; gap: 10px; margin-top: 12px;">' +
