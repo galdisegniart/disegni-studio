@@ -101,6 +101,7 @@ eleventyComputed:
 
       <div class="print-order-heading-row">
         <h2 class="print-order-quality-heading">{{ purchaseButtons.chooseFormatLabel }}</h2>
+        <button type="button" class="print-order-multiselect js-toggle-multiselect" hidden>{{ purchaseButtons.multiSelectLabel }}</button>
         <button type="button" class="print-order-clear js-clear-selection" hidden>{{ purchaseButtons.clearSelectionLabel }}</button>
       </div>
 
@@ -198,6 +199,12 @@ eleventyComputed:
       </div>
 
       <button type="button" class="cta js-add-to-cart" disabled>{{ purchaseButtons.addToCartLabel }}</button>
+
+      <div class="print-order-multiselect-summary" data-template="{{ purchaseButtons.itemsSelectedLabel }}" hidden>
+        <p class="print-order-multiselect-count js-multiselect-count"></p>
+        <button type="button" class="cta js-add-all-to-cart" disabled>{{ purchaseButtons.addAllToCartLabel }}</button>
+      </div>
+
       <a class="cta cta-outline js-whatsapp" href="{{ (purchaseButtons.whatsappQuestionMessage | replace('{name}', artwork.name)) | waLink }}" target="_blank" rel="noopener noreferrer">{{ purchaseButtons.whatsappQuestionLabel }}</a>
 
       <p class="print-order-note js-print-order-note"></p>

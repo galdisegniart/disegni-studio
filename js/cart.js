@@ -712,28 +712,7 @@
       if (!option || option.disabled || !option.value) return;
       var qtyEl = wrap.querySelector(".js-order-qty");
       var orderQty = qtyEl ? parseInt(qtyEl.textContent, 10) || 1 : 1;
-      addToCart({
-        artworkSlug: wrap.dataset.artworkSlug,
-        artworkName: wrap.dataset.artworkName,
-        image: wrap.dataset.artworkImage || "",
-        paymentImage: option.dataset.paymentImage || wrap.dataset.paymentImage || "",
-        material: option.dataset.material,
-        materialName: option.dataset.materialName,
-        productType: option.dataset.productType || "",
-        frame: option.dataset.frame || "none",
-        frameName: option.dataset.frameName || "",
-        sizeId: option.dataset.sizeId,
-        catalogNumber: option.dataset.catalogNumber || "",
-        labelIn: option.dataset.labelIn,
-        labelCm: option.dataset.labelCm,
-        priceILS: parseFloat(option.dataset.priceIls),
-        priceUSD: parseFloat(option.dataset.priceUsd),
-        shippingFirstILS: parseFloat(option.dataset.shippingFirstIls),
-        shippingAdditionalILS: parseFloat(option.dataset.shippingAdditionalIls),
-        shippingFirstUSD: parseFloat(option.dataset.shippingFirstUsd),
-        shippingAdditionalUSD: parseFloat(option.dataset.shippingAdditionalUsd),
-        qty: orderQty,
-      });
+      addToCart(buildCartItemFromDataset(wrap, option.dataset, orderQty));
       openCartDrawer();
       return;
     }
@@ -819,6 +798,14 @@
         btn.classList.toggle("active", btn.dataset.currency === getCurrency());
       });
       document.querySelectorAll("[data-artwork-slug]").forEach(function (w) {
+        // buildOptionCards() below fully rebuilds the card elements, which
+        // would silently wipe any multi-select checkmarks - carry the
+        // selected values across the rebuild.
+        var wasMultiSelect = isMultiSelectMode(w);
+        var selectedValues = wasMultiSelect
+          ? getMultiSelectedCards(w).map(function (card) { return card.dataset.value; })
+          : [];
+
         if (isPrintfulDriven(w)) populatePrintfulSizes(w);
         else populateSizeOptions(w);
         buildOptionCards(w);
@@ -826,6 +813,14 @@
         var cardsContainer = w.querySelector(".print-order-cards");
         var sizeSelect = w.querySelector(".js-size-select");
         if (cardsContainer && sizeSelect) markActiveCard(cardsContainer, sizeSelect.value);
+
+        if (wasMultiSelect && cardsContainer) {
+          selectedValues.forEach(function (value) {
+            var card = cardsContainer.querySelector('.option-card[data-value="' + value + '"]');
+            if (card) card.classList.add("is-multi-selected");
+          });
+          renderMultiSelectSummary(w);
+        }
       });
       renderCartPage();
       return;
@@ -1117,6 +1112,166 @@
     styleSelect.dispatchEvent(new Event("change", { bubbles: true }));
   }
 
+  function isMultiSelectMode(wrap) {
+    return wrap.classList.contains("is-multiselect-active");
+  }
+
+  function getMultiSelectedCards(wrap) {
+    var container = wrap.querySelector(".print-order-cards");
+    return container
+      ? Array.prototype.slice.call(container.querySelectorAll(".option-card.is-multi-selected"))
+      : [];
+  }
+
+  function toggleMultiSelectUI(wrap, active) {
+    var qtyField = wrap.querySelector(".print-order-qty-field");
+    var addBtn = wrap.querySelector(".js-add-to-cart");
+    var priceEl = wrap.querySelector(".print-order-price");
+    var summary = wrap.querySelector(".print-order-multiselect-summary");
+    var clearBtn = wrap.querySelector(".js-clear-selection");
+    if (qtyField) qtyField.hidden = active;
+    if (addBtn) addBtn.hidden = active;
+    if (priceEl) priceEl.hidden = active;
+    if (summary) summary.hidden = !active;
+    if (clearBtn && active) clearBtn.hidden = true;
+  }
+
+  function renderMultiSelectSummary(wrap) {
+    var countEl = wrap.querySelector(".js-multiselect-count");
+    var addAllBtn = wrap.querySelector(".js-add-all-to-cart");
+    var summary = wrap.querySelector(".print-order-multiselect-summary");
+    var cards = getMultiSelectedCards(wrap);
+    var currency = getCurrency();
+    var total = 0;
+    cards.forEach(function (card) {
+      var price = currency === "USD" ? parseFloat(card.dataset.priceUsd) : parseFloat(card.dataset.priceIls);
+      if (Number.isFinite(price)) total += price;
+    });
+    if (countEl) {
+      var template = (summary && summary.dataset.template) || '{count} פריטים נבחרו · סה"כ {total}';
+      var totalText = currency === "USD" ? "$" + total : total + " ₪";
+      countEl.textContent = cards.length
+        ? template.replace("{count}", cards.length).replace("{total}", totalText)
+        : "";
+    }
+    if (addAllBtn) addAllBtn.disabled = cards.length === 0;
+  }
+
+  // Unified pointer handling (mouse + touch) for "long-press to enter
+  // multi-select". Returns a function the card's own click handler calls
+  // first: if it returns true, the long-press already handled this
+  // interaction and the normal single-select click must be suppressed.
+  function attachLongPressToCard(wrap, card, onLongPress) {
+    var LONG_PRESS_MS = 500;
+    var MOVE_THRESHOLD_PX = 10;
+    var timer = null;
+    var startX = 0;
+    var startY = 0;
+    var fired = false;
+
+    function cancelTimer() {
+      if (timer) {
+        clearTimeout(timer);
+        timer = null;
+      }
+    }
+
+    card.addEventListener("pointerdown", function (e) {
+      if (isMultiSelectMode(wrap)) return;
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      fired = false;
+      startX = e.clientX;
+      startY = e.clientY;
+      cancelTimer();
+      timer = setTimeout(function () {
+        timer = null;
+        fired = true;
+        onLongPress();
+      }, LONG_PRESS_MS);
+    });
+    card.addEventListener("pointermove", function (e) {
+      if (!timer) return;
+      var dx = e.clientX - startX;
+      var dy = e.clientY - startY;
+      if (Math.sqrt(dx * dx + dy * dy) > MOVE_THRESHOLD_PX) cancelTimer();
+    });
+    card.addEventListener("pointerup", cancelTimer);
+    card.addEventListener("pointercancel", function () {
+      cancelTimer();
+      fired = false;
+    });
+    card.addEventListener("contextmenu", function (e) {
+      if (timer || fired) e.preventDefault();
+    });
+
+    return function wasLongPress() {
+      if (fired) {
+        fired = false;
+        return true;
+      }
+      return false;
+    };
+  }
+
+  function toggleMultiSelectCard(wrap, card) {
+    var selected = card.classList.toggle("is-multi-selected");
+    card.setAttribute("aria-pressed", selected ? "true" : "false");
+    renderMultiSelectSummary(wrap);
+  }
+
+  function enterMultiSelect(wrap) {
+    if (isMultiSelectMode(wrap)) return;
+    clearSelection(wrap);
+    wrap.classList.add("is-multiselect-active");
+    var cardsContainer = wrap.querySelector(".print-order-cards");
+    if (cardsContainer) cardsContainer.classList.add("is-multiselect");
+    var toggleBtn = wrap.querySelector(".js-toggle-multiselect");
+    if (toggleBtn) toggleBtn.classList.add("is-active");
+    toggleMultiSelectUI(wrap, true);
+    renderMultiSelectSummary(wrap);
+  }
+
+  function exitMultiSelect(wrap) {
+    if (!isMultiSelectMode(wrap)) return;
+    wrap.classList.remove("is-multiselect-active");
+    var cardsContainer = wrap.querySelector(".print-order-cards");
+    if (cardsContainer) {
+      cardsContainer.classList.remove("is-multiselect");
+      getMultiSelectedCards(wrap).forEach(function (card) {
+        card.classList.remove("is-multi-selected");
+        card.setAttribute("aria-pressed", "false");
+      });
+    }
+    var toggleBtn = wrap.querySelector(".js-toggle-multiselect");
+    if (toggleBtn) toggleBtn.classList.remove("is-active");
+    toggleMultiSelectUI(wrap, false);
+  }
+
+  function buildCartItemFromDataset(wrap, dataset, qty) {
+    return {
+      artworkSlug: wrap.dataset.artworkSlug,
+      artworkName: wrap.dataset.artworkName,
+      image: wrap.dataset.artworkImage || "",
+      paymentImage: dataset.paymentImage || wrap.dataset.paymentImage || "",
+      material: dataset.material,
+      materialName: dataset.materialName,
+      productType: dataset.productType || "",
+      frame: dataset.frame || "none",
+      frameName: dataset.frameName || "",
+      sizeId: dataset.sizeId,
+      catalogNumber: dataset.catalogNumber || "",
+      labelIn: dataset.labelIn,
+      labelCm: dataset.labelCm,
+      priceILS: parseFloat(dataset.priceIls),
+      priceUSD: parseFloat(dataset.priceUsd),
+      shippingFirstILS: parseFloat(dataset.shippingFirstIls),
+      shippingAdditionalILS: parseFloat(dataset.shippingAdditionalIls),
+      shippingFirstUSD: parseFloat(dataset.shippingFirstUsd),
+      shippingAdditionalUSD: parseFloat(dataset.shippingAdditionalUsd),
+      qty: qty,
+    };
+  }
+
   function selectPrintfulVariant(wrap, item) {
     var styleSelect = wrap.querySelector(".js-style-select");
     var sizeSelect = wrap.querySelector(".js-size-select");
@@ -1172,6 +1327,23 @@
         card.className = "option-card";
         card.dataset.value = value;
         card.setAttribute("aria-pressed", "false");
+        card.dataset.material = item.style || "";
+        card.dataset.materialName = item.productTypeName || "";
+        card.dataset.productType = item.productType || "";
+        card.dataset.paymentImage = item.paymentImage || wrap.dataset.paymentImage || "";
+        card.dataset.frame = item.frame || "";
+        card.dataset.frameColor = item.frameColor || (item.frame === "framed" ? "black" : "");
+        card.dataset.frameName = "";
+        card.dataset.sizeId = item.sizeId || "";
+        card.dataset.catalogNumber = item.catalogNumber || "";
+        card.dataset.labelIn = item.labelIn || "";
+        card.dataset.labelCm = item.labelCm || "";
+        card.dataset.priceIls = item.priceILS || "";
+        card.dataset.priceUsd = item.priceUSD || "";
+        card.dataset.shippingFirstIls = item.shippingFirstILS || "";
+        card.dataset.shippingAdditionalIls = item.shippingAdditionalILS || "";
+        card.dataset.shippingFirstUsd = item.shippingFirstUSD || "";
+        card.dataset.shippingAdditionalUsd = item.shippingAdditionalUSD || "";
         card.innerHTML =
           (thumb ? '<img class="option-card-image" src="' + thumb + '" alt="" loading="lazy">' : '') +
           '<span class="option-card-text">' +
@@ -1179,7 +1351,19 @@
           '<span class="option-card-meta">' + (currency === "USD" ? item.labelIn : item.labelCm) + '</span>' +
           '<span class="option-card-price">' + (currency === "USD" ? "$" + price : price + " ₪") + '</span>' +
           '</span>';
-        card.addEventListener("click", function () {
+        var wasLongPress = attachLongPressToCard(wrap, card, function () {
+          enterMultiSelect(wrap);
+          toggleMultiSelectCard(wrap, card);
+        });
+        card.addEventListener("click", function (e) {
+          if (wasLongPress()) {
+            e.preventDefault();
+            return;
+          }
+          if (isMultiSelectMode(wrap)) {
+            toggleMultiSelectCard(wrap, card);
+            return;
+          }
           selectPrintfulVariant(wrap, item);
           markActiveCard(container, value);
         });
@@ -1199,6 +1383,19 @@
           card.className = "option-card";
           card.dataset.value = opt.value;
           card.setAttribute("aria-pressed", "false");
+          card.dataset.material = opt.dataset.material || "";
+          card.dataset.materialName = opt.dataset.materialName || "";
+          card.dataset.productType = opt.dataset.productType || "";
+          card.dataset.paymentImage = opt.dataset.paymentImage || wrap.dataset.paymentImage || "";
+          card.dataset.sizeId = opt.dataset.sizeId || "";
+          card.dataset.labelIn = opt.dataset.labelIn || "";
+          card.dataset.labelCm = opt.dataset.labelCm || "";
+          card.dataset.priceIls = opt.dataset.priceIls || "";
+          card.dataset.priceUsd = opt.dataset.priceUsd || "";
+          card.dataset.shippingFirstIls = opt.dataset.shippingFirstIls || "";
+          card.dataset.shippingAdditionalIls = opt.dataset.shippingAdditionalIls || "";
+          card.dataset.shippingFirstUsd = opt.dataset.shippingFirstUsd || "";
+          card.dataset.shippingAdditionalUsd = opt.dataset.shippingAdditionalUsd || "";
           card.innerHTML =
             (thumb ? '<img class="option-card-image" src="' + thumb + '" alt="" loading="lazy">' : '') +
             '<span class="option-card-text">' +
@@ -1206,7 +1403,19 @@
             '<span class="option-card-meta">' + (currency === "USD" ? opt.dataset.labelIn : opt.dataset.labelCm) + '</span>' +
             '<span class="option-card-price">' + (currency === "USD" ? "$" + price : price + " ₪") + '</span>' +
             '</span>';
-          card.addEventListener("click", function () {
+          var wasLongPress = attachLongPressToCard(wrap, card, function () {
+            enterMultiSelect(wrap);
+            toggleMultiSelectCard(wrap, card);
+          });
+          card.addEventListener("click", function (e) {
+            if (wasLongPress()) {
+              e.preventDefault();
+              return;
+            }
+            if (isMultiSelectMode(wrap)) {
+              toggleMultiSelectCard(wrap, card);
+              return;
+            }
             selectMaterialVariant(wrap, opt.dataset.material, opt.value);
             markActiveCard(container, opt.value);
           });
@@ -1361,7 +1570,35 @@
     var clearBtn = wrap.querySelector(".js-clear-selection");
     if (clearBtn) {
       clearBtn.addEventListener("click", function () {
+        if (isMultiSelectMode(wrap)) {
+          exitMultiSelect(wrap);
+          return;
+        }
         clearSelection(wrap);
+      });
+    }
+    var toggleMultiSelectBtn = wrap.querySelector(".js-toggle-multiselect");
+    if (toggleMultiSelectBtn) {
+      var variantCardCount = wrap.querySelectorAll(".option-card[data-value]").length;
+      toggleMultiSelectBtn.hidden = variantCardCount < 2;
+      toggleMultiSelectBtn.addEventListener("click", function () {
+        if (isMultiSelectMode(wrap)) {
+          exitMultiSelect(wrap);
+        } else {
+          enterMultiSelect(wrap);
+        }
+      });
+    }
+    var addAllBtn = wrap.querySelector(".js-add-all-to-cart");
+    if (addAllBtn) {
+      addAllBtn.addEventListener("click", function () {
+        var cards = getMultiSelectedCards(wrap);
+        if (!cards.length) return;
+        cards.forEach(function (card) {
+          addToCart(buildCartItemFromDataset(wrap, card.dataset, 1));
+        });
+        openCartDrawer();
+        exitMultiSelect(wrap);
       });
     }
   });
