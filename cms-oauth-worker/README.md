@@ -92,6 +92,40 @@ npx wrangler secret put SMARTBEE_LIVE_PROVIDER_USER_TOKEN
 ב-Make (עם header בשם `X-SmartBee-Live-Key`) יכול לקרוא לנקודת הקצה
 הזו — אין להשתמש בו בשום מקום אחר.
 
+### קבלות עבור תשלומי Bit
+
+תהליך Bit נפרד לחלוטין מתהליך Grow ומשתמש בנקודות הקצה הבאות:
+
+- `POST /smartbee/create-bit-receipt-live`
+- `GET /smartbee/receipt-status-live?requestId=...`
+
+שתי נקודות הקצה דורשות Bearer token שנשמר רק כסוד Cloudflare Worker בשם
+`MAKE_BIT_RECEIPTS_SECRET`, ולא בקוד או ב-Git:
+
+```powershell
+npx wrangler secret put MAKE_BIT_RECEIPTS_SECRET
+```
+
+במודול HTTP של Make יש להוסיף Authorization Header כך:
+
+```text
+Authorization: Bearer <MAKE_BIT_RECEIPTS_SECRET>
+```
+
+בקשת היצירה כוללת את השדות: `requestId`, `customerName`, `phone`, `email`,
+`amount`, `paymentDate`, `description` ו-`bitReference`. כל השדות נדרשים.
+ה-Worker שולח ל-SmartBee קבלה עם `receiptDetails.otherItems`, תיאור אמצעי
+התשלום `Bit`, מע״מ `Free`, ו-`sendOriginalToCustomer: false` כל עוד התהליך
+נמצא בבדיקות.
+
+מניעת כפילות נשמרת ב-`ORDERS_KV` בשני מפתחות נפרדים: מזהה הבקשה ואסמכתת
+Bit. `requestId` משמש גם כ-`providerMsgId` יציב מול SmartBee. בקשה חוזרת
+במצב `processing` או `issued` מחזירה את התוצאה הקיימת ואינה יוצרת מסמך נוסף.
+
+תגובה מוצלחת מחזירה `status` מסוג `processing` או `issued`. לאחר שהמסמך
+מוכן, תגובת הסטטוס יכולה לכלול `documentId`, `linkToOriginal` ו-`linkToCopy`.
+אין לחשוף את `MAKE_BIT_RECEIPTS_SECRET` בדפדפן ציבורי; הוא מיועד לתרחיש Make מאובטח בלבד.
+
 ## חיבור תשלום Grow דרך Make
 
 נקודת הקצה `POST /payments/grow/create` מאמתת את המוצר והמחיר בצד השרת,

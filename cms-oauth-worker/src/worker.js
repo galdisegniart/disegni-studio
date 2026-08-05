@@ -56,8 +56,16 @@ export default {
       return handleSmartBeeCreateReceiptLive(request, env);
     }
 
+    if (url.pathname === "/smartbee/create-bit-receipt-live") {
+      return handleSmartBeeCreateBitReceiptLive(request, env);
+    }
+
     if (url.pathname === "/smartbee/receipt-status") {
       return handleSmartBeeReceiptStatus(request, env);
+    }
+
+    if (url.pathname === "/smartbee/receipt-status-live") {
+      return handleSmartBeeBitReceiptStatusLive(request, env);
     }
 
     if (url.pathname === "/auth") {
@@ -213,6 +221,8 @@ const RATE_LIMIT_WINDOW_SECONDS = 5 * 60;
 const RATE_LIMIT_MAX_REQUESTS = 8;
 const COUPON_CODE_PATTERN = /^[A-Z0-9]{3,20}$/;
 const COUPON_MAX_PERCENT_OFF = 90;
+const BIT_REQUEST_ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9_-]{5,79}$/;
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 async function kvGetJSON(env, key) {
   if (!env.ORDERS_KV) return null;
@@ -1749,6 +1759,419 @@ async function handleSmartBeeCreateReceiptLive(request, env) {
   }
 }
 
+// Separate production path for manually verified Bit payments. This endpoint
+// does not share Make's Grow payload and never reads credentials from Make.
+async function handleSmartBeeCreateBitReceiptLive(request, env) {
+  const corsHeaders = getCorsHeaders(request, env);
+
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: corsHeaders ? 204 : 403,
+      headers: corsHeaders || noStoreHeaders(),
+    });
+  }
+
+  if (request.method !== "POST") {
+    return jsonResponse(
+      { ok: false, error: "Method not allowed" },
+      405,
+      corsHeaders,
+      { Allow: "POST, OPTIONS" }
+    );
+  }
+
+  if (!corsHeaders) {
+    return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
+  }
+
+  if (!isAuthorizedBitReceiptRequest(request, env)) {
+    return jsonResponse({ ok: false, error: "Unauthorized" }, 401, corsHeaders);
+  }
+
+  if (!env.ORDERS_KV) {
+    return jsonResponse({ ok: false, error: "Receipt storage is not configured" }, 503, corsHeaders);
+  }
+
+  const missingSecrets = [
+    "SMARTBEE_CLIENT_ID",
+    "SMARTBEE_PASSWORD",
+    "SMARTBEE_LIVE_PROVIDER_USER_TOKEN",
+  ].filter((name) => !env[name]);
+  if (missingSecrets.length) {
+    return jsonResponse(
+      { ok: false, error: "SmartBee production credentials are not configured" },
+      503,
+      corsHeaders
+    );
+  }
+
+  let input;
+  try {
+    input = await request.json();
+  } catch {
+    return jsonResponse({ ok: false, error: "Invalid JSON" }, 400, corsHeaders);
+  }
+
+  const validated = validateBitReceiptInput(input);
+  if (!validated.ok) {
+    return jsonResponse(
+      { ok: false, error: validated.error, fields: validated.fields || [] },
+      400,
+      corsHeaders
+    );
+  }
+
+  const receipt = validated.value;
+  const requestKey = bitReceiptRequestKey(receipt.requestId);
+  const referenceKey = bitReceiptReferenceKey(receipt.bitReference);
+  const existingRequest = await kvGetJSON(env, requestKey);
+
+  if (existingRequest && ["processing", "issued"].includes(existingRequest.status)) {
+    return jsonResponse(bitReceiptPublicResponse(existingRequest, true), 200, corsHeaders);
+  }
+
+  const existingReference = await kvGetJSON(env, referenceKey);
+  if (existingReference && existingReference.requestId !== receipt.requestId) {
+    return jsonResponse(
+      {
+        ok: false,
+        error: "Bit reference already belongs to another request",
+        code: "duplicate_bit_reference",
+      },
+      409,
+      corsHeaders
+    );
+  }
+
+  const now = new Date().toISOString();
+  const processingRecord = {
+    ...receipt,
+    status: "processing",
+    apiMessageId: existingRequest?.apiMessageId || "",
+    documentId: existingRequest?.documentId || "",
+    linkToOriginal: existingRequest?.linkToOriginal || "",
+    linkToCopy: existingRequest?.linkToCopy || "",
+    createdAt: existingRequest?.createdAt || now,
+    updatedAt: now,
+  };
+  await kvPutJSONPermanent(env, requestKey, processingRecord);
+  await kvPutJSONPermanent(env, referenceKey, {
+    requestId: receipt.requestId,
+    status: "processing",
+    updatedAt: now,
+  });
+
+  try {
+    const apiBase = smartBeeLiveApiBase(env);
+    const token = await smartBeeAuthenticateLive(apiBase, env);
+    const documentRequest = {
+      // SmartBee uses providerMsgId to identify retries. Keeping requestId
+      // stable is what prevents a retry from creating another document.
+      providerMsgId: receipt.requestId,
+      providerMsgReferenceId: receipt.requestId,
+      providerUserToken: env.SMARTBEE_LIVE_PROVIDER_USER_TOKEN,
+      customer: {
+        name: receipt.customerName,
+        email: receipt.email,
+        mainPhone: receipt.phone,
+      },
+      docType: "Receipt",
+      createDraftOnFailure: false,
+      comments: `אסמכתת Bit: ${receipt.bitReference}`,
+      currency: { currencyType: "ILS" },
+      documentItems: {
+        paymentItems: [
+          {
+            description: receipt.description,
+            quantity: 1,
+            pricePerUnit: receipt.amount,
+            vatOption: "Free",
+          },
+        ],
+      },
+      receiptDetails: {
+        otherItems: [
+          {
+            description: "Bit",
+            date: receipt.paymentDate,
+            sum: receipt.amount,
+          },
+        ],
+      },
+      docDate: receipt.paymentDate,
+      isDraft: false,
+      creationMetadata: {
+        language: "Hebrew",
+        currencyTarget: "ILS",
+        sendOriginalToCustomer: false,
+      },
+    };
+
+    const createResult = await smartBeeRequest(
+      `${apiBase}/Documents/create`,
+      documentRequest,
+      token
+    );
+    const outcome = smartBeeCreationOutcome(createResult, receipt.requestId);
+    const updatedRecord = {
+      ...processingRecord,
+      ...outcome,
+      resultCodeId: createResult.resultCodeId ?? null,
+      updatedAt: new Date().toISOString(),
+    };
+    await saveBitReceiptRecord(env, updatedRecord);
+    return jsonResponse(bitReceiptPublicResponse(updatedRecord, false), 200, corsHeaders);
+  } catch (error) {
+    const failedRecord = {
+      ...processingRecord,
+      status: "failed",
+      updatedAt: new Date().toISOString(),
+    };
+    await saveBitReceiptRecord(env, failedRecord);
+    console.error("SmartBee Bit receipt creation failed", receipt.requestId);
+    return jsonResponse(
+      {
+        ok: false,
+        requestId: receipt.requestId,
+        status: "failed",
+        error: "SmartBee receipt creation failed",
+        diagnostic: safeSmartBeeDiagnostic(error),
+      },
+      502,
+      corsHeaders
+    );
+  }
+}
+
+async function handleSmartBeeBitReceiptStatusLive(request, env) {
+  const corsHeaders = getCorsHeaders(request, env);
+
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: corsHeaders ? 204 : 403,
+      headers: corsHeaders || noStoreHeaders(),
+    });
+  }
+
+  if (request.method !== "GET") {
+    return jsonResponse(
+      { ok: false, error: "Method not allowed" },
+      405,
+      corsHeaders,
+      { Allow: "GET, OPTIONS" }
+    );
+  }
+
+  if (!corsHeaders) {
+    return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
+  }
+
+  if (!isAuthorizedBitReceiptRequest(request, env)) {
+    return jsonResponse({ ok: false, error: "Unauthorized" }, 401, corsHeaders);
+  }
+
+  if (!env.ORDERS_KV) {
+    return jsonResponse({ ok: false, error: "Receipt storage is not configured" }, 503, corsHeaders);
+  }
+
+  const requestId = cleanText(new URL(request.url).searchParams.get("requestId"), 80);
+  if (!BIT_REQUEST_ID_PATTERN.test(requestId)) {
+    return jsonResponse({ ok: false, error: "Invalid requestId" }, 400, corsHeaders);
+  }
+
+  const record = await kvGetJSON(env, bitReceiptRequestKey(requestId));
+  if (!record) {
+    return jsonResponse({ ok: false, error: "Receipt request not found" }, 404, corsHeaders);
+  }
+
+  if (record.status !== "processing" || !record.apiMessageId) {
+    return jsonResponse(bitReceiptPublicResponse(record, false), 200, corsHeaders);
+  }
+
+  try {
+    const apiBase = smartBeeLiveApiBase(env);
+    const token = await smartBeeAuthenticateLive(apiBase, env);
+    const statusResult = await smartBeeRequest(
+      `${apiBase}/Documents/${encodeURIComponent(record.apiMessageId)}`,
+      null,
+      token,
+      "GET"
+    );
+    const outcome = smartBeeCreationOutcome(statusResult, record.apiMessageId);
+    const updatedRecord = {
+      ...record,
+      ...outcome,
+      resultCodeId: statusResult.resultCodeId ?? null,
+      updatedAt: new Date().toISOString(),
+    };
+    await saveBitReceiptRecord(env, updatedRecord);
+    return jsonResponse(bitReceiptPublicResponse(updatedRecord, false), 200, corsHeaders);
+  } catch (error) {
+    console.error("SmartBee Bit receipt status check failed", requestId);
+    return jsonResponse(
+      {
+        ok: false,
+        requestId,
+        status: record.status,
+        error: "SmartBee receipt status check failed",
+        diagnostic: safeSmartBeeDiagnostic(error),
+      },
+      502,
+      corsHeaders
+    );
+  }
+}
+
+function validateBitReceiptInput(input) {
+  const source = input && typeof input === "object" ? input : {};
+  const rawFields = {
+    requestId: source.requestId,
+    customerName: source.customerName,
+    phone: source.phone,
+    email: source.email,
+    amount: source.amount,
+    paymentDate: source.paymentDate,
+    description: source.description,
+    bitReference: source.bitReference,
+  };
+  const missing = Object.entries(rawFields)
+    .filter(([, value]) => value === undefined || value === null || String(value).trim() === "")
+    .map(([name]) => name);
+  if (missing.length) {
+    return { ok: false, error: "Missing required fields", fields: missing };
+  }
+
+  const requestId = cleanText(source.requestId, 80);
+  const customerName = cleanText(source.customerName, 100);
+  const phone = cleanText(source.phone, 20);
+  const email = cleanText(source.email, 160);
+  const description = cleanText(source.description, 500);
+  const bitReference = cleanText(source.bitReference, 100);
+  const amount = Number(source.amount);
+  const parsedPaymentDate = new Date(source.paymentDate);
+  const invalid = [];
+
+  if (!BIT_REQUEST_ID_PATTERN.test(requestId)) invalid.push("requestId");
+  if (customerName.length < 2) invalid.push("customerName");
+  if (!/^0\d{8,9}$/.test(phone)) invalid.push("phone");
+  if (!EMAIL_PATTERN.test(email)) invalid.push("email");
+  if (!Number.isFinite(amount) || amount <= 0 || amount > 100000) invalid.push("amount");
+  if (Number.isNaN(parsedPaymentDate.getTime())) invalid.push("paymentDate");
+  if (!description) invalid.push("description");
+  if (!bitReference) invalid.push("bitReference");
+
+  if (invalid.length) {
+    return { ok: false, error: "Invalid fields", fields: invalid };
+  }
+
+  return {
+    ok: true,
+    value: {
+      requestId,
+      customerName,
+      phone,
+      email,
+      amount,
+      paymentDate: parsedPaymentDate.toISOString(),
+      description,
+      bitReference,
+    },
+  };
+}
+
+function isAuthorizedBitReceiptRequest(request, env) {
+  const authorization = request.headers.get("Authorization") || "";
+  const match = authorization.match(/^Bearer\s+(.+)$/i);
+  return Boolean(
+    env.MAKE_BIT_RECEIPTS_SECRET &&
+      match &&
+      match[1] === env.MAKE_BIT_RECEIPTS_SECRET
+  );
+}
+
+function smartBeeLiveApiBase(env) {
+  return (env.SMARTBEE_API_BASE || "https://smartbee.co.il/api/v1").replace(/\/+$/, "");
+}
+
+async function smartBeeAuthenticateLive(apiBase, env) {
+  const authentication = await smartBeeRequest(`${apiBase}/Login/authenticate`, {
+    clientId: env.SMARTBEE_CLIENT_ID,
+    password: env.SMARTBEE_PASSWORD,
+  });
+  if (!authentication.token) {
+    throw new Error("SmartBee authentication did not return a token");
+  }
+  return authentication.token;
+}
+
+function bitReceiptRequestKey(requestId) {
+  return `smartbee-bit:request:${requestId}`;
+}
+
+function bitReceiptReferenceKey(reference) {
+  return `smartbee-bit:reference:${String(reference).trim().toLowerCase()}`;
+}
+
+async function saveBitReceiptRecord(env, record) {
+  await kvPutJSONPermanent(env, bitReceiptRequestKey(record.requestId), record);
+  await kvPutJSONPermanent(env, bitReceiptReferenceKey(record.bitReference), {
+    requestId: record.requestId,
+    status: record.status,
+    updatedAt: record.updatedAt,
+  });
+}
+
+function smartBeeCreationOutcome(result, fallbackMessageId) {
+  const validationFields = Object.keys(result?.validationErrors || {});
+  if (validationFields.length) {
+    const error = new Error("SmartBee rejected the receipt request");
+    error.resultCodeId = result?.resultCodeId ?? null;
+    error.validationFields = validationFields;
+    throw error;
+  }
+
+  if (result?.resultCodeId === 102 && result.result && typeof result.result === "object") {
+    return {
+      status: "issued",
+      apiMessageId: fallbackMessageId,
+      documentId: cleanText(result.result.documentId, 200),
+      linkToOriginal: cleanText(result.result.linkToOriginal, 1000),
+      linkToCopy: cleanText(result.result.linkToCopy, 1000),
+    };
+  }
+
+  if (result?.resultCodeId === 101 && typeof result.result === "string" && result.result) {
+    return {
+      status: "processing",
+      apiMessageId: cleanText(result.result, 200),
+    };
+  }
+
+  // A retry with the same providerMsgId can be reported as duplicated. The
+  // stable requestId remains safe to query through the status endpoint.
+  if (result?.resultCodeId === 95) {
+    return { status: "processing", apiMessageId: fallbackMessageId };
+  }
+
+  const error = new Error("SmartBee did not create the receipt");
+  error.resultCodeId = result?.resultCodeId ?? null;
+  throw error;
+}
+
+function bitReceiptPublicResponse(record, idempotent) {
+  return {
+    ok: true,
+    requestId: record.requestId,
+    status: record.status,
+    idempotent,
+    resultCodeId: record.resultCodeId ?? null,
+    apiMessageId: record.apiMessageId || null,
+    documentId: record.documentId || null,
+    linkToOriginal: record.linkToOriginal || null,
+    linkToCopy: record.linkToCopy || null,
+  };
+}
+
 async function handleSmartBeeReceiptStatus(request, env) {
   const corsHeaders = getCorsHeaders(request, env);
 
@@ -2056,7 +2479,7 @@ function getCorsHeaders(request, env) {
   return {
     ...noStoreHeaders(),
     "Access-Control-Allow-Origin": origin || allowedOrigins[0],
-    "Access-Control-Allow-Headers": "Content-Type, X-Disegni-Test-Key, X-Grow-Confirm-Secret, X-SmartBee-Live-Key, X-Disegni-Admin-Key",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Disegni-Test-Key, X-Grow-Confirm-Secret, X-SmartBee-Live-Key, X-Disegni-Admin-Key",
     "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
     Vary: "Origin",
   };

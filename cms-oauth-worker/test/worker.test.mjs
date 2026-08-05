@@ -9,6 +9,11 @@ const ENV = {
   SMARTBEE_TEST_CLIENT_ID: "test-client-id",
   SMARTBEE_TEST_PASSWORD: "test-password",
   SMARTBEE_PROVIDER_USER_TOKEN: "test-provider-token",
+  SMARTBEE_API_BASE: "https://smartbee.example/api/v1",
+  MAKE_BIT_RECEIPTS_SECRET: "test-bit-receipts-secret",
+  SMARTBEE_CLIENT_ID: "live-client-id",
+  SMARTBEE_PASSWORD: "live-password",
+  SMARTBEE_LIVE_PROVIDER_USER_TOKEN: "live-provider-token",
   GROW_TEST_ENABLED: "true",
 };
 
@@ -188,6 +193,45 @@ function mockSmartBeeCreateFetch(createResponse) {
     }
     throw new Error(`Unexpected SmartBee URL in test: ${url}`);
   };
+}
+
+function bitReceiptRequest(overrides = {}, bearerToken = ENV.MAKE_BIT_RECEIPTS_SECRET) {
+  const headers = {
+    Origin: "https://disegni.studio",
+    "Content-Type": "application/json",
+  };
+  if (bearerToken !== null) headers.Authorization = `Bearer ${bearerToken}`;
+  return new Request("https://worker.example/smartbee/create-bit-receipt-live", {
+    method: "POST",
+    headers,
+    body: JSON.stringify({
+      requestId: "BIT-20260805-0001",
+      customerName: "לקוחה בדיקה",
+      phone: "0500000000",
+      email: "customer@example.com",
+      amount: 134,
+      paymentDate: "2026-08-05T09:30:00+03:00",
+      description: "יצירת אמנות",
+      bitReference: "BIT-REF-10001",
+      ...overrides,
+    }),
+  });
+}
+
+function bitReceiptStatusRequest(
+  requestId = "BIT-20260805-0001",
+  bearerToken = ENV.MAKE_BIT_RECEIPTS_SECRET
+) {
+  const headers = { Origin: "https://disegni.studio" };
+  if (bearerToken !== null) headers.Authorization = `Bearer ${bearerToken}`;
+  return new Request(
+    `https://worker.example/smartbee/receipt-status-live?requestId=${encodeURIComponent(requestId)}`,
+    { headers }
+  );
+}
+
+function bitReceiptEnv(kv = createMockKV()) {
+  return { ...ENV, ORDERS_KV: kv };
 }
 
 test("creates a server-priced Orin checkout request without exposing Make secrets", async () => {
@@ -804,6 +848,277 @@ test("checks receipt status by proxying to SmartBee without exposing the access 
     assert.equal(body.result.linkToOriginal, "https://example.com/doc.pdf");
     assert.equal(statusCall.options.method, "GET");
     assert.equal(JSON.stringify(body).includes(ENV.SMARTBEE_TEST_ACCESS_KEY), false);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("rejects missing Bit Bearer authorization before KV or SmartBee access", async () => {
+  const originalFetch = globalThis.fetch;
+  let fetchCalls = 0;
+  const env = {
+    ...ENV,
+    ORDERS_KV: {
+      async get() { throw new Error("KV must not be read"); },
+      async put() { throw new Error("KV must not be written"); },
+    },
+  };
+  globalThis.fetch = async () => {
+    fetchCalls += 1;
+    throw new Error("SmartBee must not be called");
+  };
+
+  try {
+    const createResponse = await worker.fetch(bitReceiptRequest({}, null), env);
+    const statusResponse = await worker.fetch(
+      bitReceiptStatusRequest("BIT-20260805-0001", null),
+      env
+    );
+
+    assert.equal(createResponse.status, 401);
+    assert.equal(statusResponse.status, 401);
+    assert.equal(fetchCalls, 0);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("rejects an incorrect Bit Bearer authorization before KV or SmartBee access", async () => {
+  const originalFetch = globalThis.fetch;
+  let fetchCalls = 0;
+  const env = {
+    ...ENV,
+    ORDERS_KV: {
+      async get() { throw new Error("KV must not be read"); },
+      async put() { throw new Error("KV must not be written"); },
+    },
+  };
+  globalThis.fetch = async () => {
+    fetchCalls += 1;
+    throw new Error("SmartBee must not be called");
+  };
+
+  try {
+    const createResponse = await worker.fetch(bitReceiptRequest({}, "wrong-secret"), env);
+    const statusResponse = await worker.fetch(
+      bitReceiptStatusRequest("BIT-20260805-0001", "wrong-secret"),
+      env
+    );
+
+    assert.equal(createResponse.status, 401);
+    assert.equal(statusResponse.status, 401);
+    assert.equal(fetchCalls, 0);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("accepts the configured Bit Bearer authorization", async () => {
+  const response = await worker.fetch(
+    bitReceiptRequest({ email: undefined }),
+    bitReceiptEnv()
+  );
+
+  assert.equal(response.status, 400);
+});
+
+test("keeps the public Grow test-status route unchanged", async () => {
+  const response = await worker.fetch(
+    new Request("https://worker.example/payments/grow/status", {
+      headers: { Origin: "https://disegni.studio" },
+    }),
+    ENV
+  );
+  const body = await response.json();
+
+  assert.equal(response.status, 200);
+  assert.equal(body.ok, true);
+  assert.equal(body.enabled, true);
+});
+
+test("creates a pending Bit receipt request with a stable id and no email delivery", async () => {
+  const originalFetch = globalThis.fetch;
+  const calls = [];
+  const env = bitReceiptEnv();
+  globalThis.fetch = async (url, options) => {
+    calls.push({ url, options });
+    if (url.endsWith("/Login/authenticate")) {
+      return Response.json({ token: "private-live-token" });
+    }
+    return Response.json({ resultCodeId: 101, result: "bit-msg-1", validationErrors: {} });
+  };
+
+  try {
+    const response = await worker.fetch(bitReceiptRequest(), env);
+    const body = await response.json();
+    const documentCall = calls.find((call) => call.url.endsWith("/Documents/create"));
+    const documentRequest = JSON.parse(documentCall.options.body);
+
+    assert.equal(response.status, 200);
+    assert.equal(body.ok, true);
+    assert.equal(body.status, "processing");
+    assert.equal(body.idempotent, false);
+    assert.equal(documentRequest.providerMsgId, "BIT-20260805-0001");
+    assert.equal(documentRequest.providerMsgReferenceId, "BIT-20260805-0001");
+    assert.equal(documentRequest.comments, "אסמכתת Bit: BIT-REF-10001");
+    assert.deepEqual(documentRequest.receiptDetails.otherItems, [
+      {
+        description: "Bit",
+        date: "2026-08-05T06:30:00.000Z",
+        sum: 134,
+      },
+    ]);
+    assert.equal(documentRequest.receiptDetails.cashItems, undefined);
+    assert.equal(documentRequest.creationMetadata.sendOriginalToCustomer, false);
+    assert.equal(documentRequest.customer.email, "customer@example.com");
+    assert.equal(JSON.stringify(body).includes("private-live-token"), false);
+    assert.equal(JSON.stringify(body).includes(ENV.SMARTBEE_LIVE_PROVIDER_USER_TOKEN), false);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("rejects a Bit receipt request with a missing required field", async () => {
+  const response = await worker.fetch(
+    bitReceiptRequest({ email: undefined }),
+    bitReceiptEnv()
+  );
+  const body = await response.json();
+
+  assert.equal(response.status, 400);
+  assert.equal(body.error, "Missing required fields");
+  assert.deepEqual(body.fields, ["email"]);
+});
+
+test("rejects a Bit receipt request with a non-positive amount", async () => {
+  const response = await worker.fetch(bitReceiptRequest({ amount: 0 }), bitReceiptEnv());
+  const body = await response.json();
+
+  assert.equal(response.status, 400);
+  assert.equal(body.error, "Invalid fields");
+  assert.deepEqual(body.fields, ["amount"]);
+});
+
+test("returns the stored processing result for a duplicate Bit requestId", async () => {
+  const originalFetch = globalThis.fetch;
+  const calls = [];
+  const env = bitReceiptEnv();
+  globalThis.fetch = async (url, options) => {
+    calls.push({ url, options });
+    if (url.endsWith("/Login/authenticate")) {
+      return Response.json({ token: "private-live-token" });
+    }
+    return Response.json({ resultCodeId: 101, result: "bit-msg-duplicate", validationErrors: {} });
+  };
+
+  try {
+    const first = await worker.fetch(bitReceiptRequest(), env);
+    const second = await worker.fetch(bitReceiptRequest(), env);
+    const secondBody = await second.json();
+
+    assert.equal(first.status, 200);
+    assert.equal(second.status, 200);
+    assert.equal(secondBody.idempotent, true);
+    assert.equal(secondBody.status, "processing");
+    assert.equal(calls.filter((call) => call.url.endsWith("/Documents/create")).length, 1);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("rejects a Bit reference already assigned to another request", async () => {
+  const originalFetch = globalThis.fetch;
+  const env = bitReceiptEnv();
+  globalThis.fetch = async (url) => {
+    if (url.endsWith("/Login/authenticate")) {
+      return Response.json({ token: "private-live-token" });
+    }
+    return Response.json({ resultCodeId: 101, result: "bit-msg-reference", validationErrors: {} });
+  };
+
+  try {
+    const first = await worker.fetch(bitReceiptRequest(), env);
+    const second = await worker.fetch(
+      bitReceiptRequest({ requestId: "BIT-20260805-0002" }),
+      env
+    );
+    const secondBody = await second.json();
+
+    assert.equal(first.status, 200);
+    assert.equal(second.status, 409);
+    assert.equal(secondBody.code, "duplicate_bit_reference");
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("stores a failed state when SmartBee rejects a Bit receipt", async () => {
+  const originalFetch = globalThis.fetch;
+  const originalConsoleError = console.error;
+  const kv = createMockKV();
+  const env = bitReceiptEnv(kv);
+  globalThis.fetch = async (url) => {
+    if (url.endsWith("/Login/authenticate")) {
+      return Response.json({ token: "private-live-token" });
+    }
+    return Response.json(
+      { resultCodeId: 96, result: null, validationErrors: { "receiptDetails.otherItems": "Invalid" } },
+      { status: 200 }
+    );
+  };
+  console.error = () => {};
+
+  try {
+    const response = await worker.fetch(bitReceiptRequest(), env);
+    const body = await response.json();
+    const stored = JSON.parse(await kv.get("smartbee-bit:request:BIT-20260805-0001"));
+
+    assert.equal(response.status, 502);
+    assert.equal(body.ok, false);
+    assert.equal(body.status, "failed");
+    assert.deepEqual(body.diagnostic.validationFields, ["receiptDetails.otherItems"]);
+    assert.equal(stored.status, "failed");
+  } finally {
+    globalThis.fetch = originalFetch;
+    console.error = originalConsoleError;
+  }
+});
+
+test("updates a pending Bit request with the SmartBee document id and PDF link", async () => {
+  const originalFetch = globalThis.fetch;
+  const env = bitReceiptEnv();
+  globalThis.fetch = async (url) => {
+    if (url.endsWith("/Login/authenticate")) {
+      return Response.json({ token: "private-live-token" });
+    }
+    if (url.endsWith("/Documents/create")) {
+      return Response.json({ resultCodeId: 101, result: "bit-msg-status", validationErrors: {} });
+    }
+    if (url.endsWith("/Documents/bit-msg-status")) {
+      return Response.json({
+        resultCodeId: 102,
+        result: {
+          documentId: "document-bit-1",
+          linkToOriginal: "https://documents.example/bit-original.pdf",
+          linkToCopy: "https://documents.example/bit-copy.pdf",
+        },
+        validationErrors: {},
+      });
+    }
+    throw new Error(`Unexpected URL: ${url}`);
+  };
+
+  try {
+    const creation = await worker.fetch(bitReceiptRequest(), env);
+    const status = await worker.fetch(bitReceiptStatusRequest(), env);
+    const body = await status.json();
+
+    assert.equal(creation.status, 200);
+    assert.equal(status.status, 200);
+    assert.equal(body.status, "issued");
+    assert.equal(body.documentId, "document-bit-1");
+    assert.equal(body.linkToOriginal, "https://documents.example/bit-original.pdf");
+    assert.equal(body.linkToCopy, "https://documents.example/bit-copy.pdf");
   } finally {
     globalThis.fetch = originalFetch;
   }
