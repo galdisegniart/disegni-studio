@@ -59,6 +59,12 @@ noindex: true
     return day + "/" + month + "/" + date.getFullYear();
   }
 
+  function extractReceiptNumber(linkToOriginal) {
+    if (!linkToOriginal) return "";
+    var match = /\/(\d+)_Original\.pdf/.exec(linkToOriginal);
+    return match ? match[1] : "";
+  }
+
   function fieldRow(labelText, id, value, type, hint) {
     return (
       '<label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">' +
@@ -234,13 +240,15 @@ noindex: true
         var text = "סטטוס: " + data.status;
         if (data.status === "issued") {
           msg.style.color = "#5c8a5c";
-          text += " | מספר מסמך: " + (data.documentId || "-");
-          if (data.linkToOriginal) {
-            text += " | ";
+          var readableNumber = extractReceiptNumber(data.linkToOriginal);
+          if (readableNumber) {
+            text += " | מספר קבלה: " + readableNumber;
           }
+          text += " | מזהה פנימי: " + (data.documentId || "-");
           msg.innerHTML = "";
           msg.appendChild(document.createTextNode(text));
           if (data.linkToOriginal) {
+            msg.appendChild(document.createTextNode(" | "));
             var link = document.createElement("a");
             link.href = data.linkToOriginal;
             link.target = "_blank";

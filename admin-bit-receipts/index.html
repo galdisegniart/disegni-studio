@@ -46,7 +46,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/style.css?v=069a787e">
+<link rel="stylesheet" href="/css/style.css?v=40754318">
 </head>
 <body id="top" data-whatsapp="972552902934">
 
@@ -506,6 +506,12 @@
     return day + "/" + month + "/" + date.getFullYear();
   }
 
+  function extractReceiptNumber(linkToOriginal) {
+    if (!linkToOriginal) return "";
+    var match = /\/(\d+)_Original\.pdf/.exec(linkToOriginal);
+    return match ? match[1] : "";
+  }
+
   function fieldRow(labelText, id, value, type, hint) {
     return (
       '<label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">' +
@@ -681,13 +687,15 @@
         var text = "סטטוס: " + data.status;
         if (data.status === "issued") {
           msg.style.color = "#5c8a5c";
-          text += " | מספר מסמך: " + (data.documentId || "-");
-          if (data.linkToOriginal) {
-            text += " | ";
+          var readableNumber = extractReceiptNumber(data.linkToOriginal);
+          if (readableNumber) {
+            text += " | מספר קבלה: " + readableNumber;
           }
+          text += " | מזהה פנימי: " + (data.documentId || "-");
           msg.innerHTML = "";
           msg.appendChild(document.createTextNode(text));
           if (data.linkToOriginal) {
+            msg.appendChild(document.createTextNode(" | "));
             var link = document.createElement("a");
             link.href = data.linkToOriginal;
             link.target = "_blank";
@@ -721,8 +729,8 @@
 </footer>
 
 
-<script src="/js/cart.js?v=069a787e"></script>
-<script src="/js/nav-toggle.js?v=069a787e"></script>
-<script src="/js/header-search.js?v=069a787e"></script>
+<script src="/js/cart.js?v=40754318"></script>
+<script src="/js/nav-toggle.js?v=40754318"></script>
+<script src="/js/header-search.js?v=40754318"></script>
 </body>
 </html>
