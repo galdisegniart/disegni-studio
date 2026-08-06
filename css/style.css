@@ -2061,7 +2061,8 @@ body.product-lightbox-lock {
 .option-card {
   position: relative;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 10px;
   padding: 6px;
   border: 1px solid var(--line);
   border-radius: 10px;
@@ -2109,19 +2110,20 @@ body.product-lightbox-lock {
 }
 
 .option-card-image {
-  width: 100%;
-  aspect-ratio: 1 / 1;
+  flex-shrink: 0;
+  width: 90px;
+  height: 90px;
   border-radius: 6px;
   object-fit: cover;
   background: var(--line);
-  margin-bottom: 6px;
 }
 
 .option-card-text {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 2px;
   min-width: 0;
+  flex: 1;
 }
 
 .option-card-label {
