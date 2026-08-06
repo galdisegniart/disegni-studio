@@ -132,15 +132,23 @@ collections:
           - { label: "תווית", name: "label", widget: "string" }
           - { label: "ערך", name: "value", widget: "string" }
       - { label: "טקסט כפתור פעולה ראשי", name: "heroCtaLabel", widget: "string" }
-      - name: "availableSlots"
-        label: "מועדים פנויים ליומן קביעת תור (אם ריק, הכפתורים יפתחו WhatsApp ישירות במקום יומן)"
+      - name: "recurringAvailability"
+        label: "זמינות שבועית קבועה ליומן קביעת תור (אם ריק, הכפתורים יפתחו WhatsApp ישירות במקום יומן)"
         widget: "list"
         required: false
-        summary: "{{dateLabel}} · {{time}}"
+        summary: "{{fields.weekday}} · {{time}}"
         fields:
-          - { label: "תאריך (YYYY-MM-DD)", name: "date", widget: "string", hint: "לדוגמה: 2026-08-10" }
-          - { label: "תאריך לתצוגה", name: "dateLabel", widget: "string", hint: "לדוגמה: יום שני, 10 באוגוסט" }
+          - { label: "יום בשבוע", name: "weekday", widget: "select", options: [
+                { label: "ראשון", value: "0" },
+                { label: "שני", value: "1" },
+                { label: "שלישי", value: "2" },
+                { label: "רביעי", value: "3" },
+                { label: "חמישי", value: "4" },
+                { label: "שישי", value: "5" },
+                { label: "שבת", value: "6" }
+              ] }
           - { label: "שעה", name: "time", widget: "string", hint: "לדוגמה: 16:00–17:30" }
+      - { label: "כמה שבועות קדימה להציג ביומן", name: "bookingWindowWeeks", widget: "number", default: 8, required: false }
       - { label: "הודעת WhatsApp (כפתור ראשי)", name: "waMessage", widget: "text" }
       - { label: "תמונה ראשית", name: "heroImage", widget: "image" }
       - { label: "טקסט חלופי לתמונה ראשית", name: "heroImageAlt", widget: "string" }

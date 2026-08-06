@@ -64,6 +64,18 @@ export default {
       return handleAdminBitReceiptCheckStatus(request, env);
     }
 
+    if (url.pathname === "/bookings/create") {
+      return handleBookingCreate(request, env);
+    }
+
+    if (url.pathname === "/bookings/blocked-dates") {
+      return handleBookingBlockedDates(request, env);
+    }
+
+    if (url.pathname === "/admin/bookings") {
+      return handleAdminBookingsList(request, env);
+    }
+
     if (url.pathname === "/smartbee/connection-test") {
       return handleSmartBeeConnectionTest(request, env);
     }
@@ -2791,6 +2803,169 @@ async function smartBeeRequest(url, body, bearerToken, method = "POST") {
   }
 
   return data;
+}
+
+const BOOKING_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
+
+function bookingSlotKey(date, time) {
+  return `booking:slot:${date}:${time}`;
+}
+
+function bookingRecordKey(bookingId) {
+  return `booking:record:${bookingId}`;
+}
+
+// Reserves a workshop slot immediately (no WhatsApp/manual-confirmation
+// step) - the slot key is date+time only (not workshop-specific) so two
+// workshops that happen to share the same weekly time window can never
+// both be booked for the same date.
+async function handleBookingCreate(request, env) {
+  const corsHeaders = getCorsHeaders(request, env);
+
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: corsHeaders ? 204 : 403,
+      headers: corsHeaders || noStoreHeaders(),
+    });
+  }
+  if (request.method !== "POST") {
+    return jsonResponse({ ok: false, error: "Method not allowed" }, 405, corsHeaders, { Allow: "POST, OPTIONS" });
+  }
+  if (!corsHeaders) {
+    return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
+  }
+  if (!env.ORDERS_KV) {
+    return jsonResponse({ ok: false, error: "Booking storage is not configured" }, 503, corsHeaders);
+  }
+
+  let input;
+  try {
+    input = await request.json();
+  } catch {
+    return jsonResponse({ ok: false, error: "Invalid JSON" }, 400, corsHeaders);
+  }
+
+  const workshopSlug = cleanText(input.workshopSlug, 60);
+  const date = cleanText(input.date, 10);
+  const time = cleanText(input.time, 20);
+  const customerName = cleanText(input.customerName, 100);
+  const phone = cleanText(input.phone, 20);
+  const email = cleanText(input.email, 200);
+  const groupLabel = cleanText(input.groupLabel, 100);
+
+  if (!workshopSlug || !BOOKING_DATE_PATTERN.test(date) || !time) {
+    return jsonResponse({ ok: false, error: "Invalid booking details" }, 400, corsHeaders);
+  }
+  if (customerName.length < 2 || !/^0\d{8,9}$/.test(phone)) {
+    return jsonResponse(
+      { ok: false, error: "Valid customer name and Israeli phone are required" },
+      400,
+      corsHeaders
+    );
+  }
+
+  // No same-day booking through the site - matches the note shown on
+  // every booking page ("לא ניתן להזמין מהיום להיום דרך האתר").
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const bookingDate = new Date(date + "T00:00:00");
+  if (!(bookingDate.getTime() > today.getTime())) {
+    return jsonResponse(
+      { ok: false, error: "Same-day booking is not available through the site" },
+      400,
+      corsHeaders
+    );
+  }
+
+  const slotKey = bookingSlotKey(date, time);
+  const existing = await kvGetJSON(env, slotKey);
+  if (existing) {
+    return jsonResponse({ ok: false, error: "slot_taken" }, 409, corsHeaders);
+  }
+
+  const bookingId = `BK-${date.replace(/-/g, "")}-${crypto.randomUUID().slice(0, 8)}`;
+  const record = {
+    bookingId,
+    workshopSlug,
+    date,
+    time,
+    customerName,
+    phone,
+    email,
+    groupLabel,
+    createdAt: new Date().toISOString(),
+  };
+
+  await kvPutJSONPermanent(env, slotKey, record);
+  await kvPutJSONPermanent(env, bookingRecordKey(bookingId), record);
+
+  return jsonResponse({ ok: true, bookingId }, 200, corsHeaders);
+}
+
+// Public, read-only: lets the on-site calendar grey out slots that were
+// already booked by someone else, without needing a rebuild/deploy.
+async function handleBookingBlockedDates(request, env) {
+  const corsHeaders = getCorsHeaders(request, env);
+
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: corsHeaders ? 204 : 403,
+      headers: corsHeaders || noStoreHeaders(),
+    });
+  }
+  if (request.method !== "GET") {
+    return jsonResponse({ ok: false, error: "Method not allowed" }, 405, corsHeaders, { Allow: "GET, OPTIONS" });
+  }
+  if (!corsHeaders) {
+    return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
+  }
+  if (!env.ORDERS_KV) {
+    return jsonResponse({ ok: true, blocked: [] }, 200, corsHeaders);
+  }
+
+  const listing = await env.ORDERS_KV.list({ prefix: "booking:slot:" });
+  const blocked = [];
+  for (const key of listing.keys) {
+    const record = await kvGetJSON(env, key.name);
+    if (record && record.date && record.time) {
+      blocked.push({ date: record.date, time: record.time });
+    }
+  }
+
+  return jsonResponse({ ok: true, blocked }, 200, corsHeaders);
+}
+
+async function handleAdminBookingsList(request, env) {
+  const corsHeaders = getCorsHeaders(request, env);
+
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: corsHeaders ? 204 : 403,
+      headers: corsHeaders || noStoreHeaders(),
+    });
+  }
+  if (request.method !== "GET") {
+    return jsonResponse({ ok: false, error: "Method not allowed" }, 405, corsHeaders, { Allow: "GET, OPTIONS" });
+  }
+  if (!corsHeaders) {
+    return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
+  }
+  const authError = requireAdminKey(request, env, corsHeaders);
+  if (authError) return authError;
+
+  if (!env.ORDERS_KV) {
+    return jsonResponse({ ok: true, bookings: [] }, 200, corsHeaders);
+  }
+
+  const listing = await env.ORDERS_KV.list({ prefix: "booking:record:" });
+  const bookings = [];
+  for (const key of listing.keys) {
+    const record = await kvGetJSON(env, key.name);
+    if (record) bookings.push(record);
+  }
+  bookings.sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
+
+  return jsonResponse({ ok: true, bookings }, 200, corsHeaders);
 }
 
 function getCorsHeaders(request, env) {

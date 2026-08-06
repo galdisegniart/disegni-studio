@@ -19,6 +19,11 @@
     { "label": "ניסיון קודם", "value": "לא נדרש" }
   ],
   "heroCtaLabel": "לקביעת מועד",
+  "recurringAvailability": [
+    { "weekday": "1", "time": "18:00–20:00" },
+    { "weekday": "3", "time": "18:00–20:00" }
+  ],
+  "bookingWindowWeeks": 8,
   "waMessage": "שלום גל, הגעתי דרך האתר ואשמח לבדוק מקום במסלול האמנות של 8 מפגשים.",
   "heroImage": "/images/workshops/structured-main.webp",
   "heroImageAlt": "קבוצה יוצרת יחד בסדנת הציור התהליכית",

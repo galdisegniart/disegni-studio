@@ -1817,3 +1817,114 @@ test("admin bit receipt check-status: returns a failed record without contacting
     globalThis.fetch = originalFetch;
   }
 });
+
+function futureIso(daysAhead) {
+  const d = new Date();
+  d.setDate(d.getDate() + daysAhead);
+  return d.toISOString().slice(0, 10);
+}
+
+function bookingEnv(kv = createMockKV()) {
+  return { ...ENV, ORDERS_KV: kv, DISEGNI_ADMIN_KEY: "admin-secret" };
+}
+
+function bookingCreateRequest(overrides = {}) {
+  return new Request("https://worker.example/bookings/create", {
+    method: "POST",
+    headers: { Origin: "https://disegni.studio", "Content-Type": "application/json" },
+    body: JSON.stringify({
+      workshopSlug: "daily-art",
+      date: futureIso(3),
+      time: "10:00–12:00",
+      customerName: "לקוחה בדיקה",
+      phone: "0500000000",
+      email: "customer@example.com",
+      ...overrides,
+    }),
+  });
+}
+
+test("booking create: reserves an available slot immediately", async () => {
+  const env = bookingEnv();
+  const response = await worker.fetch(bookingCreateRequest(), env);
+  const body = await response.json();
+
+  assert.equal(response.status, 200);
+  assert.equal(body.ok, true);
+  assert.ok(body.bookingId);
+});
+
+test("booking create: rejects a second booking for the same date+time", async () => {
+  const env = bookingEnv();
+  const date = futureIso(5);
+  const first = await worker.fetch(bookingCreateRequest({ date }), env);
+  assert.equal(first.status, 200);
+
+  const second = await worker.fetch(
+    bookingCreateRequest({ date, customerName: "לקוחה אחרת", phone: "0509999999" }),
+    env
+  );
+  const secondBody = await second.json();
+
+  assert.equal(second.status, 409);
+  assert.equal(secondBody.error, "slot_taken");
+});
+
+test("booking create: rejects a same-day booking", async () => {
+  const env = bookingEnv();
+  const response = await worker.fetch(bookingCreateRequest({ date: futureIso(0) }), env);
+  assert.equal(response.status, 400);
+});
+
+test("booking create: rejects an invalid phone number", async () => {
+  const env = bookingEnv();
+  const response = await worker.fetch(bookingCreateRequest({ phone: "not-a-phone" }), env);
+  assert.equal(response.status, 400);
+});
+
+test("booking blocked-dates: lists reserved slots without an admin key", async () => {
+  const env = bookingEnv();
+  const date = futureIso(6);
+  await worker.fetch(bookingCreateRequest({ date, time: "18:00–20:00" }), env);
+
+  const response = await worker.fetch(
+    new Request("https://worker.example/bookings/blocked-dates", {
+      headers: { Origin: "https://disegni.studio" },
+    }),
+    env
+  );
+  const body = await response.json();
+
+  assert.equal(response.status, 200);
+  assert.deepEqual(body.blocked, [{ date, time: "18:00–20:00" }]);
+});
+
+test("admin bookings list: requires the admin key", async () => {
+  const env = bookingEnv();
+  const response = await worker.fetch(
+    new Request("https://worker.example/admin/bookings", {
+      headers: { Origin: "https://disegni.studio", "X-Disegni-Admin-Key": "wrong-key" },
+    }),
+    env
+  );
+  assert.equal(response.status, 401);
+});
+
+test("admin bookings list: returns full booking details", async () => {
+  const env = bookingEnv();
+  const date = futureIso(7);
+  await worker.fetch(bookingCreateRequest({ date }), env);
+
+  const response = await worker.fetch(
+    new Request("https://worker.example/admin/bookings", {
+      headers: { Origin: "https://disegni.studio", "X-Disegni-Admin-Key": "admin-secret" },
+    }),
+    env
+  );
+  const body = await response.json();
+
+  assert.equal(response.status, 200);
+  assert.equal(body.bookings.length, 1);
+  assert.equal(body.bookings[0].workshopSlug, "daily-art");
+  assert.equal(body.bookings[0].customerName, "לקוחה בדיקה");
+});

@@ -4118,6 +4118,70 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
   min-height: 52px;
 }
 
+.booking-confirm-cta:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.booking-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+  color: var(--bone);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.booking-field input {
+  min-height: 46px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #151514;
+  color: var(--bone);
+  font: 400 15px/1.4 var(--sans);
+  direction: rtl;
+}
+
+.booking-confirm-error {
+  margin: 0 0 16px;
+  color: #d97757;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.booking-confirm-error[hidden] {
+  display: none;
+}
+
+.booking-success {
+  width: 100%;
+  min-height: calc(100svh - 80px);
+  padding-block: clamp(96px, 12vw, 160px);
+  padding-inline: max(74px, calc(50vw - 640px));
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+
+.booking-success h1 {
+  font-size: clamp(28px, 3vw, 38px);
+  font-weight: 500;
+  margin: 0 0 14px;
+}
+
+.booking-success p {
+  color: var(--dim);
+  font-size: 16px;
+  line-height: 1.7;
+  margin: 0 0 18px;
+}
+
+.booking-success .cta {
+  margin-top: 10px;
+}
+
 @media (max-width: 700px) {
   .booking-confirm-grid {
     flex-direction: column;

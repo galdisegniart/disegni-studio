@@ -480,8 +480,8 @@
 </section>
 
 <section class="booking-flow-section">
-  <div class="booking-flow" data-calendar-root data-wa-base="https://wa.me/972552902934?text=" data-card-title="סדנה מתמשכת">
-    <script type="application/json" data-calendar-slots>[{"date":"2026-08-03","dateLabel":"יום שני, 3 באוגוסט","time":"16:00–17:30"},{"date":"2026-08-10","dateLabel":"יום שני, 10 באוגוסט","time":"16:00–17:30"},{"date":"2026-08-17","dateLabel":"יום שני, 17 באוגוסט","time":"16:00–17:30"}]</script>
+  <div class="booking-flow" data-calendar-root data-wa-base="https://wa.me/972552902934?text=" data-card-title="סדנה מתמשכת" data-workshop-slug="monthly-art" data-booking-window-weeks="8">
+    <script type="application/json" data-calendar-rules>[{"weekday":"1","time":"18:00–20:00"},{"weekday":"3","time":"18:00–20:00"}]</script>
 
     <div class="booking-col booking-col-calendar">
       <p class="calendar-timezone">שעון ישראל (קיץ) (GMT+3)</p>
@@ -530,15 +530,40 @@
       </div>
     </aside>
     <div class="booking-confirm-action">
-      <p>לחיצה על הכפתור תפתח הודעת WhatsApp מוכנה עם כל הפרטים - שולחים אותה ומאשרים איתי את המקום.</p>
+      <p>המקום משוריין באתר באופן מיידי - אין צורך לתאם ב-WhatsApp כדי לשריין. יש שאלות לפני שקובעים? <a class="js-whatsapp" data-option="סדנה מתמשכת" href="https://wa.me/972552902934?text=%D7%A9%D7%9C%D7%95%D7%9D%20%D7%92%D7%9C%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%93%D7%A8%D7%9A%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%AA%D7%90%D7%9D%20%D7%9E%D7%A4%D7%92%D7%A9%20%D7%A0%D7%99%D7%A1%D7%99%D7%95%D7%9F%20%D7%9C%D7%A1%D7%93%D7%A0%D7%94%20%D7%94%D7%9E%D7%AA%D7%9E%D7%A9%D7%9B%D7%AA." target="_blank" rel="noopener noreferrer">דברו איתי ב-WhatsApp</a>.</p>
+      <label class="booking-field" for="booking-name">
+        <span>שם מלא *</span>
+        <input type="text" id="booking-name" data-booking-name required>
+      </label>
+      <label class="booking-field" for="booking-phone">
+        <span>טלפון *</span>
+        <input type="tel" id="booking-phone" data-booking-phone required>
+      </label>
+      <label class="booking-field" for="booking-email">
+        <span>דוא"ל (לא חובה)</span>
+        <input type="email" id="booking-email" data-booking-email>
+      </label>
       <p class="booking-cancellation-note">שימו לב: ביטול הרשמה לסדנה אפשרי עד 14 יום ממועד ההרשמה, ובלבד שנעשה לפחות יומיים (שאינם ימי מנוחה) לפני מועד הסדנה. הפירוט המלא ב<a href="/returns/" target="_blank" rel="noopener noreferrer">מדיניות הביטולים וההחזרים</a>.</p>
       <label class="cart-consent-label booking-consent" for="booking-consent">
         <input type="checkbox" id="booking-consent" data-booking-consent>
         <span>קראתי ואני מאשר/ת את <a href="/terms/" target="_blank" rel="noopener noreferrer">תקנון האתר</a>, את <a href="/returns/" target="_blank" rel="noopener noreferrer">מדיניות הביטולים וההחזרים</a> ואת <a href="/privacy/" target="_blank" rel="noopener noreferrer">מדיניות הפרטיות</a> *</span>
       </label>
-      <a class="cta booking-confirm-cta" data-booking-confirm-cta target="_blank" rel="noopener noreferrer" aria-disabled="true">קביעה עכשיו ב-WhatsApp <span>←</span></a>
+      <p class="booking-confirm-error" data-booking-confirm-error hidden></p>
+      <button type="button" class="cta booking-confirm-cta" data-booking-confirm-cta aria-disabled="true">קביעה עכשיו <span>←</span></button>
     </div>
   </div>
+</section>
+
+<section class="booking-success" data-booking-success hidden>
+  <div class="thank-you-mark" aria-hidden="true">
+    <svg viewBox="0 0 32 32">
+      <path d="m8 16.5 5 5L24 10"></path>
+    </svg>
+  </div>
+  <h1>המקום שלכם משוריין!</h1>
+  <p data-booking-success-details></p>
+  <p>יש שאלות נוספות לפני המפגש? <a class="js-whatsapp" data-option="סדנה מתמשכת" href="https://wa.me/972552902934?text=%D7%A9%D7%9C%D7%95%D7%9D%20%D7%92%D7%9C%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%93%D7%A8%D7%9A%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%AA%D7%90%D7%9D%20%D7%9E%D7%A4%D7%92%D7%A9%20%D7%A0%D7%99%D7%A1%D7%99%D7%95%D7%9F%20%D7%9C%D7%A1%D7%93%D7%A0%D7%94%20%D7%94%D7%9E%D7%AA%D7%9E%D7%A9%D7%9B%D7%AA." target="_blank" rel="noopener noreferrer">דברו איתי ב-WhatsApp</a>.</p>
+  <a class="cta" href="/workshops/monthly-art/">חזרה לסדנה מתמשכת <span>←</span></a>
 </section>
 
 </main>

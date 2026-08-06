@@ -1,0 +1,92 @@
+---
+layout: base-bare.njk
+title: "הזמנות סדנאות | גל דִּיסֵנִי"
+description: "עמוד אדמין פנימי - לא לשימוש לקוחות."
+permalink: "/admin-bookings/index.html"
+noindex: true
+---
+<section style="max-width: 720px; margin: 80px auto; padding: 0 24px; color: var(--bone); font-family: var(--sans);">
+  <h1 style="font-size: 24px; margin-bottom: 8px;">הזמנות סדנאות</h1>
+  <p style="color: var(--dim); margin-bottom: 32px;">
+    כל הזמנה שנקבעה ישירות באתר (שריון מיידי, בלי אישור ידני) מופיעה כאן.
+    זו רשימה לצפייה בלבד.
+  </p>
+
+  <label style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 24px;">
+    <span>מפתח אדמין</span>
+    <input type="password" id="admin-key" autocomplete="off"
+      style="padding: 10px; background: transparent; border: 1px solid var(--line); color: var(--bone); max-width: 320px;" />
+  </label>
+
+  <button type="button" id="load-btn" style="padding: 10px 18px; background: transparent; border: 1px solid var(--copper); color: var(--copper); cursor: pointer; margin-bottom: 24px;">
+    טען הזמנות
+  </button>
+
+  <p id="list-message" style="color: var(--dim); font-size: 14px;">הזינו מפתח אדמין ולחצו "טען הזמנות".</p>
+  <div id="bookings-list"></div>
+</section>
+
+<script>
+(function () {
+  var WORKER_ORIGIN = "https://disegni-cms-oauth.galdisegniart.workers.dev";
+
+  function adminKey() {
+    return document.getElementById("admin-key").value.trim();
+  }
+
+  function renderBooking(booking) {
+    var wrap = document.createElement("div");
+    wrap.style.cssText = "border: 1px solid var(--line); padding: 16px; margin-bottom: 12px;";
+    wrap.innerHTML =
+      '<p style="font-weight: 600; margin: 0 0 8px;">' + booking.workshopSlug + ' - ' + booking.date + ' · ' + booking.time + '</p>' +
+      '<p style="margin: 0; color: var(--dim); font-size: 14px;">' + booking.customerName + ' · ' + booking.phone + (booking.email ? ' · ' + booking.email : '') + '</p>' +
+      (booking.groupLabel ? '<p style="margin: 4px 0 0; color: var(--dim); font-size: 13px;">' + booking.groupLabel + '</p>' : '') +
+      '<p style="margin: 4px 0 0; color: var(--dim); font-size: 12px;">מזהה: ' + booking.bookingId + '</p>';
+    return wrap;
+  }
+
+  function loadBookings() {
+    var key = adminKey();
+    var listMessage = document.getElementById("list-message");
+    var listEl = document.getElementById("bookings-list");
+    if (!key) {
+      listMessage.textContent = "הזינו מפתח אדמין קודם.";
+      return;
+    }
+
+    listMessage.textContent = "טוען...";
+    fetch(WORKER_ORIGIN + "/admin/bookings", {
+      headers: { "X-Disegni-Admin-Key": key },
+    })
+      .then(function (response) {
+        return response.json().then(function (data) {
+          return { ok: response.ok, data: data };
+        });
+      })
+      .then(function (result) {
+        if (!result.ok || !result.data.ok) {
+          listMessage.style.color = "#c0554d";
+          listMessage.textContent = "שגיאה: " + ((result.data && result.data.error) || "לא ידוע");
+          listEl.innerHTML = "";
+          return;
+        }
+        listMessage.style.color = "var(--dim)";
+        listEl.innerHTML = "";
+        if (!result.data.bookings.length) {
+          listMessage.textContent = "אין הזמנות כרגע.";
+          return;
+        }
+        listMessage.textContent = "";
+        result.data.bookings.forEach(function (booking) {
+          listEl.appendChild(renderBooking(booking));
+        });
+      })
+      .catch(function () {
+        listMessage.style.color = "#c0554d";
+        listMessage.textContent = "שגיאת רשת.";
+      });
+  }
+
+  document.getElementById("load-btn").addEventListener("click", loadBookings);
+})();
+</script>

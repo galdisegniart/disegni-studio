@@ -66,23 +66,17 @@
     "score": "5.0",
     "countLabel": "חוות דעת אחת"
   },
-  "availableSlots": [
+  "recurringAvailability": [
     {
-      "date": "2026-07-31",
-      "dateLabel": "יום שישי, 31 ביולי",
+      "weekday": "0",
       "time": "10:00–12:00"
     },
     {
-      "date": "2026-08-03",
-      "dateLabel": "יום שני, 3 באוגוסט",
-      "time": "18:00–20:00"
-    },
-    {
-      "date": "2026-08-04",
-      "dateLabel": "יום שלישי, 4 באוגוסט",
-      "time": "13:00–15:00"
+      "weekday": "2",
+      "time": "10:00–12:00"
     }
   ],
+  "bookingWindowWeeks": 8,
   "finalHeading": "היצירה מתחילה<br>ברגע שנותנים לה מקום.",
   "reviewPeekExcerpt": "\"משהו מאוד אישי ונעים שמחבר בינינו…\"",
   "order": 1,
