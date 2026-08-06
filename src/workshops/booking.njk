@@ -22,7 +22,7 @@ scripts:
 </section>
 
 <section class="booking-flow-section">
-  <div class="booking-flow" data-calendar-root data-wa-base="https://wa.me/{{ site.whatsappNumber }}?text=" data-card-title="{{ w.cardTitle }}" data-workshop-slug="{{ w.slug }}" data-booking-window-weeks="{{ w.bookingWindowWeeks or 8 }}">
+  <div class="booking-flow" data-calendar-root data-wa-base="https://wa.me/{{ site.whatsappNumber }}?text=" data-card-title="{{ w.cardTitle }}" data-workshop-slug="{{ w.slug }}" data-booking-window-weeks="{{ w.bookingWindowWeeks or 8 }}" data-max-start-time="{{ bookingAvailability.maxStartTime }}">
     <script type="application/json" data-calendar-rules>{{ w.recurringAvailability | dump | safe }}</script>
 
     <div class="booking-col booking-col-calendar">

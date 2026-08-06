@@ -19,10 +19,21 @@
     return HEB_WEEKDAYS[dateObj.getDay()] + ", " + dateObj.getDate() + " ב" + HEB_MONTHS[dateObj.getMonth()];
   }
 
+  // "18:00–20:00" -> 1080. Mirrors slotStartMinutes() in the Worker so the
+  // calendar and the server agree on what counts as too late in the day.
+  function slotStartMinutes(time) {
+    var match = /^\s*(\d{1,2}):(\d{2})/.exec(String(time || ""));
+    if (!match) return null;
+    var hours = Number(match[1]);
+    var minutes = Number(match[2]);
+    if (hours > 23 || minutes > 59) return null;
+    return hours * 60 + minutes;
+  }
+
   // Generates every future date (starting tomorrow) within the booking
   // window whose weekday matches a recurring rule, then drops any
-  // date+time already reserved by someone else.
-  function buildByDate(rules, windowWeeks, blocked) {
+  // date+time already reserved by someone else or starting past the cutoff.
+  function buildByDate(rules, windowWeeks, blocked, maxStartTime) {
     var byDate = {};
     var today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -31,6 +42,8 @@
     (blocked || []).forEach(function (b) {
       if (b && b.date && b.time) blockedSet[b.date + "|" + b.time] = true;
     });
+
+    var maxStartMinutes = slotStartMinutes(maxStartTime);
 
     var totalDays = windowWeeks * 7;
     for (var i = 1; i <= totalDays; i++) {
@@ -43,6 +56,9 @@
       rules.forEach(function (rule) {
         if (Number(rule.weekday) !== weekday) return;
         if (blockedSet[iso + "|" + rule.time]) return;
+        var startMinutes = slotStartMinutes(rule.time);
+        if (startMinutes === null) return;
+        if (maxStartMinutes !== null && startMinutes > maxStartMinutes) return;
         if (!byDate[iso]) byDate[iso] = [];
         byDate[iso].push({ date: iso, dateLabel: dateLabel, time: rule.time });
       });
@@ -67,6 +83,8 @@
     var workshopSlug = root.getAttribute("data-workshop-slug") || "";
     var cardTitle = root.getAttribute("data-card-title") || "";
 
+    var maxStartTime = root.getAttribute("data-max-start-time") || "";
+
     fetch(WORKER_ORIGIN + "/bookings/blocked-dates")
       .then(function (response) {
         return response.ok ? response.json() : { blocked: [] };
@@ -75,7 +93,7 @@
         return { blocked: [] };
       })
       .then(function (result) {
-        startCalendar(buildByDate(rules, windowWeeks, result.blocked || []));
+        startCalendar(buildByDate(rules, windowWeeks, result.blocked || [], maxStartTime));
       });
 
     function startCalendar(byDate) {

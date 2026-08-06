@@ -14,26 +14,72 @@
   "responseTimeLabel": "עד 3 ימי עסקים",
   "contactHref": "/contact/",
   "nav": [
-    { "label": "גלריה", "href": "/", "visible": true },
+    {
+      "label": "גלריה",
+      "href": "/",
+      "visible": true
+    },
     {
       "label": "מוצרים",
       "href": "/collections/prints/",
       "visible": true,
       "children": [
-        { "label": "הדפסים", "href": "/collections/prints/", "visible": true },
-        { "label": "מקוריות זמינות", "href": "/collections/originals/", "visible": true }
+        {
+          "label": "הדפסים",
+          "href": "/collections/prints/",
+          "visible": true
+        },
+        {
+          "label": "מקוריות זמינות",
+          "href": "/collections/originals/",
+          "visible": true
+        }
       ]
     },
-    { "label": "יצירות בהזמנה", "href": "/commissions/", "visible": true },
-    { "label": "סדנאות", "href": "/workshops/", "visible": true },
-    { "label": "אודות", "href": "/about/", "visible": true },
-    { "label": "פורטפוליו", "href": "/portfolio/", "visible": false },
-    { "label": "זכויות", "href": "/rights/", "visible": true },
-    { "label": "יצירת קשר", "href": "/contact/", "visible": true }
+    {
+      "label": "יצירות בהזמנה",
+      "href": "/commissions/",
+      "visible": true
+    },
+    {
+      "label": "סדנאות",
+      "href": "/workshops/",
+      "visible": true
+    },
+    {
+      "label": "אודות",
+      "href": "/about/",
+      "visible": true
+    },
+    {
+      "label": "פורטפוליו",
+      "href": "/portfolio/",
+      "visible": false
+    },
+    {
+      "label": "זכויות",
+      "href": "/rights/",
+      "visible": true
+    },
+    {
+      "label": "יצירת קשר",
+      "href": "/contact/",
+      "visible": true
+    }
   ],
   "socials": [
-    { "name": "אינסטגרם", "href": "https://www.instagram.com/galdisegniart/" },
-    { "name": "טיקטוק", "href": "https://www.tiktok.com/@galdisegniart" },
-    { "name": "פייסבוק", "href": "https://www.facebook.com/gal.disegni" }
-  ]
+    {
+      "name": "אינסטגרם",
+      "href": "https://www.instagram.com/galdisegniart/"
+    },
+    {
+      "name": "טיקטוק",
+      "href": "https://www.tiktok.com/@galdisegniart"
+    },
+    {
+      "name": "פייסבוק",
+      "href": "https://www.facebook.com/gal.disegni"
+    }
+  ],
+  "bookingMaxStartTime": "18:30"
 }

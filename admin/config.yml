@@ -282,6 +282,7 @@ collections:
           - { label: "שם המותג", name: "brand", widget: "string" }
           - { label: "תיאור קצר (בפוטר)", name: "tagline", widget: "string" }
           - { label: "מספר וואטסאפ (בפורמט בינלאומי, ללא + או רווחים, לדוגמה 972501234567)", name: "whatsappNumber", widget: "string" }
+          - { label: "השעה המאוחרת ביותר שמפגש יכול להתחיל בה", name: "bookingMaxStartTime", widget: "string", default: "18:30", required: false, hint: "בפורמט HH:MM. מפגש שמתחיל אחרי השעה הזו לא יוצג ביומן ולא ניתן יהיה לשריין אותו. לדוגמה 18:30" }
           - { label: "שם העוסק המלא (כפי שרשום ברשויות)", name: "businessLegalName", widget: "string", required: false, hint: "חובה בחוק בעסקת מכר מרחוק. יוצג בפוטר, בתקנון ובמדיניות הפרטיות" }
           - { label: "סוג העוסק", name: "businessStatus", widget: "string", default: "עוסק פטור", required: false, hint: "העסק הוא עוסק פטור. לא לשנות אלא אם המעמד ברשויות באמת השתנה" }
           - { label: "מספר עוסק", name: "businessNumber", widget: "string", required: false, hint: "חובה בחוק. השאירו ריק כדי לא להציג" }

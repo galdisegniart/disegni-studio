@@ -2806,6 +2806,41 @@ async function smartBeeRequest(url, body, bearerToken, method = "POST") {
 }
 
 const BOOKING_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
+const BOOKING_AVAILABILITY_URL = "https://disegni.studio/booking-availability.json";
+const BOOKING_AVAILABILITY_CACHE_TTL_SECONDS = 5 * 60;
+const BOOKING_RATE_LIMIT_MAX = 5;
+
+// Same approach as fetchPurchaseCatalog: the site's own build output is the
+// source of truth for which slots exist, so changing availability in the CMS
+// takes effect here without a Worker code change.
+async function fetchBookingAvailability(env) {
+  const cached = await kvGetJSON(env, "booking-availability");
+  if (cached) return cached;
+
+  try {
+    const response = await fetch(BOOKING_AVAILABILITY_URL, { cf: { cacheTtl: 60 } });
+    if (!response.ok) return null;
+    const manifest = await response.json();
+    if (!manifest || typeof manifest !== "object" || !manifest.workshops) return null;
+    await kvPutJSON(env, "booking-availability", manifest, BOOKING_AVAILABILITY_CACHE_TTL_SECONDS);
+    return manifest;
+  } catch (error) {
+    console.error("Failed to fetch booking availability", error.message);
+    return null;
+  }
+}
+
+// "18:00–20:00" -> 1080. Tolerates any separator (en-dash, hyphen) and is the
+// single place slot times get interpreted, so a mangled/unknown format fails
+// closed rather than silently reserving a nonexistent slot.
+function slotStartMinutes(time) {
+  const match = /^\s*(\d{1,2}):(\d{2})/.exec(String(time || ""));
+  if (!match) return null;
+  const hours = Number(match[1]);
+  const minutes = Number(match[2]);
+  if (hours > 23 || minutes > 59) return null;
+  return hours * 60 + minutes;
+}
 
 function bookingSlotKey(date, time) {
   return `booking:slot:${date}:${time}`;
@@ -2864,6 +2899,14 @@ async function handleBookingCreate(request, env) {
     );
   }
 
+  if (await isRateLimited(env, `booking:${clientIp(request)}`, BOOKING_RATE_LIMIT_MAX)) {
+    return jsonResponse(
+      { ok: false, error: "Too many requests, please try again shortly" },
+      429,
+      corsHeaders
+    );
+  }
+
   // No same-day booking through the site - matches the note shown on
   // every booking page ("לא ניתן להזמין מהיום להיום דרך האתר").
   const today = new Date();
@@ -2875,6 +2918,43 @@ async function handleBookingCreate(request, env) {
       400,
       corsHeaders
     );
+  }
+
+  // The calendar UI only offers legitimate slots, but the API is the actual
+  // security boundary - without this a crafted request could reserve a slot
+  // that doesn't exist (wrong weekday, invented time, after the cutoff).
+  const availability = await fetchBookingAvailability(env);
+  if (!availability) {
+    return jsonResponse(
+      { ok: false, error: "Booking availability is temporarily unavailable" },
+      503,
+      corsHeaders
+    );
+  }
+
+  const workshop = availability.workshops[workshopSlug];
+  if (!workshop || !Array.isArray(workshop.rules)) {
+    return jsonResponse({ ok: false, error: "Unknown workshop" }, 400, corsHeaders);
+  }
+
+  const matchesRule = workshop.rules.some(
+    (rule) => Number(rule.weekday) === bookingDate.getDay() && rule.time === time
+  );
+  if (!matchesRule) {
+    return jsonResponse({ ok: false, error: "Slot is not available" }, 400, corsHeaders);
+  }
+
+  const startMinutes = slotStartMinutes(time);
+  const maxStartMinutes = slotStartMinutes(availability.maxStartTime);
+  if (startMinutes === null || maxStartMinutes === null || startMinutes > maxStartMinutes) {
+    return jsonResponse({ ok: false, error: "Slot starts too late in the day" }, 400, corsHeaders);
+  }
+
+  const windowWeeks = Number(workshop.windowWeeks) || 8;
+  const windowEnd = new Date(today);
+  windowEnd.setDate(windowEnd.getDate() + windowWeeks * 7);
+  if (bookingDate.getTime() > windowEnd.getTime()) {
+    return jsonResponse({ ok: false, error: "Slot is outside the booking window" }, 400, corsHeaders);
   }
 
   const slotKey = bookingSlotKey(date, time);

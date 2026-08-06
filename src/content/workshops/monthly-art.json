@@ -20,8 +20,10 @@
   ],
   "heroCtaLabel": "לקביעת מועד",
   "recurringAvailability": [
-    { "weekday": "1", "time": "18:00–20:00" },
-    { "weekday": "3", "time": "18:00–20:00" }
+    { "weekday": "1", "time": "16:00–17:30" },
+    { "weekday": "1", "time": "18:00–19:30" },
+    { "weekday": "3", "time": "16:00–17:30" },
+    { "weekday": "3", "time": "18:00–19:30" }
   ],
   "bookingWindowWeeks": 8,
   "waMessage": "שלום גל, הגעתי דרך האתר ואשמח לתאם מפגש ניסיון לסדנה המתמשכת.",

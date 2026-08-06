@@ -1818,13 +1818,60 @@ test("admin bit receipt check-status: returns a failed record without contacting
   }
 });
 
-function futureIso(daysAhead) {
-  const d = new Date();
-  d.setDate(d.getDate() + daysAhead);
-  return d.toISOString().slice(0, 10);
+const BOOKING_AVAILABILITY = {
+  maxStartTime: "18:30",
+  workshops: {
+    "daily-art": {
+      windowWeeks: 8,
+      rules: [
+        { weekday: 0, time: "10:00–12:00" },
+        { weekday: 2, time: "10:00–12:00" },
+      ],
+    },
+    "monthly-art": {
+      windowWeeks: 8,
+      rules: [
+        { weekday: 1, time: "18:00–20:00" },
+        { weekday: 3, time: "18:00–20:00" },
+      ],
+    },
+    "structured-art": {
+      windowWeeks: 8,
+      rules: [
+        { weekday: 1, time: "18:00–20:00" },
+        { weekday: 3, time: "18:00–20:00" },
+      ],
+    },
+    "late-workshop": {
+      windowWeeks: 8,
+      rules: [{ weekday: 5, time: "19:00–21:00" }],
+    },
+  },
+};
+
+// Local-date ISO, not toISOString - the latter is UTC and can shift the
+// weekday, which these rules are matched on.
+function isoLocal(date) {
+  return (
+    date.getFullYear() +
+    "-" +
+    String(date.getMonth() + 1).padStart(2, "0") +
+    "-" +
+    String(date.getDate()).padStart(2, "0")
+  );
 }
 
-function bookingEnv(kv = createMockKV()) {
+function nextWeekday(weekday, minDaysAhead = 1) {
+  const d = new Date();
+  d.setHours(0, 0, 0, 0);
+  d.setDate(d.getDate() + minDaysAhead);
+  while (d.getDay() !== weekday) d.setDate(d.getDate() + 1);
+  return isoLocal(d);
+}
+
+async function bookingEnv(kv = createMockKV()) {
+  // Pre-seeded so fetchBookingAvailability hits the KV cache, not the network.
+  await kv.put("booking-availability", JSON.stringify(BOOKING_AVAILABILITY));
   return { ...ENV, ORDERS_KV: kv, DISEGNI_ADMIN_KEY: "admin-secret" };
 }
 
@@ -1834,7 +1881,7 @@ function bookingCreateRequest(overrides = {}) {
     headers: { Origin: "https://disegni.studio", "Content-Type": "application/json" },
     body: JSON.stringify({
       workshopSlug: "daily-art",
-      date: futureIso(3),
+      date: nextWeekday(0),
       time: "10:00–12:00",
       customerName: "לקוחה בדיקה",
       phone: "0500000000",
@@ -1845,7 +1892,7 @@ function bookingCreateRequest(overrides = {}) {
 }
 
 test("booking create: reserves an available slot immediately", async () => {
-  const env = bookingEnv();
+  const env = await bookingEnv();
   const response = await worker.fetch(bookingCreateRequest(), env);
   const body = await response.json();
 
@@ -1855,13 +1902,12 @@ test("booking create: reserves an available slot immediately", async () => {
 });
 
 test("booking create: rejects a second booking for the same date+time", async () => {
-  const env = bookingEnv();
-  const date = futureIso(5);
-  const first = await worker.fetch(bookingCreateRequest({ date }), env);
+  const env = await bookingEnv();
+  const first = await worker.fetch(bookingCreateRequest(), env);
   assert.equal(first.status, 200);
 
   const second = await worker.fetch(
-    bookingCreateRequest({ date, customerName: "לקוחה אחרת", phone: "0509999999" }),
+    bookingCreateRequest({ customerName: "לקוחה אחרת", phone: "0509999999" }),
     env
   );
   const secondBody = await second.json();
@@ -1870,22 +1916,113 @@ test("booking create: rejects a second booking for the same date+time", async ()
   assert.equal(secondBody.error, "slot_taken");
 });
 
+test("booking create: blocks the same slot across workshops sharing it", async () => {
+  const env = await bookingEnv();
+  const monday = nextWeekday(1);
+
+  const first = await worker.fetch(
+    bookingCreateRequest({ workshopSlug: "monthly-art", date: monday, time: "18:00–20:00" }),
+    env
+  );
+  assert.equal(first.status, 200);
+
+  const second = await worker.fetch(
+    bookingCreateRequest({ workshopSlug: "structured-art", date: monday, time: "18:00–20:00" }),
+    env
+  );
+  assert.equal(second.status, 409);
+});
+
 test("booking create: rejects a same-day booking", async () => {
-  const env = bookingEnv();
-  const response = await worker.fetch(bookingCreateRequest({ date: futureIso(0) }), env);
+  const env = await bookingEnv();
+  const response = await worker.fetch(bookingCreateRequest({ date: isoLocal(new Date()) }), env);
   assert.equal(response.status, 400);
 });
 
 test("booking create: rejects an invalid phone number", async () => {
-  const env = bookingEnv();
+  const env = await bookingEnv();
   const response = await worker.fetch(bookingCreateRequest({ phone: "not-a-phone" }), env);
   assert.equal(response.status, 400);
 });
 
+test("booking create: rejects a weekday the workshop does not run on", async () => {
+  const env = await bookingEnv();
+  // daily-art runs Sunday/Tuesday only - Wednesday must be refused.
+  const response = await worker.fetch(bookingCreateRequest({ date: nextWeekday(3) }), env);
+  const body = await response.json();
+
+  assert.equal(response.status, 400);
+  assert.equal(body.error, "Slot is not available");
+});
+
+test("booking create: rejects a time that is not in the workshop's rules", async () => {
+  const env = await bookingEnv();
+  const response = await worker.fetch(bookingCreateRequest({ time: "03:00–05:00" }), env);
+  const body = await response.json();
+
+  assert.equal(response.status, 400);
+  assert.equal(body.error, "Slot is not available");
+});
+
+test("booking create: rejects a slot starting after the configured cutoff", async () => {
+  const env = await bookingEnv();
+  const response = await worker.fetch(
+    bookingCreateRequest({
+      workshopSlug: "late-workshop",
+      date: nextWeekday(5),
+      time: "19:00–21:00",
+    }),
+    env
+  );
+  const body = await response.json();
+
+  assert.equal(response.status, 400);
+  assert.equal(body.error, "Slot starts too late in the day");
+});
+
+test("booking create: rejects an unknown workshop", async () => {
+  const env = await bookingEnv();
+  const response = await worker.fetch(
+    bookingCreateRequest({ workshopSlug: "no-such-workshop" }),
+    env
+  );
+  const body = await response.json();
+
+  assert.equal(response.status, 400);
+  assert.equal(body.error, "Unknown workshop");
+});
+
+test("booking create: rejects a date beyond the booking window", async () => {
+  const env = await bookingEnv();
+  // Window is 8 weeks; reach for a matching weekday well past it.
+  const response = await worker.fetch(bookingCreateRequest({ date: nextWeekday(0, 80) }), env);
+  const body = await response.json();
+
+  assert.equal(response.status, 400);
+  assert.equal(body.error, "Slot is outside the booking window");
+});
+
+test("booking create: rate limits repeated attempts from the same client", async () => {
+  const env = await bookingEnv();
+  let lastStatus = 0;
+  // Each attempt targets a distinct valid slot, so only the limiter can reject.
+  for (let i = 0; i < 7; i++) {
+    const response = await worker.fetch(
+      bookingCreateRequest({ date: nextWeekday(0, 1 + i * 7) }),
+      env
+    );
+    lastStatus = response.status;
+  }
+  assert.equal(lastStatus, 429);
+});
+
 test("booking blocked-dates: lists reserved slots without an admin key", async () => {
-  const env = bookingEnv();
-  const date = futureIso(6);
-  await worker.fetch(bookingCreateRequest({ date, time: "18:00–20:00" }), env);
+  const env = await bookingEnv();
+  const monday = nextWeekday(1);
+  await worker.fetch(
+    bookingCreateRequest({ workshopSlug: "monthly-art", date: monday, time: "18:00–20:00" }),
+    env
+  );
 
   const response = await worker.fetch(
     new Request("https://worker.example/bookings/blocked-dates", {
@@ -1896,11 +2033,11 @@ test("booking blocked-dates: lists reserved slots without an admin key", async (
   const body = await response.json();
 
   assert.equal(response.status, 200);
-  assert.deepEqual(body.blocked, [{ date, time: "18:00–20:00" }]);
+  assert.deepEqual(body.blocked, [{ date: monday, time: "18:00–20:00" }]);
 });
 
 test("admin bookings list: requires the admin key", async () => {
-  const env = bookingEnv();
+  const env = await bookingEnv();
   const response = await worker.fetch(
     new Request("https://worker.example/admin/bookings", {
       headers: { Origin: "https://disegni.studio", "X-Disegni-Admin-Key": "wrong-key" },
@@ -1911,9 +2048,8 @@ test("admin bookings list: requires the admin key", async () => {
 });
 
 test("admin bookings list: returns full booking details", async () => {
-  const env = bookingEnv();
-  const date = futureIso(7);
-  await worker.fetch(bookingCreateRequest({ date }), env);
+  const env = await bookingEnv();
+  await worker.fetch(bookingCreateRequest(), env);
 
   const response = await worker.fetch(
     new Request("https://worker.example/admin/bookings", {
