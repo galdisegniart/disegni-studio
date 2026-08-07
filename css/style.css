@@ -3951,9 +3951,27 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
 }
 
 .calendar-times-list {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.calendar-times-show-more {
+  display: block;
+  margin: 12px 0 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--copper);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.calendar-times-show-more[hidden] {
+  display: none;
 }
 
 .calendar-time-btn {

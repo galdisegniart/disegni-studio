@@ -113,6 +113,7 @@
       var timesCol = root.querySelector("[data-cal-times]");
       var timesLabel = root.querySelector("[data-cal-date-label]");
       var timesList = root.querySelector("[data-cal-times-list]");
+      var timesShowMoreBtn = root.querySelector("[data-cal-times-show-more]");
       var groupSelect = root.querySelector("[data-group-size-select]");
       var resetBtn = root.querySelector("[data-booking-reset]");
       var summaryDetails = root.querySelector("[data-booking-summary]");
@@ -331,6 +332,10 @@
         confirmCta.addEventListener("click", submitBooking);
       }
 
+      // Matches the reference calendar's two-column layout of 5 rows before
+      // it collapses the rest behind "צפייה בכל המפגשים".
+      var TIMES_INITIAL_VISIBLE = 10;
+
       function showTimes(iso) {
         var entries = byDate[iso] || [];
         if (!entries.length) return;
@@ -345,6 +350,7 @@
           btn.type = "button";
           btn.className = "calendar-time-btn";
           btn.textContent = entry.time;
+          if (index >= TIMES_INITIAL_VISIBLE) btn.hidden = true;
           btn.addEventListener("click", function () {
             var current = timesList.querySelectorAll(".calendar-time-btn.is-selected");
             for (var j = 0; j < current.length; j++) current[j].classList.remove("is-selected");
@@ -358,7 +364,19 @@
           if (index === 0) btn.click();
         });
 
+        if (timesShowMoreBtn) {
+          timesShowMoreBtn.hidden = entries.length <= TIMES_INITIAL_VISIBLE;
+        }
+
         timesCol.hidden = false;
+      }
+
+      if (timesShowMoreBtn) {
+        timesShowMoreBtn.addEventListener("click", function () {
+          var hiddenBtns = timesList.querySelectorAll(".calendar-time-btn[hidden]");
+          for (var j = 0; j < hiddenBtns.length; j++) hiddenBtns[j].hidden = false;
+          timesShowMoreBtn.hidden = true;
+        });
       }
 
       function selectDay(btn, iso) {
