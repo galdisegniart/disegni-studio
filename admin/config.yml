@@ -281,6 +281,15 @@ collections:
         fields:
           - { label: "שם המותג", name: "brand", widget: "string" }
           - { label: "תיאור קצר (בפוטר)", name: "tagline", widget: "string" }
+          - name: "typeScale"
+            label: "גודל טקסט באתר"
+            widget: "object"
+            hint: "100 = הגודל הרגיל שכבר קיים. מעל 100 מגדיל, מתחת מקטין - משפיע על כל האתר יחד לפי קטגוריה."
+            fields:
+              - { label: "תפריט ניווט (%)", name: "navPercent", widget: "number", default: 100, min: 60, max: 160, value_type: "int" }
+              - { label: "כותרות ראשיות (%)", name: "headingPercent", widget: "number", default: 100, min: 60, max: 160, value_type: "int" }
+              - { label: "תת-כותרות (%)", name: "subheadingPercent", widget: "number", default: 100, min: 60, max: 160, value_type: "int" }
+              - { label: "תקנון ומדיניות (%)", name: "legalPercent", widget: "number", default: 100, min: 60, max: 160, value_type: "int" }
           - { label: "מספר וואטסאפ (בפורמט בינלאומי, ללא + או רווחים, לדוגמה 972501234567)", name: "whatsappNumber", widget: "string" }
           - { label: "השעה המאוחרת ביותר שמפגש יכול להתחיל בה", name: "bookingMaxStartTime", widget: "string", default: "18:30", required: false, hint: "בפורמט HH:MM. מפגש שמתחיל אחרי השעה הזו לא יוצג ביומן ולא ניתן יהיה לשריין אותו. לדוגמה 18:30" }
           - { label: "שם העוסק המלא (כפי שרשום ברשויות)", name: "businessLegalName", widget: "string", required: false, hint: "חובה בחוק בעסקת מכר מרחוק. יוצג בפוטר, בתקנון ובמדיניות הפרטיות" }

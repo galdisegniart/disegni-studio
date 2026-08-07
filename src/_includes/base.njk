@@ -21,6 +21,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/style.css?v={{ buildTime }}">
+<style>
+:root {
+  --scale-nav: {{ (site.typeScale.navPercent / 100) if site.typeScale.navPercent else 1 }};
+  --scale-heading: {{ (site.typeScale.headingPercent / 100) if site.typeScale.headingPercent else 1 }};
+  --scale-subheading: {{ (site.typeScale.subheadingPercent / 100) if site.typeScale.subheadingPercent else 1 }};
+  --scale-legal: {{ (site.typeScale.legalPercent / 100) if site.typeScale.legalPercent else 1 }};
+}
+</style>
 </head>
 <body id="top"{% if bodyClass %} class="{{ bodyClass }}"{% endif %} data-whatsapp="{{ site.whatsappNumber }}">
 
