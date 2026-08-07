@@ -15,7 +15,7 @@ scripts:
     <img src="{{ p.heroImage }}" alt="{{ p.heroImageAlt }}">
   </figure>
   <div class="artist-opening-copy">
-    <h1 id="hero-title">{{ p.headingLine1 }}<br><span>{{ p.headingLine2 }}</span></h1>
+    <h1 id="hero-title">{{ p.headingLine1 }}<br><span>{{ p.headingLine2 | nl2br | safe }}</span></h1>
     <p class="artist-opening-lead">{{ p.leadText }}</p>
     <div class="opening-assurance">
       <p>{{ p.assuranceLine1 }}</p>

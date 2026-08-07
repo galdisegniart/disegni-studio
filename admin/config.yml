@@ -256,7 +256,7 @@ collections:
           - { label: "תמונת הירו", name: "heroImage", widget: "image" }
           - { label: "טקסט חלופי לתמונה", name: "heroImageAlt", widget: "string" }
           - { label: "כותרת - שורה 1", name: "headingLine1", widget: "string" }
-          - { label: "כותרת - שורה 2", name: "headingLine2", widget: "string" }
+          - { label: "כותרת - שורה 2 (Enter לשבירת שורה ידנית)", name: "headingLine2", widget: "text" }
           - { label: "טקסט פתיחה", name: "leadText", widget: "text" }
           - { label: "שורת הבטחה 1", name: "assuranceLine1", widget: "string" }
           - { label: "שורת הבטחה 2", name: "assuranceLine2", widget: "string" }

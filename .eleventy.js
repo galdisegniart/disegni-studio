@@ -13,6 +13,11 @@ module.exports = function (eleventyConfig) {
     return typeof str === "string" && str.indexOf(prefix) === 0;
   });
 
+  eleventyConfig.addFilter("nl2br", function (str) {
+    if (typeof str !== "string") return str;
+    return str.split("\n").join("<br>");
+  });
+
   eleventyConfig.addFilter("numberFormat", function (n) {
     return Number(n).toLocaleString("en-US");
   });
