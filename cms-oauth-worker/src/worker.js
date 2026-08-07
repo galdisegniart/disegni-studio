@@ -48,6 +48,10 @@ export default {
       return handleBitReceiptIntake(request, env);
     }
 
+    if (url.pathname === "/bit-receipts/submit") {
+      return handleBitReceiptPublicSubmit(request, env);
+    }
+
     if (url.pathname === "/admin/bit-receipts") {
       return handleAdminBitReceiptsList(request, env);
     }
@@ -2295,6 +2299,82 @@ async function handleBitReceiptIntake(request, env) {
   return jsonResponse({ ok: true, requestId: receipt.requestId, status: "pending" }, 200, corsHeaders);
 }
 
+// Public counterpart to handleBitReceiptIntake, for the on-site Bit payment
+// form. The intake route needs a bearer secret that can't live in browser
+// JS, which is the only reason submissions used to detour through Make -
+// this removes that hop (and frees a scenario slot on the free plan).
+// Everything Make did beyond forwarding (dedup, validation) already happens
+// here, so the stored record is identical either way.
+async function handleBitReceiptPublicSubmit(request, env) {
+  const corsHeaders = getCorsHeaders(request, env);
+
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: corsHeaders ? 204 : 403,
+      headers: corsHeaders || noStoreHeaders(),
+    });
+  }
+  if (request.method !== "POST") {
+    return jsonResponse({ ok: false, error: "Method not allowed" }, 405, corsHeaders, { Allow: "POST, OPTIONS" });
+  }
+  if (!corsHeaders) {
+    return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
+  }
+  if (!env.ORDERS_KV) {
+    return jsonResponse({ ok: false, error: "Receipt storage is not configured" }, 503, corsHeaders);
+  }
+
+  if (await isRateLimited(env, `bit-submit:${clientIp(request)}`, BIT_SUBMIT_RATE_LIMIT_MAX)) {
+    return jsonResponse(
+      { ok: false, error: "Too many requests, please try again shortly" },
+      429,
+      corsHeaders
+    );
+  }
+
+  let input;
+  try {
+    input = await request.json();
+  } catch {
+    return jsonResponse({ ok: false, error: "Invalid JSON" }, 400, corsHeaders);
+  }
+
+  // The form has no requestId to give - Make used to mint one, so we do it
+  // here instead, keeping the same BIT-<timestamp> shape already in KV.
+  const validated = validateBitReceiptInput({
+    ...input,
+    requestId: `BIT-${Date.now()}${Math.floor(Math.random() * 1000)}`,
+  });
+  if (!validated.ok) {
+    return jsonResponse({ ok: false, error: validated.error, fields: validated.fields || [] }, 400, corsHeaders);
+  }
+
+  const receipt = validated.value;
+  const referenceKey = bitReceiptReferenceKey(receipt.bitReference);
+  const existingReference = await kvGetJSON(env, referenceKey);
+  if (existingReference) {
+    return jsonResponse(
+      { ok: false, error: "Bit reference already submitted", code: "duplicate_bit_reference" },
+      409,
+      corsHeaders
+    );
+  }
+
+  const now = new Date().toISOString();
+  await saveBitReceiptRecord(env, {
+    ...receipt,
+    status: "pending",
+    apiMessageId: "",
+    documentId: "",
+    linkToOriginal: "",
+    linkToCopy: "",
+    createdAt: now,
+    updatedAt: now,
+  });
+
+  return jsonResponse({ ok: true, requestId: receipt.requestId, status: "pending" }, 200, corsHeaders);
+}
+
 async function handleAdminBitReceiptsList(request, env) {
   const corsHeaders = getCorsHeaders(request, env);
 
@@ -2809,6 +2889,7 @@ const BOOKING_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 const BOOKING_AVAILABILITY_URL = "https://disegni.studio/booking-availability.json";
 const BOOKING_AVAILABILITY_CACHE_TTL_SECONDS = 5 * 60;
 const BOOKING_RATE_LIMIT_MAX = 5;
+const BIT_SUBMIT_RATE_LIMIT_MAX = 5;
 
 // Same approach as fetchPurchaseCatalog: the site's own build output is the
 // source of truth for which slots exist, so changing availability in the CMS

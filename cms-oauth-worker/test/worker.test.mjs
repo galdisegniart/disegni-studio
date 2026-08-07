@@ -1497,6 +1497,70 @@ function bitAdminEnv(kv = createMockKV()) {
   return { ...ENV, ORDERS_KV: kv, DISEGNI_ADMIN_KEY: "admin-secret", BIT_RECEIPT_INTAKE_SECRET: "intake-secret" };
 }
 
+function bitPublicSubmitRequest(overrides = {}) {
+  return new Request("https://worker.example/bit-receipts/submit", {
+    method: "POST",
+    headers: { Origin: "https://disegni.studio", "Content-Type": "application/json" },
+    body: JSON.stringify({
+      customerName: "לקוחה בדיקה",
+      phone: "0500000000",
+      email: "customer@example.com",
+      amount: 134,
+      paymentDate: "2026-08-05",
+      description: "טיפול באמנות",
+      bitReference: "BIT-REF-PUBLIC-1",
+      ...overrides,
+    }),
+  });
+}
+
+test("bit receipt public submit: stores a pending record without any secret", async () => {
+  const env = bitAdminEnv();
+  const response = await worker.fetch(bitPublicSubmitRequest(), env);
+  const body = await response.json();
+
+  assert.equal(response.status, 200);
+  assert.equal(body.ok, true);
+  assert.equal(body.status, "pending");
+  assert.match(body.requestId, /^BIT-\d+$/);
+
+  const stored = JSON.parse(await env.ORDERS_KV.get(`smartbee-bit:request:${body.requestId}`));
+  assert.equal(stored.status, "pending");
+  assert.equal(stored.customerName, "לקוחה בדיקה");
+  assert.equal(stored.bitReference, "BIT-REF-PUBLIC-1");
+});
+
+test("bit receipt public submit: rejects a bitReference that was already submitted", async () => {
+  const env = bitAdminEnv();
+  const first = await worker.fetch(bitPublicSubmitRequest(), env);
+  assert.equal(first.status, 200);
+
+  const second = await worker.fetch(bitPublicSubmitRequest({ customerName: "מישהי אחרת" }), env);
+  const secondBody = await second.json();
+
+  assert.equal(second.status, 409);
+  assert.equal(secondBody.code, "duplicate_bit_reference");
+});
+
+test("bit receipt public submit: rejects invalid fields", async () => {
+  const env = bitAdminEnv();
+  const response = await worker.fetch(bitPublicSubmitRequest({ phone: "not-a-phone" }), env);
+  assert.equal(response.status, 400);
+});
+
+test("bit receipt public submit: rate limits repeated submissions", async () => {
+  const env = bitAdminEnv();
+  let lastStatus = 0;
+  for (let i = 0; i < 7; i++) {
+    const response = await worker.fetch(
+      bitPublicSubmitRequest({ bitReference: `BIT-REF-PUBLIC-RL-${i}` }),
+      env
+    );
+    lastStatus = response.status;
+  }
+  assert.equal(lastStatus, 429);
+});
+
 test("bit receipt intake: requires the dedicated bearer secret", async () => {
   const env = bitAdminEnv();
   const response = await worker.fetch(bitIntakeRequest({}, "wrong-secret"), env);
