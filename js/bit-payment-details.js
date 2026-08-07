@@ -2,7 +2,10 @@
   var form = document.getElementById("bit-payment-form");
   if (!form) return;
 
-  var WEBHOOK_URL = "https://hook.eu1.make.com/d2aacql2eg4kvn4mywobklbeetdgggij";
+  // Posts straight to the Worker, which stores the pending record itself -
+  // the old Make webhook only forwarded here after duplicating the same
+  // validation, and its scenario slot is needed for Grow checkout.
+  var WEBHOOK_URL = "https://disegni-cms-oauth.galdisegniart.workers.dev/bit-receipts/submit";
 
   var submitBtn = form.querySelector(".lead-submit");
   var successEl = form.querySelector(".js-bit-payment-success");
@@ -56,7 +59,22 @@
       body: JSON.stringify(payload),
     })
       .then(function (response) {
-        if (!response.ok) throw new Error("Webhook responded with " + response.status);
+        return response.json().then(function (data) {
+          return { ok: response.ok, status: response.status, data: data };
+        });
+      })
+      .then(function (result) {
+        if (!result.ok) {
+          if (result.data && result.data.code === "duplicate_bit_reference") {
+            setError("האסמכתה הזו כבר נשלחה. אם זו טעות, אפשר ליצור קשר ונבדוק יחד.");
+            return;
+          }
+          if (result.status === 429) {
+            setError("נשלחו יותר מדי בקשות. נסו שוב בעוד כמה דקות.");
+            return;
+          }
+          throw new Error("submit failed");
+        }
         if (successEl) successEl.hidden = false;
         form.reset();
       })
