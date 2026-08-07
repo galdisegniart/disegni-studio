@@ -5,6 +5,8 @@ eleventyComputed:
   description: "{{ pages.workshopsIndex.metaDescription }}"
 activeNav: "סדנאות"
 permalink: "/workshops/index.html"
+scripts:
+  - /js/hero-video-toggle.js
 ---
 {% set w = pages.workshopsIndex %}
 {% set hasHeroVideo = w.promoVideoVisible != false and w.promoVideoFile %}
@@ -12,9 +14,14 @@ permalink: "/workshops/index.html"
 <section class="workshop-visual-hero{{ ' has-media' if hasHeroVideo }}"{% if hasHeroVideo %} style="--hero-video-height: {{ w.heroVideoHeight or 550 }}px; --hero-video-position: {{ w.heroVideoPosition or 'center' }};"{% endif %}>
   {% if hasHeroVideo %}
   <div class="workshop-hero-media{{ ' has-overlay' if w.heroVideoOverlay }}">
-    <video autoplay muted loop playsinline{% if w.promoVideoPoster %} poster="{{ w.promoVideoPoster }}"{% endif %}>
-      <source src="{{ w.promoVideoFile }}" type="video/mp4">
+    <video class="js-hero-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true"{% if w.promoVideoPoster %} poster="{{ w.promoVideoPoster }}"{% endif %}>
+      <source src="{{ w.promoVideoFile }}" type="video/mp4" media="(min-width: 769px)">
     </video>
+    <button type="button" class="js-hero-video-toggle hero-video-toggle" aria-pressed="false">
+      <svg class="hero-video-toggle-icon-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14"></rect><rect x="14" y="5" width="4" height="14"></rect></svg>
+      <svg class="hero-video-toggle-icon-play" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M8 5l12 7-12 7V5z"></path></svg>
+      <span class="sr-only">השהיית הסרטון</span>
+    </button>
   </div>
   {% endif %}
   {% if hasHeroText %}

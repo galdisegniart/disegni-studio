@@ -160,7 +160,7 @@ scripts:
   <div class="section-label"><span>{{ w.gallery.eyebrow }}</span></div>
   <div class="workshop-photo-collage">
     {% for img in w.gallery.images | arraySlice(0, 3) %}
-    <figure{% if img.wide %} class="wide"{% endif %}><img src="{{ img.src }}" alt="{{ img.alt }}"></figure>
+    <figure{% if img.wide %} class="wide"{% endif %}><img src="{{ img.src }}" alt="{{ img.alt }}" loading="lazy"></figure>
     {% endfor %}
   </div>
   {% if w.gallery.expandLabel %}
@@ -168,7 +168,7 @@ scripts:
     <summary>{{ w.gallery.expandLabel }} <span aria-hidden="true">＋</span></summary>
     <div class="workshop-gallery-expanded">
       {% for img in w.gallery.images | arraySlice(3) %}
-      <figure><img src="{{ img.src }}" alt="{{ img.alt }}"></figure>
+      <figure><img src="{{ img.src }}" alt="{{ img.alt }}" loading="lazy"></figure>
       {% endfor %}
     </div>
   </details>

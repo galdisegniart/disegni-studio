@@ -51,5 +51,23 @@
 
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") closeNav();
+    if (e.key === "Tab" && nav.classList.contains("open")) {
+      var focusable = [toggle].concat(
+        Array.prototype.slice.call(
+          nav.querySelectorAll(
+            'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+          )
+        )
+      );
+      var first = focusable[0];
+      var last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
   });
 })();

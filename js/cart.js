@@ -991,8 +991,30 @@
     updateLivePrice(wrap);
   });
 
+  function trapFocus(container, e) {
+    var focusable = container.querySelectorAll(
+      'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    );
+    if (!focusable.length) return;
+    var first = focusable[0];
+    var last = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  }
+
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") closeCartDrawer();
+    if (e.key === "Tab") {
+      var drawer = document.getElementById("cart-drawer");
+      if (drawer && drawer.getAttribute("aria-hidden") === "false") {
+        trapFocus(drawer, e);
+      }
+    }
   });
 
   function isPrintfulDriven(wrap) {
