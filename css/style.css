@@ -3960,6 +3960,7 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
   padding: 8px 14px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
+  background: transparent;
   color: var(--bone);
   font-size: 14px;
   font-weight: 500;
