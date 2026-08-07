@@ -6851,6 +6851,26 @@ body:has(.commission-sticky-cta:not([hidden])) .quick-links-rail {
   .artist-opening {
     min-height: 0;
   }
+
+  .artist-opening-copy {
+    margin-top: 18px;
+  }
+
+  .artist-opening-copy h1 {
+    margin-bottom: 10px;
+  }
+
+  .artist-opening-lead {
+    margin-top: 8px;
+  }
+
+  .opening-assurance {
+    margin-top: 10px;
+  }
+
+  .opening-assurance p + p {
+    margin-top: 4px;
+  }
 }
 
 /* Product purchase proportions — reference-aligned */
