@@ -12,7 +12,7 @@ scripts:
   - /js/product-gallery.js
   - /js/artwork-zoom.js
 eleventyComputed:
-  title: "{{ artwork.name }} | גל דִּיסֵנִי"
+  title: "{{ artwork.name }} - הדפס אמנותי מקורי | גל דִּיסֵנִי"
   description: "{{ artwork.name }}, {{ artwork.description }}"
   ogImage: "{{ artwork.image }}"
 ---
@@ -47,6 +47,20 @@ eleventyComputed:
     "url": "{{ site.siteUrl }}{{ page.url }}"
   }
 }
+</script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  if (typeof gtag === "function") {
+    gtag("event", "view_item", {
+      currency: "ILS",
+      value: {{ range.low }},
+      items: [{
+        item_id: {{ artwork.slug | dump | safe }},
+        item_name: {{ artwork.name | dump | safe }},
+        price: {{ range.low }}
+      }]
+    });
+  }
 </script>
 
 <section class="artwork-detail">
@@ -336,6 +350,17 @@ eleventyComputed:
     {% if artwork.testimony.heading %}<h2>{{ artwork.testimony.heading }}</h2>{% endif %}
     {% if artwork.testimony.text %}<p>{{ artwork.testimony.text }}</p>{% endif %}
     {% if artwork.testimony.video and artwork.testimony.video.file %}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoObject",
+      "name": {{ (artwork.testimony.heading or artwork.name) | dump | safe }},
+      "description": {{ (artwork.testimony.text or artwork.name) | dump | safe }},
+      "thumbnailUrl": "{{ site.siteUrl }}{{ artwork.testimony.video.poster or artwork.image }}",
+      "contentUrl": "{{ site.siteUrl }}{{ artwork.testimony.video.file }}",
+      "uploadDate": "{{ buildDate }}"
+    }
+    </script>
     <video class="print-quality-video" controls playsinline{% if artwork.testimony.video.poster %} poster="{{ artwork.testimony.video.poster }}"{% endif %}>
       <source src="{{ artwork.testimony.video.file }}" type="video/mp4">
     </video>

@@ -21,6 +21,12 @@ scripts:
       <p>{{ p.assuranceLine1 }}</p>
       <p>{{ p.assuranceLine2 }}</p>
     </div>
+    {% if p.heroCtaLabel %}
+    <div class="artist-opening-actions">
+      <a class="cta" href="{{ p.heroCtaHref or '#commercial' }}">{{ p.heroCtaLabel }}</a>
+      {% if p.aboutLinkLabel %}<a class="editorial-link artist-opening-about" href="{{ p.aboutLinkHref or '/about/' }}">{{ p.aboutLinkLabel }} <span aria-hidden="true">←</span></a>{% endif %}
+    </div>
+    {% endif %}
   </div>
 </section>
 

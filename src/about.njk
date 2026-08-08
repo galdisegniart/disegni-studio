@@ -5,6 +5,7 @@ permalink: "/about/index.html"
 eleventyComputed:
   title: "{{ pages.about.title }}"
   description: "{{ pages.about.metaDescription }}"
+  ogImage: "{{ pages.about.portrait }}"
 ---
 {% set p = pages.about %}
 <section class="about-artist-hero{% if p.portraitPosition == 'left' %} is-image-left{% endif %}">

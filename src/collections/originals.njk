@@ -9,6 +9,11 @@ eleventyComputed:
   description: "{{ pages.originals.metaDescription }}"
 ---
 {% set p = pages.originals %}
+{% set crumbs = [
+  { label: "בית", href: "/" },
+  { label: p.heading }
+] %}
+{% include "partials/breadcrumbs.njk" %}
 <section class="gallery-intro-minimal">
   <div class="shop-intro-layout">
     <h1>{{ p.heading }}</h1>

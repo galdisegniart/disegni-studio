@@ -7,6 +7,10 @@
   var GROW_IDEMPOTENCY_KEY = "disegniGrowIdemKey";
   var WORKER_ORIGIN = "https://disegni-cms-oauth.galdisegniart.workers.dev";
 
+  function gtagEvent(name, params) {
+    if (typeof window.gtag === "function") window.gtag("event", name, params);
+  }
+
   // Set only by a successful /payments/coupons/check call - re-validated for
   // real (including per-customer usage) by the server at actual checkout,
   // so this is purely for showing the customer a live preview.
@@ -433,6 +437,17 @@
       cart.push(item);
     }
     saveCart(cart);
+    gtagEvent("add_to_cart", {
+      currency: getCurrency(),
+      value: (getCurrency() === "USD" ? item.priceUSD : item.priceILS) * item.qty,
+      items: [{
+        item_id: item.artworkSlug,
+        item_name: item.artworkName,
+        item_variant: item.materialName,
+        price: getCurrency() === "USD" ? item.priceUSD : item.priceILS,
+        quantity: item.qty,
+      }],
+    });
   }
 
   function removeFromCart(index) {
@@ -704,6 +719,16 @@
     }
   }
 
+  document.addEventListener("click", function (e) {
+    var waLink = e.target.closest(".js-whatsapp");
+    if (waLink) {
+      gtagEvent("whatsapp_click", {
+        link_url: waLink.href,
+        option: waLink.dataset.option || "",
+      });
+    }
+  });
+
   document.addEventListener("click", async function (e) {
     var addBtn = e.target.closest(".js-add-to-cart");
     if (addBtn) {
@@ -883,6 +908,22 @@
         growError.hidden = true;
         growError.textContent = "";
       }
+
+      gtagEvent("begin_checkout", {
+        currency: getCurrency(),
+        value: growCart.reduce(function (sum, item) {
+          return sum + (getCurrency() === "USD" ? item.priceUSD : item.priceILS) * item.qty;
+        }, 0),
+        items: growCart.map(function (item) {
+          return {
+            item_id: item.artworkSlug,
+            item_name: item.artworkName,
+            item_variant: item.materialName,
+            price: getCurrency() === "USD" ? item.priceUSD : item.priceILS,
+            quantity: item.qty,
+          };
+        }),
+      });
 
       try {
         var paymentResponse = await fetch(

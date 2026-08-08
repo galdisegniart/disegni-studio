@@ -3,6 +3,7 @@ layout: base.njk
 eleventyComputed:
   title: "{{ pages.workshopsIndex.title }}"
   description: "{{ pages.workshopsIndex.metaDescription }}"
+  ogImage: "{{ pages.workshopsIndex.promoVideoPoster }}"
 activeNav: "סדנאות"
 permalink: "/workshops/index.html"
 scripts:
@@ -14,6 +15,17 @@ scripts:
 {% if not hasHeroText %}<h1 class="sr-only">{{ w.title }}</h1>{% endif %}
 <section class="workshop-visual-hero{{ ' has-media' if hasHeroVideo }}"{% if hasHeroVideo %} style="--hero-video-height: {{ w.heroVideoHeight or 550 }}px; --hero-video-position: {{ w.heroVideoPosition or 'center' }};"{% endif %}>
   {% if hasHeroVideo %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    "name": {{ w.title | dump | safe }},
+    "description": {{ w.metaDescription | dump | safe }},
+    "thumbnailUrl": "{{ site.siteUrl }}{{ w.promoVideoPoster }}",
+    "contentUrl": "{{ site.siteUrl }}{{ w.promoVideoFile }}",
+    "uploadDate": "{{ buildDate }}"
+  }
+  </script>
   <div class="workshop-hero-media{{ ' has-overlay' if w.heroVideoOverlay }}">
     <video class="js-hero-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true"{% if w.promoVideoPoster %} poster="{{ w.promoVideoPoster }}"{% endif %}>
       <source src="{{ w.promoVideoFile }}" type="video/mp4" media="(min-width: 769px)">

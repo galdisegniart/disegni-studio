@@ -260,6 +260,10 @@ collections:
           - { label: "טקסט פתיחה", name: "leadText", widget: "text" }
           - { label: "שורת הבטחה 1", name: "assuranceLine1", widget: "string" }
           - { label: "שורת הבטחה 2", name: "assuranceLine2", widget: "string" }
+          - { label: "כפתור קריאה לפעולה בהירו", name: "heroCtaLabel", widget: "string", required: false }
+          - { label: "קישור כפתור הקריאה לפעולה", name: "heroCtaHref", widget: "string", default: "#commercial", required: false, hint: "ברירת מחדל #commercial גוללת לכרטיסי חנות/הזמנות/סדנאות" }
+          - { label: "טקסט קישור לעמוד אודות", name: "aboutLinkLabel", widget: "string", required: false }
+          - { label: "קישור לעמוד אודות", name: "aboutLinkHref", widget: "string", default: "/about/", required: false }
           - { label: "טקסט נגישות לסקציית הכרטיסיות", name: "gatesAriaLabel", widget: "string" }
           - { label: "כותרת מעל גלריית הציורים", name: "galleryHeading", widget: "string" }
           - name: "gates"

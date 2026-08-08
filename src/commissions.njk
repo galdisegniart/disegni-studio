@@ -8,6 +8,7 @@ permalink: "/commissions/index.html"
 eleventyComputed:
   title: "{{ pages.commissions.title }}"
   description: "{{ pages.commissions.metaDescription }}"
+  ogImage: "{{ pages.commissions.heroImage }}"
 ---
 {% set p = pages.commissions %}
 {% if p.heroVisible != false %}
@@ -142,6 +143,17 @@ eleventyComputed:
         {% if cs.story %}<p class="case-study-story">{{ cs.story }}</p>{% endif %}
         {% if cs.testimonialText %}<p class="case-study-testimonial">&ldquo;{{ cs.testimonialText }}&rdquo;</p>{% endif %}
         {% if cs.testimonialVideo %}
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "VideoObject",
+          "name": {{ (cs.displayName or p.title) | dump | safe }},
+          "description": {{ (cs.testimonialText or cs.story or p.title) | dump | safe }},
+          "thumbnailUrl": "{{ site.siteUrl }}{{ cs.testimonialVideoPoster or cs.image }}",
+          "contentUrl": "{{ site.siteUrl }}{{ cs.testimonialVideo }}",
+          "uploadDate": "{{ buildDate }}"
+        }
+        </script>
         <video class="case-study-video" controls playsinline{% if cs.testimonialVideoPoster %} poster="{{ cs.testimonialVideoPoster }}"{% endif %}>
           <source src="{{ cs.testimonialVideo }}" type="video/mp4">
         </video>
@@ -168,6 +180,20 @@ eleventyComputed:
 {% endif %}
 
 {% if p.faqVisible != false %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [{% for item in p.faq %}{% if item.visible != false %}{
+    "@type": "Question",
+    "name": {{ item.q | dump | safe }},
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": {{ item.a | dump | safe }}
+    }
+  }{% if not loop.last %},{% endif %}{% endif %}{% endfor %}]
+}
+</script>
 <section class="faq section">
   <div class="faq-list">
     <div class="section-label"><span>{{ p.faqLabel }}</span></div>

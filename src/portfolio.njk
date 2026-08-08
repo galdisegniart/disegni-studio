@@ -7,6 +7,11 @@ eleventyComputed:
   description: "{{ pages.portfolio.metaDescription }}"
 ---
 {% set p = pages.portfolio %}
+{% set crumbs = [
+  { label: "בית", href: "/" },
+  { label: p.heroHeading }
+] %}
+{% include "partials/breadcrumbs.njk" %}
 
 <header class="portfolio-gallery-heading">
   <h1>{{ p.heroHeading }}</h1>

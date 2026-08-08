@@ -8,6 +8,7 @@ layout: base.njk
 eleventyComputed:
   title: "{{ w.title }}"
   description: "{{ w.metaDescription }}"
+  ogImage: "{{ w.heroImage }}"
   activeNav: "{{ w.cardTitle }}"
 scripts:
   - /js/reviews.js
@@ -45,6 +46,12 @@ scripts:
 }
 </script>
 
+{% set crumbs = [
+  { label: "בית", href: "/" },
+  { label: "סדנאות", href: "/workshops/" },
+  { label: w.cardTitle }
+] %}
+{% include "partials/breadcrumbs.njk" %}
 <section class="daily-workshop-hero">
   <div class="daily-workshop-copy">
     <a class="editorial-link" href="/workshops/"><span aria-hidden="true">→</span> חזרה לסדנאות</a>

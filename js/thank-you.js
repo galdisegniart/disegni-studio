@@ -46,6 +46,15 @@
         var status = data && data.status;
         if (status === "paid") {
           showState("Paid");
+          var trackedKey = "disegniPurchaseTracked:" + orderId;
+          if (typeof window.gtag === "function" && !sessionStorage.getItem(trackedKey)) {
+            sessionStorage.setItem(trackedKey, "1");
+            window.gtag("event", "purchase", {
+              transaction_id: orderId,
+              value: data.total,
+              currency: data.currency || "ILS",
+            });
+          }
           return;
         }
         if (status === "failed" || status === "cancelled") {

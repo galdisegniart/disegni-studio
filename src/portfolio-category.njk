@@ -11,6 +11,12 @@ eleventyComputed:
   description: "{{ category.title }} — מבחר יצירות מאת גל דִּיסֵנִי."
 ---
 {% set categoryArtworks = artworks | artworksBySlugs(category.artworks) %}
+{% set crumbs = [
+  { label: "בית", href: "/" },
+  { label: "פורטפוליו", href: "/portfolio/" },
+  { label: category.title }
+] %}
+{% include "partials/breadcrumbs.njk" %}
 
 <header class="portfolio-collection-heading">
   <a class="portfolio-back-link" href="/portfolio/">→ חזרה לגלריה</a>

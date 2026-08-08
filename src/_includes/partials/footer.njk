@@ -26,6 +26,20 @@
       <p class="lead-form-success js-footer-contact-success" role="status" hidden>ההודעה מוכנה - נפתח WhatsApp כדי לשלוח אותה.</p>
     </form>
   </div>
+  <nav class="footer-links" aria-label="קישורים באתר">
+    {% for item in site.nav %}
+    {% if item.visible != false %}
+    <a href="{{ item.href }}">{{ item.label }}</a>
+    {% if item.children %}
+    {% for child in item.children %}
+    {% if child.visible != false %}
+    <a href="{{ child.href }}">{{ child.label }}</a>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+    {% endif %}
+    {% endfor %}
+  </nav>
   <div class="footer-meta">
     <span>{{ site.tagline }}</span>
   </div>
