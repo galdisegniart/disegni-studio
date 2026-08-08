@@ -11,6 +11,7 @@ scripts:
 {% set w = pages.workshopsIndex %}
 {% set hasHeroVideo = w.promoVideoVisible != false and w.promoVideoFile %}
 {% set hasHeroText = w.heroEyebrow or w.introHeading or w.introText %}
+{% if not hasHeroText %}<h1 class="sr-only">{{ w.title }}</h1>{% endif %}
 <section class="workshop-visual-hero{{ ' has-media' if hasHeroVideo }}"{% if hasHeroVideo %} style="--hero-video-height: {{ w.heroVideoHeight or 550 }}px; --hero-video-position: {{ w.heroVideoPosition or 'center' }};"{% endif %}>
   {% if hasHeroVideo %}
   <div class="workshop-hero-media{{ ' has-overlay' if w.heroVideoOverlay }}">

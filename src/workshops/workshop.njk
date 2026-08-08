@@ -12,6 +12,7 @@ eleventyComputed:
 scripts:
   - /js/reviews.js
   - /js/intro-video.js
+  - /js/share.js
 ---
 <script type="application/ld+json">
 {
@@ -63,7 +64,7 @@ scripts:
       {% else %}
       <a class="cta js-whatsapp" data-option="{{ w.cardTitle }}" href="{{ w.waMessage | waLink }}" target="_blank" rel="noopener noreferrer">{{ w.heroCtaLabel }} <span>←</span></a>
       {% endif %}
-      <button class="workshop-share" type="button"><span>↗</span> שיתוף העמוד</button>
+      <button class="workshop-share js-share" type="button" data-share-title="{{ w.title }}" data-share-text="{{ w.metaDescription }}"><span aria-hidden="true">↗</span> <span class="js-share-label">שיתוף העמוד</span></button>
     </div>
 
     {% if w.hasReviews %}
