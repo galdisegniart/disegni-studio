@@ -47,7 +47,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/style.css?v=075210da">
+<link rel="stylesheet" href="/css/style.css?v=b87ffbb0">
 </head>
 <body id="top" data-whatsapp="972552902934">
 
@@ -479,6 +479,10 @@
       <span>שימושים מקסימלי (לא חובה)</span>
       <input type="number" id="coupon-max-uses" min="1" placeholder="ללא הגבלה" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone); width: 140px;" />
     </label>
+    <label style="display: flex; flex-direction: column; gap: 6px;">
+      <span>בתוקף עד (לא חובה)</span>
+      <input type="date" id="coupon-expires-at" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone); width: 170px;" />
+    </label>
     <button type="submit" style="padding: 10px 18px; background: #c0554d; color: #fff; border: none; cursor: pointer; height: 38px;">
       שמור קופון
     </button>
@@ -493,6 +497,7 @@
           <th style="padding: 8px 4px; border-bottom: 1px solid var(--line);">קוד</th>
           <th style="padding: 8px 4px; border-bottom: 1px solid var(--line);">הנחה</th>
           <th style="padding: 8px 4px; border-bottom: 1px solid var(--line);">שימושים</th>
+          <th style="padding: 8px 4px; border-bottom: 1px solid var(--line);">בתוקף עד</th>
           <th style="padding: 8px 4px; border-bottom: 1px solid var(--line);"></th>
         </tr>
       </thead>
@@ -538,14 +543,22 @@
         listMessage.style.color = "var(--dim)";
         listMessage.textContent = result.data.coupons.length ? "" : "אין עדיין קופונים.";
         body.innerHTML = "";
+        var todayISO = new Date().toISOString().slice(0, 10);
         result.data.coupons.forEach(function (coupon) {
           var tr = document.createElement("tr");
           var usesText = coupon.usesCount + (coupon.maxUses ? " / " + coupon.maxUses : "");
+          var isExpired = coupon.expiresAt && todayISO > coupon.expiresAt;
+          var expiryText = coupon.expiresAt
+            ? coupon.expiresAt + (isExpired ? " (פג תוקף)" : "")
+            : "ללא הגבלה";
+          var expiryStyle = isExpired ? " color: #c0554d;" : "";
           tr.innerHTML =
             "<td style=\"padding: 8px 4px; border-bottom: 1px solid var(--line);\">" + coupon.code + "</td>" +
             "<td style=\"padding: 8px 4px; border-bottom: 1px solid var(--line);\">" + coupon.percentOff + "%</td>" +
             "<td style=\"padding: 8px 4px; border-bottom: 1px solid var(--line);\">" + usesText + "</td>" +
+            "<td style=\"padding: 8px 4px; border-bottom: 1px solid var(--line);" + expiryStyle + "\"></td>" +
             "<td style=\"padding: 8px 4px; border-bottom: 1px solid var(--line);\"></td>";
+          tr.children[3].textContent = expiryText;
           var deleteBtn = document.createElement("button");
           deleteBtn.type = "button";
           deleteBtn.textContent = "מחק";
@@ -581,6 +594,7 @@
     }
 
     var maxUsesValue = document.getElementById("coupon-max-uses").value;
+    var expiresAtValue = document.getElementById("coupon-expires-at").value;
     fetch(WORKER_ORIGIN + "/admin/coupons/create", {
       method: "POST",
       headers: { "Content-Type": "application/json", "X-Disegni-Admin-Key": key },
@@ -588,6 +602,7 @@
         code: document.getElementById("coupon-code").value,
         percentOff: Number(document.getElementById("coupon-percent").value),
         maxUses: maxUsesValue ? Number(maxUsesValue) : null,
+        expiresAt: expiresAtValue || null,
       }),
     })
       .then(function (response) {
@@ -626,8 +641,8 @@
 </footer>
 
 
-<script src="/js/cart.js?v=075210da"></script>
-<script src="/js/nav-toggle.js?v=075210da"></script>
-<script src="/js/header-search.js?v=075210da"></script>
+<script src="/js/cart.js?v=b87ffbb0"></script>
+<script src="/js/nav-toggle.js?v=b87ffbb0"></script>
+<script src="/js/header-search.js?v=b87ffbb0"></script>
 </body>
 </html>

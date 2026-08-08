@@ -1378,6 +1378,108 @@ test("coupon checkout: applies a percent discount to the order total and the amo
   assert.equal(statusBody.total, 89 - 9 + 45);
 });
 
+function isoDaysFromNow(days) {
+  return new Date(Date.now() + days * 86400000).toISOString().slice(0, 10);
+}
+
+test("coupon admin: stores an expiry date and returns it when listing", async () => {
+  const env = { ...ENV, DISEGNI_ADMIN_KEY: "admin-secret", ORDERS_KV: createMockKV() };
+  const expiry = isoDaysFromNow(10);
+  const createResponse = await worker.fetch(
+    adminCouponsRequest("create", { code: "DSTUDIO15", percentOff: 15, expiresAt: expiry }),
+    env
+  );
+  assert.equal(createResponse.status, 200);
+  const createBody = await createResponse.json();
+  assert.equal(createBody.coupon.expiresAt, expiry);
+
+  const listResponse = await worker.fetch(
+    new Request("https://worker.example/admin/coupons/list", {
+      headers: { Origin: "https://disegni.studio", "X-Disegni-Admin-Key": "admin-secret" },
+    }),
+    env
+  );
+  const listBody = await listResponse.json();
+  assert.equal(listBody.coupons[0].expiresAt, expiry);
+});
+
+test("coupon admin: rejects a malformed expiry date", async () => {
+  const env = { ...ENV, DISEGNI_ADMIN_KEY: "admin-secret", ORDERS_KV: createMockKV() };
+  const response = await worker.fetch(
+    adminCouponsRequest("create", { code: "DSTUDIO15", percentOff: 15, expiresAt: "31/08/2026" }),
+    env
+  );
+  assert.equal(response.status, 400);
+});
+
+test("coupon admin: treats an omitted expiry as no expiry", async () => {
+  const env = { ...ENV, DISEGNI_ADMIN_KEY: "admin-secret", ORDERS_KV: createMockKV() };
+  const response = await worker.fetch(
+    adminCouponsRequest("create", { code: "FOREVER10", percentOff: 10 }),
+    env
+  );
+  const body = await response.json();
+  assert.equal(body.coupon.expiresAt, null);
+});
+
+test("coupon check: rejects a coupon whose expiry date has passed", async () => {
+  const env = { ...ENV, DISEGNI_ADMIN_KEY: "admin-secret", ORDERS_KV: createMockKV() };
+  await worker.fetch(
+    adminCouponsRequest("create", { code: "EXPIRED15", percentOff: 15, expiresAt: isoDaysFromNow(-1) }),
+    env
+  );
+  const response = await worker.fetch(
+    new Request("https://worker.example/payments/coupons/check", {
+      method: "POST",
+      headers: { Origin: "https://disegni.studio", "Content-Type": "application/json" },
+      body: JSON.stringify({ code: "EXPIRED15", subtotal: 500 }),
+    }),
+    env
+  );
+  const body = await response.json();
+  assert.equal(body.valid, false);
+});
+
+test("coupon check: still accepts a coupon on its final valid day", async () => {
+  const env = { ...ENV, DISEGNI_ADMIN_KEY: "admin-secret", ORDERS_KV: createMockKV() };
+  await worker.fetch(
+    adminCouponsRequest("create", { code: "LASTDAY15", percentOff: 15, expiresAt: isoDaysFromNow(0) }),
+    env
+  );
+  const response = await worker.fetch(
+    new Request("https://worker.example/payments/coupons/check", {
+      method: "POST",
+      headers: { Origin: "https://disegni.studio", "Content-Type": "application/json" },
+      body: JSON.stringify({ code: "LASTDAY15", subtotal: 500 }),
+    }),
+    env
+  );
+  const body = await response.json();
+  assert.equal(body.valid, true);
+  assert.equal(body.percentOff, 15);
+});
+
+test("coupon checkout: rejects an expired coupon at real checkout, not just at preview", async () => {
+  const env = {
+    ...ENV,
+    MAKE_CHECKOUT_WEBHOOK_URL: "https://hook.example/orin",
+    MAKE_CHECKOUT_API_KEY: "private-make-key",
+    DISEGNI_ADMIN_KEY: "admin-secret",
+    ORDERS_KV: createMockKV(),
+  };
+  await worker.fetch(
+    adminCouponsRequest("create", { code: "EXPIRED15", percentOff: 15, expiresAt: isoDaysFromNow(-1) }),
+    env
+  );
+  const mock = mockGrowFetch();
+  try {
+    const response = await worker.fetch(growRequest({ couponCode: "EXPIRED15" }), env);
+    assert.equal(response.status, 400);
+  } finally {
+    mock.restore();
+  }
+});
+
 test("coupon checkout: rejects an unknown coupon code instead of silently ignoring it", async () => {
   const env = {
     ...ENV,

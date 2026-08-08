@@ -257,6 +257,7 @@ const RATE_LIMIT_WINDOW_SECONDS = 5 * 60;
 const RATE_LIMIT_MAX_REQUESTS = 8;
 const COUPON_CODE_PATTERN = /^[A-Z0-9]{3,20}$/;
 const COUPON_MAX_PERCENT_OFF = 90;
+const COUPON_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 const BIT_REQUEST_ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9_-]{5,79}$/;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -286,8 +287,9 @@ async function saveOrder(env, order) {
   await kvPutJSON(env, `order:${order.orderId}`, order, ORDER_TTL_SECONDS);
 }
 
-// Coupons have no expiry (unlike orders/idempotency keys) - they stay valid
-// until an admin deletes them.
+// Coupon records themselves are stored without a KV TTL - an optional
+// expiresAt date is enforced at validation time instead, so an expired
+// coupon stays visible (and editable) in the admin rather than vanishing.
 async function kvPutJSONPermanent(env, key, value) {
   if (!env.ORDERS_KV) return;
   await env.ORDERS_KV.put(key, JSON.stringify(value));
@@ -316,6 +318,13 @@ async function validateCoupon(env, rawCode, phone, subtotal) {
   }
   if (coupon.maxUses && coupon.usesCount >= coupon.maxUses) {
     return { valid: false, error: "קוד הקופון מוצה" };
+  }
+  // expiresAt is an inclusive last-valid day (YYYY-MM-DD). Compared as a
+  // plain string against today's UTC date so there is no timezone drift;
+  // in practice this keeps the code alive until ~03:00 Israel time the
+  // following night, which errs generous rather than cutting a buyer off.
+  if (coupon.expiresAt && new Date().toISOString().slice(0, 10) > coupon.expiresAt) {
+    return { valid: false, error: "תוקף קוד הקופון פג" };
   }
   if (phone) {
     const alreadyUsed = await kvGetJSON(env, `couponuse:${code}:${phone}`);
@@ -1066,11 +1075,21 @@ async function handleAdminCouponsCreate(request, env) {
     maxUses = parsedMaxUses;
   }
 
+  let expiresAt = null;
+  if (input.expiresAt !== undefined && input.expiresAt !== null && input.expiresAt !== "") {
+    const requestedExpiry = String(input.expiresAt).trim();
+    if (!COUPON_DATE_PATTERN.test(requestedExpiry) || Number.isNaN(Date.parse(requestedExpiry))) {
+      return jsonResponse({ ok: false, error: "תאריך התפוגה חייב להיות בפורמט YYYY-MM-DD" }, 400, corsHeaders);
+    }
+    expiresAt = requestedExpiry;
+  }
+
   const existing = await getCoupon(env, code);
   const coupon = {
     code,
     percentOff,
     maxUses,
+    expiresAt,
     active: true,
     usesCount: existing ? existing.usesCount || 0 : 0,
     createdAt: existing ? existing.createdAt : new Date().toISOString(),
