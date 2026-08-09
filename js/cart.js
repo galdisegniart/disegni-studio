@@ -704,12 +704,10 @@
     }
     var growBtn = document.getElementById("cart-grow-checkout");
     var growError = document.getElementById("cart-grow-error");
-    var growNote = document.getElementById("cart-grow-note");
     var bankNote = document.getElementById("cart-bank-note");
     var bankDetails = document.getElementById("cart-bank-details");
     var growEligible = isGrowTestEligible(cart, currency);
     if (growBtn) growBtn.hidden = !growEligible;
-    if (growNote) growNote.hidden = !growEligible;
     if (waBtn) waBtn.hidden = growEligible;
     if (bankNote) bankNote.hidden = growEligible;
     if (bankDetails) bankDetails.hidden = growEligible;

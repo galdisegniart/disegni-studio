@@ -6544,13 +6544,6 @@ body:has(.commission-sticky-cta:not([hidden])) .quick-links-rail {
   font-size: 14px;
 }
 
-.cart-payment-note {
-  margin: 12px 0 0;
-  color: var(--dim);
-  font-size: 13px;
-  text-align: center;
-}
-
 .cart-summary-note {
   margin: 20px 0 0;
   color: #ebe5da;
