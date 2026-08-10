@@ -152,6 +152,24 @@ Bit. `requestId` משמש גם כ-`providerMsgId` יציב מול SmartBee. בק
 כל שלוש נקודות הקצה של האדמין (מלבד `intake`) דורשות `X-Disegni-Admin-Key` -
 אותו סוד שכבר משמש לביטול הזמנות ולקופונים.
 
+### זיהוי אוטומטי מצילום מסך (עזר למילוי הטופס בלבד)
+
+`POST /bit-receipts/extract` מקבל תמונה כ-`data:` URL בבסיס 64, שולח אותה
+ל-Gemini (`gemini-flash-latest`) ומחזיר ניחוש לשדות הטופס
+(`customerName`, `phone`, `email`, `amount`, `paymentDate`, `description`,
+`bitReference`). **לא כותב שום דבר ל-KV ולא פונה ל-SmartBee** - זו רק הצעת
+מילוי; השמירה בפועל עדיין קורית כרגיל דרך `/bit-receipts/submit` כשהטופס
+(הניתן לעריכה תמיד) נשלח. מוגבל ל-5MB לתמונה ול-8 בקשות לחלון rate-limit
+לפי IP. דורש סוד נפרד:
+
+```powershell
+npx wrangler secret put GEMINI_API_KEY
+```
+
+יוצרים מפתח חינמי ב-aistudio.google.com (Google AI Studio) - "Get API key",
+ללא צורך בכרטיס אשראי בתוכנית החינמית. מומלץ ליצור מפתח ייעודי לפרויקט
+הזה, כדי שיהיה קל לעקוב אחרי השימוש ולנתק אותו בנפרד אם צריך.
+
 ## חיבור תשלום Grow דרך Make
 
 נקודת הקצה `POST /payments/grow/create` מאמתת את המוצר והמחיר בצד השרת,

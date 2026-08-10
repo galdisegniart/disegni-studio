@@ -6,6 +6,8 @@
   // the old Make webhook only forwarded here after duplicating the same
   // validation, and its scenario slot is needed for Grow checkout.
   var WEBHOOK_URL = "https://disegni-cms-oauth.galdisegniart.workers.dev/bit-receipts/submit";
+  var EXTRACT_URL = "https://disegni-cms-oauth.galdisegniart.workers.dev/bit-receipts/extract";
+  var MAX_SCREENSHOT_BYTES = 5 * 1024 * 1024;
 
   // Silently remembers name/phone/email in this browser after a successful
   // submission, so a returning customer doesn't have to retype them. Never
@@ -40,6 +42,110 @@
   }
 
   prefillRememberedContact();
+
+  // Optional screenshot-to-form autofill. Purely a convenience layer -
+  // manual typing stays available and every field it fills remains editable.
+  var screenshotInput = document.getElementById("bit-payment-screenshot");
+  var uploadStatusEl = document.querySelector(".js-bit-upload-status");
+
+  function setUploadStatus(message, state) {
+    if (!uploadStatusEl) return;
+    if (!message) {
+      uploadStatusEl.hidden = true;
+      uploadStatusEl.removeAttribute("data-state");
+      return;
+    }
+    uploadStatusEl.textContent = message;
+    uploadStatusEl.hidden = false;
+    if (state) {
+      uploadStatusEl.setAttribute("data-state", state);
+    } else {
+      uploadStatusEl.removeAttribute("data-state");
+    }
+  }
+
+  function readFileAsDataUrl(file) {
+    return new Promise(function (resolve, reject) {
+      var reader = new FileReader();
+      reader.onload = function () {
+        resolve(reader.result);
+      };
+      reader.onerror = function () {
+        reject(reader.error);
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  if (screenshotInput) {
+    screenshotInput.addEventListener("change", function () {
+      var file = screenshotInput.files && screenshotInput.files[0];
+      if (!file) return;
+
+      if (!/^image\//.test(file.type)) {
+        setUploadStatus("הקובץ שנבחר אינו תמונה. אפשר למלא את הטופס ידנית.", "error");
+        screenshotInput.value = "";
+        return;
+      }
+      if (file.size > MAX_SCREENSHOT_BYTES) {
+        setUploadStatus("הקובץ גדול מדי (עד 5MB). אפשר למלא את הטופס ידנית.", "error");
+        screenshotInput.value = "";
+        return;
+      }
+
+      setUploadStatus("קורא את הפרטים...", null);
+
+      readFileAsDataUrl(file)
+        .then(function (dataUrl) {
+          return fetch(EXTRACT_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ image: dataUrl }),
+          });
+        })
+        .then(function (response) {
+          return response.json().then(function (data) {
+            return { ok: response.ok, status: response.status, data: data };
+          });
+        })
+        .then(function (result) {
+          if (!result.ok) {
+            if (result.status === 429) {
+              setUploadStatus("נשלחו יותר מדי בקשות. נסו שוב בעוד כמה דקות, או מלאו ידנית.", "error");
+              return;
+            }
+            setUploadStatus("לא הצלחנו לקרוא את התמונה. אפשר למלא/לתקן ידנית.", "error");
+            return;
+          }
+
+          var extracted = (result.data && result.data.extracted) || {};
+          var confidence = result.data && result.data.confidence;
+          var filledAny = false;
+
+          ["customerName", "phone", "email", "amount", "paymentDate", "description", "bitReference"].forEach(
+            function (field) {
+              var value = extracted[field];
+              if (value === undefined || value === null || String(value).trim() === "") return;
+              var input = form.elements[field];
+              if (!input) return;
+              input.value = value;
+              filledAny = true;
+            }
+          );
+
+          if (confidence === "full") {
+            setUploadStatus("הפרטים זוהו ומולאו אוטומטית - כדאי לבדוק לפני שליחה.", "ok");
+          } else if (filledAny) {
+            setUploadStatus("לא הצלחנו לזהות הכל - אפשר למלא/לתקן את שאר השדות ידנית.", "error");
+          } else {
+            setUploadStatus("לא הצלחנו לזהות פרטים בתמונה. אפשר למלא ידנית.", "error");
+          }
+        })
+        .catch(function () {
+          setUploadStatus("אירעה שגיאה בקריאת התמונה. אפשר למלא ידנית.", "error");
+        });
+    });
+  }
 
   var submitBtn = form.querySelector(".lead-submit");
   var successEl = form.querySelector(".js-bit-payment-success");

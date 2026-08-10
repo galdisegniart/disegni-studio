@@ -52,6 +52,10 @@ export default {
       return handleBitReceiptPublicSubmit(request, env);
     }
 
+    if (url.pathname === "/bit-receipts/extract") {
+      return handleBitReceiptExtract(request, env);
+    }
+
     if (url.pathname === "/admin/bit-receipts") {
       return handleAdminBitReceiptsList(request, env);
     }
@@ -2394,6 +2398,130 @@ async function handleBitReceiptPublicSubmit(request, env) {
   return jsonResponse({ ok: true, requestId: receipt.requestId, status: "pending" }, 200, corsHeaders);
 }
 
+// Reads a Bit transfer-share screenshot with Gemini and returns a best-effort
+// field guess for the public form to prefill. Purely a convenience layer in
+// front of the same form the customer would otherwise type into by hand -
+// nothing here touches KV or SmartBee; the actual save still happens only
+// when the (still human-editable) form is submitted to /bit-receipts/submit.
+const BIT_EXTRACT_ALLOWED_MIME_TYPES = ["image/jpeg", "image/png", "image/webp", "image/heic", "image/heif"];
+
+function parseDataUrl(dataUrl) {
+  const match = /^data:([^;]+);base64,(.+)$/s.exec(String(dataUrl || ""));
+  if (!match) return null;
+  return { mimeType: match[1], base64: match[2] };
+}
+
+async function handleBitReceiptExtract(request, env) {
+  const corsHeaders = getCorsHeaders(request, env);
+
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: corsHeaders ? 204 : 403,
+      headers: corsHeaders || noStoreHeaders(),
+    });
+  }
+  if (request.method !== "POST") {
+    return jsonResponse({ ok: false, error: "Method not allowed" }, 405, corsHeaders, { Allow: "POST, OPTIONS" });
+  }
+  if (!corsHeaders) {
+    return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
+  }
+  if (!env.GEMINI_API_KEY) {
+    return jsonResponse({ ok: false, error: "Screenshot reading is not configured" }, 503, corsHeaders);
+  }
+
+  if (await isRateLimited(env, `bit-extract:${clientIp(request)}`, BIT_EXTRACT_RATE_LIMIT_MAX)) {
+    return jsonResponse(
+      { ok: false, error: "Too many requests, please try again shortly" },
+      429,
+      corsHeaders
+    );
+  }
+
+  let input;
+  try {
+    input = await request.json();
+  } catch {
+    return jsonResponse({ ok: false, error: "Invalid JSON" }, 400, corsHeaders);
+  }
+
+  const parsed = parseDataUrl(input && input.image);
+  if (!parsed) {
+    return jsonResponse({ ok: false, error: "Missing or invalid image" }, 400, corsHeaders);
+  }
+  if (!BIT_EXTRACT_ALLOWED_MIME_TYPES.includes(parsed.mimeType)) {
+    return jsonResponse({ ok: false, error: "Unsupported image type" }, 400, corsHeaders);
+  }
+  // base64 is ~4/3 the size of the decoded bytes.
+  if (parsed.base64.length > (BIT_EXTRACT_MAX_IMAGE_BYTES * 4) / 3) {
+    return jsonResponse({ ok: false, error: "Image is too large" }, 400, corsHeaders);
+  }
+
+  let geminiResponse;
+  try {
+    geminiResponse = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${env.GEMINI_API_KEY}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          system_instruction: {
+            parts: [
+              {
+                text: 'אתה מחלץ נתונים מצילום מסך של שיתוף העברת Bit. החזר אך ורק JSON תקני (ללא טקסט נוסף) עם השדות: customerName, phone, email (אם קיים, אחרת null), amount (מספר בלבד, ללא סימן מטבע), paymentDate (בפורמט YYYY-MM-DD), description (אם מצוין, אחרת null), bitReference. אם שדה לא ברור מהתמונה - השתמש ב-null עבורו. אם התמונה כלל לא נראית כמו שיתוף העברת Bit, החזר את כל השדות כ-null.',
+              },
+            ],
+          },
+          contents: [
+            {
+              role: "user",
+              parts: [
+                { inline_data: { mime_type: parsed.mimeType, data: parsed.base64 } },
+                { text: "חלץ מהתמונה הזו את פרטי ההעברה." },
+              ],
+            },
+          ],
+          generationConfig: { maxOutputTokens: 512 },
+        }),
+      }
+    );
+  } catch (error) {
+    console.error("Gemini request failed", error.message);
+    return jsonResponse({ ok: false, error: "Screenshot reading failed" }, 502, corsHeaders);
+  }
+
+  if (!geminiResponse.ok) {
+    console.error("Gemini API error", geminiResponse.status, await geminiResponse.text().catch(() => ""));
+    return jsonResponse({ ok: false, error: "Screenshot reading failed" }, 502, corsHeaders);
+  }
+
+  const geminiResult = await geminiResponse.json().catch(() => null);
+  const rawText =
+    geminiResult?.candidates?.[0]?.content?.parts?.find((part) => typeof part.text === "string")?.text || "";
+
+  let parsedFields;
+  try {
+    const jsonMatch = /\{[\s\S]*\}/.exec(rawText);
+    parsedFields = JSON.parse(jsonMatch ? jsonMatch[0] : rawText);
+  } catch {
+    return jsonResponse({ ok: true, extracted: {}, confidence: "none" }, 200, corsHeaders);
+  }
+
+  const fieldNames = ["customerName", "phone", "email", "amount", "paymentDate", "description", "bitReference"];
+  const extracted = {};
+  let filledCount = 0;
+  for (const field of fieldNames) {
+    const value = parsedFields && parsedFields[field];
+    if (value === null || value === undefined || String(value).trim() === "") continue;
+    extracted[field] = value;
+    filledCount += 1;
+  }
+
+  const confidence = filledCount === 0 ? "none" : filledCount === fieldNames.length ? "full" : "partial";
+
+  return jsonResponse({ ok: true, extracted, confidence }, 200, corsHeaders);
+}
+
 async function handleAdminBitReceiptsList(request, env) {
   const corsHeaders = getCorsHeaders(request, env);
 
@@ -2909,6 +3037,8 @@ const BOOKING_AVAILABILITY_URL = "https://disegni.studio/booking-availability.js
 const BOOKING_AVAILABILITY_CACHE_TTL_SECONDS = 5 * 60;
 const BOOKING_RATE_LIMIT_MAX = 5;
 const BIT_SUBMIT_RATE_LIMIT_MAX = 5;
+const BIT_EXTRACT_RATE_LIMIT_MAX = 8;
+const BIT_EXTRACT_MAX_IMAGE_BYTES = 5 * 1024 * 1024;
 
 // Same approach as fetchPurchaseCatalog: the site's own build output is the
 // source of truth for which slots exist, so changing availability in the CMS
