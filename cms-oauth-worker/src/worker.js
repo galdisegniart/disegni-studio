@@ -44,6 +44,18 @@ export default {
       return handleAdminCouponsDelete(request, env);
     }
 
+    if (url.pathname === "/admin/contacts/list") {
+      return handleAdminContactsList(request, env);
+    }
+
+    if (url.pathname === "/admin/contacts/create") {
+      return handleAdminContactsCreate(request, env);
+    }
+
+    if (url.pathname === "/admin/contacts/delete") {
+      return handleAdminContactsDelete(request, env);
+    }
+
     if (url.pathname === "/admin/bit-receipts/intake") {
       return handleBitReceiptIntake(request, env);
     }
@@ -1139,6 +1151,137 @@ async function handleAdminCouponsDelete(request, env) {
   }
 
   return jsonResponse({ ok: true, code }, 200, corsHeaders);
+}
+
+// A small saved-contact book so a returning customer's phone/email - never
+// present in a Bit transfer screenshot - can be auto-filled once Gal has
+// entered them a first time. Deliberately admin-only (never exposed to the
+// public form): looking someone's phone/email up by a guessed name is
+// exactly the kind of lookup that shouldn't be open to anonymous requests.
+async function handleAdminContactsList(request, env) {
+  const corsHeaders = getCorsHeaders(request, env);
+
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: corsHeaders ? 204 : 403,
+      headers: corsHeaders || noStoreHeaders(),
+    });
+  }
+  if (request.method !== "GET") {
+    return jsonResponse({ ok: false, error: "Method not allowed" }, 405, corsHeaders, { Allow: "GET, OPTIONS" });
+  }
+  if (!corsHeaders) {
+    return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
+  }
+  const authError = requireAdminKey(request, env, corsHeaders);
+  if (authError) return authError;
+
+  if (!env.ORDERS_KV) {
+    return jsonResponse({ ok: true, contacts: [] }, 200, corsHeaders);
+  }
+
+  const listing = await env.ORDERS_KV.list({ prefix: "contact:" });
+  const contacts = [];
+  for (const key of listing.keys) {
+    const contact = await kvGetJSON(env, key.name);
+    if (contact) contacts.push(contact);
+  }
+  contacts.sort((a, b) => (a.firstName + a.lastName).localeCompare(b.firstName + b.lastName, "he"));
+
+  return jsonResponse({ ok: true, contacts }, 200, corsHeaders);
+}
+
+async function handleAdminContactsCreate(request, env) {
+  const corsHeaders = getCorsHeaders(request, env);
+
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: corsHeaders ? 204 : 403,
+      headers: corsHeaders || noStoreHeaders(),
+    });
+  }
+  if (request.method !== "POST") {
+    return jsonResponse({ ok: false, error: "Method not allowed" }, 405, corsHeaders, { Allow: "POST, OPTIONS" });
+  }
+  if (!corsHeaders) {
+    return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
+  }
+  const authError = requireAdminKey(request, env, corsHeaders);
+  if (authError) return authError;
+  if (!env.ORDERS_KV) {
+    return jsonResponse({ ok: false, error: "Contact storage is not configured" }, 503, corsHeaders);
+  }
+
+  let input;
+  try {
+    input = await request.json();
+  } catch {
+    return jsonResponse({ ok: false, error: "Invalid JSON" }, 400, corsHeaders);
+  }
+
+  const firstName = cleanText(input.firstName, 60);
+  const lastName = cleanText(input.lastName, 60);
+  if (!firstName || !lastName) {
+    return jsonResponse({ ok: false, error: "שם פרטי ושם משפחה הם שדות חובה" }, 400, corsHeaders);
+  }
+  const email = cleanText(input.email, 160);
+  const phone = cleanText(input.phone, 20);
+
+  // Editing an existing contact reuses its id; a new one gets a fresh id -
+  // this is an upsert either way, matching how the admin form calls it.
+  const id = cleanText(input.id, 60) || crypto.randomUUID();
+  const key = `contact:${id}`;
+  const existing = await kvGetJSON(env, key);
+
+  const contact = {
+    id,
+    firstName,
+    lastName,
+    email,
+    phone,
+    createdAt: existing ? existing.createdAt : new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
+  await kvPutJSONPermanent(env, key, contact);
+
+  return jsonResponse({ ok: true, contact }, 200, corsHeaders);
+}
+
+async function handleAdminContactsDelete(request, env) {
+  const corsHeaders = getCorsHeaders(request, env);
+
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: corsHeaders ? 204 : 403,
+      headers: corsHeaders || noStoreHeaders(),
+    });
+  }
+  if (request.method !== "POST") {
+    return jsonResponse({ ok: false, error: "Method not allowed" }, 405, corsHeaders, { Allow: "POST, OPTIONS" });
+  }
+  if (!corsHeaders) {
+    return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
+  }
+  const authError = requireAdminKey(request, env, corsHeaders);
+  if (authError) return authError;
+
+  let input;
+  try {
+    input = await request.json();
+  } catch {
+    return jsonResponse({ ok: false, error: "Invalid JSON" }, 400, corsHeaders);
+  }
+
+  const id = cleanText(input.id, 60);
+  if (!id) {
+    return jsonResponse({ ok: false, error: "Missing id" }, 400, corsHeaders);
+  }
+
+  if (env.ORDERS_KV) {
+    await env.ORDERS_KV.delete(`contact:${id}`);
+  }
+
+  return jsonResponse({ ok: true, id }, 200, corsHeaders);
 }
 
 function calculateShipping(items) {
@@ -2468,7 +2611,7 @@ async function handleBitReceiptExtract(request, env) {
           system_instruction: {
             parts: [
               {
-                text: 'אתה מחלץ נתונים מצילום מסך של שיתוף העברת Bit. החזר אך ורק JSON תקני (ללא טקסט נוסף) עם השדות: customerName, phone, email (אם קיים, אחרת null), amount (מספר בלבד, ללא סימן מטבע), paymentDate (בפורמט YYYY-MM-DD), description (אם מצוין, אחרת null), bitReference. אם שדה לא ברור מהתמונה - השתמש ב-null עבורו. אם התמונה כלל לא נראית כמו שיתוף העברת Bit, החזר את כל השדות כ-null.',
+                text: 'אתה מחלץ נתונים מצילום מסך של שיתוף העברת Bit. החזר אך ורק JSON תקני (ללא טקסט נוסף) עם השדות: customerName, phone, email (אם קיים, אחרת null), amount (מספר בלבד, ללא סימן מטבע), paymentDate (בפורמט YYYY-MM-DD), description (אם מצוין, אחרת null), bitReference. אם שדה לא ברור מהתמונה - השתמש ב-null עבורו. אם השם הבולט בתמונה הוא שם בעל העסק/הנמען (למשל שם שמופיע גם בכותרת/כלוגו של האפליקציה), אל תשתמש בו כ-customerName - השאר את השדה ריק (null) במקרה הזה, כי זה לא שם הלקוח ששילם. אם התמונה כלל לא נראית כמו שיתוף העברת Bit, החזר את כל השדות כ-null.',
               },
             ],
           },

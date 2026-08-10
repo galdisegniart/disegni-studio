@@ -2230,3 +2230,102 @@ test("admin bookings list: returns full booking details", async () => {
   assert.equal(body.bookings[0].workshopSlug, "daily-art");
   assert.equal(body.bookings[0].customerName, "לקוחה בדיקה");
 });
+
+function adminContactsRequest(path, body, adminKey = "admin-secret") {
+  return new Request(`https://worker.example/admin/contacts/${path}`, {
+    method: "POST",
+    headers: {
+      Origin: "https://disegni.studio",
+      "Content-Type": "application/json",
+      "X-Disegni-Admin-Key": adminKey,
+    },
+    body: JSON.stringify(body),
+  });
+}
+
+test("contacts admin: requires the admin key to create a contact", async () => {
+  const env = { ...ENV, DISEGNI_ADMIN_KEY: "admin-secret", ORDERS_KV: createMockKV() };
+  const response = await worker.fetch(
+    adminContactsRequest("create", { firstName: "ישראל", lastName: "ישראלי" }, "wrong-key"),
+    env
+  );
+  assert.equal(response.status, 401);
+});
+
+test("contacts admin: rejects a contact missing first/last name", async () => {
+  const env = { ...ENV, DISEGNI_ADMIN_KEY: "admin-secret", ORDERS_KV: createMockKV() };
+  const response = await worker.fetch(adminContactsRequest("create", { firstName: "ישראל" }), env);
+  assert.equal(response.status, 400);
+});
+
+test("contacts admin: creates and lists a contact", async () => {
+  const env = { ...ENV, DISEGNI_ADMIN_KEY: "admin-secret", ORDERS_KV: createMockKV() };
+  const createResponse = await worker.fetch(
+    adminContactsRequest("create", {
+      firstName: "ישראל",
+      lastName: "ישראלי",
+      email: "israel@example.com",
+      phone: "0501234567",
+    }),
+    env
+  );
+  assert.equal(createResponse.status, 200);
+  const createBody = await createResponse.json();
+  assert.equal(createBody.contact.firstName, "ישראל");
+  assert.ok(createBody.contact.id);
+
+  const listResponse = await worker.fetch(
+    new Request("https://worker.example/admin/contacts/list", {
+      headers: { Origin: "https://disegni.studio", "X-Disegni-Admin-Key": "admin-secret" },
+    }),
+    env
+  );
+  const listBody = await listResponse.json();
+  assert.equal(listBody.contacts.length, 1);
+  assert.equal(listBody.contacts[0].email, "israel@example.com");
+});
+
+test("contacts admin: editing an existing contact reuses its id instead of duplicating", async () => {
+  const env = { ...ENV, DISEGNI_ADMIN_KEY: "admin-secret", ORDERS_KV: createMockKV() };
+  const createResponse = await worker.fetch(
+    adminContactsRequest("create", { firstName: "ישראל", lastName: "ישראלי", phone: "0501111111" }),
+    env
+  );
+  const { contact } = await createResponse.json();
+
+  await worker.fetch(
+    adminContactsRequest("create", { id: contact.id, firstName: "ישראל", lastName: "ישראלי", phone: "0502222222" }),
+    env
+  );
+
+  const listResponse = await worker.fetch(
+    new Request("https://worker.example/admin/contacts/list", {
+      headers: { Origin: "https://disegni.studio", "X-Disegni-Admin-Key": "admin-secret" },
+    }),
+    env
+  );
+  const listBody = await listResponse.json();
+  assert.equal(listBody.contacts.length, 1);
+  assert.equal(listBody.contacts[0].phone, "0502222222");
+});
+
+test("contacts admin: deletes a contact", async () => {
+  const env = { ...ENV, DISEGNI_ADMIN_KEY: "admin-secret", ORDERS_KV: createMockKV() };
+  const createResponse = await worker.fetch(
+    adminContactsRequest("create", { firstName: "ישראל", lastName: "ישראלי" }),
+    env
+  );
+  const { contact } = await createResponse.json();
+
+  const deleteResponse = await worker.fetch(adminContactsRequest("delete", { id: contact.id }), env);
+  assert.equal(deleteResponse.status, 200);
+
+  const listResponse = await worker.fetch(
+    new Request("https://worker.example/admin/contacts/list", {
+      headers: { Origin: "https://disegni.studio", "X-Disegni-Admin-Key": "admin-secret" },
+    }),
+    env
+  );
+  const listBody = await listResponse.json();
+  assert.equal(listBody.contacts.length, 0);
+});

@@ -53,6 +53,10 @@ noAnalytics: true
       <span style="font-size: 13px; color: var(--dim);">דוא"ל</span>
       <input type="email" id="manual-email" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
     </label>
+    <p id="contact-match-message" style="font-size: 13px; margin: -4px 0 10px;"></p>
+    <button type="button" id="manual-add-contact-btn" hidden style="padding: 6px 12px; background: transparent; border: 1px solid var(--line); color: var(--dim); cursor: pointer; font-size: 13px; margin: -4px 0 10px;">
+      + הוסף כלקוח חדש לרשימה
+    </button>
     <label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">
       <span style="font-size: 13px; color: var(--dim);">סכום (₪)</span>
       <input type="number" id="manual-amount" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
@@ -73,6 +77,46 @@ noAnalytics: true
       צור בקשה
     </button>
     <p id="manual-submit-message" style="margin-top: 10px; font-size: 14px;"></p>
+  </div>
+
+  <hr style="border-color: var(--line); margin: 40px 0;" />
+
+  <h2 style="font-size: 18px; margin-bottom: 8px;">ניהול לקוחות שמורים</h2>
+  <p style="color: var(--dim); margin-bottom: 16px; font-size: 14px;">
+    טלפון ומייל לא מופיעים אף פעם בצילום מסך של Bit - שמירת לקוח כאן פעם
+    אחת מאפשרת לזהות אותו אוטומטית בפעם הבאה שהשם שלו מזוהה מתמונה, ולמלא
+    את הפרטים האלה בעצמם. חיפוש ההתאמה הוא לפי שם בלבד ותמיד נשאר ניתן
+    לעריכה ידנית.
+  </p>
+  <div id="contacts-list" style="margin-bottom: 20px;"></div>
+
+  <div id="contact-form">
+    <input type="hidden" id="contact-id" value="" />
+    <label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">
+      <span style="font-size: 13px; color: var(--dim);">שם פרטי</span>
+      <input type="text" id="contact-firstname" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
+    </label>
+    <label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">
+      <span style="font-size: 13px; color: var(--dim);">שם משפחה</span>
+      <input type="text" id="contact-lastname" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
+    </label>
+    <label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">
+      <span style="font-size: 13px; color: var(--dim);">טלפון</span>
+      <input type="text" id="contact-phone" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
+    </label>
+    <label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">
+      <span style="font-size: 13px; color: var(--dim);">דוא"ל</span>
+      <input type="email" id="contact-email" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
+    </label>
+    <div style="display: flex; gap: 10px;">
+      <button type="button" id="contact-save-btn" style="padding: 10px 18px; background: transparent; border: 1px solid var(--copper); color: var(--copper); cursor: pointer;">
+        שמור לקוח
+      </button>
+      <button type="button" id="contact-cancel-btn" hidden style="padding: 10px 18px; background: transparent; border: 1px solid var(--line); color: var(--dim); cursor: pointer;">
+        בטל עריכה
+      </button>
+    </div>
+    <p id="contact-form-message" style="margin-top: 10px; font-size: 14px;"></p>
   </div>
 
   <hr style="border-color: var(--line); margin: 40px 0;" />
@@ -191,7 +235,10 @@ noAnalytics: true
       });
   }
 
-  document.getElementById("load-btn").addEventListener("click", loadReceipts);
+  document.getElementById("load-btn").addEventListener("click", function () {
+    loadReceipts();
+    loadContacts();
+  });
 
   document.getElementById("receipts-list").addEventListener("click", function (event) {
     var approveBtn = event.target.closest(".js-approve");
@@ -251,6 +298,179 @@ noAnalytics: true
       });
   });
 
+  // Saved-contact book. Phone/email never appear in a Bit screenshot, so
+  // this is the only way to auto-fill them - matched by name only, always
+  // left editable, never used from the public form (admin-key gated).
+  var contactsCache = [];
+
+  function normalizeContactName(value) {
+    return String(value || "")
+      .trim()
+      .toLowerCase()
+      .replace(/[֑-ׇ]/g, ""); // strip Hebrew niqqud so matching ignores it
+  }
+
+  function findMatchingContact(customerName, contacts) {
+    var targetTokens = normalizeContactName(customerName).split(/\s+/).filter(Boolean);
+    if (!targetTokens.length) return null;
+
+    var best = null;
+    var bestScore = 0;
+    contacts.forEach(function (contact) {
+      var contactTokens = normalizeContactName(contact.firstName + " " + contact.lastName)
+        .split(/\s+/)
+        .filter(Boolean);
+      if (!contactTokens.length) return;
+      var overlap = contactTokens.filter(function (token) {
+        return targetTokens.indexOf(token) !== -1;
+      }).length;
+      var isFullMatch = overlap === contactTokens.length && overlap === targetTokens.length;
+      var score = isFullMatch ? 999 : overlap >= 2 ? overlap : 0;
+      if (score > bestScore) {
+        bestScore = score;
+        best = contact;
+      }
+    });
+    return best;
+  }
+
+  function renderContact(contact) {
+    var wrap = document.createElement("div");
+    wrap.style.cssText =
+      "display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--line); padding: 10px 14px; margin-bottom: 8px;";
+    wrap.innerHTML =
+      '<span>' + contact.firstName + ' ' + contact.lastName +
+      '<span style="color: var(--dim); font-size: 13px;"> - ' + (contact.phone || "-") + ' | ' + (contact.email || "-") + '</span></span>' +
+      '<span style="display: flex; gap: 8px;">' +
+      '<button type="button" class="js-contact-edit" style="padding: 4px 10px; background: transparent; border: 1px solid var(--copper); color: var(--copper); cursor: pointer; font-size: 13px;">ערוך</button>' +
+      '<button type="button" class="js-contact-delete" style="padding: 4px 10px; background: transparent; border: 1px solid #c0554d; color: #c0554d; cursor: pointer; font-size: 13px;">מחק</button>' +
+      '</span>';
+    wrap.dataset.contactId = contact.id;
+    return wrap;
+  }
+
+  function loadContacts() {
+    var key = adminKey();
+    var listEl = document.getElementById("contacts-list");
+    if (!key) return;
+
+    fetch(WORKER_ORIGIN + "/admin/contacts/list", {
+      headers: { "X-Disegni-Admin-Key": key },
+    })
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
+        if (!data.ok) return;
+        contactsCache = data.contacts;
+        listEl.innerHTML = "";
+        if (!data.contacts.length) {
+          listEl.innerHTML = '<p style="color: var(--dim); font-size: 14px;">אין עדיין לקוחות שמורים.</p>';
+          return;
+        }
+        data.contacts.forEach(function (contact) {
+          listEl.appendChild(renderContact(contact));
+        });
+      })
+      .catch(function () {});
+  }
+
+  function fillContactForm(contact) {
+    document.getElementById("contact-id").value = contact.id || "";
+    document.getElementById("contact-firstname").value = contact.firstName || "";
+    document.getElementById("contact-lastname").value = contact.lastName || "";
+    document.getElementById("contact-phone").value = contact.phone || "";
+    document.getElementById("contact-email").value = contact.email || "";
+    document.getElementById("contact-cancel-btn").hidden = !contact.id;
+  }
+
+  document.getElementById("contacts-list").addEventListener("click", function (event) {
+    var editBtn = event.target.closest(".js-contact-edit");
+    var deleteBtn = event.target.closest(".js-contact-delete");
+    if (!editBtn && !deleteBtn) return;
+    var id = (editBtn || deleteBtn).closest("[data-contact-id]").dataset.contactId;
+    var key = adminKey();
+    if (!key) return;
+
+    if (editBtn) {
+      var contact = contactsCache.filter(function (c) {
+        return c.id === id;
+      })[0];
+      if (contact) {
+        fillContactForm(contact);
+        document.getElementById("contact-form").scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+      return;
+    }
+
+    if (!window.confirm("למחוק את הלקוח הזה?")) return;
+    fetch(WORKER_ORIGIN + "/admin/contacts/delete", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Disegni-Admin-Key": key },
+      body: JSON.stringify({ id: id }),
+    })
+      .then(function () {
+        loadContacts();
+      })
+      .catch(function () {});
+  });
+
+  document.getElementById("contact-cancel-btn").addEventListener("click", function () {
+    fillContactForm({});
+  });
+
+  document.getElementById("contact-save-btn").addEventListener("click", function () {
+    var key = adminKey();
+    var msg = document.getElementById("contact-form-message");
+    if (!key) {
+      msg.style.color = "#c0554d";
+      msg.textContent = "הזינו מפתח אדמין קודם.";
+      return;
+    }
+
+    var payload = {
+      id: document.getElementById("contact-id").value.trim(),
+      firstName: document.getElementById("contact-firstname").value.trim(),
+      lastName: document.getElementById("contact-lastname").value.trim(),
+      phone: document.getElementById("contact-phone").value.trim(),
+      email: document.getElementById("contact-email").value.trim(),
+    };
+    if (!payload.firstName || !payload.lastName) {
+      msg.style.color = "#c0554d";
+      msg.textContent = "שם פרטי ושם משפחה הם שדות חובה.";
+      return;
+    }
+
+    msg.style.color = "var(--dim)";
+    msg.textContent = "שומר...";
+
+    fetch(WORKER_ORIGIN + "/admin/contacts/create", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Disegni-Admin-Key": key },
+      body: JSON.stringify(payload),
+    })
+      .then(function (response) {
+        return response.json().then(function (data) {
+          return { ok: response.ok, data: data };
+        });
+      })
+      .then(function (result) {
+        if (!result.ok || !result.data.ok) {
+          msg.style.color = "#c0554d";
+          msg.textContent = "שגיאה: " + ((result.data && result.data.error) || "לא ידוע");
+          return;
+        }
+        msg.style.color = "#5c8a5c";
+        msg.textContent = "הלקוח נשמר.";
+        fillContactForm({});
+        loadContacts();
+      })
+      .catch(function () {
+        msg.style.color = "#c0554d";
+        msg.textContent = "שגיאת רשת.";
+      });
+  });
+
   // Manual "create pending request from a pasted screenshot" flow - lets Gal
   // paste a Bit screenshot received on WhatsApp straight in, instead of
   // saving it as a file and using the public upload form. Extract-only; the
@@ -262,6 +482,49 @@ noAnalytics: true
     var fieldsWrap = document.getElementById("manual-entry-fields");
     var submitBtn = document.getElementById("manual-submit-btn");
     var submitMessage = document.getElementById("manual-submit-message");
+    var contactMatchMessage = document.getElementById("contact-match-message");
+    var addContactBtn = document.getElementById("manual-add-contact-btn");
+
+    function matchAndFillContact(customerName) {
+      contactMatchMessage.textContent = "";
+      addContactBtn.hidden = true;
+      if (!customerName) return;
+      var key = adminKey();
+      if (!key) return;
+
+      fetch(WORKER_ORIGIN + "/admin/contacts/list", {
+        headers: { "X-Disegni-Admin-Key": key },
+      })
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (data) {
+          if (!data.ok) return;
+          contactsCache = data.contacts;
+          var match = findMatchingContact(customerName, data.contacts);
+          if (match) {
+            if (match.phone) document.getElementById("manual-phone").value = match.phone;
+            if (match.email) document.getElementById("manual-email").value = match.email;
+            contactMatchMessage.style.color = "#5c8a5c";
+            contactMatchMessage.textContent = "נמצאה התאמה ללקוח קיים: " + match.firstName + " " + match.lastName;
+          } else {
+            addContactBtn.hidden = false;
+          }
+        })
+        .catch(function () {});
+    }
+
+    addContactBtn.addEventListener("click", function () {
+      var fullName = document.getElementById("manual-name").value.trim();
+      var spaceIndex = fullName.indexOf(" ");
+      fillContactForm({
+        firstName: spaceIndex === -1 ? fullName : fullName.slice(0, spaceIndex),
+        lastName: spaceIndex === -1 ? "" : fullName.slice(spaceIndex + 1).trim(),
+        phone: document.getElementById("manual-phone").value.trim(),
+        email: document.getElementById("manual-email").value.trim(),
+      });
+      document.getElementById("contact-form").scrollIntoView({ behavior: "smooth", block: "center" });
+    });
 
     function readFileAsDataUrl(file) {
       return new Promise(function (resolve, reject) {
@@ -337,6 +600,8 @@ noAnalytics: true
             confidence === "full"
               ? "הפרטים זוהו - כדאי לבדוק לפני יצירת הבקשה."
               : "לא הצלחנו לזהות הכל - השלימו/תקנו למטה לפני יצירת הבקשה.";
+
+          matchAndFillContact(extracted.customerName);
         })
         .catch(function () {
           uploadMessage.style.color = "#c0554d";
