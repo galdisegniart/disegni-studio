@@ -2481,7 +2481,7 @@ async function handleBitReceiptExtract(request, env) {
               ],
             },
           ],
-          generationConfig: { maxOutputTokens: 512 },
+          generationConfig: { maxOutputTokens: 2048 },
         }),
       }
     );
@@ -2496,14 +2496,26 @@ async function handleBitReceiptExtract(request, env) {
   }
 
   const geminiResult = await geminiResponse.json().catch(() => null);
-  const rawText =
-    geminiResult?.candidates?.[0]?.content?.parts?.find((part) => typeof part.text === "string")?.text || "";
+  const candidate = geminiResult?.candidates?.[0];
+  const rawText = candidate?.content?.parts?.find((part) => typeof part.text === "string")?.text || "";
+
+  if (!rawText) {
+    console.error(
+      "Gemini returned no text part",
+      JSON.stringify({
+        finishReason: candidate?.finishReason,
+        promptFeedback: geminiResult?.promptFeedback,
+        partsTypes: candidate?.content?.parts?.map((part) => Object.keys(part)),
+      })
+    );
+  }
 
   let parsedFields;
   try {
     const jsonMatch = /\{[\s\S]*\}/.exec(rawText);
     parsedFields = JSON.parse(jsonMatch ? jsonMatch[0] : rawText);
-  } catch {
+  } catch (error) {
+    console.error("Failed to parse Gemini JSON response", error.message, "rawText:", rawText.slice(0, 500));
     return jsonResponse({ ok: true, extracted: {}, confidence: "none" }, 200, corsHeaders);
   }
 
@@ -2518,6 +2530,10 @@ async function handleBitReceiptExtract(request, env) {
   }
 
   const confidence = filledCount === 0 ? "none" : filledCount === fieldNames.length ? "full" : "partial";
+
+  if (confidence === "none") {
+    console.error("Gemini returned all-null fields, parsedFields:", JSON.stringify(parsedFields).slice(0, 500));
+  }
 
   return jsonResponse({ ok: true, extracted, confidence }, 200, corsHeaders);
 }
