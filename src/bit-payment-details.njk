@@ -15,12 +15,13 @@ scripts:
       התשלום.
     </p>
 
-    <div class="bit-payment-upload">
+    <div class="bit-payment-upload js-bit-paste-target" tabindex="0">
       <label for="bit-payment-screenshot" class="bit-payment-upload-label">
         <span class="bit-payment-upload-icon" aria-hidden="true">📷</span>
         <span>העלאת צילום מסך של ההעברה (אופציונלי - ממלא את הטופס אוטומטית)</span>
       </label>
       <input type="file" id="bit-payment-screenshot" accept="image/*" capture="environment" hidden>
+      <p class="bit-payment-upload-hint">אפשר גם להדביק תמונה שהעתקת (Ctrl+V, או "הדבק" בלחיצה ארוכה בנייד)</p>
       <p class="bit-payment-upload-status js-bit-upload-status" role="status" hidden></p>
     </div>
 

@@ -28,6 +28,55 @@ noAnalytics: true
 
   <hr style="border-color: var(--line); margin: 40px 0;" />
 
+  <h2 style="font-size: 18px; margin-bottom: 8px;">יצירת בקשה ידנית מצילום מסך</h2>
+  <p style="color: var(--dim); margin-bottom: 16px; font-size: 14px;">
+    שימושי כשמקבלים צילום מסך של תשלום Bit בוואטסאפ - מדביקים אותו ישירות
+    כאן, בלי להוריד ולהעלות כקובץ. הפרטים ניתנים לעריכה לפני יצירת הבקשה,
+    שתופיע ברשימת "בקשות ממתינות" למעלה לאישור רגיל.
+  </p>
+  <div id="manual-paste-target" tabindex="0" style="border: 1px dashed var(--copper); padding: 16px; margin-bottom: 8px; color: var(--copper); cursor: text;">
+    לחצו כאן והדביקו תמונה (Ctrl+V)
+  </div>
+  <p style="color: var(--dim); font-size: 13px; margin-bottom: 16px;">אפשר גם להדביק תמונה שהעתקת (Ctrl+V, או "הדבק" בלחיצה ארוכה בנייד).</p>
+  <p id="manual-upload-message" style="font-size: 14px; margin-bottom: 16px;"></p>
+
+  <div id="manual-entry-fields" hidden>
+    <label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">
+      <span style="font-size: 13px; color: var(--dim);">שם מלא</span>
+      <input type="text" id="manual-name" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
+    </label>
+    <label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">
+      <span style="font-size: 13px; color: var(--dim);">טלפון</span>
+      <input type="text" id="manual-phone" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
+    </label>
+    <label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">
+      <span style="font-size: 13px; color: var(--dim);">דוא"ל</span>
+      <input type="email" id="manual-email" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
+    </label>
+    <label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">
+      <span style="font-size: 13px; color: var(--dim);">סכום (₪)</span>
+      <input type="number" id="manual-amount" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
+    </label>
+    <label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">
+      <span style="font-size: 13px; color: var(--dim);">תאריך תשלום (YYYY-MM-DD)</span>
+      <input type="text" id="manual-date" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
+    </label>
+    <label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">
+      <span style="font-size: 13px; color: var(--dim);">תיאור</span>
+      <input type="text" id="manual-description" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
+    </label>
+    <label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">
+      <span style="font-size: 13px; color: var(--dim);">אסמכתת Bit</span>
+      <input type="text" id="manual-ref" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
+    </label>
+    <button type="button" id="manual-submit-btn" style="padding: 10px 18px; background: transparent; border: 1px solid var(--copper); color: var(--copper); cursor: pointer;">
+      צור בקשה
+    </button>
+    <p id="manual-submit-message" style="margin-top: 10px; font-size: 14px;"></p>
+  </div>
+
+  <hr style="border-color: var(--line); margin: 40px 0;" />
+
   <h2 style="font-size: 18px; margin-bottom: 8px;">בדיקת סטטוס קבלה</h2>
   <p style="color: var(--dim); margin-bottom: 16px; font-size: 14px;">
     בדיקה בלבד מול SmartBee (לא יוצרת מסמך ולא מפעילה אישור) - שימושי אחרי
@@ -201,6 +250,151 @@ noAnalytics: true
         rowMessage.textContent = "שגיאת רשת.";
       });
   });
+
+  // Manual "create pending request from a pasted screenshot" flow - lets Gal
+  // paste a Bit screenshot received on WhatsApp straight in, instead of
+  // saving it as a file and using the public upload form. Extract-only; the
+  // record is created via the same public /bit-receipts/submit endpoint the
+  // on-site form uses, so it lands in the pending list above like any other.
+  (function () {
+    var pasteTarget = document.getElementById("manual-paste-target");
+    var uploadMessage = document.getElementById("manual-upload-message");
+    var fieldsWrap = document.getElementById("manual-entry-fields");
+    var submitBtn = document.getElementById("manual-submit-btn");
+    var submitMessage = document.getElementById("manual-submit-message");
+
+    function readFileAsDataUrl(file) {
+      return new Promise(function (resolve, reject) {
+        var reader = new FileReader();
+        reader.onload = function () {
+          resolve(reader.result);
+        };
+        reader.onerror = function () {
+          reject(reader.error);
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    pasteTarget.addEventListener("paste", function (event) {
+      var items = (event.clipboardData && event.clipboardData.items) || [];
+      var imageItem = Array.prototype.find.call(items, function (item) {
+        return item.kind === "file" && /^image\//.test(item.type);
+      });
+      if (!imageItem) return;
+      event.preventDefault();
+      var file = imageItem.getAsFile();
+      if (!file) return;
+
+      if (file.size > 5 * 1024 * 1024) {
+        uploadMessage.style.color = "#c0554d";
+        uploadMessage.textContent = "התמונה גדולה מדי (עד 5MB).";
+        return;
+      }
+
+      uploadMessage.style.color = "var(--dim)";
+      uploadMessage.textContent = "קורא את הפרטים...";
+      submitMessage.textContent = "";
+
+      readFileAsDataUrl(file)
+        .then(function (dataUrl) {
+          return fetch(WORKER_ORIGIN + "/bit-receipts/extract", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ image: dataUrl }),
+          });
+        })
+        .then(function (response) {
+          return response.json().then(function (data) {
+            return { ok: response.ok, status: response.status, data: data };
+          });
+        })
+        .then(function (result) {
+          if (!result.ok) {
+            uploadMessage.style.color = "#c0554d";
+            uploadMessage.textContent =
+              result.status === 429
+                ? "נשלחו יותר מדי בקשות. נסו שוב בעוד כמה דקות."
+                : "לא הצלחנו לקרוא את התמונה. אפשר למלא ידנית למטה.";
+            fieldsWrap.hidden = false;
+            return;
+          }
+
+          var extracted = (result.data && result.data.extracted) || {};
+          var confidence = result.data && result.data.confidence;
+
+          document.getElementById("manual-name").value = extracted.customerName || "";
+          document.getElementById("manual-phone").value = extracted.phone || "";
+          document.getElementById("manual-email").value = extracted.email || "";
+          document.getElementById("manual-amount").value = extracted.amount != null ? extracted.amount : "";
+          document.getElementById("manual-date").value = extracted.paymentDate || "";
+          document.getElementById("manual-description").value = extracted.description || "";
+          document.getElementById("manual-ref").value = extracted.bitReference || "";
+          fieldsWrap.hidden = false;
+
+          uploadMessage.style.color = confidence === "full" ? "#5c8a5c" : "var(--dim)";
+          uploadMessage.textContent =
+            confidence === "full"
+              ? "הפרטים זוהו - כדאי לבדוק לפני יצירת הבקשה."
+              : "לא הצלחנו לזהות הכל - השלימו/תקנו למטה לפני יצירת הבקשה.";
+        })
+        .catch(function () {
+          uploadMessage.style.color = "#c0554d";
+          uploadMessage.textContent = "אירעה שגיאה בקריאת התמונה. אפשר למלא ידנית למטה.";
+          fieldsWrap.hidden = false;
+        });
+    });
+
+    submitBtn.addEventListener("click", function () {
+      var amountValue = Number(document.getElementById("manual-amount").value);
+      var payload = {
+        customerName: document.getElementById("manual-name").value.trim(),
+        phone: document.getElementById("manual-phone").value.trim(),
+        email: document.getElementById("manual-email").value.trim(),
+        amount: amountValue,
+        paymentDate: document.getElementById("manual-date").value.trim(),
+        description: document.getElementById("manual-description").value.trim(),
+        bitReference: document.getElementById("manual-ref").value.trim(),
+      };
+
+      submitMessage.style.color = "var(--dim)";
+      submitMessage.textContent = "יוצר בקשה...";
+      submitBtn.disabled = true;
+
+      fetch(WORKER_ORIGIN + "/bit-receipts/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      })
+        .then(function (response) {
+          return response.json().then(function (data) {
+            return { ok: response.ok, status: response.status, data: data };
+          });
+        })
+        .then(function (result) {
+          if (!result.ok) {
+            submitMessage.style.color = "#c0554d";
+            submitMessage.textContent =
+              result.data && result.data.code === "duplicate_bit_reference"
+                ? "האסמכתה הזו כבר קיימת."
+                : "שגיאה: " + ((result.data && (result.data.error || (result.data.fields || []).join(", "))) || "לא ידוע");
+            return;
+          }
+          submitMessage.style.color = "#5c8a5c";
+          submitMessage.textContent = "הבקשה נוצרה - מופיעה ברשימה למעלה.";
+          fieldsWrap.hidden = true;
+          uploadMessage.textContent = "";
+          loadReceipts();
+        })
+        .catch(function () {
+          submitMessage.style.color = "#c0554d";
+          submitMessage.textContent = "שגיאת רשת.";
+        })
+        .finally(function () {
+          submitBtn.disabled = false;
+        });
+    });
+  })();
 
   document.getElementById("check-status-btn").addEventListener("click", function () {
     var key = adminKey();
