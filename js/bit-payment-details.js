@@ -7,6 +7,40 @@
   // validation, and its scenario slot is needed for Grow checkout.
   var WEBHOOK_URL = "https://disegni-cms-oauth.galdisegniart.workers.dev/bit-receipts/submit";
 
+  // Silently remembers name/phone/email in this browser after a successful
+  // submission, so a returning customer doesn't have to retype them. Never
+  // shown to the customer as a choice - just quietly pre-filled.
+  var REMEMBERED_KEY = "disegniBitPaymentContact";
+
+  function prefillRememberedContact() {
+    var saved;
+    try {
+      saved = JSON.parse(localStorage.getItem(REMEMBERED_KEY) || "null");
+    } catch (e) {
+      saved = null;
+    }
+    if (!saved) return;
+    ["customerName", "phone", "email"].forEach(function (field) {
+      var input = form.elements[field];
+      if (input && !input.value && saved[field]) input.value = saved[field];
+    });
+  }
+
+  function rememberContact(payload) {
+    try {
+      localStorage.setItem(
+        REMEMBERED_KEY,
+        JSON.stringify({
+          customerName: payload.customerName,
+          phone: payload.phone,
+          email: payload.email,
+        })
+      );
+    } catch (e) {}
+  }
+
+  prefillRememberedContact();
+
   var submitBtn = form.querySelector(".lead-submit");
   var successEl = form.querySelector(".js-bit-payment-success");
   var errorEl = form.querySelector(".js-bit-payment-error");
@@ -75,6 +109,7 @@
           }
           throw new Error("submit failed");
         }
+        rememberContact(payload);
         if (successEl) successEl.hidden = false;
         form.reset();
       })
