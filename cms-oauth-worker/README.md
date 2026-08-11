@@ -140,17 +140,27 @@ Bit. `requestId` משמש גם כ-`providerMsgId` יציב מול SmartBee. בק
   ```
   מונעת כפילות באותו אופן בדיוק כמו `create-bit-receipt-live` (לפי
   `requestId` ו-`bitReference`), כי היא כותבת לאותם מפתחות KV בדיוק.
-- `GET /admin/bit-receipts` - רשימת הבקשות הממתינות לעמוד האדמין.
-- `POST /admin/bit-receipts/approve` - רק כאן נוצרת קבלה אמיתית. מקבל
-  שדות מתוקנים (אם גל ערך משהו בעמוד), ואז קורא **פנימית** (באותו
+- `GET /admin/bit-receipts` - רשימת הבקשות הממתינות והטיוטות לעמוד האדמין.
+- `POST /admin/bit-receipts/prepare` - שומר את הפרטים שנבדקו בסטטוס
+  `draft` בלבד. אינו פונה ל-SmartBee ואינו מפיק או שולח קבלה.
+- `POST /admin/bit-receipts/approve` - רק כאן נוצרת קבלה אמיתית, ורק אם
+  כבר קיימת טיוטה שמורה. משתמש בפרטי הטיוטה השמורים ואז קורא **פנימית** (באותו
   Worker, בלי קריאת רשת חיצונית) לאותה `handleSmartBeeCreateBitReceiptLive`
-  שכבר קיימת - אין שום לוגיקת SmartBee כפולה. הבקשה עוברת מ-`pending`
+  שכבר קיימת - אין שום לוגיקת SmartBee כפולה. הבקשה עוברת מ-`draft`
   ל-`processing`/`issued`/`failed` בדיוק כמו זרימת ה-Make הרגילה.
 - `POST /admin/bit-receipts/reject` - מסמן `rejected` בלי לגעת ב-SmartBee
   בכלל.
 
-כל שלוש נקודות הקצה של האדמין (מלבד `intake`) דורשות `X-Disegni-Admin-Key` -
-אותו סוד שכבר משמש לביטול הזמנות ולקופונים.
+נקודות הקצה של האדמין (מלבד `intake`) דורשות `X-Disegni-Admin-Key`.
+העמוד מחליף סיסמת אדמין פשוטה באסימון חתום ל-30 יום דרך
+`POST /admin/session`; הסיסמה נשמרת רק כ-Cloudflare Secret:
+
+```powershell
+npx wrangler secret put DISEGNI_ADMIN_PASSWORD
+```
+
+האסימון נחתם באמצעות `DISEGNI_ADMIN_KEY`, ולכן המפתח הארוך אינו נשלח
+לדפדפן. לשימושים ותיקים עדיין אפשר לשלוח את המפתח המקורי ישירות בכותרת.
 
 ### זיהוי אוטומטי מצילום מסך + התאמת לקוח שמור
 

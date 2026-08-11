@@ -14,6 +14,7 @@ const ENV = {
   SMARTBEE_CLIENT_ID: "live-client-id",
   SMARTBEE_PASSWORD: "live-password",
   SMARTBEE_LIVE_PROVIDER_USER_TOKEN: "live-provider-token",
+  DISEGNI_ADMIN_PASSWORD: "simple-admin-password",
   GROW_TEST_ENABLED: "true",
 };
 
@@ -1727,6 +1728,54 @@ test("bit receipt intake: rejects a bitReference already used by a different req
     env
   );
   assert.equal(response.status, 409);
+});
+
+function adminSessionRequest(password = "simple-admin-password") {
+  return new Request("https://worker.example/admin/session", {
+    method: "POST",
+    headers: { Origin: "https://disegni.studio", "Content-Type": "application/json", "CF-Connecting-IP": "203.0.113.25" },
+    body: JSON.stringify({ password }),
+  });
+}
+
+test("admin session: rejects an incorrect password", async () => {
+  const env = bitAdminEnv();
+  const response = await worker.fetch(adminSessionRequest("wrong-password"), env);
+  assert.equal(response.status, 401);
+});
+
+test("admin session: exchanges the password for a signed session accepted by admin routes", async () => {
+  const env = bitAdminEnv();
+  await worker.fetch(bitIntakeRequest(), env);
+
+  const loginResponse = await worker.fetch(adminSessionRequest(), env);
+  const loginBody = await loginResponse.json();
+  assert.equal(loginResponse.status, 200);
+  assert.equal(loginBody.ok, true);
+  assert.equal(typeof loginBody.token, "string");
+  assert.ok(loginBody.token.length > 40);
+
+  const listResponse = await worker.fetch(
+    new Request("https://worker.example/admin/bit-receipts", {
+      headers: { Origin: "https://disegni.studio", "X-Disegni-Admin-Key": loginBody.token },
+    }),
+    env
+  );
+  assert.equal(listResponse.status, 200);
+});
+
+test("admin session: rejects a tampered session token", async () => {
+  const env = bitAdminEnv();
+  const loginResponse = await worker.fetch(adminSessionRequest(), env);
+  const loginBody = await loginResponse.json();
+  const tamperedToken = `${loginBody.token.slice(0, -1)}x`;
+  const response = await worker.fetch(
+    new Request("https://worker.example/admin/bit-receipts", {
+      headers: { Origin: "https://disegni.studio", "X-Disegni-Admin-Key": tamperedToken },
+    }),
+    env
+  );
+  assert.equal(response.status, 401);
 });
 
 test("admin bit receipts list: requires the admin key", async () => {

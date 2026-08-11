@@ -32,6 +32,10 @@ export default {
       return handleAdminCancelOrder(request, env);
     }
 
+    if (url.pathname === "/admin/session") {
+      return handleAdminSession(request, env);
+    }
+
     if (url.pathname === "/admin/coupons/list") {
       return handleAdminCouponsList(request, env);
     }
@@ -275,6 +279,9 @@ const ORDER_TTL_SECONDS = 60 * 60 * 24 * 30; // 30 days
 const IDEMPOTENCY_TTL_SECONDS = 60 * 15; // 15 minutes
 const RATE_LIMIT_WINDOW_SECONDS = 5 * 60;
 const RATE_LIMIT_MAX_REQUESTS = 8;
+const ADMIN_LOGIN_RATE_LIMIT_MAX = 5;
+const ADMIN_LOGIN_RATE_LIMIT_WINDOW_SECONDS = 15 * 60;
+const ADMIN_SESSION_TTL_SECONDS = 30 * 24 * 60 * 60;
 const COUPON_CODE_PATTERN = /^[A-Z0-9]{3,20}$/;
 const COUPON_MAX_PERCENT_OFF = 90;
 const COUPON_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
@@ -926,10 +933,8 @@ async function handleAdminCancelOrder(request, env) {
     return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
   }
 
-  const adminKey = request.headers.get("X-Disegni-Admin-Key");
-  if (!env.DISEGNI_ADMIN_KEY || adminKey !== env.DISEGNI_ADMIN_KEY) {
-    return jsonResponse({ ok: false, error: "Unauthorized" }, 401, corsHeaders);
-  }
+  const authError = await requireAdminKey(request, env, corsHeaders);
+  if (authError) return authError;
 
   if (!env[ADMIN_CANCEL_WEBHOOK_URL_ENV]) {
     return jsonResponse(
@@ -1002,9 +1007,127 @@ async function handleAdminCancelOrder(request, env) {
   );
 }
 
-function requireAdminKey(request, env, corsHeaders) {
-  const adminKey = request.headers.get("X-Disegni-Admin-Key");
-  if (!env.DISEGNI_ADMIN_KEY || adminKey !== env.DISEGNI_ADMIN_KEY) {
+async function handleAdminSession(request, env) {
+  const corsHeaders = getCorsHeaders(request, env);
+
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: corsHeaders ? 204 : 403,
+      headers: corsHeaders || noStoreHeaders(),
+    });
+  }
+  if (request.method !== "POST") {
+    return jsonResponse({ ok: false, error: "Method not allowed" }, 405, corsHeaders, { Allow: "POST, OPTIONS" });
+  }
+  if (!corsHeaders) {
+    return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
+  }
+  if (!env.DISEGNI_ADMIN_PASSWORD || !env.DISEGNI_ADMIN_KEY) {
+    return jsonResponse({ ok: false, error: "Admin login is not configured" }, 503, corsHeaders);
+  }
+  if (
+    await isRateLimited(
+      env,
+      `admin-login:${clientIp(request)}`,
+      ADMIN_LOGIN_RATE_LIMIT_MAX,
+      ADMIN_LOGIN_RATE_LIMIT_WINDOW_SECONDS
+    )
+  ) {
+    return jsonResponse({ ok: false, error: "Too many login attempts" }, 429, corsHeaders);
+  }
+
+  let input;
+  try {
+    input = await request.json();
+  } catch {
+    return jsonResponse({ ok: false, error: "Invalid JSON" }, 400, corsHeaders);
+  }
+
+  const password = typeof input.password === "string" ? input.password : "";
+  if (!safeSecretEqual(password, env.DISEGNI_ADMIN_PASSWORD)) {
+    return jsonResponse({ ok: false, error: "Unauthorized" }, 401, corsHeaders);
+  }
+
+  const session = await createAdminSessionToken(env);
+  return jsonResponse(
+    { ok: true, token: session.token, expiresAt: session.expiresAt },
+    200,
+    corsHeaders
+  );
+}
+
+function safeSecretEqual(left, right) {
+  const a = String(left || "");
+  const b = String(right || "");
+  let difference = a.length ^ b.length;
+  const length = Math.max(a.length, b.length);
+  for (let index = 0; index < length; index += 1) {
+    difference |= (a.charCodeAt(index) || 0) ^ (b.charCodeAt(index) || 0);
+  }
+  return difference === 0;
+}
+
+function base64UrlEncodeBytes(bytes) {
+  let binary = "";
+  for (const byte of bytes) binary += String.fromCharCode(byte);
+  return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+}
+
+function base64UrlDecodeBytes(value) {
+  const normalized = String(value).replace(/-/g, "+").replace(/_/g, "/");
+  const padded = normalized + "=".repeat((4 - (normalized.length % 4)) % 4);
+  const binary = atob(padded);
+  return Uint8Array.from(binary, (character) => character.charCodeAt(0));
+}
+
+async function adminSessionSigningKey(env) {
+  return crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(env.DISEGNI_ADMIN_KEY),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign", "verify"]
+  );
+}
+
+async function createAdminSessionToken(env) {
+  const expiresAt = Date.now() + ADMIN_SESSION_TTL_SECONDS * 1000;
+  const payload = base64UrlEncodeBytes(
+    new TextEncoder().encode(JSON.stringify({ exp: expiresAt, nonce: crypto.randomUUID() }))
+  );
+  const key = await adminSessionSigningKey(env);
+  const signature = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(payload));
+  return {
+    token: `${payload}.${base64UrlEncodeBytes(new Uint8Array(signature))}`,
+    expiresAt: new Date(expiresAt).toISOString(),
+  };
+}
+
+async function verifyAdminSessionToken(token, env) {
+  if (!env.DISEGNI_ADMIN_KEY || typeof token !== "string") return false;
+  const parts = token.split(".");
+  if (parts.length !== 2 || !parts[0] || !parts[1]) return false;
+
+  try {
+    const payload = JSON.parse(new TextDecoder().decode(base64UrlDecodeBytes(parts[0])));
+    if (!Number.isFinite(payload.exp) || payload.exp <= Date.now()) return false;
+    const key = await adminSessionSigningKey(env);
+    return crypto.subtle.verify(
+      "HMAC",
+      key,
+      base64UrlDecodeBytes(parts[1]),
+      new TextEncoder().encode(parts[0])
+    );
+  } catch {
+    return false;
+  }
+}
+
+async function requireAdminKey(request, env, corsHeaders) {
+  const credential = request.headers.get("X-Disegni-Admin-Key") || "";
+  const isLegacyKey = Boolean(env.DISEGNI_ADMIN_KEY && safeSecretEqual(credential, env.DISEGNI_ADMIN_KEY));
+  const isSession = !isLegacyKey && (await verifyAdminSessionToken(credential, env));
+  if (!isLegacyKey && !isSession) {
     return jsonResponse({ ok: false, error: "Unauthorized" }, 401, corsHeaders);
   }
   return null;
@@ -1025,7 +1148,7 @@ async function handleAdminCouponsList(request, env) {
   if (!corsHeaders) {
     return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
   }
-  const authError = requireAdminKey(request, env, corsHeaders);
+  const authError = await requireAdminKey(request, env, corsHeaders);
   if (authError) return authError;
 
   if (!env.ORDERS_KV) {
@@ -1058,7 +1181,7 @@ async function handleAdminCouponsCreate(request, env) {
   if (!corsHeaders) {
     return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
   }
-  const authError = requireAdminKey(request, env, corsHeaders);
+  const authError = await requireAdminKey(request, env, corsHeaders);
   if (authError) return authError;
 
   let input;
@@ -1135,7 +1258,7 @@ async function handleAdminCouponsDelete(request, env) {
   if (!corsHeaders) {
     return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
   }
-  const authError = requireAdminKey(request, env, corsHeaders);
+  const authError = await requireAdminKey(request, env, corsHeaders);
   if (authError) return authError;
 
   let input;
@@ -1177,7 +1300,7 @@ async function handleAdminContactsList(request, env) {
   if (!corsHeaders) {
     return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
   }
-  const authError = requireAdminKey(request, env, corsHeaders);
+  const authError = await requireAdminKey(request, env, corsHeaders);
   if (authError) return authError;
 
   if (!env.ORDERS_KV) {
@@ -1210,7 +1333,7 @@ async function handleAdminContactsCreate(request, env) {
   if (!corsHeaders) {
     return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
   }
-  const authError = requireAdminKey(request, env, corsHeaders);
+  const authError = await requireAdminKey(request, env, corsHeaders);
   if (authError) return authError;
   if (!env.ORDERS_KV) {
     return jsonResponse({ ok: false, error: "Contact storage is not configured" }, 503, corsHeaders);
@@ -1275,7 +1398,7 @@ async function handleAdminContactsDelete(request, env) {
   if (!corsHeaders) {
     return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
   }
-  const authError = requireAdminKey(request, env, corsHeaders);
+  const authError = await requireAdminKey(request, env, corsHeaders);
   if (authError) return authError;
 
   let input;
@@ -2648,7 +2771,7 @@ async function handleAdminBitReceiptsList(request, env) {
   if (!corsHeaders) {
     return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
   }
-  const authError = requireAdminKey(request, env, corsHeaders);
+  const authError = await requireAdminKey(request, env, corsHeaders);
   if (authError) return authError;
 
   if (!env.ORDERS_KV) {
@@ -2685,7 +2808,7 @@ async function handleAdminBitReceiptPrepare(request, env) {
   if (!corsHeaders) {
     return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
   }
-  const authError = requireAdminKey(request, env, corsHeaders);
+  const authError = await requireAdminKey(request, env, corsHeaders);
   if (authError) return authError;
 
   if (!env.ORDERS_KV) {
@@ -2783,7 +2906,7 @@ async function handleAdminBitReceiptApprove(request, env) {
   if (!corsHeaders) {
     return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
   }
-  const authError = requireAdminKey(request, env, corsHeaders);
+  const authError = await requireAdminKey(request, env, corsHeaders);
   if (authError) return authError;
 
   if (!env.ORDERS_KV) {
@@ -2860,7 +2983,7 @@ async function handleAdminBitReceiptReject(request, env) {
   if (!corsHeaders) {
     return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
   }
-  const authError = requireAdminKey(request, env, corsHeaders);
+  const authError = await requireAdminKey(request, env, corsHeaders);
   if (authError) return authError;
 
   let input;
@@ -2912,7 +3035,7 @@ async function handleAdminBitReceiptCheckStatus(request, env) {
   if (!corsHeaders) {
     return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
   }
-  const authError = requireAdminKey(request, env, corsHeaders);
+  const authError = await requireAdminKey(request, env, corsHeaders);
   if (authError) return authError;
 
   if (!env.ORDERS_KV) {
@@ -3467,7 +3590,7 @@ async function handleAdminBookingsList(request, env) {
   if (!corsHeaders) {
     return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
   }
-  const authError = requireAdminKey(request, env, corsHeaders);
+  const authError = await requireAdminKey(request, env, corsHeaders);
   if (authError) return authError;
 
   if (!env.ORDERS_KV) {
