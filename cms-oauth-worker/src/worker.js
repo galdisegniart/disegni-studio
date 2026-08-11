@@ -2550,18 +2550,15 @@ async function handleBitReceiptPublicSubmit(request, env) {
   return jsonResponse({ ok: true, requestId: receipt.requestId, status: "pending" }, 200, corsHeaders);
 }
 
-// Reads a Bit transfer-share screenshot with Gemini and returns a best-effort
-// field guess for the public form to prefill. Purely a convenience layer in
-// front of the same form the customer would otherwise type into by hand -
-// nothing here touches KV or SmartBee; the actual save still happens only
-// when the (still human-editable) form is submitted to /bit-receipts/submit.
-const BIT_EXTRACT_ALLOWED_MIME_TYPES = ["image/jpeg", "image/png", "image/webp", "image/heic", "image/heif"];
-
-function parseDataUrl(dataUrl) {
-  const match = /^data:([^;]+);base64,(.+)$/s.exec(String(dataUrl || ""));
-  if (!match) return null;
-  return { mimeType: match[1], base64: match[2] };
-}
+// The screenshot itself is now read entirely client-side (OCR via
+// Tesseract.js in the browser) - no image, and no third-party AI call,
+// is ever involved here. This endpoint only does the one thing that has
+// to stay server-side: matching the OCR'd text against the saved-contact
+// book without ever exposing that list to the (unauthenticated) caller.
+// Nothing here touches KV beyond a read, or SmartBee - the actual save
+// still happens only when the (human-editable) form is submitted to
+// /bit-receipts/submit.
+const BIT_EXTRACT_DESCRIPTION_MAX_LENGTH = 4000;
 
 async function handleBitReceiptExtract(request, env) {
   const corsHeaders = getCorsHeaders(request, env);
@@ -2577,9 +2574,6 @@ async function handleBitReceiptExtract(request, env) {
   }
   if (!corsHeaders) {
     return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
-  }
-  if (!env.GEMINI_API_KEY) {
-    return jsonResponse({ ok: false, error: "Screenshot reading is not configured" }, 503, corsHeaders);
   }
 
   if (await isRateLimited(env, `bit-extract:${clientIp(request)}`, BIT_EXTRACT_RATE_LIMIT_MAX)) {
@@ -2597,101 +2591,10 @@ async function handleBitReceiptExtract(request, env) {
     return jsonResponse({ ok: false, error: "Invalid JSON" }, 400, corsHeaders);
   }
 
-  const parsed = parseDataUrl(input && input.image);
-  if (!parsed) {
-    return jsonResponse({ ok: false, error: "Missing or invalid image" }, 400, corsHeaders);
-  }
-  if (!BIT_EXTRACT_ALLOWED_MIME_TYPES.includes(parsed.mimeType)) {
-    return jsonResponse({ ok: false, error: "Unsupported image type" }, 400, corsHeaders);
-  }
-  // base64 is ~4/3 the size of the decoded bytes.
-  if (parsed.base64.length > (BIT_EXTRACT_MAX_IMAGE_BYTES * 4) / 3) {
-    return jsonResponse({ ok: false, error: "Image is too large" }, 400, corsHeaders);
-  }
+  const description = cleanText(input && input.description, BIT_EXTRACT_DESCRIPTION_MAX_LENGTH);
+  const matchedContact = description ? await findContactByDescriptionKeyword(env, description) : null;
 
-  let geminiResponse;
-  try {
-    geminiResponse = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${env.GEMINI_API_KEY}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          system_instruction: {
-            parts: [
-              {
-                text: 'אתה מחלץ נתונים מצילום מסך של שיתוף העברת Bit. החזר אך ורק JSON תקני (ללא טקסט נוסף) עם השדות: amount (מספר בלבד, ללא סימן מטבע), paymentDate (בפורמט YYYY-MM-DD), description (הטקסט המלא של ההערה/התיאור שהלקוח כתב בהעברה, אם קיים - אחרת null), bitReference. אם שדה לא ברור מהתמונה - השתמש ב-null עבורו. אל תחזיר שדות customerName, phone או email - הם לעולם לא מופיעים בצילום מסך של Bit (השם שמופיע בתמונה הוא בדרך כלל שם בעל העסק/הנמען, לא הלקוח ששילם), ומזוהים בנפרד מתוך שדה description. אם התמונה כלל לא נראית כמו שיתוף העברת Bit, החזר את כל השדות כ-null.',
-              },
-            ],
-          },
-          contents: [
-            {
-              role: "user",
-              parts: [
-                { inline_data: { mime_type: parsed.mimeType, data: parsed.base64 } },
-                { text: "חלץ מהתמונה הזו את פרטי ההעברה." },
-              ],
-            },
-          ],
-          generationConfig: { maxOutputTokens: 2048 },
-        }),
-      }
-    );
-  } catch (error) {
-    console.error("Gemini request failed", error.message);
-    return jsonResponse({ ok: false, error: "Screenshot reading failed" }, 502, corsHeaders);
-  }
-
-  if (!geminiResponse.ok) {
-    console.error("Gemini API error", geminiResponse.status, await geminiResponse.text().catch(() => ""));
-    return jsonResponse({ ok: false, error: "Screenshot reading failed" }, 502, corsHeaders);
-  }
-
-  const geminiResult = await geminiResponse.json().catch(() => null);
-  const candidate = geminiResult?.candidates?.[0];
-  const rawText = candidate?.content?.parts?.find((part) => typeof part.text === "string")?.text || "";
-
-  if (!rawText) {
-    console.error(
-      "Gemini returned no text part",
-      JSON.stringify({
-        finishReason: candidate?.finishReason,
-        promptFeedback: geminiResult?.promptFeedback,
-        partsTypes: candidate?.content?.parts?.map((part) => Object.keys(part)),
-      })
-    );
-  }
-
-  let parsedFields;
-  try {
-    const jsonMatch = /\{[\s\S]*\}/.exec(rawText);
-    parsedFields = JSON.parse(jsonMatch ? jsonMatch[0] : rawText);
-  } catch (error) {
-    console.error("Failed to parse Gemini JSON response", error.message, "rawText:", rawText.slice(0, 500));
-    return jsonResponse({ ok: true, extracted: {}, confidence: "none" }, 200, corsHeaders);
-  }
-
-  const fieldNames = ["amount", "paymentDate", "description", "bitReference"];
-  const extracted = {};
-  let filledCount = 0;
-  for (const field of fieldNames) {
-    const value = parsedFields && parsedFields[field];
-    if (value === null || value === undefined || String(value).trim() === "") continue;
-    extracted[field] = value;
-    filledCount += 1;
-  }
-
-  const confidence = filledCount === 0 ? "none" : filledCount === fieldNames.length ? "full" : "partial";
-
-  if (confidence === "none") {
-    console.error("Gemini returned all-null fields, parsedFields:", JSON.stringify(parsedFields).slice(0, 500));
-  }
-
-  const matchedContact = extracted.description
-    ? await findContactByDescriptionKeyword(env, extracted.description)
-    : null;
-
-  return jsonResponse({ ok: true, extracted, confidence, matchedContact }, 200, corsHeaders);
+  return jsonResponse({ ok: true, matchedContact }, 200, corsHeaders);
 }
 
 // Server-side only - the public form never receives the full contact list,
@@ -3235,7 +3138,6 @@ const BOOKING_AVAILABILITY_CACHE_TTL_SECONDS = 5 * 60;
 const BOOKING_RATE_LIMIT_MAX = 5;
 const BIT_SUBMIT_RATE_LIMIT_MAX = 5;
 const BIT_EXTRACT_RATE_LIMIT_MAX = 8;
-const BIT_EXTRACT_MAX_IMAGE_BYTES = 5 * 1024 * 1024;
 
 // Same approach as fetchPurchaseCatalog: the site's own build output is the
 // source of truth for which slots exist, so changing availability in the CMS

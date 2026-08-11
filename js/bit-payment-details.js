@@ -64,17 +64,71 @@
     }
   }
 
-  function readFileAsDataUrl(file) {
-    return new Promise(function (resolve, reject) {
-      var reader = new FileReader();
-      reader.onload = function () {
-        resolve(reader.result);
+  var TESSERACT_SCRIPT_URL = "https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js";
+
+  // The screenshot never leaves the browser - OCR runs entirely client-side
+  // via Tesseract.js, loaded lazily so pages that never use the upload
+  // button don't pay for it. Only the recognized text (not the image) is
+  // later sent to the Worker, and only for the saved-contact keyword match.
+  function loadTesseract() {
+    if (window.Tesseract) return Promise.resolve(window.Tesseract);
+    if (loadTesseract._promise) return loadTesseract._promise;
+    loadTesseract._promise = new Promise(function (resolve, reject) {
+      var script = document.createElement("script");
+      script.src = TESSERACT_SCRIPT_URL;
+      script.onload = function () {
+        resolve(window.Tesseract);
       };
-      reader.onerror = function () {
-        reject(reader.error);
+      script.onerror = function () {
+        reject(new Error("Failed to load Tesseract.js"));
       };
-      reader.readAsDataURL(file);
+      document.head.appendChild(script);
     });
+    return loadTesseract._promise;
+  }
+
+  // Best-effort regex extraction from the raw OCR text - Bit's share layout
+  // is consistent enough (amount next to ₪, DD.MM.YYYY dates, a labeled
+  // reference number) that this is reliable without needing an AI call.
+  function extractFieldsFromText(text) {
+    var result = {};
+
+    var amountMatch = /(\d[\d,]*(?:\.\d+)?)\s*₪|₪\s*(\d[\d,]*(?:\.\d+)?)/.exec(text);
+    if (amountMatch) {
+      var amountNum = parseFloat((amountMatch[1] || amountMatch[2]).replace(/,/g, ""));
+      if (isFinite(amountNum) && amountNum > 0) result.amount = amountNum;
+    }
+
+    var dateMatch = /(\d{1,2})[./](\d{1,2})[./](\d{4})/.exec(text);
+    if (dateMatch) {
+      var day = dateMatch[1].length < 2 ? "0" + dateMatch[1] : dateMatch[1];
+      var month = dateMatch[2].length < 2 ? "0" + dateMatch[2] : dateMatch[2];
+      result.paymentDate = dateMatch[3] + "-" + month + "-" + day;
+    }
+
+    var refMatch = /אסמכת[א-ת]*[^\d]{0,10}(\d{4,})/.exec(text);
+    if (refMatch) result.bitReference = refMatch[1];
+
+    return result;
+  }
+
+  // A rough guess at the free-text note the payer wrote (for prefilling the
+  // visible "description" field) - drops lines that are clearly just the
+  // amount/date/labels rather than an actual note. Always editable either way.
+  function extractDescriptionCandidate(text) {
+    var lines = text
+      .split(/\n+/)
+      .map(function (line) {
+        return line.trim();
+      })
+      .filter(Boolean);
+    var meaningful = lines.filter(function (line) {
+      if (line.length < 2) return false;
+      if (/^\d[\d.,/:\s₪-]*$/.test(line)) return false;
+      if (/^(אסמכת|תאריך|סכום|Bit|בוצע|העברה|קיבל)/.test(line)) return false;
+      return true;
+    });
+    return meaningful.join(" ").slice(0, 500);
   }
 
   function handleScreenshotFile(file) {
@@ -87,54 +141,53 @@
       return;
     }
 
-    setUploadStatus("קורא את הפרטים...", null);
+    setUploadStatus("קורא את הפרטים... (יכול לקחת כמה שניות)", null);
 
-    readFileAsDataUrl(file)
-      .then(function (dataUrl) {
+    loadTesseract()
+      .then(function (Tesseract) {
+        return Tesseract.recognize(file, "heb+eng");
+      })
+      .then(function (result) {
+        var rawText = (result && result.data && result.data.text) || "";
+        var fields = extractFieldsFromText(rawText);
+        var descriptionCandidate = extractDescriptionCandidate(rawText);
+
+        if (fields.amount != null) form.elements.amount.value = fields.amount;
+        if (fields.paymentDate) form.elements.paymentDate.value = fields.paymentDate;
+        if (fields.bitReference) form.elements.bitReference.value = fields.bitReference;
+        if (descriptionCandidate) form.elements.description.value = descriptionCandidate;
+
+        // Matching is server-side only, and only the raw OCR text (not the
+        // image) is sent - the full text gives the best chance of containing
+        // whatever keyword a saved contact was set up with.
         return fetch(EXTRACT_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ image: dataUrl }),
-        });
-      })
-      .then(function (response) {
-        return response.json().then(function (data) {
-          return { ok: response.ok, status: response.status, data: data };
-        });
-      })
-      .then(function (result) {
-        if (!result.ok) {
-          if (result.status === 429) {
-            setUploadStatus("נשלחו יותר מדי בקשות. נסו שוב בעוד כמה דקות, או מלאו ידנית.", "error");
-            return;
-          }
-          setUploadStatus("לא הצלחנו לקרוא את התמונה. אפשר למלא/לתקן ידנית.", "error");
-          return;
-        }
-
-        var extracted = (result.data && result.data.extracted) || {};
-        var matchedContact = result.data && result.data.matchedContact;
-
-        // Only these fields are ever guessed straight from the screenshot -
-        // there's no reliable way to read the payer's name off a Bit share,
-        // so identity comes only from matchedContact below (or manual entry).
-        ["amount", "paymentDate", "description", "bitReference"].forEach(function (field) {
-          var value = extracted[field];
-          if (value === undefined || value === null || String(value).trim() === "") return;
-          var input = form.elements[field];
-          if (!input) return;
-          input.value = value;
-        });
-
-        if (matchedContact) {
-          form.elements.customerName.value = matchedContact.firstName + " " + matchedContact.lastName;
-          if (matchedContact.phone) form.elements.phone.value = matchedContact.phone;
-          if (matchedContact.email) form.elements.email.value = matchedContact.email;
-          if (matchedContact.serviceType) form.elements.description.value = matchedContact.serviceType;
-          setUploadStatus("זוהיתם אוטומטית - כדאי לבדוק את הפרטים לפני שליחה.", "ok");
-        } else {
-          setUploadStatus("לא זוהתה התאמה אוטומטית - נא למלא ידנית את שאר הפרטים.", null);
-        }
+          body: JSON.stringify({ description: rawText }),
+        })
+          .then(function (response) {
+            return response.json().then(function (data) {
+              return { ok: response.ok, status: response.status, data: data };
+            });
+          })
+          .then(function (matchResult) {
+            var matchedContact = matchResult.ok && matchResult.data && matchResult.data.matchedContact;
+            if (matchedContact) {
+              form.elements.customerName.value = matchedContact.firstName + " " + matchedContact.lastName;
+              if (matchedContact.phone) form.elements.phone.value = matchedContact.phone;
+              if (matchedContact.email) form.elements.email.value = matchedContact.email;
+              if (matchedContact.serviceType) form.elements.description.value = matchedContact.serviceType;
+              setUploadStatus("זוהיתם אוטומטית - כדאי לבדוק את הפרטים לפני שליחה.", "ok");
+            } else {
+              setUploadStatus("לא זוהתה התאמה אוטומטית - נא למלא ידנית את שאר הפרטים.", null);
+            }
+          })
+          .catch(function () {
+            // The contact match is a bonus on top of the OCR fields above,
+            // which are already filled in - a network hiccup here shouldn't
+            // look like total failure.
+            setUploadStatus("לא זוהתה התאמה אוטומטית - נא למלא ידנית את שאר הפרטים.", null);
+          });
       })
       .catch(function () {
         setUploadStatus("אירעה שגיאה בקריאת התמונה. אפשר למלא ידנית.", "error");

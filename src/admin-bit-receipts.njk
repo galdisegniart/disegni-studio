@@ -538,17 +538,64 @@ noAnalytics: true
       document.getElementById("contact-form").scrollIntoView({ behavior: "smooth", block: "center" });
     });
 
-    function readFileAsDataUrl(file) {
-      return new Promise(function (resolve, reject) {
-        var reader = new FileReader();
-        reader.onload = function () {
-          resolve(reader.result);
+    var TESSERACT_SCRIPT_URL = "https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js";
+
+    // Same client-side OCR as the public form - the screenshot never leaves
+    // the browser, only the recognized text goes to the Worker (for the
+    // saved-contact keyword match only).
+    function loadTesseract() {
+      if (window.Tesseract) return Promise.resolve(window.Tesseract);
+      if (loadTesseract._promise) return loadTesseract._promise;
+      loadTesseract._promise = new Promise(function (resolve, reject) {
+        var script = document.createElement("script");
+        script.src = TESSERACT_SCRIPT_URL;
+        script.onload = function () {
+          resolve(window.Tesseract);
         };
-        reader.onerror = function () {
-          reject(reader.error);
+        script.onerror = function () {
+          reject(new Error("Failed to load Tesseract.js"));
         };
-        reader.readAsDataURL(file);
+        document.head.appendChild(script);
       });
+      return loadTesseract._promise;
+    }
+
+    function extractFieldsFromText(text) {
+      var result = {};
+
+      var amountMatch = /(\d[\d,]*(?:\.\d+)?)\s*₪|₪\s*(\d[\d,]*(?:\.\d+)?)/.exec(text);
+      if (amountMatch) {
+        var amountNum = parseFloat((amountMatch[1] || amountMatch[2]).replace(/,/g, ""));
+        if (isFinite(amountNum) && amountNum > 0) result.amount = amountNum;
+      }
+
+      var dateMatch = /(\d{1,2})[./](\d{1,2})[./](\d{4})/.exec(text);
+      if (dateMatch) {
+        var day = dateMatch[1].length < 2 ? "0" + dateMatch[1] : dateMatch[1];
+        var month = dateMatch[2].length < 2 ? "0" + dateMatch[2] : dateMatch[2];
+        result.paymentDate = dateMatch[3] + "-" + month + "-" + day;
+      }
+
+      var refMatch = /אסמכת[א-ת]*[^\d]{0,10}(\d{4,})/.exec(text);
+      if (refMatch) result.bitReference = refMatch[1];
+
+      return result;
+    }
+
+    function extractDescriptionCandidate(text) {
+      var lines = text
+        .split(/\n+/)
+        .map(function (line) {
+          return line.trim();
+        })
+        .filter(Boolean);
+      var meaningful = lines.filter(function (line) {
+        if (line.length < 2) return false;
+        if (/^\d[\d.,/:\s₪-]*$/.test(line)) return false;
+        if (/^(אסמכת|תאריך|סכום|Bit|בוצע|העברה|קיבל)/.test(line)) return false;
+        return true;
+      });
+      return meaningful.join(" ").slice(0, 500);
     }
 
     pasteTarget.addEventListener("paste", function (event) {
@@ -568,49 +615,41 @@ noAnalytics: true
       }
 
       uploadMessage.style.color = "var(--dim)";
-      uploadMessage.textContent = "קורא את הפרטים...";
+      uploadMessage.textContent = "קורא את הפרטים... (יכול לקחת כמה שניות)";
       submitMessage.textContent = "";
 
-      readFileAsDataUrl(file)
-        .then(function (dataUrl) {
+      loadTesseract()
+        .then(function (Tesseract) {
+          return Tesseract.recognize(file, "heb+eng");
+        })
+        .then(function (result) {
+          var rawText = (result && result.data && result.data.text) || "";
+          var fields = extractFieldsFromText(rawText);
+          var descriptionCandidate = extractDescriptionCandidate(rawText);
+
+          document.getElementById("manual-amount").value = fields.amount != null ? fields.amount : "";
+          document.getElementById("manual-date").value = fields.paymentDate || "";
+          document.getElementById("manual-description").value = descriptionCandidate;
+          document.getElementById("manual-ref").value = fields.bitReference || "";
+          fieldsWrap.hidden = false;
+
+          uploadMessage.style.color = "var(--dim)";
+          uploadMessage.textContent = "הפרטים נקראו - כדאי לבדוק ולהשלים לפני יצירת הבקשה.";
+
           return fetch(WORKER_ORIGIN + "/bit-receipts/extract", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ image: dataUrl }),
-          });
-        })
-        .then(function (response) {
-          return response.json().then(function (data) {
-            return { ok: response.ok, status: response.status, data: data };
-          });
-        })
-        .then(function (result) {
-          if (!result.ok) {
-            uploadMessage.style.color = "#c0554d";
-            uploadMessage.textContent =
-              result.status === 429
-                ? "נשלחו יותר מדי בקשות. נסו שוב בעוד כמה דקות."
-                : "לא הצלחנו לקרוא את התמונה. אפשר למלא ידנית למטה.";
-            fieldsWrap.hidden = false;
-            return;
-          }
-
-          var extracted = (result.data && result.data.extracted) || {};
-          var confidence = result.data && result.data.confidence;
-
-          document.getElementById("manual-amount").value = extracted.amount != null ? extracted.amount : "";
-          document.getElementById("manual-date").value = extracted.paymentDate || "";
-          document.getElementById("manual-description").value = extracted.description || "";
-          document.getElementById("manual-ref").value = extracted.bitReference || "";
-          fieldsWrap.hidden = false;
-
-          uploadMessage.style.color = confidence === "full" ? "#5c8a5c" : "var(--dim)";
-          uploadMessage.textContent =
-            confidence === "full"
-              ? "הפרטים זוהו - כדאי לבדוק לפני יצירת הבקשה."
-              : "לא הצלחנו לזהות הכל - השלימו/תקנו למטה לפני יצירת הבקשה.";
-
-          applyMatchedContact(result.data && result.data.matchedContact);
+            body: JSON.stringify({ description: rawText }),
+          })
+            .then(function (response) {
+              return response.json();
+            })
+            .then(function (data) {
+              applyMatchedContact(data && data.matchedContact);
+            })
+            .catch(function () {
+              applyMatchedContact(null);
+            });
         })
         .catch(function () {
           uploadMessage.style.color = "#c0554d";
