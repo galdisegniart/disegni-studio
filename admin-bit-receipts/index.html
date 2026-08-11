@@ -47,7 +47,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/style.css?v=075210da">
+<link rel="stylesheet" href="/css/style.css?v=2522cd02">
 </head>
 <body id="top" data-whatsapp="972552902934">
 
@@ -460,18 +460,151 @@
     בפועל קבלה אמיתית ב-SmartBee, או לדחות בקשה שגויה/כפולה בלי להפיק כלום.
   </p>
 
-  <label style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 24px;">
-    <span>מפתח אדמין</span>
-    <input type="password" id="admin-key" autocomplete="off"
-      style="padding: 10px; background: transparent; border: 1px solid var(--line); color: var(--bone); max-width: 320px;" />
-  </label>
+  <form id="admin-login" style="border: 1px solid var(--line); padding: 20px; margin-bottom: 24px;">
+    <label style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px;">
+      <span>סיסמת אדמין</span>
+      <input type="password" id="admin-password" autocomplete="current-password" required
+        style="padding: 12px; background: transparent; border: 1px solid var(--line); color: var(--bone); width: 100%; max-width: 360px; font-size: 16px;" />
+    </label>
+    <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px; color: var(--dim);">
+      <input type="checkbox" id="remember-admin" checked />
+      <span>זכור אותי במכשיר הזה למשך 30 יום</span>
+    </label>
+    <button type="submit" id="login-btn" style="padding: 11px 22px; background: var(--copper); border: 1px solid var(--copper); color: #11122A; cursor: pointer;">
+      כניסה לאדמין
+    </button>
+    <p id="login-message" style="margin: 12px 0 0; font-size: 14px;"></p>
+  </form>
 
-  <button type="button" id="load-btn" style="padding: 10px 18px; background: transparent; border: 1px solid var(--copper); color: var(--copper); cursor: pointer; margin-bottom: 24px;">
-    טען בקשות ממתינות
-  </button>
+  <div id="admin-content" hidden>
+    <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 24px;">
+      <button type="button" id="load-btn" style="padding: 10px 18px; background: transparent; border: 1px solid var(--copper); color: var(--copper); cursor: pointer;">
+        רענון בקשות
+      </button>
+      <button type="button" id="logout-btn" style="padding: 8px 14px; background: transparent; border: 1px solid var(--line); color: var(--dim); cursor: pointer;">
+        יציאה
+      </button>
+    </div>
 
-  <p id="list-message" style="color: var(--dim); font-size: 14px;">הזינו מפתח אדמין ולחצו "טען בקשות ממתינות".</p>
+  <p id="list-message" style="color: var(--dim); font-size: 14px;">טוען בקשות...</p>
   <div id="receipts-list"></div>
+
+  <hr style="border-color: var(--line); margin: 40px 0;" />
+
+  <h2 style="font-size: 18px; margin-bottom: 8px;">קבלות אחרונות</h2>
+  <p style="color: var(--dim); margin-bottom: 16px; font-size: 14px;">
+    כאן מופיעות בקשות שאושרו, נמצאות בעיבוד, הופקו או נכשלו. קבלה מוכנה כוללת קישור ל-PDF ואפשרות שיתוף ב-WhatsApp.
+  </p>
+  <p id="recent-message" style="color: var(--dim); font-size: 14px;"></p>
+  <div id="recent-receipts-list"></div>
+
+  <hr style="border-color: var(--line); margin: 40px 0;" />
+
+  <h2 style="font-size: 18px; margin-bottom: 8px;">יצירת בקשה ידנית מצילום מסך</h2>
+  <p style="color: var(--dim); margin-bottom: 16px; font-size: 14px;">
+    שימושי כשמקבלים צילום מסך של תשלום Bit בוואטסאפ - מדביקים אותו ישירות
+    כאן, בלי להוריד ולהעלות כקובץ. הפרטים ניתנים לעריכה לפני יצירת הבקשה,
+    שתופיע ברשימת "בקשות ממתינות" למעלה לאישור רגיל.
+  </p>
+  <div id="manual-paste-target" tabindex="0" style="border: 1px dashed var(--copper); padding: 16px; margin-bottom: 8px; color: var(--copper); cursor: text;">
+    לחצו כאן והדביקו תמונה (Ctrl+V)
+  </div>
+  <p style="color: var(--dim); font-size: 13px; margin-bottom: 16px;">אפשר גם להדביק תמונה שהעתקת (Ctrl+V, או "הדבק" בלחיצה ארוכה בנייד).</p>
+  <p id="manual-upload-message" style="font-size: 14px; margin-bottom: 16px;"></p>
+
+  <div id="manual-entry-fields" hidden>
+    <label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">
+      <span style="font-size: 13px; color: var(--dim);">בחירת לקוח שמור (אופציונלי)</span>
+      <select id="manual-contact-select" style="padding: 8px; background: #151514; border: 1px solid var(--line); color: var(--bone);">
+        <option value="">— בחר לקוח —</option>
+      </select>
+    </label>
+    <p id="contact-match-message" style="font-size: 13px; margin: -4px 0 10px;"></p>
+    <button type="button" id="manual-add-contact-btn" hidden style="padding: 6px 12px; background: transparent; border: 1px solid var(--line); color: var(--dim); cursor: pointer; font-size: 13px; margin: -4px 0 10px;">
+      + הוסף כלקוח חדש לרשימה
+    </button>
+    <label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">
+      <span style="font-size: 13px; color: var(--dim);">שם מלא</span>
+      <input type="text" id="manual-name" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
+    </label>
+    <label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">
+      <span style="font-size: 13px; color: var(--dim);">טלפון</span>
+      <input type="text" id="manual-phone" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
+    </label>
+    <label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">
+      <span style="font-size: 13px; color: var(--dim);">דוא"ל</span>
+      <input type="email" id="manual-email" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
+    </label>
+    <label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">
+      <span style="font-size: 13px; color: var(--dim);">סכום (₪)</span>
+      <input type="number" id="manual-amount" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
+    </label>
+    <label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">
+      <span style="font-size: 13px; color: var(--dim);">תאריך תשלום (YYYY-MM-DD)</span>
+      <input type="text" id="manual-date" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
+    </label>
+    <label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">
+      <span style="font-size: 13px; color: var(--dim);">תיאור</span>
+      <input type="text" id="manual-description" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
+    </label>
+    <label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">
+      <span style="font-size: 13px; color: var(--dim);">אסמכתת Bit</span>
+      <input type="text" id="manual-ref" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
+    </label>
+    <button type="button" id="manual-submit-btn" style="padding: 10px 18px; background: transparent; border: 1px solid var(--copper); color: var(--copper); cursor: pointer;">
+      צור בקשה
+    </button>
+    <p id="manual-submit-message" style="margin-top: 10px; font-size: 14px;"></p>
+  </div>
+
+  <hr style="border-color: var(--line); margin: 40px 0;" />
+
+  <h2 style="font-size: 18px; margin-bottom: 8px;">ניהול לקוחות שמורים</h2>
+  <p style="color: var(--dim); margin-bottom: 16px; font-size: 14px;">
+    טלפון ומייל לא מופיעים אף פעם בצילום מסך של Bit. שני שימושים: (1) "מילת
+    זיהוי בתיאור" מאפשרת זיהוי אוטומטי גם בטופס הציבורי - אם הלקוח כותב
+    בהערת ההעברה מילה שמופיעה כאן (למשל השם הפרטי שלו), הפרטים ימולאו
+    אוטומטית; (2) ברשימה למטה אפשר גם לבחור לקוח ידנית בזמן יצירת בקשה
+    כאן באדמין. הכל תמיד ניתן לעריכה ידנית.
+  </p>
+  <div id="contacts-list" style="margin-bottom: 20px;"></div>
+
+  <div id="contact-form">
+    <input type="hidden" id="contact-id" value="" />
+    <label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">
+      <span style="font-size: 13px; color: var(--dim);">שם פרטי</span>
+      <input type="text" id="contact-firstname" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
+    </label>
+    <label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">
+      <span style="font-size: 13px; color: var(--dim);">שם משפחה</span>
+      <input type="text" id="contact-lastname" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
+    </label>
+    <label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">
+      <span style="font-size: 13px; color: var(--dim);">טלפון</span>
+      <input type="text" id="contact-phone" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
+    </label>
+    <label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">
+      <span style="font-size: 13px; color: var(--dim);">דוא"ל</span>
+      <input type="email" id="contact-email" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
+    </label>
+    <label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">
+      <span style="font-size: 13px; color: var(--dim);">סוג שירות (ימולא אוטומטית ב"עבור מה בוצע התשלום")</span>
+      <input type="text" id="contact-servicetype" placeholder="לדוגמה: טיפול באמנות" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
+    </label>
+    <label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">
+      <span style="font-size: 13px; color: var(--dim);">מילת זיהוי בתיאור ההעברה (לזיהוי אוטומטי בטופס הציבורי)</span>
+      <input type="text" id="contact-keyword" placeholder="לדוגמה: השם הפרטי שלו/ה" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
+    </label>
+    <div style="display: flex; gap: 10px;">
+      <button type="button" id="contact-save-btn" style="padding: 10px 18px; background: transparent; border: 1px solid var(--copper); color: var(--copper); cursor: pointer;">
+        שמור לקוח
+      </button>
+      <button type="button" id="contact-cancel-btn" hidden style="padding: 10px 18px; background: transparent; border: 1px solid var(--line); color: var(--dim); cursor: pointer;">
+        בטל עריכה
+      </button>
+    </div>
+    <p id="contact-form-message" style="margin-top: 10px; font-size: 14px;"></p>
+  </div>
 
   <hr style="border-color: var(--line); margin: 40px 0;" />
 
@@ -489,14 +622,59 @@
     בדוק סטטוס
   </button>
   <p id="check-status-message" style="margin-top: 12px; font-size: 14px;"></p>
+  </div>
 </section>
 
 <script>
 (function () {
   var WORKER_ORIGIN = "https://disegni-cms-oauth.galdisegniart.workers.dev";
+  var SESSION_STORAGE_KEY = "disegni-admin-session";
+  var adminSession = readStoredSession();
 
   function adminKey() {
-    return document.getElementById("admin-key").value.trim();
+    return adminSession;
+  }
+
+  function readStoredSession() {
+    try {
+      return localStorage.getItem(SESSION_STORAGE_KEY) || sessionStorage.getItem(SESSION_STORAGE_KEY) || "";
+    } catch (error) {
+      return "";
+    }
+  }
+
+  function saveSession(token, remember) {
+    adminSession = token;
+    try {
+      localStorage.removeItem(SESSION_STORAGE_KEY);
+      sessionStorage.removeItem(SESSION_STORAGE_KEY);
+      (remember ? localStorage : sessionStorage).setItem(SESSION_STORAGE_KEY, token);
+    } catch (error) {
+      // The current tab still works even when browser storage is unavailable.
+    }
+  }
+
+  function clearSession() {
+    adminSession = "";
+    try {
+      localStorage.removeItem(SESSION_STORAGE_KEY);
+      sessionStorage.removeItem(SESSION_STORAGE_KEY);
+    } catch (error) {}
+  }
+
+  function showAdmin() {
+    document.getElementById("admin-login").hidden = true;
+    document.getElementById("admin-content").hidden = false;
+  }
+
+  function showLogin(message) {
+    clearSession();
+    document.getElementById("admin-content").hidden = true;
+    document.getElementById("admin-login").hidden = false;
+    var loginMessage = document.getElementById("login-message");
+    loginMessage.style.color = message ? "#c0554d" : "var(--dim)";
+    loginMessage.textContent = message || "";
+    document.getElementById("admin-password").focus();
   }
 
   function formatReadableDate(value) {
@@ -513,11 +691,20 @@
     return match ? match[1] : "";
   }
 
+  function escapeHtml(value) {
+    return String(value == null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
   function fieldRow(labelText, id, value, type, hint) {
     return (
       '<label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">' +
       '<span style="font-size: 13px; color: var(--dim);">' + labelText + (hint ? ' (' + hint + ')' : '') + '</span>' +
-      '<input type="' + (type || "text") + '" id="' + id + '" value="' + (value == null ? "" : String(value).replace(/"/g, "&quot;")) + '" ' +
+      '<input type="' + (type || "text") + '" id="' + id + '" value="' + escapeHtml(value) + '" ' +
       'style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />' +
       '</label>'
     );
@@ -528,9 +715,27 @@
     wrap.className = "js-receipt-row";
     wrap.style.cssText = "border: 1px solid var(--line); padding: 20px; margin-bottom: 16px;";
     var prefix = receipt.requestId;
+    var isDraft = receipt.status === "draft";
+    var statusBlock = isDraft
+      ? '<div style="padding: 12px; margin-bottom: 14px; border: 1px solid #CF9843; color: #CF9843;">' +
+        '<strong>טיוטה לבדיקה</strong><br>' +
+        '<span style="color: var(--bone);">הקבלה טרם הופקה. לאחר כל תיקון יש לעדכן את הטיוטה ורק אז לבצע אישור סופי.</span>' +
+        '</div>'
+      : '<div style="padding: 12px; margin-bottom: 14px; border: 1px solid var(--line); color: var(--bone);">' +
+        'בקשה חדשה. שמירת הטיוטה אינה מפיקה קבלה ואינה שולחת דבר.' +
+        '</div>';
+    var actionButtons =
+      '<button type="button" class="js-prepare" data-request-id="' + receipt.requestId + '" style="padding: 10px 18px; background: #CF9843; color: #11122A; border: none; cursor: pointer;">' +
+      (isDraft ? 'עדכון הטיוטה' : 'שמירת טיוטה לבדיקה') +
+      '</button>' +
+      (isDraft
+        ? '<button type="button" class="js-final-approve" data-request-id="' + receipt.requestId + '" style="padding: 10px 18px; background: #5c8a5c; color: #fff; border: none; cursor: pointer;">אישור סופי והפקת קבלה</button>'
+        : '') +
+      '<button type="button" class="js-reject" data-request-id="' + receipt.requestId + '" style="padding: 10px 18px; background: transparent; border: 1px solid #c0554d; color: #c0554d; cursor: pointer;">דחה</button>';
 
     wrap.innerHTML =
       '<p style="font-weight: 600; margin: 0 0 12px;">' + receipt.requestId + '</p>' +
+      statusBlock +
       fieldRow("שם מלא", prefix + "-name", receipt.customerName) +
       fieldRow("טלפון", prefix + "-phone", receipt.phone) +
       fieldRow("דוא\"ל", prefix + "-email", receipt.email) +
@@ -538,12 +743,61 @@
       fieldRow("תאריך תשלום", prefix + "-date", receipt.paymentDate, "text", formatReadableDate(receipt.paymentDate)) +
       fieldRow("תיאור", prefix + "-description", receipt.description) +
       fieldRow("אסמכתת Bit", prefix + "-ref", receipt.bitReference) +
-      '<div style="display: flex; gap: 10px; margin-top: 12px;">' +
-      '<button type="button" class="js-approve" data-request-id="' + receipt.requestId + '" style="padding: 10px 18px; background: #5c8a5c; color: #fff; border: none; cursor: pointer;">אשר והפק קבלה</button>' +
-      '<button type="button" class="js-reject" data-request-id="' + receipt.requestId + '" style="padding: 10px 18px; background: transparent; border: 1px solid #c0554d; color: #c0554d; cursor: pointer;">דחה</button>' +
+      '<label style="display: flex; align-items: center; gap: 8px; margin: 12px 0; color: var(--bone);">' +
+      '<input type="checkbox" id="' + prefix + '-send-email"' + (receipt.sendEmail ? ' checked' : '') + ' />' +
+      '<span>לשלוח את הקבלה ללקוחה בדוא"ל לאחר ההפקה</span>' +
+      '</label>' +
+      '<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px;">' +
+      actionButtons +
       '</div>' +
       '<p class="js-row-message" style="margin-top: 10px; font-size: 14px;"></p>';
 
+    return wrap;
+  }
+
+  function whatsappPhone(phone) {
+    var digits = String(phone || "").replace(/\D/g, "");
+    return digits.indexOf("0") === 0 ? "972" + digits.slice(1) : digits;
+  }
+
+  function recentStatusLabel(status) {
+    return {
+      processing: "בעיבוד",
+      issued: "הופקה",
+      failed: "ההפקה נכשלה",
+      rejected: "נדחתה",
+    }[status] || status;
+  }
+
+  function renderRecentReceipt(receipt) {
+    var wrap = document.createElement("div");
+    wrap.className = "js-recent-receipt";
+    wrap.style.cssText = "border: 1px solid var(--line); padding: 18px; margin-bottom: 14px;";
+    var statusColor = receipt.status === "issued" ? "#73a873" : receipt.status === "failed" ? "#c0554d" : "#CF9843";
+    var actions = "";
+    if (receipt.linkToOriginal) {
+      actions += '<a href="' + receipt.linkToOriginal + '" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 9px 14px; border: 1px solid var(--copper); color: var(--copper); text-decoration: none;">פתיחת הקבלה (PDF)</a>';
+      var waText = encodeURIComponent("שלום " + (receipt.customerName || "") + ", הקבלה שלך מוכנה: " + receipt.linkToOriginal);
+      actions += '<a href="https://wa.me/' + whatsappPhone(receipt.phone) + '?text=' + waText + '" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 9px 14px; border: 1px solid #73a873; color: #73a873; text-decoration: none;">שיתוף קישור ב-WhatsApp</a>';
+    }
+    if (receipt.status === "processing") {
+      actions += '<button type="button" class="js-refresh-receipt" data-request-id="' + receipt.requestId + '" style="padding: 9px 14px; background: transparent; border: 1px solid var(--line); color: var(--bone); cursor: pointer;">בדיקת סטטוס מחדש</button>';
+    }
+    if (receipt.canRetry) {
+      actions += '<button type="button" class="js-retry-receipt" data-request-id="' + receipt.requestId + '" style="padding: 9px 14px; background: #CF9843; border: 1px solid #CF9843; color: #11122A; cursor: pointer;">נסה להפיק מחדש</button>';
+    }
+    var receiptNumber = extractReceiptNumber(receipt.linkToOriginal);
+    wrap.innerHTML =
+      '<div style="display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;">' +
+      '<strong>' + escapeHtml(receipt.customerName || receipt.requestId) + '</strong>' +
+      '<strong style="color: ' + statusColor + ';">' + recentStatusLabel(receipt.status) + '</strong>' +
+      '</div>' +
+      '<p style="margin: 8px 0; color: var(--dim);">' + escapeHtml(receipt.amount || "-") + ' ₪ · ' + escapeHtml(receipt.description || "-") + '</p>' +
+      '<p style="margin: 8px 0; font-size: 13px; color: var(--dim);">מזהה: ' + escapeHtml(receipt.requestId) +
+      (receiptNumber ? ' · מספר קבלה: ' + receiptNumber : '') + '</p>' +
+      (receipt.sendEmail ? '<p style="margin: 8px 0; color: var(--dim);">התבקשה שליחה ל-' + escapeHtml(receipt.email || "הדוא״ל שנשמר") + '</p>' : '') +
+      '<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px;">' + actions + '</div>' +
+      '<p class="js-recent-message" style="margin: 10px 0 0; font-size: 14px;"></p>';
     return wrap;
   }
 
@@ -551,6 +805,8 @@
     var key = adminKey();
     var listMessage = document.getElementById("list-message");
     var listEl = document.getElementById("receipts-list");
+    var recentMessage = document.getElementById("recent-message");
+    var recentList = document.getElementById("recent-receipts-list");
     if (!key) {
       listMessage.textContent = "הזינו מפתח אדמין קודם.";
       return;
@@ -562,10 +818,14 @@
     })
       .then(function (response) {
         return response.json().then(function (data) {
-          return { ok: response.ok, data: data };
+          return { ok: response.ok, status: response.status, data: data };
         });
       })
       .then(function (result) {
+        if (result.status === 401) {
+          showLogin("פג תוקף ההתחברות. הזינו שוב את הסיסמה.");
+          return;
+        }
         if (!result.ok || !result.data.ok) {
           listMessage.style.color = "#c0554d";
           listMessage.textContent = "שגיאה: " + ((result.data && result.data.error) || "לא ידוע");
@@ -574,14 +834,25 @@
         }
         listMessage.style.color = "var(--dim)";
         listEl.innerHTML = "";
+        recentMessage.style.color = "var(--dim)";
+        recentList.innerHTML = "";
         if (!result.data.receipts.length) {
-          listMessage.textContent = "אין בקשות ממתינות כרגע.";
-          return;
+          listMessage.textContent = "אין בקשות או טיוטות לבדיקה כרגע.";
+        } else {
+          listMessage.textContent = "";
+          result.data.receipts.forEach(function (receipt) {
+            listEl.appendChild(renderReceipt(receipt));
+          });
         }
-        listMessage.textContent = "";
-        result.data.receipts.forEach(function (receipt) {
-          listEl.appendChild(renderReceipt(receipt));
-        });
+        var recentReceipts = result.data.recentReceipts || [];
+        if (!recentReceipts.length) {
+          recentMessage.textContent = "עדיין אין קבלות אחרונות להצגה.";
+        } else {
+          recentMessage.textContent = "";
+          recentReceipts.forEach(function (receipt) {
+            recentList.appendChild(renderRecentReceipt(receipt));
+          });
+        }
       })
       .catch(function () {
         listMessage.style.color = "#c0554d";
@@ -589,15 +860,102 @@
       });
   }
 
-  document.getElementById("load-btn").addEventListener("click", loadReceipts);
+  document.getElementById("recent-receipts-list").addEventListener("click", function (event) {
+    var retryButton = event.target.closest(".js-retry-receipt");
+    var button = retryButton || event.target.closest(".js-refresh-receipt");
+    if (!button) return;
+    if (retryButton && !window.confirm("הניסיון החוזר יפנה שוב ל-SmartBee וינסה להפיק את הקבלה מהפרטים שכבר אושרו. להמשיך?")) return;
+    var message = button.closest(".js-recent-receipt").querySelector(".js-recent-message");
+    button.disabled = true;
+    message.style.color = "var(--dim)";
+    message.textContent = retryButton ? "מנסה להפיק מחדש..." : "בודק מול SmartBee...";
+    fetch(WORKER_ORIGIN + (retryButton ? "/admin/bit-receipts/retry" : "/admin/bit-receipts/check-status"), {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Disegni-Admin-Key": adminKey() },
+      body: JSON.stringify({ requestId: button.dataset.requestId }),
+    })
+      .then(function (response) {
+        return response.json().then(function (data) { return { ok: response.ok, data: data }; });
+      })
+      .then(function (result) {
+        if (!result.ok || !result.data.ok) {
+          message.style.color = "#c0554d";
+          message.textContent = retryButton ? "הניסיון החוזר נכשל." : "בדיקת הסטטוס נכשלה.";
+          return;
+        }
+        loadReceipts();
+      })
+      .catch(function () {
+        message.style.color = "#c0554d";
+        message.textContent = "שגיאת רשת.";
+      })
+      .finally(function () { button.disabled = false; });
+  });
+
+  document.getElementById("admin-login").addEventListener("submit", function (event) {
+    event.preventDefault();
+    var passwordInput = document.getElementById("admin-password");
+    var remember = document.getElementById("remember-admin").checked;
+    var message = document.getElementById("login-message");
+    var loginButton = document.getElementById("login-btn");
+    var password = passwordInput.value;
+    if (!password) return;
+
+    loginButton.disabled = true;
+    message.style.color = "var(--dim)";
+    message.textContent = "מתחבר...";
+
+    fetch(WORKER_ORIGIN + "/admin/session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ password: password }),
+    })
+      .then(function (response) {
+        return response.json().then(function (data) {
+          return { ok: response.ok, status: response.status, data: data };
+        });
+      })
+      .then(function (result) {
+        if (!result.ok || !result.data.ok || !result.data.token) {
+          message.style.color = "#c0554d";
+          message.textContent = result.status === 401
+            ? "הסיסמה אינה נכונה."
+            : "לא ניתן להתחבר כרגע. נסו שוב.";
+          return;
+        }
+        saveSession(result.data.token, remember);
+        passwordInput.value = "";
+        showAdmin();
+        loadReceipts();
+        loadContacts();
+      })
+      .catch(function () {
+        message.style.color = "#c0554d";
+        message.textContent = "שגיאת רשת. נסו שוב.";
+      })
+      .finally(function () {
+        loginButton.disabled = false;
+      });
+  });
+
+  document.getElementById("logout-btn").addEventListener("click", function () {
+    showLogin("");
+  });
+
+  document.getElementById("load-btn").addEventListener("click", function () {
+    loadReceipts();
+    loadContacts();
+  });
 
   document.getElementById("receipts-list").addEventListener("click", function (event) {
-    var approveBtn = event.target.closest(".js-approve");
+    var prepareBtn = event.target.closest(".js-prepare");
+    var approveBtn = event.target.closest(".js-final-approve");
     var rejectBtn = event.target.closest(".js-reject");
-    if (!approveBtn && !rejectBtn) return;
+    if (!prepareBtn && !approveBtn && !rejectBtn) return;
 
-    var requestId = (approveBtn || rejectBtn).dataset.requestId;
-    var row = (approveBtn || rejectBtn).closest(".js-receipt-row");
+    var actionBtn = prepareBtn || approveBtn || rejectBtn;
+    var requestId = actionBtn.dataset.requestId;
+    var row = actionBtn.closest(".js-receipt-row");
     var rowMessage = row.querySelector(".js-row-message");
     var key = adminKey();
     if (!key) {
@@ -606,9 +964,17 @@
       return;
     }
 
-    var path = approveBtn ? "/admin/bit-receipts/approve" : "/admin/bit-receipts/reject";
+    if (approveBtn && !window.confirm("אישור סופי יפיק את הקבלה ב-SmartBee. האם בדקת שכל הפרטים נכונים וברצונך להמשיך?")) {
+      return;
+    }
+
+    var path = prepareBtn
+      ? "/admin/bit-receipts/prepare"
+      : approveBtn
+        ? "/admin/bit-receipts/approve"
+        : "/admin/bit-receipts/reject";
     var body = { requestId: requestId };
-    if (approveBtn) {
+    if (prepareBtn) {
       body.customerName = document.getElementById(requestId + "-name").value;
       body.phone = document.getElementById(requestId + "-phone").value;
       body.email = document.getElementById(requestId + "-email").value;
@@ -616,10 +982,11 @@
       body.paymentDate = document.getElementById(requestId + "-date").value;
       body.description = document.getElementById(requestId + "-description").value;
       body.bitReference = document.getElementById(requestId + "-ref").value;
+      body.sendEmail = document.getElementById(requestId + "-send-email").checked;
     }
 
     rowMessage.style.color = "var(--dim)";
-    rowMessage.textContent = "שולח...";
+    rowMessage.textContent = prepareBtn ? "שומר טיוטה..." : approveBtn ? "מפיק קבלה..." : "דוחה...";
 
     fetch(WORKER_ORIGIN + path, {
       method: "POST",
@@ -638,9 +1005,11 @@
           return;
         }
         rowMessage.style.color = "#5c8a5c";
-        rowMessage.textContent = approveBtn
-          ? "אושר - סטטוס: " + result.data.status
-          : "הבקשה נדחתה.";
+        rowMessage.textContent = prepareBtn
+          ? "הטיוטה נשמרה לבדיקה. לא הופקה קבלה."
+          : approveBtn
+            ? "ההפקה אושרה - סטטוס: " + result.data.status
+            : "הבקשה נדחתה.";
         setTimeout(loadReceipts, 1200);
       })
       .catch(function () {
@@ -648,6 +1017,430 @@
         rowMessage.textContent = "שגיאת רשת.";
       });
   });
+
+  // Saved-contact book. Phone/email never appear in a Bit screenshot, so
+  // this is the only way to auto-fill them - admin-key gated, never used
+  // from the public form. Matching there is server-side only, by
+  // descriptionKeyword (see /bit-receipts/extract); here in the admin
+  // panel the full list is also available for manual selection.
+  var contactsCache = [];
+
+  function renderContact(contact) {
+    var wrap = document.createElement("div");
+    wrap.style.cssText =
+      "display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--line); padding: 10px 14px; margin-bottom: 8px;";
+    wrap.innerHTML =
+      '<span>' + contact.firstName + ' ' + contact.lastName +
+      '<span style="color: var(--dim); font-size: 13px;"> - ' + (contact.phone || "-") + ' | ' + (contact.email || "-") +
+      (contact.serviceType ? ' | ' + contact.serviceType : '') + '</span></span>' +
+      '<span style="display: flex; gap: 8px;">' +
+      '<button type="button" class="js-contact-edit" style="padding: 4px 10px; background: transparent; border: 1px solid var(--copper); color: var(--copper); cursor: pointer; font-size: 13px;">ערוך</button>' +
+      '<button type="button" class="js-contact-delete" style="padding: 4px 10px; background: transparent; border: 1px solid #c0554d; color: #c0554d; cursor: pointer; font-size: 13px;">מחק</button>' +
+      '</span>';
+    wrap.dataset.contactId = contact.id;
+    return wrap;
+  }
+
+  function refreshContactSelect() {
+    var select = document.getElementById("manual-contact-select");
+    var currentValue = select.value;
+    select.innerHTML = '<option value="">— בחר לקוח —</option>';
+    contactsCache.forEach(function (contact) {
+      var option = document.createElement("option");
+      option.value = contact.id;
+      option.textContent = contact.firstName + " " + contact.lastName;
+      select.appendChild(option);
+    });
+    select.value = currentValue;
+  }
+
+  function loadContacts() {
+    var key = adminKey();
+    var listEl = document.getElementById("contacts-list");
+    if (!key) return;
+
+    fetch(WORKER_ORIGIN + "/admin/contacts/list", {
+      headers: { "X-Disegni-Admin-Key": key },
+    })
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
+        if (!data.ok) return;
+        contactsCache = data.contacts;
+        refreshContactSelect();
+        listEl.innerHTML = "";
+        if (!data.contacts.length) {
+          listEl.innerHTML = '<p style="color: var(--dim); font-size: 14px;">אין עדיין לקוחות שמורים.</p>';
+          return;
+        }
+        data.contacts.forEach(function (contact) {
+          listEl.appendChild(renderContact(contact));
+        });
+      })
+      .catch(function () {});
+  }
+
+  function fillContactForm(contact) {
+    document.getElementById("contact-id").value = contact.id || "";
+    document.getElementById("contact-firstname").value = contact.firstName || "";
+    document.getElementById("contact-lastname").value = contact.lastName || "";
+    document.getElementById("contact-phone").value = contact.phone || "";
+    document.getElementById("contact-email").value = contact.email || "";
+    document.getElementById("contact-servicetype").value = contact.serviceType || "";
+    document.getElementById("contact-keyword").value = contact.descriptionKeyword || "";
+    document.getElementById("contact-cancel-btn").hidden = !contact.id;
+  }
+
+  document.getElementById("contacts-list").addEventListener("click", function (event) {
+    var editBtn = event.target.closest(".js-contact-edit");
+    var deleteBtn = event.target.closest(".js-contact-delete");
+    if (!editBtn && !deleteBtn) return;
+    var id = (editBtn || deleteBtn).closest("[data-contact-id]").dataset.contactId;
+    var key = adminKey();
+    if (!key) return;
+
+    if (editBtn) {
+      var contact = contactsCache.filter(function (c) {
+        return c.id === id;
+      })[0];
+      if (contact) {
+        fillContactForm(contact);
+        document.getElementById("contact-form").scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+      return;
+    }
+
+    if (!window.confirm("למחוק את הלקוח הזה?")) return;
+    fetch(WORKER_ORIGIN + "/admin/contacts/delete", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Disegni-Admin-Key": key },
+      body: JSON.stringify({ id: id }),
+    })
+      .then(function () {
+        loadContacts();
+      })
+      .catch(function () {});
+  });
+
+  document.getElementById("contact-cancel-btn").addEventListener("click", function () {
+    fillContactForm({});
+  });
+
+  document.getElementById("contact-save-btn").addEventListener("click", function () {
+    var key = adminKey();
+    var msg = document.getElementById("contact-form-message");
+    if (!key) {
+      msg.style.color = "#c0554d";
+      msg.textContent = "הזינו מפתח אדמין קודם.";
+      return;
+    }
+
+    var payload = {
+      id: document.getElementById("contact-id").value.trim(),
+      firstName: document.getElementById("contact-firstname").value.trim(),
+      lastName: document.getElementById("contact-lastname").value.trim(),
+      phone: document.getElementById("contact-phone").value.trim(),
+      email: document.getElementById("contact-email").value.trim(),
+      serviceType: document.getElementById("contact-servicetype").value.trim(),
+      descriptionKeyword: document.getElementById("contact-keyword").value.trim(),
+    };
+    if (!payload.firstName || !payload.lastName) {
+      msg.style.color = "#c0554d";
+      msg.textContent = "שם פרטי ושם משפחה הם שדות חובה.";
+      return;
+    }
+
+    msg.style.color = "var(--dim)";
+    msg.textContent = "שומר...";
+
+    fetch(WORKER_ORIGIN + "/admin/contacts/create", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Disegni-Admin-Key": key },
+      body: JSON.stringify(payload),
+    })
+      .then(function (response) {
+        return response.json().then(function (data) {
+          return { ok: response.ok, data: data };
+        });
+      })
+      .then(function (result) {
+        if (!result.ok || !result.data.ok) {
+          msg.style.color = "#c0554d";
+          msg.textContent = "שגיאה: " + ((result.data && result.data.error) || "לא ידוע");
+          return;
+        }
+        msg.style.color = "#5c8a5c";
+        msg.textContent = "הלקוח נשמר.";
+        fillContactForm({});
+        loadContacts();
+      })
+      .catch(function () {
+        msg.style.color = "#c0554d";
+        msg.textContent = "שגיאת רשת.";
+      });
+  });
+
+  // Manual "create pending request from a pasted screenshot" flow - lets Gal
+  // paste a Bit screenshot received on WhatsApp straight in, instead of
+  // saving it as a file and using the public upload form. Extract-only; the
+  // record is created via the same public /bit-receipts/submit endpoint the
+  // on-site form uses, so it lands in the pending list above like any other.
+  (function () {
+    var pasteTarget = document.getElementById("manual-paste-target");
+    var uploadMessage = document.getElementById("manual-upload-message");
+    var fieldsWrap = document.getElementById("manual-entry-fields");
+    var submitBtn = document.getElementById("manual-submit-btn");
+    var submitMessage = document.getElementById("manual-submit-message");
+    var contactMatchMessage = document.getElementById("contact-match-message");
+    var addContactBtn = document.getElementById("manual-add-contact-btn");
+    var contactSelect = document.getElementById("manual-contact-select");
+
+    // Applies the single contact the server matched by descriptionKeyword
+    // (see /bit-receipts/extract) - never a fetched list, just this one
+    // record. Falls back to a clear "fill manually" message when there's
+    // no match, per the same behavior as the public form.
+    function applyMatchedContact(matchedContact) {
+      contactMatchMessage.textContent = "";
+      addContactBtn.hidden = true;
+      if (!matchedContact) {
+        contactMatchMessage.style.color = "var(--dim)";
+        contactMatchMessage.textContent = "לא זוהתה התאמה אוטומטית - אפשר לבחור לקוח מהרשימה או למלא ידנית.";
+        addContactBtn.hidden = false;
+        return;
+      }
+      document.getElementById("manual-name").value = matchedContact.firstName + " " + matchedContact.lastName;
+      if (matchedContact.phone) document.getElementById("manual-phone").value = matchedContact.phone;
+      if (matchedContact.email) document.getElementById("manual-email").value = matchedContact.email;
+      if (matchedContact.serviceType) document.getElementById("manual-description").value = matchedContact.serviceType;
+      contactMatchMessage.style.color = "#5c8a5c";
+      contactMatchMessage.textContent = "נמצאה התאמה ללקוח קיים: " + matchedContact.firstName + " " + matchedContact.lastName;
+    }
+
+    contactSelect.addEventListener("change", function () {
+      var contact = contactsCache.filter(function (c) {
+        return c.id === contactSelect.value;
+      })[0];
+      if (!contact) return;
+      document.getElementById("manual-name").value = contact.firstName + " " + contact.lastName;
+      document.getElementById("manual-phone").value = contact.phone || "";
+      document.getElementById("manual-email").value = contact.email || "";
+      if (contact.serviceType) document.getElementById("manual-description").value = contact.serviceType;
+      contactMatchMessage.textContent = "";
+      addContactBtn.hidden = true;
+    });
+
+    addContactBtn.addEventListener("click", function () {
+      var fullName = document.getElementById("manual-name").value.trim();
+      var spaceIndex = fullName.indexOf(" ");
+      fillContactForm({
+        firstName: spaceIndex === -1 ? fullName : fullName.slice(0, spaceIndex),
+        lastName: spaceIndex === -1 ? "" : fullName.slice(spaceIndex + 1).trim(),
+        phone: document.getElementById("manual-phone").value.trim(),
+        email: document.getElementById("manual-email").value.trim(),
+        serviceType: document.getElementById("manual-description").value.trim(),
+      });
+      document.getElementById("contact-form").scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+
+    var TESSERACT_SCRIPT_URL = "https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js";
+
+    // Same client-side OCR as the public form - the screenshot never leaves
+    // the browser, only the recognized text goes to the Worker (for the
+    // saved-contact keyword match only).
+    function loadTesseract() {
+      if (window.Tesseract) return Promise.resolve(window.Tesseract);
+      if (loadTesseract._promise) return loadTesseract._promise;
+      loadTesseract._promise = new Promise(function (resolve, reject) {
+        var script = document.createElement("script");
+        script.src = TESSERACT_SCRIPT_URL;
+        script.onload = function () {
+          resolve(window.Tesseract);
+        };
+        script.onerror = function () {
+          reject(new Error("Failed to load Tesseract.js"));
+        };
+        document.head.appendChild(script);
+      });
+      return loadTesseract._promise;
+    }
+
+    // Tuned against a real Bit confirmation screen: amount as "₪300" (no
+    // space), a DD.MM.YY date (two-digit year), and a reference number
+    // shaped like "1078-6516-06849" - matched directly rather than by its
+    // "מספר אישור" label, since that label can land before or after the
+    // digits in OCR's left-to-right reading of the screen's right-to-left rows.
+    function extractFieldsFromText(text) {
+      var result = {};
+
+      var amountMatch = /₪\s*(\d[\d,]*(?:\.\d+)?)|(\d[\d,]*(?:\.\d+)?)\s*₪/.exec(text);
+      if (amountMatch) {
+        var amountNum = parseFloat((amountMatch[1] || amountMatch[2]).replace(/,/g, ""));
+        if (isFinite(amountNum) && amountNum > 0) result.amount = amountNum;
+      }
+
+      var dateMatch = /(\d{1,2})[./](\d{1,2})[./](\d{2,4})/.exec(text);
+      if (dateMatch) {
+        var day = dateMatch[1].length < 2 ? "0" + dateMatch[1] : dateMatch[1];
+        var month = dateMatch[2].length < 2 ? "0" + dateMatch[2] : dateMatch[2];
+        var year = dateMatch[3].length === 2 ? "20" + dateMatch[3] : dateMatch[3];
+        result.paymentDate = year + "-" + month + "-" + day;
+      }
+
+      var refMatch = /(\d{3,4}-\d{3,4}-\d{4,5})/.exec(text);
+      if (refMatch) result.bitReference = refMatch[1];
+
+      return result;
+    }
+
+    function extractDescriptionCandidate(text) {
+      var lines = text
+        .split(/\n+/)
+        .map(function (line) {
+          return line.trim();
+        })
+        .filter(Boolean);
+      var meaningful = lines.filter(function (line) {
+        if (line.length < 2) return false;
+        if (/^[\d.,/:\s₪+-]*$/.test(line)) return false;
+        if (/אסמכת|מספר\s*אישור|תאריך|סטטוס|שעה|Bit|בוצע|העבר|הועבר|קיבל/.test(line)) return false;
+        return true;
+      });
+      return meaningful.join(" ").slice(0, 500);
+    }
+
+    // Real app screenshots (icons, colored backgrounds, small text) OCR far
+    // worse than clean text on white - upscaling plus grayscale/contrast
+    // meaningfully helps Tesseract on that kind of image.
+    function preprocessImageForOcr(file) {
+      if (typeof createImageBitmap !== "function") return Promise.resolve(file);
+      return createImageBitmap(file)
+        .then(function (bitmap) {
+          var scale = 2;
+          var canvas = document.createElement("canvas");
+          canvas.width = bitmap.width * scale;
+          canvas.height = bitmap.height * scale;
+          var ctx = canvas.getContext("2d");
+          if (!ctx) return file;
+          if ("filter" in ctx) ctx.filter = "grayscale(1) contrast(1.4) brightness(1.05)";
+          ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+          return canvas;
+        })
+        .catch(function () {
+          return file;
+        });
+    }
+
+    pasteTarget.addEventListener("paste", function (event) {
+      var items = (event.clipboardData && event.clipboardData.items) || [];
+      var imageItem = Array.prototype.find.call(items, function (item) {
+        return item.kind === "file" && /^image\//.test(item.type);
+      });
+      if (!imageItem) return;
+      event.preventDefault();
+      var file = imageItem.getAsFile();
+      if (!file) return;
+
+      if (file.size > 5 * 1024 * 1024) {
+        uploadMessage.style.color = "#c0554d";
+        uploadMessage.textContent = "התמונה גדולה מדי (עד 5MB).";
+        return;
+      }
+
+      uploadMessage.style.color = "var(--dim)";
+      uploadMessage.textContent = "קורא את הפרטים... (יכול לקחת כמה שניות)";
+      submitMessage.textContent = "";
+
+      Promise.all([loadTesseract(), preprocessImageForOcr(file)])
+        .then(function (results) {
+          return results[0].recognize(results[1], "heb+eng");
+        })
+        .then(function (result) {
+          var rawText = (result && result.data && result.data.text) || "";
+          var fields = extractFieldsFromText(rawText);
+          var descriptionCandidate = extractDescriptionCandidate(rawText);
+
+          document.getElementById("manual-amount").value = fields.amount != null ? fields.amount : "";
+          document.getElementById("manual-date").value = fields.paymentDate || "";
+          document.getElementById("manual-description").value = descriptionCandidate;
+          document.getElementById("manual-ref").value = fields.bitReference || "";
+          fieldsWrap.hidden = false;
+
+          uploadMessage.style.color = "var(--dim)";
+          uploadMessage.textContent = "הפרטים נקראו - כדאי לבדוק ולהשלים לפני יצירת הבקשה.";
+
+          return fetch(WORKER_ORIGIN + "/bit-receipts/extract", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ description: rawText }),
+          })
+            .then(function (response) {
+              return response.json();
+            })
+            .then(function (data) {
+              applyMatchedContact(data && data.matchedContact);
+            })
+            .catch(function () {
+              applyMatchedContact(null);
+            });
+        })
+        .catch(function () {
+          uploadMessage.style.color = "#c0554d";
+          uploadMessage.textContent = "אירעה שגיאה בקריאת התמונה. אפשר למלא ידנית למטה.";
+          fieldsWrap.hidden = false;
+        });
+    });
+
+    submitBtn.addEventListener("click", function () {
+      var amountValue = Number(document.getElementById("manual-amount").value);
+      var payload = {
+        customerName: document.getElementById("manual-name").value.trim(),
+        phone: document.getElementById("manual-phone").value.trim(),
+        email: document.getElementById("manual-email").value.trim(),
+        amount: amountValue,
+        paymentDate: document.getElementById("manual-date").value.trim(),
+        description: document.getElementById("manual-description").value.trim(),
+        bitReference: document.getElementById("manual-ref").value.trim(),
+      };
+
+      submitMessage.style.color = "var(--dim)";
+      submitMessage.textContent = "יוצר בקשה...";
+      submitBtn.disabled = true;
+
+      fetch(WORKER_ORIGIN + "/bit-receipts/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      })
+        .then(function (response) {
+          return response.json().then(function (data) {
+            return { ok: response.ok, status: response.status, data: data };
+          });
+        })
+        .then(function (result) {
+          if (!result.ok) {
+            submitMessage.style.color = "#c0554d";
+            submitMessage.textContent =
+              result.data && result.data.code === "duplicate_bit_reference"
+                ? "האסמכתה הזו כבר קיימת."
+                : "שגיאה: " + ((result.data && (result.data.error || (result.data.fields || []).join(", "))) || "לא ידוע");
+            return;
+          }
+          submitMessage.style.color = "#5c8a5c";
+          submitMessage.textContent = "הבקשה נוצרה - מופיעה ברשימה למעלה.";
+          fieldsWrap.hidden = true;
+          uploadMessage.textContent = "";
+          loadReceipts();
+        })
+        .catch(function () {
+          submitMessage.style.color = "#c0554d";
+          submitMessage.textContent = "שגיאת רשת.";
+        })
+        .finally(function () {
+          submitBtn.disabled = false;
+        });
+    });
+  })();
 
   document.getElementById("check-status-btn").addEventListener("click", function () {
     var key = adminKey();
@@ -715,6 +1508,12 @@
         msg.textContent = "שגיאת רשת.";
       });
   });
+
+  if (adminSession) {
+    showAdmin();
+    loadReceipts();
+    loadContacts();
+  }
 })();
 </script>
 
@@ -730,8 +1529,8 @@
 </footer>
 
 
-<script src="/js/cart.js?v=075210da"></script>
-<script src="/js/nav-toggle.js?v=075210da"></script>
-<script src="/js/header-search.js?v=075210da"></script>
+<script src="/js/cart.js?v=2522cd02"></script>
+<script src="/js/nav-toggle.js?v=2522cd02"></script>
+<script src="/js/header-search.js?v=2522cd02"></script>
 </body>
 </html>
