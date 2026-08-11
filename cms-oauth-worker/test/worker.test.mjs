@@ -1740,10 +1740,29 @@ test("admin bit receipts list: requires the admin key", async () => {
   assert.equal(response.status, 401);
 });
 
-test("admin bit receipts list: returns only pending records", async () => {
+function bitPrepareRequest(overrides = {}) {
+  return new Request("https://worker.example/admin/bit-receipts/prepare", {
+    method: "POST",
+    headers: { Origin: "https://disegni.studio", "Content-Type": "application/json", "X-Disegni-Admin-Key": "admin-secret" },
+    body: JSON.stringify({
+      requestId: "BIT-20260805-0001",
+      customerName: "לקוחה בדיקה",
+      phone: "0500000000",
+      email: "customer@example.com",
+      amount: 134,
+      paymentDate: "2026-08-05T09:30:00+03:00",
+      description: "יצירת אמנות",
+      bitReference: "BIT-REF-10001",
+      ...overrides,
+    }),
+  });
+}
+
+test("admin bit receipts list: returns pending and draft records only", async () => {
   const env = bitAdminEnv();
   await worker.fetch(bitIntakeRequest(), env);
   await worker.fetch(bitIntakeRequest({ requestId: "BIT-20260805-0002", bitReference: "BIT-REF-10002" }), env);
+  await worker.fetch(bitPrepareRequest(), env);
   await worker.fetch(
     new Request("https://worker.example/admin/bit-receipts/reject", {
       method: "POST",
@@ -1762,9 +1781,50 @@ test("admin bit receipts list: returns only pending records", async () => {
   const body = await response.json();
   assert.equal(body.receipts.length, 1);
   assert.equal(body.receipts[0].requestId, "BIT-20260805-0001");
+  assert.equal(body.receipts[0].status, "draft");
 });
 
-test("admin bit receipt approve: rejects a request that isn't pending", async () => {
+test("admin bit receipt prepare: saves corrected fields as a draft without contacting SmartBee", async () => {
+  const env = bitAdminEnv();
+  await worker.fetch(bitIntakeRequest(), env);
+
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async (url) => {
+    throw new Error(`Preparing a draft must not call SmartBee, but fetched: ${url}`);
+  };
+
+  try {
+    const response = await worker.fetch(bitPrepareRequest({ customerName: "שם מתוקן" }), env);
+    const body = await response.json();
+    assert.equal(response.status, 200);
+    assert.equal(body.ok, true);
+    assert.equal(body.status, "draft");
+
+    const stored = JSON.parse(await env.ORDERS_KV.get("smartbee-bit:request:BIT-20260805-0001"));
+    assert.equal(stored.status, "draft");
+    assert.equal(stored.customerName, "שם מתוקן");
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("admin bit receipt approve: rejects a pending request until a draft is saved", async () => {
+  const env = bitAdminEnv();
+  await worker.fetch(bitIntakeRequest(), env);
+  const response = await worker.fetch(
+    new Request("https://worker.example/admin/bit-receipts/approve", {
+      method: "POST",
+      headers: { Origin: "https://disegni.studio", "Content-Type": "application/json", "X-Disegni-Admin-Key": "admin-secret" },
+      body: JSON.stringify({ requestId: "BIT-20260805-0001" }),
+    }),
+    env
+  );
+  assert.equal(response.status, 400);
+  const stored = JSON.parse(await env.ORDERS_KV.get("smartbee-bit:request:BIT-20260805-0001"));
+  assert.equal(stored.status, "pending");
+});
+
+test("admin bit receipt approve: rejects a request that does not exist", async () => {
   const env = bitAdminEnv();
   const response = await worker.fetch(
     new Request("https://worker.example/admin/bit-receipts/approve", {
@@ -1777,9 +1837,10 @@ test("admin bit receipt approve: rejects a request that isn't pending", async ()
   assert.equal(response.status, 404);
 });
 
-test("admin bit receipt approve: applies corrected fields and creates the live receipt", async () => {
+test("admin bit receipt approve: creates a live receipt only from the saved draft", async () => {
   const env = bitAdminEnv();
   await worker.fetch(bitIntakeRequest(), env);
+  await worker.fetch(bitPrepareRequest({ customerName: "שם מתוקן" }), env);
 
   const originalFetch = globalThis.fetch;
   let createBody = null;
@@ -1799,7 +1860,7 @@ test("admin bit receipt approve: applies corrected fields and creates the live r
       new Request("https://worker.example/admin/bit-receipts/approve", {
         method: "POST",
         headers: { Origin: "https://disegni.studio", "Content-Type": "application/json", "X-Disegni-Admin-Key": "admin-secret" },
-        body: JSON.stringify({ requestId: "BIT-20260805-0001", customerName: "שם מתוקן" }),
+        body: JSON.stringify({ requestId: "BIT-20260805-0001", customerName: "שינוי שלא נשמר" }),
       }),
       env
     );
@@ -1894,6 +1955,7 @@ test("admin bit receipt check-status: rejects a missing requestId", async () => 
 test("admin bit receipt check-status: polls SmartBee for a processing record without creating a document", async () => {
   const env = bitAdminEnv();
   await worker.fetch(bitIntakeRequest(), env);
+  await worker.fetch(bitPrepareRequest(), env);
 
   const originalFetch = globalThis.fetch;
   const calls = [];

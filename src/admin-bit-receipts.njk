@@ -189,9 +189,27 @@ noAnalytics: true
     wrap.className = "js-receipt-row";
     wrap.style.cssText = "border: 1px solid var(--line); padding: 20px; margin-bottom: 16px;";
     var prefix = receipt.requestId;
+    var isDraft = receipt.status === "draft";
+    var statusBlock = isDraft
+      ? '<div style="padding: 12px; margin-bottom: 14px; border: 1px solid #CF9843; color: #CF9843;">' +
+        '<strong>טיוטה לבדיקה</strong><br>' +
+        '<span style="color: var(--bone);">הקבלה טרם הופקה. לאחר כל תיקון יש לעדכן את הטיוטה ורק אז לבצע אישור סופי.</span>' +
+        '</div>'
+      : '<div style="padding: 12px; margin-bottom: 14px; border: 1px solid var(--line); color: var(--bone);">' +
+        'בקשה חדשה. שמירת הטיוטה אינה מפיקה קבלה ואינה שולחת דבר.' +
+        '</div>';
+    var actionButtons =
+      '<button type="button" class="js-prepare" data-request-id="' + receipt.requestId + '" style="padding: 10px 18px; background: #CF9843; color: #11122A; border: none; cursor: pointer;">' +
+      (isDraft ? 'עדכון הטיוטה' : 'שמירת טיוטה לבדיקה') +
+      '</button>' +
+      (isDraft
+        ? '<button type="button" class="js-final-approve" data-request-id="' + receipt.requestId + '" style="padding: 10px 18px; background: #5c8a5c; color: #fff; border: none; cursor: pointer;">אישור סופי והפקת קבלה</button>'
+        : '') +
+      '<button type="button" class="js-reject" data-request-id="' + receipt.requestId + '" style="padding: 10px 18px; background: transparent; border: 1px solid #c0554d; color: #c0554d; cursor: pointer;">דחה</button>';
 
     wrap.innerHTML =
       '<p style="font-weight: 600; margin: 0 0 12px;">' + receipt.requestId + '</p>' +
+      statusBlock +
       fieldRow("שם מלא", prefix + "-name", receipt.customerName) +
       fieldRow("טלפון", prefix + "-phone", receipt.phone) +
       fieldRow("דוא\"ל", prefix + "-email", receipt.email) +
@@ -199,9 +217,8 @@ noAnalytics: true
       fieldRow("תאריך תשלום", prefix + "-date", receipt.paymentDate, "text", formatReadableDate(receipt.paymentDate)) +
       fieldRow("תיאור", prefix + "-description", receipt.description) +
       fieldRow("אסמכתת Bit", prefix + "-ref", receipt.bitReference) +
-      '<div style="display: flex; gap: 10px; margin-top: 12px;">' +
-      '<button type="button" class="js-approve" data-request-id="' + receipt.requestId + '" style="padding: 10px 18px; background: #5c8a5c; color: #fff; border: none; cursor: pointer;">אשר והפק קבלה</button>' +
-      '<button type="button" class="js-reject" data-request-id="' + receipt.requestId + '" style="padding: 10px 18px; background: transparent; border: 1px solid #c0554d; color: #c0554d; cursor: pointer;">דחה</button>' +
+      '<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px;">' +
+      actionButtons +
       '</div>' +
       '<p class="js-row-message" style="margin-top: 10px; font-size: 14px;"></p>';
 
@@ -236,7 +253,7 @@ noAnalytics: true
         listMessage.style.color = "var(--dim)";
         listEl.innerHTML = "";
         if (!result.data.receipts.length) {
-          listMessage.textContent = "אין בקשות ממתינות כרגע.";
+          listMessage.textContent = "אין בקשות או טיוטות לבדיקה כרגע.";
           return;
         }
         listMessage.textContent = "";
@@ -256,12 +273,14 @@ noAnalytics: true
   });
 
   document.getElementById("receipts-list").addEventListener("click", function (event) {
-    var approveBtn = event.target.closest(".js-approve");
+    var prepareBtn = event.target.closest(".js-prepare");
+    var approveBtn = event.target.closest(".js-final-approve");
     var rejectBtn = event.target.closest(".js-reject");
-    if (!approveBtn && !rejectBtn) return;
+    if (!prepareBtn && !approveBtn && !rejectBtn) return;
 
-    var requestId = (approveBtn || rejectBtn).dataset.requestId;
-    var row = (approveBtn || rejectBtn).closest(".js-receipt-row");
+    var actionBtn = prepareBtn || approveBtn || rejectBtn;
+    var requestId = actionBtn.dataset.requestId;
+    var row = actionBtn.closest(".js-receipt-row");
     var rowMessage = row.querySelector(".js-row-message");
     var key = adminKey();
     if (!key) {
@@ -270,9 +289,17 @@ noAnalytics: true
       return;
     }
 
-    var path = approveBtn ? "/admin/bit-receipts/approve" : "/admin/bit-receipts/reject";
+    if (approveBtn && !window.confirm("אישור סופי יפיק את הקבלה ב-SmartBee. האם בדקת שכל הפרטים נכונים וברצונך להמשיך?")) {
+      return;
+    }
+
+    var path = prepareBtn
+      ? "/admin/bit-receipts/prepare"
+      : approveBtn
+        ? "/admin/bit-receipts/approve"
+        : "/admin/bit-receipts/reject";
     var body = { requestId: requestId };
-    if (approveBtn) {
+    if (prepareBtn) {
       body.customerName = document.getElementById(requestId + "-name").value;
       body.phone = document.getElementById(requestId + "-phone").value;
       body.email = document.getElementById(requestId + "-email").value;
@@ -283,7 +310,7 @@ noAnalytics: true
     }
 
     rowMessage.style.color = "var(--dim)";
-    rowMessage.textContent = "שולח...";
+    rowMessage.textContent = prepareBtn ? "שומר טיוטה..." : approveBtn ? "מפיק קבלה..." : "דוחה...";
 
     fetch(WORKER_ORIGIN + path, {
       method: "POST",
@@ -302,9 +329,11 @@ noAnalytics: true
           return;
         }
         rowMessage.style.color = "#5c8a5c";
-        rowMessage.textContent = approveBtn
-          ? "אושר - סטטוס: " + result.data.status
-          : "הבקשה נדחתה.";
+        rowMessage.textContent = prepareBtn
+          ? "הטיוטה נשמרה לבדיקה. לא הופקה קבלה."
+          : approveBtn
+            ? "ההפקה אושרה - סטטוס: " + result.data.status
+            : "הבקשה נדחתה.";
         setTimeout(loadReceipts, 1200);
       })
       .catch(function () {

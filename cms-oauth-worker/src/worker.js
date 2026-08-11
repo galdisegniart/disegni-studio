@@ -76,6 +76,10 @@ export default {
       return handleAdminBitReceiptApprove(request, env);
     }
 
+    if (url.pathname === "/admin/bit-receipts/prepare") {
+      return handleAdminBitReceiptPrepare(request, env);
+    }
+
     if (url.pathname === "/admin/bit-receipts/reject") {
       return handleAdminBitReceiptReject(request, env);
     }
@@ -2655,18 +2659,115 @@ async function handleAdminBitReceiptsList(request, env) {
   const receipts = [];
   for (const key of listing.keys) {
     const record = await kvGetJSON(env, key.name);
-    if (record && record.status === "pending") receipts.push(bitReceiptAdminResponse(record));
+    if (record && ["pending", "draft"].includes(record.status)) {
+      receipts.push(bitReceiptAdminResponse(record));
+    }
   }
   receipts.sort((a, b) => (a.createdAt || "").localeCompare(b.createdAt || ""));
 
   return jsonResponse({ ok: true, receipts }, 200, corsHeaders);
 }
 
-// The only step that actually touches SmartBee. Re-validates whatever Gal
-// corrected in the admin page, then hands off to the exact same
+// Saves Gal's reviewed values as an internal draft. This endpoint never
+// contacts SmartBee, so preparing or updating a draft cannot issue a receipt.
+async function handleAdminBitReceiptPrepare(request, env) {
+  const corsHeaders = getCorsHeaders(request, env);
+
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: corsHeaders ? 204 : 403,
+      headers: corsHeaders || noStoreHeaders(),
+    });
+  }
+  if (request.method !== "POST") {
+    return jsonResponse({ ok: false, error: "Method not allowed" }, 405, corsHeaders, { Allow: "POST, OPTIONS" });
+  }
+  if (!corsHeaders) {
+    return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
+  }
+  const authError = requireAdminKey(request, env, corsHeaders);
+  if (authError) return authError;
+
+  if (!env.ORDERS_KV) {
+    return jsonResponse({ ok: false, error: "Receipt storage is not configured" }, 503, corsHeaders);
+  }
+
+  let input;
+  try {
+    input = await request.json();
+  } catch {
+    return jsonResponse({ ok: false, error: "Invalid JSON" }, 400, corsHeaders);
+  }
+
+  const requestId = cleanText(input.requestId, 80);
+  if (!BIT_REQUEST_ID_PATTERN.test(requestId)) {
+    return jsonResponse({ ok: false, error: "Invalid requestId" }, 400, corsHeaders);
+  }
+
+  const record = await kvGetJSON(env, bitReceiptRequestKey(requestId));
+  if (!record) {
+    return jsonResponse({ ok: false, error: "Receipt request not found" }, 404, corsHeaders);
+  }
+  if (!["pending", "draft"].includes(record.status)) {
+    return jsonResponse(
+      { ok: false, error: `Request status is "${record.status}" - already resolved` },
+      400,
+      corsHeaders
+    );
+  }
+
+  const reviewedFields = {
+    requestId,
+    customerName: input.customerName !== undefined ? input.customerName : record.customerName,
+    phone: input.phone !== undefined ? input.phone : record.phone,
+    email: input.email !== undefined ? input.email : record.email,
+    amount: input.amount !== undefined ? input.amount : record.amount,
+    paymentDate: input.paymentDate !== undefined ? input.paymentDate : record.paymentDate,
+    description: input.description !== undefined ? input.description : record.description,
+    bitReference: input.bitReference !== undefined ? input.bitReference : record.bitReference,
+  };
+  const validated = validateBitReceiptInput(reviewedFields);
+  if (!validated.ok) {
+    return jsonResponse(
+      { ok: false, error: validated.error, fields: validated.fields || [] },
+      400,
+      corsHeaders
+    );
+  }
+
+  const existingReference = await kvGetJSON(env, bitReceiptReferenceKey(validated.value.bitReference));
+  if (existingReference && existingReference.requestId !== requestId) {
+    return jsonResponse(
+      { ok: false, error: "Bit reference already belongs to another request", code: "duplicate_bit_reference" },
+      409,
+      corsHeaders
+    );
+  }
+
+  const now = new Date().toISOString();
+  const draftRecord = {
+    ...record,
+    ...validated.value,
+    status: "draft",
+    draftedAt: record.draftedAt || now,
+    updatedAt: now,
+  };
+  if (record.bitReference !== draftRecord.bitReference) {
+    await env.ORDERS_KV.delete(bitReceiptReferenceKey(record.bitReference));
+  }
+  await saveBitReceiptRecord(env, draftRecord);
+
+  return jsonResponse(
+    { ok: true, requestId, status: "draft", receipt: bitReceiptAdminResponse(draftRecord) },
+    200,
+    corsHeaders
+  );
+}
+
+// The only admin step that actually touches SmartBee. It accepts only a
+// previously saved draft, then hands off to the exact same
 // handleSmartBeeCreateBitReceiptLive() the Make-facing endpoint uses -
-// no duplicated SmartBee call logic - so a request that's approved goes
-// through the identical pending -> processing -> issued/failed transition.
+// no duplicated SmartBee call logic.
 async function handleAdminBitReceiptApprove(request, env) {
   const corsHeaders = getCorsHeaders(request, env);
 
@@ -2708,24 +2809,24 @@ async function handleAdminBitReceiptApprove(request, env) {
   if (!record) {
     return jsonResponse({ ok: false, error: "Receipt request not found" }, 404, corsHeaders);
   }
-  if (record.status !== "pending") {
+  if (record.status !== "draft") {
     return jsonResponse(
-      { ok: false, error: `Request status is "${record.status}", not "pending" - already resolved` },
+      { ok: false, error: `Request status is "${record.status}", not "draft" - save and review a draft first` },
       400,
       corsHeaders
     );
   }
 
-  // Gal's corrected fields, falling back to what came in from Make.
+  // Final approval always uses the persisted draft, never unsaved browser fields.
   const correctedFields = {
     requestId,
-    customerName: input.customerName !== undefined ? input.customerName : record.customerName,
-    phone: input.phone !== undefined ? input.phone : record.phone,
-    email: input.email !== undefined ? input.email : record.email,
-    amount: input.amount !== undefined ? input.amount : record.amount,
-    paymentDate: input.paymentDate !== undefined ? input.paymentDate : record.paymentDate,
-    description: input.description !== undefined ? input.description : record.description,
-    bitReference: input.bitReference !== undefined ? input.bitReference : record.bitReference,
+    customerName: record.customerName,
+    phone: record.phone,
+    email: record.email,
+    amount: record.amount,
+    paymentDate: record.paymentDate,
+    description: record.description,
+    bitReference: record.bitReference,
   };
 
   const internalRequest = new Request("https://internal.worker/smartbee/create-bit-receipt-live", {
@@ -2778,9 +2879,9 @@ async function handleAdminBitReceiptReject(request, env) {
   if (!record) {
     return jsonResponse({ ok: false, error: "Receipt request not found" }, 404, corsHeaders);
   }
-  if (record.status !== "pending") {
+  if (!["pending", "draft"].includes(record.status)) {
     return jsonResponse(
-      { ok: false, error: `Request status is "${record.status}", not "pending" - already resolved` },
+      { ok: false, error: `Request status is "${record.status}" - already resolved` },
       400,
       corsHeaders
     );
