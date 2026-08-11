@@ -87,26 +87,30 @@
     return loadTesseract._promise;
   }
 
-  // Best-effort regex extraction from the raw OCR text - Bit's share layout
-  // is consistent enough (amount next to ₪, DD.MM.YYYY dates, a labeled
-  // reference number) that this is reliable without needing an AI call.
+  // Best-effort regex extraction from the raw OCR text, tuned against a real
+  // Bit confirmation screen: amount as "₪300" (no space), a DD.MM.YY date
+  // (two-digit year), and a reference number shaped like "1078-6516-06849" -
+  // matched directly rather than by its "מספר אישור" label, since that label
+  // can land before or after the digits in OCR's left-to-right reading of
+  // the screen's right-to-left rows.
   function extractFieldsFromText(text) {
     var result = {};
 
-    var amountMatch = /(\d[\d,]*(?:\.\d+)?)\s*₪|₪\s*(\d[\d,]*(?:\.\d+)?)/.exec(text);
+    var amountMatch = /₪\s*(\d[\d,]*(?:\.\d+)?)|(\d[\d,]*(?:\.\d+)?)\s*₪/.exec(text);
     if (amountMatch) {
       var amountNum = parseFloat((amountMatch[1] || amountMatch[2]).replace(/,/g, ""));
       if (isFinite(amountNum) && amountNum > 0) result.amount = amountNum;
     }
 
-    var dateMatch = /(\d{1,2})[./](\d{1,2})[./](\d{4})/.exec(text);
+    var dateMatch = /(\d{1,2})[./](\d{1,2})[./](\d{2,4})/.exec(text);
     if (dateMatch) {
       var day = dateMatch[1].length < 2 ? "0" + dateMatch[1] : dateMatch[1];
       var month = dateMatch[2].length < 2 ? "0" + dateMatch[2] : dateMatch[2];
-      result.paymentDate = dateMatch[3] + "-" + month + "-" + day;
+      var year = dateMatch[3].length === 2 ? "20" + dateMatch[3] : dateMatch[3];
+      result.paymentDate = year + "-" + month + "-" + day;
     }
 
-    var refMatch = /אסמכת[א-ת]*[^\d]{0,10}(\d{4,})/.exec(text);
+    var refMatch = /(\d{3,4}-\d{3,4}-\d{4,5})/.exec(text);
     if (refMatch) result.bitReference = refMatch[1];
 
     return result;
@@ -147,8 +151,11 @@
       .filter(Boolean);
     var meaningful = lines.filter(function (line) {
       if (line.length < 2) return false;
-      if (/^\d[\d.,/:\s₪-]*$/.test(line)) return false;
-      if (/^(אסמכת|תאריך|סכום|Bit|בוצע|העברה|קיבל)/.test(line)) return false;
+      if (/^[\d.,/:\s₪+-]*$/.test(line)) return false;
+      // Checked anywhere in the line, not just at the start - OCR's
+      // left-to-right reading of an RTL row can put the value before the
+      // label (e.g. "1078-6516-06849 מספר אישור ב-bit").
+      if (/אסמכת|מספר\s*אישור|תאריך|סטטוס|שעה|Bit|בוצע|העבר|הועבר|קיבל/.test(line)) return false;
       return true;
     });
     return meaningful.join(" ").slice(0, 500);
