@@ -970,6 +970,7 @@ test("creates a pending Bit receipt request with a stable id and no email delive
       },
     ]);
     assert.equal(documentRequest.receiptDetails.cashItems, undefined);
+    assert.equal(documentRequest.docDate, undefined);
     assert.equal(documentRequest.creationMetadata, undefined);
     assert.equal(documentRequest.customer.email, "customer@example.com");
     assert.equal(JSON.stringify(body).includes("private-live-token"), false);
@@ -2046,6 +2047,50 @@ test("admin bit receipt check-status: polls SmartBee for a processing record wit
     assert.equal(body.status, "processing");
     assert.equal(calls.some((url) => url.endsWith("/Documents/create")), false);
     assert.equal(calls.some((url) => url.endsWith("/Documents/bit-msg-1")), true);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("admin bit receipt check-status: stores a safe diagnostic when SmartBee rejects the lookup", async () => {
+  const env = bitAdminEnv();
+  await worker.fetch(bitIntakeRequest(), env);
+  const key = "smartbee-bit:request:BIT-20260805-0001";
+  const pending = JSON.parse(await env.ORDERS_KV.get(key));
+  await env.ORDERS_KV.put(key, JSON.stringify({
+    ...pending,
+    status: "processing",
+    apiMessageId: "bit-msg-1",
+  }));
+
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async (url) => {
+    if (url.endsWith("/Login/authenticate")) {
+      return Response.json({ token: "private-live-token" });
+    }
+    return Response.json({
+      resultCodeId: 99,
+      result: "General status error",
+      validationErrors: {},
+    });
+  };
+
+  try {
+    const response = await worker.fetch(bitCheckStatusRequest(), env);
+    assert.equal(response.status, 502);
+    const stored = JSON.parse(await env.ORDERS_KV.get(key));
+    assert.equal(stored.status, "processing");
+    assert.deepEqual(stored.lastStatusCheckDiagnostic, {
+      httpStatus: null,
+      resultCodeId: 99,
+      validationFields: [],
+    });
+    assert.deepEqual(stored.lastStatusResponseSummary, {
+      resultCodeId: 99,
+      result: "General status error",
+      validationFields: [],
+    });
+    assert.ok(stored.lastStatusCheckAt);
   } finally {
     globalThis.fetch = originalFetch;
   }

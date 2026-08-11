@@ -2236,7 +2236,6 @@ async function handleSmartBeeCreateBitReceiptLive(request, env) {
           },
         ],
       },
-      docDate: receipt.paymentDate,
       isDraft: false,
       ...(receipt.sendEmail
         ? { creationMetadata: { sendOriginalToCustomer: true } }
@@ -2324,10 +2323,11 @@ async function handleSmartBeeBitReceiptStatusLive(request, env) {
     return jsonResponse(bitReceiptPublicResponse(record, false), 200, corsHeaders);
   }
 
+  let statusResult = null;
   try {
     const apiBase = smartBeeLiveApiBase(env);
     const token = await smartBeeAuthenticateLive(apiBase, env);
-    const statusResult = await smartBeeRequest(
+    statusResult = await smartBeeRequest(
       `${apiBase}/Documents/${encodeURIComponent(record.apiMessageId)}`,
       null,
       token,
@@ -2343,14 +2343,37 @@ async function handleSmartBeeBitReceiptStatusLive(request, env) {
     await saveBitReceiptRecord(env, updatedRecord);
     return jsonResponse(bitReceiptPublicResponse(updatedRecord, false), 200, corsHeaders);
   } catch (error) {
-    console.error("SmartBee Bit receipt status check failed", requestId);
+    const diagnostic = safeSmartBeeDiagnostic(error);
+    const responseSummary = statusResult
+      ? {
+          resultCodeId: Number.isInteger(statusResult.resultCodeId)
+            ? statusResult.resultCodeId
+            : null,
+          result:
+            typeof statusResult.result === "string"
+              ? cleanText(statusResult.result, 500)
+              : null,
+          validationFields: Object.keys(statusResult.validationErrors || {}),
+        }
+      : null;
+    await saveBitReceiptRecord(env, {
+      ...record,
+      lastStatusCheckAt: new Date().toISOString(),
+      lastStatusCheckDiagnostic: diagnostic,
+      lastStatusResponseSummary: responseSummary,
+    });
+    console.error(
+      "SmartBee Bit receipt status check failed",
+      requestId,
+      JSON.stringify(diagnostic)
+    );
     return jsonResponse(
       {
         ok: false,
         requestId,
         status: record.status,
         error: "SmartBee receipt status check failed",
-        diagnostic: safeSmartBeeDiagnostic(error),
+        diagnostic,
       },
       502,
       corsHeaders
