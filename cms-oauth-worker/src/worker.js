@@ -92,6 +92,10 @@ export default {
       return handleAdminBitReceiptCheckStatus(request, env);
     }
 
+    if (url.pathname === "/admin/bit-receipts/retry") {
+      return handleAdminBitReceiptRetry(request, env);
+    }
+
     if (url.pathname === "/bookings/create") {
       return handleBookingCreate(request, env);
     }
@@ -2182,13 +2186,17 @@ async function handleSmartBeeCreateBitReceiptLive(request, env) {
   }
 
   const now = new Date().toISOString();
+  const providerMsgId = existingRequest?.retryProviderMsgId || receipt.requestId;
   const processingRecord = {
     ...receipt,
     status: "processing",
-    apiMessageId: existingRequest?.apiMessageId || "",
+    apiMessageId: existingRequest?.retryProviderMsgId ? "" : existingRequest?.apiMessageId || "",
     documentId: existingRequest?.documentId || "",
     linkToOriginal: existingRequest?.linkToOriginal || "",
     linkToCopy: existingRequest?.linkToCopy || "",
+    retryCount: existingRequest?.retryCount || 0,
+    retryProviderMsgId: existingRequest?.retryProviderMsgId || "",
+    retryAuthorizedAt: existingRequest?.retryAuthorizedAt || "",
     createdAt: existingRequest?.createdAt || now,
     updatedAt: now,
   };
@@ -2205,8 +2213,8 @@ async function handleSmartBeeCreateBitReceiptLive(request, env) {
     const documentRequest = {
       // SmartBee uses providerMsgId to identify retries. Keeping requestId
       // stable is what prevents a retry from creating another document.
-      providerMsgId: receipt.requestId,
-      providerMsgReferenceId: receipt.requestId,
+      providerMsgId,
+      providerMsgReferenceId: providerMsgId,
       providerUserToken: env.SMARTBEE_LIVE_PROVIDER_USER_TOKEN,
       customer: {
         name: receipt.customerName,
@@ -2247,7 +2255,7 @@ async function handleSmartBeeCreateBitReceiptLive(request, env) {
       documentRequest,
       token
     );
-    const outcome = smartBeeCreationOutcome(createResult, receipt.requestId);
+    const outcome = smartBeeCreationOutcome(createResult, providerMsgId);
     const updatedRecord = {
       ...processingRecord,
       ...outcome,
@@ -2556,6 +2564,12 @@ function bitReceiptAdminResponse(record) {
     linkToCopy: record.linkToCopy || null,
     createdAt: record.createdAt,
     updatedAt: record.updatedAt,
+    canRetry:
+      record.status === "processing" &&
+      !record.documentId &&
+      !record.linkToOriginal &&
+      record.lastStatusResponseSummary?.resultCodeId === 99 &&
+      !(record.retryCount > 0),
   };
 }
 
@@ -3105,6 +3119,102 @@ async function handleAdminBitReceiptCheckStatus(request, env) {
   const statusBody = await statusResponse.json();
 
   return jsonResponse(statusBody, statusResponse.status, corsHeaders);
+}
+
+// Explicit, one-time recovery for a receipt that SmartBee rejected after
+// queueing with resultCodeId 99. It is never automatic and is exposed only
+// through the authenticated admin panel.
+async function handleAdminBitReceiptRetry(request, env) {
+  const corsHeaders = getCorsHeaders(request, env);
+
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: corsHeaders ? 204 : 403,
+      headers: corsHeaders || noStoreHeaders(),
+    });
+  }
+  if (request.method !== "POST") {
+    return jsonResponse({ ok: false, error: "Method not allowed" }, 405, corsHeaders, { Allow: "POST, OPTIONS" });
+  }
+  if (!corsHeaders) {
+    return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
+  }
+  const authError = await requireAdminKey(request, env, corsHeaders);
+  if (authError) return authError;
+  if (!env.ORDERS_KV || !env.MAKE_BIT_RECEIPTS_SECRET) {
+    return jsonResponse({ ok: false, error: "Bit receipt retry is not configured" }, 503, corsHeaders);
+  }
+
+  let input;
+  try {
+    input = await request.json();
+  } catch {
+    return jsonResponse({ ok: false, error: "Invalid JSON" }, 400, corsHeaders);
+  }
+
+  const requestId = cleanText(input.requestId, 80);
+  if (!BIT_REQUEST_ID_PATTERN.test(requestId)) {
+    return jsonResponse({ ok: false, error: "Invalid requestId" }, 400, corsHeaders);
+  }
+
+  const record = await kvGetJSON(env, bitReceiptRequestKey(requestId));
+  if (!record) {
+    return jsonResponse({ ok: false, error: "Receipt request not found" }, 404, corsHeaders);
+  }
+  const confirmedAsyncFailure =
+    record.status === "processing" &&
+    !record.documentId &&
+    !record.linkToOriginal &&
+    record.lastStatusResponseSummary?.resultCodeId === 99;
+  if (!confirmedAsyncFailure) {
+    return jsonResponse(
+      { ok: false, error: "Receipt is not eligible for a safe retry" },
+      409,
+      corsHeaders
+    );
+  }
+  if (record.retryCount > 0) {
+    return jsonResponse(
+      { ok: false, error: "Receipt retry was already used" },
+      409,
+      corsHeaders
+    );
+  }
+
+  const retryProviderMsgId = `${requestId.slice(0, 77)}-R1`;
+  const retryRecord = {
+    ...record,
+    status: "retrying",
+    retryCount: 1,
+    retryProviderMsgId,
+    retryAuthorizedAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
+  await saveBitReceiptRecord(env, retryRecord);
+
+  const internalRequest = new Request("https://internal.worker/smartbee/create-bit-receipt-live", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Origin: corsHeaders["Access-Control-Allow-Origin"],
+      Authorization: `Bearer ${env.MAKE_BIT_RECEIPTS_SECRET}`,
+    },
+    body: JSON.stringify({
+      requestId,
+      customerName: record.customerName,
+      phone: record.phone,
+      email: record.email,
+      amount: record.amount,
+      paymentDate: record.paymentDate,
+      description: record.description,
+      bitReference: record.bitReference,
+      sendEmail: record.sendEmail === true,
+    }),
+  });
+
+  const liveResponse = await handleSmartBeeCreateBitReceiptLive(internalRequest, env);
+  const liveBody = await liveResponse.json();
+  return jsonResponse(liveBody, liveResponse.status, corsHeaders);
 }
 
 async function handleSmartBeeReceiptStatus(request, env) {

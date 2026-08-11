@@ -1995,6 +1995,16 @@ function bitCheckStatusRequest(overrides = {}, adminKey = "admin-secret") {
   });
 }
 
+function bitRetryRequest(overrides = {}, adminKey = "admin-secret") {
+  const headers = { Origin: "https://disegni.studio", "Content-Type": "application/json" };
+  if (adminKey !== null) headers["X-Disegni-Admin-Key"] = adminKey;
+  return new Request("https://worker.example/admin/bit-receipts/retry", {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ requestId: "BIT-20260805-0001", ...overrides }),
+  });
+}
+
 test("admin bit receipt check-status: requires the admin key", async () => {
   const env = bitAdminEnv();
   const response = await worker.fetch(bitCheckStatusRequest({}, "wrong-key"), env);
@@ -2094,6 +2104,56 @@ test("admin bit receipt check-status: stores a safe diagnostic when SmartBee rej
   } finally {
     globalThis.fetch = originalFetch;
   }
+});
+
+test("admin bit receipt retry: retries a confirmed resultCodeId 99 once with a new provider id and no document date", async () => {
+  const env = bitAdminEnv();
+  await worker.fetch(bitIntakeRequest(), env);
+  const key = "smartbee-bit:request:BIT-20260805-0001";
+  const pending = JSON.parse(await env.ORDERS_KV.get(key));
+  await env.ORDERS_KV.put(key, JSON.stringify({
+    ...pending,
+    status: "processing",
+    apiMessageId: "failed-msg-1",
+    lastStatusResponseSummary: { resultCodeId: 99, result: null, validationFields: [] },
+  }));
+
+  const originalFetch = globalThis.fetch;
+  let documentRequest;
+  globalThis.fetch = async (url, options) => {
+    if (url.endsWith("/Login/authenticate")) {
+      return Response.json({ token: "private-live-token" });
+    }
+    if (url.endsWith("/Documents/create")) {
+      documentRequest = JSON.parse(options.body);
+      return Response.json({ resultCodeId: 101, result: "retry-msg-1", validationErrors: {} });
+    }
+    throw new Error(`Unexpected URL: ${url}`);
+  };
+
+  try {
+    const response = await worker.fetch(bitRetryRequest(), env);
+    const body = await response.json();
+    assert.equal(response.status, 200);
+    assert.equal(body.status, "processing");
+    assert.equal(documentRequest.providerMsgId, "BIT-20260805-0001-R1");
+    assert.equal(documentRequest.providerMsgReferenceId, "BIT-20260805-0001-R1");
+    assert.equal(documentRequest.docDate, undefined);
+    assert.equal(documentRequest.receiptDetails.otherItems[0].date, "2026-08-05T06:30:00.000Z");
+
+    const stored = JSON.parse(await env.ORDERS_KV.get(key));
+    assert.equal(stored.retryCount, 1);
+    assert.equal(stored.apiMessageId, "retry-msg-1");
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("admin bit receipt retry: rejects a record without a confirmed asynchronous failure", async () => {
+  const env = bitAdminEnv();
+  await worker.fetch(bitIntakeRequest(), env);
+  const response = await worker.fetch(bitRetryRequest(), env);
+  assert.equal(response.status, 409);
 });
 
 test("admin bit receipt check-status: returns an issued record without contacting SmartBee", async () => {
