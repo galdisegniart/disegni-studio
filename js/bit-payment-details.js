@@ -139,6 +139,61 @@
       });
   }
 
+  // Bit's large amount is placed in the upper-centre of the shared receipt.
+  // OCR engines often read the digits correctly but drop the shekel sign, so
+  // read that small region separately as numbers instead of depending on ₪.
+  function preprocessAmountRegionForOcr(file) {
+    if (typeof createImageBitmap !== "function") return Promise.resolve(null);
+    return createImageBitmap(file)
+      .then(function (bitmap) {
+        var sourceX = Math.round(bitmap.width * 0.34);
+        var sourceY = Math.round(bitmap.height * 0.25);
+        var sourceWidth = Math.round(bitmap.width * 0.38);
+        var sourceHeight = Math.round(bitmap.height * 0.18);
+        var scale = 3;
+        var canvas = document.createElement("canvas");
+        canvas.width = sourceWidth * scale;
+        canvas.height = sourceHeight * scale;
+        var ctx = canvas.getContext("2d");
+        if (!ctx) return null;
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        if ("filter" in ctx) ctx.filter = "grayscale(1) contrast(1.8) brightness(1.08)";
+        ctx.drawImage(
+          bitmap,
+          sourceX,
+          sourceY,
+          sourceWidth,
+          sourceHeight,
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        );
+        return canvas;
+      })
+      .catch(function () {
+        return null;
+      });
+  }
+
+  function extractAmountFromRegionText(text) {
+    var candidates = String(text || "").match(/\d[\d,.]*/g) || [];
+    var amounts = candidates
+      .map(function (candidate) {
+        var normalized = candidate.replace(/,/g, "");
+        var value = parseFloat(normalized);
+        return isFinite(value) && value > 0 && value <= 100000 ? value : null;
+      })
+      .filter(function (value) {
+        return value != null;
+      });
+
+    // The crop is deliberately limited to the large amount. If OCR leaves a
+    // tiny stray digit from an icon, the actual payment is the largest value.
+    return amounts.length ? Math.max.apply(Math, amounts) : null;
+  }
+
   // A rough guess at the free-text note the payer wrote (for prefilling the
   // visible "description" field) - drops lines that are clearly just the
   // amount/date/labels rather than an actual note. Always editable either way.
@@ -173,13 +228,26 @@
 
     setUploadStatus("קורא את הפרטים... (יכול לקחת כמה שניות)", null);
 
-    Promise.all([loadTesseract(), preprocessImageForOcr(file)])
+    Promise.all([loadTesseract(), preprocessImageForOcr(file), preprocessAmountRegionForOcr(file)])
       .then(function (results) {
-        return results[0].recognize(results[1], "heb+eng");
+        var Tesseract = results[0];
+        return Promise.all([
+          Tesseract.recognize(results[1], "heb+eng"),
+          results[2]
+            ? Tesseract.recognize(results[2], "eng", {
+                tessedit_char_whitelist: "0123456789,.",
+              })
+            : Promise.resolve(null),
+        ]);
       })
-      .then(function (result) {
+      .then(function (ocrResults) {
+        var result = ocrResults[0];
+        var amountResult = ocrResults[1];
         var rawText = (result && result.data && result.data.text) || "";
+        var amountText = (amountResult && amountResult.data && amountResult.data.text) || "";
         var fields = extractFieldsFromText(rawText);
+        var regionAmount = extractAmountFromRegionText(amountText);
+        if (regionAmount != null) fields.amount = regionAmount;
         var descriptionCandidate = extractDescriptionCandidate(rawText);
 
         if (fields.amount != null) form.elements.amount.value = fields.amount;
