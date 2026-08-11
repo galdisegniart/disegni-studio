@@ -598,6 +598,28 @@ noAnalytics: true
       return meaningful.join(" ").slice(0, 500);
     }
 
+    // Real app screenshots (icons, colored backgrounds, small text) OCR far
+    // worse than clean text on white - upscaling plus grayscale/contrast
+    // meaningfully helps Tesseract on that kind of image.
+    function preprocessImageForOcr(file) {
+      if (typeof createImageBitmap !== "function") return Promise.resolve(file);
+      return createImageBitmap(file)
+        .then(function (bitmap) {
+          var scale = 2;
+          var canvas = document.createElement("canvas");
+          canvas.width = bitmap.width * scale;
+          canvas.height = bitmap.height * scale;
+          var ctx = canvas.getContext("2d");
+          if (!ctx) return file;
+          if ("filter" in ctx) ctx.filter = "grayscale(1) contrast(1.4) brightness(1.05)";
+          ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+          return canvas;
+        })
+        .catch(function () {
+          return file;
+        });
+    }
+
     pasteTarget.addEventListener("paste", function (event) {
       var items = (event.clipboardData && event.clipboardData.items) || [];
       var imageItem = Array.prototype.find.call(items, function (item) {
@@ -618,9 +640,9 @@ noAnalytics: true
       uploadMessage.textContent = "קורא את הפרטים... (יכול לקחת כמה שניות)";
       submitMessage.textContent = "";
 
-      loadTesseract()
-        .then(function (Tesseract) {
-          return Tesseract.recognize(file, "heb+eng");
+      Promise.all([loadTesseract(), preprocessImageForOcr(file)])
+        .then(function (results) {
+          return results[0].recognize(results[1], "heb+eng");
         })
         .then(function (result) {
           var rawText = (result && result.data && result.data.text) || "";
