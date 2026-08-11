@@ -2238,6 +2238,9 @@ async function handleSmartBeeCreateBitReceiptLive(request, env) {
       },
       docDate: receipt.paymentDate,
       isDraft: false,
+      ...(receipt.sendEmail
+        ? { creationMetadata: { sendOriginalToCustomer: true } }
+        : {}),
     };
 
     const createResult = await smartBeeRequest(
@@ -2408,6 +2411,7 @@ function validateBitReceiptInput(input) {
       paymentDate: parsedPaymentDate.toISOString(),
       description,
       bitReference,
+      sendEmail: source.sendEmail === true,
     },
   };
 }
@@ -2523,6 +2527,7 @@ function bitReceiptAdminResponse(record) {
     paymentDate: record.paymentDate,
     description: record.description,
     bitReference: record.bitReference,
+    sendEmail: record.sendEmail === true,
     documentId: record.documentId || null,
     linkToOriginal: record.linkToOriginal || null,
     linkToCopy: record.linkToCopy || null,
@@ -2775,20 +2780,24 @@ async function handleAdminBitReceiptsList(request, env) {
   if (authError) return authError;
 
   if (!env.ORDERS_KV) {
-    return jsonResponse({ ok: true, receipts: [] }, 200, corsHeaders);
+    return jsonResponse({ ok: true, receipts: [], recentReceipts: [] }, 200, corsHeaders);
   }
 
   const listing = await env.ORDERS_KV.list({ prefix: "smartbee-bit:request:" });
   const receipts = [];
+  const recentReceipts = [];
   for (const key of listing.keys) {
     const record = await kvGetJSON(env, key.name);
     if (record && ["pending", "draft"].includes(record.status)) {
       receipts.push(bitReceiptAdminResponse(record));
+    } else if (record && ["processing", "issued", "failed", "rejected"].includes(record.status)) {
+      recentReceipts.push(bitReceiptAdminResponse(record));
     }
   }
   receipts.sort((a, b) => (a.createdAt || "").localeCompare(b.createdAt || ""));
+  recentReceipts.sort((a, b) => (b.updatedAt || "").localeCompare(a.updatedAt || ""));
 
-  return jsonResponse({ ok: true, receipts }, 200, corsHeaders);
+  return jsonResponse({ ok: true, receipts, recentReceipts: recentReceipts.slice(0, 20) }, 200, corsHeaders);
 }
 
 // Saves Gal's reviewed values as an internal draft. This endpoint never
@@ -2848,6 +2857,7 @@ async function handleAdminBitReceiptPrepare(request, env) {
     paymentDate: input.paymentDate !== undefined ? input.paymentDate : record.paymentDate,
     description: input.description !== undefined ? input.description : record.description,
     bitReference: input.bitReference !== undefined ? input.bitReference : record.bitReference,
+    sendEmail: input.sendEmail !== undefined ? input.sendEmail === true : record.sendEmail === true,
   };
   const validated = validateBitReceiptInput(reviewedFields);
   if (!validated.ok) {
@@ -2950,6 +2960,7 @@ async function handleAdminBitReceiptApprove(request, env) {
     paymentDate: record.paymentDate,
     description: record.description,
     bitReference: record.bitReference,
+    sendEmail: record.sendEmail === true,
   };
 
   const internalRequest = new Request("https://internal.worker/smartbee/create-bit-receipt-live", {

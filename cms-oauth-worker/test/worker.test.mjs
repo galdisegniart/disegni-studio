@@ -1807,7 +1807,7 @@ function bitPrepareRequest(overrides = {}) {
   });
 }
 
-test("admin bit receipts list: returns pending and draft records only", async () => {
+test("admin bit receipts list: separates pending drafts from recent resolved receipts", async () => {
   const env = bitAdminEnv();
   await worker.fetch(bitIntakeRequest(), env);
   await worker.fetch(bitIntakeRequest({ requestId: "BIT-20260805-0002", bitReference: "BIT-REF-10002" }), env);
@@ -1831,6 +1831,9 @@ test("admin bit receipts list: returns pending and draft records only", async ()
   assert.equal(body.receipts.length, 1);
   assert.equal(body.receipts[0].requestId, "BIT-20260805-0001");
   assert.equal(body.receipts[0].status, "draft");
+  assert.equal(body.recentReceipts.length, 1);
+  assert.equal(body.recentReceipts[0].requestId, "BIT-20260805-0002");
+  assert.equal(body.recentReceipts[0].status, "rejected");
 });
 
 test("admin bit receipt prepare: saves corrected fields as a draft without contacting SmartBee", async () => {
@@ -1886,10 +1889,10 @@ test("admin bit receipt approve: rejects a request that does not exist", async (
   assert.equal(response.status, 404);
 });
 
-test("admin bit receipt approve: creates a live receipt only from the saved draft", async () => {
+test("admin bit receipt approve: creates a live receipt only from the saved draft and requests optional email delivery", async () => {
   const env = bitAdminEnv();
   await worker.fetch(bitIntakeRequest(), env);
-  await worker.fetch(bitPrepareRequest({ customerName: "שם מתוקן" }), env);
+  await worker.fetch(bitPrepareRequest({ customerName: "שם מתוקן", sendEmail: true }), env);
 
   const originalFetch = globalThis.fetch;
   let createBody = null;
@@ -1919,10 +1922,12 @@ test("admin bit receipt approve: creates a live receipt only from the saved draf
     assert.equal(body.ok, true);
     assert.equal(body.status, "processing");
     assert.equal(createBody.customer.name, "שם מתוקן");
+    assert.deepEqual(createBody.creationMetadata, { sendOriginalToCustomer: true });
 
     const stored = JSON.parse(await env.ORDERS_KV.get("smartbee-bit:request:BIT-20260805-0001"));
     assert.equal(stored.status, "processing");
     assert.equal(stored.customerName, "שם מתוקן");
+    assert.equal(stored.sendEmail, true);
   } finally {
     globalThis.fetch = originalFetch;
   }

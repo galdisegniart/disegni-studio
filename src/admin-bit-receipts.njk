@@ -44,6 +44,15 @@ noAnalytics: true
 
   <hr style="border-color: var(--line); margin: 40px 0;" />
 
+  <h2 style="font-size: 18px; margin-bottom: 8px;">קבלות אחרונות</h2>
+  <p style="color: var(--dim); margin-bottom: 16px; font-size: 14px;">
+    כאן מופיעות בקשות שאושרו, נמצאות בעיבוד, הופקו או נכשלו. קבלה מוכנה כוללת קישור ל-PDF ואפשרות שיתוף ב-WhatsApp.
+  </p>
+  <p id="recent-message" style="color: var(--dim); font-size: 14px;"></p>
+  <div id="recent-receipts-list"></div>
+
+  <hr style="border-color: var(--line); margin: 40px 0;" />
+
   <h2 style="font-size: 18px; margin-bottom: 8px;">יצירת בקשה ידנית מצילום מסך</h2>
   <p style="color: var(--dim); margin-bottom: 16px; font-size: 14px;">
     שימושי כשמקבלים צילום מסך של תשלום Bit בוואטסאפ - מדביקים אותו ישירות
@@ -235,11 +244,20 @@ noAnalytics: true
     return match ? match[1] : "";
   }
 
+  function escapeHtml(value) {
+    return String(value == null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
   function fieldRow(labelText, id, value, type, hint) {
     return (
       '<label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">' +
       '<span style="font-size: 13px; color: var(--dim);">' + labelText + (hint ? ' (' + hint + ')' : '') + '</span>' +
-      '<input type="' + (type || "text") + '" id="' + id + '" value="' + (value == null ? "" : String(value).replace(/"/g, "&quot;")) + '" ' +
+      '<input type="' + (type || "text") + '" id="' + id + '" value="' + escapeHtml(value) + '" ' +
       'style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />' +
       '</label>'
     );
@@ -278,6 +296,10 @@ noAnalytics: true
       fieldRow("תאריך תשלום", prefix + "-date", receipt.paymentDate, "text", formatReadableDate(receipt.paymentDate)) +
       fieldRow("תיאור", prefix + "-description", receipt.description) +
       fieldRow("אסמכתת Bit", prefix + "-ref", receipt.bitReference) +
+      '<label style="display: flex; align-items: center; gap: 8px; margin: 12px 0; color: var(--bone);">' +
+      '<input type="checkbox" id="' + prefix + '-send-email"' + (receipt.sendEmail ? ' checked' : '') + ' />' +
+      '<span>לשלוח את הקבלה ללקוחה בדוא"ל לאחר ההפקה</span>' +
+      '</label>' +
       '<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px;">' +
       actionButtons +
       '</div>' +
@@ -286,10 +308,55 @@ noAnalytics: true
     return wrap;
   }
 
+  function whatsappPhone(phone) {
+    var digits = String(phone || "").replace(/\D/g, "");
+    return digits.indexOf("0") === 0 ? "972" + digits.slice(1) : digits;
+  }
+
+  function recentStatusLabel(status) {
+    return {
+      processing: "בעיבוד",
+      issued: "הופקה",
+      failed: "ההפקה נכשלה",
+      rejected: "נדחתה",
+    }[status] || status;
+  }
+
+  function renderRecentReceipt(receipt) {
+    var wrap = document.createElement("div");
+    wrap.className = "js-recent-receipt";
+    wrap.style.cssText = "border: 1px solid var(--line); padding: 18px; margin-bottom: 14px;";
+    var statusColor = receipt.status === "issued" ? "#73a873" : receipt.status === "failed" ? "#c0554d" : "#CF9843";
+    var actions = "";
+    if (receipt.linkToOriginal) {
+      actions += '<a href="' + receipt.linkToOriginal + '" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 9px 14px; border: 1px solid var(--copper); color: var(--copper); text-decoration: none;">פתיחת הקבלה (PDF)</a>';
+      var waText = encodeURIComponent("שלום " + (receipt.customerName || "") + ", הקבלה שלך מוכנה: " + receipt.linkToOriginal);
+      actions += '<a href="https://wa.me/' + whatsappPhone(receipt.phone) + '?text=' + waText + '" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 9px 14px; border: 1px solid #73a873; color: #73a873; text-decoration: none;">שיתוף קישור ב-WhatsApp</a>';
+    }
+    if (receipt.status === "processing") {
+      actions += '<button type="button" class="js-refresh-receipt" data-request-id="' + receipt.requestId + '" style="padding: 9px 14px; background: transparent; border: 1px solid var(--line); color: var(--bone); cursor: pointer;">בדיקת סטטוס מחדש</button>';
+    }
+    var receiptNumber = extractReceiptNumber(receipt.linkToOriginal);
+    wrap.innerHTML =
+      '<div style="display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;">' +
+      '<strong>' + escapeHtml(receipt.customerName || receipt.requestId) + '</strong>' +
+      '<strong style="color: ' + statusColor + ';">' + recentStatusLabel(receipt.status) + '</strong>' +
+      '</div>' +
+      '<p style="margin: 8px 0; color: var(--dim);">' + escapeHtml(receipt.amount || "-") + ' ₪ · ' + escapeHtml(receipt.description || "-") + '</p>' +
+      '<p style="margin: 8px 0; font-size: 13px; color: var(--dim);">מזהה: ' + escapeHtml(receipt.requestId) +
+      (receiptNumber ? ' · מספר קבלה: ' + receiptNumber : '') + '</p>' +
+      (receipt.sendEmail ? '<p style="margin: 8px 0; color: var(--dim);">התבקשה שליחה ל-' + escapeHtml(receipt.email || "הדוא״ל שנשמר") + '</p>' : '') +
+      '<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px;">' + actions + '</div>' +
+      '<p class="js-recent-message" style="margin: 10px 0 0; font-size: 14px;"></p>';
+    return wrap;
+  }
+
   function loadReceipts() {
     var key = adminKey();
     var listMessage = document.getElementById("list-message");
     var listEl = document.getElementById("receipts-list");
+    var recentMessage = document.getElementById("recent-message");
+    var recentList = document.getElementById("recent-receipts-list");
     if (!key) {
       listMessage.textContent = "הזינו מפתח אדמין קודם.";
       return;
@@ -317,20 +384,61 @@ noAnalytics: true
         }
         listMessage.style.color = "var(--dim)";
         listEl.innerHTML = "";
+        recentMessage.style.color = "var(--dim)";
+        recentList.innerHTML = "";
         if (!result.data.receipts.length) {
           listMessage.textContent = "אין בקשות או טיוטות לבדיקה כרגע.";
-          return;
+        } else {
+          listMessage.textContent = "";
+          result.data.receipts.forEach(function (receipt) {
+            listEl.appendChild(renderReceipt(receipt));
+          });
         }
-        listMessage.textContent = "";
-        result.data.receipts.forEach(function (receipt) {
-          listEl.appendChild(renderReceipt(receipt));
-        });
+        var recentReceipts = result.data.recentReceipts || [];
+        if (!recentReceipts.length) {
+          recentMessage.textContent = "עדיין אין קבלות אחרונות להצגה.";
+        } else {
+          recentMessage.textContent = "";
+          recentReceipts.forEach(function (receipt) {
+            recentList.appendChild(renderRecentReceipt(receipt));
+          });
+        }
       })
       .catch(function () {
         listMessage.style.color = "#c0554d";
         listMessage.textContent = "שגיאת רשת.";
       });
   }
+
+  document.getElementById("recent-receipts-list").addEventListener("click", function (event) {
+    var button = event.target.closest(".js-refresh-receipt");
+    if (!button) return;
+    var message = button.closest(".js-recent-receipt").querySelector(".js-recent-message");
+    button.disabled = true;
+    message.style.color = "var(--dim)";
+    message.textContent = "בודק מול SmartBee...";
+    fetch(WORKER_ORIGIN + "/admin/bit-receipts/check-status", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Disegni-Admin-Key": adminKey() },
+      body: JSON.stringify({ requestId: button.dataset.requestId }),
+    })
+      .then(function (response) {
+        return response.json().then(function (data) { return { ok: response.ok, data: data }; });
+      })
+      .then(function (result) {
+        if (!result.ok || !result.data.ok) {
+          message.style.color = "#c0554d";
+          message.textContent = "בדיקת הסטטוס נכשלה.";
+          return;
+        }
+        loadReceipts();
+      })
+      .catch(function () {
+        message.style.color = "#c0554d";
+        message.textContent = "שגיאת רשת.";
+      })
+      .finally(function () { button.disabled = false; });
+  });
 
   document.getElementById("admin-login").addEventListener("submit", function (event) {
     event.preventDefault();
@@ -422,6 +530,7 @@ noAnalytics: true
       body.paymentDate = document.getElementById(requestId + "-date").value;
       body.description = document.getElementById(requestId + "-description").value;
       body.bitReference = document.getElementById(requestId + "-ref").value;
+      body.sendEmail = document.getElementById(requestId + "-send-email").checked;
     }
 
     rowMessage.style.color = "var(--dim)";

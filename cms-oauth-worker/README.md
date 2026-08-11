@@ -113,10 +113,12 @@ Authorization: Bearer <MAKE_BIT_RECEIPTS_SECRET>
 ```
 
 בקשת היצירה כוללת את השדות: `requestId`, `customerName`, `phone`, `email`,
-`amount`, `paymentDate`, `description` ו-`bitReference`. כל השדות נדרשים.
+`amount`, `paymentDate`, `description`, `bitReference` והדגל האופציונלי
+`sendEmail`. כל שדות התשלום נדרשים.
 ה-Worker שולח ל-SmartBee קבלה עם `receiptDetails.otherItems`, תיאור אמצעי
-התשלום `Bit`, מע״מ `Free`, ו-`sendOriginalToCustomer: false` כל עוד התהליך
-נמצא בבדיקות.
+התשלום `Bit` ומע״מ `Free`. רק כאשר `sendEmail` סומן בטיוטה, נשלח גם
+`creationMetadata.sendOriginalToCustomer: true` כדי לבקש מ-SmartBee לשלוח
+את המסמך לכתובת הדוא״ל שנבדקה.
 
 מניעת כפילות נשמרת ב-`ORDERS_KV` בשני מפתחות נפרדים: מזהה הבקשה ואסמכתת
 Bit. `requestId` משמש גם כ-`providerMsgId` יציב מול SmartBee. בקשה חוזרת
@@ -140,7 +142,8 @@ Bit. `requestId` משמש גם כ-`providerMsgId` יציב מול SmartBee. בק
   ```
   מונעת כפילות באותו אופן בדיוק כמו `create-bit-receipt-live` (לפי
   `requestId` ו-`bitReference`), כי היא כותבת לאותם מפתחות KV בדיוק.
-- `GET /admin/bit-receipts` - רשימת הבקשות הממתינות והטיוטות לעמוד האדמין.
+- `GET /admin/bit-receipts` - רשימת הבקשות הממתינות והטיוטות, ובנפרד עד
+  20 רשומות אחרונות בסטטוס `processing`, `issued`, `failed` או `rejected`.
 - `POST /admin/bit-receipts/prepare` - שומר את הפרטים שנבדקו בסטטוס
   `draft` בלבד. אינו פונה ל-SmartBee ואינו מפיק או שולח קבלה.
 - `POST /admin/bit-receipts/approve` - רק כאן נוצרת קבלה אמיתית, ורק אם
