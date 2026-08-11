@@ -2329,3 +2329,124 @@ test("contacts admin: deletes a contact", async () => {
   const listBody = await listResponse.json();
   assert.equal(listBody.contacts.length, 0);
 });
+
+function mockGeminiFetch(extractedFields) {
+  return async (url) => {
+    assert.ok(String(url).includes("generativelanguage.googleapis.com"));
+    return Response.json({
+      candidates: [
+        {
+          content: {
+            parts: [{ text: "```json\n" + JSON.stringify(extractedFields) + "\n```" }],
+          },
+          finishReason: "STOP",
+        },
+      ],
+    });
+  };
+}
+
+function extractRequest() {
+  return new Request("https://worker.example/bit-receipts/extract", {
+    method: "POST",
+    headers: { Origin: "https://disegni.studio", "Content-Type": "application/json" },
+    body: JSON.stringify({ image: "data:image/png;base64,AAAA" }),
+  });
+}
+
+test("bit receipt extract: never asks Gemini for or returns customerName/phone/email", async () => {
+  const env = { ...ENV, GEMINI_API_KEY: "test-gemini-key", ORDERS_KV: createMockKV() };
+  const originalFetch = globalThis.fetch;
+  let capturedBody;
+  globalThis.fetch = async (url, options) => {
+    capturedBody = JSON.parse(options.body);
+    return Response.json({
+      candidates: [
+        {
+          content: { parts: [{ text: '{"amount": 250, "paymentDate": "2026-08-13", "description": "עבודה עם דוד", "bitReference": "123"}' }] },
+        },
+      ],
+    });
+  };
+
+  try {
+    const response = await worker.fetch(extractRequest(), env);
+    const body = await response.json();
+    assert.equal(response.status, 200);
+    assert.equal(body.extracted.customerName, undefined);
+    assert.equal(body.extracted.phone, undefined);
+    assert.equal(body.extracted.email, undefined);
+    assert.equal(body.extracted.description, "עבודה עם דוד");
+    assert.ok(!capturedBody.system_instruction.parts[0].text.includes("customerName, phone, email"));
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("bit receipt extract: matches a contact by descriptionKeyword and returns only that one record", async () => {
+  const env = { ...ENV, GEMINI_API_KEY: "test-gemini-key", DISEGNI_ADMIN_KEY: "admin-secret", ORDERS_KV: createMockKV() };
+  await worker.fetch(
+    adminContactsRequest("create", {
+      firstName: "דוד",
+      lastName: "כהן",
+      phone: "0501112222",
+      email: "david@example.com",
+      serviceType: "טיפול באמנות",
+      descriptionKeyword: "דוד",
+    }),
+    env
+  );
+  // A second, non-matching contact confirms only the matched one comes back.
+  await worker.fetch(
+    adminContactsRequest("create", { firstName: "רחל", lastName: "לוי", descriptionKeyword: "רחל" }),
+    env
+  );
+
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = mockGeminiFetch({
+    amount: 250,
+    paymentDate: "2026-08-13",
+    description: "עבודה עם דוד",
+    bitReference: "555",
+  });
+
+  try {
+    const response = await worker.fetch(extractRequest(), env);
+    const body = await response.json();
+    assert.equal(response.status, 200);
+    assert.deepEqual(body.matchedContact, {
+      firstName: "דוד",
+      lastName: "כהן",
+      phone: "0501112222",
+      email: "david@example.com",
+      serviceType: "טיפול באמנות",
+    });
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("bit receipt extract: returns no matchedContact when no keyword matches the description", async () => {
+  const env = { ...ENV, GEMINI_API_KEY: "test-gemini-key", DISEGNI_ADMIN_KEY: "admin-secret", ORDERS_KV: createMockKV() };
+  await worker.fetch(
+    adminContactsRequest("create", { firstName: "דוד", lastName: "כהן", descriptionKeyword: "דוד" }),
+    env
+  );
+
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = mockGeminiFetch({
+    amount: 100,
+    paymentDate: "2026-08-13",
+    description: "משלוח",
+    bitReference: "999",
+  });
+
+  try {
+    const response = await worker.fetch(extractRequest(), env);
+    const body = await response.json();
+    assert.equal(response.status, 200);
+    assert.equal(body.matchedContact, null);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});

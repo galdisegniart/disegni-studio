@@ -42,6 +42,16 @@ noAnalytics: true
 
   <div id="manual-entry-fields" hidden>
     <label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">
+      <span style="font-size: 13px; color: var(--dim);">בחירת לקוח שמור (אופציונלי)</span>
+      <select id="manual-contact-select" style="padding: 8px; background: #151514; border: 1px solid var(--line); color: var(--bone);">
+        <option value="">— בחר לקוח —</option>
+      </select>
+    </label>
+    <p id="contact-match-message" style="font-size: 13px; margin: -4px 0 10px;"></p>
+    <button type="button" id="manual-add-contact-btn" hidden style="padding: 6px 12px; background: transparent; border: 1px solid var(--line); color: var(--dim); cursor: pointer; font-size: 13px; margin: -4px 0 10px;">
+      + הוסף כלקוח חדש לרשימה
+    </button>
+    <label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">
       <span style="font-size: 13px; color: var(--dim);">שם מלא</span>
       <input type="text" id="manual-name" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
     </label>
@@ -53,10 +63,6 @@ noAnalytics: true
       <span style="font-size: 13px; color: var(--dim);">דוא"ל</span>
       <input type="email" id="manual-email" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
     </label>
-    <p id="contact-match-message" style="font-size: 13px; margin: -4px 0 10px;"></p>
-    <button type="button" id="manual-add-contact-btn" hidden style="padding: 6px 12px; background: transparent; border: 1px solid var(--line); color: var(--dim); cursor: pointer; font-size: 13px; margin: -4px 0 10px;">
-      + הוסף כלקוח חדש לרשימה
-    </button>
     <label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">
       <span style="font-size: 13px; color: var(--dim);">סכום (₪)</span>
       <input type="number" id="manual-amount" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
@@ -83,10 +89,11 @@ noAnalytics: true
 
   <h2 style="font-size: 18px; margin-bottom: 8px;">ניהול לקוחות שמורים</h2>
   <p style="color: var(--dim); margin-bottom: 16px; font-size: 14px;">
-    טלפון ומייל לא מופיעים אף פעם בצילום מסך של Bit - שמירת לקוח כאן פעם
-    אחת מאפשרת לזהות אותו אוטומטית בפעם הבאה שהשם שלו מזוהה מתמונה, ולמלא
-    את הפרטים האלה בעצמם. חיפוש ההתאמה הוא לפי שם בלבד ותמיד נשאר ניתן
-    לעריכה ידנית.
+    טלפון ומייל לא מופיעים אף פעם בצילום מסך של Bit. שני שימושים: (1) "מילת
+    זיהוי בתיאור" מאפשרת זיהוי אוטומטי גם בטופס הציבורי - אם הלקוח כותב
+    בהערת ההעברה מילה שמופיעה כאן (למשל השם הפרטי שלו), הפרטים ימולאו
+    אוטומטית; (2) ברשימה למטה אפשר גם לבחור לקוח ידנית בזמן יצירת בקשה
+    כאן באדמין. הכל תמיד ניתן לעריכה ידנית.
   </p>
   <div id="contacts-list" style="margin-bottom: 20px;"></div>
 
@@ -107,6 +114,14 @@ noAnalytics: true
     <label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">
       <span style="font-size: 13px; color: var(--dim);">דוא"ל</span>
       <input type="email" id="contact-email" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
+    </label>
+    <label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">
+      <span style="font-size: 13px; color: var(--dim);">סוג שירות (ימולא אוטומטית ב"עבור מה בוצע התשלום")</span>
+      <input type="text" id="contact-servicetype" placeholder="לדוגמה: טיפול באמנות" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
+    </label>
+    <label style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;">
+      <span style="font-size: 13px; color: var(--dim);">מילת זיהוי בתיאור ההעברה (לזיהוי אוטומטי בטופס הציבורי)</span>
+      <input type="text" id="contact-keyword" placeholder="לדוגמה: השם הפרטי שלו/ה" style="padding: 8px; background: transparent; border: 1px solid var(--line); color: var(--bone);" />
     </label>
     <div style="display: flex; gap: 10px;">
       <button type="button" id="contact-save-btn" style="padding: 10px 18px; background: transparent; border: 1px solid var(--copper); color: var(--copper); cursor: pointer;">
@@ -299,40 +314,11 @@ noAnalytics: true
   });
 
   // Saved-contact book. Phone/email never appear in a Bit screenshot, so
-  // this is the only way to auto-fill them - matched by name only, always
-  // left editable, never used from the public form (admin-key gated).
+  // this is the only way to auto-fill them - admin-key gated, never used
+  // from the public form. Matching there is server-side only, by
+  // descriptionKeyword (see /bit-receipts/extract); here in the admin
+  // panel the full list is also available for manual selection.
   var contactsCache = [];
-
-  function normalizeContactName(value) {
-    return String(value || "")
-      .trim()
-      .toLowerCase()
-      .replace(/[֑-ׇ]/g, ""); // strip Hebrew niqqud so matching ignores it
-  }
-
-  function findMatchingContact(customerName, contacts) {
-    var targetTokens = normalizeContactName(customerName).split(/\s+/).filter(Boolean);
-    if (!targetTokens.length) return null;
-
-    var best = null;
-    var bestScore = 0;
-    contacts.forEach(function (contact) {
-      var contactTokens = normalizeContactName(contact.firstName + " " + contact.lastName)
-        .split(/\s+/)
-        .filter(Boolean);
-      if (!contactTokens.length) return;
-      var overlap = contactTokens.filter(function (token) {
-        return targetTokens.indexOf(token) !== -1;
-      }).length;
-      var isFullMatch = overlap === contactTokens.length && overlap === targetTokens.length;
-      var score = isFullMatch ? 999 : overlap >= 2 ? overlap : 0;
-      if (score > bestScore) {
-        bestScore = score;
-        best = contact;
-      }
-    });
-    return best;
-  }
 
   function renderContact(contact) {
     var wrap = document.createElement("div");
@@ -340,13 +326,27 @@ noAnalytics: true
       "display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--line); padding: 10px 14px; margin-bottom: 8px;";
     wrap.innerHTML =
       '<span>' + contact.firstName + ' ' + contact.lastName +
-      '<span style="color: var(--dim); font-size: 13px;"> - ' + (contact.phone || "-") + ' | ' + (contact.email || "-") + '</span></span>' +
+      '<span style="color: var(--dim); font-size: 13px;"> - ' + (contact.phone || "-") + ' | ' + (contact.email || "-") +
+      (contact.serviceType ? ' | ' + contact.serviceType : '') + '</span></span>' +
       '<span style="display: flex; gap: 8px;">' +
       '<button type="button" class="js-contact-edit" style="padding: 4px 10px; background: transparent; border: 1px solid var(--copper); color: var(--copper); cursor: pointer; font-size: 13px;">ערוך</button>' +
       '<button type="button" class="js-contact-delete" style="padding: 4px 10px; background: transparent; border: 1px solid #c0554d; color: #c0554d; cursor: pointer; font-size: 13px;">מחק</button>' +
       '</span>';
     wrap.dataset.contactId = contact.id;
     return wrap;
+  }
+
+  function refreshContactSelect() {
+    var select = document.getElementById("manual-contact-select");
+    var currentValue = select.value;
+    select.innerHTML = '<option value="">— בחר לקוח —</option>';
+    contactsCache.forEach(function (contact) {
+      var option = document.createElement("option");
+      option.value = contact.id;
+      option.textContent = contact.firstName + " " + contact.lastName;
+      select.appendChild(option);
+    });
+    select.value = currentValue;
   }
 
   function loadContacts() {
@@ -363,6 +363,7 @@ noAnalytics: true
       .then(function (data) {
         if (!data.ok) return;
         contactsCache = data.contacts;
+        refreshContactSelect();
         listEl.innerHTML = "";
         if (!data.contacts.length) {
           listEl.innerHTML = '<p style="color: var(--dim); font-size: 14px;">אין עדיין לקוחות שמורים.</p>';
@@ -381,6 +382,8 @@ noAnalytics: true
     document.getElementById("contact-lastname").value = contact.lastName || "";
     document.getElementById("contact-phone").value = contact.phone || "";
     document.getElementById("contact-email").value = contact.email || "";
+    document.getElementById("contact-servicetype").value = contact.serviceType || "";
+    document.getElementById("contact-keyword").value = contact.descriptionKeyword || "";
     document.getElementById("contact-cancel-btn").hidden = !contact.id;
   }
 
@@ -434,6 +437,8 @@ noAnalytics: true
       lastName: document.getElementById("contact-lastname").value.trim(),
       phone: document.getElementById("contact-phone").value.trim(),
       email: document.getElementById("contact-email").value.trim(),
+      serviceType: document.getElementById("contact-servicetype").value.trim(),
+      descriptionKeyword: document.getElementById("contact-keyword").value.trim(),
     };
     if (!payload.firstName || !payload.lastName) {
       msg.style.color = "#c0554d";
@@ -484,35 +489,41 @@ noAnalytics: true
     var submitMessage = document.getElementById("manual-submit-message");
     var contactMatchMessage = document.getElementById("contact-match-message");
     var addContactBtn = document.getElementById("manual-add-contact-btn");
+    var contactSelect = document.getElementById("manual-contact-select");
 
-    function matchAndFillContact(customerName) {
+    // Applies the single contact the server matched by descriptionKeyword
+    // (see /bit-receipts/extract) - never a fetched list, just this one
+    // record. Falls back to a clear "fill manually" message when there's
+    // no match, per the same behavior as the public form.
+    function applyMatchedContact(matchedContact) {
       contactMatchMessage.textContent = "";
       addContactBtn.hidden = true;
-      if (!customerName) return;
-      var key = adminKey();
-      if (!key) return;
-
-      fetch(WORKER_ORIGIN + "/admin/contacts/list", {
-        headers: { "X-Disegni-Admin-Key": key },
-      })
-        .then(function (response) {
-          return response.json();
-        })
-        .then(function (data) {
-          if (!data.ok) return;
-          contactsCache = data.contacts;
-          var match = findMatchingContact(customerName, data.contacts);
-          if (match) {
-            if (match.phone) document.getElementById("manual-phone").value = match.phone;
-            if (match.email) document.getElementById("manual-email").value = match.email;
-            contactMatchMessage.style.color = "#5c8a5c";
-            contactMatchMessage.textContent = "נמצאה התאמה ללקוח קיים: " + match.firstName + " " + match.lastName;
-          } else {
-            addContactBtn.hidden = false;
-          }
-        })
-        .catch(function () {});
+      if (!matchedContact) {
+        contactMatchMessage.style.color = "var(--dim)";
+        contactMatchMessage.textContent = "לא זוהתה התאמה אוטומטית - אפשר לבחור לקוח מהרשימה או למלא ידנית.";
+        addContactBtn.hidden = false;
+        return;
+      }
+      document.getElementById("manual-name").value = matchedContact.firstName + " " + matchedContact.lastName;
+      if (matchedContact.phone) document.getElementById("manual-phone").value = matchedContact.phone;
+      if (matchedContact.email) document.getElementById("manual-email").value = matchedContact.email;
+      if (matchedContact.serviceType) document.getElementById("manual-description").value = matchedContact.serviceType;
+      contactMatchMessage.style.color = "#5c8a5c";
+      contactMatchMessage.textContent = "נמצאה התאמה ללקוח קיים: " + matchedContact.firstName + " " + matchedContact.lastName;
     }
+
+    contactSelect.addEventListener("change", function () {
+      var contact = contactsCache.filter(function (c) {
+        return c.id === contactSelect.value;
+      })[0];
+      if (!contact) return;
+      document.getElementById("manual-name").value = contact.firstName + " " + contact.lastName;
+      document.getElementById("manual-phone").value = contact.phone || "";
+      document.getElementById("manual-email").value = contact.email || "";
+      if (contact.serviceType) document.getElementById("manual-description").value = contact.serviceType;
+      contactMatchMessage.textContent = "";
+      addContactBtn.hidden = true;
+    });
 
     addContactBtn.addEventListener("click", function () {
       var fullName = document.getElementById("manual-name").value.trim();
@@ -522,6 +533,7 @@ noAnalytics: true
         lastName: spaceIndex === -1 ? "" : fullName.slice(spaceIndex + 1).trim(),
         phone: document.getElementById("manual-phone").value.trim(),
         email: document.getElementById("manual-email").value.trim(),
+        serviceType: document.getElementById("manual-description").value.trim(),
       });
       document.getElementById("contact-form").scrollIntoView({ behavior: "smooth", block: "center" });
     });
@@ -586,9 +598,6 @@ noAnalytics: true
           var extracted = (result.data && result.data.extracted) || {};
           var confidence = result.data && result.data.confidence;
 
-          document.getElementById("manual-name").value = extracted.customerName || "";
-          document.getElementById("manual-phone").value = extracted.phone || "";
-          document.getElementById("manual-email").value = extracted.email || "";
           document.getElementById("manual-amount").value = extracted.amount != null ? extracted.amount : "";
           document.getElementById("manual-date").value = extracted.paymentDate || "";
           document.getElementById("manual-description").value = extracted.description || "";
@@ -601,7 +610,7 @@ noAnalytics: true
               ? "הפרטים זוהו - כדאי לבדוק לפני יצירת הבקשה."
               : "לא הצלחנו לזהות הכל - השלימו/תקנו למטה לפני יצירת הבקשה.";
 
-          matchAndFillContact(extracted.customerName);
+          applyMatchedContact(result.data && result.data.matchedContact);
         })
         .catch(function () {
           uploadMessage.style.color = "#c0554d";

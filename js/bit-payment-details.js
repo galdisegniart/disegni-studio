@@ -113,26 +113,27 @@
         }
 
         var extracted = (result.data && result.data.extracted) || {};
-        var confidence = result.data && result.data.confidence;
-        var filledAny = false;
+        var matchedContact = result.data && result.data.matchedContact;
 
-        ["customerName", "phone", "email", "amount", "paymentDate", "description", "bitReference"].forEach(
-          function (field) {
-            var value = extracted[field];
-            if (value === undefined || value === null || String(value).trim() === "") return;
-            var input = form.elements[field];
-            if (!input) return;
-            input.value = value;
-            filledAny = true;
-          }
-        );
+        // Only these fields are ever guessed straight from the screenshot -
+        // there's no reliable way to read the payer's name off a Bit share,
+        // so identity comes only from matchedContact below (or manual entry).
+        ["amount", "paymentDate", "description", "bitReference"].forEach(function (field) {
+          var value = extracted[field];
+          if (value === undefined || value === null || String(value).trim() === "") return;
+          var input = form.elements[field];
+          if (!input) return;
+          input.value = value;
+        });
 
-        if (confidence === "full") {
-          setUploadStatus("הפרטים זוהו ומולאו אוטומטית - כדאי לבדוק לפני שליחה.", "ok");
-        } else if (filledAny) {
-          setUploadStatus("לא הצלחנו לזהות הכל - אפשר למלא/לתקן את שאר השדות ידנית.", "error");
+        if (matchedContact) {
+          form.elements.customerName.value = matchedContact.firstName + " " + matchedContact.lastName;
+          if (matchedContact.phone) form.elements.phone.value = matchedContact.phone;
+          if (matchedContact.email) form.elements.email.value = matchedContact.email;
+          if (matchedContact.serviceType) form.elements.description.value = matchedContact.serviceType;
+          setUploadStatus("זוהיתם אוטומטית - כדאי לבדוק את הפרטים לפני שליחה.", "ok");
         } else {
-          setUploadStatus("לא הצלחנו לזהות פרטים בתמונה. אפשר למלא ידנית.", "error");
+          setUploadStatus("לא זוהתה התאמה אוטומטית - נא למלא ידנית את שאר הפרטים.", null);
         }
       })
       .catch(function () {

@@ -1226,6 +1226,13 @@ async function handleAdminContactsCreate(request, env) {
   }
   const email = cleanText(input.email, 160);
   const phone = cleanText(input.phone, 20);
+  const serviceType = cleanText(input.serviceType, 200);
+  // Matched case-insensitively against the free-text note the payer writes
+  // in the Bit transfer itself - e.g. a keyword of "דוד" matches a note of
+  // "עבודה עם דוד". Deliberately just a substring, not a name-parsing
+  // heuristic: the payer chooses this text, so it's the most reliable
+  // signal available for identifying them automatically.
+  const descriptionKeyword = cleanText(input.descriptionKeyword, 100);
 
   // Editing an existing contact reuses its id; a new one gets a fresh id -
   // this is an upsert either way, matching how the admin form calls it.
@@ -1239,6 +1246,8 @@ async function handleAdminContactsCreate(request, env) {
     lastName,
     email,
     phone,
+    serviceType,
+    descriptionKeyword,
     createdAt: existing ? existing.createdAt : new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   };
@@ -2611,7 +2620,7 @@ async function handleBitReceiptExtract(request, env) {
           system_instruction: {
             parts: [
               {
-                text: 'אתה מחלץ נתונים מצילום מסך של שיתוף העברת Bit. החזר אך ורק JSON תקני (ללא טקסט נוסף) עם השדות: customerName, phone, email (אם קיים, אחרת null), amount (מספר בלבד, ללא סימן מטבע), paymentDate (בפורמט YYYY-MM-DD), description (אם מצוין, אחרת null), bitReference. אם שדה לא ברור מהתמונה - השתמש ב-null עבורו. חשוב לגבי customerName: בצילום מסך של Bit לא מופיע שם המשלם/ת עצמו - שם שמופיע בתמונה הוא בדרך כלל שם בעל העסק/הנמען, ואסור להשתמש בו כ-customerName. המקור היחיד האמין לשם הלקוח הוא הטקסט שהלקוח עצמו כתב בהערה/בתיאור ההעברה (אותו טקסט שאתה גם שם בשדה description) - חפש בו דפוסים כלליים כמו "עם [שם]", "עבור [שם]", "עבודה עם [שם]", "מאת [שם]" וכדומה, וחלץ את השם שאחרי המילה הזו כ-customerName. אם אין בתיאור דפוס ברור כזה - אל תנחש, השאר customerName כ-null. אם התמונה כלל לא נראית כמו שיתוף העברת Bit, החזר את כל השדות כ-null.',
+                text: 'אתה מחלץ נתונים מצילום מסך של שיתוף העברת Bit. החזר אך ורק JSON תקני (ללא טקסט נוסף) עם השדות: amount (מספר בלבד, ללא סימן מטבע), paymentDate (בפורמט YYYY-MM-DD), description (הטקסט המלא של ההערה/התיאור שהלקוח כתב בהעברה, אם קיים - אחרת null), bitReference. אם שדה לא ברור מהתמונה - השתמש ב-null עבורו. אל תחזיר שדות customerName, phone או email - הם לעולם לא מופיעים בצילום מסך של Bit (השם שמופיע בתמונה הוא בדרך כלל שם בעל העסק/הנמען, לא הלקוח ששילם), ומזוהים בנפרד מתוך שדה description. אם התמונה כלל לא נראית כמו שיתוף העברת Bit, החזר את כל השדות כ-null.',
               },
             ],
           },
@@ -2662,7 +2671,7 @@ async function handleBitReceiptExtract(request, env) {
     return jsonResponse({ ok: true, extracted: {}, confidence: "none" }, 200, corsHeaders);
   }
 
-  const fieldNames = ["customerName", "phone", "email", "amount", "paymentDate", "description", "bitReference"];
+  const fieldNames = ["amount", "paymentDate", "description", "bitReference"];
   const extracted = {};
   let filledCount = 0;
   for (const field of fieldNames) {
@@ -2678,7 +2687,36 @@ async function handleBitReceiptExtract(request, env) {
     console.error("Gemini returned all-null fields, parsedFields:", JSON.stringify(parsedFields).slice(0, 500));
   }
 
-  return jsonResponse({ ok: true, extracted, confidence }, 200, corsHeaders);
+  const matchedContact = extracted.description
+    ? await findContactByDescriptionKeyword(env, extracted.description)
+    : null;
+
+  return jsonResponse({ ok: true, extracted, confidence, matchedContact }, 200, corsHeaders);
+}
+
+// Server-side only - the public form never receives the full contact list,
+// just the single matched record (or null). Matching is a plain substring
+// check against the keyword the customer wrote in the Bit note themselves,
+// which is a far more reliable signal than any name visible in the image.
+async function findContactByDescriptionKeyword(env, descriptionText) {
+  if (!env.ORDERS_KV) return null;
+  const haystack = String(descriptionText).toLowerCase();
+
+  const listing = await env.ORDERS_KV.list({ prefix: "contact:" });
+  for (const key of listing.keys) {
+    const contact = await kvGetJSON(env, key.name);
+    if (!contact || !contact.descriptionKeyword) continue;
+    if (haystack.includes(contact.descriptionKeyword.toLowerCase())) {
+      return {
+        firstName: contact.firstName,
+        lastName: contact.lastName,
+        phone: contact.phone || "",
+        email: contact.email || "",
+        serviceType: contact.serviceType || "",
+      };
+    }
+  }
+  return null;
 }
 
 async function handleAdminBitReceiptsList(request, env) {
