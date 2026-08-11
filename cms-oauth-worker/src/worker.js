@@ -2249,7 +2249,7 @@ function validateBitReceiptInput(input) {
 
   const requestId = cleanText(source.requestId, 80);
   const customerName = cleanText(source.customerName, 100);
-  const phone = cleanText(source.phone, 20);
+  const phone = normalizeIsraeliPhone(source.phone);
   const email = cleanText(source.email, 160);
   const description = cleanText(source.description, 500);
   const bitReference = cleanText(source.bitReference, 100);
@@ -2283,6 +2283,13 @@ function validateBitReceiptInput(input) {
       bitReference,
     },
   };
+}
+
+function normalizeIsraeliPhone(value) {
+  let phone = cleanText(value, 30).replace(/[^\d+]/g, "");
+  if (phone.startsWith("+972")) phone = `0${phone.slice(4)}`;
+  else if (phone.startsWith("972")) phone = `0${phone.slice(3)}`;
+  return phone.replace(/\D/g, "");
 }
 
 function isAuthorizedBitReceiptRequest(request, env) {

@@ -1632,6 +1632,19 @@ test("bit receipt public submit: stores a pending record without any secret", as
   assert.equal(stored.bitReference, "BIT-REF-PUBLIC-1");
 });
 
+test("bit receipt public submit: accepts and normalizes a formatted Israeli phone", async () => {
+  const env = bitAdminEnv();
+  const response = await worker.fetch(
+    bitPublicSubmitRequest({ phone: "052-527-2773", bitReference: "BIT-REF-PUBLIC-FORMATTED-PHONE" }),
+    env
+  );
+  const body = await response.json();
+
+  assert.equal(response.status, 200);
+  const stored = JSON.parse(await env.ORDERS_KV.get(`smartbee-bit:request:${body.requestId}`));
+  assert.equal(stored.phone, "0525272773");
+});
+
 test("bit receipt public submit: rejects a bitReference that was already submitted", async () => {
   const env = bitAdminEnv();
   const first = await worker.fetch(bitPublicSubmitRequest(), env);
