@@ -965,7 +965,7 @@ test("creates a pending Bit receipt request with a stable id and no email delive
     assert.deepEqual(documentRequest.receiptDetails.otherItems, [
       {
         description: "Bit",
-        date: "2026-08-05T06:30:00.000Z",
+        date: "2026-08-05",
         sum: 134,
       },
     ]);
@@ -1632,6 +1632,7 @@ test("bit receipt public submit: stores a pending record without any secret", as
   assert.equal(stored.status, "pending");
   assert.equal(stored.customerName, "לקוחה בדיקה");
   assert.equal(stored.bitReference, "BIT-REF-PUBLIC-1");
+  assert.equal(stored.paymentDate, "2026-08-05");
 });
 
 test("bit receipt public submit: accepts and normalizes a formatted Israeli phone", async () => {
@@ -1705,6 +1706,7 @@ test("bit receipt intake: stores a pending record without contacting SmartBee", 
     const stored = JSON.parse(await env.ORDERS_KV.get("smartbee-bit:request:BIT-20260805-0001"));
     assert.equal(stored.status, "pending");
     assert.equal(stored.customerName, "לקוחה בדיקה");
+    assert.equal(stored.paymentDate, "2026-08-05");
   } finally {
     globalThis.fetch = originalFetch;
   }
@@ -1856,6 +1858,7 @@ test("admin bit receipt prepare: saves corrected fields as a draft without conta
     const stored = JSON.parse(await env.ORDERS_KV.get("smartbee-bit:request:BIT-20260805-0001"));
     assert.equal(stored.status, "draft");
     assert.equal(stored.customerName, "שם מתוקן");
+    assert.equal(stored.paymentDate, "2026-08-05");
   } finally {
     globalThis.fetch = originalFetch;
   }
@@ -2139,7 +2142,7 @@ test("admin bit receipt retry: retries a confirmed resultCodeId 99 once with a n
     assert.equal(documentRequest.providerMsgId, "BIT-20260805-0001-R1");
     assert.equal(documentRequest.providerMsgReferenceId, "BIT-20260805-0001-R1");
     assert.equal(documentRequest.docDate, undefined);
-    assert.equal(documentRequest.receiptDetails.otherItems[0].date, "2026-08-05T06:30:00.000Z");
+    assert.equal(documentRequest.receiptDetails.otherItems[0].date, "2026-08-05");
 
     const stored = JSON.parse(await env.ORDERS_KV.get(key));
     assert.equal(stored.retryCount, 1);

@@ -2415,7 +2415,9 @@ function validateBitReceiptInput(input) {
   const description = cleanText(source.description, 500);
   const bitReference = cleanText(source.bitReference, 100);
   const amount = Number(source.amount);
-  const parsedPaymentDate = new Date(source.paymentDate);
+  const paymentDateMatch = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(source.paymentDate).trim());
+  const paymentDate = paymentDateMatch ? paymentDateMatch[0] : "";
+  const parsedPaymentDate = paymentDate ? new Date(`${paymentDate}T00:00:00.000Z`) : new Date(NaN);
   const invalid = [];
 
   if (!BIT_REQUEST_ID_PATTERN.test(requestId)) invalid.push("requestId");
@@ -2423,7 +2425,10 @@ function validateBitReceiptInput(input) {
   if (!/^0\d{8,9}$/.test(phone)) invalid.push("phone");
   if (!EMAIL_PATTERN.test(email)) invalid.push("email");
   if (!Number.isFinite(amount) || amount <= 0 || amount > 100000) invalid.push("amount");
-  if (Number.isNaN(parsedPaymentDate.getTime())) invalid.push("paymentDate");
+  if (
+    Number.isNaN(parsedPaymentDate.getTime()) ||
+    parsedPaymentDate.toISOString().slice(0, 10) !== paymentDate
+  ) invalid.push("paymentDate");
   if (!description) invalid.push("description");
   if (!bitReference) invalid.push("bitReference");
 
@@ -2439,7 +2444,7 @@ function validateBitReceiptInput(input) {
       phone,
       email,
       amount,
-      paymentDate: parsedPaymentDate.toISOString(),
+      paymentDate,
       description,
       bitReference,
       sendEmail: source.sendEmail === true,
