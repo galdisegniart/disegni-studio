@@ -238,6 +238,11 @@ noAnalytics: true
     return day + "/" + month + "/" + date.getFullYear();
   }
 
+  function formatEditableDate(value) {
+    var match = /^(\d{4}-\d{2}-\d{2})/.exec(String(value || ""));
+    return match ? match[1] : "";
+  }
+
   function extractReceiptNumber(linkToOriginal) {
     if (!linkToOriginal) return "";
     var match = /\/(\d+)_Original\.pdf/.exec(linkToOriginal);
@@ -293,7 +298,7 @@ noAnalytics: true
       fieldRow("טלפון", prefix + "-phone", receipt.phone) +
       fieldRow("דוא\"ל", prefix + "-email", receipt.email) +
       fieldRow("סכום (₪)", prefix + "-amount", receipt.amount, "number") +
-      fieldRow("תאריך תשלום", prefix + "-date", receipt.paymentDate, "text", formatReadableDate(receipt.paymentDate)) +
+      fieldRow("תאריך תשלום", prefix + "-date", formatEditableDate(receipt.paymentDate), "date", formatReadableDate(receipt.paymentDate)) +
       fieldRow("תיאור", prefix + "-description", receipt.description) +
       fieldRow("אסמכתת Bit", prefix + "-ref", receipt.bitReference) +
       '<label style="display: flex; align-items: center; gap: 8px; margin: 12px 0; color: var(--bone);">' +
