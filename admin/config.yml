@@ -244,6 +244,49 @@ collections:
       - { label: "טקסט כפתור סיום", name: "finalCtaLabel", widget: "string" }
       - { label: "הודעת WhatsApp (כפתור סיום)", name: "finalWaMessage", widget: "text" }
 
+  - name: "apparel"
+    label: "בגדים ואביזרים (חנות)"
+    folder: "src/content/apparel"
+    create: true
+    extension: "json"
+    format: "json"
+    slug: "{{fields.slug}}"
+    identifier_field: "name"
+    summary: "{{name}} ({{category}})"
+    fields:
+      - { label: "מזהה בכתובת (אנגלית, ללא רווחים)", name: "slug", widget: "string", hint: "משמש בכתובת /shop/<מזהה>/ - לא לשנות אחרי הפרסום. אפשר להשתמש באותו שם עיצוב שיש כבר בהדפסים (למשל seed-of-joy) בלי התנגשות, כי החנות נמצאת בנתיב נפרד." }
+      - { label: "סדר הופעה בקטלוג", name: "order", widget: "number" }
+      - { label: "שם המוצר", name: "name", widget: "string" }
+      - { label: "קטגוריה", name: "category", widget: "select", options: [{ label: "יוניסקס", value: "unisex" }, { label: "נשים", value: "women" }, { label: "גברים", value: "men" }, { label: "מדבקות", value: "stickers" }] }
+      - { label: "תיאור המוצר", name: "description", widget: "text" }
+      - { label: "טקסט חלופי לתמונה (נגישות)", name: "alt", widget: "string" }
+      - { label: "תמונה ראשית", name: "image", widget: "image" }
+      - { label: "תמונה ממוזערת (קטלוג)", name: "thumb", widget: "image" }
+      - label: "תמונות נוספות בעמוד המוצר"
+        name: "gallery"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "תמונה", name: "image", widget: "image" }
+          - { label: "טקסט חלופי לתמונה", name: "alt", widget: "string" }
+      - label: "וריאנטים (מידות/צבעים) מאושרים לתשלום מקוון (Grow)"
+        name: "purchaseVariants"
+        widget: "list"
+        required: false
+        default: []
+        hint: "המוצר עצמו (חולצה/הודי/מדבקה) והמידות מזוהים אוטומטית מהפרינטפול שלכם לפי שם המוצר (\"שם המוצר\" למעלה חייב להופיע כחלק משם המוצר בפרינטפול) - בדיוק כמו בהדפסים. אפשר למלא ידנית, אבל הכי מהיר להריץ קודם 'node scripts/generate-apparel-variants.js <slug>' - זה יוצר טיוטה עם כל הסוגים/מידות שנמצאו בפרינטפול (מחיר 0), ואז רק למלא מחיר ומשלוח כאן. שורה בלי מחיר לא תימכר."
+        fields:
+          - { label: "סוג המוצר", name: "productType", widget: "select", options: [{ label: "חולצה", value: "t-shirt" }, { label: "הודי", value: "hoodie" }, { label: "קרופ הודי", value: "crop-hoodie" }, { label: "מאסל שירט", value: "muscle-shirt" }, { label: "מדבקה", value: "sticker" }, { label: "אחר", value: "apparel" }], hint: "חייב להתאים לסוג הבגד כפי שמופיע בשם המוצר בפרינטפול" }
+          - { label: "מידה (בדיוק כפי שמופיעה בפרינטפול, למשל S, M, L, XL)", name: "sizeId", widget: "string" }
+          - { label: "צבע (אופציונלי)", name: "color", widget: "string", required: false }
+          - { label: "מספר קטלוג (אופציונלי - אם ריק ייווצר אוטומטית)", name: "catalogNumber", widget: "string", required: false }
+          - { label: "מחיר ש\"ח", name: "priceILS", widget: "number" }
+          - { label: "מחיר דולר", name: "priceUSD", widget: "number", hint: "מוצג רק כשמבקרים בוחרים תצוגת $ - חובה למלא כדי שהחלפת המטבע לא תשבור" }
+          - { label: "משלוח פריט ראשון (ש\"ח)", name: "shippingFirstILS", widget: "number" }
+          - { label: "משלוח פריט נוסף (ש\"ח, אופציונלי)", name: "shippingAdditionalILS", widget: "number", required: false }
+          - { label: "משלוח פריט ראשון (דולר)", name: "shippingFirstUSD", widget: "number" }
+          - { label: "משלוח פריט נוסף (דולר, אופציונלי)", name: "shippingAdditionalUSD", widget: "number", required: false }
+
   - name: "homeAndSettings"
     label: "דף הבית והגדרות כלליות"
     files:
@@ -362,6 +405,23 @@ collections:
           - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
           - { label: "כותרת ראשית", name: "heading", widget: "string" }
           - { label: "טקסט פתיחה", name: "heroText", widget: "text" }
+
+      - name: "apparel"
+        label: "קולקציה: בגדים ואביזרים (/collections/apparel/)"
+        file: "src/content/pages/apparel.json"
+        fields:
+          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
+          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
+          - { label: "כותרת ראשית", name: "heading", widget: "string" }
+          - { label: "טקסט פתיחה", name: "heroText", widget: "text" }
+          - { label: "תווית מסנן: הכל", name: "filterAllLabel", widget: "string" }
+          - name: "filters"
+            label: "כפתורי סינון לפי קטגוריה"
+            widget: "list"
+            hint: "ה'ערך' (value) חייב להיות זהה בדיוק לשדה 'קטגוריה' שנבחר בכל פריט (unisex/women/men/stickers)."
+            fields:
+              - { label: "טקסט הכפתור (עברית)", name: "label", widget: "string" }
+              - { label: "ערך (אנגלית)", name: "value", widget: "string" }
 
       - name: "pricing"
         label: "מחירון הדפסים"

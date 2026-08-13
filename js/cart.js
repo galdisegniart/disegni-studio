@@ -199,15 +199,29 @@
       poster: "פוסטר",
       "framed-print": "פוסטר ממוסגר",
       canvas: "קנבס מתוח",
+      apparel: "בגד/אביזר",
+      hoodie: "הודי",
+      "crop-hoodie": "קרופ הודי",
+      "muscle-shirt": "מאסל שירט",
+      "t-shirt": "חולצה",
+      sticker: "מדבקה",
     };
 
     function normalizeSize(value) {
-      return String(value || "")
-        .toLowerCase()
-        .replace(/[×"'״׳\s]/g, "x")
-        .replace(/[^0-9x]/g, "")
-        .replace(/x+/g, "x")
-        .replace(/^x|x$/g, "");
+      var raw = String(value || "").toLowerCase().trim();
+      // Dimension sizes (prints/canvas, e.g. 12x16) contain a digit - keep the
+      // existing digit-based normalization for those.
+      if (/\d/.test(raw)) {
+        return raw
+          .replace(/[×"'״׳\s]/g, "x")
+          .replace(/[^0-9x]/g, "")
+          .replace(/x+/g, "x")
+          .replace(/^x|x$/g, "");
+      }
+      // Letter sizes (apparel, e.g. S/M/L/XL) have no digit to key off of -
+      // stripping to digits-only would collapse every size to "" and match
+      // the wrong variant, so keep the letters instead.
+      return raw.replace(/[^a-z]/g, "");
     }
 
     function legacyProductType(item) {
@@ -299,7 +313,10 @@
   }
 
   function sizeLabel(item, currency) {
-    return currency === "USD" ? item.labelIn : item.labelCm;
+    // Apparel has no labelIn/labelCm (those are print dimension labels) -
+    // fall back to the plain sizeId (e.g. "M") so the cart line never shows
+    // a literal "undefined".
+    return (currency === "USD" ? item.labelIn : item.labelCm) || item.sizeId || "";
   }
 
   function getCustomer() {
@@ -471,12 +488,24 @@
     renderCartDrawer();
   }
 
+  var GROW_ELIGIBLE_PRODUCT_TYPES = [
+    "poster",
+    "framed-print",
+    "canvas",
+    "apparel",
+    "hoodie",
+    "crop-hoodie",
+    "muscle-shirt",
+    "t-shirt",
+    "sticker",
+  ];
+
   function isGrowTestEligible(cart, currency) {
     if (!growTestEnabled) return false;
     if (currency !== "ILS" || cart.length === 0) return false;
     return cart.every(function (item) {
       return !!item.artworkSlug &&
-        ["poster", "framed-print", "canvas"].indexOf(item.productType) !== -1 &&
+        GROW_ELIGIBLE_PRODUCT_TYPES.indexOf(item.productType) !== -1 &&
         Number.isInteger(item.qty) &&
         item.qty >= 1 &&
         item.qty <= 10;

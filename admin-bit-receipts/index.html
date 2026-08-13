@@ -47,7 +47,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/style.css?v=2522cd02">
+<link rel="stylesheet" href="/css/style.css?v=6644f1a7">
 </head>
 <body id="top" data-whatsapp="972552902934">
 
@@ -82,8 +82,8 @@
     
     <div class="nav-item has-dropdown">
       <div class="nav-item-row">
-        <a href="/collections/prints/" aria-haspopup="true">מוצרים</a>
-        <button type="button" class="nav-dropdown-toggle" aria-expanded="false" aria-label="הצגת תת-תפריט מוצרים">
+        <a href="/collections/prints/" aria-haspopup="true">חנות</a>
+        <button type="button" class="nav-dropdown-toggle" aria-expanded="false" aria-label="הצגת תת-תפריט חנות">
           <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 7.5 10 12.5 15 7.5"></path></svg>
         </button>
       </div>
@@ -95,6 +95,22 @@
         
         
         <a href="/collections/originals/">מקוריות זמינות</a>
+        
+        
+        
+        <a href="/collections/apparel/?category=unisex">יוניסקס</a>
+        
+        
+        
+        <a href="/collections/apparel/?category=women">נשים</a>
+        
+        
+        
+        <a href="/collections/apparel/?category=men">גברים</a>
+        
+        
+        
+        <a href="/collections/apparel/?category=stickers">מדבקות</a>
         
         
       </div>
@@ -220,6 +236,34 @@
       <a class="header-search-result" href="/collections/originals/" data-search-text="מקוריות זמינות" hidden>
         <span>קטגוריה</span>
         <strong>מקוריות זמינות</strong>
+      </a>
+      
+      
+      
+      <a class="header-search-result" href="/collections/apparel/?category=unisex" data-search-text="יוניסקס" hidden>
+        <span>קטגוריה</span>
+        <strong>יוניסקס</strong>
+      </a>
+      
+      
+      
+      <a class="header-search-result" href="/collections/apparel/?category=women" data-search-text="נשים" hidden>
+        <span>קטגוריה</span>
+        <strong>נשים</strong>
+      </a>
+      
+      
+      
+      <a class="header-search-result" href="/collections/apparel/?category=men" data-search-text="גברים" hidden>
+        <span>קטגוריה</span>
+        <strong>גברים</strong>
+      </a>
+      
+      
+      
+      <a class="header-search-result" href="/collections/apparel/?category=stickers" data-search-text="מדבקות" hidden>
+        <span>קטגוריה</span>
+        <strong>מדבקות</strong>
       </a>
       
       
@@ -685,6 +729,11 @@
     return day + "/" + month + "/" + date.getFullYear();
   }
 
+  function formatEditableDate(value) {
+    var match = /^(\d{4}-\d{2}-\d{2})/.exec(String(value || ""));
+    return match ? match[1] : "";
+  }
+
   function extractReceiptNumber(linkToOriginal) {
     if (!linkToOriginal) return "";
     var match = /\/(\d+)_Original\.pdf/.exec(linkToOriginal);
@@ -740,7 +789,7 @@
       fieldRow("טלפון", prefix + "-phone", receipt.phone) +
       fieldRow("דוא\"ל", prefix + "-email", receipt.email) +
       fieldRow("סכום (₪)", prefix + "-amount", receipt.amount, "number") +
-      fieldRow("תאריך תשלום", prefix + "-date", receipt.paymentDate, "text", formatReadableDate(receipt.paymentDate)) +
+      fieldRow("תאריך תשלום", prefix + "-date", formatEditableDate(receipt.paymentDate), "date", formatReadableDate(receipt.paymentDate)) +
       fieldRow("תיאור", prefix + "-description", receipt.description) +
       fieldRow("אסמכתת Bit", prefix + "-ref", receipt.bitReference) +
       '<label style="display: flex; align-items: center; gap: 8px; margin: 12px 0; color: var(--bone);">' +
@@ -755,9 +804,25 @@
     return wrap;
   }
 
-  function whatsappPhone(phone) {
-    var digits = String(phone || "").replace(/\D/g, "");
-    return digits.indexOf("0") === 0 ? "972" + digits.slice(1) : digits;
+  function copyReceiptLink(url) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(url);
+    }
+    return new Promise(function (resolve, reject) {
+      var input = document.createElement("textarea");
+      input.value = url;
+      input.setAttribute("readonly", "");
+      input.style.position = "fixed";
+      input.style.opacity = "0";
+      document.body.appendChild(input);
+      input.select();
+      try {
+        document.execCommand("copy") ? resolve() : reject(new Error("copy_failed"));
+      } catch (error) {
+        reject(error);
+      }
+      document.body.removeChild(input);
+    });
   }
 
   function recentStatusLabel(status) {
@@ -777,8 +842,8 @@
     var actions = "";
     if (receipt.linkToOriginal) {
       actions += '<a href="' + receipt.linkToOriginal + '" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 9px 14px; border: 1px solid var(--copper); color: var(--copper); text-decoration: none;">פתיחת הקבלה (PDF)</a>';
-      var waText = encodeURIComponent("שלום " + (receipt.customerName || "") + ", הקבלה שלך מוכנה: " + receipt.linkToOriginal);
-      actions += '<a href="https://wa.me/' + whatsappPhone(receipt.phone) + '?text=' + waText + '" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 9px 14px; border: 1px solid #73a873; color: #73a873; text-decoration: none;">שיתוף קישור ב-WhatsApp</a>';
+      actions += '<button type="button" class="js-share-receipt" data-url="' + escapeHtml(receipt.linkToOriginal) + '" data-customer-name="' + escapeHtml(receipt.customerName || "") + '" style="padding: 9px 14px; background: transparent; border: 1px solid #73a873; color: #73a873; cursor: pointer;">שיתוף קבלה</button>';
+      actions += '<button type="button" class="js-copy-receipt" data-url="' + escapeHtml(receipt.linkToOriginal) + '" style="padding: 9px 14px; background: transparent; border: 1px solid var(--line); color: var(--bone); cursor: pointer;">העתקת קישור</button>';
     }
     if (receipt.status === "processing") {
       actions += '<button type="button" class="js-refresh-receipt" data-request-id="' + receipt.requestId + '" style="padding: 9px 14px; background: transparent; border: 1px solid var(--line); color: var(--bone); cursor: pointer;">בדיקת סטטוס מחדש</button>';
@@ -861,6 +926,40 @@
   }
 
   document.getElementById("recent-receipts-list").addEventListener("click", function (event) {
+    var shareButton = event.target.closest(".js-share-receipt");
+    var copyButton = event.target.closest(".js-copy-receipt");
+    if (shareButton || copyButton) {
+      var shareMessage = (shareButton || copyButton).closest(".js-recent-receipt").querySelector(".js-recent-message");
+      var receiptUrl = (shareButton || copyButton).dataset.url;
+      shareMessage.style.color = "var(--dim)";
+
+      if (shareButton && navigator.share) {
+        navigator.share({
+          title: "קבלה מגל דִּיסֵנִי",
+          text: "שלום " + (shareButton.dataset.customerName || "") + ", הקבלה שלך מוכנה:",
+          url: receiptUrl,
+        }).catch(function (error) {
+          if (error && error.name === "AbortError") return;
+          copyReceiptLink(receiptUrl).then(function () {
+            shareMessage.textContent = "השיתוף הישיר אינו זמין. הקישור הועתק ואפשר להדביק אותו בכל WhatsApp.";
+          }).catch(function () {
+            shareMessage.style.color = "#c0554d";
+            shareMessage.textContent = "לא הצלחנו לפתוח את השיתוף או להעתיק את הקישור.";
+          });
+        });
+      } else {
+        copyReceiptLink(receiptUrl).then(function () {
+          shareMessage.textContent = shareButton
+            ? "השיתוף הישיר אינו זמין. הקישור הועתק ואפשר להדביק אותו בכל WhatsApp."
+            : "הקישור הועתק. אפשר להדביק אותו בכל WhatsApp.";
+        }).catch(function () {
+          shareMessage.style.color = "#c0554d";
+          shareMessage.textContent = "לא הצלחנו להעתיק את הקישור.";
+        });
+      }
+      return;
+    }
+
     var retryButton = event.target.closest(".js-retry-receipt");
     var button = retryButton || event.target.closest(".js-refresh-receipt");
     if (!button) return;
@@ -1529,8 +1628,8 @@
 </footer>
 
 
-<script src="/js/cart.js?v=2522cd02"></script>
-<script src="/js/nav-toggle.js?v=2522cd02"></script>
-<script src="/js/header-search.js?v=2522cd02"></script>
+<script src="/js/cart.js?v=6644f1a7"></script>
+<script src="/js/nav-toggle.js?v=6644f1a7"></script>
+<script src="/js/header-search.js?v=6644f1a7"></script>
 </body>
 </html>

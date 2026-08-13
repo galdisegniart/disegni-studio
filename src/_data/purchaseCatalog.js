@@ -141,5 +141,77 @@ module.exports = () => {
     });
   });
 
+  // Apparel auto-matches against the same Printful sync data as prints
+  // (same CI step, same name-substring technique) - a design like "Seed of
+  // Joy" can have several garment products (hoodie, t-shirt, stickers...),
+  // so the garment kind is inferred from the Printful product title itself,
+  // same spirit as the canvas/framed keyword check above. There's no shared
+  // pricing table for garment sizes though, so - like a print size pricing.json
+  // doesn't cover - every size still needs a human-approved price in the
+  // item's own purchaseVariants before it's sellable.
+  const inferApparelProductType = (name) => {
+    const lower = String(name || "").toLowerCase();
+    if (lower.includes("crop hoodie")) return { type: "crop-hoodie", name: "קרופ הודי" };
+    if (lower.includes("hoodie")) return { type: "hoodie", name: "הודי" };
+    if (lower.includes("muscle")) return { type: "muscle-shirt", name: "מאסל שירט" };
+    if (lower.includes("sticker")) return { type: "sticker", name: "מדבקה" };
+    if (lower.includes("shirt") || lower.includes("tee") || lower.includes("tshirt")) {
+      return { type: "t-shirt", name: "חולצה" };
+    }
+    return { type: "apparel", name: "בגד/אביזר" };
+  };
+
+  const apparelDir = path.join(contentDir, "apparel");
+  const apparelItems = fs.existsSync(apparelDir)
+    ? fs
+        .readdirSync(apparelDir)
+        .filter((f) => f.endsWith(".json"))
+        .map((f) => JSON.parse(fs.readFileSync(path.join(apparelDir, f), "utf8")))
+    : [];
+
+  apparelItems.forEach((item) => {
+    const target = normalizeForMatch(item.name);
+    const approvedVariants = item.purchaseVariants || [];
+    const apparelProducts = printfulCatalog.filter((product) =>
+      normalizeForMatch(product.name).includes(target)
+    );
+
+    apparelProducts.forEach((product) => {
+      const kind = inferApparelProductType(product.name);
+
+      (product.variants || []).forEach((variant) => {
+        const sizeId = String(variant.size || "").trim();
+        if (!sizeId) return;
+
+        const approved = approvedVariants.find(
+          (v) => v.productType === kind.type && v.sizeId === sizeId
+        );
+        if (!approved) return;
+
+        const unitPriceILS = approved.priceILS;
+        const shippingFirstILS = approved.shippingFirstILS;
+        if (!Number.isFinite(unitPriceILS) || unitPriceILS <= 0) return;
+        if (!Number.isFinite(shippingFirstILS)) return;
+
+        const catalogNumber =
+          approved.catalogNumber || `${item.slug}-${kind.type}-${sizeId}`.toUpperCase();
+
+        catalog.push({
+          artworkSlug: item.slug,
+          productType: kind.type,
+          sizeId,
+          catalogNumber,
+          productName: `${item.name} – ${kind.name} ${sizeId}`.trim(),
+          imageUrl: paymentImageUrl(item.image),
+          unitPriceILS,
+          shippingFirstILS,
+          shippingAdditionalILS: Number.isFinite(approved.shippingAdditionalILS)
+            ? approved.shippingAdditionalILS
+            : 0,
+        });
+      });
+    });
+  });
+
   return catalog;
 };

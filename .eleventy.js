@@ -92,6 +92,28 @@ module.exports = function (eleventyConfig) {
     return { low: low || 0, high };
   });
 
+  const apparelTypeNames = {
+    "t-shirt": "חולצה",
+    hoodie: "הודי",
+    "crop-hoodie": "קרופ הודי",
+    "muscle-shirt": "מאסל שירט",
+    sticker: "מדבקה",
+    apparel: "בגד/אביזר",
+  };
+  eleventyConfig.addFilter("apparelTypeName", function (productType) {
+    return apparelTypeNames[productType] || "";
+  });
+
+  eleventyConfig.addFilter("lowestPrice", function (variants) {
+    let low = null;
+    (variants || []).forEach((variant) => {
+      const price = Number(variant.priceILS);
+      if (!Number.isFinite(price)) return;
+      if (low === null || price < low) low = price;
+    });
+    return low;
+  });
+
   // pricing.json calls the paper material "paper"; shipping.json calls the same
   // thing "poster". Every other id matches. Keep this the single place that knows.
   const materialToProductType = (materialId) =>
