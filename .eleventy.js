@@ -104,6 +104,17 @@ module.exports = function (eleventyConfig) {
     return apparelTypeNames[productType] || "";
   });
 
+  // Must match the colorSlug() in src/_data/purchaseCatalog.js exactly - both
+  // build the same composite sizeId ("S-french-navy") so a cart add matches
+  // its checkout-catalog entry for multi-color apparel.
+  eleventyConfig.addFilter("colorSlug", function (value) {
+    return String(value || "")
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
+  });
+
   eleventyConfig.addFilter("lowestPrice", function (variants) {
     let low = null;
     (variants || []).forEach((variant) => {

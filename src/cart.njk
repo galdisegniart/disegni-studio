@@ -89,10 +89,11 @@ bodyClass: "cart-view"
   </div>
 </section>
 
+{% set cartCatalogItems = artworks.concat(apparelItems or []) %}
 <script id="cart-catalog-data" type="application/json">
 [
-{% for item in artworks %}
-  {"slug": {{ item.slug | dump | safe }}, "image": {{ item.image | dump | safe }}, "paymentImage": {{ (item.paymentImage or '') | dump | safe }}, "variants": {{ (item.purchaseVariants or []) | dump | safe }}}{% if not loop.last %},{% endif %}
+{% for item in cartCatalogItems %}
+  {"slug": {{ item.slug | dump | safe }}, "image": {{ item.image | dump | safe }}, "paymentImage": {{ (item.paymentImage or item.image or '') | dump | safe }}, "variants": {{ (item.purchaseVariants or []) | dump | safe }}}{% if not loop.last %},{% endif %}
 {% endfor %}
 ]
 </script>

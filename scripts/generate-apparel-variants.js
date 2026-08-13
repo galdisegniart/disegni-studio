@@ -72,7 +72,11 @@ const inferApparelProductType = (name) => {
   return "apparel";
 };
 
+const colorSlug = (value) =>
+  String(value || "").trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+
 const draft = [];
+const seen = new Set();
 
 products.forEach((product) => {
   const productType = inferApparelProductType(product.name);
@@ -81,10 +85,25 @@ products.forEach((product) => {
     const sizeId = String(variant.size || "").trim();
     if (!sizeId) return;
 
+    // Same color derivation as purchaseCatalog.js at build time: prefer a
+    // real "color" field, else parse it out of "<product> / <color> / <size>".
+    let color = variant.color ? String(variant.color).trim() : "";
+    if (!color) {
+      const parts = String(variant.name || "").split(" / ");
+      if (parts.length >= 3) color = parts[parts.length - 2].trim();
+    }
+
+    const key = productType + "|" + sizeId + "|" + color;
+    if (seen.has(key)) return;
+    seen.add(key);
+
+    const compositeSizeId = color ? `${sizeId}-${colorSlug(color)}` : sizeId;
+
     draft.push({
       productType,
       sizeId,
-      catalogNumber: `${slug.toUpperCase()}-${productType.toUpperCase()}-${sizeId.toUpperCase()}`,
+      color: color || undefined,
+      catalogNumber: `${slug.toUpperCase()}-${productType.toUpperCase()}-${compositeSizeId.toUpperCase()}`,
       priceILS: 0,
       priceUSD: 0,
       shippingFirstILS: 0,
@@ -102,4 +121,6 @@ console.log(`Wrote ${draft.length} draft variant(s) into src/content/apparel/${s
 console.log(
   "\nEvery price/shipping field was left at 0 - there is no shared pricing table for garments like there is for prints, so each row needs a manual price in the CMS before it's sellable (0-priced rows are skipped by the checkout catalog)."
 );
-draft.forEach((entry) => console.log(`  - ${entry.productType}/${entry.sizeId}`));
+draft.forEach((entry) =>
+  console.log(`  - ${entry.productType}/${entry.sizeId}${entry.color ? " (" + entry.color + ")" : ""}`)
+);

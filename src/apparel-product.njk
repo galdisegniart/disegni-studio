@@ -103,10 +103,11 @@ eleventyComputed:
             <select class="js-size-select" aria-label="בחירת מידה">
               <option value="" selected>בחרו מידה</option>
               {% for variant in variants %}
+              {% set compositeSizeId = variant.sizeId + "-" + (variant.color | colorSlug) if variant.color else variant.sizeId %}
               <option
-                value="{{ variant.productType }}:{{ variant.sizeId }}{% if variant.color %}:{{ variant.color }}{% endif %}"
+                value="{{ variant.productType }}:{{ compositeSizeId }}"
                 data-product-type="{{ variant.productType }}"
-                data-size-id="{{ variant.sizeId }}"
+                data-size-id="{{ compositeSizeId }}"
                 data-catalog-number="{{ variant.catalogNumber }}"
                 data-price-ils="{{ variant.priceILS }}"
                 data-price-usd="{{ variant.priceUSD }}"
@@ -115,6 +116,8 @@ eleventyComputed:
                 data-shipping-first-usd="{{ variant.shippingFirstUSD }}"
                 data-shipping-additional-usd="{{ variant.shippingAdditionalUSD or 0 }}"
                 data-material-name="{{ item.name }}"
+                data-label-cm="{{ variant.sizeId }}{% if variant.color %} · {{ variant.color }}{% endif %}"
+                data-label-in="{{ variant.sizeId }}{% if variant.color %} · {{ variant.color }}{% endif %}"
               >{{ variant.productType | apparelTypeName }} · {{ variant.sizeId }}{% if variant.color %} · {{ variant.color }}{% endif %}</option>
               {% endfor %}
             </select>

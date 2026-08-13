@@ -39,6 +39,7 @@ async function main() {
       variants.push({
         name: v.name,
         size: v.size || null,
+        color: v.color || null,
         syncVariantId: v.id,
         variantId: v.variant_id,
         retailPriceUSD: v.retail_price || null,

@@ -64,6 +64,16 @@ module.exports = () => {
   // spacing (e.g. "masculine&feminine" vs. our "Masculine & Feminine") still match.
   const normalizeForMatch = (value) => String(value || "").toLowerCase().replace(/\s+/g, "");
 
+  // Same slugging the "colorSlug" Eleventy filter uses, so a composite
+  // sizeId built here (e.g. "S-french-navy") matches the data-size-id the
+  // apparel product template renders for the same CMS color value.
+  const colorSlug = (value) =>
+    String(value || "")
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
+
   artworks.forEach((artwork) => {
     const target = normalizeForMatch(artwork.name);
     const approvedVariants = artwork.purchaseVariants || [];
@@ -183,9 +193,23 @@ module.exports = () => {
         const sizeId = String(variant.size || "").trim();
         if (!sizeId) return;
 
-        const approved = approvedVariants.find(
-          (v) => v.productType === kind.type && v.sizeId === sizeId
-        );
+        // Printful's API gives a real "color" field, but printfulCatalog.json
+        // may predate that field being fetched - fall back to parsing it out
+        // of "<product> / <color> / <size>" (the variant name convention)
+        // so multi-color products (e.g. the t-shirt's Navy/Black) still
+        // resolve to distinct variants instead of colliding on size alone.
+        let variantColor = variant.color ? String(variant.color).trim() : "";
+        if (!variantColor) {
+          const parts = String(variant.name || "").split(" / ");
+          if (parts.length >= 3) variantColor = parts[parts.length - 2].trim();
+        }
+
+        const approved = approvedVariants.find((v) => {
+          if (v.productType !== kind.type || v.sizeId !== sizeId) return false;
+          const approvedColor = String(v.color || "").trim();
+          if (!variantColor) return true;
+          return approvedColor.toLowerCase() === variantColor.toLowerCase();
+        });
         if (!approved) return;
 
         const unitPriceILS = approved.priceILS;
@@ -193,15 +217,21 @@ module.exports = () => {
         if (!Number.isFinite(unitPriceILS) || unitPriceILS <= 0) return;
         if (!Number.isFinite(shippingFirstILS)) return;
 
+        const compositeSizeId = variantColor ? `${sizeId}-${colorSlug(variantColor)}` : sizeId;
         const catalogNumber =
-          approved.catalogNumber || `${item.slug}-${kind.type}-${sizeId}`.toUpperCase();
+          approved.catalogNumber ||
+          `${item.slug}-${kind.type}-${compositeSizeId}`.toUpperCase();
+
+        const sizeLabel = variantColor ? `${sizeId} / ${variantColor}` : sizeId;
 
         catalog.push({
           artworkSlug: item.slug,
           productType: kind.type,
-          sizeId,
+          sizeId: compositeSizeId,
           catalogNumber,
-          productName: `${item.name} – ${kind.name} ${sizeId}`.trim(),
+          productName: `${item.name} – ${kind.name} ${sizeLabel}`.trim(),
+          labelCm: sizeLabel,
+          labelIn: sizeLabel,
           imageUrl: paymentImageUrl(item.image),
           unitPriceILS,
           shippingFirstILS,
