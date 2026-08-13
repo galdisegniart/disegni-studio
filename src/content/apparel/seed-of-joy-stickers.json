@@ -1,12 +1,13 @@
 {
   "slug": "seed-of-joy-stickers",
-  "order": 2,
-  "name": "Die-cut Stickers",
+  "order": 5,
+  "name": "מדבקות Seed Of Joy",
+  "matchName": "Die-cut Stickers",
   "category": "stickers",
   "description": "מדבקות דו-ג'קט (die-cut) בעיצוב Seed Of Joy מאת גל דִּיסֵנִי, במגוון גדלים.",
   "alt": "מדבקת Seed Of Joy מאת גל דיסני",
-  "image": "/images/disegni-profile.webp",
-  "thumb": "/images/disegni-profile.webp",
+  "image": "/images/uploads/apparel-placeholder.svg",
+  "thumb": "/images/uploads/apparel-placeholder.svg",
   "gallery": [],
   "purchaseVariants": [
     {

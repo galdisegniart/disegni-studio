@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800">
+  <rect width="800" height="800" fill="#11122a"/>
+  <g fill="none" stroke="#cf9843" stroke-width="2" opacity="0.8">
+    <path d="M300 260 L340 200 L460 200 L500 260 L460 300 L460 620 L340 620 L340 300 Z" />
+  </g>
+  <text x="400" y="700" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" fill="#b0a99f">תמונת מוצר בקרוב</text>
+</svg>

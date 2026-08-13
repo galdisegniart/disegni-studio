@@ -1,0 +1,69 @@
+{
+  "slug": "seed-of-joy-crop-hoodie",
+  "order": 3,
+  "name": "קרופ הודי Seed Of Joy",
+  "matchName": "Crop Hoodie Embroided",
+  "category": "women",
+  "description": "קרופ הודי רקום בעיצוב Seed Of Joy מאת גל דִּיסֵנִי.",
+  "alt": "קרופ הודי Seed Of Joy מאת גל דיסני",
+  "image": "/images/uploads/apparel-placeholder.svg",
+  "thumb": "/images/uploads/apparel-placeholder.svg",
+  "gallery": [],
+  "purchaseVariants": [
+    {
+      "productType": "crop-hoodie",
+      "sizeId": "S",
+      "catalogNumber": "SEED-OF-JOY-CROP-HOODIE-CROP-HOODIE-S",
+      "priceILS": 179,
+      "priceUSD": 45,
+      "shippingFirstILS": 65,
+      "shippingAdditionalILS": 15,
+      "shippingFirstUSD": 17,
+      "shippingAdditionalUSD": 4
+    },
+    {
+      "productType": "crop-hoodie",
+      "sizeId": "M",
+      "catalogNumber": "SEED-OF-JOY-CROP-HOODIE-CROP-HOODIE-M",
+      "priceILS": 179,
+      "priceUSD": 45,
+      "shippingFirstILS": 65,
+      "shippingAdditionalILS": 15,
+      "shippingFirstUSD": 17,
+      "shippingAdditionalUSD": 4
+    },
+    {
+      "productType": "crop-hoodie",
+      "sizeId": "L",
+      "catalogNumber": "SEED-OF-JOY-CROP-HOODIE-CROP-HOODIE-L",
+      "priceILS": 179,
+      "priceUSD": 45,
+      "shippingFirstILS": 65,
+      "shippingAdditionalILS": 15,
+      "shippingFirstUSD": 17,
+      "shippingAdditionalUSD": 4
+    },
+    {
+      "productType": "crop-hoodie",
+      "sizeId": "XL",
+      "catalogNumber": "SEED-OF-JOY-CROP-HOODIE-CROP-HOODIE-XL",
+      "priceILS": 179,
+      "priceUSD": 45,
+      "shippingFirstILS": 65,
+      "shippingAdditionalILS": 15,
+      "shippingFirstUSD": 17,
+      "shippingAdditionalUSD": 4
+    },
+    {
+      "productType": "crop-hoodie",
+      "sizeId": "2XL",
+      "catalogNumber": "SEED-OF-JOY-CROP-HOODIE-CROP-HOODIE-2XL",
+      "priceILS": 179,
+      "priceUSD": 45,
+      "shippingFirstILS": 65,
+      "shippingAdditionalILS": 15,
+      "shippingFirstUSD": 17,
+      "shippingAdditionalUSD": 4
+    }
+  ]
+}

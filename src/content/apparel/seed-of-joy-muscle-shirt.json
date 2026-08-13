@@ -1,0 +1,69 @@
+{
+  "slug": "seed-of-joy-muscle-shirt",
+  "order": 2,
+  "name": "מאסל שירט Seed Of Joy",
+  "matchName": "Muscle Shirt",
+  "category": "unisex",
+  "description": "מאסל שירט בעיצוב Seed Of Joy מאת גל דִּיסֵנִי.",
+  "alt": "מאסל שירט Seed Of Joy מאת גל דיסני",
+  "image": "/images/uploads/apparel-placeholder.svg",
+  "thumb": "/images/uploads/apparel-placeholder.svg",
+  "gallery": [],
+  "purchaseVariants": [
+    {
+      "productType": "muscle-shirt",
+      "sizeId": "S",
+      "catalogNumber": "SEED-OF-JOY-MUSCLE-SHIRT-MUSCLE-SHIRT-S",
+      "priceILS": 89,
+      "priceUSD": 23,
+      "shippingFirstILS": 45,
+      "shippingAdditionalILS": 10,
+      "shippingFirstUSD": 12,
+      "shippingAdditionalUSD": 3
+    },
+    {
+      "productType": "muscle-shirt",
+      "sizeId": "M",
+      "catalogNumber": "SEED-OF-JOY-MUSCLE-SHIRT-MUSCLE-SHIRT-M",
+      "priceILS": 89,
+      "priceUSD": 23,
+      "shippingFirstILS": 45,
+      "shippingAdditionalILS": 10,
+      "shippingFirstUSD": 12,
+      "shippingAdditionalUSD": 3
+    },
+    {
+      "productType": "muscle-shirt",
+      "sizeId": "L",
+      "catalogNumber": "SEED-OF-JOY-MUSCLE-SHIRT-MUSCLE-SHIRT-L",
+      "priceILS": 89,
+      "priceUSD": 23,
+      "shippingFirstILS": 45,
+      "shippingAdditionalILS": 10,
+      "shippingFirstUSD": 12,
+      "shippingAdditionalUSD": 3
+    },
+    {
+      "productType": "muscle-shirt",
+      "sizeId": "XL",
+      "catalogNumber": "SEED-OF-JOY-MUSCLE-SHIRT-MUSCLE-SHIRT-XL",
+      "priceILS": 89,
+      "priceUSD": 23,
+      "shippingFirstILS": 45,
+      "shippingAdditionalILS": 10,
+      "shippingFirstUSD": 12,
+      "shippingAdditionalUSD": 3
+    },
+    {
+      "productType": "muscle-shirt",
+      "sizeId": "2XL",
+      "catalogNumber": "SEED-OF-JOY-MUSCLE-SHIRT-MUSCLE-SHIRT-2XL",
+      "priceILS": 95,
+      "priceUSD": 24,
+      "shippingFirstILS": 45,
+      "shippingAdditionalILS": 10,
+      "shippingFirstUSD": 12,
+      "shippingAdditionalUSD": 3
+    }
+  ]
+}

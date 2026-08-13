@@ -256,7 +256,8 @@ collections:
     fields:
       - { label: "מזהה בכתובת (אנגלית, ללא רווחים)", name: "slug", widget: "string", hint: "משמש בכתובת /shop/<מזהה>/ - לא לשנות אחרי הפרסום. אפשר להשתמש באותו שם עיצוב שיש כבר בהדפסים (למשל seed-of-joy) בלי התנגשות, כי החנות נמצאת בנתיב נפרד." }
       - { label: "סדר הופעה בקטלוג", name: "order", widget: "number" }
-      - { label: "שם המוצר", name: "name", widget: "string" }
+      - { label: "שם המוצר (מוצג באתר)", name: "name", widget: "string" }
+      - { label: "טקסט התאמה לפרינטפול (אנגלית בלבד)", name: "matchName", widget: "string", required: false, hint: "אופציונלי - אם ריק, המערכת תשתמש ב'שם המוצר' כדי לזהות את המוצר בפרינטפול. אם 'שם המוצר' בעברית או שונה משם המוצר בפרינטפול, מלאו כאן קטע ייחודי מתוך שם המוצר בפרינטפול באנגלית (למשל 'Muscle Shirt') - כדי שההתאמה האוטומטית תמצא רק את המוצר הזה ולא מוצרים אחרים עם עיצוב דומה." }
       - { label: "קטגוריה", name: "category", widget: "select", options: [{ label: "יוניסקס", value: "unisex" }, { label: "נשים", value: "women" }, { label: "גברים", value: "men" }, { label: "מדבקות", value: "stickers" }] }
       - { label: "תיאור המוצר", name: "description", widget: "text" }
       - { label: "טקסט חלופי לתמונה (נגישות)", name: "alt", widget: "string" }

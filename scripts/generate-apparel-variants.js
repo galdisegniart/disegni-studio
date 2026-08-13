@@ -50,7 +50,7 @@ try {
 // Whitespace-insensitive so Printful product titles with slightly different
 // spacing still match (e.g. extra design-name suffixes).
 const normalizeForMatch = (value) => String(value || "").toLowerCase().replace(/\s+/g, "");
-const target = normalizeForMatch(item.name);
+const target = normalizeForMatch(item.matchName || item.name);
 const products = printfulCatalog.filter((product) =>
   normalizeForMatch(product.name).includes(target)
 );

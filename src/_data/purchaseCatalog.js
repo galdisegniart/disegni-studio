@@ -180,7 +180,10 @@ module.exports = () => {
     : [];
 
   apparelItems.forEach((item) => {
-    const target = normalizeForMatch(item.name);
+    // "matchName" lets the CMS display name be readable Hebrew/short text
+    // while still matching Printful's literal (often clunky) English product
+    // title - falls back to "name" for items that don't need the split.
+    const target = normalizeForMatch(item.matchName || item.name);
     const approvedVariants = item.purchaseVariants || [];
     const apparelProducts = printfulCatalog.filter((product) =>
       normalizeForMatch(product.name).includes(target)
