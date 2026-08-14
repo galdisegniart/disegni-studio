@@ -191,26 +191,42 @@ module.exports = () => {
 
     apparelProducts.forEach((product) => {
       const kind = inferApparelProductType(product.name);
+      const variants = product.variants || [];
 
-      (product.variants || []).forEach((variant) => {
+      const deriveColor = (variant) => {
+        let color = variant.color ? String(variant.color).trim() : "";
+        if (!color) {
+          const parts = String(variant.name || "").split(" / ");
+          if (parts.length >= 3) color = parts[parts.length - 2].trim();
+        }
+        return color;
+      };
+
+      // Printful's API tags every variant with a "color" (even single-color
+      // products, e.g. muscle shirt = "Black", stickers = "Satin") - only
+      // treat color as a real, choosable attribute when a size actually has
+      // more than one color, otherwise it's not a customer-facing choice and
+      // must not be required for the CMS's colorless purchaseVariants rows.
+      const colorsBySize = {};
+      variants.forEach((v) => {
+        const sizeId = String(v.size || "").trim();
+        if (!sizeId) return;
+        const color = deriveColor(v);
+        if (!color) return;
+        (colorsBySize[sizeId] = colorsBySize[sizeId] || new Set()).add(color.toLowerCase());
+      });
+
+      variants.forEach((variant) => {
         const sizeId = String(variant.size || "").trim();
         if (!sizeId) return;
 
-        // Printful's API gives a real "color" field, but printfulCatalog.json
-        // may predate that field being fetched - fall back to parsing it out
-        // of "<product> / <color> / <size>" (the variant name convention)
-        // so multi-color products (e.g. the t-shirt's Navy/Black) still
-        // resolve to distinct variants instead of colliding on size alone.
-        let variantColor = variant.color ? String(variant.color).trim() : "";
-        if (!variantColor) {
-          const parts = String(variant.name || "").split(" / ");
-          if (parts.length >= 3) variantColor = parts[parts.length - 2].trim();
-        }
+        const hasColorChoice = (colorsBySize[sizeId] || new Set()).size > 1;
+        const variantColor = hasColorChoice ? deriveColor(variant) : "";
 
         const approved = approvedVariants.find((v) => {
           if (v.productType !== kind.type || v.sizeId !== sizeId) return false;
+          if (!hasColorChoice) return true;
           const approvedColor = String(v.color || "").trim();
-          if (!variantColor) return true;
           return approvedColor.toLowerCase() === variantColor.toLowerCase();
         });
         if (!approved) return;

@@ -78,20 +78,39 @@ const colorSlug = (value) =>
 const draft = [];
 const seen = new Set();
 
+// Same color derivation as purchaseCatalog.js at build time: prefer a real
+// "color" field, else parse it out of "<product> / <color> / <size>".
+const deriveColor = (variant) => {
+  let color = variant.color ? String(variant.color).trim() : "";
+  if (!color) {
+    const parts = String(variant.name || "").split(" / ");
+    if (parts.length >= 3) color = parts[parts.length - 2].trim();
+  }
+  return color;
+};
+
 products.forEach((product) => {
   const productType = inferApparelProductType(product.name);
+  const variants = product.variants || [];
 
-  (product.variants || []).forEach((variant) => {
+  // Printful tags every variant with a color, even single-color products
+  // (e.g. "Black") - only treat it as a real, choosable attribute when a
+  // size actually has more than one color option.
+  const colorsBySize = {};
+  variants.forEach((v) => {
+    const sizeId = String(v.size || "").trim();
+    if (!sizeId) return;
+    const color = deriveColor(v);
+    if (!color) return;
+    (colorsBySize[sizeId] = colorsBySize[sizeId] || new Set()).add(color.toLowerCase());
+  });
+
+  variants.forEach((variant) => {
     const sizeId = String(variant.size || "").trim();
     if (!sizeId) return;
 
-    // Same color derivation as purchaseCatalog.js at build time: prefer a
-    // real "color" field, else parse it out of "<product> / <color> / <size>".
-    let color = variant.color ? String(variant.color).trim() : "";
-    if (!color) {
-      const parts = String(variant.name || "").split(" / ");
-      if (parts.length >= 3) color = parts[parts.length - 2].trim();
-    }
+    const hasColorChoice = (colorsBySize[sizeId] || new Set()).size > 1;
+    const color = hasColorChoice ? deriveColor(variant) : "";
 
     const key = productType + "|" + sizeId + "|" + color;
     if (seen.has(key)) return;
