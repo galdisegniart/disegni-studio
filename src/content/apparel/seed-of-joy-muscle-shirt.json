@@ -6,9 +6,14 @@
   "category": "unisex",
   "description": "מאסל שירט בעיצוב Seed Of Joy מאת גל דִּיסֵנִי.",
   "alt": "מאסל שירט Seed Of Joy מאת גל דיסני",
-  "image": "/images/uploads/apparel-placeholder.svg",
-  "thumb": "/images/uploads/apparel-placeholder.svg",
-  "gallery": [],
+  "image": "/images/uploads/unisex-muscle-shirt-black-front-6a80dc6687999.webp",
+  "thumb": "/images/uploads/unisex-muscle-shirt-black-front-6a80dc6687999.webp",
+  "gallery": [
+    {
+      "image": "/images/uploads/unisex-muscle-shirt-black-back-6a80dc6687c32.webp",
+      "alt": "מאסל שירט Seed Of Joy - תצוגה מאחור"
+    }
+  ],
   "purchaseVariants": [
     {
       "productType": "muscle-shirt",
