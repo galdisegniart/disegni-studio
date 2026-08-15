@@ -6,9 +6,14 @@
   "category": "unisex",
   "description": "הודי יוניסקס בעיצוב Seed Of Joy מאת גל דִּיסֵנִי.",
   "alt": "הודי Seed Of Joy מאת גל דיסני",
-  "image": "/images/uploads/apparel-placeholder.svg",
-  "thumb": "/images/uploads/apparel-placeholder.svg",
-  "gallery": [],
+  "image": "/images/uploads/all-over-print-recycled-unisex-hoodie-white-front-6a80d2003536c.webp",
+  "thumb": "/images/uploads/all-over-print-recycled-unisex-hoodie-white-front-6a80d2003536c.webp",
+  "gallery": [
+    {
+      "image": "/images/uploads/all-over-print-recycled-unisex-hoodie-white-back-6a80d200357c0.webp",
+      "alt": "הודי Seed Of Joy - תצוגה מאחור"
+    }
+  ],
   "purchaseVariants": [
     {
       "productType": "hoodie",
