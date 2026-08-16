@@ -1057,6 +1057,7 @@
     var option = e.target.options[e.target.selectedIndex];
     if (noteEl && option) noteEl.textContent = option.dataset.note || "";
     updateLivePrice(wrap);
+    notifyProductGallery(wrap);
   });
 
   function trapFocus(container, e) {
@@ -1526,12 +1527,19 @@
   function notifyProductGallery(wrap) {
     var styleSelect = wrap.querySelector(".js-style-select");
     var option = getSelectedProductOption(wrap);
-    if (!styleSelect || !styleSelect.value) return;
+
+    // Prints use two selects (style + size); apparel has one combined
+    // size/type select, so there's no styleSelect to read productType from -
+    // fall back to the selected option's own data-product-type instead.
+    var productType = styleSelect && styleSelect.value
+      ? styleSelect.value
+      : (option && option.value ? option.dataset.productType || "" : "");
+    if (!productType) return;
 
     document.dispatchEvent(new CustomEvent("product-options:change", {
       detail: {
         order: wrap,
-        productType: styleSelect.value,
+        productType: productType,
         sizeId: option && option.value ? option.dataset.sizeId || "" : "",
         frameColor: option && option.value ? option.dataset.frameColor || "" : ""
       }

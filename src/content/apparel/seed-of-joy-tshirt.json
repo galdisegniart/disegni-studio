@@ -7,19 +7,23 @@
   "description": "חולצת טי אורגנית אוברסייז בעיצוב Seed Of Joy מאת גל דִּיסֵנִי, בשני צבעים.",
   "alt": "חולצת Seed Of Joy מאת גל דיסני",
   "image": "/images/uploads/unisex-organic-oversized-high-neck-blaster-2.0-t-shirt-french-navy-front-6a80dce574ef8.webp",
-  "thumb": "/images/uploads/unisex-organic-oversized-high-neck-blaster-2.0-t-shirt-french-navy-front-6a80dce574ef8.webp",
+  "thumb": "/images/uploads/unisex-organic-oversized-high-neck-blaster-2.0-t-shirt-french-navy-front-6a80dce574ef8-thumb.webp",
+  "imageColor": "French Navy",
   "gallery": [
     {
       "image": "/images/uploads/unisex-organic-oversized-high-neck-blaster-2.0-t-shirt-french-navy-back-6a80dce5752f2.webp",
-      "alt": "חולצת Seed Of Joy French Navy - תצוגה מאחור"
+      "alt": "חולצת Seed Of Joy French Navy - תצוגה מאחור",
+      "color": "French Navy"
     },
     {
       "image": "/images/uploads/unisex-organic-oversized-high-neck-blaster-2.0-t-shirt-black-front-6a80dce574e26.webp",
-      "alt": "חולצת Seed Of Joy שחורה - תצוגה מקדימה"
+      "alt": "חולצת Seed Of Joy שחורה - תצוגה מקדימה",
+      "color": "Black"
     },
     {
       "image": "/images/uploads/unisex-organic-oversized-high-neck-blaster-2.0-t-shirt-black-back-6a80dce575281.webp",
-      "alt": "חולצת Seed Of Joy שחורה - תצוגה מאחור"
+      "alt": "חולצת Seed Of Joy שחורה - תצוגה מאחור",
+      "color": "Black"
     }
   ],
   "purchaseVariants": [

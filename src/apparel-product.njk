@@ -65,11 +65,11 @@ eleventyComputed:
     {% if item.gallery and item.gallery.length %}
     <div class="artwork-gallery">
       <div class="artwork-thumbnails" aria-label="תמונות נוספות של {{ item.name }}">
-        <button class="artwork-thumbnail is-active js-product-gallery-thumb" type="button" data-image="{{ item.image }}" data-alt="{{ item.alt }}" data-zoom="true" aria-label="הצגת התמונה הראשית" aria-current="true">
+        <button class="artwork-thumbnail is-active js-product-gallery-thumb" type="button" data-image="{{ item.image }}" data-alt="{{ item.alt }}" data-zoom="true" data-product-type="{{ variants[0].productType }}" data-frame-color="{{ item.imageColor | colorSlug }}" aria-label="הצגת התמונה הראשית" aria-current="true">
           <img src="{{ item.image }}" alt="" loading="lazy">
         </button>
         {% for galleryImage in item.gallery %}
-        <button class="artwork-thumbnail js-product-gallery-thumb" type="button" data-image="{{ galleryImage.image }}" data-alt="{{ galleryImage.alt or item.alt }}" data-zoom="false" aria-label="הצגת תמונה {{ loop.index }}">
+        <button class="artwork-thumbnail js-product-gallery-thumb" type="button" data-image="{{ galleryImage.image }}" data-alt="{{ galleryImage.alt or item.alt }}" data-zoom="false" data-product-type="{{ variants[0].productType }}" data-frame-color="{{ galleryImage.color | colorSlug }}" aria-label="הצגת תמונה {{ loop.index }}">
           <img src="{{ galleryImage.image }}" alt="" loading="lazy">
         </button>
         {% endfor %}
@@ -107,6 +107,7 @@ eleventyComputed:
               <option
                 value="{{ variant.productType }}:{{ compositeSizeId }}"
                 data-product-type="{{ variant.productType }}"
+                data-frame-color="{{ variant.color | colorSlug }}"
                 data-size-id="{{ compositeSizeId }}"
                 data-catalog-number="{{ variant.catalogNumber }}"
                 data-price-ils="{{ variant.priceILS }}"
