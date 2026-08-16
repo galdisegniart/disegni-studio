@@ -62,9 +62,8 @@ eleventyComputed:
     <a class="artwork-back js-back-link" href="/collections/apparel/"><span aria-hidden="true">→</span> <span class="js-back-label">חזרה לחנות</span></a>
   </div>
   <div class="artwork-detail-grid">
-    {% if item.gallery and item.gallery.length %}
-    <div class="artwork-gallery">
-      <div class="artwork-thumbnails" aria-label="תמונות נוספות של {{ item.name }}">
+    <div class="artwork-gallery{% if not item.gallery or not item.gallery.length %} artwork-gallery-single{% endif %}">
+      <div class="artwork-thumbnails" aria-label="תמונות נוספות של {{ item.name }}"{% if not item.gallery or not item.gallery.length %} hidden{% endif %}>
         <button class="artwork-thumbnail is-active js-product-gallery-thumb" type="button" data-image="{{ item.image }}?v={{ buildTime }}" data-alt="{{ item.alt }}" data-zoom="false" data-product-type="{{ variants[0].productType }}" data-frame-color="{{ item.imageColor | colorSlug }}" aria-label="הצגת התמונה הראשית" aria-current="true">
           <img src="{{ item.image }}?v={{ buildTime }}" alt="" loading="lazy">
         </button>
@@ -76,19 +75,16 @@ eleventyComputed:
       </div>
       <figure class="artwork-stage">
         <img class="js-product-gallery-main" src="{{ item.image }}?v={{ buildTime }}" alt="{{ item.alt }}" data-zoom-enabled="false">
+        {% if item.gallery and item.gallery.length %}
         <button class="artwork-gallery-arrow artwork-gallery-arrow-prev js-product-gallery-prev" type="button" aria-label="התמונה הקודמת">
           <svg aria-hidden="true" viewBox="0 0 20 20" width="20" height="20"><path d="M13 5L8 10L13 15"></path></svg>
         </button>
         <button class="artwork-gallery-arrow artwork-gallery-arrow-next js-product-gallery-next" type="button" aria-label="התמונה הבאה">
           <svg aria-hidden="true" viewBox="0 0 20 20" width="20" height="20"><path d="M8 5L13 10L8 15"></path></svg>
         </button>
+        {% endif %}
       </figure>
     </div>
-    {% else %}
-    <figure class="artwork-stage">
-      <img src="{{ item.image }}?v={{ buildTime }}" alt="{{ item.alt }}">
-    </figure>
-    {% endif %}
 
     <div class="artwork-detail-copy">
       <h1>{{ item.name }}</h1>
