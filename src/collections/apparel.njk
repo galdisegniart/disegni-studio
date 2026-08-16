@@ -37,7 +37,7 @@ eleventyComputed:
     {% for item in apparelItems %}
     <article class="artwork-card" id="{{ item.slug }}" data-category="{{ item.category }}">
       <a class="artwork-tile" href="/shop/{{ item.slug }}/" aria-label="כניסה למוצר {{ item.name }}">
-        <span class="artwork-tile-image"><img src="{{ item.thumb }}" alt="{{ item.alt }}" loading="lazy"></span>
+        <span class="artwork-tile-image"><img src="{{ item.thumb }}?v={{ buildTime }}" alt="{{ item.alt }}" loading="lazy"></span>
         <span class="artwork-tile-caption"><strong lang="en">{{ item.name }}</strong></span>
       </a>
     </article>
