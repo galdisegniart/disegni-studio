@@ -65,7 +65,7 @@ eleventyComputed:
     {% if item.gallery and item.gallery.length %}
     <div class="artwork-gallery">
       <div class="artwork-thumbnails" aria-label="תמונות נוספות של {{ item.name }}">
-        <button class="artwork-thumbnail is-active js-product-gallery-thumb" type="button" data-image="{{ item.image }}?v={{ buildTime }}" data-alt="{{ item.alt }}" data-zoom="true" data-product-type="{{ variants[0].productType }}" data-frame-color="{{ item.imageColor | colorSlug }}" aria-label="הצגת התמונה הראשית" aria-current="true">
+        <button class="artwork-thumbnail is-active js-product-gallery-thumb" type="button" data-image="{{ item.image }}?v={{ buildTime }}" data-alt="{{ item.alt }}" data-zoom="false" data-product-type="{{ variants[0].productType }}" data-frame-color="{{ item.imageColor | colorSlug }}" aria-label="הצגת התמונה הראשית" aria-current="true">
           <img src="{{ item.image }}?v={{ buildTime }}" alt="" loading="lazy">
         </button>
         {% for galleryImage in item.gallery %}
@@ -75,7 +75,7 @@ eleventyComputed:
         {% endfor %}
       </div>
       <figure class="artwork-stage">
-        <img class="js-product-gallery-main" src="{{ item.image }}?v={{ buildTime }}" alt="{{ item.alt }}" data-zoom-enabled="true">
+        <img class="js-product-gallery-main" src="{{ item.image }}?v={{ buildTime }}" alt="{{ item.alt }}" data-zoom-enabled="false">
         <button class="artwork-gallery-arrow artwork-gallery-arrow-prev js-product-gallery-prev" type="button" aria-label="התמונה הקודמת">
           <svg aria-hidden="true" viewBox="0 0 20 20" width="20" height="20"><path d="M13 5L8 10L13 15"></path></svg>
         </button>
