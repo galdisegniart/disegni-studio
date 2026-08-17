@@ -104,11 +104,36 @@ module.exports = function (eleventyConfig) {
     );
   }
 
-  // For real rendered HTML (headings, descriptions, captions) - wraps
-  // each foreign-script run in <bdi>. Use with | safe: {{ x | bidiWrap | safe }}
+  // For real rendered HTML (headings, descriptions, captions).
+  //
+  // This does NOT use <bdi>/isolates for positioning. Three separate
+  // isolate-based attempts each failed differently across real browsers
+  // (confirmed independently in Chrome, Brave AND Edge on the user's own
+  // machine, not just this project's own test tooling) - because
+  // isolate-based positioning ultimately still runs through the Unicode
+  // Bidi Algorithm's paragraph-level reordering rules, which have real,
+  // inconsistently-implemented edge cases for adjacent isolates and
+  // isolates with no preceding strong character.
+  //
+  // Instead: each run becomes its own flex item in a `display: inline-
+  // flex` container with explicit `dir="rtl"`. Flexbox item order is
+  // pure CSS layout - deterministic by DOM order, completely independent
+  // of bidi text algorithm resolution. This sidesteps the whole class of
+  // bug rather than chasing another edge case: item order can't become
+  // ambiguous because it was never derived from text-direction analysis
+  // in the first place. Each foreign run gets `direction: ltr` so its
+  // OWN words still read correctly within themselves.
   eleventyConfig.addFilter("bidiWrap", function (value) {
     const str = String(value == null ? "" : value);
-    return wrapRuns(str, (run) => "<bdi>" + escapeHtml(run) + "</bdi>");
+    const spans = splitRuns(str)
+      .map((run) => {
+        const text = escapeHtml(run.text);
+        return run.isForeign
+          ? '<span style="direction:ltr;unicode-bidi:isolate;">' + text + "</span>"
+          : "<span>" + text + "</span>";
+      })
+      .join("");
+    return '<span style="display:inline-flex;flex-wrap:wrap;" dir="rtl">' + spans + "</span>";
   });
 
   // For plain-text-only contexts that can't hold HTML markup - <option>
