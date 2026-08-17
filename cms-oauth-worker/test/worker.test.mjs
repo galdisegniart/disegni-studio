@@ -2648,3 +2648,89 @@ test("bit receipt extract: returns no matchedContact when no description is give
   assert.equal(response.status, 200);
   assert.equal(body.matchedContact, null);
 });
+
+test("bit receipt extract: matches on a single word from a multi-word descriptionKeyword", async () => {
+  const env = { ...ENV, DISEGNI_ADMIN_KEY: "admin-secret", ORDERS_KV: createMockKV() };
+  await worker.fetch(
+    adminContactsRequest("create", {
+      firstName: "יהודית",
+      lastName: "פרג'ון",
+      serviceType: "טיפול באמנות",
+      descriptionKeyword: "עבודה עם דוד",
+    }),
+    env
+  );
+
+  // Real case: the customer only wrote "דוד" (one word of the configured
+  // phrase), not the full "עבודה עם דוד" - should still match.
+  const response = await worker.fetch(extractRequest("ציור דוד v4"), env);
+  const body = await response.json();
+  assert.equal(response.status, 200);
+  assert.equal(body.matchedContact.firstName, "יהודית");
+  assert.equal(body.matchedContact.serviceType, "טיפול באמנות");
+  assert.deepEqual(body.candidates, []);
+});
+
+test("bit receipt extract: ignores short connector words when matching by single keyword word", async () => {
+  const env = { ...ENV, DISEGNI_ADMIN_KEY: "admin-secret", ORDERS_KV: createMockKV() };
+  await worker.fetch(
+    adminContactsRequest("create", {
+      firstName: "יהודית",
+      lastName: "פרג'ון",
+      descriptionKeyword: "עבודה עם דוד",
+    }),
+    env
+  );
+
+  // Text containing only the connector word "עם" (2 letters, filtered
+  // out) with nothing else from the keyword should NOT match.
+  const response = await worker.fetch(extractRequest("תשלום עם ברכה"), env);
+  const body = await response.json();
+  assert.equal(response.status, 200);
+  assert.equal(body.matchedContact, null);
+});
+
+test("bit receipt extract: two contacts whose keywords share a word return candidates instead of guessing", async () => {
+  const env = { ...ENV, DISEGNI_ADMIN_KEY: "admin-secret", ORDERS_KV: createMockKV() };
+  await worker.fetch(
+    adminContactsRequest("create", { firstName: "יהודית", lastName: "פרג'ון", descriptionKeyword: "עבודה עם דוד" }),
+    env
+  );
+  await worker.fetch(
+    adminContactsRequest("create", { firstName: "משה", lastName: "אבני", descriptionKeyword: "סדנת דוד" }),
+    env
+  );
+
+  const response = await worker.fetch(extractRequest("ציור דוד v4"), env);
+  const body = await response.json();
+  assert.equal(response.status, 200);
+  assert.equal(body.matchedContact, null);
+  assert.equal(body.candidates.length, 2);
+  assert.deepEqual(
+    body.candidates.map((c) => c.firstName).sort(),
+    ["יהודית", "משה"]
+  );
+});
+
+test("bit receipt extract: a full keyword-phrase match wins over a same-word collision with another contact's keyword", async () => {
+  const env = { ...ENV, DISEGNI_ADMIN_KEY: "admin-secret", ORDERS_KV: createMockKV() };
+  await worker.fetch(
+    adminContactsRequest("create", {
+      firstName: "יהודית",
+      lastName: "פרג'ון",
+      descriptionKeyword: "עבודה עם דוד",
+      serviceType: "טיפול באמנות",
+    }),
+    env
+  );
+  await worker.fetch(
+    adminContactsRequest("create", { firstName: "משה", lastName: "אבני", descriptionKeyword: "סדנת דוד" }),
+    env
+  );
+
+  const response = await worker.fetch(extractRequest("תשלום עבור עבודה עם דוד חודש אוגוסט"), env);
+  const body = await response.json();
+  assert.equal(response.status, 200);
+  assert.equal(body.matchedContact.firstName, "יהודית");
+  assert.equal(body.matchedContact.serviceType, "טיפול באמנות");
+});

@@ -804,16 +804,26 @@ noAnalytics: true
     var addContactBtn = document.getElementById("manual-add-contact-btn");
     var contactSelect = document.getElementById("manual-contact-select");
 
-    // Applies the single contact the server matched by descriptionKeyword
-    // (see /bit-receipts/extract) - never a fetched list, just this one
-    // record. Falls back to a clear "fill manually" message when there's
-    // no match, per the same behavior as the public form.
-    function applyMatchedContact(matchedContact) {
+    // Applies the single contact the server matched by descriptionKeyword/
+    // name (see /bit-receipts/extract) - never a fetched list, just this
+    // one record. When the match was ambiguous (e.g. two contacts share a
+    // first name and only the first name appeared in the text), the server
+    // sends back the tied candidates instead of guessing - shown here so
+    // it's clear why nothing auto-filled, rather than looking like a bug.
+    function applyMatchedContact(matchedContact, candidates) {
       contactMatchMessage.textContent = "";
       addContactBtn.hidden = true;
       if (!matchedContact) {
         contactMatchMessage.style.color = "var(--dim)";
-        contactMatchMessage.textContent = "לא זוהתה התאמה אוטומטית - אפשר לבחור לקוח מהרשימה או למלא ידנית.";
+        if (candidates && candidates.length > 1) {
+          var names = candidates
+            .map(function (c) { return c.firstName + " " + c.lastName; })
+            .join(", ");
+          contactMatchMessage.textContent =
+            "נמצאו כמה לקוחות אפשריים (" + names + ") - יש לבחור ידנית מהרשימה למטה.";
+        } else {
+          contactMatchMessage.textContent = "לא זוהתה התאמה אוטומטית - אפשר לבחור לקוח מהרשימה או למלא ידנית.";
+        }
         addContactBtn.hidden = false;
         return;
       }
@@ -986,7 +996,7 @@ noAnalytics: true
               return response.json();
             })
             .then(function (data) {
-              applyMatchedContact(data && data.matchedContact);
+              applyMatchedContact(data && data.matchedContact, data && data.candidates);
             })
             .catch(function () {
               applyMatchedContact(null);

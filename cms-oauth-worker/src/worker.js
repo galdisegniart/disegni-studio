@@ -2773,34 +2773,78 @@ async function handleBitReceiptExtract(request, env) {
   }
 
   const description = cleanText(input && input.description, BIT_EXTRACT_DESCRIPTION_MAX_LENGTH);
-  const matchedContact = description ? await findContactByDescriptionKeyword(env, description) : null;
+  const match = description
+    ? await findContactByDescriptionKeyword(env, description)
+    : { matchedContact: null, candidates: [] };
 
-  return jsonResponse({ ok: true, matchedContact }, 200, corsHeaders);
+  return jsonResponse(
+    { ok: true, matchedContact: match.matchedContact, candidates: match.candidates },
+    200,
+    corsHeaders
+  );
 }
 
 // Server-side only - the public form never receives the full contact list,
-// just the single matched record (or null). Matching is a plain substring
-// check against the keyword the customer wrote in the Bit note themselves,
-// which is a far more reliable signal than any name visible in the image.
+// just the single matched record (or null) plus, when the match was
+// ambiguous, a short list of the tied candidates so the admin can pick
+// manually instead of the server guessing wrong. Matching is against
+// descriptionKeyword only - never a contact's own name, which the
+// customer's Bit note has no obligation to relate to at all (e.g. a
+// keyword of "עבודה עם דוד" for a contact who isn't named David - the
+// customer just chose that phrase as their own reference).
+//
+// Two signal tiers, strongest first:
+//   1. The full descriptionKeyword phrase appears verbatim - highest
+//      confidence.
+//   2. Any single meaningful word *from* that phrase appears - covers the
+//      common case where the customer only wrote part of the phrase they
+//      were told (e.g. "דוד" alone when the configured keyword is the
+//      longer "עבודה עם דוד"). "Meaningful" excludes short connector
+//      words (של/את/עם/גם/רק/עד/...), which in Hebrew are consistently
+//      two letters or fewer, so a length>2 filter is a reliable cheap
+//      heuristic without needing a stopword list.
+// Within a tier, more than one hit means genuine ambiguity - that tier
+// is not trusted and we fall through to the next, weaker tier (which,
+// being less specific, would only ever match a superset of contacts, so
+// it can't accidentally resolve what a stronger tier couldn't - it's
+// only useful when the strong tier had zero hits, not multiple).
 async function findContactByDescriptionKeyword(env, descriptionText) {
-  if (!env.ORDERS_KV) return null;
+  const empty = { matchedContact: null, candidates: [] };
+  if (!env.ORDERS_KV) return empty;
   const haystack = String(descriptionText).toLowerCase();
+  if (!haystack) return empty;
 
   const listing = await env.ORDERS_KV.list({ prefix: "contact:" });
+  const contacts = [];
   for (const key of listing.keys) {
     const contact = await kvGetJSON(env, key.name);
-    if (!contact || !contact.descriptionKeyword) continue;
-    if (haystack.includes(contact.descriptionKeyword.toLowerCase())) {
-      return {
-        firstName: contact.firstName,
-        lastName: contact.lastName,
-        phone: contact.phone || "",
-        email: contact.email || "",
-        serviceType: contact.serviceType || "",
-      };
-    }
+    if (contact && contact.descriptionKeyword) contacts.push(contact);
   }
-  return null;
+
+  const summarize = (contact) => ({
+    firstName: contact.firstName,
+    lastName: contact.lastName,
+    phone: contact.phone || "",
+    email: contact.email || "",
+    serviceType: contact.serviceType || "",
+  });
+  const keywordWords = (contact) =>
+    String(contact.descriptionKeyword)
+      .toLowerCase()
+      .split(/\s+/)
+      .filter((word) => word.length > 2);
+
+  const tiers = [
+    (contact) => haystack.includes(String(contact.descriptionKeyword).toLowerCase()),
+    (contact) => keywordWords(contact).some((word) => haystack.includes(word)),
+  ];
+
+  for (const matchesTier of tiers) {
+    const hits = contacts.filter(matchesTier);
+    if (hits.length === 1) return { matchedContact: summarize(hits[0]), candidates: [] };
+    if (hits.length > 1) return { matchedContact: null, candidates: hits.map(summarize) };
+  }
+  return empty;
 }
 
 async function handleAdminBitReceiptsList(request, env) {

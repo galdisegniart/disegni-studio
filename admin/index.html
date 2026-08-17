@@ -5,6 +5,28 @@
 <title>ניהול תוכן | גל דִּיסֵנִי</title>
 <meta name="robots" content="noindex">
 <!-- force redeploy -->
+<style>
+  /*
+    Decap CMS's own form fields don't go through this site's bidiWrap
+    filter (that only runs at Eleventy build time, producing the public
+    disegni.studio pages - it never touches Decap's own React UI). Field
+    values here are pure Hebrew+English mixed content (e.g. product
+    names like "מדבקת Seed Of Joy"), and Decap's default text inputs
+    assume LTR/English content, which is the same root cause we found
+    and fixed on the public site's CSS: wrong base direction, not a
+    markup problem. This can't isolate individual words the way bdi
+    does (that needs the isolate characters baked into the stored
+    string itself), but setting the correct base direction plus
+    unicode-bidi: plaintext lets the browser auto-detect each field's
+    own direction from its content, which resolves the common case.
+  */
+  input[type="text"],
+  input[type="search"],
+  textarea {
+    direction: rtl;
+    unicode-bidi: plaintext;
+  }
+</style>
 </head>
 <body>
 <script src="https://unpkg.com/decap-cms@^3/dist/decap-cms.js"></script>
