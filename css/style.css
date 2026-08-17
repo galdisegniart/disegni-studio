@@ -482,6 +482,19 @@ body.cart-drawer-lock {
   gap: 7px;
 }
 
+/* Cart/product text is CMS-authored and mixes Hebrew with English product
+   names. unicode-bidi: plaintext makes each line take its direction from
+   its own first strong character - exactly how the CMS input the text was
+   typed into behaves - so what ships matches what was typed, whether the
+   name starts in Hebrew or in English. Set here (rather than injected into
+   the strings) because cart.js writes these via textContent. */
+.cart-drawer-title,
+.cart-drawer-meta,
+.cart-line-title,
+.cart-line-info span {
+  unicode-bidi: plaintext;
+}
+
 .cart-drawer-title {
   color: var(--bone);
   font-size: 20px;

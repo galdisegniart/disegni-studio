@@ -22,41 +22,6 @@ module.exports = function (eleventyConfig) {
     return Number(n).toLocaleString("en-US");
   });
 
-  // Isolates each maximal RUN of same-script words (not each word alone).
-  // This matters for multi-word foreign phrases: isolating "Seed", "Of"
-  // and "Joy" as three SEPARATE isolates let the outer RTL paragraph
-  // position each isolate independently by source order, which reverses
-  // their *mutual* order into "Joy Of Seed" whenever the phrase isn't
-  // preceded by a real (non-isolated) Hebrew character - confirmed by
-  // directly measuring word positions on the live site, and confirmed
-  // wrong again by the user after that "fix" shipped. Grouping "Seed Of
-  // Joy" into ONE isolate fixes this: a single isolate's own resolved
-  // direction (LTR here) governs its internal word order regardless of
-  // where the isolate sits in the outer RTL flow, so "Seed Of Joy"
-  // always reads left-to-right internally, no matter what precedes or
-  // follows it. Hebrew runs are left bare (unwrapped) - they already
-  // match the page's own RTL direction, so isolating them adds nothing.
-  // Because runs strictly alternate script class, no two isolates can
-  // ever end up directly adjacent to each other (there's always at
-  // least one bare Hebrew character - or the start/end of the paragraph
-  // - between any two foreign isolates), which is what makes this safe
-  // for cases like "2\" עד 6\"" too: "2\"" and "6\"" are separate
-  // isolates, but "עד" is a real Hebrew character sitting between them,
-  // not another isolate, so there's no adjacency ambiguity to resolve.
-  const HEBREW_CHAR = /[֐-׿]/;
-  // A token only counts as "foreign" if it has an actual Latin letter or
-  // digit in it. A standalone separator like "-" between a quoted phrase
-  // and a Hebrew word has neither, so without this check it greedily
-  // joined whichever run happened to precede it - dragging it to that
-  // run's own far edge (isolate-internal order puts it last, at the
-  // isolate's own right edge) instead of sitting where it visually
-  // belongs, between the two runs. Confirmed on the live site: dash
-  // ended up glued to the end of the English block instead of between
-  // it and the following Hebrew word. Punctuation-only tokens now stay
-  // bare/unwrapped like Hebrew, so they flow with the surrounding RTL
-  // text via the browser's normal neutral-character resolution instead
-  // of being captured by an isolate.
-  const HAS_LATIN_OR_DIGIT = /[A-Za-z0-9]/;
   function escapeHtml(str) {
     return String(str)
       .replace(/&/g, "&amp;")
@@ -64,94 +29,40 @@ module.exports = function (eleventyConfig) {
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;");
   }
-  // Splits into alternating runs of {isForeign, text} - text includes any
-  // trailing whitespace up to (but not including) the next run, so
-  // rejoining the pieces reproduces the original string exactly.
-  function splitRuns(str) {
-    const tokens = String(str).split(/(\s+)/).filter((t) => t !== "");
-    const runs = [];
-    tokens.forEach((token) => {
-      const isForeign = HAS_LATIN_OR_DIGIT.test(token) && !HEBREW_CHAR.test(token);
-      const isWhitespace = /^\s+$/.test(token);
-      const last = runs[runs.length - 1];
-      if (isWhitespace) {
-        if (last) last.text += token;
-        return;
-      }
-      if (last && last.isForeign === isForeign && !last.sealed) {
-        last.text += token;
-      } else {
-        if (last) last.sealed = true;
-        runs.push({ isForeign, text: token, sealed: false });
-      }
-    });
-    return runs;
-  }
-  // U+200F RIGHT-TO-LEFT MARK - invisible, zero-width. Prepended because
-  // when the text *starts* with a foreign-script run, the browser has
-  // nothing but that isolate itself to infer the surrounding paragraph's
-  // base direction from, and that can still resolve ambiguously. A real
-  // RTL character isn't ambiguous, so this anchors the paragraph
-  // correctly no matter what script the text happens to start with -
-  // harmless (a no-op) when the text already starts with Hebrew.
-  const RLM = "‏";
-  function wrapRuns(str, wrapFn) {
-    return (
-      RLM +
-      splitRuns(str)
-        .map((run) => (run.isForeign ? wrapFn(run.text) : escapeHtml(run.text)))
-        .join("")
-    );
-  }
 
-  // For real rendered HTML (headings, descriptions, captions).
+  // Renders CMS-authored text (product names, descriptions, breadcrumb
+  // labels) so it displays exactly the way it looked in the CMS field
+  // the user typed it into - which is the actual requirement, and the
+  // thing every previous attempt here got wrong.
   //
-  // This does NOT use <bdi>/isolates for positioning. Three separate
-  // isolate-based attempts each failed differently across real browsers
-  // (confirmed independently in Chrome, Brave AND Edge on the user's own
-  // machine, not just this project's own test tooling) - because
-  // isolate-based positioning ultimately still runs through the Unicode
-  // Bidi Algorithm's paragraph-level reordering rules, which have real,
-  // inconsistently-implemented edge cases for adjacent isolates and
-  // isolates with no preceding strong character.
+  // Earlier approaches all tried to FORCE a direction (per-word <bdi>
+  // isolates, per-run isolates, a leading RLM anchor, then flexbox item
+  // ordering). Each one fixed some names and broke others, because each
+  // was imposing RTL on strings that do not necessarily start in Hebrew.
   //
-  // Instead: each run becomes its own flex item in a `display: inline-
-  // flex` container with explicit `dir="rtl"`. Flexbox item order is
-  // pure CSS layout - deterministic by DOM order, completely independent
-  // of bidi text algorithm resolution. This sidesteps the whole class of
-  // bug rather than chasing another edge case: item order can't become
-  // ambiguous because it was never derived from text-direction analysis
-  // in the first place.
-  //
-  // The flex ITEM span itself carries no direction override - confirmed
-  // fixed the 2-run cases, but a name with several alternating runs
-  // (e.g. "Seed Of Joy - מדבקה - 2\" עד 6\"", 5 runs) still broke, and a
-  // flex item's OWN `direction` isn't supposed to affect its position
-  // among siblings per spec, but evidently something in how a real
-  // browser resolves several LTR-styled items scattered among RTL ones
-  // does affect it in practice. So the LTR override now lives on an
-  // INNER span nested one level deeper, which has no flex/positioning
-  // role at all - it can only affect its own text rendering, with
-  // nothing left that could plausibly interact with item placement.
+  // A text input decides its line direction from the FIRST STRONG
+  // character in the value: a name starting with "Seed" lays out
+  // left-to-right, one starting with Hebrew lays out right-to-left.
+  // That is why the CMS field always looked right. The CSS property
+  // "unicode-bidi: plaintext" applies that exact same rule to rendered
+  // text, so the site now matches the CMS by construction rather than
+  // by guessing a direction per name - and it needs no markup injected
+  // into the string, so no split/merge heuristic can mis-classify a
+  // dash, a quote mark or an inches symbol ever again.
   eleventyConfig.addFilter("bidiWrap", function (value) {
     const str = String(value == null ? "" : value);
-    const spans = splitRuns(str)
-      .map((run) => {
-        const text = escapeHtml(run.text);
-        return run.isForeign
-          ? '<span><span style="direction:ltr;unicode-bidi:isolate;">' + text + "</span></span>"
-          : "<span>" + text + "</span>";
-      })
-      .join("");
-    return '<span style="display:inline-flex;flex-wrap:wrap;" dir="rtl">' + spans + "</span>";
+    return '<span style="unicode-bidi:plaintext;">' + escapeHtml(str) + "</span>";
   });
 
-  // For plain-text-only contexts that can't hold HTML markup - <option>
-  // text, alt/title/aria-label attributes - uses the Unicode First Strong
-  // Isolate / Pop Directional Isolate characters instead of a <bdi> tag.
+  // Plain-text-only contexts (<option> text, alt/title/aria-label) can
+  // hold no markup, so they cannot carry the CSS above. They also do not
+  // need it: an <option> is laid out by its <select>, and the surrounding
+  // page is already RTL. Previous versions injected invisible Unicode
+  // isolate characters here; that is dropped, both because it never
+  // addressed a reported problem and because those characters leaked
+  // into copied text.
   eleventyConfig.addFilter("bidiIsolatePlain", function (value) {
-    const str = String(value == null ? "" : value);
-    return wrapRuns(str, (run) => "⁨" + run + "⁩");
+    return String(value == null ? "" : value);
   });
 
   eleventyConfig.addFilter("workshopNavChildren", function (workshopList) {

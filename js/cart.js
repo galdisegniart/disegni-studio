@@ -11,48 +11,15 @@
     if (typeof window.gtag === "function") window.gtag("event", name, params);
   }
 
-  // Same run-wise isolation as the site's bidiWrap/bidiIsolatePlain
-  // Eleventy filters (.eleventy.js) - isolates each maximal run of
-  // same-script words together (not each word alone, which broke the
-  // internal left-to-right order of multi-word English phrases like
-  // "Seed Of Joy" - confirmed on the live site), using Unicode First
-  // Strong Isolate/Pop Directional Isolate characters so mixed Hebrew+
-  // English text set via textContent (cart lines, drawer) can't visually
-  // reorder. Plain-text safe (no HTML), so it also works for innerHTML.
-  // The leading RLM (U+200F, invisible) anchors the paragraph as RTL
-  // when the text starts with a foreign-script run - see the matching
-  // comment in .eleventy.js for why that's needed.
-  var HEBREW_CHAR_RE = /[֐-׿]/;
-  // Only counts as "foreign" if it has an actual Latin letter/digit - a
-  // bare separator like "-" has neither, so without this it got dragged
-  // into whichever run happened to precede it instead of sitting where
-  // it visually belongs, between the two runs (confirmed on the live
-  // site). See the matching comment in .eleventy.js for the full story.
-  var HAS_LATIN_OR_DIGIT_RE = /[A-Za-z0-9]/;
+  // Cart lines are rendered with textContent (plain strings, no markup),
+  // so the direction rule the rest of the site uses is applied to these
+  // elements in CSS instead - see the unicode-bidi: plaintext rules in
+  // css/style.css. This helper therefore no longer injects any invisible
+  // Unicode isolate characters: earlier versions did, which both failed
+  // to fix the ordering and leaked stray characters into text the user
+  // copied out of the page.
   function bidiIsolate(value) {
-    var str = value == null ? "" : String(value);
-    var tokens = str.split(/(\s+)/).filter(function (t) { return t !== ""; });
-    var runs = [];
-    tokens.forEach(function (token) {
-      var isForeign = HAS_LATIN_OR_DIGIT_RE.test(token) && !HEBREW_CHAR_RE.test(token);
-      var isWhitespace = /^\s+$/.test(token);
-      var last = runs[runs.length - 1];
-      if (isWhitespace) {
-        if (last) last.text += token;
-        return;
-      }
-      if (last && last.isForeign === isForeign && !last.sealed) {
-        last.text += token;
-      } else {
-        if (last) last.sealed = true;
-        runs.push({ isForeign: isForeign, text: token, sealed: false });
-      }
-    });
-    return "‏" + runs
-      .map(function (run) {
-        return run.isForeign ? "⁨" + run.text + "⁩" : run.text;
-      })
-      .join("");
+    return value == null ? "" : String(value);
   }
 
   // Set only by a successful /payments/coupons/check call - re-validated for
