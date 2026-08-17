@@ -11,22 +11,40 @@
     if (typeof window.gtag === "function") window.gtag("event", name, params);
   }
 
-  // Same word-wise isolation as the site's bidiWrap/bidiIsolatePlain Eleventy
-  // filters (.eleventy.js) - wraps every whitespace-delimited word (Hebrew
-  // or foreign, doesn't matter) in Unicode First Strong Isolate/Pop
-  // Directional Isolate characters, so mixed Hebrew+English text set via
-  // textContent (cart lines, drawer) can't visually reorder regardless of
-  // what mix of scripts/numbers/punctuation ends up in the string. Plain-
-  // text safe (no HTML), so it also works for innerHTML. The leading RLM
-  // (U+200F, invisible) anchors the paragraph as RTL when the text starts
-  // with a foreign-script word - see the matching comment in .eleventy.js
-  // for why that's needed (verified against the live site).
+  // Same run-wise isolation as the site's bidiWrap/bidiIsolatePlain
+  // Eleventy filters (.eleventy.js) - isolates each maximal run of
+  // same-script words together (not each word alone, which broke the
+  // internal left-to-right order of multi-word English phrases like
+  // "Seed Of Joy" - confirmed on the live site), using Unicode First
+  // Strong Isolate/Pop Directional Isolate characters so mixed Hebrew+
+  // English text set via textContent (cart lines, drawer) can't visually
+  // reorder. Plain-text safe (no HTML), so it also works for innerHTML.
+  // The leading RLM (U+200F, invisible) anchors the paragraph as RTL
+  // when the text starts with a foreign-script run - see the matching
+  // comment in .eleventy.js for why that's needed.
+  var HEBREW_CHAR_RE = /[֐-׿]/;
   function bidiIsolate(value) {
     var str = value == null ? "" : String(value);
-    return "‏" + str
-      .split(/(\s+)/)
-      .map(function (part) {
-        return part === "" || /^\s+$/.test(part) ? part : "⁨" + part + "⁩";
+    var tokens = str.split(/(\s+)/).filter(function (t) { return t !== ""; });
+    var runs = [];
+    tokens.forEach(function (token) {
+      var isForeign = !HEBREW_CHAR_RE.test(token);
+      var isWhitespace = /^\s+$/.test(token);
+      var last = runs[runs.length - 1];
+      if (isWhitespace) {
+        if (last) last.text += token;
+        return;
+      }
+      if (last && last.isForeign === isForeign && !last.sealed) {
+        last.text += token;
+      } else {
+        if (last) last.sealed = true;
+        runs.push({ isForeign: isForeign, text: token, sealed: false });
+      }
+    });
+    return "‏" + runs
+      .map(function (run) {
+        return run.isForeign ? "⁨" + run.text + "⁩" : run.text;
       })
       .join("");
   }

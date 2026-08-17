@@ -22,16 +22,28 @@ module.exports = function (eleventyConfig) {
     return Number(n).toLocaleString("en-US");
   });
 
-  // Wraps EVERY whitespace-delimited word (Hebrew or foreign, doesn't matter
-  // which) in its own bidi isolate. Isolating only the foreign-script runs
-  // and leaving Hebrew connector words bare (the previous approach) still
-  // let the browser's bidi algorithm scramble the sequence whenever a short
-  // Hebrew word sat *between* two foreign runs (e.g. "2\" עד 6\"" - "2 inch
-  // to 6 inch"): the bare Hebrew word broke the isolation boundary. Giving
-  // every single word its own isolate removes that ambiguity entirely -
-  // only neutral whitespace is left between isolates, and isolates are laid
-  // out strictly in source order - so this is immune to whatever mix of
-  // scripts/numbers/punctuation ends up in the CMS text.
+  // Isolates each maximal RUN of same-script words (not each word alone).
+  // This matters for multi-word foreign phrases: isolating "Seed", "Of"
+  // and "Joy" as three SEPARATE isolates let the outer RTL paragraph
+  // position each isolate independently by source order, which reverses
+  // their *mutual* order into "Joy Of Seed" whenever the phrase isn't
+  // preceded by a real (non-isolated) Hebrew character - confirmed by
+  // directly measuring word positions on the live site, and confirmed
+  // wrong again by the user after that "fix" shipped. Grouping "Seed Of
+  // Joy" into ONE isolate fixes this: a single isolate's own resolved
+  // direction (LTR here) governs its internal word order regardless of
+  // where the isolate sits in the outer RTL flow, so "Seed Of Joy"
+  // always reads left-to-right internally, no matter what precedes or
+  // follows it. Hebrew runs are left bare (unwrapped) - they already
+  // match the page's own RTL direction, so isolating them adds nothing.
+  // Because runs strictly alternate script class, no two isolates can
+  // ever end up directly adjacent to each other (there's always at
+  // least one bare Hebrew character - or the start/end of the paragraph
+  // - between any two foreign isolates), which is what makes this safe
+  // for cases like "2\" עד 6\"" too: "2\"" and "6\"" are separate
+  // isolates, but "עד" is a real Hebrew character sitting between them,
+  // not another isolate, so there's no adjacency ambiguity to resolve.
+  const HEBREW_CHAR = /[֐-׿]/;
   function escapeHtml(str) {
     return String(str)
       .replace(/&/g, "&amp;")
@@ -39,35 +51,51 @@ module.exports = function (eleventyConfig) {
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;");
   }
-  // U+200F RIGHT-TO-LEFT MARK - invisible, zero-width. Prepended before
-  // the isolated words below because when the text *starts* with a
-  // foreign-script word (e.g. "\"Seed Of Joy\" חולצה"), the browser has
-  // nothing but the isolates themselves to infer the surrounding
-  // paragraph's base direction from - and empirically (verified directly
-  // against the live site, multiple browsers) that ambiguity resolves
-  // wrong: the whole foreign-script block gets shifted to the visual
-  // start of the line instead of following logical/source order,
-  // dragging the Hebrew text out of place with it. A real RTL character
-  // isn't ambiguous, so prepending one anchors the paragraph correctly
-  // no matter what script the text happens to start with. Harmless when
-  // the text already starts with Hebrew - it's already RTL then, so
-  // this is a no-op in effect.
+  // Splits into alternating runs of {isForeign, text} - text includes any
+  // trailing whitespace up to (but not including) the next run, so
+  // rejoining the pieces reproduces the original string exactly.
+  function splitRuns(str) {
+    const tokens = String(str).split(/(\s+)/).filter((t) => t !== "");
+    const runs = [];
+    tokens.forEach((token) => {
+      const isForeign = !HEBREW_CHAR.test(token);
+      const isWhitespace = /^\s+$/.test(token);
+      const last = runs[runs.length - 1];
+      if (isWhitespace) {
+        if (last) last.text += token;
+        return;
+      }
+      if (last && last.isForeign === isForeign && !last.sealed) {
+        last.text += token;
+      } else {
+        if (last) last.sealed = true;
+        runs.push({ isForeign, text: token, sealed: false });
+      }
+    });
+    return runs;
+  }
+  // U+200F RIGHT-TO-LEFT MARK - invisible, zero-width. Prepended because
+  // when the text *starts* with a foreign-script run, the browser has
+  // nothing but that isolate itself to infer the surrounding paragraph's
+  // base direction from, and that can still resolve ambiguously. A real
+  // RTL character isn't ambiguous, so this anchors the paragraph
+  // correctly no matter what script the text happens to start with -
+  // harmless (a no-op) when the text already starts with Hebrew.
   const RLM = "‏";
-  function wrapWords(str, wrapFn) {
+  function wrapRuns(str, wrapFn) {
     return (
       RLM +
-      String(str)
-        .split(/(\s+)/)
-        .map((part) => (part === "" || /^\s+$/.test(part) ? escapeHtml(part) : wrapFn(part)))
+      splitRuns(str)
+        .map((run) => (run.isForeign ? wrapFn(run.text) : escapeHtml(run.text)))
         .join("")
     );
   }
 
-  // For real rendered HTML (headings, descriptions, captions) - wraps each
-  // word in <bdi>. Use with | safe: {{ x | bidiWrap | safe }}
+  // For real rendered HTML (headings, descriptions, captions) - wraps
+  // each foreign-script run in <bdi>. Use with | safe: {{ x | bidiWrap | safe }}
   eleventyConfig.addFilter("bidiWrap", function (value) {
     const str = String(value == null ? "" : value);
-    return wrapWords(str, (word) => "<bdi>" + escapeHtml(word) + "</bdi>");
+    return wrapRuns(str, (run) => "<bdi>" + escapeHtml(run) + "</bdi>");
   });
 
   // For plain-text-only contexts that can't hold HTML markup - <option>
@@ -75,7 +103,7 @@ module.exports = function (eleventyConfig) {
   // Isolate / Pop Directional Isolate characters instead of a <bdi> tag.
   eleventyConfig.addFilter("bidiIsolatePlain", function (value) {
     const str = String(value == null ? "" : value);
-    return wrapWords(str, (word) => "⁨" + word + "⁩");
+    return wrapRuns(str, (run) => "⁨" + run + "⁩");
   });
 
   eleventyConfig.addFilter("workshopNavChildren", function (workshopList) {
