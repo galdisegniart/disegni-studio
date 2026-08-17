@@ -39,11 +39,28 @@ module.exports = function (eleventyConfig) {
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;");
   }
+  // U+200F RIGHT-TO-LEFT MARK - invisible, zero-width. Prepended before
+  // the isolated words below because when the text *starts* with a
+  // foreign-script word (e.g. "\"Seed Of Joy\" חולצה"), the browser has
+  // nothing but the isolates themselves to infer the surrounding
+  // paragraph's base direction from - and empirically (verified directly
+  // against the live site, multiple browsers) that ambiguity resolves
+  // wrong: the whole foreign-script block gets shifted to the visual
+  // start of the line instead of following logical/source order,
+  // dragging the Hebrew text out of place with it. A real RTL character
+  // isn't ambiguous, so prepending one anchors the paragraph correctly
+  // no matter what script the text happens to start with. Harmless when
+  // the text already starts with Hebrew - it's already RTL then, so
+  // this is a no-op in effect.
+  const RLM = "‏";
   function wrapWords(str, wrapFn) {
-    return String(str)
-      .split(/(\s+)/)
-      .map((part) => (part === "" || /^\s+$/.test(part) ? escapeHtml(part) : wrapFn(part)))
-      .join("");
+    return (
+      RLM +
+      String(str)
+        .split(/(\s+)/)
+        .map((part) => (part === "" || /^\s+$/.test(part) ? escapeHtml(part) : wrapFn(part)))
+        .join("")
+    );
   }
 
   // For real rendered HTML (headings, descriptions, captions) - wraps each

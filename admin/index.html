@@ -16,15 +16,18 @@
     and fixed on the public site's CSS: wrong base direction, not a
     markup problem. This can't isolate individual words the way bdi
     does (that needs the isolate characters baked into the stored
-    string itself), but setting the correct base direction plus
-    unicode-bidi: plaintext lets the browser auto-detect each field's
-    own direction from its content, which resolves the common case.
+    string itself, which we can't inject into Decap's own rendering) -
+    just forces the correct base direction. Deliberately NOT
+    unicode-bidi: plaintext: that auto-detects the paragraph's direction
+    from its first strong character, which silently overrides this
+    direction:rtl whenever a field happens to start with a foreign-
+    script word (e.g. "Seed Of Joy" חולצה) - confirmed directly against
+    the live site before landing on this simpler, more reliable rule.
   */
   input[type="text"],
   input[type="search"],
   textarea {
     direction: rtl;
-    unicode-bidi: plaintext;
   }
 </style>
 </head>

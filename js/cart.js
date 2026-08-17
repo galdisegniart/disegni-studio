@@ -17,10 +17,13 @@
   // Directional Isolate characters, so mixed Hebrew+English text set via
   // textContent (cart lines, drawer) can't visually reorder regardless of
   // what mix of scripts/numbers/punctuation ends up in the string. Plain-
-  // text safe (no HTML), so it also works for innerHTML.
+  // text safe (no HTML), so it also works for innerHTML. The leading RLM
+  // (U+200F, invisible) anchors the paragraph as RTL when the text starts
+  // with a foreign-script word - see the matching comment in .eleventy.js
+  // for why that's needed (verified against the live site).
   function bidiIsolate(value) {
     var str = value == null ? "" : String(value);
-    return str
+    return "‏" + str
       .split(/(\s+)/)
       .map(function (part) {
         return part === "" || /^\s+$/.test(part) ? part : "⁨" + part + "⁩";
