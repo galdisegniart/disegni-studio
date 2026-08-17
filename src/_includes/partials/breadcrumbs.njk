@@ -1,5 +1,5 @@
 <nav class="breadcrumbs" aria-label="פירורי לחם">
-  {% for c in crumbs %}{% if c.href %}<a href="{{ c.href }}">{{ c.label | bidiWrap | safe }}</a>{% else %}<span aria-current="page">{{ c.label | bidiWrap | safe }}</span>{% endif %}{% if not loop.last %}<span class="breadcrumbs-sep" aria-hidden="true">/</span>{% endif %}{% endfor %}
+  {% for c in crumbs %}{% if c.href %}<a href="{{ c.href }}">{{ c.label | bidiName | safe }}</a>{% else %}<span aria-current="page">{{ c.label | bidiName | safe }}</span>{% endif %}{% if not loop.last %}<span class="breadcrumbs-sep" aria-hidden="true">/</span>{% endif %}{% endfor %}
 </nav>
 
 <script type="application/ld+json">

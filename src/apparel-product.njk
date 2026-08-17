@@ -87,7 +87,7 @@ eleventyComputed:
     </div>
 
     <div class="artwork-detail-copy">
-      <h1>{{ item.name | bidiWrap | safe }}</h1>
+      <h1 class="product-title-label">{{ item.name | bidiName | safe }}</h1>
       <div class="print-order" data-artwork-slug="{{ item.slug }}" data-artwork-name="{{ item.name }}" data-artwork-image="{{ item.image }}" data-payment-image="{{ item.image }}">
         {% if lowestPrice %}
         <p class="print-order-startprice">החל מ- <span>{{ lowestPrice | numberFormat }} ₪</span></p>

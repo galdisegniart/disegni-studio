@@ -1784,6 +1784,15 @@ body.product-lightbox-lock {
   line-height: 0.95;
 }
 
+/* Apparel names are descriptive labels ("Seed Of Joy" - חולצה רקומה),
+   several times longer than an artwork title like "Orin" that the size
+   above was set for - at that scale they wrapped across lines and
+   dominated the page. */
+.artwork-detail-copy h1.product-title-label {
+  font-size: calc(clamp(22px, 2.2vw, 28px) * var(--scale-heading));
+  line-height: 1.25;
+}
+
 .original-price {
   margin: 28px 0 18px;
   color: var(--bone);
@@ -1878,6 +1887,10 @@ body.product-lightbox-lock {
 
   .artwork-detail-grid .artwork-detail-copy h1 {
     font-size: calc(clamp(36px, 3.6vw, 60px) * var(--scale-heading));
+  }
+
+  .artwork-detail-grid .artwork-detail-copy h1.product-title-label {
+    font-size: calc(clamp(22px, 2.2vw, 28px) * var(--scale-heading));
   }
 
   .artwork-detail-grid .print-order {
@@ -7080,6 +7093,10 @@ body:has(.commission-sticky-cta:not([hidden])) .quick-links-rail {
 
   .artwork-detail-grid .artwork-detail-copy h1 {
     font-size: calc(clamp(48px, 3.4vw, 64px) * var(--scale-heading));
+  }
+
+  .artwork-detail-grid .artwork-detail-copy h1.product-title-label {
+    font-size: calc(clamp(22px, 2.2vw, 28px) * var(--scale-heading));
   }
 
   .artwork-detail-grid .print-order {
