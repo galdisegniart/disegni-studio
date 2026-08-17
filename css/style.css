@@ -1769,7 +1769,6 @@ body.product-lightbox-lock {
   font-size: calc(clamp(54px, 7vw, 96px) * var(--scale-heading));
   font-weight: 700;
   line-height: 0.95;
-  direction: ltr;
 }
 
 .original-price {
@@ -4778,7 +4777,6 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
   align-items: center;
   gap: 0;
   padding: 3px 2px 0;
-  direction: ltr;
 }
 
 .artwork-tile-caption strong {

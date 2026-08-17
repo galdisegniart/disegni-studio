@@ -22,14 +22,16 @@ module.exports = function (eleventyConfig) {
     return Number(n).toLocaleString("en-US");
   });
 
-  // Matches a run of Latin letters/digits/quote-ish marks (allowing single
-  // spaces between "words" so e.g. "Seed Of Joy" stays one run) - used to
-  // isolate foreign-script spans inside RTL text so the browser's bidi
-  // algorithm can't visually reorder them relative to surrounding Hebrew.
-  const BIDI_TOKEN = "[A-Za-z0-9′″'\"’‘“”׳״×%.\\-+#@/]+";
-  function bidiRunRegex() {
-    return new RegExp(BIDI_TOKEN + "(?:[ \\t]+" + BIDI_TOKEN + ")*", "g");
-  }
+  // Wraps EVERY whitespace-delimited word (Hebrew or foreign, doesn't matter
+  // which) in its own bidi isolate. Isolating only the foreign-script runs
+  // and leaving Hebrew connector words bare (the previous approach) still
+  // let the browser's bidi algorithm scramble the sequence whenever a short
+  // Hebrew word sat *between* two foreign runs (e.g. "2\" עד 6\"" - "2 inch
+  // to 6 inch"): the bare Hebrew word broke the isolation boundary. Giving
+  // every single word its own isolate removes that ambiguity entirely -
+  // only neutral whitespace is left between isolates, and isolates are laid
+  // out strictly in source order - so this is immune to whatever mix of
+  // scripts/numbers/punctuation ends up in the CMS text.
   function escapeHtml(str) {
     return String(str)
       .replace(/&/g, "&amp;")
@@ -37,22 +39,18 @@ module.exports = function (eleventyConfig) {
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;");
   }
+  function wrapWords(str, wrapFn) {
+    return String(str)
+      .split(/(\s+)/)
+      .map((part) => (part === "" || /^\s+$/.test(part) ? escapeHtml(part) : wrapFn(part)))
+      .join("");
+  }
 
   // For real rendered HTML (headings, descriptions, captions) - wraps each
-  // foreign-script run in <bdi>. Use with | safe: {{ x | bidiWrap | safe }}
+  // word in <bdi>. Use with | safe: {{ x | bidiWrap | safe }}
   eleventyConfig.addFilter("bidiWrap", function (value) {
     const str = String(value == null ? "" : value);
-    const re = bidiRunRegex();
-    let result = "";
-    let lastIndex = 0;
-    let match;
-    while ((match = re.exec(str))) {
-      result += escapeHtml(str.slice(lastIndex, match.index));
-      result += "<bdi>" + escapeHtml(match[0]) + "</bdi>";
-      lastIndex = match.index + match[0].length;
-    }
-    result += escapeHtml(str.slice(lastIndex));
-    return result;
+    return wrapWords(str, (word) => "<bdi>" + escapeHtml(word) + "</bdi>");
   });
 
   // For plain-text-only contexts that can't hold HTML markup - <option>
@@ -60,7 +58,7 @@ module.exports = function (eleventyConfig) {
   // Isolate / Pop Directional Isolate characters instead of a <bdi> tag.
   eleventyConfig.addFilter("bidiIsolatePlain", function (value) {
     const str = String(value == null ? "" : value);
-    return str.replace(bidiRunRegex(), "⁨$&⁩");
+    return wrapWords(str, (word) => "⁨" + word + "⁩");
   });
 
   eleventyConfig.addFilter("workshopNavChildren", function (workshopList) {

@@ -11,15 +11,21 @@
     if (typeof window.gtag === "function") window.gtag("event", name, params);
   }
 
-  // Same run-detection as the site's bidiWrap/bidiIsolatePlain Eleventy
-  // filters (.eleventy.js) - wraps Latin/digit/quote runs in Unicode First
-  // Strong Isolate/Pop Directional Isolate characters so mixed Hebrew+
-  // English text set via textContent (cart lines, drawer) doesn't visually
-  // reorder. Plain-text safe (no HTML), so it also works for innerHTML.
-  var BIDI_RUN_RE = /[A-Za-z0-9′″'"’‘“”׳״×%.\-+#@/]+(?:[ \t]+[A-Za-z0-9′″'"’‘“”׳״×%.\-+#@/]+)*/g;
+  // Same word-wise isolation as the site's bidiWrap/bidiIsolatePlain Eleventy
+  // filters (.eleventy.js) - wraps every whitespace-delimited word (Hebrew
+  // or foreign, doesn't matter) in Unicode First Strong Isolate/Pop
+  // Directional Isolate characters, so mixed Hebrew+English text set via
+  // textContent (cart lines, drawer) can't visually reorder regardless of
+  // what mix of scripts/numbers/punctuation ends up in the string. Plain-
+  // text safe (no HTML), so it also works for innerHTML.
   function bidiIsolate(value) {
     var str = value == null ? "" : String(value);
-    return str.replace(BIDI_RUN_RE, "⁨$&⁩");
+    return str
+      .split(/(\s+)/)
+      .map(function (part) {
+        return part === "" || /^\s+$/.test(part) ? part : "⁨" + part + "⁩";
+      })
+      .join("");
   }
 
   // Set only by a successful /payments/coupons/check call - re-validated for
