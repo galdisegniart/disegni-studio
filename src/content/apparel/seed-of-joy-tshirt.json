@@ -1,14 +1,132 @@
 {
+  "imageColor": "French Navy",
+  "alt": "חולצת Seed Of Joy מאת גל דיסני",
+  "name": "\"Seed Of Joy\" חולצה רקומה",
   "slug": "seed-of-joy-tshirt",
   "order": 1,
-  "name": "חולצת Seed Of Joy",
+  "purchaseVariants": [
+    {
+      "catalogNumber": "SEED-OF-JOY-TSHIRT-T-SHIRT-S-FRENCH-NAVY",
+      "color": "French Navy",
+      "shippingFirstUSD": 12,
+      "priceILS": 109,
+      "productType": "t-shirt",
+      "shippingFirstILS": 45,
+      "shippingAdditionalUSD": 3,
+      "shippingAdditionalILS": 10,
+      "sizeId": "S",
+      "priceUSD": 28
+    },
+    {
+      "catalogNumber": "SEED-OF-JOY-TSHIRT-T-SHIRT-M-FRENCH-NAVY",
+      "color": "French Navy",
+      "shippingFirstUSD": 12,
+      "priceILS": 109,
+      "productType": "t-shirt",
+      "shippingFirstILS": 45,
+      "shippingAdditionalUSD": 3,
+      "shippingAdditionalILS": 10,
+      "sizeId": "M",
+      "priceUSD": 28
+    },
+    {
+      "catalogNumber": "SEED-OF-JOY-TSHIRT-T-SHIRT-L-FRENCH-NAVY",
+      "color": "French Navy",
+      "shippingFirstUSD": 12,
+      "priceILS": 109,
+      "productType": "t-shirt",
+      "shippingFirstILS": 45,
+      "shippingAdditionalUSD": 3,
+      "shippingAdditionalILS": 10,
+      "sizeId": "L",
+      "priceUSD": 28
+    },
+    {
+      "catalogNumber": "SEED-OF-JOY-TSHIRT-T-SHIRT-XL-FRENCH-NAVY",
+      "color": "French Navy",
+      "shippingFirstUSD": 12,
+      "priceILS": 109,
+      "productType": "t-shirt",
+      "shippingFirstILS": 45,
+      "shippingAdditionalUSD": 3,
+      "shippingAdditionalILS": 10,
+      "sizeId": "XL",
+      "priceUSD": 28
+    },
+    {
+      "catalogNumber": "SEED-OF-JOY-TSHIRT-T-SHIRT-2XL-FRENCH-NAVY",
+      "color": "French Navy",
+      "shippingFirstUSD": 12,
+      "priceILS": 119,
+      "productType": "t-shirt",
+      "shippingFirstILS": 45,
+      "shippingAdditionalUSD": 3,
+      "shippingAdditionalILS": 10,
+      "sizeId": "2XL",
+      "priceUSD": 30
+    },
+    {
+      "catalogNumber": "SEED-OF-JOY-TSHIRT-T-SHIRT-S-BLACK",
+      "color": "Black",
+      "shippingFirstUSD": 12,
+      "priceILS": 109,
+      "productType": "t-shirt",
+      "shippingFirstILS": 45,
+      "shippingAdditionalUSD": 3,
+      "shippingAdditionalILS": 10,
+      "sizeId": "S",
+      "priceUSD": 28
+    },
+    {
+      "catalogNumber": "SEED-OF-JOY-TSHIRT-T-SHIRT-M-BLACK",
+      "color": "Black",
+      "shippingFirstUSD": 12,
+      "priceILS": 109,
+      "productType": "t-shirt",
+      "shippingFirstILS": 45,
+      "shippingAdditionalUSD": 3,
+      "shippingAdditionalILS": 10,
+      "sizeId": "M",
+      "priceUSD": 28
+    },
+    {
+      "catalogNumber": "SEED-OF-JOY-TSHIRT-T-SHIRT-L-BLACK",
+      "color": "Black",
+      "shippingFirstUSD": 12,
+      "priceILS": 109,
+      "productType": "t-shirt",
+      "shippingFirstILS": 45,
+      "shippingAdditionalUSD": 3,
+      "shippingAdditionalILS": 10,
+      "sizeId": "L",
+      "priceUSD": 28
+    },
+    {
+      "catalogNumber": "SEED-OF-JOY-TSHIRT-T-SHIRT-XL-BLACK",
+      "color": "Black",
+      "shippingFirstUSD": 12,
+      "priceILS": 109,
+      "productType": "t-shirt",
+      "shippingFirstILS": 45,
+      "shippingAdditionalUSD": 3,
+      "shippingAdditionalILS": 10,
+      "sizeId": "XL",
+      "priceUSD": 28
+    },
+    {
+      "catalogNumber": "SEED-OF-JOY-TSHIRT-T-SHIRT-2XL-BLACK",
+      "color": "Black",
+      "shippingFirstUSD": 12,
+      "priceILS": 119,
+      "productType": "t-shirt",
+      "shippingFirstILS": 45,
+      "shippingAdditionalUSD": 3,
+      "shippingAdditionalILS": 10,
+      "sizeId": "2XL",
+      "priceUSD": 30
+    }
+  ],
   "matchName": "Unisex organic oversized t-shirt",
-  "category": "unisex",
-  "description": "חולצת טי אורגנית אוברסייז בעיצוב Seed Of Joy מאת גל דִּיסֵנִי, בשני צבעים.",
-  "alt": "חולצת Seed Of Joy מאת גל דיסני",
-  "image": "/images/uploads/unisex-organic-oversized-high-neck-blaster-2.0-t-shirt-french-navy-front-6a80dce574ef8.webp",
-  "thumb": "/images/uploads/unisex-organic-oversized-high-neck-blaster-2.0-t-shirt-french-navy-front-6a80dce574ef8.webp",
-  "imageColor": "French Navy",
   "gallery": [
     {
       "image": "/images/uploads/unisex-organic-oversized-high-neck-blaster-2.0-t-shirt-french-navy-back-6a80dce5752f2.webp",
@@ -26,126 +144,8 @@
       "color": "Black"
     }
   ],
-  "purchaseVariants": [
-    {
-      "productType": "t-shirt",
-      "sizeId": "S",
-      "color": "French Navy",
-      "catalogNumber": "SEED-OF-JOY-TSHIRT-T-SHIRT-S-FRENCH-NAVY",
-      "priceILS": 109,
-      "priceUSD": 28,
-      "shippingFirstILS": 45,
-      "shippingAdditionalILS": 10,
-      "shippingFirstUSD": 12,
-      "shippingAdditionalUSD": 3
-    },
-    {
-      "productType": "t-shirt",
-      "sizeId": "M",
-      "color": "French Navy",
-      "catalogNumber": "SEED-OF-JOY-TSHIRT-T-SHIRT-M-FRENCH-NAVY",
-      "priceILS": 109,
-      "priceUSD": 28,
-      "shippingFirstILS": 45,
-      "shippingAdditionalILS": 10,
-      "shippingFirstUSD": 12,
-      "shippingAdditionalUSD": 3
-    },
-    {
-      "productType": "t-shirt",
-      "sizeId": "L",
-      "color": "French Navy",
-      "catalogNumber": "SEED-OF-JOY-TSHIRT-T-SHIRT-L-FRENCH-NAVY",
-      "priceILS": 109,
-      "priceUSD": 28,
-      "shippingFirstILS": 45,
-      "shippingAdditionalILS": 10,
-      "shippingFirstUSD": 12,
-      "shippingAdditionalUSD": 3
-    },
-    {
-      "productType": "t-shirt",
-      "sizeId": "XL",
-      "color": "French Navy",
-      "catalogNumber": "SEED-OF-JOY-TSHIRT-T-SHIRT-XL-FRENCH-NAVY",
-      "priceILS": 109,
-      "priceUSD": 28,
-      "shippingFirstILS": 45,
-      "shippingAdditionalILS": 10,
-      "shippingFirstUSD": 12,
-      "shippingAdditionalUSD": 3
-    },
-    {
-      "productType": "t-shirt",
-      "sizeId": "2XL",
-      "color": "French Navy",
-      "catalogNumber": "SEED-OF-JOY-TSHIRT-T-SHIRT-2XL-FRENCH-NAVY",
-      "priceILS": 119,
-      "priceUSD": 30,
-      "shippingFirstILS": 45,
-      "shippingAdditionalILS": 10,
-      "shippingFirstUSD": 12,
-      "shippingAdditionalUSD": 3
-    },
-    {
-      "productType": "t-shirt",
-      "sizeId": "S",
-      "color": "Black",
-      "catalogNumber": "SEED-OF-JOY-TSHIRT-T-SHIRT-S-BLACK",
-      "priceILS": 109,
-      "priceUSD": 28,
-      "shippingFirstILS": 45,
-      "shippingAdditionalILS": 10,
-      "shippingFirstUSD": 12,
-      "shippingAdditionalUSD": 3
-    },
-    {
-      "productType": "t-shirt",
-      "sizeId": "M",
-      "color": "Black",
-      "catalogNumber": "SEED-OF-JOY-TSHIRT-T-SHIRT-M-BLACK",
-      "priceILS": 109,
-      "priceUSD": 28,
-      "shippingFirstILS": 45,
-      "shippingAdditionalILS": 10,
-      "shippingFirstUSD": 12,
-      "shippingAdditionalUSD": 3
-    },
-    {
-      "productType": "t-shirt",
-      "sizeId": "L",
-      "color": "Black",
-      "catalogNumber": "SEED-OF-JOY-TSHIRT-T-SHIRT-L-BLACK",
-      "priceILS": 109,
-      "priceUSD": 28,
-      "shippingFirstILS": 45,
-      "shippingAdditionalILS": 10,
-      "shippingFirstUSD": 12,
-      "shippingAdditionalUSD": 3
-    },
-    {
-      "productType": "t-shirt",
-      "sizeId": "XL",
-      "color": "Black",
-      "catalogNumber": "SEED-OF-JOY-TSHIRT-T-SHIRT-XL-BLACK",
-      "priceILS": 109,
-      "priceUSD": 28,
-      "shippingFirstILS": 45,
-      "shippingAdditionalILS": 10,
-      "shippingFirstUSD": 12,
-      "shippingAdditionalUSD": 3
-    },
-    {
-      "productType": "t-shirt",
-      "sizeId": "2XL",
-      "color": "Black",
-      "catalogNumber": "SEED-OF-JOY-TSHIRT-T-SHIRT-2XL-BLACK",
-      "priceILS": 119,
-      "priceUSD": 30,
-      "shippingFirstILS": 45,
-      "shippingAdditionalILS": 10,
-      "shippingFirstUSD": 12,
-      "shippingAdditionalUSD": 3
-    }
-  ]
+  "thumb": "/images/uploads/unisex-organic-oversized-high-neck-blaster-2.0-t-shirt-french-navy-front-6a80dce574ef8.webp",
+  "image": "/images/uploads/unisex-organic-oversized-high-neck-blaster-2.0-t-shirt-french-navy-front-6a80dce574ef8.webp",
+  "description": "חולצת טי אורגנית אוברסייז בעיצוב Seed Of Joy מאת גל דִּיסֵנִי, בשני צבעים.",
+  "category": "unisex"
 }

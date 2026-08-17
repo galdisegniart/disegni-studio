@@ -1,74 +1,74 @@
 {
+  "alt": "מאסל שירט Seed Of Joy מאת גל דיסני",
+  "name": "\"Seed Of Joy\" - גופייה רקומה ",
   "slug": "seed-of-joy-muscle-shirt",
   "order": 2,
-  "name": "מאסל שירט Seed Of Joy",
+  "purchaseVariants": [
+    {
+      "catalogNumber": "SEED-OF-JOY-MUSCLE-SHIRT-MUSCLE-SHIRT-S",
+      "shippingFirstUSD": 12,
+      "priceILS": 89,
+      "productType": "muscle-shirt",
+      "shippingFirstILS": 45,
+      "shippingAdditionalUSD": 3,
+      "shippingAdditionalILS": 10,
+      "sizeId": "S",
+      "priceUSD": 23
+    },
+    {
+      "catalogNumber": "SEED-OF-JOY-MUSCLE-SHIRT-MUSCLE-SHIRT-M",
+      "shippingFirstUSD": 12,
+      "priceILS": 89,
+      "productType": "muscle-shirt",
+      "shippingFirstILS": 45,
+      "shippingAdditionalUSD": 3,
+      "shippingAdditionalILS": 10,
+      "sizeId": "M",
+      "priceUSD": 23
+    },
+    {
+      "catalogNumber": "SEED-OF-JOY-MUSCLE-SHIRT-MUSCLE-SHIRT-L",
+      "shippingFirstUSD": 12,
+      "priceILS": 89,
+      "productType": "muscle-shirt",
+      "shippingFirstILS": 45,
+      "shippingAdditionalUSD": 3,
+      "shippingAdditionalILS": 10,
+      "sizeId": "L",
+      "priceUSD": 23
+    },
+    {
+      "catalogNumber": "SEED-OF-JOY-MUSCLE-SHIRT-MUSCLE-SHIRT-XL",
+      "shippingFirstUSD": 12,
+      "priceILS": 89,
+      "productType": "muscle-shirt",
+      "shippingFirstILS": 45,
+      "shippingAdditionalUSD": 3,
+      "shippingAdditionalILS": 10,
+      "sizeId": "XL",
+      "priceUSD": 23
+    },
+    {
+      "catalogNumber": "SEED-OF-JOY-MUSCLE-SHIRT-MUSCLE-SHIRT-2XL",
+      "shippingFirstUSD": 12,
+      "priceILS": 95,
+      "productType": "muscle-shirt",
+      "shippingFirstILS": 45,
+      "shippingAdditionalUSD": 3,
+      "shippingAdditionalILS": 10,
+      "sizeId": "2XL",
+      "priceUSD": 24
+    }
+  ],
   "matchName": "Muscle Shirt",
-  "category": "men",
-  "description": "מאסל שירט בעיצוב Seed Of Joy מאת גל דִּיסֵנִי.",
-  "alt": "מאסל שירט Seed Of Joy מאת גל דיסני",
-  "image": "/images/uploads/unisex-muscle-shirt-black-front-6a80dc6687999.webp",
-  "thumb": "/images/uploads/unisex-muscle-shirt-black-front-6a80dc6687999.webp",
   "gallery": [
     {
       "image": "/images/uploads/unisex-muscle-shirt-black-back-6a80dc6687c32.webp",
       "alt": "מאסל שירט Seed Of Joy - תצוגה מאחור"
     }
   ],
-  "purchaseVariants": [
-    {
-      "productType": "muscle-shirt",
-      "sizeId": "S",
-      "catalogNumber": "SEED-OF-JOY-MUSCLE-SHIRT-MUSCLE-SHIRT-S",
-      "priceILS": 89,
-      "priceUSD": 23,
-      "shippingFirstILS": 45,
-      "shippingAdditionalILS": 10,
-      "shippingFirstUSD": 12,
-      "shippingAdditionalUSD": 3
-    },
-    {
-      "productType": "muscle-shirt",
-      "sizeId": "M",
-      "catalogNumber": "SEED-OF-JOY-MUSCLE-SHIRT-MUSCLE-SHIRT-M",
-      "priceILS": 89,
-      "priceUSD": 23,
-      "shippingFirstILS": 45,
-      "shippingAdditionalILS": 10,
-      "shippingFirstUSD": 12,
-      "shippingAdditionalUSD": 3
-    },
-    {
-      "productType": "muscle-shirt",
-      "sizeId": "L",
-      "catalogNumber": "SEED-OF-JOY-MUSCLE-SHIRT-MUSCLE-SHIRT-L",
-      "priceILS": 89,
-      "priceUSD": 23,
-      "shippingFirstILS": 45,
-      "shippingAdditionalILS": 10,
-      "shippingFirstUSD": 12,
-      "shippingAdditionalUSD": 3
-    },
-    {
-      "productType": "muscle-shirt",
-      "sizeId": "XL",
-      "catalogNumber": "SEED-OF-JOY-MUSCLE-SHIRT-MUSCLE-SHIRT-XL",
-      "priceILS": 89,
-      "priceUSD": 23,
-      "shippingFirstILS": 45,
-      "shippingAdditionalILS": 10,
-      "shippingFirstUSD": 12,
-      "shippingAdditionalUSD": 3
-    },
-    {
-      "productType": "muscle-shirt",
-      "sizeId": "2XL",
-      "catalogNumber": "SEED-OF-JOY-MUSCLE-SHIRT-MUSCLE-SHIRT-2XL",
-      "priceILS": 95,
-      "priceUSD": 24,
-      "shippingFirstILS": 45,
-      "shippingAdditionalILS": 10,
-      "shippingFirstUSD": 12,
-      "shippingAdditionalUSD": 3
-    }
-  ]
+  "thumb": "/images/uploads/unisex-muscle-shirt-black-front-6a80dc6687999.webp",
+  "image": "/images/uploads/unisex-muscle-shirt-black-front-6a80dc6687999.webp",
+  "description": "מאסל שירט בעיצוב Seed Of Joy מאת גל דִּיסֵנִי.",
+  "category": "men"
 }
