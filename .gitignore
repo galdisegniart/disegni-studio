@@ -3,3 +3,4 @@ reference/
 Thumbs.db
 node_modules/
 .env
+.codex-*/
