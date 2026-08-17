@@ -121,15 +121,25 @@ module.exports = function (eleventyConfig) {
   // of bidi text algorithm resolution. This sidesteps the whole class of
   // bug rather than chasing another edge case: item order can't become
   // ambiguous because it was never derived from text-direction analysis
-  // in the first place. Each foreign run gets `direction: ltr` so its
-  // OWN words still read correctly within themselves.
+  // in the first place.
+  //
+  // The flex ITEM span itself carries no direction override - confirmed
+  // fixed the 2-run cases, but a name with several alternating runs
+  // (e.g. "Seed Of Joy - מדבקה - 2\" עד 6\"", 5 runs) still broke, and a
+  // flex item's OWN `direction` isn't supposed to affect its position
+  // among siblings per spec, but evidently something in how a real
+  // browser resolves several LTR-styled items scattered among RTL ones
+  // does affect it in practice. So the LTR override now lives on an
+  // INNER span nested one level deeper, which has no flex/positioning
+  // role at all - it can only affect its own text rendering, with
+  // nothing left that could plausibly interact with item placement.
   eleventyConfig.addFilter("bidiWrap", function (value) {
     const str = String(value == null ? "" : value);
     const spans = splitRuns(str)
       .map((run) => {
         const text = escapeHtml(run.text);
         return run.isForeign
-          ? '<span style="direction:ltr;unicode-bidi:isolate;">' + text + "</span>"
+          ? '<span><span style="direction:ltr;unicode-bidi:isolate;">' + text + "</span></span>"
           : "<span>" + text + "</span>";
       })
       .join("");
