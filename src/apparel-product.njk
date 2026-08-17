@@ -87,7 +87,7 @@ eleventyComputed:
     </div>
 
     <div class="artwork-detail-copy">
-      <h1>{{ item.name }}</h1>
+      <h1>{{ item.name | bidiWrap | safe }}</h1>
       <div class="print-order" data-artwork-slug="{{ item.slug }}" data-artwork-name="{{ item.name }}" data-artwork-image="{{ item.image }}" data-payment-image="{{ item.image }}">
         {% if lowestPrice %}
         <p class="print-order-startprice">החל מ- <span>{{ lowestPrice | numberFormat }} ₪</span></p>
@@ -115,7 +115,7 @@ eleventyComputed:
                 data-material-name="{{ item.name }}"
                 data-label-cm="{{ variant.sizeId }}{% if variant.color %} · {{ variant.color }}{% endif %}"
                 data-label-in="{{ variant.sizeId }}{% if variant.color %} · {{ variant.color }}{% endif %}"
-              >{{ variant.productType | apparelTypeName }} · {{ variant.sizeId }}{% if variant.color %} · {{ variant.color }}{% endif %}</option>
+              >{{ variant.productType | apparelTypeName }} · {{ variant.sizeId | bidiIsolatePlain }}{% if variant.color %} · {{ variant.color | bidiIsolatePlain }}{% endif %}</option>
               {% endfor %}
             </select>
           </div>
@@ -149,7 +149,7 @@ eleventyComputed:
         <details class="print-order-details">
           <summary><span aria-hidden="true">☰</span> פרטים</summary>
           <div class="print-order-details-body">
-            <p>{{ item.description }}</p>
+            <p>{{ item.description | bidiWrap | safe }}</p>
             <p>המשלוח מחושב לפי מידה וכמות.</p>
           </div>
         </details>

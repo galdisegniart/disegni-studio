@@ -22,6 +22,47 @@ module.exports = function (eleventyConfig) {
     return Number(n).toLocaleString("en-US");
   });
 
+  // Matches a run of Latin letters/digits/quote-ish marks (allowing single
+  // spaces between "words" so e.g. "Seed Of Joy" stays one run) - used to
+  // isolate foreign-script spans inside RTL text so the browser's bidi
+  // algorithm can't visually reorder them relative to surrounding Hebrew.
+  const BIDI_TOKEN = "[A-Za-z0-9′″'\"’‘“”׳״×%.\\-+#@/]+";
+  function bidiRunRegex() {
+    return new RegExp(BIDI_TOKEN + "(?:[ \\t]+" + BIDI_TOKEN + ")*", "g");
+  }
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  // For real rendered HTML (headings, descriptions, captions) - wraps each
+  // foreign-script run in <bdi>. Use with | safe: {{ x | bidiWrap | safe }}
+  eleventyConfig.addFilter("bidiWrap", function (value) {
+    const str = String(value == null ? "" : value);
+    const re = bidiRunRegex();
+    let result = "";
+    let lastIndex = 0;
+    let match;
+    while ((match = re.exec(str))) {
+      result += escapeHtml(str.slice(lastIndex, match.index));
+      result += "<bdi>" + escapeHtml(match[0]) + "</bdi>";
+      lastIndex = match.index + match[0].length;
+    }
+    result += escapeHtml(str.slice(lastIndex));
+    return result;
+  });
+
+  // For plain-text-only contexts that can't hold HTML markup - <option>
+  // text, alt/title/aria-label attributes - uses the Unicode First Strong
+  // Isolate / Pop Directional Isolate characters instead of a <bdi> tag.
+  eleventyConfig.addFilter("bidiIsolatePlain", function (value) {
+    const str = String(value == null ? "" : value);
+    return str.replace(bidiRunRegex(), "⁨$&⁩");
+  });
+
   eleventyConfig.addFilter("workshopNavChildren", function (workshopList) {
     return (workshopList || []).map((w) => ({
       label: w.cardTitle,

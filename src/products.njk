@@ -106,7 +106,7 @@ eleventyComputed:
   </figure>
   {% endif %}
   <div class="artwork-detail-copy">
-    <h1>{{ artwork.name }}</h1>
+    <h1>{{ artwork.name | bidiWrap | safe }}</h1>
     <div class="print-order" data-artwork-slug="{{ artwork.slug }}" data-artwork-name="{{ artwork.name }}" data-artwork-image="{{ artwork.image }}" data-payment-image="{{ artwork.paymentImage or '' }}">
       <p class="print-order-startprice">{{ purchaseButtons.startingFromLabel }} <span>{{ range.low | numberFormat }} ₪</span></p>
       <div class="print-order-head">
@@ -239,7 +239,7 @@ eleventyComputed:
       <details class="print-order-details">
         <summary><span aria-hidden="true">✦</span> {{ purchaseButtons.inspirationLabel }}</summary>
         <div class="print-order-details-body">
-          <p>{{ artwork.description }}</p>
+          <p>{{ artwork.description | bidiWrap | safe }}</p>
         </div>
       </details>
 

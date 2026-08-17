@@ -11,6 +11,17 @@
     if (typeof window.gtag === "function") window.gtag("event", name, params);
   }
 
+  // Same run-detection as the site's bidiWrap/bidiIsolatePlain Eleventy
+  // filters (.eleventy.js) - wraps Latin/digit/quote runs in Unicode First
+  // Strong Isolate/Pop Directional Isolate characters so mixed Hebrew+
+  // English text set via textContent (cart lines, drawer) doesn't visually
+  // reorder. Plain-text safe (no HTML), so it also works for innerHTML.
+  var BIDI_RUN_RE = /[A-Za-z0-9′″'"’‘“”׳״×%.\-+#@/]+(?:[ \t]+[A-Za-z0-9′″'"’‘“”׳״×%.\-+#@/]+)*/g;
+  function bidiIsolate(value) {
+    var str = value == null ? "" : String(value);
+    return str.replace(BIDI_RUN_RE, "⁨$&⁩");
+  }
+
   // Set only by a successful /payments/coupons/check call - re-validated for
   // real (including per-customer usage) by the server at actual checkout,
   // so this is purely for showing the customer a live preview.
@@ -113,10 +124,11 @@
           '</div>' +
         '</div>' +
         '<button type="button" class="cart-drawer-remove js-remove" data-index="' + index + '" aria-label="הסרה מהעגלה">×</button>';
-      line.querySelector(".cart-drawer-title").textContent = item.artworkName;
-      line.querySelector(".cart-drawer-meta").textContent =
+      line.querySelector(".cart-drawer-title").textContent = bidiIsolate(item.artworkName);
+      line.querySelector(".cart-drawer-meta").textContent = bidiIsolate(
         item.materialName + " · " + sizeLabel(item, currency) +
-        (item.frameName ? " · " + item.frameName : "");
+        (item.frameName ? " · " + item.frameName : "")
+      );
       line.querySelector(".cart-drawer-line-price").textContent = formatPrice(item, currency);
       list.appendChild(line);
     });
@@ -598,10 +610,12 @@
       var productLink = document.createElement("a");
       productLink.className = "cart-line-title";
       productLink.href = "/products/" + item.artworkSlug + "/";
-      productLink.textContent = item.artworkName;
+      productLink.textContent = bidiIsolate(item.artworkName);
       var span = document.createElement("span");
-      span.textContent = item.materialName + " · " + sizeLabel(item, currency) +
-        (item.frameName ? " · " + item.frameName : "");
+      span.textContent = bidiIsolate(
+        item.materialName + " · " + sizeLabel(item, currency) +
+        (item.frameName ? " · " + item.frameName : "")
+      );
       info.appendChild(productLink);
       info.appendChild(span);
 
