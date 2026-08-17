@@ -44,6 +44,19 @@ module.exports = function (eleventyConfig) {
   // isolates, but "עד" is a real Hebrew character sitting between them,
   // not another isolate, so there's no adjacency ambiguity to resolve.
   const HEBREW_CHAR = /[֐-׿]/;
+  // A token only counts as "foreign" if it has an actual Latin letter or
+  // digit in it. A standalone separator like "-" between a quoted phrase
+  // and a Hebrew word has neither, so without this check it greedily
+  // joined whichever run happened to precede it - dragging it to that
+  // run's own far edge (isolate-internal order puts it last, at the
+  // isolate's own right edge) instead of sitting where it visually
+  // belongs, between the two runs. Confirmed on the live site: dash
+  // ended up glued to the end of the English block instead of between
+  // it and the following Hebrew word. Punctuation-only tokens now stay
+  // bare/unwrapped like Hebrew, so they flow with the surrounding RTL
+  // text via the browser's normal neutral-character resolution instead
+  // of being captured by an isolate.
+  const HAS_LATIN_OR_DIGIT = /[A-Za-z0-9]/;
   function escapeHtml(str) {
     return String(str)
       .replace(/&/g, "&amp;")
@@ -58,7 +71,7 @@ module.exports = function (eleventyConfig) {
     const tokens = String(str).split(/(\s+)/).filter((t) => t !== "");
     const runs = [];
     tokens.forEach((token) => {
-      const isForeign = !HEBREW_CHAR.test(token);
+      const isForeign = HAS_LATIN_OR_DIGIT.test(token) && !HEBREW_CHAR.test(token);
       const isWhitespace = /^\s+$/.test(token);
       const last = runs[runs.length - 1];
       if (isWhitespace) {

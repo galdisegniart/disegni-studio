@@ -23,12 +23,18 @@
   // when the text starts with a foreign-script run - see the matching
   // comment in .eleventy.js for why that's needed.
   var HEBREW_CHAR_RE = /[֐-׿]/;
+  // Only counts as "foreign" if it has an actual Latin letter/digit - a
+  // bare separator like "-" has neither, so without this it got dragged
+  // into whichever run happened to precede it instead of sitting where
+  // it visually belongs, between the two runs (confirmed on the live
+  // site). See the matching comment in .eleventy.js for the full story.
+  var HAS_LATIN_OR_DIGIT_RE = /[A-Za-z0-9]/;
   function bidiIsolate(value) {
     var str = value == null ? "" : String(value);
     var tokens = str.split(/(\s+)/).filter(function (t) { return t !== ""; });
     var runs = [];
     tokens.forEach(function (token) {
-      var isForeign = !HEBREW_CHAR_RE.test(token);
+      var isForeign = HAS_LATIN_OR_DIGIT_RE.test(token) && !HEBREW_CHAR_RE.test(token);
       var isWhitespace = /^\s+$/.test(token);
       var last = runs[runs.length - 1];
       if (isWhitespace) {
