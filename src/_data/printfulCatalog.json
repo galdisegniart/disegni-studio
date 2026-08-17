@@ -1,5 +1,56 @@
 [
   {
+    "id": 456332238,
+    "name": "Manifesting Dreams - Die-cut sticker - 2\" to 6\"",
+    "variants": [
+      {
+        "name": "Manifesting Dreams - Die-cut sticker - 2\" to 6\" / 2″×2″",
+        "size": "2″×2″",
+        "color": "Satin",
+        "syncVariantId": 5443707548,
+        "variantId": 24964,
+        "retailPriceUSD": "5.00",
+        "printfulCostUSD": "3.78"
+      },
+      {
+        "name": "Manifesting Dreams - Die-cut sticker - 2\" to 6\" / 3″×3″",
+        "size": "3″×3″",
+        "color": "Satin",
+        "syncVariantId": 5443707549,
+        "variantId": 24965,
+        "retailPriceUSD": "6.00",
+        "printfulCostUSD": "4.27"
+      },
+      {
+        "name": "Manifesting Dreams - Die-cut sticker - 2\" to 6\" / 4″×4″",
+        "size": "4″×4″",
+        "color": "Satin",
+        "syncVariantId": 5443707550,
+        "variantId": 24966,
+        "retailPriceUSD": "6.50",
+        "printfulCostUSD": "4.75"
+      },
+      {
+        "name": "Manifesting Dreams - Die-cut sticker - 2\" to 6\" / 5″×5″",
+        "size": "5″×5″",
+        "color": "Satin",
+        "syncVariantId": 5443707551,
+        "variantId": 24967,
+        "retailPriceUSD": "7.00",
+        "printfulCostUSD": "5.23"
+      },
+      {
+        "name": "Manifesting Dreams - Die-cut sticker - 2\" to 6\" / 6″×6″",
+        "size": "6″×6″",
+        "color": "Satin",
+        "syncVariantId": 5443707552,
+        "variantId": 24968,
+        "retailPriceUSD": "8.00",
+        "printfulCostUSD": "5.96"
+      }
+    ]
+  },
+  {
     "id": 455686933,
     "name": "Unisex organic oversized t-shirt \"Seed Of Joy\" by Gal Disegni",
     "variants": [
@@ -97,10 +148,10 @@
   },
   {
     "id": 455685796,
-    "name": "Die-cut stickers \"Seed Of Joy\" by Gal Disegni 2\" to 6\"",
+    "name": "Seed Of Joy - Die-cut sticker - 2\" to 6\"",
     "variants": [
       {
-        "name": "Die-cut stickers \"Seed Of Joy\" by Gal Disegni 2\" to 6\" / 2″×2″",
+        "name": "Seed Of Joy - Die-cut sticker - 2\" to 6\" / 2″×2″",
         "size": "2″×2″",
         "color": "Satin",
         "syncVariantId": 5439127041,
@@ -109,7 +160,7 @@
         "printfulCostUSD": "3.78"
       },
       {
-        "name": "Die-cut stickers \"Seed Of Joy\" by Gal Disegni 2\" to 6\" / 3″×3″",
+        "name": "Seed Of Joy - Die-cut sticker - 2\" to 6\" / 3″×3″",
         "size": "3″×3″",
         "color": "Satin",
         "syncVariantId": 5439127042,
@@ -118,7 +169,7 @@
         "printfulCostUSD": "4.27"
       },
       {
-        "name": "Die-cut stickers \"Seed Of Joy\" by Gal Disegni 2\" to 6\" / 4″×4″",
+        "name": "Seed Of Joy - Die-cut sticker - 2\" to 6\" / 4″×4″",
         "size": "4″×4″",
         "color": "Satin",
         "syncVariantId": 5439127043,
@@ -127,7 +178,7 @@
         "printfulCostUSD": "4.75"
       },
       {
-        "name": "Die-cut stickers \"Seed Of Joy\" by Gal Disegni 2\" to 6\" / 5″×5″",
+        "name": "Seed Of Joy - Die-cut sticker - 2\" to 6\" / 5″×5″",
         "size": "5″×5″",
         "color": "Satin",
         "syncVariantId": 5439127044,
@@ -136,7 +187,7 @@
         "printfulCostUSD": "5.23"
       },
       {
-        "name": "Die-cut stickers \"Seed Of Joy\" by Gal Disegni 2\" to 6\" / 6″×6″",
+        "name": "Seed Of Joy - Die-cut sticker - 2\" to 6\" / 6″×6″",
         "size": "6″×6″",
         "color": "Satin",
         "syncVariantId": 5439127045,
