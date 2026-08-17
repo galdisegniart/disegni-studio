@@ -1,69 +1,69 @@
 {
+  "alt": "מדבקת Seed Of Joy מאת גל דיסני",
+  "name": "מדבקת Seed Of Joy 2\" עד 6\"",
   "slug": "seed-of-joy-stickers",
   "order": 5,
-  "name": "מדבקות Seed Of Joy",
-  "matchName": "Die-cut Stickers",
-  "category": "stickers",
-  "description": "מדבקות דו-ג'קט (die-cut) בעיצוב Seed Of Joy מאת גל דִּיסֵנִי, במגוון גדלים.",
-  "alt": "מדבקת Seed Of Joy מאת גל דיסני",
-  "image": "/images/uploads/seed-of-joy-stickers-mockup.webp",
-  "thumb": "/images/uploads/seed-of-joy-stickers-mockup.webp",
-  "gallery": [],
   "purchaseVariants": [
     {
-      "productType": "sticker",
-      "sizeId": "2″×2″",
       "catalogNumber": "SEED-OF-JOY-STICKERS-STICKER-2″×2″",
+      "shippingFirstUSD": 9,
       "priceILS": 19,
-      "priceUSD": 6,
+      "productType": "sticker",
       "shippingFirstILS": 35,
+      "shippingAdditionalUSD": 2,
       "shippingAdditionalILS": 8,
-      "shippingFirstUSD": 9,
-      "shippingAdditionalUSD": 2
+      "sizeId": "2″×2″",
+      "priceUSD": 6
     },
     {
-      "productType": "sticker",
-      "sizeId": "3″×3″",
       "catalogNumber": "SEED-OF-JOY-STICKERS-STICKER-3″×3″",
+      "shippingFirstUSD": 9,
       "priceILS": 25,
-      "priceUSD": 7,
+      "productType": "sticker",
       "shippingFirstILS": 35,
+      "shippingAdditionalUSD": 2,
       "shippingAdditionalILS": 8,
-      "shippingFirstUSD": 9,
-      "shippingAdditionalUSD": 2
+      "sizeId": "3″×3″",
+      "priceUSD": 7
     },
     {
-      "productType": "sticker",
-      "sizeId": "4″×4″",
       "catalogNumber": "SEED-OF-JOY-STICKERS-STICKER-4″×4″",
+      "shippingFirstUSD": 9,
       "priceILS": 27,
-      "priceUSD": 7,
+      "productType": "sticker",
       "shippingFirstILS": 35,
+      "shippingAdditionalUSD": 2,
       "shippingAdditionalILS": 8,
-      "shippingFirstUSD": 9,
-      "shippingAdditionalUSD": 2
+      "sizeId": "4″×4″",
+      "priceUSD": 7
     },
     {
-      "productType": "sticker",
-      "sizeId": "5″×5″",
       "catalogNumber": "SEED-OF-JOY-STICKERS-STICKER-5″×5″",
-      "priceILS": 29,
-      "priceUSD": 8,
-      "shippingFirstILS": 35,
-      "shippingAdditionalILS": 8,
       "shippingFirstUSD": 9,
-      "shippingAdditionalUSD": 2
+      "priceILS": 29,
+      "productType": "sticker",
+      "shippingFirstILS": 35,
+      "shippingAdditionalUSD": 2,
+      "shippingAdditionalILS": 8,
+      "sizeId": "5″×5″",
+      "priceUSD": 8
     },
     {
-      "productType": "sticker",
-      "sizeId": "6″×6″",
       "catalogNumber": "SEED-OF-JOY-STICKERS-STICKER-6″×6″",
-      "priceILS": 35,
-      "priceUSD": 9,
-      "shippingFirstILS": 35,
-      "shippingAdditionalILS": 8,
       "shippingFirstUSD": 9,
-      "shippingAdditionalUSD": 2
+      "priceILS": 35,
+      "productType": "sticker",
+      "shippingFirstILS": 35,
+      "shippingAdditionalUSD": 2,
+      "shippingAdditionalILS": 8,
+      "sizeId": "6″×6″",
+      "priceUSD": 9
     }
-  ]
+  ],
+  "matchName": "Die-cut Stickers",
+  "gallery": [],
+  "thumb": "/images/uploads/die-cut-stickers-seed-of-joy-copy.webp",
+  "image": "/images/uploads/die-cut-stickers-seed-of-joy-copy.webp",
+  "description": "מדבקות דו-ג'קט (die-cut) בעיצוב Seed Of Joy מאת גל דִּיסֵנִי, במגוון גדלים.",
+  "category": "stickers"
 }
