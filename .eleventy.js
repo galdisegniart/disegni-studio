@@ -56,47 +56,64 @@ module.exports = function (eleventyConfig) {
 
   // For product NAMES specifically (catalog captions, product page H1).
   //
-  // A name is a short label, not prose, and the requirement here is
-  // literal WYSIWYG: it must appear on screen in the exact word order it
-  // was typed in the CMS - "Seed Of Joy - מדבקה - 2\" עד 6\"" reads that
-  // way left-to-right, with each word where the author put it.
+  // Required reading order, stated by the author: starting from the RIGHT
+  // edge - English name, then " - ", then Hebrew, then (if present)
+  // " - " and the measurements. i.e. an ordinary right-to-left line whose
+  // first item happens to be English. Reading right-to-left:
+  //     Seed Of Joy - מדבקה - 2" עד 6"
   //
-  // Normal bidi rendering (including unicode-bidi: plaintext) will not do
-  // that for a mixed name: it groups the trailing Hebrew words into one
-  // RTL run and lays THEM out right-to-left among themselves, so
-  // "מדבקה - 2\" עד 6\"" comes out visually as "6\" עד 2\" - מדבקה".
-  // Correct for a Hebrew sentence, wrong for a product label.
+  // The previous attempt laid every word out LEFT-to-right to make the
+  // visual sequence match the typed sequence. That reversed the Hebrew:
+  // "גופייה רקומה" was placed with גופייה leftmost, so reading it the
+  // Hebrew way (right to left) gave "רקומה גופייה" - exactly the error
+  // reported. Hebrew words must keep their normal right-to-left order
+  // among themselves; only each foreign RUN needs its own internal
+  // left-to-right order.
   //
-  // So: each whitespace-separated word gets its own <bdi>, and the
-  // wrapper is explicitly LTR. The container's LTR direction places the
-  // isolates in source order left-to-right (the word order the author
-  // typed), while each <bdi> resolves its OWN direction from its own
-  // content, so Hebrew letters inside a Hebrew word still render
-  // right-to-left correctly. Neutral tokens like "-" sit between
-  // isolates and take the container's LTR direction, so they stay put.
+  // So: the wrapper is explicitly dir="rtl" (first item = rightmost),
+  // and each maximal run of Latin/digit tokens is wrapped in ONE <bdi>
+  // so it reads left-to-right internally as a unit ("Seed Of Joy", not
+  // "Joy Of Seed"; 2", not "2). Hebrew and standalone punctuation are
+  // left bare so they flow in the RTL line normally - a lone "-" has no
+  // letters of its own, so isolating it would only drag it to the edge
+  // of whichever run captured it.
   //
-  // Guarded to mixed-script strings only. A name that is entirely
-  // Hebrew (or entirely Latin) is left to normal rendering - forcing
-  // per-word LTR order on an all-Hebrew name would reverse its words,
-  // which is why this is a separate filter from bidiWrap and is NOT
-  // used for descriptions, where the text is real Hebrew prose that
-  // must keep normal RTL word order.
+  // Guarded to mixed-script strings: an all-Hebrew or all-Latin name
+  // needs nothing. Deliberately NOT used for descriptions - those are
+  // Hebrew prose and already render correctly.
   const HAS_HEBREW = /[֐-׿]/;
   const HAS_LATIN = /[A-Za-z]/;
+  const HAS_LATIN_OR_DIGIT = /[A-Za-z0-9]/;
   eleventyConfig.addFilter("bidiName", function (value) {
     const str = String(value == null ? "" : value);
     if (!HAS_HEBREW.test(str) || !HAS_LATIN.test(str)) {
-      return '<span style="unicode-bidi:plaintext;">' + escapeHtml(str) + "</span>";
+      return escapeHtml(str);
     }
-    const parts = str
-      .split(/(\s+)/)
-      .map((part) =>
-        part === "" || /^\s+$/.test(part)
-          ? escapeHtml(part)
-          : "<bdi>" + escapeHtml(part) + "</bdi>"
+    // Group consecutive same-class tokens (keeping the spaces between
+    // them) so a multi-word English phrase becomes a single isolate.
+    const runs = [];
+    str.split(/(\s+)/).filter((t) => t !== "").forEach((token) => {
+      const last = runs[runs.length - 1];
+      if (/^\s+$/.test(token)) {
+        if (last) last.text += token;
+        return;
+      }
+      const isForeign = HAS_LATIN_OR_DIGIT.test(token) && !HAS_HEBREW.test(token);
+      if (last && last.isForeign === isForeign && !last.sealed) {
+        last.text += token;
+      } else {
+        if (last) last.sealed = true;
+        runs.push({ isForeign, text: token, sealed: false });
+      }
+    });
+    const parts = runs
+      .map((run) =>
+        run.isForeign
+          ? "<bdi>" + escapeHtml(run.text) + "</bdi>"
+          : escapeHtml(run.text)
       )
       .join("");
-    return '<span dir="ltr" style="unicode-bidi:isolate;">' + parts + "</span>";
+    return '<span dir="rtl">' + parts + "</span>";
   });
 
   // Plain-text-only contexts (<option> text, alt/title/aria-label) can
