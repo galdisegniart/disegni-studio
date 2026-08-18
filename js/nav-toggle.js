@@ -42,28 +42,41 @@
 
   nav.querySelectorAll(".nav-dropdown-toggle").forEach(function (dropdownToggle) {
     var dropdown = dropdownToggle.closest(".nav-item").querySelector(".nav-dropdown");
+    var touchHandled = false;
 
-    // Mobile browsers auto-scroll a button into view as soon as it takes
-    // focus (that's what causes the category list to jump up when a
-    // dropdown opens). Give the focus back immediately, before the browser
-    // gets a chance to act on it, instead of blocking touch/click entirely.
-    dropdownToggle.addEventListener("focus", function () {
-      dropdownToggle.blur();
-    });
-
-    dropdownToggle.addEventListener("click", function () {
+    function toggleDropdown() {
       var expanded = dropdownToggle.getAttribute("aria-expanded") === "true";
       dropdownToggle.setAttribute("aria-expanded", String(!expanded));
       dropdown.classList.toggle("open", !expanded);
-      // Belt-and-suspenders: also re-pin the nav's scroll position on every
-      // frame for the duration of the open transition, in case anything
-      // still nudges it.
-      var lockedScrollTop = nav.scrollTop;
-      var repinStart = performance.now();
-      (function repin(now) {
-        nav.scrollTop = lockedScrollTop;
-        if (now - repinStart < 400) requestAnimationFrame(repin);
-      })(repinStart);
+    }
+
+    // The jump happens the instant the button takes focus on touch (mobile
+    // browsers auto-scroll a newly-focused button into view), before any of
+    // our click-handler code runs. Stop that focus from happening at all by
+    // preventing touchstart's default, and handle the tap ourselves on
+    // touchend instead of the click that would otherwise follow - a plain
+    // click listener never fires once touchstart's default is prevented.
+    dropdownToggle.addEventListener(
+      "touchstart",
+      function (e) {
+        e.preventDefault();
+      },
+      { passive: false }
+    );
+
+    dropdownToggle.addEventListener("touchend", function (e) {
+      e.preventDefault();
+      touchHandled = true;
+      toggleDropdown();
+      window.setTimeout(function () {
+        touchHandled = false;
+      }, 500);
+    });
+
+    // Keyboard/mouse path: focus here is expected and fine, no jump risk.
+    dropdownToggle.addEventListener("click", function () {
+      if (touchHandled) return;
+      toggleDropdown();
     });
   });
 
