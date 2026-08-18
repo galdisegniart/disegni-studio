@@ -24,45 +24,33 @@ eleventyComputed:
   </div>
 </section>
 
-<section class="home-gates" aria-label="קטגוריות בחנות">
-  <a class="home-gate-card" href="/collections/prints/">
-    <span class="home-gate-image">
+<section class="category-gallery" aria-label="קטגוריות בחנות">
+  <a class="category-gallery-card" href="/collections/prints/">
+    <span class="category-gallery-thumb">
       <img src="{{ artworks[0].thumb }}" alt="" loading="lazy">
     </span>
-    <span class="home-gate-copy">
-      <strong>הדפסים</strong>
-      <span class="home-gate-cta">לצפייה בקטגוריה</span>
-    </span>
+    <span class="category-gallery-label">הדפסים</span>
   </a>
-  <a class="home-gate-card" href="/collections/originals/">
-    <span class="home-gate-image">
+  <a class="category-gallery-card" href="/collections/originals/">
+    <span class="category-gallery-thumb">
       <img src="{{ (firstAvailableOriginal or artworks[0]).thumb }}" alt="" loading="lazy">
     </span>
-    <span class="home-gate-copy">
-      <strong>מקוריות זמינות</strong>
-      <span class="home-gate-cta">לצפייה בקטגוריה</span>
-    </span>
+    <span class="category-gallery-label">מקוריות זמינות</span>
   </a>
   {% if clothingItems.length %}
-  <a class="home-gate-card" href="/collections/apparel/">
-    <span class="home-gate-image">
+  <a class="category-gallery-card" href="/collections/apparel/">
+    <span class="category-gallery-thumb">
       <img src="{{ clothingItems[0].thumb }}" alt="" loading="lazy">
     </span>
-    <span class="home-gate-copy">
-      <strong>ביגוד</strong>
-      <span class="home-gate-cta">לצפייה בקטגוריה</span>
-    </span>
+    <span class="category-gallery-label">ביגוד</span>
   </a>
   {% endif %}
   {% if stickerItems.length %}
-  <a class="home-gate-card" href="/collections/stickers/">
-    <span class="home-gate-image">
+  <a class="category-gallery-card" href="/collections/stickers/">
+    <span class="category-gallery-thumb">
       <img src="{{ stickerItems[0].thumb }}" alt="" loading="lazy">
     </span>
-    <span class="home-gate-copy">
-      <strong>מדבקות</strong>
-      <span class="home-gate-cta">לצפייה בקטגוריה</span>
-    </span>
+    <span class="category-gallery-label">מדבקות</span>
   </a>
   {% endif %}
 </section>
