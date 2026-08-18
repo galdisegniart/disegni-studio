@@ -1,6 +1,7 @@
 ---
 layout: base.njk
 activeNav: "חנות"
+activeCategory: "stickers"
 permalink: "/collections/stickers/index.html"
 scripts:
   - /js/mark-list.js
@@ -8,6 +9,7 @@ eleventyComputed:
   title: "{{ pages.stickers.title }}"
   description: "{{ pages.stickers.metaDescription }}"
 ---
+{% include "partials/category-strip.njk" %}
 {% set p = pages.stickers %}
 {% set stickerItems = apparelItems | withCategory("stickers") %}
 {% set crumbs = [

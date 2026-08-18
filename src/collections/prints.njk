@@ -1,6 +1,7 @@
 ---
 layout: base.njk
 activeNav: "הדפסים"
+activeCategory: "prints"
 permalink: "/collections/prints/index.html"
 scripts:
   - /js/catalog-filter.js
@@ -9,6 +10,7 @@ eleventyComputed:
   title: "{{ pages.prints.title }}"
   description: "{{ pages.prints.metaDescription }}"
 ---
+{% include "partials/category-strip.njk" %}
 {% set p = pages.prints %}
 <!-- force redeploy -->
 {% set crumbs = [

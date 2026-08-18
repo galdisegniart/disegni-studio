@@ -1,6 +1,7 @@
 ---
 layout: base.njk
 activeNav: "חנות"
+activeCategory: "apparel"
 permalink: "/collections/apparel/index.html"
 scripts:
   - /js/catalog-filter.js
@@ -9,6 +10,7 @@ eleventyComputed:
   title: "{{ pages.apparel.title }}"
   description: "{{ pages.apparel.metaDescription }}"
 ---
+{% include "partials/category-strip.njk" %}
 {% set p = pages.apparel %}
 {% set clothingItems = apparelItems | withoutCategory("stickers") %}
 {% set crumbs = [

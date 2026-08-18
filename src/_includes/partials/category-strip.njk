@@ -1,0 +1,10 @@
+<nav class="category-strip" aria-label="קטגוריות בחנות">
+  {% for cat in shopCategories %}
+  {% if cat.thumb %}
+  <a class="category-strip-item{% if cat.key == activeCategory %} active{% endif %}" href="{{ cat.href }}">
+    <span class="category-strip-thumb" style="background-image:url('{{ cat.thumb }}')"></span>
+    <span>{{ cat.label }}</span>
+  </a>
+  {% endif %}
+  {% endfor %}
+</nav>

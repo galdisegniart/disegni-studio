@@ -1,6 +1,7 @@
 ---
 layout: base.njk
 activeNav: "מקוריות זמינות"
+activeCategory: "originals"
 permalink: "/collections/originals/index.html"
 scripts:
   - /js/mark-list.js
@@ -8,6 +9,7 @@ eleventyComputed:
   title: "{{ pages.originals.title }}"
   description: "{{ pages.originals.metaDescription }}"
 ---
+{% include "partials/category-strip.njk" %}
 {% set p = pages.originals %}
 {% set crumbs = [
   { label: "בית", href: "/" },
