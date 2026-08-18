@@ -43,19 +43,12 @@
   nav.querySelectorAll(".nav-dropdown-toggle").forEach(function (dropdownToggle) {
     var dropdown = dropdownToggle.closest(".nav-item").querySelector(".nav-dropdown");
 
-    // Mobile browsers auto-scroll a tapped button into view once it takes
-    // focus, which is what causes the category list to jump up when its
-    // dropdown opens. Stop the button from taking focus on touch/pointer
-    // interaction in the first place (it stays focusable for keyboard use),
-    // so there's nothing for the browser to "follow" with a scroll.
-    ["pointerdown", "touchstart"].forEach(function (evtName) {
-      dropdownToggle.addEventListener(
-        evtName,
-        function (e) {
-          e.preventDefault();
-        },
-        { passive: false }
-      );
+    // Mobile browsers auto-scroll a button into view as soon as it takes
+    // focus (that's what causes the category list to jump up when a
+    // dropdown opens). Give the focus back immediately, before the browser
+    // gets a chance to act on it, instead of blocking touch/click entirely.
+    dropdownToggle.addEventListener("focus", function () {
+      dropdownToggle.blur();
     });
 
     dropdownToggle.addEventListener("click", function () {
@@ -63,8 +56,8 @@
       dropdownToggle.setAttribute("aria-expanded", String(!expanded));
       dropdown.classList.toggle("open", !expanded);
       // Belt-and-suspenders: also re-pin the nav's scroll position on every
-      // frame for the duration of the open transition, in case something
-      // still nudges it (e.g. keyboard activation, which does focus).
+      // frame for the duration of the open transition, in case anything
+      // still nudges it.
       var lockedScrollTop = nav.scrollTop;
       var repinStart = performance.now();
       (function repin(now) {
