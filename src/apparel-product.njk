@@ -51,15 +51,17 @@ eleventyComputed:
   }
 </script>
 
+{% set shopHref = "/collections/stickers/" if item.category == "stickers" else "/collections/apparel/" %}
+{% set shopLabel = "מדבקות" if item.category == "stickers" else "ביגוד" %}
 <section class="artwork-detail">
   {% set crumbs = [
     { label: "בית", href: "/" },
-    { label: "חנות", href: "/collections/apparel/" },
+    { label: shopLabel, href: shopHref },
     { label: item.name }
   ] %}
   {% include "partials/breadcrumbs.njk" %}
   <div class="artwork-utility">
-    <a class="artwork-back js-back-link" href="/collections/apparel/"><span aria-hidden="true">→</span> <span class="js-back-label">חזרה לחנות</span></a>
+    <a class="artwork-back js-back-link" href="{{ shopHref }}"><span aria-hidden="true">→</span> <span class="js-back-label">חזרה לחנות</span></a>
   </div>
   <div class="artwork-detail-grid">
     <div class="artwork-gallery{% if not item.gallery or not item.gallery.length %} artwork-gallery-single{% endif %}">

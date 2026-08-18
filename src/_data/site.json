@@ -7,7 +7,7 @@
     },
     {
       "label": "חנות",
-      "href": "/collections/prints/",
+      "href": "/collections/",
       "visible": true,
       "children": [
         {
@@ -21,23 +21,13 @@
           "visible": true
         },
         {
-          "label": "ביגוד יוניסקס",
-          "href": "/collections/apparel/?category=unisex",
-          "visible": true
-        },
-        {
-          "label": "ביגוד נשים",
-          "href": "/collections/apparel/?category=women",
-          "visible": true
-        },
-        {
-          "label": "ביגוד גברים",
-          "href": "/collections/apparel/?category=men",
+          "label": "ביגוד",
+          "href": "/collections/apparel/",
           "visible": true
         },
         {
           "label": "מדבקות",
-          "href": "/collections/apparel/?category=stickers",
+          "href": "/collections/stickers/",
           "visible": true
         }
       ]

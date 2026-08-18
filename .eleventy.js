@@ -9,6 +9,19 @@ module.exports = function (eleventyConfig) {
     return arr.slice(start, end);
   });
 
+  // Nunjucks' built-in selectattr/rejectattr didn't filter reliably here
+  // (returned the unfiltered list, or an empty one, depending on which
+  // template used it) - explicit filters instead.
+  eleventyConfig.addFilter("withCategory", function (items, category) {
+    return (items || []).filter((item) => item.category === category);
+  });
+  eleventyConfig.addFilter("withoutCategory", function (items, category) {
+    return (items || []).filter((item) => item.category !== category);
+  });
+  eleventyConfig.addFilter("firstAvailableOriginal", function (artworksList) {
+    return (artworksList || []).find((a) => a.originalAvailable) || (artworksList || [])[0];
+  });
+
   eleventyConfig.addFilter("startsWith", function (str, prefix) {
     return typeof str === "string" && str.indexOf(prefix) === 0;
   });
