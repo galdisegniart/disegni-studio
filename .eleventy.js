@@ -89,28 +89,49 @@ module.exports = function (eleventyConfig) {
     if (!HAS_HEBREW.test(str) || !HAS_LATIN.test(str)) {
       return escapeHtml(str);
     }
-    // Group consecutive same-class tokens (keeping the spaces between
-    // them) so a multi-word English phrase becomes a single isolate.
-    const runs = [];
-    str.split(/(\s+)/).filter((t) => t !== "").forEach((token) => {
-      const last = runs[runs.length - 1];
+    // Group consecutive same-class tokens into runs, so a multi-word
+    // English phrase becomes a single isolate (its words stay together,
+    // reading left-to-right as a unit). Whitespace is handled specially:
+    // a space BETWEEN two words of the same run stays inside that run's
+    // text (needed for "Seed Of Joy" to read as one phrase); a space at
+    // a RUN BOUNDARY (the class is about to change) is emitted as its
+    // own plain text node, outside any <bdi>. Earlier this boundary
+    // space was appended onto the end of the preceding run's text -
+    // sitting right at the isolate's own edge - and the browser's
+    // rendering of a space exactly at an isolate boundary turned out to
+    // be unreliable (missing on one side, doubled on the other, per the
+    // live site). Keeping every boundary space as neutral text between
+    // two isolates - never inside one - removes that edge entirely.
+    const tokens = str.split(/(\s+)/).filter((t) => t !== "");
+    const isForeignToken = (t) => HAS_LATIN_OR_DIGIT.test(t) && !HAS_HEBREW.test(t);
+    const items = [];
+    for (let i = 0; i < tokens.length; i++) {
+      const token = tokens[i];
       if (/^\s+$/.test(token)) {
-        if (last) last.text += token;
-        return;
+        const prev = items[items.length - 1];
+        const prevIsForeign = prev && prev.type === "run" ? prev.isForeign : null;
+        const next = tokens[i + 1];
+        const nextIsForeign = next != null ? isForeignToken(next) : null;
+        if (prev && prev.type === "run" && prevIsForeign === nextIsForeign) {
+          prev.text += token;
+        } else {
+          items.push({ type: "space", text: token });
+        }
+        continue;
       }
-      const isForeign = HAS_LATIN_OR_DIGIT.test(token) && !HAS_HEBREW.test(token);
-      if (last && last.isForeign === isForeign && !last.sealed) {
+      const isForeign = isForeignToken(token);
+      const last = items[items.length - 1];
+      if (last && last.type === "run" && last.isForeign === isForeign) {
         last.text += token;
       } else {
-        if (last) last.sealed = true;
-        runs.push({ isForeign, text: token, sealed: false });
+        items.push({ type: "run", isForeign, text: token });
       }
-    });
-    const parts = runs
-      .map((run) =>
-        run.isForeign
-          ? "<bdi>" + escapeHtml(run.text) + "</bdi>"
-          : escapeHtml(run.text)
+    }
+    const parts = items
+      .map((item) =>
+        item.type === "run" && item.isForeign
+          ? "<bdi>" + escapeHtml(item.text) + "</bdi>"
+          : escapeHtml(item.text)
       )
       .join("");
     return '<span dir="rtl">' + parts + "</span>";
