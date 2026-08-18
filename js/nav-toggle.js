@@ -117,9 +117,29 @@
       panel.appendChild(line);
       panel.scrollTop = panel.scrollHeight;
     }
-    log("debug ready. nav.scrollTop=" + nav.scrollTop);
+    var header = document.querySelector(".site-header");
+    function headerInfo() {
+      if (!header) return "no-header-found";
+      var r = header.getBoundingClientRect();
+      var cs = getComputedStyle(header);
+      return (
+        "header{top:" +
+        r.top.toFixed(0) +
+        " h:" +
+        r.height.toFixed(0) +
+        " pos:" +
+        cs.position +
+        " display:" +
+        cs.display +
+        "} innerH:" +
+        window.innerHeight +
+        " navRect.top:" +
+        nav.getBoundingClientRect().top.toFixed(0)
+      );
+    }
+    log("debug ready. nav.scrollTop=" + nav.scrollTop + "  " + headerInfo());
     nav.addEventListener("scroll", function () {
-      log("nav SCROLL -> scrollTop=" + nav.scrollTop);
+      log("nav SCROLL -> scrollTop=" + nav.scrollTop + "  " + headerInfo());
     });
     nav.querySelectorAll(".nav-dropdown-toggle").forEach(function (btn) {
       ["touchstart", "touchend", "focus", "blur", "click"].forEach(function (evt) {
@@ -135,7 +155,9 @@
                 "  window.scrollY=" +
                 window.scrollY +
                 "  active=" +
-                (document.activeElement === btn)
+                (document.activeElement === btn) +
+                "  " +
+                headerInfo()
             );
           },
           true
