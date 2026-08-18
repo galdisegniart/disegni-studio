@@ -4739,7 +4739,7 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
 
 .category-gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 150px));
+  grid-template-columns: repeat(auto-fit, minmax(calc(120px * var(--scale-category-card, 1)), calc(150px * var(--scale-category-card, 1))));
   justify-content: center;
   gap: 22px;
   width: min(100% - 48px, 1100px);
