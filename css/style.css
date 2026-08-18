@@ -723,6 +723,13 @@ body.cart-drawer-lock {
     overscroll-behavior: contain;
     flex-direction: column;
     align-items: flex-start;
+    /* The desktop rule sets justify-content: flex-end to push the nav to the
+       right edge of the header. Once flex-direction becomes column here, that
+       same value pushes content to the BOTTOM instead - so when an open
+       dropdown makes the list taller than the viewport, the overflow spills
+       past the TOP edge, where it is unreachable by scrolling. That is what
+       made the menu appear to jump upward. Reset it for the column layout. */
+    justify-content: flex-start;
     gap: 26px;
     padding: 34px;
     padding-bottom: max(34px, env(safe-area-inset-bottom));
