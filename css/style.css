@@ -4935,12 +4935,17 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
 }
 
 .artwork-tile-price {
-  margin-top: 4px;
-  color: #8c847a;
-  font-size: 14px;
+  margin-top: 6px;
+  color: var(--bone);
+  font-size: 16px;
   font-weight: 600;
   direction: rtl;
   text-align: center;
+}
+
+.artwork-tile-price span {
+  color: var(--copper);
+  font-weight: 700;
 }
 
 @media (max-width: 920px) {

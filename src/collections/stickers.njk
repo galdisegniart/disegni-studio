@@ -35,7 +35,7 @@ eleventyComputed:
         <span class="artwork-tile-caption">
           <strong>{{ item.name | bidiName | safe }}</strong>
           {% set lowPrice = item.purchaseVariants | lowestPrice %}
-          {% if lowPrice %}<span class="artwork-tile-price">החל מ- {{ lowPrice }} ₪</span>{% endif %}
+          {% if lowPrice %}<span class="artwork-tile-price">החל מ- <span>{{ lowPrice }} ₪</span></span>{% endif %}
         </span>
       </a>
     </article>

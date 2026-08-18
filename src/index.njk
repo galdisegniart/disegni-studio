@@ -23,7 +23,7 @@ scripts:
     </div>
     {% if p.heroCtaLabel %}
     <div class="artist-opening-actions">
-      <a class="cta" href="{{ p.heroCtaHref or '#commercial' }}">{{ p.heroCtaLabel }}</a>
+      <a class="cta" href="{{ p.heroCtaHref or '#gallery' }}">{{ p.heroCtaLabel }}</a>
       {% if p.aboutLinkLabel %}<a class="editorial-link artist-opening-about" href="{{ p.aboutLinkHref or '/about/' }}">{{ p.aboutLinkLabel }} <span aria-hidden="true">←</span></a>{% endif %}
     </div>
     {% endif %}
@@ -65,7 +65,7 @@ scripts:
   {% endfor %}
 </section>
 
-<section class="gallery section home-gallery">
+<section class="gallery section home-gallery" id="gallery">
   <header class="home-gallery-heading">
     <h2>{{ p.galleryHeading }}</h2>
   </header>
