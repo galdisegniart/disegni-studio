@@ -4,10 +4,24 @@
   var social = document.querySelector(".quick-links-rail");
   if (!toggle || !nav) return;
 
+  var savedScrollY = 0;
+
   function openNav() {
     nav.classList.add("open");
     toggle.setAttribute("aria-expanded", "true");
     if (social) social.classList.add("is-hidden");
+    // Debug data showed `body { overflow: hidden }` alone doesn't reliably
+    // stop the page itself from scrolling on this device when a dropdown
+    // button takes focus - the header would scroll out of view while
+    // #main-nav (position:fixed) stayed put, making the list appear to
+    // jump. Pin the body out of the document flow entirely instead; this
+    // is the standard, reliable technique for locking background scroll.
+    savedScrollY = window.scrollY || window.pageYOffset || 0;
+    document.body.style.position = "fixed";
+    document.body.style.top = "-" + savedScrollY + "px";
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.body.style.width = "100%";
     document.body.classList.add("nav-open-lock");
   }
 
@@ -16,6 +30,12 @@
     toggle.setAttribute("aria-expanded", "false");
     if (social) social.classList.remove("is-hidden");
     document.body.classList.remove("nav-open-lock");
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.left = "";
+    document.body.style.right = "";
+    document.body.style.width = "";
+    window.scrollTo(0, savedScrollY);
     nav.querySelectorAll(".nav-dropdown-toggle").forEach(function (dropdownToggle) {
       dropdownToggle.setAttribute("aria-expanded", "false");
     });
@@ -112,6 +132,8 @@
                 evt +
                 "  nav.scrollTop=" +
                 nav.scrollTop +
+                "  window.scrollY=" +
+                window.scrollY +
                 "  active=" +
                 (document.activeElement === btn)
             );
