@@ -785,6 +785,7 @@ body.cart-drawer-lock {
   }
 
   .nav-dropdown {
+    display: none;
     position: static;
     opacity: 1;
     visibility: visible;
@@ -794,16 +795,12 @@ body.cart-drawer-lock {
     border: 0;
     border-right: 1px solid var(--line);
     background: transparent;
-    display: flex;
     flex-direction: column;
     gap: 12px;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.25s ease, margin 0.25s ease;
   }
 
   .nav-dropdown.open {
-    max-height: 300px;
+    display: flex;
     margin-top: 16px;
   }
 
