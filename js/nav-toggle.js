@@ -46,16 +46,17 @@
       var expanded = dropdownToggle.getAttribute("aria-expanded") === "true";
       dropdownToggle.setAttribute("aria-expanded", String(!expanded));
       dropdown.classList.toggle("open", !expanded);
-      // Mobile browsers auto-scroll a focused button into view when the
-      // layout around it changes height; re-pin the nav's scroll position
-      // so opening a dropdown expands downward instead of jumping the list.
+      // Mobile browsers auto-scroll a focused button into view while the
+      // layout around it animates open; re-pin the nav's scroll position on
+      // every frame for the duration of that transition so the category
+      // list expands downward in place instead of jumping up.
       var lockedScrollTop = nav.scrollTop;
-      requestAnimationFrame(function () {
+      var repinStart = performance.now();
+      (function repin(now) {
         nav.scrollTop = lockedScrollTop;
-        requestAnimationFrame(function () {
-          nav.scrollTop = lockedScrollTop;
-        });
-      });
+        if (now - repinStart < 400) requestAnimationFrame(repin);
+      })(repinStart);
+      dropdownToggle.blur();
     });
   });
 
