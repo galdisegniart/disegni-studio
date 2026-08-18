@@ -101,13 +101,6 @@
     nav.addEventListener("scroll", function () {
       log("nav SCROLL -> scrollTop=" + nav.scrollTop);
     });
-    window.addEventListener(
-      "scroll",
-      function () {
-        log("window SCROLL -> scrollY=" + window.scrollY);
-      },
-      true
-    );
     nav.querySelectorAll(".nav-dropdown-toggle").forEach(function (btn) {
       ["touchstart", "touchend", "focus", "blur", "click"].forEach(function (evt) {
         btn.addEventListener(
