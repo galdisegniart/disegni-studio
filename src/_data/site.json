@@ -80,6 +80,7 @@
       "href": "https://www.facebook.com/gal.disegni"
     }
   ],
+  "quickLinksButtonPercent": 85,
   "brand": "גל דִּיסֵנִי",
   "siteUrl": "https://disegni.studio",
   "businessPhoneLink": "+972552902934",
@@ -95,10 +96,9 @@
     "subheadingPercent": 100,
     "legalPercent": 100
   },
-  "quickLinksButtonPercent": 85,
-  "categoryCardSizePercent": 100,
-  "gaMeasurementId": "G-W3N289BDC1",
   "businessStatus": "עוסק פטור",
   "businessAddress": "בוטקובסקי 30",
-  "whatsappNumber": "972552902934"
+  "categoryCardSizePercent": 200,
+  "whatsappNumber": "972552902934",
+  "gaMeasurementId": "G-W3N289BDC1"
 }
