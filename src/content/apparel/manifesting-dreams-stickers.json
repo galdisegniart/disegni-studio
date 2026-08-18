@@ -1,0 +1,69 @@
+{
+  "alt": "מדבקת Manifesting Dreams מאת גל דיסני",
+  "name": "Manifesting Dreams - מדבקה - 2\" עד 6\"",
+  "slug": "manifesting-dreams-stickers",
+  "order": 6,
+  "purchaseVariants": [
+    {
+      "productType": "sticker",
+      "sizeId": "2″×2″",
+      "catalogNumber": "MANIFESTING-DREAMS-STICKERS-STICKER-2″×2″",
+      "priceILS": 19,
+      "priceUSD": 6,
+      "shippingFirstILS": 35,
+      "shippingAdditionalILS": 8,
+      "shippingFirstUSD": 9,
+      "shippingAdditionalUSD": 2
+    },
+    {
+      "productType": "sticker",
+      "sizeId": "3″×3″",
+      "catalogNumber": "MANIFESTING-DREAMS-STICKERS-STICKER-3″×3″",
+      "priceILS": 25,
+      "priceUSD": 7,
+      "shippingFirstILS": 35,
+      "shippingAdditionalILS": 8,
+      "shippingFirstUSD": 9,
+      "shippingAdditionalUSD": 2
+    },
+    {
+      "productType": "sticker",
+      "sizeId": "4″×4″",
+      "catalogNumber": "MANIFESTING-DREAMS-STICKERS-STICKER-4″×4″",
+      "priceILS": 27,
+      "priceUSD": 7,
+      "shippingFirstILS": 35,
+      "shippingAdditionalILS": 8,
+      "shippingFirstUSD": 9,
+      "shippingAdditionalUSD": 2
+    },
+    {
+      "productType": "sticker",
+      "sizeId": "5″×5″",
+      "catalogNumber": "MANIFESTING-DREAMS-STICKERS-STICKER-5″×5″",
+      "priceILS": 29,
+      "priceUSD": 8,
+      "shippingFirstILS": 35,
+      "shippingAdditionalILS": 8,
+      "shippingFirstUSD": 9,
+      "shippingAdditionalUSD": 2
+    },
+    {
+      "productType": "sticker",
+      "sizeId": "6″×6″",
+      "catalogNumber": "MANIFESTING-DREAMS-STICKERS-STICKER-6″×6″",
+      "priceILS": 35,
+      "priceUSD": 9,
+      "shippingFirstILS": 35,
+      "shippingAdditionalILS": 8,
+      "shippingFirstUSD": 9,
+      "shippingAdditionalUSD": 2
+    }
+  ],
+  "matchName": "Manifesting Dreams - Die-cut sticker",
+  "gallery": [],
+  "thumb": "/images/uploads/die-cut-stickers-manifesting-dreams.webp",
+  "image": "/images/uploads/die-cut-stickers-manifesting-dreams.webp",
+  "description": "מדבקות דו-ג'קט (die-cut) בעיצוב Manifesting Dreams מאת גל דִּיסֵנִי, במגוון גדלים.",
+  "category": "stickers"
+}
