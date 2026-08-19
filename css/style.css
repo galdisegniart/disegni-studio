@@ -3259,21 +3259,22 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
   }
 
   .workshop-card-label {
-    font-size: 18px;
+    font-size: 20px;
   }
 
   .workshop-card-body h2 {
-    font-size: 24px;
+    font-size: 28px;
+    line-height: 1.2;
   }
 
   .workshop-card-persona {
-    font-size: 16px;
+    font-size: 18px;
     line-height: 1.6;
   }
 
   .workshop-card-cta {
-    font-size: 16px;
-    min-height: 46px;
+    font-size: 18px;
+    min-height: 50px;
   }
 
   .workshop-compare-row {
