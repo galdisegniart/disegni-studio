@@ -3243,6 +3243,37 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
   .workshop-cards-grid,
   .workshop-testimonials-grid {
     grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  /* On touch devices the hover-only copper border never shows, so cards
+     read as one connected block. Give them a visible resting border and a
+     faint fill instead of relying on :hover for separation. */
+  .workshop-card {
+    border-color: rgba(232, 226, 215, 0.2);
+    background: rgba(232, 226, 215, 0.03);
+  }
+
+  .workshop-card-body {
+    padding: 16px 18px;
+  }
+
+  .workshop-card-label {
+    font-size: 18px;
+  }
+
+  .workshop-card-body h2 {
+    font-size: 24px;
+  }
+
+  .workshop-card-persona {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .workshop-card-cta {
+    font-size: 16px;
+    min-height: 46px;
   }
 
   .workshop-compare-row {
