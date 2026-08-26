@@ -4,7 +4,6 @@ pagination:
   size: 1
   alias: locale
 layout: base.njk
-activeNav: "יצירות בהזמנה"
 scripts:
   - /js/lead-form.js
   - /js/intro-video.js
@@ -13,6 +12,7 @@ eleventyComputed:
   title: "{{ (pages.commissions | localize(locale)).title }}"
   description: "{{ (pages.commissions | localize(locale)).metaDescription }}"
   ogImage: "{{ (pages.commissions | localize(locale)).heroImage }}"
+  activeNav: "{{ 'Commissions' if locale == 'en' else 'יצירות בהזמנה' }}"
 ---
 {% set p = pages.commissions | localize(locale) %}
 {% if p.heroVisible != false %}

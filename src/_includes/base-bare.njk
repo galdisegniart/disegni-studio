@@ -41,7 +41,7 @@
 </head>
 <body id="top" data-whatsapp="{{ site.whatsappNumber }}">
 
-<a class="skip-link" href="#main-content">דילוג לתוכן הראשי</a>
+<a class="skip-link" href="#main-content">{{ "Skip to main content" if locale == "en" else "דילוג לתוכן הראשי" }}</a>
 
 {% include "partials/site-header.njk" %}
 

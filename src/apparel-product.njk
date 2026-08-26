@@ -5,7 +5,6 @@ pagination:
   alias: entry
 permalink: "{{ entry.locale | localePrefix }}/shop/{{ entry.item.slug }}/index.html"
 layout: base-bare.njk
-activeNav: "חנות"
 scripts:
   - /js/back-link.js
   - /js/share.js
@@ -15,9 +14,11 @@ eleventyComputed:
   description: "{{ entry.item.name }}, {{ entry.item.description }}"
   ogImage: "{{ entry.item.image }}"
   locale: "{{ entry.locale }}"
+  activeNav: "{{ 'Shop' if entry.locale == 'en' else 'חנות' }}"
 ---
 {% set item = entry.item %}
 {% set locale = entry.locale %}
+{% set isEn = locale == "en" %}
 {% set variants = item.purchaseVariants or [] %}
 {% set lowestPrice = variants | lowestPrice %}
 
@@ -153,7 +154,7 @@ eleventyComputed:
         <a class="cta cta-outline js-whatsapp" href="{{ ('שלום, מתעניין/ת ב-' ~ item.name) | waLink }}" target="_blank" rel="noopener noreferrer">שאלות ב-WhatsApp</a>
 
         <p class="print-order-note js-print-order-note"></p>
-        <button class="artwork-share js-share" type="button" data-share-title="{{ item.name }} | {{ site.brand }}" data-share-text="{{ item.name }}, {{ item.description }}"><span aria-hidden="true">↗</span> <span class="js-share-label">שיתוף</span></button>
+        <button class="artwork-share js-share" type="button" data-share-title="{{ item.name }} | {{ site.brand }}" data-share-text="{{ item.name }}, {{ item.description }}"><span aria-hidden="true">↗</span> <span class="js-share-label">{{ "Share" if isEn else "שיתוף" }}</span></button>
 
         <details class="print-order-details">
           <summary><span aria-hidden="true">☰</span> פרטים</summary>

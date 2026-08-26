@@ -5,11 +5,11 @@ pagination:
   alias: locale
 permalink: "{{ locale | localePrefix }}/about/index.html"
 layout: base.njk
-activeNav: "אודות"
 eleventyComputed:
   title: "{{ (pages.about | localize(locale)).title }}"
   description: "{{ (pages.about | localize(locale)).metaDescription }}"
   ogImage: "{{ (pages.about | localize(locale)).portrait }}"
+  activeNav: "{{ 'About' if locale == 'en' else 'אודות' }}"
 ---
 {% set p = pages.about | localize(locale) %}
 <section class="about-artist-hero{% if p.portraitPosition == 'left' %} is-image-left{% endif %}">

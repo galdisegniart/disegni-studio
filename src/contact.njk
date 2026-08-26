@@ -4,11 +4,11 @@ pagination:
   size: 1
   alias: locale
 layout: base.njk
-activeNav: "יצירת קשר"
 permalink: "{{ locale | localePrefix }}/contact/index.html"
 eleventyComputed:
   title: "{{ (pages.contact | localize(locale)).title }}"
   description: "{{ (pages.contact | localize(locale)).metaDescription }}"
+  activeNav: "{{ 'Contact' if locale == 'en' else 'יצירת קשר' }}"
 ---
 {% set p = pages.contact | localize(locale) %}
 {% set isEn = locale == "en" %}

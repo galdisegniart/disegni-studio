@@ -4,11 +4,11 @@ pagination:
   size: 1
   alias: locale
 layout: base.njk
-activeNav: "חנות"
 permalink: "{{ locale | localePrefix }}/collections/index.html"
 eleventyComputed:
   title: "{{ (pages.shopIndex | localize(locale)).title }}"
   description: "{{ (pages.shopIndex | localize(locale)).metaDescription }}"
+  activeNav: "{{ 'Shop' if locale == 'en' else 'חנות' }}"
 ---
 {% set p = pages.shopIndex | localize(locale) %}
 {% set shopCategories = locale | shopCategoriesFor %}

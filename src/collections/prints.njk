@@ -4,7 +4,6 @@ pagination:
   size: 1
   alias: locale
 layout: base.njk
-activeNav: "הדפסים"
 activeCategory: "prints"
 permalink: "{{ locale | localePrefix }}/collections/prints/index.html"
 scripts:
@@ -13,6 +12,7 @@ scripts:
 eleventyComputed:
   title: "{{ (pages.prints | localize(locale)).title }}"
   description: "{{ (pages.prints | localize(locale)).metaDescription }}"
+  activeNav: "{{ 'Prints' if locale == 'en' else 'הדפסים' }}"
 ---
 {% include "partials/category-strip.njk" %}
 {% set p = pages.prints | localize(locale) %}

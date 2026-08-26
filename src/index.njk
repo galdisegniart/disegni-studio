@@ -7,7 +7,7 @@ layout: base.njk
 eleventyComputed:
   title: "{{ (pages.home | localize(locale)).title }}"
   description: "{{ (pages.home | localize(locale)).metaDescription }}"
-activeNav: "גלריה"
+  activeNav: "{{ 'Gallery' if locale == 'en' else 'גלריה' }}"
 permalink: "{{ locale | localePrefix }}/index.html"
 scripts:
   - /js/mark-list.js

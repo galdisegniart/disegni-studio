@@ -5,20 +5,21 @@ pagination:
   alias: entry
 permalink: "{{ entry.locale | localePrefix }}/products/{{ entry.artwork.slug }}/index.html"
 layout: base-bare.njk
-activeNav: "הדפסים"
 scripts:
   - /js/back-link.js
   - /js/share.js
   - /js/product-gallery.js
   - /js/artwork-zoom.js
 eleventyComputed:
-  title: "{{ entry.artwork.name }} - הדפס אמנותי מקורי | גל דִּיסֵנִי"
+  title: "{{ entry.artwork.name }} - {{ 'Original Art Print' if entry.locale == 'en' else 'הדפס אמנותי מקורי' }} | גל דִּיסֵנִי"
   description: "{{ entry.artwork.name }}, {{ entry.artwork.description }}"
   ogImage: "{{ entry.artwork.image }}"
   locale: "{{ entry.locale }}"
+  activeNav: "{{ 'Prints' if entry.locale == 'en' else 'הדפסים' }}"
 ---
 {% set artwork = entry.artwork %}
 {% set locale = entry.locale %}
+{% set isEn = locale == "en" %}
 {% set seq = artworks | artworkSequence(artwork) %}
 {% set pricing = pages.pricing %}
 {% set shipping = pages.shipping %}
@@ -225,7 +226,7 @@ eleventyComputed:
       <a class="cta cta-outline js-whatsapp" href="{{ (purchaseButtons.whatsappQuestionMessage | replace('{name}', artwork.name)) | waLink }}" target="_blank" rel="noopener noreferrer">{{ purchaseButtons.whatsappQuestionLabel }}</a>
 
       <p class="print-order-note js-print-order-note"></p>
-      <button class="artwork-share js-share" type="button" data-share-title="{{ artwork.name }} | {{ site.brand }}" data-share-text="{{ artwork.name }}, {{ artwork.description }}"><span aria-hidden="true">↗</span> <span class="js-share-label">שיתוף</span></button>
+      <button class="artwork-share js-share" type="button" data-share-title="{{ artwork.name }} | {{ site.brand }}" data-share-text="{{ artwork.name }}, {{ artwork.description }}"><span aria-hidden="true">↗</span> <span class="js-share-label">{{ "Share" if isEn else "שיתוף" }}</span></button>
 
       <details class="print-order-details">
         <summary><span aria-hidden="true">☰</span> {{ purchaseButtons.detailsLabel }}</summary>

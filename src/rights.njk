@@ -4,11 +4,11 @@ pagination:
   size: 1
   alias: locale
 layout: base.njk
-activeNav: "זכויות"
 permalink: "{{ locale | localePrefix }}/rights/index.html"
 eleventyComputed:
   title: "{{ (pages.rights | localize(locale)).title }}"
   description: "{{ (pages.rights | localize(locale)).metaDescription }}"
+  activeNav: "{{ 'Copyright' if locale == 'en' else 'זכויות' }}"
 ---
 {% set p = pages.rights | localize(locale) %}
 <section class="rights-hero">

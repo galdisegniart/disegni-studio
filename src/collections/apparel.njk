@@ -4,7 +4,6 @@ pagination:
   size: 1
   alias: locale
 layout: base.njk
-activeNav: "חנות"
 activeCategory: "apparel"
 permalink: "{{ locale | localePrefix }}/collections/apparel/index.html"
 scripts:
@@ -13,6 +12,7 @@ scripts:
 eleventyComputed:
   title: "{{ (pages.apparel | localize(locale)).title }}"
   description: "{{ (pages.apparel | localize(locale)).metaDescription }}"
+  activeNav: "{{ 'Shop' if locale == 'en' else 'חנות' }}"
 ---
 {% include "partials/category-strip.njk" %}
 {% set p = pages.apparel | localize(locale) %}

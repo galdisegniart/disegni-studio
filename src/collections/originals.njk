@@ -4,7 +4,6 @@ pagination:
   size: 1
   alias: locale
 layout: base.njk
-activeNav: "מקוריות זמינות"
 activeCategory: "originals"
 permalink: "{{ locale | localePrefix }}/collections/originals/index.html"
 scripts:
@@ -12,6 +11,7 @@ scripts:
 eleventyComputed:
   title: "{{ (pages.originals | localize(locale)).title }}"
   description: "{{ (pages.originals | localize(locale)).metaDescription }}"
+  activeNav: "{{ 'Available Originals' if locale == 'en' else 'מקוריות זמינות' }}"
 ---
 {% include "partials/category-strip.njk" %}
 {% set p = pages.originals | localize(locale) %}

@@ -8,7 +8,7 @@ eleventyComputed:
   title: "{{ (pages.workshopsIndex | localize(locale)).title }}"
   description: "{{ (pages.workshopsIndex | localize(locale)).metaDescription }}"
   ogImage: "{{ (pages.workshopsIndex | localize(locale)).promoVideoPoster }}"
-activeNav: "סדנאות"
+  activeNav: "{{ 'Workshops' if locale == 'en' else 'סדנאות' }}"
 permalink: "{{ locale | localePrefix }}/workshops/index.html"
 scripts:
   - /js/hero-video-toggle.js

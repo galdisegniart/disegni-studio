@@ -933,6 +933,80 @@ body.cart-drawer-lock {
   }
 }
 
+/* English (LTR) header/nav mirror — swaps nav to the left and
+   icons/cart to the right, and un-reverses everything the RTL rules
+   above hardcode, so English reads as a genuine LTR layout instead of
+   an RTL layout with re-ordered text. */
+html[dir="ltr"] .main-nav {
+  grid-column: 1;
+  justify-self: start;
+  justify-content: flex-start;
+  direction: ltr;
+}
+
+html[dir="ltr"] .header-actions {
+  grid-column: 3;
+  justify-self: end;
+}
+
+html[dir="ltr"] .main-nav a::after {
+  left: 0;
+  right: 100%;
+  transition: right 0.25s;
+}
+
+html[dir="ltr"] .main-nav a:hover::after,
+html[dir="ltr"] .main-nav a.active::after {
+  left: 0;
+  right: 0;
+}
+
+html[dir="ltr"] .nav-dropdown {
+  right: auto;
+  left: 0;
+}
+
+html[dir="ltr"] .header-search-field input {
+  text-align: left;
+  direction: ltr;
+}
+
+html[dir="ltr"] .header-cart .js-cart-count {
+  left: auto;
+  right: -10px;
+}
+
+@media (max-width: 1320px) {
+  html[dir="ltr"] .main-nav {
+    text-align: left;
+    direction: ltr;
+  }
+
+  html[dir="ltr"] .main-nav a {
+    text-align: left;
+  }
+
+  html[dir="ltr"] .nav-dropdown {
+    border-right: 0;
+    border-left: 1px solid var(--line);
+  }
+
+  html[dir="ltr"] .nav-dropdown a {
+    padding-right: 0;
+    padding-left: 18px;
+  }
+
+  html[dir="ltr"] .nav-toggle {
+    grid-column: 1;
+    justify-self: start;
+  }
+
+  html[dir="ltr"] .header-actions {
+    grid-column: 3;
+    justify-self: end;
+  }
+}
+
 /* Hero / artist opening */
 .artist-opening {
   background: var(--black);
