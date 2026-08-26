@@ -20,13 +20,21 @@
     var phone = (data.get("phone") || "").trim();
     var message = (data.get("message") || "").trim();
 
-    var lines = [
-      "שלום גל, הגעתי דרך האתר ואשמח ליצור קשר.",
-      "שם: " + (firstName + " " + lastName).trim(),
-      "טלפון: " + phone,
-      "אימייל: " + email
-    ];
-    if (message) lines.push("הודעה: " + message);
+    var isEn = document.documentElement.lang === "en";
+    var lines = isEn
+      ? [
+          "Hi Gal, I found you through the website and would love to get in touch.",
+          "Name: " + (firstName + " " + lastName).trim(),
+          "Phone: " + phone,
+          "Email: " + email
+        ]
+      : [
+          "שלום גל, הגעתי דרך האתר ואשמח ליצור קשר.",
+          "שם: " + (firstName + " " + lastName).trim(),
+          "טלפון: " + phone,
+          "אימייל: " + email
+        ];
+    if (message) lines.push((isEn ? "Message: " : "הודעה: ") + message);
 
     var url = "https://wa.me/" + waNumber + "?text=" + encodeURIComponent(lines.join("\n"));
     window.open(url, "_blank", "noopener,noreferrer");

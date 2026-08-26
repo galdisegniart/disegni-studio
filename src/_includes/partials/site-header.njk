@@ -1,17 +1,20 @@
 <header class="header site-header">
-  <a class="brand" href="/" aria-label="{{ site.brand }}, דף הבית">
+  {% set siteL = site | localize(locale) %}
+  {% set prefix = locale | localePrefix %}
+  {% set isEn = locale == "en" %}
+  <a class="brand" href="{{ prefix }}/" aria-label="{{ siteL.brand }}, {{ 'homepage' if isEn else 'דף הבית' }}">
     <img src="/images/brand-label-white.webp" alt="" width="728" height="815">
   </a>
 
-  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="פתיחת תפריט ניווט">
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="{{ 'Open navigation menu' if isEn else 'פתיחת תפריט ניווט' }}">
     <span></span><span></span><span></span>
   </button>
 
-  <nav class="main-nav" id="main-nav" aria-label="ניווט ראשי">
-    {% for item in site.nav %}
+  <nav class="main-nav" id="main-nav" aria-label="{{ 'Main navigation' if isEn else 'ניווט ראשי' }}">
+    {% for item in siteL.nav %}
     {% if item.visible != false %}
     {% if item.href == "/workshops/" %}
-    {% set navChildren = workshops | workshopNavChildren %}
+    {% set navChildren = workshops | localizeAll(locale) | workshopNavChildren %}
     {% else %}
     {% set navChildren = item.children %}
     {% endif %}
@@ -20,21 +23,21 @@
     {% for child in navChildren %}{% if child.label == activeNav %}{% set childActive = true %}{% endif %}{% endfor %}
     <div class="nav-item has-dropdown">
       <div class="nav-item-row">
-        <a{% if item.label == activeNav or childActive %} class="active"{% endif %} href="{{ item.href }}" aria-haspopup="true">{{ item.label }}</a>
-        <button type="button" class="nav-dropdown-toggle" aria-expanded="false" aria-label="הצגת תת-תפריט {{ item.label }}">
+        <a{% if item.label == activeNav or childActive %} class="active"{% endif %} href="{{ prefix }}{{ item.href }}" aria-haspopup="true">{{ item.label }}</a>
+        <button type="button" class="nav-dropdown-toggle" aria-expanded="false" aria-label="{{ ('Show submenu ' ~ item.label) if isEn else ('הצגת תת-תפריט ' ~ item.label) }}">
           <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 7.5 10 12.5 15 7.5"></path></svg>
         </button>
       </div>
       <div class="nav-dropdown">
         {% for child in navChildren %}
         {% if child.visible != false %}
-        <a{% if child.label == activeNav %} class="active"{% endif %} href="{{ child.href }}">{{ child.label }}</a>
+        <a{% if child.label == activeNav %} class="active"{% endif %} href="{{ prefix }}{{ child.href }}">{{ child.label }}</a>
         {% endif %}
         {% endfor %}
       </div>
     </div>
     {% else %}
-    <a{% if item.label == activeNav %} class="active"{% endif %} href="{{ item.href }}">{{ item.label }}</a>
+    <a{% if item.label == activeNav %} class="active"{% endif %} href="{{ prefix }}{{ item.href }}">{{ item.label }}</a>
     {% endif %}
     {% endif %}
     {% endfor %}
@@ -44,14 +47,14 @@
     {% if locale %}
     <a class="header-lang-toggle" href="{{ page.url | altLocaleUrl(locale) }}" hreflang="{{ 'he' if locale == 'en' else 'en' }}" lang="{{ 'he' if locale == 'en' else 'en' }}">{{ "עברית" if locale == "en" else "English" }}</a>
     {% endif %}
-    <button class="header-search-toggle" type="button" aria-expanded="false" aria-controls="header-search" aria-label="חיפוש באתר">
+    <button class="header-search-toggle" type="button" aria-expanded="false" aria-controls="header-search" aria-label="{{ 'Search the site' if isEn else 'חיפוש באתר' }}">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.2 4.2"></path></svg>
     </button>
-    <a class="header-cart" href="/cart/" aria-label="עגלת קניות" aria-controls="cart-drawer">
+    <a class="header-cart" href="{{ prefix }}/cart/" aria-label="{{ 'Shopping cart' if isEn else 'עגלת קניות' }}" aria-controls="cart-drawer">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1.4"></circle><circle cx="18" cy="21" r="1.4"></circle><path d="M2.5 3h2l2.2 12.2a2 2 0 0 0 2 1.65h8.15a2 2 0 0 0 1.97-1.65L21 8H6"></path></svg>
       <span class="js-cart-count" hidden>0</span>
     </a>
-    <span class="header-tagline">יצירות מקוריות מאת {{ site.brand }}</span>
+    <span class="header-tagline">{{ ("Original art by " ~ siteL.brand) if isEn else ("יצירות מקוריות מאת " ~ siteL.brand) }}</span>
   </div>
 </header>
 
@@ -59,33 +62,34 @@
   <div class="header-search-inner" role="search">
     <div class="header-search-field">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.2 4.2"></path></svg>
-      <input class="js-header-search-input" type="search" placeholder="חיפוש יצירה או קטגוריה" aria-label="חיפוש יצירה או קטגוריה" autocomplete="off">
-      <button class="header-search-close" type="button" aria-label="סגירת החיפוש">×</button>
+      <input class="js-header-search-input" type="search" placeholder="{{ 'Search for a piece or category' if isEn else 'חיפוש יצירה או קטגוריה' }}" aria-label="{{ 'Search for a piece or category' if isEn else 'חיפוש יצירה או קטגוריה' }}" autocomplete="off">
+      <button class="header-search-close" type="button" aria-label="{{ 'Close search' if isEn else 'סגירת החיפוש' }}">×</button>
     </div>
-    <p class="header-search-hint">הקלידו לפחות שתי אותיות</p>
+    <p class="header-search-hint">{{ 'Type at least two letters' if isEn else 'הקלידו לפחות שתי אותיות' }}</p>
     <div class="header-search-results" aria-live="polite">
-      {% for item in site.nav %}
+      {% for item in siteL.nav %}
       {% if item.visible != false %}
       {% if item.children %}
       {% for child in item.children %}
       {% if child.visible != false %}
-      <a class="header-search-result" href="{{ child.href }}" data-search-text="{{ child.label }}" hidden>
-        <span>קטגוריה</span>
+      <a class="header-search-result" href="{{ prefix }}{{ child.href }}" data-search-text="{{ child.label }}" hidden>
+        <span>{{ 'Category' if isEn else 'קטגוריה' }}</span>
         <strong>{{ child.label }}</strong>
       </a>
       {% endif %}
       {% endfor %}
       {% else %}
-      <a class="header-search-result" href="{{ item.href }}" data-search-text="{{ item.label }}" hidden>
-        <span>קטגוריה</span>
+      <a class="header-search-result" href="{{ prefix }}{{ item.href }}" data-search-text="{{ item.label }}" hidden>
+        <span>{{ 'Category' if isEn else 'קטגוריה' }}</span>
         <strong>{{ item.label }}</strong>
       </a>
       {% endif %}
       {% endif %}
       {% endfor %}
-      {% for item in artworks %}
-      <a class="header-search-result" href="/products/{{ item.slug }}/" data-search-text="{{ item.name }} {{ item.description }}" hidden>
-        <span>יצירה</span>
+      {% for raw in artworks %}
+      {% set item = raw | localize(locale) %}
+      <a class="header-search-result" href="{{ prefix }}/products/{{ item.slug }}/" data-search-text="{{ item.name }} {{ item.description }}" hidden>
+        <span>{{ 'Artwork' if isEn else 'יצירה' }}</span>
         <strong>{{ item.name }}</strong>
       </a>
       {% endfor %}

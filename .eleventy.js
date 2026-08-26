@@ -44,6 +44,9 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter("shopCategoriesFor", function (locale) {
     return buildShopCategories(artworksLoader(), apparelItemsLoader(), locale);
   });
+  eleventyConfig.addFilter("localizeAll", function (items, locale) {
+    return (items || []).map((item) => localize(item, locale));
+  });
 
   eleventyConfig.addFilter("startsWith", function (str, prefix) {
     return typeof str === "string" && str.indexOf(prefix) === 0;

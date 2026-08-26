@@ -1,4 +1,168 @@
 {
+  "translations": {
+    "he": {
+      "nav": [
+        {
+          "label": "גלריה",
+          "href": "/",
+          "visible": true
+        },
+        {
+          "label": "חנות",
+          "href": "/collections/",
+          "visible": true,
+          "children": [
+            {
+              "label": "הדפסים",
+              "href": "/collections/prints/",
+              "visible": true
+            },
+            {
+              "label": "מקוריות זמינות",
+              "href": "/collections/originals/",
+              "visible": true
+            },
+            {
+              "label": "ביגוד",
+              "href": "/collections/apparel/",
+              "visible": true
+            },
+            {
+              "label": "מדבקות",
+              "href": "/collections/stickers/",
+              "visible": true
+            }
+          ]
+        },
+        {
+          "label": "יצירות בהזמנה",
+          "href": "/commissions/",
+          "visible": true
+        },
+        {
+          "label": "סדנאות",
+          "href": "/workshops/",
+          "visible": true
+        },
+        {
+          "label": "אודות",
+          "href": "/about/",
+          "visible": true
+        },
+        {
+          "label": "פורטפוליו",
+          "href": "/portfolio/",
+          "visible": false
+        },
+        {
+          "label": "זכויות",
+          "href": "/rights/",
+          "visible": true
+        },
+        {
+          "label": "יצירת קשר",
+          "href": "/contact/",
+          "visible": true
+        }
+      ],
+      "tagline": "אמנות מקורית · פורטרטים · סדנאות",
+      "socials": [
+        {
+          "name": "אינסטגרם",
+          "href": "https://www.instagram.com/galdisegniart/"
+        },
+        {
+          "name": "טיקטוק",
+          "href": "https://www.tiktok.com/@galdisegniart"
+        },
+        {
+          "name": "פייסבוק",
+          "href": "https://www.facebook.com/gal.disegni"
+        }
+      ]
+    },
+    "en": {
+      "nav": [
+        {
+          "label": "Gallery",
+          "href": "/",
+          "visible": true
+        },
+        {
+          "label": "Shop",
+          "href": "/collections/",
+          "visible": true,
+          "children": [
+            {
+              "label": "Prints",
+              "href": "/collections/prints/",
+              "visible": true
+            },
+            {
+              "label": "Available Originals",
+              "href": "/collections/originals/",
+              "visible": true
+            },
+            {
+              "label": "Apparel",
+              "href": "/collections/apparel/",
+              "visible": true
+            },
+            {
+              "label": "Stickers",
+              "href": "/collections/stickers/",
+              "visible": true
+            }
+          ]
+        },
+        {
+          "label": "Commissions",
+          "href": "/commissions/",
+          "visible": true
+        },
+        {
+          "label": "Workshops",
+          "href": "/workshops/",
+          "visible": true
+        },
+        {
+          "label": "About",
+          "href": "/about/",
+          "visible": true
+        },
+        {
+          "label": "Portfolio",
+          "href": "/portfolio/",
+          "visible": false
+        },
+        {
+          "label": "Copyright",
+          "href": "/rights/",
+          "visible": true
+        },
+        {
+          "label": "Contact",
+          "href": "/contact/",
+          "visible": true
+        }
+      ],
+      "tagline": "Original Art · Portraits · Workshops",
+      "socials": [
+        {
+          "name": "Instagram",
+          "href": "https://www.instagram.com/galdisegniart/"
+        },
+        {
+          "name": "TikTok",
+          "href": "https://www.tiktok.com/@galdisegniart"
+        },
+        {
+          "name": "Facebook",
+          "href": "https://www.facebook.com/gal.disegni"
+        }
+      ]
+    }
+  },
   "nav": [
     {
       "label": "גלריה",
