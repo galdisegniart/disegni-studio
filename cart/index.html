@@ -1,18 +1,26 @@
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>עגלת קניות | גל דִּיסֵנִי</title>
-<meta name="description" content="עגלת הקניות שלכם באתר גל דִּיסֵנִי.">
+<title>Shopping Cart | Gal Disegni</title>
+<meta name="description" content="Your shopping cart on the Gal Disegni website.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="canonical" href="https://disegni.studio/cart/">
+
+
+
+<link rel="alternate" hreflang="en" href="https://disegni.studio/cart/">
+<link rel="alternate" hreflang="he" href="https://disegni.studio/he/cart/">
+<link rel="alternate" hreflang="x-default" href="https://disegni.studio/cart/">
+
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <meta property="og:type" content="website">
-<meta property="og:locale" content="he_IL">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="he_IL">
 <meta property="og:site_name" content="גל דִּיסֵנִי">
-<meta property="og:title" content="עגלת קניות | גל דִּיסֵנִי">
-<meta property="og:description" content="עגלת הקניות שלכם באתר גל דִּיסֵנִי.">
+<meta property="og:title" content="Shopping Cart | Gal Disegni">
+<meta property="og:description" content="Your shopping cart on the Gal Disegni website.">
 <meta property="og:url" content="https://disegni.studio/cart/">
 <meta property="og:image" content="https://disegni.studio/images/disegni-profile.webp">
 <meta name="twitter:card" content="summary_large_image">
@@ -55,7 +63,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/style.css?v=cc982680">
+<link rel="stylesheet" href="/css/style.css?v=20237dfe">
 <style>
 :root {
   --scale-nav: 1;
@@ -202,6 +210,9 @@
   </nav>
 
   <div class="header-actions">
+    
+    <a class="header-lang-toggle" href="/he/cart/" hreflang="he" lang="he">עברית</a>
+    
     <button class="header-search-toggle" type="button" aria-expanded="false" aria-controls="header-search" aria-label="חיפוש באתר">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.2 4.2"></path></svg>
     </button>
@@ -514,81 +525,85 @@
 
 
 
+
+
 <section class="cart-page section" id="cart-root">
-  <div class="section-label"><span>עגלת קניות</span></div>
-  <h1>סיכום ההזמנה שלכם</h1>
-  <a class="cart-continue-shopping" href="/collections/"><span aria-hidden="true">→</span> המשך בקנייה</a>
+  <div class="section-label"><span>Shopping Cart</span></div>
+  <h1>Your Order Summary</h1>
+  <a class="cart-continue-shopping" href="/collections/"><span aria-hidden="true">→</span> Continue Shopping</a>
 
   <div class="currency-toggle cart-currency-toggle">
     <button type="button" class="js-currency-toggle active" data-currency="ILS">₪ · ס"מ</button>
     <button type="button" class="js-currency-toggle" data-currency="USD">$ · inch</button>
   </div>
 
-  <p id="cart-empty">העגלה שלכם ריקה. <a href="/">חזרה לגלריה</a> לבחירת יצירה.</p>
+  <p id="cart-empty">Your cart is empty. <a href="/">Back to the gallery</a> to choose a piece.</p>
 
   <div class="cart-checkout-grid">
     <div class="cart-checkout-main">
       <ul id="cart-items" class="cart-items"></ul>
 
       <form id="cart-customer-form" class="cart-customer" hidden>
-        <h2 class="cart-customer-heading">פרטי משלוח ויצירת קשר</h2>
+        <h2 class="cart-customer-heading">Shipping &amp; Contact Details</h2>
         <div class="cart-customer-field">
-          <label for="customer-name">שם מלא *</label>
+          <label for="customer-name">Full Name *</label>
           <input type="text" id="customer-name" required autocomplete="name">
         </div>
         <div class="cart-customer-field">
-          <label for="customer-phone">טלפון *</label>
+          <label for="customer-phone">Phone *</label>
           <input type="tel" id="customer-phone" required autocomplete="tel">
         </div>
         <div class="cart-customer-field">
-          <label for="customer-email">דוא"ל (לא חובה)</label>
+          <label for="customer-email">Email (optional)</label>
           <input type="email" id="customer-email" autocomplete="email">
         </div>
         <div class="cart-customer-field">
-          <label for="customer-address">כתובת למשלוח *</label>
+          <label for="customer-address">Shipping Address *</label>
           <textarea id="customer-address" required autocomplete="street-address" rows="2"></textarea>
         </div>
         <div class="cart-customer-field cart-consent-field">
           <label class="cart-consent-label" for="customer-consent">
             <input type="checkbox" id="customer-consent" required>
-            <span>קראתי ואני מאשר/ת את <a href="/terms/" target="_blank" rel="noopener noreferrer">תקנון האתר</a>, את <a href="/returns/" target="_blank" rel="noopener noreferrer">מדיניות הביטולים וההחזרים</a> ואת <a href="/privacy/" target="_blank" rel="noopener noreferrer">מדיניות הפרטיות</a> *</span>
+            
+            <span>I have read and agree to the <a href="/terms/" target="_blank" rel="noopener noreferrer">Terms of Service</a>, the <a href="/returns/" target="_blank" rel="noopener noreferrer">Returns & Cancellations Policy</a>, and the <a href="/privacy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a> *</span>
+            
           </label>
         </div>
       </form>
     </div>
 
     <div id="cart-summary" class="cart-summary" hidden>
-    <h2>סיכום לתשלום</h2>
+    <h2>Payment Summary</h2>
     <div class="cart-coupon-field">
-      <label for="cart-coupon-code">קוד קופון</label>
+      <label for="cart-coupon-code">Coupon Code</label>
       <div class="cart-coupon-row">
-        <input type="text" id="cart-coupon-code" autocomplete="off" placeholder="הזינו קוד">
-        <button type="button" id="cart-coupon-apply">החל</button>
+        <input type="text" id="cart-coupon-code" autocomplete="off" placeholder="Enter code">
+        <button type="button" id="cart-coupon-apply">Apply</button>
       </div>
       <p id="cart-coupon-message" class="cart-coupon-message" hidden></p>
     </div>
-    <div class="cart-summary-row"><span>סכום ביניים</span><span id="cart-subtotal"></span></div>
-    <div class="cart-summary-row" id="cart-discount-row" hidden><span>הנחה</span><span id="cart-discount"></span></div>
-    <div class="cart-summary-row"><span>משלוח</span><span id="cart-shipping"></span></div>
-    <div class="cart-summary-row cart-summary-total"><span>סה"כ</span><span id="cart-total"></span></div>
-    <button id="cart-grow-checkout" class="cta" type="button" hidden>מעבר לתשלום מאובטח <span>←</span></button>
+    <div class="cart-summary-row"><span>Subtotal</span><span id="cart-subtotal"></span></div>
+    <div class="cart-summary-row" id="cart-discount-row" hidden><span>Discount</span><span id="cart-discount"></span></div>
+    <div class="cart-summary-row"><span>Shipping</span><span id="cart-shipping"></span></div>
+    <div class="cart-summary-row cart-summary-total"><span>Total</span><span id="cart-total"></span></div>
+    <button id="cart-grow-checkout" class="cta" type="button" hidden>Proceed to Secure Checkout <span>←</span></button>
     <p id="cart-grow-error" class="cart-payment-error" role="alert" hidden></p>
-    <a id="cart-whatsapp" class="cta" href="#" target="_blank" rel="noopener noreferrer">המשך להזמנה ב-WhatsApp <span>←</span></a>
+    <a id="cart-whatsapp" class="cta" href="#" target="_blank" rel="noopener noreferrer">Continue Order on WhatsApp <span>←</span></a>
     <p id="cart-bank-note" class="cart-summary-note">בחרו הדפס אמנותי או יצירה מקורית, בצעו העברה בנקאית לפרטים שלמטה, וציינו בהערה את שם היצירה ואת סוג הרכישה. לאחר ההעברה שלחו לי אישור קצר ב-WhatsApp ואחזור אליכם לתיאום המשלוח.</p>
     <dl id="cart-bank-details" class="artwork-purchase-bank">
-      <div><dt>בנק</dt><dd>דואר פיננסים (09)</dd></div>
-      <div><dt>סניף</dt><dd>001</dd></div>
-      <div><dt>מספר חשבון</dt><dd dir="ltr">30037930</dd></div>
-      <div><dt>שם בעל החשבון</dt><dd>גל דיסני</dd></div>
+      <div><dt>Bank</dt><dd>דואר פיננסים (09)</dd></div>
+      <div><dt>Branch</dt><dd>001</dd></div>
+      <div><dt>Account Number</dt><dd dir="ltr">30037930</dd></div>
+      <div><dt>Account Holder</dt><dd>גל דיסני</dd></div>
     </dl>
-    <nav class="cart-policy-links" aria-label="מידע חשוב לרכישה">
-      <a href="/terms/">תקנון</a>
-      <a href="/returns/">ביטולים והחזרים</a>
-      <a href="/privacy/">פרטיות</a>
-      <a href="/contact/">יצירת קשר</a>
+    <nav class="cart-policy-links" aria-label="Important purchase information">
+      <a href="/terms/">Terms</a>
+      <a href="/returns/">Returns &amp; Cancellations</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="/contact/">Contact</a>
     </nav>
     <a class="cart-summary-continue" href="/collections/">
-      המשך בקנייה <span aria-hidden="true">←</span>
+      Continue Shopping <span aria-hidden="true">←</span>
     </a>
     </div>
   </div>
@@ -788,10 +803,10 @@
 
 
 
-<script src="/js/cart.js?v=cc982680"></script>
-<script src="/js/nav-toggle.js?v=cc982680"></script>
-<script src="/js/header-search.js?v=cc982680"></script>
-<script src="/js/quick-links-toggle.js?v=cc982680"></script>
-<script src="/js/footer-contact.js?v=cc982680"></script>
+<script src="/js/cart.js?v=20237dfe"></script>
+<script src="/js/nav-toggle.js?v=20237dfe"></script>
+<script src="/js/header-search.js?v=20237dfe"></script>
+<script src="/js/quick-links-toggle.js?v=20237dfe"></script>
+<script src="/js/footer-contact.js?v=20237dfe"></script>
 </body>
 </html>

@@ -1,18 +1,26 @@
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>חנות | גל דִּיסֵנִי</title>
-<meta name="description" content="הדפסים, מקוריות זמינות, ביגוד ומדבקות בעיצוב מקורי של גל דִּיסֵנִי.">
+<title>Shop | Gal Disegni</title>
+<meta name="description" content="Prints, available originals, apparel, and stickers with original designs by Gal Disegni.">
 
 <link rel="canonical" href="https://disegni.studio/collections/">
+
+
+
+<link rel="alternate" hreflang="en" href="https://disegni.studio/collections/">
+<link rel="alternate" hreflang="he" href="https://disegni.studio/he/collections/">
+<link rel="alternate" hreflang="x-default" href="https://disegni.studio/collections/">
+
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <meta property="og:type" content="website">
-<meta property="og:locale" content="he_IL">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="he_IL">
 <meta property="og:site_name" content="גל דִּיסֵנִי">
-<meta property="og:title" content="חנות | גל דִּיסֵנִי">
-<meta property="og:description" content="הדפסים, מקוריות זמינות, ביגוד ומדבקות בעיצוב מקורי של גל דִּיסֵנִי.">
+<meta property="og:title" content="Shop | Gal Disegni">
+<meta property="og:description" content="Prints, available originals, apparel, and stickers with original designs by Gal Disegni.">
 <meta property="og:url" content="https://disegni.studio/collections/">
 <meta property="og:image" content="https://disegni.studio/images/disegni-profile.webp">
 <meta name="twitter:card" content="summary_large_image">
@@ -55,7 +63,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/style.css?v=cc982680">
+<link rel="stylesheet" href="/css/style.css?v=20237dfe">
 <style>
 :root {
   --scale-nav: 1;
@@ -202,6 +210,9 @@
   </nav>
 
   <div class="header-actions">
+    
+    <a class="header-lang-toggle" href="/he/collections/" hreflang="he" lang="he">עברית</a>
+    
     <button class="header-search-toggle" type="button" aria-expanded="false" aria-controls="header-search" aria-label="חיפוש באתר">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.2 4.2"></path></svg>
     </button>
@@ -514,10 +525,8 @@
 
 
 
-
-
 <nav class="breadcrumbs" aria-label="פירורי לחם">
-  <a href="/">בית</a><span class="breadcrumbs-sep" aria-hidden="true">/</span><span aria-current="page">חנות</span>
+  <a href="/">Home</a><span class="breadcrumbs-sep" aria-hidden="true">/</span><span aria-current="page">Shop</span>
 </nav>
 
 <script type="application/ld+json">
@@ -528,13 +537,13 @@
     {
       "@type": "ListItem",
       "position": 1,
-      "name": "בית",
+      "name": "Home",
       "item": "https://disegni.studio/"
     },
     {
       "@type": "ListItem",
       "position": 2,
-      "name": "חנות"
+      "name": "Shop"
     }
     
   ]
@@ -543,41 +552,50 @@
 
 <section class="gallery-intro-minimal">
   <div class="shop-intro-layout">
-    <h1>חנות</h1>
+    <h1>Shop</h1>
     <div class="shop-intro-copy">
-      <p>כל הקטגוריות במקום אחד.</p>
+      <p>All categories in one place.</p>
     </div>
   </div>
 </section>
 
-<section class="category-gallery" aria-label="קטגוריות בחנות">
+<section class="category-gallery" aria-label="Shop categories">
+  
+  
   <a class="category-gallery-card" href="/collections/prints/">
     <span class="category-gallery-thumb">
       <img src="/images/gallery/light+thumb.webp" alt="" loading="lazy">
     </span>
-    <span class="category-gallery-label">הדפסים</span>
+    <span class="category-gallery-label">Prints</span>
   </a>
+  
+  
+  
   <a class="category-gallery-card" href="/collections/originals/">
     <span class="category-gallery-thumb">
       <img src="/images/gallery/precious+thumb.webp" alt="" loading="lazy">
     </span>
-    <span class="category-gallery-label">מקוריות זמינות</span>
+    <span class="category-gallery-label">Available Originals</span>
   </a>
+  
+  
   
   <a class="category-gallery-card" href="/collections/apparel/">
     <span class="category-gallery-thumb">
       <img src="/images/uploads/unisex-organic-oversized-high-neck-blaster-2.0-t-shirt-french-navy-front-6a80dce574ef8.webp" alt="" loading="lazy">
     </span>
-    <span class="category-gallery-label">ביגוד</span>
+    <span class="category-gallery-label">Apparel</span>
   </a>
+  
   
   
   <a class="category-gallery-card" href="/collections/stickers/">
     <span class="category-gallery-thumb">
       <img src="/images/uploads/die-cut-stickers-seed-of-joy-copy.webp" alt="" loading="lazy">
     </span>
-    <span class="category-gallery-label">מדבקות</span>
+    <span class="category-gallery-label">Stickers</span>
   </a>
+  
   
 </section>
 
@@ -697,10 +715,10 @@
 
 
 
-<script src="/js/cart.js?v=cc982680"></script>
-<script src="/js/nav-toggle.js?v=cc982680"></script>
-<script src="/js/header-search.js?v=cc982680"></script>
-<script src="/js/quick-links-toggle.js?v=cc982680"></script>
-<script src="/js/footer-contact.js?v=cc982680"></script>
+<script src="/js/cart.js?v=20237dfe"></script>
+<script src="/js/nav-toggle.js?v=20237dfe"></script>
+<script src="/js/header-search.js?v=20237dfe"></script>
+<script src="/js/quick-links-toggle.js?v=20237dfe"></script>
+<script src="/js/footer-contact.js?v=20237dfe"></script>
 </body>
 </html>
