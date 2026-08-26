@@ -1,20 +1,23 @@
 ---
 pagination:
-  data: workshops
+  data: workshopPages
   size: 1
-  alias: w
-permalink: "/workshops/{{ w.slug }}/index.html"
+  alias: entry
+permalink: "{{ entry.locale | localePrefix }}/workshops/{{ entry.w.slug }}/index.html"
 layout: base.njk
 eleventyComputed:
-  title: "{{ w.title }}"
-  description: "{{ w.metaDescription }}"
-  ogImage: "{{ w.heroImage }}"
-  activeNav: "{{ w.cardTitle }}"
+  title: "{{ entry.w.title }}"
+  description: "{{ entry.w.metaDescription }}"
+  ogImage: "{{ entry.w.heroImage }}"
+  activeNav: "{{ entry.w.cardTitle }}"
+  locale: "{{ entry.locale }}"
 scripts:
   - /js/reviews.js
   - /js/intro-video.js
   - /js/share.js
 ---
+{% set w = entry.w %}
+{% set locale = entry.locale %}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -47,8 +50,8 @@ scripts:
 </script>
 
 {% set crumbs = [
-  { label: "בית", href: "/" },
-  { label: "סדנאות", href: "/workshops/" },
+  { label: "Home" if locale == "en" else "בית", href: (locale | localePrefix) + "/" },
+  { label: "Workshops" if locale == "en" else "סדנאות", href: "/workshops/" },
   { label: w.cardTitle }
 ] %}
 {% include "partials/breadcrumbs.njk" %}

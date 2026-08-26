@@ -1,22 +1,25 @@
 ---
+pagination:
+  data: locales
+  size: 1
+  alias: locale
 layout: base.njk
 activeNav: "הדפסים"
 activeCategory: "prints"
-permalink: "/collections/prints/index.html"
+permalink: "{{ locale | localePrefix }}/collections/prints/index.html"
 scripts:
   - /js/catalog-filter.js
   - /js/mark-list.js
 eleventyComputed:
-  title: "{{ pages.prints.title }}"
-  description: "{{ pages.prints.metaDescription }}"
+  title: "{{ (pages.prints | localize(locale)).title }}"
+  description: "{{ (pages.prints | localize(locale)).metaDescription }}"
 ---
 {% include "partials/category-strip.njk" %}
-{% set p = pages.prints %}
+{% set p = pages.prints | localize(locale) %}
 {% set pricing = pages.pricing %}
 {% set shipping = pages.shipping %}
-<!-- force redeploy -->
 {% set crumbs = [
-  { label: "בית", href: "/" },
+  { label: "Home" if locale == "en" else "בית", href: (locale | localePrefix) + "/" },
   { label: p.heading }
 ] %}
 {% include "partials/breadcrumbs.njk" %}
@@ -41,7 +44,8 @@ eleventyComputed:
     </div>
   </div>
   <div class="artwork-grid">
-    {% for artwork in artworks %}
+    {% for raw in artworks %}
+    {% set artwork = raw | localize(locale) %}
     {% set extraMaterials = artwork.extraMaterials or [] %}
     {% set printfulOptions = printfulCatalog | printfulOptions(artwork, pricing, shipping) %}
     {% if printfulOptions and printfulOptions.length %}
@@ -50,12 +54,12 @@ eleventyComputed:
     {% set range = pricing.materials | priceRange(extraMaterials) %}
     {% endif %}
     <article class="artwork-card" id="{{ artwork.slug }}" data-category="{{ artwork.category }}">
-      <a class="artwork-tile" href="/products/{{ artwork.slug }}/" aria-label="כניסה ליצירה {{ artwork.name }}">
+      <a class="artwork-tile" href="{{ locale | localePrefix }}/products/{{ artwork.slug }}/" aria-label="{{ ('View artwork ' ~ artwork.name) if locale == 'en' else ('כניסה ליצירה ' ~ artwork.name) }}">
         <span class="artwork-tile-image"><img src="{{ artwork.thumb }}" alt="{{ artwork.alt }}" loading="lazy"></span>
         <span class="artwork-tile-caption">
           <strong lang="en">{{ artwork.name }}</strong>
           <small>{{ artwork.galleryMedium }}</small>
-          {% if range.low %}<span class="artwork-tile-price">החל מ- <span>{{ range.low }} ₪</span></span>{% endif %}
+          {% if range.low %}<span class="artwork-tile-price">{{ "From " if locale == "en" else "החל מ- " }}<span>{{ range.low }} ₪</span></span>{% endif %}
         </span>
       </a>
     </article>

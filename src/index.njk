@@ -1,14 +1,19 @@
 ---
+pagination:
+  data: locales
+  size: 1
+  alias: locale
 layout: base.njk
 eleventyComputed:
-  title: "{{ pages.home.title }}"
-  description: "{{ pages.home.metaDescription }}"
+  title: "{{ (pages.home | localize(locale)).title }}"
+  description: "{{ (pages.home | localize(locale)).metaDescription }}"
 activeNav: "גלריה"
-permalink: "/index.html"
+permalink: "{{ locale | localePrefix }}/index.html"
 scripts:
   - /js/mark-list.js
 ---
-{% set p = pages.home %}
+{% set p = pages.home | localize(locale) %}
+{% set portfolio = pages.portfolio | localize(locale) %}
 
 <section class="artist-opening">
   <figure class="artist-opening-art">
@@ -31,7 +36,7 @@ scripts:
 </section>
 
 <section class="home-journeys" aria-label="קטגוריות הגלריה">
-  {% for category in pages.portfolio.categories %}
+  {% for category in portfolio.categories %}
   {% if category.visible != false %}
   <a class="portfolio-category-band" href="/portfolio/{{ category.slug }}/">
     <img
@@ -70,9 +75,10 @@ scripts:
     <h2>{{ p.galleryHeading }}</h2>
   </header>
   <div class="gallery-editorial home-art-grid">
-    {% for artwork in artworks %}
+    {% for raw in artworks %}
+    {% set artwork = raw | localize(locale) %}
     <figure class="gallery-item">
-      <a class="gallery-link" href="/products/{{ artwork.slug }}/">
+      <a class="gallery-link" href="{{ locale | localePrefix }}/products/{{ artwork.slug }}/">
         <span class="gallery-frame"><img src="{{ artwork.thumb }}" alt="{{ artwork.name }}" loading="lazy"></span>
         <figcaption><strong title="{{ artwork.name }}">{{ artwork.name }}</strong></figcaption>
       </a>

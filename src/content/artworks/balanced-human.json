@@ -1,6 +1,22 @@
 {
   "slug": "balanced-human",
   "order": 27,
+  "translations": {
+    "he": {
+      "name": "Balanced Human",
+      "galleryMedium": "פסטל",
+      "detailMedium": "פסטל על נייר",
+      "description": "דמות אנושית זוהרת שמרכזי האנרגיה שלה מוארים לאורך הגוף - איזון בין הפיזי לרוחני בנוכחות שקטה ומוארת.",
+      "alt": "Balanced Human, דמות זוהרת עם מרכזי אנרגיה מוארים לאורך הגוף"
+    },
+    "en": {
+      "name": "Balanced Human",
+      "galleryMedium": "Pastel",
+      "detailMedium": "Pastel on paper",
+      "description": "A glowing human figure with its energy centers lit along the body - a balance between the physical and the spiritual in a quiet, luminous presence.",
+      "alt": "Balanced Human, a glowing figure with lit energy centers along the body"
+    }
+  },
   "name": "Balanced Human",
   "galleryMedium": "פסטל",
   "detailMedium": "פסטל על נייר",

@@ -3,6 +3,18 @@
   "name": "\"Seed Of Joy\" - גופייה רקומה ",
   "slug": "seed-of-joy-muscle-shirt",
   "order": 2,
+  "translations": {
+    "he": {
+      "name": "\"Seed Of Joy\" - גופייה רקומה ",
+      "alt": "מאסל שירט Seed Of Joy מאת גל דיסני",
+      "description": "מאסל שירט בעיצוב Seed Of Joy מאת גל דִּיסֵנִי."
+    },
+    "en": {
+      "name": "\"Seed Of Joy\" - Embroidered Muscle Shirt",
+      "alt": "Seed Of Joy muscle shirt by Gal Disegni",
+      "description": "A muscle shirt featuring the Seed Of Joy design by Gal Disegni."
+    }
+  },
   "purchaseVariants": [
     {
       "catalogNumber": "SEED-OF-JOY-MUSCLE-SHIRT-MUSCLE-SHIRT-S",

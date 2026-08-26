@@ -1,12 +1,17 @@
 ---
+pagination:
+  data: locales
+  size: 1
+  alias: locale
 layout: base.njk
 activeNav: "יצירת קשר"
-permalink: "/contact/index.html"
+permalink: "{{ locale | localePrefix }}/contact/index.html"
 eleventyComputed:
-  title: "{{ pages.contact.title }}"
-  description: "{{ pages.contact.metaDescription }}"
+  title: "{{ (pages.contact | localize(locale)).title }}"
+  description: "{{ (pages.contact | localize(locale)).metaDescription }}"
 ---
-{% set p = pages.contact %}
+{% set p = pages.contact | localize(locale) %}
+{% set isEn = locale == "en" %}
 <section class="about-artist-hero">
   <figure class="about-artist-portrait">
     <img src="{{ p.portrait }}" alt="{{ p.portraitAlt }}">
@@ -33,11 +38,11 @@ eleventyComputed:
   <div class="legal-identity contact-business">
     <h2>{{ p.businessLabel }}</h2>
     <dl class="legal-identity-list">
-      {% if site.businessLegalName %}<div><dt>שם העוסק</dt><dd>{{ site.businessLegalName }}</dd></div>{% endif %}
-      {% if site.businessNumber %}<div><dt>{{ site.businessStatus }} מס'</dt><dd dir="ltr">{{ site.businessNumber }}</dd></div>{% endif %}
-      {% if site.businessAddress %}<div><dt>כתובת</dt><dd>{{ site.businessAddress }}, {{ site.businessCity }}</dd></div>{% endif %}
-      <div><dt>טלפון</dt><dd><a href="tel:{{ site.businessPhoneLink }}" dir="ltr">{{ site.businessPhone }}</a></dd></div>
-      <div><dt>זמן מענה</dt><dd>{{ site.responseTimeLabel }}</dd></div>
+      {% if site.businessLegalName %}<div><dt>{{ "Business Name" if isEn else "שם העוסק" }}</dt><dd>{{ site.businessLegalName }}</dd></div>{% endif %}
+      {% if site.businessNumber %}<div><dt>{{ site.businessStatus }} {{ "No." if isEn else "מס'" }}</dt><dd dir="ltr">{{ site.businessNumber }}</dd></div>{% endif %}
+      {% if site.businessAddress %}<div><dt>{{ "Address" if isEn else "כתובת" }}</dt><dd>{{ site.businessAddress }}, {{ site.businessCity }}</dd></div>{% endif %}
+      <div><dt>{{ "Phone" if isEn else "טלפון" }}</dt><dd><a href="tel:{{ site.businessPhoneLink }}" dir="ltr">{{ site.businessPhone }}</a></dd></div>
+      <div><dt>{{ "Response Time" if isEn else "זמן מענה" }}</dt><dd>{{ site.responseTimeLabel }}</dd></div>
     </dl>
   </div>
 </section>

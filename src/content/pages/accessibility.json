@@ -1,4 +1,130 @@
 {
+  "translations": {
+    "he": {
+      "title": "הצהרת נגישות | גל דִּיסֵנִי",
+      "metaDescription": "הצהרת הנגישות של אתר גל דִּיסֵנִי - רמת ההתאמה, מה הונגש, מגבלות ידועות ופרטי רכז הנגישות.",
+      "heroEyebrow": "הצהרת נגישות",
+      "heroHeading": "נגישות האתר",
+      "heroLead": "אמנות אמורה להיות פתוחה לכולם. הדף הזה מפרט מה עשינו כדי שהאתר יהיה נגיש, מה עוד לא הושלם, ואיך לפנות אלינו אם משהו לא עובד עבורכם.",
+      "updatedLabel": "עודכן לאחרונה: אוגוסט 2026",
+      "identityHeading": "פנייה בנושא נגישות",
+      "lastAuditLabel": "אוגוסט 2026",
+      "sections": [
+        {
+          "heading": "המחויבות שלנו",
+          "paragraphs": [
+            "אנחנו רואים בנגישות האתר חלק מהשירות עצמו, ופועלים כדי שכל אדם - לרבות אנשים עם מוגבלות - יוכל לגלוש באתר, לצפות ביצירות ולבצע רכישה באופן עצמאי, נוח ושוויוני.",
+            "האתר נבנה מתוך שאיפה לעמוד בדרישות תקן ישראלי 5568 ברמת התאמה AA, המבוסס על הנחיות הנגישות הבינלאומיות WCAG 2.0, ובהתאם לתקנות שוויון זכויות לאנשים עם מוגבלות (התאמות נגישות לשירות), התשע\"ג-2013."
+          ]
+        },
+        {
+          "heading": "מה הונגש באתר",
+          "paragraphs": [
+            "בין ההתאמות שבוצעו:"
+          ],
+          "bullets": [
+            "מבנה סמנטי תקין עם היררכיית כותרות ברורה, המאפשר ניווט יעיל בקורא מסך",
+            "הגדרת שפה וכיוון כתיבה (עברית, מימין לשמאל) בכל עמודי האתר",
+            "טקסט חלופי לתמונות היצירות ולתמונות התוכן",
+            "אפשרות לניווט מלא באמצעות מקלדת, כולל בתפריט, בעגלת הקניות ובטפסים",
+            "סימון ויזואלי של מיקוד המקלדת (focus) על קישורים, כפתורים ושדות טופס",
+            "תוויות (label) מקושרות לכל שדה טופס, והודעות שגיאה מילוליות ולא רק צבעוניות",
+            "ניגודיות צבעים מוגברת בטקסט הגוף, בקישורים ובכפתורים",
+            "תצוגה מותאמת למסכים קטנים ותמיכה בהגדלת הטקסט בדפדפן ללא אובדן תוכן",
+            "כיבוד העדפת המשתמש להפחתת אנימציות (prefers-reduced-motion)"
+          ]
+        },
+        {
+          "heading": "מגבלות ידועות",
+          "paragraphs": [
+            "למרות המאמץ, ייתכנו באתר חלקים שטרם הונגשו במלואם. אנחנו ממשיכים לשפר אותם באופן שוטף:"
+          ],
+          "bullets": [
+            "לוח התיאום של הסדנאות הוא רכיב אינטראקטיבי מורכב, והשימוש בו בקורא מסך עשוי להיות פחות נוח. אפשר תמיד לתאם מועד בטלפון או ב-WhatsApp במקום.",
+            "חלק מהתכנים המוטמעים מגורמים חיצוניים - למשל סרטונים ורכיבי רשתות חברתיות - אינם בשליטתנו, ורמת הנגישות שלהם תלויה בספק.",
+            "עמוד התשלום המאובטח מופעל על ידי חברת הסליקה, ונגישותו באחריותה."
+          ]
+        },
+        {
+          "heading": "דרכים חלופיות לקבלת שירות",
+          "paragraphs": [
+            "אם נתקלתם בקושי כלשהו בשימוש באתר, אתם מוזמנים לפנות אלינו ישירות ונשמח להשלים את התהליך יחד איתכם - לבחור יצירה, למסור פרטי הזמנה, לבצע רכישה או לקבל כל מידע אחר.",
+            "אפשר לפנות בטלפון, בהודעת WhatsApp או בדוא\"ל, לפי הפרטים בראש עמוד זה. אין צורך להשלים שום פעולה דרך האתר."
+          ]
+        },
+        {
+          "heading": "איך לדווח על בעיית נגישות",
+          "paragraphs": [
+            "אם מצאתם באתר רכיב שאינו נגיש, נשמח לשמוע. דיווח מפורט עוזר לנו לתקן מהר יותר.",
+            "בפנייה נא לציין את כתובת העמוד, תיאור קצר של הבעיה, וכן באיזה דפדפן ובאיזו טכנולוגיה מסייעת השתמשתם (אם רלוונטי). ניצור קשר ונטפל בפנייה בהקדם."
+          ]
+        }
+      ],
+      "legalNote": "הצהרה זו מתייחסת לאתר האינטרנט בלבד. אנו פועלים לשיפור מתמיד של נגישות האתר, והצהרה זו מתעדכנת בהתאם. במקרה של סתירה בין האמור כאן לבין הוראות חוק שוויון זכויות לאנשים עם מוגבלות, התשנ\"ח-1998, והתקנות שמכוחו - יגברו הוראות הדין."
+    },
+    "en": {
+      "title": "Accessibility Statement | Gal Disegni",
+      "metaDescription": "The accessibility statement for the Gal Disegni website - the level of conformance, what has been made accessible, known limitations, and accessibility coordinator details.",
+      "heroEyebrow": "Accessibility Statement",
+      "heroHeading": "Website Accessibility",
+      "heroLead": "Art should be open to everyone. This page details what we've done to make the site accessible, what's not yet complete, and how to reach us if something isn't working for you.",
+      "updatedLabel": "Last updated: August 2026",
+      "identityHeading": "Accessibility Inquiries",
+      "lastAuditLabel": "August 2026",
+      "sections": [
+        {
+          "heading": "Our Commitment",
+          "paragraphs": [
+            "We see the site's accessibility as part of the service itself, and we work so that every person - including people with disabilities - can browse the site, view the artwork, and complete a purchase independently, comfortably, and equally.",
+            "The site was built with the aim of meeting Israeli Standard 5568 at level AA conformance, based on the international WCAG 2.0 accessibility guidelines, and in accordance with the Equal Rights for Persons with Disabilities Regulations (Service Accessibility Adjustments), 5773-2013."
+          ]
+        },
+        {
+          "heading": "What Has Been Made Accessible on the Site",
+          "paragraphs": [
+            "Among the adjustments made:"
+          ],
+          "bullets": [
+            "Proper semantic structure with a clear heading hierarchy, enabling efficient navigation with a screen reader",
+            "Defined language and writing direction on every page of the site",
+            "Alt text for artwork images and content images",
+            "Full keyboard navigation, including in the menu, the shopping cart, and forms",
+            "Visible keyboard focus indication on links, buttons, and form fields",
+            "Labels linked to every form field, and error messages conveyed in words, not only by color",
+            "Enhanced color contrast in body text, links, and buttons",
+            "A layout adapted for small screens and support for enlarging text in the browser without losing content",
+            "Respecting the user's preference to reduce motion (prefers-reduced-motion)"
+          ]
+        },
+        {
+          "heading": "Known Limitations",
+          "paragraphs": [
+            "Despite our efforts, some parts of the site may not yet be fully accessible. We continue to improve them on an ongoing basis:"
+          ],
+          "bullets": [
+            "The workshop scheduling calendar is a complex interactive component, and using it with a screen reader may be less comfortable. You can always schedule a time by phone or WhatsApp instead.",
+            "Some content embedded from external sources - for example videos and social media components - is not under our control, and its level of accessibility depends on the provider.",
+            "The secure payment page is operated by the payment processor, and its accessibility is its responsibility."
+          ]
+        },
+        {
+          "heading": "Alternative Ways to Get Service",
+          "paragraphs": [
+            "If you encounter any difficulty using the site, you're welcome to contact us directly and we'll be happy to complete the process together with you - choosing a piece, providing order details, making a purchase, or getting any other information.",
+            "You can reach us by phone, WhatsApp message, or email, using the details at the top of this page. There's no need to complete any action through the site itself."
+          ]
+        },
+        {
+          "heading": "How to Report an Accessibility Issue",
+          "paragraphs": [
+            "If you found a component on the site that isn't accessible, we'd love to hear about it. A detailed report helps us fix it faster.",
+            "In your message, please state the page address, a brief description of the issue, and which browser and assistive technology you were using (if relevant). We will get in touch and address the matter as soon as possible."
+          ]
+        }
+      ],
+      "legalNote": "This statement relates to the website only. We are working on an ongoing improvement of the site's accessibility, and this statement is updated accordingly. In the event of a conflict between what is stated here and the provisions of the Equal Rights for Persons with Disabilities Law, 5758-1998, and the regulations thereunder, the provisions of the law shall prevail. This site is governed exclusively by the laws of the State of Israel, regardless of the language in which you are reading this statement or your location."
+    }
+  },
   "title": "הצהרת נגישות | גל דִּיסֵנִי",
   "metaDescription": "הצהרת הנגישות של אתר גל דִּיסֵנִי - רמת ההתאמה, מה הונגש, מגבלות ידועות ופרטי רכז הנגישות.",
   "heroEyebrow": "הצהרת נגישות",

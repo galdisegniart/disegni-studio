@@ -1,6 +1,22 @@
 {
   "slug": "the-protector-of-earth",
   "order": 25,
+  "translations": {
+    "he": {
+      "name": "The Protector Of Earth",
+      "galleryMedium": "פסטל",
+      "detailMedium": "פסטל על נייר",
+      "description": "דמות שומרת בעלת כנפיים סימטריות וטבעת אבנים יקרות - נוכחות מגוננת שעוטפת ומחזיקה.",
+      "alt": "The Protector Of Earth, דמות שומרת בעלת כנפיים סימטריות"
+    },
+    "en": {
+      "name": "The Protector Of Earth",
+      "galleryMedium": "Pastel",
+      "detailMedium": "Pastel on paper",
+      "description": "A guardian figure with symmetrical wings and a ring of precious stones - a protective presence that wraps around and holds.",
+      "alt": "The Protector Of Earth, a guardian figure with symmetrical wings"
+    }
+  },
   "name": "The Protector Of Earth",
   "galleryMedium": "פסטל",
   "detailMedium": "פסטל על נייר",

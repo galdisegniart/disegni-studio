@@ -1,18 +1,22 @@
 ---
+pagination:
+  data: locales
+  size: 1
+  alias: locale
 layout: base.njk
 activeNav: "מקוריות זמינות"
 activeCategory: "originals"
-permalink: "/collections/originals/index.html"
+permalink: "{{ locale | localePrefix }}/collections/originals/index.html"
 scripts:
   - /js/mark-list.js
 eleventyComputed:
-  title: "{{ pages.originals.title }}"
-  description: "{{ pages.originals.metaDescription }}"
+  title: "{{ (pages.originals | localize(locale)).title }}"
+  description: "{{ (pages.originals | localize(locale)).metaDescription }}"
 ---
 {% include "partials/category-strip.njk" %}
-{% set p = pages.originals %}
+{% set p = pages.originals | localize(locale) %}
 {% set crumbs = [
-  { label: "בית", href: "/" },
+  { label: "Home" if locale == "en" else "בית", href: (locale | localePrefix) + "/" },
   { label: p.heading }
 ] %}
 {% include "partials/breadcrumbs.njk" %}
@@ -27,13 +31,14 @@ eleventyComputed:
 
 <section class="artwork-catalog gallery-catalog-compact section">
   <div class="artwork-grid">
-    {% for artwork in artworks %}
+    {% for raw in artworks %}
+    {% set artwork = raw | localize(locale) %}
     <article class="artwork-card{% if not artwork.originalAvailable %} artwork-card-sold-out{% endif %}" id="{{ artwork.slug }}" data-category="{{ artwork.category }}">
-      <a class="artwork-tile" href="/products/{{ artwork.slug }}/" aria-label="כניסה ליצירה {{ artwork.name }}">
+      <a class="artwork-tile" href="{{ locale | localePrefix }}/products/{{ artwork.slug }}/" aria-label="{{ ('View artwork ' ~ artwork.name) if locale == 'en' else ('כניסה ליצירה ' ~ artwork.name) }}">
         <span class="artwork-tile-image">
           <img src="{{ artwork.thumb }}" alt="{{ artwork.alt }}" loading="lazy">
           {% if not artwork.originalAvailable %}
-          <span class="sold-out-badge">נמכר</span>
+          <span class="sold-out-badge">{{ "Sold" if locale == "en" else "נמכר" }}</span>
           {% endif %}
         </span>
         <span class="artwork-tile-caption">

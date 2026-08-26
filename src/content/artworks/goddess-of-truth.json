@@ -1,6 +1,22 @@
 {
   "slug": "goddess-of-truth",
   "order": 28,
+  "translations": {
+    "he": {
+      "name": "Goddess Of Truth",
+      "galleryMedium": "פסטל",
+      "detailMedium": "פסטל על נייר",
+      "description": "מנדלה זהובה וסימטרית עם אבנים נוצצות - נוכחות אלוהית שמזכירה שהאמת תמיד יש בה יופי מסודר.",
+      "alt": "Goddess Of Truth, מנדלה זהובה וסימטרית עם אבנים נוצצות"
+    },
+    "en": {
+      "name": "Goddess Of Truth",
+      "galleryMedium": "Pastel",
+      "detailMedium": "Pastel on paper",
+      "description": "A golden, symmetrical mandala with sparkling stones - a divine presence that reminds us truth always holds an ordered beauty.",
+      "alt": "Goddess Of Truth, a golden, symmetrical mandala with sparkling stones"
+    }
+  },
   "name": "Goddess Of Truth",
   "galleryMedium": "פסטל",
   "detailMedium": "פסטל על נייר",

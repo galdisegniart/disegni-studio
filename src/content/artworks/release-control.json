@@ -1,6 +1,22 @@
 {
   "slug": "release-control",
   "order": 15,
+  "translations": {
+    "he": {
+      "name": "Release Control",
+      "galleryMedium": "טכניקה משולבת",
+      "detailMedium": "טכניקה משולבת על נייר · יצירה מקורית",
+      "description": "קווים חופשיים נעים בין סדר לספונטניות ומאפשרים לצבע להוביל. זהו רגע של שחרור, אמון ופתיחה למה שמבקש להופיע.",
+      "alt": "Release Control, תנועה מופשטת וצבעונית"
+    },
+    "en": {
+      "name": "Release Control",
+      "galleryMedium": "Mixed Technique",
+      "detailMedium": "Mixed technique on paper · original artwork",
+      "description": "Free lines move between order and spontaneity, letting color lead. It is a moment of release, trust, and openness to what wants to emerge.",
+      "alt": "Release Control, abstract, colorful movement"
+    }
+  },
   "name": "Release Control",
   "galleryMedium": "טכניקה משולבת",
   "detailMedium": "טכניקה משולבת על נייר · יצירה מקורית",

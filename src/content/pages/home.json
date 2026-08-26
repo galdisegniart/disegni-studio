@@ -1,4 +1,80 @@
 {
+  "translations": {
+    "he": {
+      "title": "גל דִּיסֵנִי | אמנות מקורית, פורטרטים וסדנאות",
+      "metaDescription": "הגלריה של גל דִּיסֵנִי, יצירות מקוריות, פורטרטים אישיים וסדנאות אמנות בחדרה.",
+      "heroImageAlt": "גל דִּיסֵנִי בסטודיו",
+      "gatesAriaLabel": "דרכים ליצור ולרכוש",
+      "leadText": "כל יצירה מתחילה בחיבור אישי ומקבלת נוכחות וסיפור משלה.",
+      "galleryHeading": "מבחר יצירות מהגלריה",
+      "assuranceLine1": "מקורי לחלוטין. ללא בינה מלאכותית.",
+      "assuranceLine2": "נוצר ביד על נייר, קנבס, עץ או קיר.",
+      "headingLine1": "אמנות מקורית מצוירת ביד.",
+      "headingLine2": "ריאליסטית, אינטואיטיבית,\nדמיונית וחזיונית.",
+      "heroCtaLabel": "לצפייה בגלריה",
+      "aboutLinkLabel": "קצת עליי",
+      "gates": [
+        {
+          "label": "חנות",
+          "image": "/images/gallery/orin+thumb.webp",
+          "href": "/collections/",
+          "ctaLabel": "לצפייה בחנות",
+          "visible": true
+        },
+        {
+          "label": "יצירות בהזמנה",
+          "image": "/images/gallery/precious+thumb.webp",
+          "href": "/commissions/",
+          "ctaLabel": "יצירות בהזמנה",
+          "visible": true
+        },
+        {
+          "label": "סדנאות",
+          "image": "/images/workshops/daily-main.webp",
+          "href": "/workshops/",
+          "ctaLabel": "הירשמו היום",
+          "visible": true
+        }
+      ]
+    },
+    "en": {
+      "title": "Gal Disegni | Original Art, Portraits & Workshops",
+      "metaDescription": "The gallery of Gal Disegni - original artwork, personal portraits, and art workshops in Hadera.",
+      "heroImageAlt": "Gal Disegni in the studio",
+      "gatesAriaLabel": "Ways to create and purchase",
+      "leadText": "Every piece begins with a personal connection and takes on a presence and story of its own.",
+      "galleryHeading": "A Selection from the Gallery",
+      "assuranceLine1": "Completely original. No AI.",
+      "assuranceLine2": "Hand-made on paper, canvas, wood, or wall.",
+      "headingLine1": "Original art, hand-painted.",
+      "headingLine2": "Realistic, intuitive,\nimaginative, and visionary.",
+      "heroCtaLabel": "View the Gallery",
+      "aboutLinkLabel": "A little about me",
+      "gates": [
+        {
+          "label": "Shop",
+          "image": "/images/gallery/orin+thumb.webp",
+          "href": "/collections/",
+          "ctaLabel": "Visit the Shop",
+          "visible": true
+        },
+        {
+          "label": "Commissions",
+          "image": "/images/gallery/precious+thumb.webp",
+          "href": "/commissions/",
+          "ctaLabel": "Commissioned Work",
+          "visible": true
+        },
+        {
+          "label": "Workshops",
+          "image": "/images/workshops/daily-main.webp",
+          "href": "/workshops/",
+          "ctaLabel": "Register Today",
+          "visible": true
+        }
+      ]
+    }
+  },
   "heroImage": "/images/disegni-profile.webp",
   "gatesAriaLabel": "דרכים ליצור ולרכוש",
   "heroImageAlt": "גל דִּיסֵנִי בסטודיו",

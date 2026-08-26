@@ -1,6 +1,22 @@
 {
   "slug": "mystical-yoni",
   "order": 19,
+  "translations": {
+    "he": {
+      "name": "Mystical Yoni",
+      "galleryMedium": "טכניקה משולבת",
+      "detailMedium": "טכניקה משולבת על נייר · יצירה מקורית",
+      "description": "דימוי מיסטי שנבנה משכבות של טבע, גוף וחיה. הקווים נפתחים מן המרכז ומספרים על לידה, שינוי וחכמה קדומה.",
+      "alt": "Mystical Yoni, דימוי אורגני מיסטי ורב שכבות"
+    },
+    "en": {
+      "name": "Mystical Yoni",
+      "galleryMedium": "Mixed Technique",
+      "detailMedium": "Mixed technique on paper · original artwork",
+      "description": "A mystical image built from layers of nature, body, and animal. The lines open from the center, speaking of birth, transformation, and ancient wisdom.",
+      "alt": "Mystical Yoni, a mystical, layered, organic image"
+    }
+  },
   "name": "Mystical Yoni",
   "galleryMedium": "טכניקה משולבת",
   "detailMedium": "טכניקה משולבת על נייר · יצירה מקורית",

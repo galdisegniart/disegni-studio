@@ -1,6 +1,236 @@
 {
   "slug": "structured-art",
   "order": 3,
+  "translations": {
+    "he": {
+      "cardLabel": "תהליך מובנה",
+      "cardTitle": "מסלול של 8 מפגשים",
+      "cardImageAlt": "משתתפים במסלול האמנות התהליכי",
+      "personaLine": "מתאים למי שרוצה תהליך מובנה עם התקדמות ברורה לאורך כמה מפגשים.",
+      "title": "סדנת ציור תהליכית, 8 מפגשים | גל דִּיסֵנִי",
+      "metaDescription": "סדנת ציור תהליכית עם גל דִּיסֵנִי - מסלול של 8 מפגשים להכיר חומרים, לפתח דרך אישית ולבנות ביטחון ביצירה.",
+      "eyebrow": "תהליך מובנה · 8 מפגשים · חדרה",
+      "heading": "סדנת ציור תהליכית. להכיר חומרים, לפתח דרך אישית ולבנות ביטחון ביצירה.",
+      "lead": "שמונה מפגשים שמאפשרים לא רק לנסות, אלא גם להעמיק. בכל מפגש מכירים חומר או דרך עבודה נוספת, מתרגלים ומפתחים יצירה אישית עם ליווי שמותאם לקצב ולכיוון שלכם.",
+      "quickMeta": [
+        {
+          "label": "מסלול",
+          "value": "8 מפגשים"
+        },
+        {
+          "label": "מחיר",
+          "value": "1,440 ₪"
+        },
+        {
+          "label": "חומרים",
+          "value": "הכול כלול"
+        },
+        {
+          "label": "ניסיון קודם",
+          "value": "לא נדרש"
+        }
+      ],
+      "heroCtaLabel": "לקביעת מועד",
+      "waMessage": "שלום גל, הגעתי דרך האתר ואשמח לבדוק מקום במסלול האמנות של 8 מפגשים.",
+      "heroImageAlt": "קבוצה יוצרת יחד בסדנת הציור התהליכית",
+      "finalEyebrow": "אפשר להתחיל גם בלי ניסיון",
+      "finalHeading": "מפגש אחרי מפגש.<br>הדרך שלכם מקבלת צורה.",
+      "finalCtaLabel": "לבדיקת מקום ב-WhatsApp",
+      "finalWaMessage": "שלום גל, הגעתי דרך האתר ואשמח לבדוק מקום במסלול האמנות של 8 מפגשים.",
+      "story": {
+        "eyebrow": "התהליך",
+        "heading": "מהיכרות עם החומר<br>לשפה משלכם.",
+        "lead": "המסלול משלב בין מבנה ברור לבין חופש אישי: יש מה ללמוד בכל מפגש, אבל אין יצירה אחת שכולם צריכים להעתיק.",
+        "paragraphs": [
+          "נתנסה בגרפיט, עפרונות צבעוניים, גירי פסטל ואקריליק. נכיר תכונות של כל חומר, נתרגל טכניקות ונלמד איך לבחור את הדרך הנכונה לרעיון שרוצים להביע.",
+          "לאורך התהליך אני מלווה כל משתתף באופן אישי, משלב הרעיון, דרך הקומפוזיציה והצבע ועד להחלטות הקטנות שהופכות עבודה ליצירה בעלת נוכחות."
+        ]
+      },
+      "included": {
+        "eyebrow": "מה כלול במסלול",
+        "items": [
+          {
+            "label": "שמונה מפגשים",
+            "title": "זמן אמיתי להתפתח",
+            "text": "רצף שמאפשר להכיר, לתרגל, לחזור, לדייק ולראות את ההתקדמות."
+          },
+          {
+            "label": "ליווי אישי",
+            "title": "הכוונה שמתאימה לכם",
+            "text": "כל משתתף מתקדם בכיוון שלו ומקבל עזרה מקצועית בדיוק במקום שבו היא נחוצה."
+          },
+          {
+            "label": "מגוון טכניקות",
+            "title": "יותר מדרך אחת ליצור",
+            "text": "גרפיט, עפרונות צבעוניים, פסטל ואקריליק, עם מקום לשילובים ולגילוי אישי."
+          },
+          {
+            "label": "כל החומרים",
+            "title": "פשוט להגיע",
+            "text": "חומרי היצירה וכלי העבודה כלולים ומחכים לכם בסטודיו."
+          }
+        ]
+      },
+      "pricing": {
+        "eyebrow": "מחיר והרשמה",
+        "heading": "מתחילים תהליך<br>שיש לו המשך.",
+        "note": "ההרשמה היא למסלול מלא של שמונה מפגשים בקבוצה אינטימית. בסיום אפשר להמשיך למסגרת המתמשכת ולפתח פרויקטים נוספים.",
+        "tiers": [
+          {
+            "label": "מסלול מלא",
+            "value": "8 מפגשים"
+          },
+          {
+            "label": "מחיר למשתתף",
+            "value": "1,440 ₪"
+          },
+          {
+            "label": "חומרים וכלי עבודה",
+            "value": "כלולים"
+          }
+        ],
+        "ctaLabel": "לבדיקת מקום"
+      },
+      "gallery": {
+        "eyebrow": "רגעים מתוך התהליך",
+        "expandLabel": null,
+        "images": [
+          {
+            "src": "/images/workshops/structured-main.webp",
+            "alt": "קבוצה משתתפת בסדנת הציור התהליכית",
+            "wide": true
+          },
+          {
+            "src": "/images/workshops/structured-collage-2.webp",
+            "alt": "משתתפות יוצרות עבודות אישיות בצבע"
+          },
+          {
+            "src": "/images/workshops/structured-collage-3.webp",
+            "alt": "משתתפות עובדות בצבע על יצירות אישיות"
+          }
+        ]
+      },
+      "reviewsHeading": {
+        "eyebrow": "דירוג וחוות דעת",
+        "heading": "החוויה שלכם, במילים שלכם."
+      },
+      "reviewsEmptyText": "חוות הדעת הראשונות יופיעו כאן. השתתפתם? נשמח לשמוע מכם."
+    },
+    "en": {
+      "cardLabel": "A Structured Process",
+      "cardTitle": "An 8-Session Track",
+      "cardImageAlt": "Participants in the process-based art track",
+      "personaLine": "Perfect for anyone who wants a structured process with clear progress over several sessions.",
+      "title": "A Process-Based Painting Workshop, 8 Sessions | Gal Disegni",
+      "metaDescription": "A process-based painting workshop with Gal Disegni - an 8-session track to get to know materials, develop your own path, and build confidence in your creativity.",
+      "eyebrow": "A structured process · 8 sessions · Hadera",
+      "heading": "A process-based painting workshop. Get to know materials, develop your own path, and build confidence in your creativity.",
+      "lead": "Eight sessions that let you not just try things, but go deeper. In each session you get to know another material or way of working, practice, and develop personal work with guidance tailored to your pace and direction.",
+      "quickMeta": [
+        {
+          "label": "Track",
+          "value": "8 sessions"
+        },
+        {
+          "label": "Price",
+          "value": "1,440 ₪"
+        },
+        {
+          "label": "Materials",
+          "value": "Everything included"
+        },
+        {
+          "label": "Prior experience",
+          "value": "Not required"
+        }
+      ],
+      "heroCtaLabel": "Book a Date",
+      "waMessage": "Hi Gal, I found you through the website and would love to check availability in the 8-session art track.",
+      "heroImageAlt": "A group creating together in the process-based painting workshop",
+      "finalEyebrow": "You can start even without experience",
+      "finalHeading": "Session after session.<br>Your path takes shape.",
+      "finalCtaLabel": "Check availability on WhatsApp",
+      "finalWaMessage": "Hi Gal, I found you through the website and would love to check availability in the 8-session art track.",
+      "story": {
+        "eyebrow": "The Process",
+        "heading": "From getting to know the material<br>to a language of your own.",
+        "lead": "The track combines clear structure with personal freedom: there's something to learn in every session, but no single piece everyone has to copy.",
+        "paragraphs": [
+          "We'll experiment with graphite, colored pencils, pastels, and acrylic. We'll get to know the properties of each material, practice techniques, and learn how to choose the right approach for the idea you want to express.",
+          "Throughout the process I guide each participant personally, from the initial idea, through composition and color, to the small decisions that turn a piece of work into a creation with real presence."
+        ]
+      },
+      "included": {
+        "eyebrow": "What's included in the track",
+        "items": [
+          {
+            "label": "Eight sessions",
+            "title": "Real time to grow",
+            "text": "A sequence that lets you get to know, practice, revisit, refine, and see your progress."
+          },
+          {
+            "label": "Personal guidance",
+            "title": "Guidance tailored to you",
+            "text": "Each participant progresses in their own direction and receives professional help exactly where it's needed."
+          },
+          {
+            "label": "A range of techniques",
+            "title": "More than one way to create",
+            "text": "Graphite, colored pencils, pastels, and acrylic, with room for combinations and personal discovery."
+          },
+          {
+            "label": "All materials included",
+            "title": "Just show up",
+            "text": "Art materials and tools are included and waiting for you in the studio."
+          }
+        ]
+      },
+      "pricing": {
+        "eyebrow": "Price & Registration",
+        "heading": "Start a process<br>that has a continuation.",
+        "note": "Registration is for the full track of eight sessions in an intimate group. Afterward, you can continue into the ongoing workshop and develop further projects.",
+        "tiers": [
+          {
+            "label": "Full track",
+            "value": "8 sessions"
+          },
+          {
+            "label": "Price per participant",
+            "value": "1,440 ₪"
+          },
+          {
+            "label": "Materials and tools",
+            "value": "Included"
+          }
+        ],
+        "ctaLabel": "Check availability"
+      },
+      "gallery": {
+        "eyebrow": "Moments from the process",
+        "expandLabel": null,
+        "images": [
+          {
+            "src": "/images/workshops/structured-main.webp",
+            "alt": "A group taking part in the process-based painting workshop",
+            "wide": true
+          },
+          {
+            "src": "/images/workshops/structured-collage-2.webp",
+            "alt": "Participants creating personal works in color"
+          },
+          {
+            "src": "/images/workshops/structured-collage-3.webp",
+            "alt": "Participants working in color on personal pieces"
+          }
+        ]
+      },
+      "reviewsHeading": {
+        "eyebrow": "Rating & Reviews",
+        "heading": "Your experience, in your own words."
+      },
+      "reviewsEmptyText": "The first reviews will appear here. Did you take part? We'd love to hear from you."
+    }
+  },
   "cardLabel": "תהליך מובנה",
   "cardTitle": "מסלול של 8 מפגשים",
   "cardImage": "/images/workshops/structured-main.webp",
@@ -13,15 +243,33 @@
   "heading": "סדנת ציור תהליכית. להכיר חומרים, לפתח דרך אישית ולבנות ביטחון ביצירה.",
   "lead": "שמונה מפגשים שמאפשרים לא רק לנסות, אלא גם להעמיק. בכל מפגש מכירים חומר או דרך עבודה נוספת, מתרגלים ומפתחים יצירה אישית עם ליווי שמותאם לקצב ולכיוון שלכם.",
   "quickMeta": [
-    { "label": "מסלול", "value": "8 מפגשים" },
-    { "label": "מחיר", "value": "1,440 ₪" },
-    { "label": "חומרים", "value": "הכול כלול" },
-    { "label": "ניסיון קודם", "value": "לא נדרש" }
+    {
+      "label": "מסלול",
+      "value": "8 מפגשים"
+    },
+    {
+      "label": "מחיר",
+      "value": "1,440 ₪"
+    },
+    {
+      "label": "חומרים",
+      "value": "הכול כלול"
+    },
+    {
+      "label": "ניסיון קודם",
+      "value": "לא נדרש"
+    }
   ],
   "heroCtaLabel": "לקביעת מועד",
   "recurringAvailability": [
-    { "weekday": "1", "time": "18:00–19:30" },
-    { "weekday": "3", "time": "18:00–19:30" }
+    {
+      "weekday": "1",
+      "time": "18:00–19:30"
+    },
+    {
+      "weekday": "3",
+      "time": "18:00–19:30"
+    }
   ],
   "bookingWindowWeeks": 8,
   "waMessage": "שלום גל, הגעתי דרך האתר ואשמח לבדוק מקום במסלול האמנות של 8 מפגשים.",
@@ -41,10 +289,26 @@
   "included": {
     "eyebrow": "מה כלול במסלול",
     "items": [
-      { "label": "שמונה מפגשים", "title": "זמן אמיתי להתפתח", "text": "רצף שמאפשר להכיר, לתרגל, לחזור, לדייק ולראות את ההתקדמות." },
-      { "label": "ליווי אישי", "title": "הכוונה שמתאימה לכם", "text": "כל משתתף מתקדם בכיוון שלו ומקבל עזרה מקצועית בדיוק במקום שבו היא נחוצה." },
-      { "label": "מגוון טכניקות", "title": "יותר מדרך אחת ליצור", "text": "גרפיט, עפרונות צבעוניים, פסטל ואקריליק, עם מקום לשילובים ולגילוי אישי." },
-      { "label": "כל החומרים", "title": "פשוט להגיע", "text": "חומרי היצירה וכלי העבודה כלולים ומחכים לכם בסטודיו." }
+      {
+        "label": "שמונה מפגשים",
+        "title": "זמן אמיתי להתפתח",
+        "text": "רצף שמאפשר להכיר, לתרגל, לחזור, לדייק ולראות את ההתקדמות."
+      },
+      {
+        "label": "ליווי אישי",
+        "title": "הכוונה שמתאימה לכם",
+        "text": "כל משתתף מתקדם בכיוון שלו ומקבל עזרה מקצועית בדיוק במקום שבו היא נחוצה."
+      },
+      {
+        "label": "מגוון טכניקות",
+        "title": "יותר מדרך אחת ליצור",
+        "text": "גרפיט, עפרונות צבעוניים, פסטל ואקריליק, עם מקום לשילובים ולגילוי אישי."
+      },
+      {
+        "label": "כל החומרים",
+        "title": "פשוט להגיע",
+        "text": "חומרי היצירה וכלי העבודה כלולים ומחכים לכם בסטודיו."
+      }
     ]
   },
   "pricing": {
@@ -52,9 +316,18 @@
     "heading": "מתחילים תהליך<br>שיש לו המשך.",
     "note": "ההרשמה היא למסלול מלא של שמונה מפגשים בקבוצה אינטימית. בסיום אפשר להמשיך למסגרת המתמשכת ולפתח פרויקטים נוספים.",
     "tiers": [
-      { "label": "מסלול מלא", "value": "8 מפגשים" },
-      { "label": "מחיר למשתתף", "value": "1,440 ₪" },
-      { "label": "חומרים וכלי עבודה", "value": "כלולים" }
+      {
+        "label": "מסלול מלא",
+        "value": "8 מפגשים"
+      },
+      {
+        "label": "מחיר למשתתף",
+        "value": "1,440 ₪"
+      },
+      {
+        "label": "חומרים וכלי עבודה",
+        "value": "כלולים"
+      }
     ],
     "ctaLabel": "לבדיקת מקום"
   },
@@ -62,12 +335,25 @@
     "eyebrow": "רגעים מתוך התהליך",
     "expandLabel": null,
     "images": [
-      { "src": "/images/workshops/structured-main.webp", "alt": "קבוצה משתתפת בסדנת הציור התהליכית", "wide": true },
-      { "src": "/images/workshops/structured-collage-2.webp", "alt": "משתתפות יוצרות עבודות אישיות בצבע" },
-      { "src": "/images/workshops/structured-collage-3.webp", "alt": "משתתפות עובדות בצבע על יצירות אישיות" }
+      {
+        "src": "/images/workshops/structured-main.webp",
+        "alt": "קבוצה משתתפת בסדנת הציור התהליכית",
+        "wide": true
+      },
+      {
+        "src": "/images/workshops/structured-collage-2.webp",
+        "alt": "משתתפות יוצרות עבודות אישיות בצבע"
+      },
+      {
+        "src": "/images/workshops/structured-collage-3.webp",
+        "alt": "משתתפות עובדות בצבע על יצירות אישיות"
+      }
     ]
   },
-  "reviewsHeading": { "eyebrow": "דירוג וחוות דעת", "heading": "החוויה שלכם, במילים שלכם." },
+  "reviewsHeading": {
+    "eyebrow": "דירוג וחוות דעת",
+    "heading": "החוויה שלכם, במילים שלכם."
+  },
   "reviewsEmptyText": "חוות הדעת הראשונות יופיעו כאן. השתתפתם? נשמח לשמוע מכם.",
   "reviews": [],
   "finalEyebrow": "אפשר להתחיל גם בלי ניסיון",

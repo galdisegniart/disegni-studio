@@ -1,12 +1,16 @@
 ---
+pagination:
+  data: locales
+  size: 1
+  alias: locale
 layout: base.njk
 activeNav: "זכויות"
-permalink: "/rights/index.html"
+permalink: "{{ locale | localePrefix }}/rights/index.html"
 eleventyComputed:
-  title: "{{ pages.rights.title }}"
-  description: "{{ pages.rights.metaDescription }}"
+  title: "{{ (pages.rights | localize(locale)).title }}"
+  description: "{{ (pages.rights | localize(locale)).metaDescription }}"
 ---
-{% set p = pages.rights %}
+{% set p = pages.rights | localize(locale) %}
 <section class="rights-hero">
   <div class="rights-hero-copy">
     <p class="hero-eyebrow">{{ p.heroEyebrow }}</p>

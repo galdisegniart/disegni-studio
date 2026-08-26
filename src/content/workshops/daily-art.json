@@ -468,6 +468,402 @@
   "finalHeading": "היצירה מתחילה<br>ברגע שנותנים לה מקום.",
   "reviewPeekExcerpt": "\"משהו מאוד אישי ונעים שמחבר בינינו…\"",
   "order": 1,
+  "translations": {
+    "he": {
+      "personaLine": "מתאים למי שרוצה להתנסות פעם אחת, בלי ניסיון קודם ובלי מחויבות.",
+      "heading": "סדנת אמנויות יומית חווייתית - מרחב חופשי ליצור, גם בלי ניסיון",
+      "cardLabel": "חוויה חד-פעמית",
+      "heroImageAlt": "משתתפות בסדנת אמנות מציגות יחד יצירה קבוצתית",
+      "cardTitle": "סדנת אמנות יומית",
+      "eyebrow": "סדנה חד-פעמית · חדרה",
+      "metaDescription": "סדנת אמנות יומית חווייתית עם גל דִּיסֵנִי בחדרה - מרחב חופשי ליצור, גם בלי ניסיון קודם.",
+      "title": "סדנת אמנויות יומית חווייתית עם גל דִּיסֵנִי | חדרה",
+      "finalCtaLabel": "לבדיקת מועד ב-WhatsApp",
+      "finalEyebrow": "אפשר להגיע כמו שאתם",
+      "finalHeading": "היצירה מתחילה<br>ברגע שנותנים לה מקום.",
+      "lead": "שעתיים שבהן אפשר לעצור, להתנסות וליצור בלי לחץ ובלי צורך לדעת מראש מה יצא. אני נמצא לצדכם עם הכוונה אישית, בקצב שנכון לכל אחד.",
+      "waMessage": "שלום גל, הגעתי דרך האתר ואשמח לבדוק מועד ומקום בסדנת האמנויות היומית החווייתית - מרחב חופשי ליצור, גם בלי ניסיון.",
+      "heroCtaLabel": "לקביעת מועד",
+      "cardImageAlt": "משתתפות בסדנת האמנות היומית",
+      "finalWaMessage": "שלום גל, הגעתי דרך האתר ואשמח לבדוק מועד בסדנת האמנויות היומית החווייתית.",
+      "reviewsHeading": {
+        "eyebrow": "משתתפים מספרים",
+        "heading": "איך היה להם ליצור."
+      },
+      "reviewsSummary": {
+        "score": "5.0",
+        "countLabel": "חוות דעת אחת"
+      },
+      "quickMeta": [
+        {
+          "label": "משך",
+          "value": "כשעתיים"
+        },
+        {
+          "label": "קבוצה",
+          "value": "עד 8 משתתפים"
+        },
+        {
+          "label": "מחיר",
+          "value": "החל מ-390 ₪"
+        },
+        {
+          "label": "ניסיון קודם",
+          "value": "לא נדרש"
+        }
+      ],
+      "gallery": {
+        "eyebrow": "רגעים מהסדנאות",
+        "expandLabel": "לכל 14 התמונות",
+        "images": [
+          {
+            "src": "/images/workshops/daily-art/gallery-1.webp",
+            "alt": "קבוצת משתתפים יוצרת יחד במרחב הסדנה",
+            "wide": true
+          },
+          {
+            "src": "/images/workshops/daily-art/gallery-2.webp",
+            "alt": "ציור משותף בגירי פסטל"
+          },
+          {
+            "src": "/images/workshops/daily-art/gallery-3.webp",
+            "alt": "עבודה צבעונית שנוצרה בסדנה"
+          },
+          {
+            "src": "/images/workshops/daily-art/gallery-4.webp",
+            "alt": "ציור פסטל אישי בתהליך"
+          },
+          {
+            "src": "/images/workshops/daily-art/gallery-5.webp",
+            "alt": "יצירה מופשטת צבעונית"
+          },
+          {
+            "src": "/images/workshops/daily-art/gallery-6.webp",
+            "alt": "משתתפים יוצרים יחד על הרצפה"
+          },
+          {
+            "src": "/images/workshops/daily-art/gallery-7.webp",
+            "alt": "ציור אישי בגירי פסטל"
+          },
+          {
+            "src": "/images/workshops/daily-art/gallery-8.webp",
+            "alt": "שתי משתתפות עובדות יחד על ציור"
+          },
+          {
+            "src": "/images/workshops/daily-art/gallery-9.webp",
+            "alt": "משתתפים מציגים יצירה לאחר הסדנה"
+          },
+          {
+            "src": "/images/workshops/daily-art/gallery-10.webp",
+            "alt": "עבודות וחומרי יצירה במרחב הסדנה"
+          },
+          {
+            "src": "/images/workshops/daily-art/gallery-11.webp",
+            "alt": "יצירה קבוצתית גדולה בתהליך"
+          },
+          {
+            "src": "/images/workshops/daily-art/gallery-12.webp",
+            "alt": "גל מנחה ומציג עבודה לקבוצה"
+          },
+          {
+            "src": "/images/workshops/daily-art/gallery-13.webp",
+            "alt": "אוסף עבודות צבעוניות של משתתפים"
+          },
+          {
+            "src": "/images/workshops/daily-art/gallery-14.webp",
+            "alt": "עבודה אישית המשלבת פורטרט וצבע"
+          }
+        ]
+      },
+      "story": {
+        "eyebrow": "מה מחכה לכם",
+        "heading": "להתחבר דרך<br>צבע וחומר.",
+        "lead": "אני מזמין אתכם למרחב חופשי ומוחזק שבו אפשר פשוט להיות ולהתנסות בציור ככלי לביטוי אישי.",
+        "paragraphs": [
+          "נעבוד עם גרפיט, עפרונות צבעוניים, גירי פסטל ואקריליק. אפשר לבחור כיוון, לנסות חומר חדש או פשוט להתחיל מסימן אחד ולראות לאן היד מובילה.",
+          "אין ציור נכון או לא נכון. יש חקירה, הנאה וליווי אישי שמאפשר לכל אחד להתקדם בקצב שלו."
+        ]
+      },
+      "video": {
+        "eyebrow": "הצצה למרחב",
+        "heading": "ככה זה<br>מרגיש.",
+        "text": "צפו ברגעים מתוך הפעילות - המפגש, החומרים והחופש לגלות דרך אישית בתוך היצירה.",
+        "file": "/images/uploads/2026-Workshop-Promo-1080.mp4",
+        "poster": "/images/workshops/daily-art/video-cover.webp",
+        "posterAlt": "רגע מתוך סדנת האמנות היומית"
+      },
+      "included": {
+        "eyebrow": "כל מה שצריך כדי להתחיל",
+        "items": [
+          {
+            "label": "ליווי אישי",
+            "title": "לא נשארים לבד מול הדף",
+            "text": "אני עובר בין המשתתפים, מקשיב ומציע כיוון מדויק כשצריך."
+          },
+          {
+            "label": "כל החומרים",
+            "title": "פשוט להגיע",
+            "text": "גרפיט, עפרונות, פסטל ואקריליק מחכים במקום, יחד עם נייר איכותי לעבודה."
+          },
+          {
+            "label": "מרחב אינטימי",
+            "title": "קבוצה קטנה ונעימה",
+            "text": "3-6 משתתפים, מוזיקה, שתייה וכיבוד קל - בלי עומס ובלי לחץ."
+          },
+          {
+            "label": "יצירה הביתה",
+            "title": "משהו אישי שנשאר",
+            "text": "כל משתתף יוצא עם ציור אישי ועם מסגרת שמכבדת את מה שנוצר."
+          }
+        ]
+      },
+      "pricing": {
+        "eyebrow": "מחירים והרשמה",
+        "heading": "בחרו איך<br>להגיע.",
+        "note": "המחיר נקבע לפי כמות המשתתפים בקבוצה. לקבוצה פרטית, צוות או הגעה לבית הלקוח אפשר לבנות פורמט מותאם.",
+        "tiers": [
+          {
+            "label": "יחיד/ה",
+            "value": "390 ₪",
+            "count": 1
+          },
+          {
+            "label": "זוג",
+            "value": "590 ₪",
+            "count": 2
+          },
+          {
+            "label": "3 משתתפים",
+            "value": "725 ₪",
+            "count": 3
+          },
+          {
+            "label": "4 משתתפים",
+            "value": "1,000 ₪",
+            "count": 4
+          },
+          {
+            "label": "5 משתתפים",
+            "value": "1,275 ₪",
+            "count": 5
+          },
+          {
+            "label": "6 משתתפים",
+            "value": "1,550 ₪",
+            "count": 6
+          },
+          {
+            "label": "7 משתתפים",
+            "value": "1,825 ₪",
+            "count": 7
+          },
+          {
+            "label": "8 משתתפים",
+            "value": "2,100 ₪",
+            "count": 8
+          }
+        ],
+        "ctaLabel": "לבחירת מועד"
+      }
+    },
+    "en": {
+      "personaLine": "Perfect for anyone who wants to try it once, with no prior experience and no commitment.",
+      "heading": "A one-time experiential art workshop - a free space to create, even without experience",
+      "cardLabel": "One-time experience",
+      "heroImageAlt": "Workshop participants presenting a group artwork together",
+      "cardTitle": "Daily Art Workshop",
+      "eyebrow": "One-time workshop · Hadera",
+      "metaDescription": "A one-time experiential art workshop with Gal Disegni in Hadera - a free space to create, even without prior experience.",
+      "title": "One-Time Experiential Art Workshop with Gal Disegni | Hadera",
+      "finalCtaLabel": "Check availability on WhatsApp",
+      "finalEyebrow": "Come exactly as you are",
+      "finalHeading": "Creation begins<br>the moment you give it space.",
+      "lead": "Two hours to pause, experiment, and create without pressure or needing to know in advance what will come out. I'm right there with you, offering personal guidance at the pace that's right for you.",
+      "waMessage": "Hi Gal, I found you through the website and would love to check a date and spot in the one-time experiential art workshop - a free space to create, even without experience.",
+      "heroCtaLabel": "Book a Date",
+      "cardImageAlt": "Participants in the daily art workshop",
+      "finalWaMessage": "Hi Gal, I found you through the website and would love to check a date for the one-time experiential art workshop.",
+      "reviewsHeading": {
+        "eyebrow": "Participants share",
+        "heading": "What it was like for them to create."
+      },
+      "reviewsSummary": {
+        "score": "5.0",
+        "countLabel": "One review"
+      },
+      "quickMeta": [
+        {
+          "label": "Duration",
+          "value": "About two hours"
+        },
+        {
+          "label": "Group size",
+          "value": "Up to 8 participants"
+        },
+        {
+          "label": "Price",
+          "value": "From 390 ₪"
+        },
+        {
+          "label": "Prior experience",
+          "value": "Not required"
+        }
+      ],
+      "gallery": {
+        "eyebrow": "Moments from the workshops",
+        "expandLabel": "See all 14 photos",
+        "images": [
+          {
+            "src": "/images/workshops/daily-art/gallery-1.webp",
+            "alt": "A group of participants creating together in the workshop space",
+            "wide": true
+          },
+          {
+            "src": "/images/workshops/daily-art/gallery-2.webp",
+            "alt": "Shared painting with pastels"
+          },
+          {
+            "src": "/images/workshops/daily-art/gallery-3.webp",
+            "alt": "A colorful piece created in the workshop"
+          },
+          {
+            "src": "/images/workshops/daily-art/gallery-4.webp",
+            "alt": "A personal pastel painting in progress"
+          },
+          {
+            "src": "/images/workshops/daily-art/gallery-5.webp",
+            "alt": "A colorful abstract creation"
+          },
+          {
+            "src": "/images/workshops/daily-art/gallery-6.webp",
+            "alt": "Participants creating together on the floor"
+          },
+          {
+            "src": "/images/workshops/daily-art/gallery-7.webp",
+            "alt": "A personal pastel drawing"
+          },
+          {
+            "src": "/images/workshops/daily-art/gallery-8.webp",
+            "alt": "Two participants working together on a painting"
+          },
+          {
+            "src": "/images/workshops/daily-art/gallery-9.webp",
+            "alt": "Participants presenting their work after the workshop"
+          },
+          {
+            "src": "/images/workshops/daily-art/gallery-10.webp",
+            "alt": "Artworks and materials in the workshop space"
+          },
+          {
+            "src": "/images/workshops/daily-art/gallery-11.webp",
+            "alt": "A large group artwork in progress"
+          },
+          {
+            "src": "/images/workshops/daily-art/gallery-12.webp",
+            "alt": "Gal guiding and presenting work to the group"
+          },
+          {
+            "src": "/images/workshops/daily-art/gallery-13.webp",
+            "alt": "A collection of colorful works by participants"
+          },
+          {
+            "src": "/images/workshops/daily-art/gallery-14.webp",
+            "alt": "A personal piece combining portrait and color"
+          }
+        ]
+      },
+      "story": {
+        "eyebrow": "What awaits you",
+        "heading": "Connect through<br>color and material.",
+        "lead": "I invite you into a free, held space where you can simply be and explore painting as a tool for personal expression.",
+        "paragraphs": [
+          "We'll work with graphite, colored pencils, pastels, and acrylic. You can choose a direction, try a new material, or simply start with a single mark and see where your hand leads you.",
+          "There's no right or wrong way to paint. There's exploration, enjoyment, and personal guidance that lets everyone progress at their own pace."
+        ]
+      },
+      "video": {
+        "eyebrow": "A glimpse inside",
+        "heading": "This is what<br>it feels like.",
+        "text": "Watch moments from the workshop - the gathering, the materials, and the freedom to discover your own way within the creative process.",
+        "file": "/images/uploads/2026-Workshop-Promo-1080.mp4",
+        "poster": "/images/workshops/daily-art/video-cover.webp",
+        "posterAlt": "A moment from the daily art workshop"
+      },
+      "included": {
+        "eyebrow": "Everything you need to get started",
+        "items": [
+          {
+            "label": "Personal guidance",
+            "title": "You're never alone with the page",
+            "text": "I move between participants, listening and offering precise direction when needed."
+          },
+          {
+            "label": "All materials included",
+            "title": "Just show up",
+            "text": "Graphite, pencils, pastels, and acrylic are ready on site, along with quality paper to work on."
+          },
+          {
+            "label": "An intimate space",
+            "title": "A small, pleasant group",
+            "text": "3-6 participants, music, drinks, and light refreshments - no crowding, no pressure."
+          },
+          {
+            "label": "A piece to take home",
+            "title": "Something personal that stays with you",
+            "text": "Every participant leaves with a personal painting, framed in a way that honors what was created."
+          }
+        ]
+      },
+      "pricing": {
+        "eyebrow": "Pricing & Registration",
+        "heading": "Choose how<br>to join.",
+        "note": "Pricing depends on the number of participants in the group. For a private group, a team, or a session at your home, a custom format can be arranged.",
+        "tiers": [
+          {
+            "label": "Single",
+            "value": "390 ₪",
+            "count": 1
+          },
+          {
+            "label": "Couple",
+            "value": "590 ₪",
+            "count": 2
+          },
+          {
+            "label": "3 participants",
+            "value": "725 ₪",
+            "count": 3
+          },
+          {
+            "label": "4 participants",
+            "value": "1,000 ₪",
+            "count": 4
+          },
+          {
+            "label": "5 participants",
+            "value": "1,275 ₪",
+            "count": 5
+          },
+          {
+            "label": "6 participants",
+            "value": "1,550 ₪",
+            "count": 6
+          },
+          {
+            "label": "7 participants",
+            "value": "1,825 ₪",
+            "count": 7
+          },
+          {
+            "label": "8 participants",
+            "value": "2,100 ₪",
+            "count": 8
+          }
+        ],
+        "ctaLabel": "Choose a date"
+      }
+    }
+  },
   "quickMeta": [
     {
       "label": "משך",

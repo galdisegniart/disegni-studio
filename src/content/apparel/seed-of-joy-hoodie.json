@@ -3,6 +3,18 @@
   "name": "\"Seed Of Joy\" - קפוצ'ון ",
   "slug": "seed-of-joy-hoodie",
   "order": 4,
+  "translations": {
+    "he": {
+      "name": "\"Seed Of Joy\" - קפוצ'ון ",
+      "alt": "הודי Seed Of Joy מאת גל דיסני",
+      "description": "הודי יוניסקס בעיצוב Seed Of Joy מאת גל דִּיסֵנִי."
+    },
+    "en": {
+      "name": "\"Seed Of Joy\" - Hoodie",
+      "alt": "Seed Of Joy hoodie by Gal Disegni",
+      "description": "A unisex hoodie featuring the Seed Of Joy design by Gal Disegni."
+    }
+  },
   "purchaseVariants": [
     {
       "catalogNumber": "SEED-OF-JOY-HOODIE-HOODIE-2XS",

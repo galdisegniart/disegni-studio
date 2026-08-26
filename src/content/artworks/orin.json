@@ -1,6 +1,22 @@
 {
   "slug": "orin",
   "order": 4,
+  "translations": {
+    "he": {
+      "name": "Orin",
+      "galleryMedium": "מיקס-מדיה",
+      "detailMedium": "טכניקה משולבת · עולם חזותי",
+      "description": "דמות שנעה בין כוח לעדינות, בין העולם המוכר למה שעדיין מבקש לקבל צורה.",
+      "alt": "Orin, דמות מכונפת על רקע עולמות מנוגדים"
+    },
+    "en": {
+      "name": "Orin",
+      "galleryMedium": "Mixed Media",
+      "detailMedium": "Mixed technique · visual world",
+      "description": "A figure moving between strength and tenderness, between the familiar world and what still seeks to take shape.",
+      "alt": "Orin, a winged figure set against a backdrop of opposing worlds"
+    }
+  },
   "name": "Orin",
   "galleryMedium": "מיקס-מדיה",
   "detailMedium": "טכניקה משולבת · עולם חזותי",

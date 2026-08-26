@@ -1,6 +1,22 @@
 {
   "slug": "soul-dna",
   "order": 12,
+  "translations": {
+    "he": {
+      "name": "Soul DNA",
+      "galleryMedium": "טכניקה משולבת",
+      "detailMedium": "טכניקה משולבת על נייר · יצירה מקורית",
+      "description": "דימוי אורגני שמתפתל כמו קוד פנימי חי. צבעים, כנפיים וקווים שזורים מספרים על הזהות העמוקה שנמצאת מעבר למילים.",
+      "alt": "Soul DNA, מבנה אורגני צבעוני דמוי סליל"
+    },
+    "en": {
+      "name": "Soul DNA",
+      "galleryMedium": "Mixed Technique",
+      "detailMedium": "Mixed technique on paper · original artwork",
+      "description": "An organic image winding like a living inner code. Colors, wings, and intertwined lines speak of the deep identity that lies beyond words.",
+      "alt": "Soul DNA, a colorful, organic, spiral-like structure"
+    }
+  },
   "name": "Soul DNA",
   "galleryMedium": "טכניקה משולבת",
   "detailMedium": "טכניקה משולבת על נייר · יצירה מקורית",

@@ -1,15 +1,19 @@
 ---
+pagination:
+  data: locales
+  size: 1
+  alias: locale
 layout: base.njk
 eleventyComputed:
-  title: "{{ pages.workshopsIndex.title }}"
-  description: "{{ pages.workshopsIndex.metaDescription }}"
-  ogImage: "{{ pages.workshopsIndex.promoVideoPoster }}"
+  title: "{{ (pages.workshopsIndex | localize(locale)).title }}"
+  description: "{{ (pages.workshopsIndex | localize(locale)).metaDescription }}"
+  ogImage: "{{ (pages.workshopsIndex | localize(locale)).promoVideoPoster }}"
 activeNav: "סדנאות"
-permalink: "/workshops/index.html"
+permalink: "{{ locale | localePrefix }}/workshops/index.html"
 scripts:
   - /js/hero-video-toggle.js
 ---
-{% set w = pages.workshopsIndex %}
+{% set w = pages.workshopsIndex | localize(locale) %}
 {% set hasHeroVideo = w.promoVideoVisible != false and w.promoVideoFile %}
 {% set hasHeroText = w.heroEyebrow or w.introHeading or w.introText %}
 {% if not hasHeroText %}<h1 class="sr-only">{{ w.title }}</h1>{% endif %}
@@ -33,7 +37,7 @@ scripts:
     <button type="button" class="js-hero-video-toggle hero-video-toggle" aria-pressed="false">
       <svg class="hero-video-toggle-icon-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14"></rect><rect x="14" y="5" width="4" height="14"></rect></svg>
       <svg class="hero-video-toggle-icon-play" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M8 5l12 7-12 7V5z"></path></svg>
-      <span class="sr-only">השהיית הסרטון</span>
+      <span class="sr-only">{{ "Pause the video" if locale == "en" else "השהיית הסרטון" }}</span>
     </button>
   </div>
   {% endif %}
@@ -48,9 +52,10 @@ scripts:
 
 <section class="workshop-cards section">
   <div class="workshop-cards-grid" style="--card-image-height: {{ w.cardImageHeight or 140 }}px; --card-text-gap: {{ w.cardTextGap or 3 }}px;">
-    {% for item in workshops %}
+    {% for raw in workshops %}
+    {% set item = raw | localize(locale) %}
     <article class="workshop-card">
-      <a class="workshop-card-link" href="/workshops/{{ item.slug }}/" aria-label="לפרטי {{ item.cardTitle }}">
+      <a class="workshop-card-link" href="{{ locale | localePrefix }}/workshops/{{ item.slug }}/" aria-label="{{ ('Details for ' ~ item.cardTitle) if locale == 'en' else ('לפרטי ' ~ item.cardTitle) }}">
         <div class="workshop-card-image">
           <img src="{{ item.cardImage }}" alt="{{ item.cardImageAlt }}" loading="lazy" style="object-position: {{ item.cardImagePosition or 'center' }};">
         </div>
@@ -81,8 +86,9 @@ scripts:
       <span>{{ w.comparisonDurationLabel or "משך או תדירות" }}</span>
       <span></span>
     </div>
-    {% for item in workshops %}
-    <a class="workshop-compare-row" href="/workshops/{{ item.slug }}/">
+    {% for raw in workshops %}
+    {% set item = raw | localize(locale) %}
+    <a class="workshop-compare-row" href="{{ locale | localePrefix }}/workshops/{{ item.slug }}/">
       <span class="workshop-compare-name">{{ item.cardTitle }}</span>
       <span data-label="{{ w.comparisonPersonaLabel or 'מתאים למי' }}:">{{ item.personaLine }}</span>
       <span data-label="{{ w.comparisonProcessLabel or 'אופי התהליך' }}:">{{ item.cardLabel }}</span>
@@ -101,7 +107,7 @@ scripts:
   {% if w.testimonialsHeading %}<h2>{{ w.testimonialsHeading }}</h2>{% endif %}
   <div class="workshop-testimonials-grid">
     {% for t in testimonials %}
-    <a class="workshop-testimonial" href="/workshops/{{ t.workshopSlug }}/#reviews">
+    <a class="workshop-testimonial" href="{{ locale | localePrefix }}/workshops/{{ t.workshopSlug }}/#reviews">
       <blockquote>{{ t.review.excerpt }}</blockquote>
       <span>{{ t.review.name }} · {{ t.workshopTitle }}</span>
     </a>

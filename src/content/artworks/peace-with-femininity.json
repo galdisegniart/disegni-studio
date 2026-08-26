@@ -1,6 +1,22 @@
 {
   "slug": "peace-with-femininity",
   "order": 18,
+  "translations": {
+    "he": {
+      "name": "Peace With Femininity",
+      "galleryMedium": "טכניקה משולבת",
+      "detailMedium": "טכניקה משולבת על נייר · יצירה מקורית",
+      "description": "מרחב אדום ורך מתכנס סביב סימנים של איזון ושלווה. היצירה מציעה מפגש מפויס עם הנשיות ועם הכוח השקט שבה.",
+      "alt": "Peace With Femininity, קומפוזיציה אדומה עם סמל שלום"
+    },
+    "en": {
+      "name": "Peace With Femininity",
+      "galleryMedium": "Mixed Technique",
+      "detailMedium": "Mixed technique on paper · original artwork",
+      "description": "A soft red space converges around signs of balance and calm. The piece offers a reconciled encounter with femininity and its quiet strength.",
+      "alt": "Peace With Femininity, a red composition with a peace symbol"
+    }
+  },
   "name": "Peace With Femininity",
   "galleryMedium": "טכניקה משולבת",
   "detailMedium": "טכניקה משולבת על נייר · יצירה מקורית",

@@ -1,4 +1,18 @@
 {
+  "translations": {
+    "he": {
+      "title": "חנות | גל דִּיסֵנִי",
+      "metaDescription": "הדפסים, מקוריות זמינות, ביגוד ומדבקות בעיצוב מקורי של גל דִּיסֵנִי.",
+      "heading": "חנות",
+      "heroText": "כל הקטגוריות במקום אחד."
+    },
+    "en": {
+      "title": "Shop | Gal Disegni",
+      "metaDescription": "Prints, available originals, apparel, and stickers with original designs by Gal Disegni.",
+      "heading": "Shop",
+      "heroText": "All categories in one place."
+    }
+  },
   "title": "חנות | גל דִּיסֵנִי",
   "metaDescription": "הדפסים, מקוריות זמינות, ביגוד ומדבקות בעיצוב מקורי של גל דִּיסֵנִי.",
   "heading": "חנות",

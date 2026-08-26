@@ -1,14 +1,18 @@
 ---
+pagination:
+  data: locales
+  size: 1
+  alias: locale
 layout: base.njk
-permalink: "/thank-you/index.html"
+permalink: "{{ locale | localePrefix }}/thank-you/index.html"
 noindex: true
 scripts:
   - /js/thank-you.js
 eleventyComputed:
-  title: "{{ pages.thankYou.title }}"
-  description: "{{ pages.thankYou.metaDescription }}"
+  title: "{{ (pages.thankYou | localize(locale)).title }}"
+  description: "{{ (pages.thankYou | localize(locale)).metaDescription }}"
 ---
-{% set p = pages.thankYou %}
+{% set p = pages.thankYou | localize(locale) %}
 <section class="thank-you section" data-thank-you
   data-heading-paid="{{ p.heading }}"
   data-lead-paid="{{ p.lead }}"
@@ -28,7 +32,7 @@ eleventyComputed:
     <p class="thank-you-lead" data-thank-you-lead>{{ p.checkingLead }}</p>
     <p class="thank-you-note">{{ p.note }}</p>
     <div class="thank-you-actions">
-      <a class="cta" href="{{ p.ctaHref }}">{{ p.ctaLabel }} <span>←</span></a>
+      <a class="cta" href="{{ (locale | localePrefix) + '/' if p.ctaHref == '/' else p.ctaHref }}">{{ p.ctaLabel }} <span>←</span></a>
       <a class="cta cta-outline" href="{{ p.contactCtaHref }}">{{ p.contactCtaLabel }} <span>←</span></a>
     </div>
   </div>

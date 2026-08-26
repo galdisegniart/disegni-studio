@@ -1,15 +1,20 @@
 ---
+pagination:
+  data: locales
+  size: 1
+  alias: locale
 layout: base.njk
-permalink: "/accessibility/index.html"
+permalink: "{{ locale | localePrefix }}/accessibility/index.html"
 eleventyComputed:
-  title: "{{ pages.accessibility.title }}"
-  description: "{{ pages.accessibility.metaDescription }}"
+  title: "{{ (pages.accessibility | localize(locale)).title }}"
+  description: "{{ (pages.accessibility | localize(locale)).metaDescription }}"
 ---
-{% set p = pages.accessibility %}
+{% set p = pages.accessibility | localize(locale) %}
+{% set isEn = locale == "en" %}
 <section class="rights-hero">
   <div class="rights-hero-copy">
     <p class="hero-eyebrow">{{ p.heroEyebrow }}</p>
-    <h1>{{ p.heroHeading }}</h1>
+    <h1>{{ p.heroHeading | safe }}</h1>
     <p>{{ p.heroLead }}</p>
     {% if p.updatedLabel %}<p class="rights-updated">{{ p.updatedLabel }}</p>{% endif %}
   </div>
@@ -20,11 +25,11 @@ eleventyComputed:
   <div class="legal-identity">
     <h2>{{ p.identityHeading }}</h2>
     <dl class="legal-identity-list">
-      {% if p.coordinatorName %}<div><dt>רכז נגישות</dt><dd>{{ p.coordinatorName }}</dd></div>{% endif %}
-      <div><dt>טלפון</dt><dd><a href="tel:{{ p.coordinatorPhone or site.businessPhoneLink }}" dir="ltr">{{ p.coordinatorPhoneLabel or site.businessPhone }}</a></dd></div>
-      <div><dt>דוא"ל</dt><dd><a href="mailto:{{ p.coordinatorEmail or site.supportEmail }}" dir="ltr">{{ p.coordinatorEmail or site.supportEmail }}</a></dd></div>
-      <div><dt>זמן מענה</dt><dd>{{ site.responseTimeLabel }}</dd></div>
-      {% if p.lastAuditLabel %}<div><dt>בדיקת הנגישות האחרונה</dt><dd>{{ p.lastAuditLabel }}</dd></div>{% endif %}
+      {% if p.coordinatorName %}<div><dt>{{ "Accessibility Coordinator" if isEn else "רכז נגישות" }}</dt><dd>{{ p.coordinatorName }}</dd></div>{% endif %}
+      <div><dt>{{ "Phone" if isEn else "טלפון" }}</dt><dd><a href="tel:{{ p.coordinatorPhone or site.businessPhoneLink }}" dir="ltr">{{ p.coordinatorPhoneLabel or site.businessPhone }}</a></dd></div>
+      <div><dt>{{ "Email" if isEn else "דוא\"ל" }}</dt><dd><a href="mailto:{{ p.coordinatorEmail or site.supportEmail }}" dir="ltr">{{ p.coordinatorEmail or site.supportEmail }}</a></dd></div>
+      <div><dt>{{ "Response Time" if isEn else "זמן מענה" }}</dt><dd>{{ site.responseTimeLabel }}</dd></div>
+      {% if p.lastAuditLabel %}<div><dt>{{ "Last Accessibility Review" if isEn else "בדיקת הנגישות האחרונה" }}</dt><dd>{{ p.lastAuditLabel }}</dd></div>{% endif %}
     </dl>
   </div>
 

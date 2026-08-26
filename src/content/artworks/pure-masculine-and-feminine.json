@@ -1,6 +1,22 @@
 {
   "slug": "pure-masculine-and-feminine",
   "order": 7,
+  "translations": {
+    "he": {
+      "name": "Pure Masculine & Feminine",
+      "galleryMedium": "טכניקה משולבת",
+      "detailMedium": "טכניקה משולבת על נייר · יצירה מקורית",
+      "description": "שני כוחות משלימים נפגשים בדימוי אחד של איזון. הרכות והעוצמה מתקיימות זו לצד זו ויוצרות נוכחות שלמה.",
+      "alt": "Pure Masculine and Feminine, פנים צבעוניות וסימטריות"
+    },
+    "en": {
+      "name": "Pure Masculine & Feminine",
+      "galleryMedium": "Mixed Technique",
+      "detailMedium": "Mixed technique on paper · original artwork",
+      "description": "Two complementary forces meet in a single image of balance. Softness and strength exist side by side, creating a whole presence.",
+      "alt": "Pure Masculine and Feminine, a colorful, symmetrical face"
+    }
+  },
   "name": "Pure Masculine & Feminine",
   "galleryMedium": "טכניקה משולבת",
   "detailMedium": "טכניקה משולבת על נייר · יצירה מקורית",

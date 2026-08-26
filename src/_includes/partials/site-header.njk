@@ -41,6 +41,9 @@
   </nav>
 
   <div class="header-actions">
+    {% if locale %}
+    <a class="header-lang-toggle" href="{{ page.url | altLocaleUrl(locale) }}" hreflang="{{ 'he' if locale == 'en' else 'en' }}" lang="{{ 'he' if locale == 'en' else 'en' }}">{{ "עברית" if locale == "en" else "English" }}</a>
+    {% endif %}
     <button class="header-search-toggle" type="button" aria-expanded="false" aria-controls="header-search" aria-label="חיפוש באתר">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.2 4.2"></path></svg>
     </button>

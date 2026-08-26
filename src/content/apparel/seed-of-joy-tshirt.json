@@ -4,6 +4,18 @@
   "name": "\"Seed Of Joy\" - חולצה רקומה",
   "slug": "seed-of-joy-tshirt",
   "order": 1,
+  "translations": {
+    "he": {
+      "name": "\"Seed Of Joy\" - חולצה רקומה",
+      "alt": "חולצת Seed Of Joy מאת גל דיסני",
+      "description": "חולצת טי אורגנית אוברסייז בעיצוב Seed Of Joy מאת גל דִּיסֵנִי, בשני צבעים."
+    },
+    "en": {
+      "name": "\"Seed Of Joy\" - Embroidered T-Shirt",
+      "alt": "Seed Of Joy t-shirt by Gal Disegni",
+      "description": "An organic oversized t-shirt featuring the Seed Of Joy design by Gal Disegni, available in two colors."
+    }
+  },
   "purchaseVariants": [
     {
       "catalogNumber": "SEED-OF-JOY-TSHIRT-T-SHIRT-S-FRENCH-NAVY",

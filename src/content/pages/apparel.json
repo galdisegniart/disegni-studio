@@ -1,12 +1,65 @@
 {
+  "translations": {
+    "he": {
+      "title": "ביגוד | גל דִּיסֵנִי",
+      "metaDescription": "ביגוד בעיצוב מקורי של גל דִּיסֵנִי - חולצות וקפוצ'ונים.",
+      "heading": "ביגוד",
+      "heroText": "עיצובים מקוריים על בגדים איכותיים - מודפסים לפי הזמנה.",
+      "filterAllLabel": "הכל",
+      "filters": [
+        {
+          "label": "יוניסקס",
+          "value": "unisex"
+        },
+        {
+          "label": "נשים",
+          "value": "women"
+        },
+        {
+          "label": "גברים",
+          "value": "men"
+        }
+      ]
+    },
+    "en": {
+      "title": "Apparel | Gal Disegni",
+      "metaDescription": "Original-design apparel by Gal Disegni - shirts and hoodies.",
+      "heading": "Apparel",
+      "heroText": "Original designs on quality garments - printed to order.",
+      "filterAllLabel": "All",
+      "filters": [
+        {
+          "label": "Unisex",
+          "value": "unisex"
+        },
+        {
+          "label": "Women",
+          "value": "women"
+        },
+        {
+          "label": "Men",
+          "value": "men"
+        }
+      ]
+    }
+  },
   "title": "ביגוד | גל דִּיסֵנִי",
   "metaDescription": "ביגוד בעיצוב מקורי של גל דִּיסֵנִי - חולצות וקפוצ'ונים.",
   "heading": "ביגוד",
   "heroText": "עיצובים מקוריים על בגדים איכותיים - מודפסים לפי הזמנה.",
   "filterAllLabel": "הכל",
   "filters": [
-    { "label": "יוניסקס", "value": "unisex" },
-    { "label": "נשים", "value": "women" },
-    { "label": "גברים", "value": "men" }
+    {
+      "label": "יוניסקס",
+      "value": "unisex"
+    },
+    {
+      "label": "נשים",
+      "value": "women"
+    },
+    {
+      "label": "גברים",
+      "value": "men"
+    }
   ]
 }

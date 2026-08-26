@@ -1,6 +1,22 @@
 {
   "slug": "dragon-bloom",
   "order": 21,
+  "translations": {
+    "he": {
+      "name": "Dragon Bloom",
+      "galleryMedium": "פסטל",
+      "detailMedium": "פסטל על נייר",
+      "description": "פיצוץ של צבע ותנועה שנפתח כמו פרח ואש בו-זמנית. עלים, ספירלות ועין מרכזית נפגשים ברגע של פריחה עוצמתית.",
+      "alt": "Dragon Bloom, פריחה צבעונית מקרינה סביב עין מרכזית"
+    },
+    "en": {
+      "name": "Dragon Bloom",
+      "galleryMedium": "Pastel",
+      "detailMedium": "Pastel on paper",
+      "description": "An explosion of color and movement unfolding like a flower and fire at once. Petals, spirals, and a central eye meet in a moment of powerful blooming.",
+      "alt": "Dragon Bloom, a radiant, colorful bloom around a central eye"
+    }
+  },
   "name": "Dragon Bloom",
   "galleryMedium": "פסטל",
   "detailMedium": "פסטל על נייר",

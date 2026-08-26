@@ -1,9 +1,9 @@
 ---
 pagination:
-  data: artworks
+  data: productPages
   size: 1
-  alias: artwork
-permalink: "/products/{{ artwork.slug }}/index.html"
+  alias: entry
+permalink: "{{ entry.locale | localePrefix }}/products/{{ entry.artwork.slug }}/index.html"
 layout: base-bare.njk
 activeNav: "הדפסים"
 scripts:
@@ -12,10 +12,13 @@ scripts:
   - /js/product-gallery.js
   - /js/artwork-zoom.js
 eleventyComputed:
-  title: "{{ artwork.name }} - הדפס אמנותי מקורי | גל דִּיסֵנִי"
-  description: "{{ artwork.name }}, {{ artwork.description }}"
-  ogImage: "{{ artwork.image }}"
+  title: "{{ entry.artwork.name }} - הדפס אמנותי מקורי | גל דִּיסֵנִי"
+  description: "{{ entry.artwork.name }}, {{ entry.artwork.description }}"
+  ogImage: "{{ entry.artwork.image }}"
+  locale: "{{ entry.locale }}"
 ---
+{% set artwork = entry.artwork %}
+{% set locale = entry.locale %}
 {% set seq = artworks | artworkSequence(artwork) %}
 {% set pricing = pages.pricing %}
 {% set shipping = pages.shipping %}
@@ -65,8 +68,8 @@ eleventyComputed:
 
 <section class="artwork-detail">
   {% set crumbs = [
-    { label: "בית", href: "/" },
-    { label: "הדפסים", href: "/collections/prints/" },
+    { label: "Home" if locale == "en" else "בית", href: (locale | localePrefix) + "/" },
+    { label: "Prints" if locale == "en" else "הדפסים", href: "/collections/prints/" },
     { label: artwork.name }
   ] %}
   {% include "partials/breadcrumbs.njk" %}

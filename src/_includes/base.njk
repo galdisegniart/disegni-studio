@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html lang="{{ locale or 'he' }}" dir="{{ 'ltr' if locale == 'en' else 'rtl' }}">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,9 +7,17 @@
 <meta name="description" content="{{ description }}">
 {% if noindex %}<meta name="robots" content="noindex, nofollow">{% endif %}
 <link rel="canonical" href="{{ site.siteUrl }}{{ page.url }}">
+{% if locale %}
+{% set enUrl = page.url if locale == "en" else (page.url | altLocaleUrl(locale)) %}
+{% set heUrl = page.url if locale == "he" else (page.url | altLocaleUrl(locale)) %}
+<link rel="alternate" hreflang="en" href="{{ site.siteUrl }}{{ enUrl }}">
+<link rel="alternate" hreflang="he" href="{{ site.siteUrl }}{{ heUrl }}">
+<link rel="alternate" hreflang="x-default" href="{{ site.siteUrl }}{{ enUrl }}">
+{% endif %}
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <meta property="og:type" content="website">
-<meta property="og:locale" content="he_IL">
+<meta property="og:locale" content="{{ 'en_US' if locale == 'en' else 'he_IL' }}">
+{% if locale %}<meta property="og:locale:alternate" content="{{ 'he_IL' if locale == 'en' else 'en_US' }}">{% endif %}
 <meta property="og:site_name" content="{{ site.brand }}">
 <meta property="og:title" content="{{ title }}">
 <meta property="og:description" content="{{ description }}">

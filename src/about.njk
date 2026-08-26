@@ -1,13 +1,17 @@
 ---
+pagination:
+  data: locales
+  size: 1
+  alias: locale
+permalink: "{{ locale | localePrefix }}/about/index.html"
 layout: base.njk
 activeNav: "אודות"
-permalink: "/about/index.html"
 eleventyComputed:
-  title: "{{ pages.about.title }}"
-  description: "{{ pages.about.metaDescription }}"
-  ogImage: "{{ pages.about.portrait }}"
+  title: "{{ (pages.about | localize(locale)).title }}"
+  description: "{{ (pages.about | localize(locale)).metaDescription }}"
+  ogImage: "{{ (pages.about | localize(locale)).portrait }}"
 ---
-{% set p = pages.about %}
+{% set p = pages.about | localize(locale) %}
 <section class="about-artist-hero{% if p.portraitPosition == 'left' %} is-image-left{% endif %}">
   <figure class="about-artist-portrait{% if p.portraitSize == 'small' %} is-size-small{% elif p.portraitSize == 'wide' %} is-size-wide{% endif %}">
     <img src="{{ p.portrait }}" alt="{{ p.portraitAlt }}">

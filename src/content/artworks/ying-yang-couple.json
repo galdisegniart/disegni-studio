@@ -1,6 +1,22 @@
 {
   "slug": "ying-yang-couple",
   "order": 14,
+  "translations": {
+    "he": {
+      "name": "Ying Yang Couple",
+      "galleryMedium": "טכניקה משולבת",
+      "detailMedium": "טכניקה משולבת על נייר · יצירה מקורית",
+      "description": "שתי נוכחויות נפגשות ונשזרות זו בזו בלי לאבד את זהותן. היצירה עוסקת בקרבה, בניגוד ובהרמוניה שנוצרת ביניהם.",
+      "alt": "Ying Yang Couple, שתי צורות צבעוניות משלימות"
+    },
+    "en": {
+      "name": "Ying Yang Couple",
+      "galleryMedium": "Mixed Technique",
+      "detailMedium": "Mixed technique on paper · original artwork",
+      "description": "Two presences meet and intertwine without losing their identity. The piece explores the closeness, contrast, and harmony created between them.",
+      "alt": "Ying Yang Couple, two complementary, colorful forms"
+    }
+  },
   "name": "Ying Yang Couple",
   "galleryMedium": "טכניקה משולבת",
   "detailMedium": "טכניקה משולבת על נייר · יצירה מקורית",

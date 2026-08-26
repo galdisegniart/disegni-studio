@@ -3,6 +3,18 @@
   "name": "\"Seed Of Joy\" - קפוצ'ון קרופ רקום",
   "slug": "seed-of-joy-crop-hoodie",
   "order": 3,
+  "translations": {
+    "he": {
+      "name": "\"Seed Of Joy\" - קפוצ'ון קרופ רקום",
+      "alt": "קרופ הודי Seed Of Joy מאת גל דיסני",
+      "description": "קרופ הודי רקום בעיצוב Seed Of Joy מאת גל דִּיסֵנִי."
+    },
+    "en": {
+      "name": "\"Seed Of Joy\" - Embroidered Crop Hoodie",
+      "alt": "Seed Of Joy crop hoodie by Gal Disegni",
+      "description": "An embroidered crop hoodie featuring the Seed Of Joy design by Gal Disegni."
+    }
+  },
   "purchaseVariants": [
     {
       "catalogNumber": "SEED-OF-JOY-CROP-HOODIE-CROP-HOODIE-S",

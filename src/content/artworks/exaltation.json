@@ -1,6 +1,22 @@
 {
   "slug": "exaltation",
   "order": 11,
+  "translations": {
+    "he": {
+      "name": "Exaltation",
+      "galleryMedium": "טכניקה משולבת",
+      "detailMedium": "טכניקה משולבת על נייר · יצירה מקורית",
+      "description": "פנים מופשטות שנפתחות אל אור, צבע והתרחבות. היצירה מבקשת ללכוד רגע של התרוממות והתמסרות מלאה לחוויה.",
+      "alt": "Exaltation, פנים מופשטות בצבעי אור"
+    },
+    "en": {
+      "name": "Exaltation",
+      "galleryMedium": "Mixed Technique",
+      "detailMedium": "Mixed technique on paper · original artwork",
+      "description": "An abstract face opening toward light, color, and expansion. The piece seeks to capture a moment of uplift and full surrender to the experience.",
+      "alt": "Exaltation, an abstract face in colors of light"
+    }
+  },
   "name": "Exaltation",
   "galleryMedium": "טכניקה משולבת",
   "detailMedium": "טכניקה משולבת על נייר · יצירה מקורית",

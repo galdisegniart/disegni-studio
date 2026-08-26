@@ -1,6 +1,22 @@
 {
   "slug": "harmonized-electric-earth",
   "order": 23,
+  "translations": {
+    "he": {
+      "name": "Harmonized Electric Earth",
+      "galleryMedium": "פסטל",
+      "detailMedium": "פסטל על נייר",
+      "description": "כדור מחצה בין כחול ולבן שולח אנרגיה חשמלית כלפי מטה אל כדור הארץ - איזון בין קטבים שמתחבר ללב אחד.",
+      "alt": "Harmonized Electric Earth, כדור זוהר שולח קרני אנרגיה אל כדור הארץ"
+    },
+    "en": {
+      "name": "Harmonized Electric Earth",
+      "galleryMedium": "Pastel",
+      "detailMedium": "Pastel on paper",
+      "description": "A sphere split between blue and white sends electric energy down toward the earth - a balance between poles that connects into a single heart.",
+      "alt": "Harmonized Electric Earth, a glowing sphere sending rays of energy toward the earth"
+    }
+  },
   "name": "Harmonized Electric Earth",
   "galleryMedium": "פסטל",
   "detailMedium": "פסטל על נייר",

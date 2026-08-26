@@ -1,4 +1,5 @@
-<nav class="category-strip" aria-label="קטגוריות בחנות">
+<nav class="category-strip" aria-label="{{ 'Shop categories' if locale == 'en' else 'קטגוריות בחנות' }}">
+  {% set shopCategories = locale | shopCategoriesFor %}
   {% for cat in shopCategories %}
   {% if cat.thumb %}
   <a class="category-strip-item{% if cat.key == activeCategory %} active{% endif %}" href="{{ cat.href }}">

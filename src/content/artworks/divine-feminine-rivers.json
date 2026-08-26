@@ -1,6 +1,22 @@
 {
   "slug": "divine-feminine-rivers",
   "order": 16,
+  "translations": {
+    "he": {
+      "name": "Divine Feminine Rivers",
+      "galleryMedium": "טכניקה משולבת",
+      "detailMedium": "טכניקה משולבת על נייר · יצירה מקורית",
+      "description": "נהרות של אור זורמים מתוך מרכז נשי ומזינים את המרחב שסביבו. היצירה מחברת בין רכות, יצירה וכוח חיים.",
+      "alt": "Divine Feminine Rivers, זרמי אור וצבע"
+    },
+    "en": {
+      "name": "Divine Feminine Rivers",
+      "galleryMedium": "Mixed Technique",
+      "detailMedium": "Mixed technique on paper · original artwork",
+      "description": "Rivers of light flow from a feminine center, nourishing the space around it. The piece connects softness, creation, and life force.",
+      "alt": "Divine Feminine Rivers, streams of light and color"
+    }
+  },
   "name": "Divine Feminine Rivers",
   "galleryMedium": "טכניקה משולבת",
   "detailMedium": "טכניקה משולבת על נייר · יצירה מקורית",

@@ -1,4 +1,8 @@
 const site = require("./src/_data/site.json");
+const localize = require("./src/_lib/localize.js");
+const buildShopCategories = require("./src/_lib/buildShopCategories.js");
+const artworksLoader = require("./src/_data/artworks.js");
+const apparelItemsLoader = require("./src/_data/apparelItems.js");
 
 module.exports = function (eleventyConfig) {
   eleventyConfig.addWatchTarget("css");
@@ -20,6 +24,25 @@ module.exports = function (eleventyConfig) {
   });
   eleventyConfig.addFilter("firstAvailableOriginal", function (artworksList) {
     return (artworksList || []).find((a) => a.originalAvailable) || (artworksList || [])[0];
+  });
+
+  // Bilingual (EN/HE) scaffold - pilot. Merges an item's translations.<locale>
+  // block over its shared fields; items with no translations key pass
+  // through unchanged, so this is safe to use before every file is migrated.
+  eleventyConfig.addFilter("localize", localize);
+  eleventyConfig.addFilter("localePrefix", function (locale) {
+    return locale === "en" ? "" : "/" + locale;
+  });
+  // Given the current page's own URL and locale, returns the URL of its
+  // counterpart in the other locale - relies on every bilingual page
+  // following the same convention (English at root, Hebrew under /he/).
+  eleventyConfig.addFilter("altLocaleUrl", function (url, locale) {
+    if (!url) return url;
+    if (locale === "he") return url.replace(/^\/he\//, "/");
+    return "/he" + url;
+  });
+  eleventyConfig.addFilter("shopCategoriesFor", function (locale) {
+    return buildShopCategories(artworksLoader(), apparelItemsLoader(), locale);
   });
 
   eleventyConfig.addFilter("startsWith", function (str, prefix) {
@@ -284,7 +307,15 @@ module.exports = function (eleventyConfig) {
   });
 
   eleventyConfig.addFilter("printfulOptions", function (catalog, artwork, pricing, shipping) {
-    const target = String((artwork && artwork.name) || artwork || "").toLowerCase();
+    // Prefer matchName, then the English translation, then the plain name -
+    // so Printful catalog matching (always in English) keeps working once an
+    // item's display name is localized and no longer equals its English text.
+    const matchSource =
+      artwork &&
+      (artwork.matchName ||
+        (artwork.translations && artwork.translations.en && artwork.translations.en.name) ||
+        artwork.name);
+    const target = String(matchSource || artwork || "").toLowerCase();
     const approvedVariants = (artwork && artwork.purchaseVariants) || [];
     const products = (catalog || []).filter((product) =>
       String(product.name || "").toLowerCase().includes(target)

@@ -3,6 +3,18 @@
   "name": "Manifesting Dreams - מדבקה - 2\" עד 6\"",
   "slug": "manifesting-dreams-stickers",
   "order": 6,
+  "translations": {
+    "he": {
+      "name": "Manifesting Dreams - מדבקה - 2\" עד 6\"",
+      "alt": "מדבקת Manifesting Dreams מאת גל דיסני",
+      "description": "מדבקות דו-ג'קט (die-cut) בעיצוב Manifesting Dreams מאת גל דִּיסֵנִי, במגוון גדלים."
+    },
+    "en": {
+      "name": "Manifesting Dreams - Sticker - 2\" to 6\"",
+      "alt": "Manifesting Dreams sticker by Gal Disegni",
+      "description": "Die-cut stickers featuring the Manifesting Dreams design by Gal Disegni, in a range of sizes."
+    }
+  },
   "purchaseVariants": [
     {
       "productType": "sticker",

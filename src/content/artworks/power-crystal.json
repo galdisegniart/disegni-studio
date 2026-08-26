@@ -1,6 +1,22 @@
 {
   "slug": "power-crystal",
   "order": 10,
+  "translations": {
+    "he": {
+      "name": "Power Crystal",
+      "galleryMedium": "טכניקה משולבת",
+      "detailMedium": "טכניקה משולבת על נייר · יצירה מקורית",
+      "description": "מבנה גבישי שמרכז צבע, דיוק ועוצמה. הצורות הגאומטריות נאספות יחד למעין קמע של מיקוד פנימי.",
+      "alt": "Power Crystal, מבנה גבישי גאומטרי וצבעוני"
+    },
+    "en": {
+      "name": "Power Crystal",
+      "galleryMedium": "Mixed Technique",
+      "detailMedium": "Mixed technique on paper · original artwork",
+      "description": "A crystalline structure that centers color, precision, and power. The geometric forms gather into a kind of amulet for inner focus.",
+      "alt": "Power Crystal, a geometric, colorful crystalline structure"
+    }
+  },
   "name": "Power Crystal",
   "galleryMedium": "טכניקה משולבת",
   "detailMedium": "טכניקה משולבת על נייר · יצירה מקורית",

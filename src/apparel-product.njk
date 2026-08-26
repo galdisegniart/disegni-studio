@@ -1,9 +1,9 @@
 ---
 pagination:
-  data: apparelItems
+  data: apparelPages
   size: 1
-  alias: item
-permalink: "/shop/{{ item.slug }}/index.html"
+  alias: entry
+permalink: "{{ entry.locale | localePrefix }}/shop/{{ entry.item.slug }}/index.html"
 layout: base-bare.njk
 activeNav: "חנות"
 scripts:
@@ -11,10 +11,13 @@ scripts:
   - /js/share.js
   - /js/product-gallery.js
 eleventyComputed:
-  title: "{{ item.name }} | גל דִּיסֵנִי"
-  description: "{{ item.name }}, {{ item.description }}"
-  ogImage: "{{ item.image }}"
+  title: "{{ entry.item.name }} | גל דִּיסֵנִי"
+  description: "{{ entry.item.name }}, {{ entry.item.description }}"
+  ogImage: "{{ entry.item.image }}"
+  locale: "{{ entry.locale }}"
 ---
+{% set item = entry.item %}
+{% set locale = entry.locale %}
 {% set variants = item.purchaseVariants or [] %}
 {% set lowestPrice = variants | lowestPrice %}
 
@@ -52,10 +55,14 @@ eleventyComputed:
 </script>
 
 {% set shopHref = "/collections/stickers/" if item.category == "stickers" else "/collections/apparel/" %}
+{% if locale == "en" %}
+{% set shopLabel = "Stickers" if item.category == "stickers" else "Apparel" %}
+{% else %}
 {% set shopLabel = "מדבקות" if item.category == "stickers" else "ביגוד" %}
+{% endif %}
 <section class="artwork-detail">
   {% set crumbs = [
-    { label: "בית", href: "/" },
+    { label: "Home" if locale == "en" else "בית", href: (locale | localePrefix) + "/" },
     { label: shopLabel, href: shopHref },
     { label: item.name }
   ] %}

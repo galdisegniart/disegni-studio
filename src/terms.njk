@@ -1,15 +1,20 @@
 ---
+pagination:
+  data: locales
+  size: 1
+  alias: locale
 layout: base.njk
-permalink: "/terms/index.html"
+permalink: "{{ locale | localePrefix }}/terms/index.html"
 eleventyComputed:
-  title: "{{ pages.terms.title }}"
-  description: "{{ pages.terms.metaDescription }}"
+  title: "{{ (pages.terms | localize(locale)).title }}"
+  description: "{{ (pages.terms | localize(locale)).metaDescription }}"
 ---
-{% set p = pages.terms %}
+{% set p = pages.terms | localize(locale) %}
+{% set isEn = locale == "en" %}
 <section class="rights-hero">
   <div class="rights-hero-copy">
     <p class="hero-eyebrow">{{ p.heroEyebrow }}</p>
-    <h1>{{ p.heroHeading }}</h1>
+    <h1>{{ p.heroHeading | safe }}</h1>
     <p>{{ p.heroLead }}</p>
     {% if p.updatedLabel %}<p class="rights-updated">{{ p.updatedLabel }}</p>{% endif %}
   </div>
@@ -20,12 +25,12 @@ eleventyComputed:
   <div class="legal-identity">
     <h2>{{ p.identityHeading }}</h2>
     <dl class="legal-identity-list">
-      {% if site.businessLegalName %}<div><dt>שם העוסק</dt><dd>{{ site.businessLegalName }}</dd></div>{% endif %}
-      {% if site.businessNumber %}<div><dt>{{ site.businessStatus }} מס'</dt><dd dir="ltr">{{ site.businessNumber }}</dd></div>{% endif %}
-      {% if site.businessAddress %}<div><dt>כתובת</dt><dd>{{ site.businessAddress }}, {{ site.businessCity }}</dd></div>{% endif %}
-      <div><dt>טלפון</dt><dd><a href="tel:{{ site.businessPhoneLink }}" dir="ltr">{{ site.businessPhone }}</a></dd></div>
-      <div><dt>דוא"ל</dt><dd><a href="mailto:{{ site.supportEmail }}" dir="ltr">{{ site.supportEmail }}</a></dd></div>
-      <div><dt>זמן מענה</dt><dd>{{ site.responseTimeLabel }}</dd></div>
+      {% if site.businessLegalName %}<div><dt>{{ "Business Name" if isEn else "שם העוסק" }}</dt><dd>{{ site.businessLegalName }}</dd></div>{% endif %}
+      {% if site.businessNumber %}<div><dt>{{ site.businessStatus }} {{ "No." if isEn else "מס'" }}</dt><dd dir="ltr">{{ site.businessNumber }}</dd></div>{% endif %}
+      {% if site.businessAddress %}<div><dt>{{ "Address" if isEn else "כתובת" }}</dt><dd>{{ site.businessAddress }}, {{ site.businessCity }}</dd></div>{% endif %}
+      <div><dt>{{ "Phone" if isEn else "טלפון" }}</dt><dd><a href="tel:{{ site.businessPhoneLink }}" dir="ltr">{{ site.businessPhone }}</a></dd></div>
+      <div><dt>{{ "Email" if isEn else "דוא\"ל" }}</dt><dd><a href="mailto:{{ site.supportEmail }}" dir="ltr">{{ site.supportEmail }}</a></dd></div>
+      <div><dt>{{ "Response Time" if isEn else "זמן מענה" }}</dt><dd>{{ site.responseTimeLabel }}</dd></div>
     </dl>
   </div>
 

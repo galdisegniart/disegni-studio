@@ -1,17 +1,19 @@
 ---
+pagination:
+  data: locales
+  size: 1
+  alias: locale
 layout: base.njk
 activeNav: "חנות"
-permalink: "/collections/index.html"
+permalink: "{{ locale | localePrefix }}/collections/index.html"
 eleventyComputed:
-  title: "{{ pages.shopIndex.title }}"
-  description: "{{ pages.shopIndex.metaDescription }}"
+  title: "{{ (pages.shopIndex | localize(locale)).title }}"
+  description: "{{ (pages.shopIndex | localize(locale)).metaDescription }}"
 ---
-{% set p = pages.shopIndex %}
-{% set clothingItems = apparelItems | withoutCategory("stickers") %}
-{% set stickerItems = apparelItems | withCategory("stickers") %}
-{% set firstAvailableOriginal = artworks | firstAvailableOriginal %}
+{% set p = pages.shopIndex | localize(locale) %}
+{% set shopCategories = locale | shopCategoriesFor %}
 {% set crumbs = [
-  { label: "בית", href: "/" },
+  { label: "Home" if locale == "en" else "בית", href: (locale | localePrefix) + "/" },
   { label: p.heading }
 ] %}
 {% include "partials/breadcrumbs.njk" %}
@@ -24,33 +26,15 @@ eleventyComputed:
   </div>
 </section>
 
-<section class="category-gallery" aria-label="קטגוריות בחנות">
-  <a class="category-gallery-card" href="/collections/prints/">
+<section class="category-gallery" aria-label="{{ 'Shop categories' if locale == 'en' else 'קטגוריות בחנות' }}">
+  {% for cat in shopCategories %}
+  {% if cat.thumb %}
+  <a class="category-gallery-card" href="{{ cat.href }}">
     <span class="category-gallery-thumb">
-      <img src="{{ artworks[0].thumb }}" alt="" loading="lazy">
+      <img src="{{ cat.thumb }}" alt="" loading="lazy">
     </span>
-    <span class="category-gallery-label">הדפסים</span>
-  </a>
-  <a class="category-gallery-card" href="/collections/originals/">
-    <span class="category-gallery-thumb">
-      <img src="{{ (firstAvailableOriginal or artworks[0]).thumb }}" alt="" loading="lazy">
-    </span>
-    <span class="category-gallery-label">מקוריות זמינות</span>
-  </a>
-  {% if clothingItems.length %}
-  <a class="category-gallery-card" href="/collections/apparel/">
-    <span class="category-gallery-thumb">
-      <img src="{{ clothingItems[0].thumb }}" alt="" loading="lazy">
-    </span>
-    <span class="category-gallery-label">ביגוד</span>
+    <span class="category-gallery-label">{{ cat.label }}</span>
   </a>
   {% endif %}
-  {% if stickerItems.length %}
-  <a class="category-gallery-card" href="/collections/stickers/">
-    <span class="category-gallery-thumb">
-      <img src="{{ stickerItems[0].thumb }}" alt="" loading="lazy">
-    </span>
-    <span class="category-gallery-label">מדבקות</span>
-  </a>
-  {% endif %}
+  {% endfor %}
 </section>

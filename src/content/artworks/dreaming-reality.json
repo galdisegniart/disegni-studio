@@ -1,6 +1,22 @@
 {
   "slug": "dreaming-reality",
   "order": 3,
+  "translations": {
+    "he": {
+      "name": "Dreaming Reality",
+      "galleryMedium": "מיקס-מדיה",
+      "detailMedium": "טכניקה משולבת · עולם חזותי",
+      "description": "דימוי חלומי שנע בין מציאות לדמיון ומבקש לשמור על המקום שבו אפשר עדיין להאמין, להשתנות ולעוף.",
+      "alt": "Dreaming Reality, ילדה עם כנפי פיה תחת ירח"
+    },
+    "en": {
+      "name": "Dreaming Reality",
+      "galleryMedium": "Mixed Media",
+      "detailMedium": "Mixed technique · visual world",
+      "description": "A dreamlike image moving between reality and imagination, holding onto the place where one can still believe, transform, and fly.",
+      "alt": "Dreaming Reality, a girl with fairy wings under the moon"
+    }
+  },
   "name": "Dreaming Reality",
   "galleryMedium": "מיקס-מדיה",
   "detailMedium": "טכניקה משולבת · עולם חזותי",

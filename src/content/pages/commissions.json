@@ -1,4 +1,440 @@
 {
+  "translations": {
+    "he": {
+      "worksHeading": "בחרו את העומק<br>שמתאים לכם.",
+      "notesHeading": "חשוב לדעת",
+      "notes": [
+        "כל יצירה היא מקורית ונעשית במיוחד עבורכם.",
+        "המחירים אינם כוללים מסגור או משלוח.",
+        "אפשר להוסיף שירותי מסגור בתיאום מראש.",
+        "מועד המסירה נקבע לפני תחילת העבודה.",
+        "העבודה על הזמנות מתבצעת במספר מצומצם במקביל - אם יש עומס, אעדכן מראש איך זה משפיע על מועד המסירה.",
+        "אפשר לקיים את שלב המדיטציה גם מרחוק. במפגש פיזי תוכלו להניח בעצמכם את הקו הראשון על היצירה.",
+        "לא צריך לדעת מראש איך היצירה תיראה - היא נבנית מתוך התהליך עצמו.",
+        "ההזמנה נכנסת לתהליך לאחר אישור ותיאום."
+      ],
+      "inquiryNameLabel": "שם",
+      "works": [
+        {
+          "personaLine": "למי שרוצים תהליך מלא - מהמפגש הפנימי ועד יצירה שממשיכה לגדול איתם.",
+          "includesLabel": "כולל",
+          "price": "7,900",
+          "pathCtaLabel": "לבחירת המסלול",
+          "includes": [
+            "מפגש מדיטציה אישי ודמיון מודרך",
+            "בחירת חומר - נייר איכותי או פנל",
+            "בחירת מדיום - גירי פסטל, עפרונות צבעוניים או אקריליק",
+            "שילוב של הנראות שלכם עם עולם חזיוני, או סגנון מופשט",
+            "תהליך יצירה של 3 עד 12 חודשים"
+          ],
+          "intro": "תהליך עמוק שמתחיל במדיטציה משותפת ודמיון מודרך, וממשיך להתפתח בסטודיו שלי לאורך זמן.",
+          "imageAlt": "",
+          "visible": true,
+          "priceFrom": true,
+          "timeEstimate": "3 עד 12 חודשים",
+          "spotsAvailable": "",
+          "title": "ציור נִשְׁמָתִי",
+          "paymentNote": "",
+          "image": "",
+          "recommended": false,
+          "waMessage": "שלום גל, הגעתי דרך האתר ואשמח לשמוע עוד על תהליך הציור הנִשְׁמָתִי."
+        },
+        {
+          "personaLine": "למי שרוצים תהליך ממוקד יותר, מתוך שיחה - בלי מפגש מדיטציה.",
+          "includesLabel": "כולל",
+          "price": "3,900",
+          "pathCtaLabel": "לבחירת המסלול",
+          "includes": [
+            "שיחה אישית להיכרות עם הסיפור שלכם",
+            "גירי פסטל או עפרונות צבעוניים (ללא אקריליק)",
+            "פחות פרטים ומורכבות מציור נִשְׁמָתִי",
+            "תהליך יצירה של שבועיים עד חודש"
+          ],
+          "intro": "מסלול ממוקד וקצר יותר, מתוך שיחה אישית - בלי מפגש מדיטציה.",
+          "imageAlt": "",
+          "visible": true,
+          "priceFrom": false,
+          "timeEstimate": "שבועיים עד חודש",
+          "spotsAvailable": "",
+          "title": "פורטרט אישי",
+          "paymentNote": "",
+          "image": "",
+          "recommended": false,
+          "waMessage": "שלום גל, הגעתי דרך האתר ואשמח לשמוע עוד על הפורטרט האישי."
+        },
+        {
+          "personaLine": "למי שיש רעיון ייחודי משלהם - מדיוקן רוח ועד איורים לספר.",
+          "includesLabel": "לדוגמה, הזמנות בעבר כללו",
+          "price": "",
+          "pathCtaLabel": "להגשת הצעה",
+          "includes": [
+            "דיוקני רוח שמאניים",
+            "יצירות כוח אישיות",
+            "סיפור חזיוני",
+            "איורים לספרים"
+          ],
+          "intro": "אם אתם מרגישים מחוברים ליצירת עבודה אישית ובלעדית, אשמח לשמוע את ההצעה שלכם.",
+          "imageAlt": "",
+          "visible": true,
+          "priceFrom": false,
+          "timeEstimate": "3 עד 12 חודשים",
+          "spotsAvailable": "",
+          "title": "הזמנה פרטית ובלעדית",
+          "paymentNote": "לא לפי הגעה ראשונה - מתקבל מספר מצומצם של הזמנות בכל תקופה. במידה ותיבחרו, פרטי מקדמה, תשלום ולוחות זמנים ייקבעו איתכם באופן אישי.",
+          "image": "",
+          "recommended": false,
+          "waMessage": "שלום גל, אשמח להגיש הצעה להזמנה פרטית. הנה קצת עליי ועל היצירה שאני מדמיין/ת:"
+        }
+      ],
+      "exclusiveCtaLabel": "להגשת הצעה ב-WhatsApp",
+      "exclusiveParagraphs": [
+        "אם אתם מרגישים מחוברים ליצירת עבודה אישית ובלעדית, אשמח לשמוע את ההצעה שלכם.",
+        "הזמנות בעבר כללו דיוקני רוח שמאניים, יצירות כוח אישיות, סיפור חזיוני ואיורים לספרים.",
+        "זה לא לפי הגעה ראשונה - מתקבל מספר מצומצם של הזמנות בכל תקופה. במידה ותיבחרו, פרטי מקדמה, תשלום ולוחות זמנים ייקבעו איתכם באופן אישי. משך זמן משוער: 3 עד 12 חודשים."
+      ],
+      "exclusiveHeading": "הזמנה פרטית ובלעדית",
+      "processLabel": "מהרעיון אל הקיר",
+      "introVideoLabel": "בקצרה",
+      "inquiryPurposeOptions": [
+        "עבורי",
+        "מתנה לאדם קרוב",
+        "הנצחה וזיכרון",
+        "מטרה אחרת"
+      ],
+      "steps": [
+        {
+          "visible": true,
+          "title": "היכרות ובדיקת התאמה",
+          "text": "נכיר, נבין את הסיפור ונבחר את המסלול המתאים.",
+          "icon": ""
+        },
+        {
+          "visible": true,
+          "title": "מפגש או שיחה משותפת",
+          "text": "בציור נִשְׁמָתִי - מדיטציה משותפת ודמיון מודרך. בפורטרט אישי - שיחה מעמיקה על הסיפור שלכם.",
+          "icon": ""
+        },
+        {
+          "visible": true,
+          "title": "פיתוח היצירה בסטודיו",
+          "text": "העבודה נבנית בסטודיו בקצב המדויק לה, כשהחיבור אליכם נשאר פעיל.",
+          "icon": ""
+        },
+        {
+          "visible": true,
+          "title": "מסירה וקבלת היצירה",
+          "text": "היצירה נחתמת ונמסרת, עם אפשרות למסגור ומשלוח.",
+          "icon": ""
+        }
+      ],
+      "heroImageAlt": "Light, פורטרט ילדה בעיפרון מאת גל דִּיסֵנִי",
+      "heroHeading": "מתוך מדיטציה משותפת.<br>אל יצירה שממשיכה לגדול.",
+      "inquiryBudgetLabel": "טווח תקציב (לא חובה)",
+      "inquiryPathLabel": "איזו יצירה מעניינת אתכם?",
+      "inquirySuccessMessage": "ההודעה נפתחה ב-WhatsApp - רק לאשר ולשלוח משם.",
+      "processLead": "השלבים המשותפים לשני המסלולים - הפרטים הייחודיים לכל מסלול מפורטים למעלה.",
+      "caseStudiesHeading": "תהליכים שכבר קרו",
+      "faqHeading": "שאלות על ההזמנה הפרטית",
+      "heroPrimaryCtaLabel": "לבדיקת התאמה לתהליך",
+      "inquiryLabel": "שלושה פרטים ויוצאים לדרך",
+      "heroEyebrow": "יצירה אישית וחד-פעמית",
+      "worksLabel": "שלושה מסלולים ליצירה",
+      "inquiryBudgetOptions": [
+        "עד 4,000 ₪",
+        "4,000 - 8,000 ₪",
+        "8,000 ₪ ומעלה",
+        "עדיין לא בטוח/ה"
+      ],
+      "processHeading": "איך התהליך עובד",
+      "notesLabel": "שקיפות לפני שמתחילים",
+      "introVideoHeading": "כמה מילים על התהליך",
+      "caseStudiesLead": "כל יצירה מתחילה במישהו אחר - הנה כמה מהתהליכים שכבר יצאו לדרך.",
+      "inquiryPrivacyLabel": "קראתי ואני מאשר/ת את",
+      "inquiryMessageLabel": "כמה מילים על הבקשה",
+      "inquiryText": "בחרו כמה פרטים קצרים. בסיום תיפתח הודעת WhatsApp מוכנה עם הבחירות שלכם - רק מאשרים ושולחים.",
+      "inquirySubmitLabel": "שליחת בקשת התאמה",
+      "heroLead": "ציור נִשְׁמָתִי הוא תהליך שמתחיל במדיטציה אישית יחד - דמיון מודרך שמוביל אותי, באופן אינטואיטיבי, אל מה שמהדהד ברגע שלכם. משם, היצירה ממשיכה לגדול בסטודיו שלי לאורך זמן, כשהחיבור המודע אליכם עוד נמשך.",
+      "exclusiveLabel": "המסלול הכי יוקרתי",
+      "faq": [
+        {
+          "visible": true,
+          "q": "האם ההזמנה הפרטית פתוחה כרגע?",
+          "a": "כן, אפשר להגיש הצעה בכל עת."
+        },
+        {
+          "visible": true,
+          "q": "איך מגישים הצעה?",
+          "a": "שולחים הודעת עניין קצרה עם קצת מידע עליכם ועל היצירה שאתם מדמיינים. אני חוזר אישית למי שנבחר להמשיך."
+        },
+        {
+          "visible": true,
+          "q": "אילו סוגי הזמנות פתוחים?",
+          "a": "דיוקני רוח שמאניים, יצירות כוח אישיות, סיפור חזיוני, איורים לספרים, ורעיונות ייחודיים נוספים."
+        },
+        {
+          "visible": true,
+          "q": "האם זה לפי הגעה ראשונה?",
+          "a": "לא. מתקבל מספר מצומצם של הזמנות בכל תקופה, לפי התאמה לתהליך."
+        },
+        {
+          "visible": true,
+          "q": "כמה זמן לוקח?",
+          "a": "בדרך כלל 3 עד 12 חודשים, בהתאם להיקף היצירה ולעומס ההזמנות במקביל."
+        },
+        {
+          "visible": true,
+          "q": "למה משך הזמן משתנה?",
+          "a": "כל יצירה מתפתחת בקצב שלה, וגם מספר ההזמנות הפעילות במקביל משפיע על הלו״ז."
+        },
+        {
+          "visible": true,
+          "q": "האם דרושה מקדמה?",
+          "a": "פרטי תשלום ומקדמה נקבעים אישית מול מי שנבחר להמשיך בתהליך."
+        },
+        {
+          "visible": true,
+          "q": "אפשר להגיש רעיון ייחודי או לא שגרתי?",
+          "a": "בהחלט - חלק מהיצירות המעניינות ביותר מתחילות מרעיון לא שגרתי."
+        },
+        {
+          "visible": true,
+          "q": "מה קורה אם ההצעה שלי נבחרת?",
+          "a": "אחזור אליכם לתיאום מדיטציה משותפת, ומשם היצירה מתחילה להתפתח."
+        }
+      ],
+      "metaDescription": "יצירה אישית וחד-פעמית מאת גל דִּיסֵנִי - ציור נִשְׁמָתִי מתוך מדיטציה משותפת, פורטרט אישי, או הזמנה פרטית ובלעדית.",
+      "title": "יצירות בהזמנה | גל דִּיסֵנִי",
+      "inquiryPrivacyLinkLabel": "מדיניות הפרטיות",
+      "recommendedLabel": "המסלול המומלץ",
+      "inquiryNote": "הפרטים אינם נשמרים באתר ואינם נשלחים לפני שתאשרו בעצמכם.",
+      "inquiryContactLabel": "טלפון או אימייל",
+      "inquiryHeading": "איזו יצירה<br>מחכה להיוולד?",
+      "introVideoText": "דקה אחת שמסבירה איך יצירה אישית נולדת - מהשיחה הראשונה ועד הרגע שהיא נמסרת.",
+      "caseStudiesLabel": "סיפורים אמיתיים",
+      "inquiryPurposeLabel": "למי היצירה מיועדת?",
+      "faqLabel": "שאלות נפוצות",
+      "worksLead": "לא צריך לדעת מראש בדיוק איך היצירה תיראה. מתחילים בשיחה, ואני עוזר לדייק את הדרך.",
+      "heroSecondaryCtaLabel": "לצפייה במסלולים",
+      "exclusiveWaMessage": "שלום גל, אשמח להגיש הצעה להזמנה פרטית. הנה קצת עליי ועל היצירה שאני מדמיין/ת:"
+    },
+    "en": {
+      "worksHeading": "Choose the depth<br>that's right for you.",
+      "notesHeading": "Good to Know",
+      "notes": [
+        "Every piece is original and made especially for you.",
+        "Prices do not include framing or shipping.",
+        "Framing services can be added by prior arrangement.",
+        "The delivery date is set before work begins.",
+        "I work on a limited number of commissions at a time - if there's a backlog, I'll let you know in advance how it affects the delivery date.",
+        "The meditation stage can also be held remotely. In an in-person session, you can place the first line on the piece yourself.",
+        "You don't need to know in advance what the piece will look like - it takes shape through the process itself.",
+        "The commission enters the process after confirmation and scheduling."
+      ],
+      "inquiryNameLabel": "Name",
+      "works": [
+        {
+          "personaLine": "For those who want a full process - from the inner encounter to a piece that keeps growing with them.",
+          "includesLabel": "Includes",
+          "price": "7,900",
+          "pathCtaLabel": "Choose This Path",
+          "includes": [
+            "A personal meditation and guided-imagery session",
+            "Choice of material - quality paper or panel",
+            "Choice of medium - pastels, colored pencils, or acrylic",
+            "A blend of your likeness with a visionary world, or an abstract style",
+            "A creative process of 3 to 12 months"
+          ],
+          "intro": "A deep process that begins with a shared meditation and guided imagery, and continues to develop in my studio over time.",
+          "imageAlt": "",
+          "visible": true,
+          "priceFrom": true,
+          "timeEstimate": "3 to 12 months",
+          "spotsAvailable": "",
+          "title": "Soul Painting",
+          "paymentNote": "",
+          "image": "",
+          "recommended": false,
+          "waMessage": "Hi Gal, I found you through the website and would love to hear more about the Soul Painting process."
+        },
+        {
+          "personaLine": "For those who want a more focused process, based on conversation - without a meditation session.",
+          "includesLabel": "Includes",
+          "price": "3,900",
+          "pathCtaLabel": "Choose This Path",
+          "includes": [
+            "A personal conversation to get to know your story",
+            "Pastels or colored pencils (no acrylic)",
+            "Less detail and complexity than a Soul Painting",
+            "A creative process of two weeks to a month"
+          ],
+          "intro": "A more focused, shorter path, based on a personal conversation - without a meditation session.",
+          "imageAlt": "",
+          "visible": true,
+          "priceFrom": false,
+          "timeEstimate": "Two weeks to a month",
+          "spotsAvailable": "",
+          "title": "Personal Portrait",
+          "paymentNote": "",
+          "image": "",
+          "recommended": false,
+          "waMessage": "Hi Gal, I found you through the website and would love to hear more about the personal portrait."
+        },
+        {
+          "personaLine": "For those with a unique idea of their own - from a spirit portrait to book illustrations.",
+          "includesLabel": "For example, past commissions have included",
+          "price": "",
+          "pathCtaLabel": "Submit a Proposal",
+          "includes": [
+            "Shamanic spirit portraits",
+            "Personal power pieces",
+            "A visionary story",
+            "Book illustrations"
+          ],
+          "intro": "If you feel drawn to creating a personal, exclusive piece, I'd love to hear your proposal.",
+          "imageAlt": "",
+          "visible": true,
+          "priceFrom": false,
+          "timeEstimate": "3 to 12 months",
+          "spotsAvailable": "",
+          "title": "Private & Exclusive Commission",
+          "paymentNote": "Not first-come, first-served - a limited number of commissions are accepted at any given time. If selected, deposit, payment, and timeline details will be arranged with you personally.",
+          "image": "",
+          "recommended": false,
+          "waMessage": "Hi Gal, I'd love to submit a proposal for a private commission. Here's a bit about me and the piece I'm imagining:"
+        }
+      ],
+      "exclusiveCtaLabel": "Submit a Proposal on WhatsApp",
+      "exclusiveParagraphs": [
+        "If you feel drawn to creating a personal, exclusive piece, I'd love to hear your proposal.",
+        "Past commissions have included shamanic spirit portraits, personal power pieces, visionary stories, and book illustrations.",
+        "It's not first-come, first-served - a limited number of commissions are accepted at any given time. If selected, deposit, payment, and timeline details will be arranged with you personally. Estimated duration: 3 to 12 months."
+      ],
+      "exclusiveHeading": "Private & Exclusive Commission",
+      "processLabel": "From Idea to Wall",
+      "introVideoLabel": "In Short",
+      "inquiryPurposeOptions": [
+        "For myself",
+        "A gift for someone close",
+        "In memory / commemoration",
+        "Another purpose"
+      ],
+      "steps": [
+        {
+          "visible": true,
+          "title": "Getting acquainted & checking fit",
+          "text": "We'll get to know each other, understand your story, and choose the right path.",
+          "icon": ""
+        },
+        {
+          "visible": true,
+          "title": "A shared session or conversation",
+          "text": "In a Soul Painting - a shared meditation and guided imagery. In a personal portrait - an in-depth conversation about your story.",
+          "icon": ""
+        },
+        {
+          "visible": true,
+          "title": "Developing the piece in the studio",
+          "text": "The work takes shape in the studio at its own precise pace, while the connection to you stays active.",
+          "icon": ""
+        },
+        {
+          "visible": true,
+          "title": "Delivery and receiving the piece",
+          "text": "The piece is signed and delivered, with framing and shipping available.",
+          "icon": ""
+        }
+      ],
+      "heroImageAlt": "Light, a pencil portrait of a girl by Gal Disegni",
+      "heroHeading": "From a shared meditation.<br>To a piece that keeps growing.",
+      "inquiryBudgetLabel": "Budget range (optional)",
+      "inquiryPathLabel": "Which piece interests you?",
+      "inquirySuccessMessage": "The message has opened in WhatsApp - just confirm and send it from there.",
+      "processLead": "The steps shared by both paths - the details unique to each path are listed above.",
+      "caseStudiesHeading": "Processes That Already Happened",
+      "faqHeading": "Questions About the Private Commission",
+      "heroPrimaryCtaLabel": "Check if This Process Is for You",
+      "inquiryLabel": "Three Details and You're On Your Way",
+      "heroEyebrow": "A Personal, One-of-a-Kind Piece",
+      "worksLabel": "Three Paths to a Piece",
+      "inquiryBudgetOptions": [
+        "Up to 4,000 ₪",
+        "4,000 - 8,000 ₪",
+        "8,000 ₪ and up",
+        "Not sure yet"
+      ],
+      "processHeading": "How the Process Works",
+      "notesLabel": "Transparency Before We Begin",
+      "introVideoHeading": "A Few Words About the Process",
+      "caseStudiesLead": "Every piece begins with someone different - here are some of the processes already underway.",
+      "inquiryPrivacyLabel": "I have read and agree to the",
+      "inquiryMessageLabel": "A few words about your request",
+      "inquiryText": "Choose a few short details. At the end, a ready-made WhatsApp message will open with your choices - just confirm and send.",
+      "inquirySubmitLabel": "Send Match Request",
+      "heroLead": "A Soul Painting is a process that begins with a personal meditation together - guided imagery that leads me, intuitively, to what resonates in your moment. From there, the piece continues to grow in my studio over time, while the conscious connection to you carries on.",
+      "exclusiveLabel": "The Most Exclusive Path",
+      "faq": [
+        {
+          "visible": true,
+          "q": "Is the private commission open right now?",
+          "a": "Yes, you can submit a proposal at any time."
+        },
+        {
+          "visible": true,
+          "q": "How do I submit a proposal?",
+          "a": "Send a short message of interest with a bit of information about you and the piece you're imagining. I get back personally to those selected to continue."
+        },
+        {
+          "visible": true,
+          "q": "What kinds of commissions are open?",
+          "a": "Shamanic spirit portraits, personal power pieces, visionary stories, book illustrations, and other unique ideas."
+        },
+        {
+          "visible": true,
+          "q": "Is it first-come, first-served?",
+          "a": "No. A limited number of commissions are accepted at any given time, based on fit for the process."
+        },
+        {
+          "visible": true,
+          "q": "How long does it take?",
+          "a": "Usually 3 to 12 months, depending on the scope of the piece and the current commission load."
+        },
+        {
+          "visible": true,
+          "q": "Why does the duration vary?",
+          "a": "Every piece develops at its own pace, and the number of active commissions at the same time also affects the timeline."
+        },
+        {
+          "visible": true,
+          "q": "Is a deposit required?",
+          "a": "Payment and deposit details are arranged personally with whoever is selected to continue in the process."
+        },
+        {
+          "visible": true,
+          "q": "Can I submit a unique or unconventional idea?",
+          "a": "Absolutely - some of the most interesting pieces begin with an unconventional idea."
+        },
+        {
+          "visible": true,
+          "q": "What happens if my proposal is selected?",
+          "a": "I'll get back to you to schedule a shared meditation, and from there the piece begins to develop."
+        }
+      ],
+      "metaDescription": "A personal, one-of-a-kind piece by Gal Disegni - a Soul Painting born from shared meditation, a personal portrait, or a private, exclusive commission.",
+      "title": "Commissions | Gal Disegni",
+      "inquiryPrivacyLinkLabel": "Privacy Policy",
+      "recommendedLabel": "Recommended Path",
+      "inquiryNote": "Details are not stored on the site and are not sent before you confirm them yourself.",
+      "inquiryContactLabel": "Phone or email",
+      "inquiryHeading": "Which piece<br>is waiting to be born?",
+      "introVideoText": "One minute explaining how a personal piece comes to life - from the first conversation to the moment it's delivered.",
+      "caseStudiesLabel": "Real Stories",
+      "inquiryPurposeLabel": "Who is the piece for?",
+      "faqLabel": "Frequently Asked Questions",
+      "worksLead": "You don't need to know in advance exactly what the piece will look like. We start with a conversation, and I help refine the path.",
+      "heroSecondaryCtaLabel": "View the Paths",
+      "exclusiveWaMessage": "Hi Gal, I'd love to submit a proposal for a private commission. Here's a bit about me and the piece I'm imagining:"
+    }
+  },
   "worksHeading": "בחרו את העומק<br>שמתאים לכם.",
   "introVideoUrl": "",
   "notesHeading": "חשוב לדעת",

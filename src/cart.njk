@@ -1,89 +1,100 @@
 ---
+pagination:
+  data: locales
+  size: 1
+  alias: locale
 layout: base.njk
-title: "עגלת קניות | גל דִּיסֵנִי"
-description: "עגלת הקניות שלכם באתר גל דִּיסֵנִי."
-permalink: "/cart/index.html"
+eleventyComputed:
+  title: "{{ 'Shopping Cart | Gal Disegni' if locale == 'en' else 'עגלת קניות | גל דִּיסֵנִי' }}"
+  description: "{{ 'Your shopping cart on the Gal Disegni website.' if locale == 'en' else 'עגלת הקניות שלכם באתר גל דִּיסֵנִי.' }}"
+permalink: "{{ locale | localePrefix }}/cart/index.html"
 noindex: true
 bodyClass: "cart-view"
 ---
 {% set pay = pages.payment %}
 {% set pricing = pages.pricing %}
 {% set shipping = pages.shipping %}
+{% set isEn = locale == "en" %}
+{% set shopHref = (locale | localePrefix) + "/collections/" %}
 <section class="cart-page section" id="cart-root">
-  <div class="section-label"><span>עגלת קניות</span></div>
-  <h1>סיכום ההזמנה שלכם</h1>
-  <a class="cart-continue-shopping" href="/collections/"><span aria-hidden="true">→</span> המשך בקנייה</a>
+  <div class="section-label"><span>{{ "Shopping Cart" if isEn else "עגלת קניות" }}</span></div>
+  <h1>{{ "Your Order Summary" if isEn else "סיכום ההזמנה שלכם" }}</h1>
+  <a class="cart-continue-shopping" href="{{ shopHref }}"><span aria-hidden="true">→</span> {{ "Continue Shopping" if isEn else "המשך בקנייה" }}</a>
 
   <div class="currency-toggle cart-currency-toggle">
     <button type="button" class="js-currency-toggle active" data-currency="ILS">₪ · ס"מ</button>
     <button type="button" class="js-currency-toggle" data-currency="USD">$ · inch</button>
   </div>
 
-  <p id="cart-empty">העגלה שלכם ריקה. <a href="/">חזרה לגלריה</a> לבחירת יצירה.</p>
+  <p id="cart-empty">{{ "Your cart is empty." if isEn else "העגלה שלכם ריקה." }} <a href="{{ locale | localePrefix }}/">{{ "Back to the gallery" if isEn else "חזרה לגלריה" }}</a> {{ "to choose a piece." if isEn else "לבחירת יצירה." }}</p>
 
   <div class="cart-checkout-grid">
     <div class="cart-checkout-main">
       <ul id="cart-items" class="cart-items"></ul>
 
       <form id="cart-customer-form" class="cart-customer" hidden>
-        <h2 class="cart-customer-heading">פרטי משלוח ויצירת קשר</h2>
+        <h2 class="cart-customer-heading">{{ "Shipping & Contact Details" if isEn else "פרטי משלוח ויצירת קשר" }}</h2>
         <div class="cart-customer-field">
-          <label for="customer-name">שם מלא *</label>
+          <label for="customer-name">{{ "Full Name *" if isEn else "שם מלא *" }}</label>
           <input type="text" id="customer-name" required autocomplete="name">
         </div>
         <div class="cart-customer-field">
-          <label for="customer-phone">טלפון *</label>
+          <label for="customer-phone">{{ "Phone *" if isEn else "טלפון *" }}</label>
           <input type="tel" id="customer-phone" required autocomplete="tel">
         </div>
         <div class="cart-customer-field">
-          <label for="customer-email">דוא"ל (לא חובה)</label>
+          <label for="customer-email">{{ "Email (optional)" if isEn else "דוא\"ל (לא חובה)" }}</label>
           <input type="email" id="customer-email" autocomplete="email">
         </div>
         <div class="cart-customer-field">
-          <label for="customer-address">כתובת למשלוח *</label>
+          <label for="customer-address">{{ "Shipping Address *" if isEn else "כתובת למשלוח *" }}</label>
           <textarea id="customer-address" required autocomplete="street-address" rows="2"></textarea>
         </div>
         <div class="cart-customer-field cart-consent-field">
           <label class="cart-consent-label" for="customer-consent">
             <input type="checkbox" id="customer-consent" required>
+            {% if isEn %}
+            <span>I have read and agree to the <a href="/terms/" target="_blank" rel="noopener noreferrer">Terms of Service</a>, the <a href="/returns/" target="_blank" rel="noopener noreferrer">Returns & Cancellations Policy</a>, and the <a href="/privacy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a> *</span>
+            {% else %}
             <span>קראתי ואני מאשר/ת את <a href="/terms/" target="_blank" rel="noopener noreferrer">תקנון האתר</a>, את <a href="/returns/" target="_blank" rel="noopener noreferrer">מדיניות הביטולים וההחזרים</a> ואת <a href="/privacy/" target="_blank" rel="noopener noreferrer">מדיניות הפרטיות</a> *</span>
+            {% endif %}
           </label>
         </div>
       </form>
     </div>
 
     <div id="cart-summary" class="cart-summary" hidden>
-    <h2>סיכום לתשלום</h2>
+    <h2>{{ "Payment Summary" if isEn else "סיכום לתשלום" }}</h2>
     <div class="cart-coupon-field">
-      <label for="cart-coupon-code">קוד קופון</label>
+      <label for="cart-coupon-code">{{ "Coupon Code" if isEn else "קוד קופון" }}</label>
       <div class="cart-coupon-row">
-        <input type="text" id="cart-coupon-code" autocomplete="off" placeholder="הזינו קוד">
-        <button type="button" id="cart-coupon-apply">החל</button>
+        <input type="text" id="cart-coupon-code" autocomplete="off" placeholder="{{ 'Enter code' if isEn else 'הזינו קוד' }}">
+        <button type="button" id="cart-coupon-apply">{{ "Apply" if isEn else "החל" }}</button>
       </div>
       <p id="cart-coupon-message" class="cart-coupon-message" hidden></p>
     </div>
-    <div class="cart-summary-row"><span>סכום ביניים</span><span id="cart-subtotal"></span></div>
-    <div class="cart-summary-row" id="cart-discount-row" hidden><span>הנחה</span><span id="cart-discount"></span></div>
-    <div class="cart-summary-row"><span>משלוח</span><span id="cart-shipping"></span></div>
-    <div class="cart-summary-row cart-summary-total"><span>סה"כ</span><span id="cart-total"></span></div>
-    <button id="cart-grow-checkout" class="cta" type="button" hidden>מעבר לתשלום מאובטח <span>←</span></button>
+    <div class="cart-summary-row"><span>{{ "Subtotal" if isEn else "סכום ביניים" }}</span><span id="cart-subtotal"></span></div>
+    <div class="cart-summary-row" id="cart-discount-row" hidden><span>{{ "Discount" if isEn else "הנחה" }}</span><span id="cart-discount"></span></div>
+    <div class="cart-summary-row"><span>{{ "Shipping" if isEn else "משלוח" }}</span><span id="cart-shipping"></span></div>
+    <div class="cart-summary-row cart-summary-total"><span>{{ "Total" if isEn else "סה\"כ" }}</span><span id="cart-total"></span></div>
+    <button id="cart-grow-checkout" class="cta" type="button" hidden>{{ "Proceed to Secure Checkout" if isEn else "מעבר לתשלום מאובטח" }} <span>←</span></button>
     <p id="cart-grow-error" class="cart-payment-error" role="alert" hidden></p>
-    <a id="cart-whatsapp" class="cta" href="#" target="_blank" rel="noopener noreferrer">המשך להזמנה ב-WhatsApp <span>←</span></a>
+    <a id="cart-whatsapp" class="cta" href="#" target="_blank" rel="noopener noreferrer">{{ "Continue Order on WhatsApp" if isEn else "המשך להזמנה ב-WhatsApp" }} <span>←</span></a>
     <p id="cart-bank-note" class="cart-summary-note">{{ pay.lead }}</p>
     <dl id="cart-bank-details" class="artwork-purchase-bank">
-      <div><dt>בנק</dt><dd>{{ pay.bankName }} ({{ pay.bankCode }})</dd></div>
-      <div><dt>סניף</dt><dd>{{ pay.branch }}</dd></div>
-      <div><dt>מספר חשבון</dt><dd dir="ltr">{{ pay.accountNumber }}</dd></div>
-      <div><dt>שם בעל החשבון</dt><dd>{{ pay.accountHolder }}</dd></div>
+      <div><dt>{{ "Bank" if isEn else "בנק" }}</dt><dd>{{ pay.bankName }} ({{ pay.bankCode }})</dd></div>
+      <div><dt>{{ "Branch" if isEn else "סניף" }}</dt><dd>{{ pay.branch }}</dd></div>
+      <div><dt>{{ "Account Number" if isEn else "מספר חשבון" }}</dt><dd dir="ltr">{{ pay.accountNumber }}</dd></div>
+      <div><dt>{{ "Account Holder" if isEn else "שם בעל החשבון" }}</dt><dd>{{ pay.accountHolder }}</dd></div>
     </dl>
-    <nav class="cart-policy-links" aria-label="מידע חשוב לרכישה">
-      <a href="/terms/">תקנון</a>
-      <a href="/returns/">ביטולים והחזרים</a>
-      <a href="/privacy/">פרטיות</a>
-      <a href="/contact/">יצירת קשר</a>
+    <nav class="cart-policy-links" aria-label="{{ 'Important purchase information' if isEn else 'מידע חשוב לרכישה' }}">
+      <a href="/terms/">{{ "Terms" if isEn else "תקנון" }}</a>
+      <a href="/returns/">{{ "Returns & Cancellations" if isEn else "ביטולים והחזרים" }}</a>
+      <a href="/privacy/">{{ "Privacy" if isEn else "פרטיות" }}</a>
+      <a href="/contact/">{{ "Contact" if isEn else "יצירת קשר" }}</a>
     </nav>
-    <a class="cart-summary-continue" href="/collections/">
-      המשך בקנייה <span aria-hidden="true">←</span>
+    <a class="cart-summary-continue" href="{{ shopHref }}">
+      {{ "Continue Shopping" if isEn else "המשך בקנייה" }} <span aria-hidden="true">←</span>
     </a>
     </div>
   </div>

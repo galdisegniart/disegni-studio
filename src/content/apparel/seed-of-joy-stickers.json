@@ -3,6 +3,18 @@
   "name": "Seed Of Joy - מדבקה - 2\" עד 6\"",
   "slug": "seed-of-joy-stickers",
   "order": 5,
+  "translations": {
+    "he": {
+      "name": "Seed Of Joy - מדבקה - 2\" עד 6\"",
+      "alt": "מדבקת Seed Of Joy מאת גל דיסני",
+      "description": "מדבקות דו-ג'קט (die-cut) בעיצוב Seed Of Joy מאת גל דִּיסֵנִי, במגוון גדלים."
+    },
+    "en": {
+      "name": "Seed Of Joy - Sticker - 2\" to 6\"",
+      "alt": "Seed Of Joy sticker by Gal Disegni",
+      "description": "Die-cut stickers featuring the Seed Of Joy design by Gal Disegni, in a range of sizes."
+    }
+  },
   "purchaseVariants": [
     {
       "catalogNumber": "SEED-OF-JOY-STICKERS-STICKER-2″×2″",

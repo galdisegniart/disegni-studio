@@ -1,16 +1,20 @@
 ---
+pagination:
+  data: locales
+  size: 1
+  alias: locale
 layout: base.njk
 activeNav: "יצירות בהזמנה"
 scripts:
   - /js/lead-form.js
   - /js/intro-video.js
-permalink: "/commissions/index.html"
+permalink: "{{ locale | localePrefix }}/commissions/index.html"
 eleventyComputed:
-  title: "{{ pages.commissions.title }}"
-  description: "{{ pages.commissions.metaDescription }}"
-  ogImage: "{{ pages.commissions.heroImage }}"
+  title: "{{ (pages.commissions | localize(locale)).title }}"
+  description: "{{ (pages.commissions | localize(locale)).metaDescription }}"
+  ogImage: "{{ (pages.commissions | localize(locale)).heroImage }}"
 ---
-{% set p = pages.commissions %}
+{% set p = pages.commissions | localize(locale) %}
 {% if p.heroVisible != false %}
 <section class="inner-hero commission-hero">
   <div class="inner-hero-copy">

@@ -1,6 +1,22 @@
 {
   "slug": "absorbing-fire",
   "order": 17,
+  "translations": {
+    "he": {
+      "name": "Absorbing Fire",
+      "galleryMedium": "טכניקה משולבת",
+      "detailMedium": "טכניקה משולבת על נייר · יצירה מקורית",
+      "description": "דמות אש מתפתחת מתוך שכבות של חום, תנועה ועוצמה. היצירה הופכת אנרגיה סוערת לנוכחות שאפשר להכיל ולהקשיב לה.",
+      "alt": "Absorbing Fire, דמות אש בגוני צהוב וכתום"
+    },
+    "en": {
+      "name": "Absorbing Fire",
+      "galleryMedium": "Mixed Technique",
+      "detailMedium": "Mixed technique on paper · original artwork",
+      "description": "A fire figure unfolds from layers of heat, motion, and power. The piece turns turbulent energy into a presence that can be held and listened to.",
+      "alt": "Absorbing Fire, a fire figure in tones of yellow and orange"
+    }
+  },
   "name": "Absorbing Fire",
   "galleryMedium": "טכניקה משולבת",
   "detailMedium": "טכניקה משולבת על נייר · יצירה מקורית",

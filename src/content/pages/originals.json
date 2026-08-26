@@ -1,4 +1,18 @@
 {
+  "translations": {
+    "he": {
+      "title": "יצירות מקוריות זמינות | גל דִּיסֵנִי",
+      "metaDescription": "יצירות מקוריות וחד-פעמיות של גל דִּיסֵנִי שזמינות כרגע לרכישה.",
+      "heading": "יצירות מקוריות זמינות",
+      "heroText": "כל יצירה כאן היא עותק יחיד ובלתי חוזר. יצירות שסומנו \"נמכר\" כבר מצאו בית."
+    },
+    "en": {
+      "title": "Available Original Artwork | Gal Disegni",
+      "metaDescription": "One-of-a-kind original artwork by Gal Disegni, currently available for purchase.",
+      "heading": "Available Original Artwork",
+      "heroText": "Every piece here is a single, irreproducible original. Pieces marked \"Sold\" have already found a home."
+    }
+  },
   "title": "יצירות מקוריות זמינות | גל דִּיסֵנִי",
   "metaDescription": "יצירות מקוריות וחד-פעמיות של גל דִּיסֵנִי שזמינות כרגע לרכישה.",
   "heading": "יצירות מקוריות זמינות",
