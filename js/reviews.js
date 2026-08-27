@@ -18,7 +18,12 @@ document.querySelectorAll(".review-form").forEach(function (form) {
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     const status = form.querySelector(".review-form-status");
-    if (status) status.textContent = "תודה! חוות הדעת התקבלה ותועלה לאחר בדיקה קצרה.";
+    const isEn = document.documentElement.lang === "en";
+    if (status) {
+      status.textContent = isEn
+        ? "Thank you! Your review was received and will be posted after a quick check."
+        : "תודה! חוות הדעת התקבלה ותועלה לאחר בדיקה קצרה.";
+    }
     form.reset();
     form.querySelectorAll(".review-rating-buttons button").forEach(function (b) {
       b.classList.remove("is-active");

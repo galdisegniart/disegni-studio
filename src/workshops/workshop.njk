@@ -3,6 +3,7 @@ pagination:
   data: workshopPages
   size: 1
   alias: entry
+  addAllPagesToCollections: true
 permalink: "{{ entry.locale | localePrefix }}/workshops/{{ entry.w.slug }}/index.html"
 layout: base.njk
 eleventyComputed:
@@ -58,12 +59,12 @@ scripts:
 {% include "partials/breadcrumbs.njk" %}
 <section class="daily-workshop-hero">
   <div class="daily-workshop-copy">
-    <a class="editorial-link" href="/workshops/"><span aria-hidden="true">→</span> חזרה לסדנאות</a>
+    <a class="editorial-link" href="{{ locale | localePrefix }}/workshops/"><span aria-hidden="true">→</span> {{ "Back to Workshops" if isEn else "חזרה לסדנאות" }}</a>
     <p class="hero-eyebrow">{{ w.eyebrow }}</p>
     <h1>{{ w.heading }}</h1>
     <p class="daily-workshop-lead">{{ w.lead }}</p>
 
-    <div class="workshop-quick-meta" aria-label="עיקרי הסדנה">
+    <div class="workshop-quick-meta" aria-label="{{ 'Workshop highlights' if isEn else 'עיקרי הסדנה' }}">
       {% for m in w.quickMeta %}
       <span><small>{{ m.label }}</small><strong>{{ m.value }}</strong></span>
       {% endfor %}
@@ -79,14 +80,14 @@ scripts:
     </div>
 
     {% if w.hasReviews %}
-    <a class="hero-review-peek" href="#reviews" aria-label="מעבר לחוות הדעת על הסדנה">
+    <a class="hero-review-peek" href="#reviews" aria-label="{{ 'Jump to the workshop reviews' if isEn else 'מעבר לחוות הדעת על הסדנה' }}">
       <span class="hero-review-score"><b>{{ w.reviewsSummary.score }}</b><i aria-hidden="true">★★★★★</i></span>
-      <span><strong>{{ w.reviewPeekExcerpt }}</strong><small>לחוות הדעת המלאה ←</small></span>
+      <span><strong>{{ w.reviewPeekExcerpt }}</strong><small>{{ "Read the full review" if isEn else "לחוות הדעת המלאה" }} ←</small></span>
     </a>
     {% else %}
-    <a class="hero-review-peek hero-review-empty" href="#reviews" aria-label="מעבר לדירוג וחוות דעת על הסדנה">
+    <a class="hero-review-peek hero-review-empty" href="#reviews" aria-label="{{ 'Jump to rate and review the workshop' if isEn else 'מעבר לדירוג וחוות דעת על הסדנה' }}">
       <span class="hero-review-score"><i aria-hidden="true">★★★★★</i></span>
-      <span><strong>כבר השתתפתם? החוויה שלכם חשובה</strong><small>לדירוג ולהוספת חוות דעת ←</small></span>
+      <span><strong>{{ "Already attended? Your experience matters" if isEn else "כבר השתתפתם? החוויה שלכם חשובה" }}</strong><small>{{ "Rate & add a review" if isEn else "לדירוג ולהוספת חוות דעת" }} ←</small></span>
     </a>
     {% endif %}
   </div>
@@ -125,7 +126,7 @@ scripts:
       {% if w.video.poster %}
       <img class="intro-video-poster" src="{{ w.video.poster }}" alt="{{ w.video.posterAlt }}">
       {% endif %}
-      <button type="button" class="intro-video-play js-intro-video-play" aria-label="הפעלת הסרטון">
+      <button type="button" class="intro-video-play js-intro-video-play" aria-label="{{ 'Play the video' if isEn else 'הפעלת הסרטון' }}">
         <span aria-hidden="true">▶</span>
       </button>
     </div>
@@ -195,22 +196,22 @@ scripts:
       <p class="hero-eyebrow">{{ w.reviewsHeading.eyebrow }}</p>
       <h2>{{ w.reviewsHeading.heading }}</h2>
     </div>
-    <div class="review-summary" aria-label="דירוג {{ w.reviewsSummary.score }} מתוך 5"><strong>{{ w.reviewsSummary.score }}</strong><span aria-hidden="true">★★★★★</span><small>{{ w.reviewsSummary.countLabel }}</small></div>
+    <div class="review-summary" aria-label="{{ ('Rating ' ~ w.reviewsSummary.score ~ ' out of 5') if isEn else ('דירוג ' ~ w.reviewsSummary.score ~ ' מתוך 5') }}"><strong>{{ w.reviewsSummary.score }}</strong><span aria-hidden="true">★★★★★</span><small>{{ w.reviewsSummary.countLabel }}</small></div>
   </div>
 
   {% for r in w.reviews %}
   <details class="review-card">
     <summary>
-      <span class="review-card-top"><span><strong>{{ r.name }}</strong><time datetime="{{ r.date }}">{{ r.dateLabel }}</time></span><span class="review-stars" aria-label="5 מתוך 5 כוכבים">★★★★★</span></span>
+      <span class="review-card-top"><span><strong>{{ r.name }}</strong><time datetime="{{ r.date }}">{{ r.dateLabel }}</time></span><span class="review-stars" aria-label="{{ '5 out of 5 stars' if isEn else '5 מתוך 5 כוכבים' }}">★★★★★</span></span>
       <span class="review-excerpt">{{ r.excerpt }}</span>
-      <span class="review-read-more">לקריאת חוות הדעת המלאה <b aria-hidden="true">＋</b></span>
+      <span class="review-read-more">{{ "Read the full review" if isEn else "לקריאת חוות הדעת המלאה" }} <b aria-hidden="true">＋</b></span>
     </summary>
     <blockquote>{{ r.full }}</blockquote>
   </details>
   {% endfor %}
 
   <details class="review-write-panel">
-    <summary>השתתפתם בסדנה? הוסיפו דירוג וחוות דעת <span aria-hidden="true">＋</span></summary>
+    <summary>{{ "Attended this workshop? Add a rating and review" if isEn else "השתתפתם בסדנה? הוסיפו דירוג וחוות דעת" }} <span aria-hidden="true">＋</span></summary>
     <div class="review-form-wrap">
       {% include "partials/review-form.njk" %}
     </div>
@@ -227,7 +228,7 @@ scripts:
   </div>
 
   <details class="review-write-panel">
-    <summary>השתתפתם בסדנה? הוסיפו דירוג וחוות דעת <span aria-hidden="true">＋</span></summary>
+    <summary>{{ "Attended this workshop? Add a rating and review" if isEn else "השתתפתם בסדנה? הוסיפו דירוג וחוות דעת" }} <span aria-hidden="true">＋</span></summary>
     <div class="review-form-wrap review-form-only">
       {% include "partials/review-form.njk" %}
     </div>

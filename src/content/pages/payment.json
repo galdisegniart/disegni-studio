@@ -7,5 +7,23 @@
   "branch": "001",
   "accountNumber": "30037930",
   "accountHolder": "גל דיסני",
-  "waNote": "בעת שליחת ההודעה, ציינו את שם היצירה ואם מדובר בהדפס אמנותי או ביצירה מקורית."
+  "waNote": "בעת שליחת ההודעה, ציינו את שם היצירה ואם מדובר בהדפס אמנותי או ביצירה מקורית.",
+  "translations": {
+    "he": {
+      "sectionLabel": "פרטים לתשלום",
+      "heading": "רכישה בהעברה בנקאית",
+      "lead": "בחרו הדפס אמנותי או יצירה מקורית, בצעו העברה בנקאית לפרטים שלמטה, וציינו בהערה את שם היצירה ואת סוג הרכישה. לאחר ההעברה שלחו לי אישור קצר ב-WhatsApp ואחזור אליכם לתיאום המשלוח.",
+      "bankName": "דואר פיננסים",
+      "accountHolder": "גל דיסני",
+      "waNote": "בעת שליחת ההודעה, ציינו את שם היצירה ואם מדובר בהדפס אמנותי או ביצירה מקורית."
+    },
+    "en": {
+      "sectionLabel": "Payment Details",
+      "heading": "Purchase via Bank Transfer",
+      "lead": "Choose an art print or an original piece, make a bank transfer to the details below, and note the artwork's name and the type of purchase in the memo. After the transfer, send me a quick confirmation on WhatsApp and I'll get back to you to arrange shipping.",
+      "bankName": "Bank Hadoar (Postal Bank)",
+      "accountHolder": "Gal Disegni",
+      "waNote": "When sending the message, please mention the artwork's name and whether it's a print or the original piece."
+    }
+  }
 }

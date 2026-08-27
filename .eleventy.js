@@ -31,7 +31,7 @@ module.exports = function (eleventyConfig) {
   // through unchanged, so this is safe to use before every file is migrated.
   eleventyConfig.addFilter("localize", localize);
   eleventyConfig.addFilter("localePrefix", function (locale) {
-    return locale === "en" ? "" : "/" + locale;
+    return locale === "he" ? "/he" : "";
   });
   // Given the current page's own URL and locale, returns the URL of its
   // counterpart in the other locale - relies on every bilingual page
@@ -258,15 +258,26 @@ module.exports = function (eleventyConfig) {
   });
 
   const apparelTypeNames = {
-    "t-shirt": "חולצה",
-    hoodie: "הודי",
-    "crop-hoodie": "קרופ הודי",
-    "muscle-shirt": "מאסל שירט",
-    sticker: "מדבקה",
-    apparel: "בגד/אביזר",
+    he: {
+      "t-shirt": "חולצה",
+      hoodie: "הודי",
+      "crop-hoodie": "קרופ הודי",
+      "muscle-shirt": "מאסל שירט",
+      sticker: "מדבקה",
+      apparel: "בגד/אביזר",
+    },
+    en: {
+      "t-shirt": "T-Shirt",
+      hoodie: "Hoodie",
+      "crop-hoodie": "Crop Hoodie",
+      "muscle-shirt": "Muscle Shirt",
+      sticker: "Sticker",
+      apparel: "Apparel",
+    },
   };
-  eleventyConfig.addFilter("apparelTypeName", function (productType) {
-    return apparelTypeNames[productType] || "";
+  eleventyConfig.addFilter("apparelTypeName", function (productType, locale) {
+    const table = apparelTypeNames[locale === "en" ? "en" : "he"];
+    return table[productType] || "";
   });
 
   // Must match the colorSlug() in src/_data/purchaseCatalog.js exactly - both

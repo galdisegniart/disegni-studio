@@ -3,6 +3,7 @@ pagination:
   data: locales
   size: 1
   alias: locale
+  addAllPagesToCollections: true
 layout: base.njk
 eleventyComputed:
   title: "{{ 'Shopping Cart | Gal Disegni' if locale == 'en' else 'עגלת קניות | גל דִּיסֵנִי' }}"
@@ -11,7 +12,7 @@ permalink: "{{ locale | localePrefix }}/cart/index.html"
 noindex: true
 bodyClass: "cart-view"
 ---
-{% set pay = pages.payment %}
+{% set pay = pages.payment | localize(locale) %}
 {% set pricing = pages.pricing %}
 {% set shipping = pages.shipping %}
 {% set isEn = locale == "en" %}

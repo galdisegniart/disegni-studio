@@ -3,6 +3,7 @@ pagination:
   data: productPages
   size: 1
   alias: entry
+  addAllPagesToCollections: true
 permalink: "{{ entry.locale | localePrefix }}/products/{{ entry.artwork.slug }}/index.html"
 layout: base-bare.njk
 scripts:
@@ -20,10 +21,12 @@ eleventyComputed:
 {% set artwork = entry.artwork %}
 {% set locale = entry.locale %}
 {% set isEn = locale == "en" %}
-{% set seq = artworks | artworkSequence(artwork) %}
+{% set seq = (artworks | localizeAll(locale)) | artworkSequence(artwork) %}
 {% set pricing = pages.pricing %}
 {% set shipping = pages.shipping %}
-{% set pay = pages.payment %}
+{% set pay = pages.payment | localize(locale) %}
+{% set purchaseButtons = purchaseButtons | localize(locale) %}
+{% set printQuality = pages.printQuality | localize(locale) %}
 {% set extraMaterials = artwork.extraMaterials or [] %}
 {% set printfulOptions = printfulCatalog | printfulOptions(artwork, pricing, shipping) %}
 
@@ -75,29 +78,29 @@ eleventyComputed:
   ] %}
   {% include "partials/breadcrumbs.njk" %}
   <div class="artwork-utility">
-    <a class="artwork-back js-back-link" href="/"><span aria-hidden="true">→</span> <span class="js-back-label">חזרה לגלריה</span></a>
+    <a class="artwork-back js-back-link" href="/"><span aria-hidden="true">→</span> <span class="js-back-label">{{ "Back to Gallery" if isEn else "חזרה לגלריה" }}</span></a>
   </div>
   <div class="artwork-detail-grid">
   {% if artwork.gallery and artwork.gallery.length %}
   <div class="artwork-gallery">
-    <div class="artwork-thumbnails" aria-label="תמונות נוספות של {{ artwork.name }}">
-      <button class="artwork-thumbnail is-active js-product-gallery-thumb" type="button" data-image="{{ artwork.image }}" data-alt="{{ artwork.alt }}" data-zoom="true" aria-label="הצגת היצירה המקורית" aria-current="true">
+    <div class="artwork-thumbnails" aria-label="{{ ('More images of ' ~ artwork.name) if isEn else ('תמונות נוספות של ' ~ artwork.name) }}">
+      <button class="artwork-thumbnail is-active js-product-gallery-thumb" type="button" data-image="{{ artwork.image }}" data-alt="{{ artwork.alt }}" data-zoom="true" aria-label="{{ 'View the original artwork' if isEn else 'הצגת היצירה המקורית' }}" aria-current="true">
         <img src="{{ artwork.image }}" alt="" loading="lazy">
       </button>
       {% for galleryImage in artwork.gallery %}
-      <button class="artwork-thumbnail js-product-gallery-thumb" type="button" data-image="{{ galleryImage.image }}" data-alt="{{ galleryImage.alt or artwork.alt }}" data-zoom="false"{% if galleryImage.productType %} data-product-type="{{ galleryImage.productType }}"{% endif %}{% if galleryImage.sizeId %} data-size-id="{{ galleryImage.sizeId }}"{% endif %}{% if galleryImage.frameColor %} data-frame-color="{{ galleryImage.frameColor }}"{% endif %} aria-label="הצגת מוקאפ {{ loop.index }}">
+      <button class="artwork-thumbnail js-product-gallery-thumb" type="button" data-image="{{ galleryImage.image }}" data-alt="{{ galleryImage.alt or artwork.alt }}" data-zoom="false"{% if galleryImage.productType %} data-product-type="{{ galleryImage.productType }}"{% endif %}{% if galleryImage.sizeId %} data-size-id="{{ galleryImage.sizeId }}"{% endif %}{% if galleryImage.frameColor %} data-frame-color="{{ galleryImage.frameColor }}"{% endif %} aria-label="{{ ('View mockup ' ~ loop.index) if isEn else ('הצגת מוקאפ ' ~ loop.index) }}">
         <img src="{{ galleryImage.thumb or galleryImage.image }}" alt="" loading="lazy">
       </button>
       {% endfor %}
     </div>
     <figure class="artwork-stage">
       <img class="js-product-gallery-main" src="{{ artwork.image }}" alt="{{ artwork.alt }}" data-zoom-enabled="true">
-      <button class="artwork-gallery-arrow artwork-gallery-arrow-prev js-product-gallery-prev" type="button" aria-label="התמונה הקודמת">
+      <button class="artwork-gallery-arrow artwork-gallery-arrow-prev js-product-gallery-prev" type="button" aria-label="{{ 'Previous image' if isEn else 'התמונה הקודמת' }}">
         <svg aria-hidden="true" viewBox="0 0 20 20" width="20" height="20">
           <path d="M13 5L8 10L13 15"></path>
         </svg>
       </button>
-      <button class="artwork-gallery-arrow artwork-gallery-arrow-next js-product-gallery-next" type="button" aria-label="התמונה הבאה">
+      <button class="artwork-gallery-arrow artwork-gallery-arrow-next js-product-gallery-next" type="button" aria-label="{{ 'Next image' if isEn else 'התמונה הבאה' }}">
         <svg aria-hidden="true" viewBox="0 0 20 20" width="20" height="20">
           <path d="M8 5L13 10L8 15"></path>
         </svg>
@@ -143,39 +146,39 @@ eleventyComputed:
       <div class="print-order-selects{% if printfulOptions and printfulOptions.length %} is-printful-driven{% endif %}" hidden aria-hidden="true">
         {% if printfulOptions and printfulOptions.length %}
         <div class="print-order-field">
-          <span class="print-order-field-label">סוג הדפס</span>
-          <select class="js-style-select" aria-label="בחירת סוג הדפס" tabindex="-1">
-            <option value="" selected>בחרו סוג הדפס</option>
+          <span class="print-order-field-label">{{ "Print Type" if isEn else "סוג הדפס" }}</span>
+          <select class="js-style-select" aria-label="{{ 'Choose print type' if isEn else 'בחירת סוג הדפס' }}" tabindex="-1">
+            <option value="" selected>{{ "Choose a print type" if isEn else "בחרו סוג הדפס" }}</option>
           </select>
         </div>
         <div class="print-order-field">
-          <span class="print-order-field-label">גודל</span>
-          <select class="js-size-select" aria-label="בחירת גודל" disabled tabindex="-1">
-            <option value="" selected>בחרו גודל</option>
+          <span class="print-order-field-label">{{ "Size" if isEn else "גודל" }}</span>
+          <select class="js-size-select" aria-label="{{ 'Choose size' if isEn else 'בחירת גודל' }}" disabled tabindex="-1">
+            <option value="" selected>{{ "Choose a size" if isEn else "בחרו גודל" }}</option>
           </select>
         </div>
         {% else %}
         <div class="print-order-field">
-          <span class="print-order-field-label">סגנון</span>
-          <select class="js-style-select" aria-label="בחירת סגנון הדפסה" tabindex="-1">
-            <option value="" selected>בחרו סגנון</option>
+          <span class="print-order-field-label">{{ "Style" if isEn else "סגנון" }}</span>
+          <select class="js-style-select" aria-label="{{ 'Choose print style' if isEn else 'בחירת סגנון הדפסה' }}" tabindex="-1">
+            <option value="" selected>{{ "Choose a style" if isEn else "בחרו סגנון" }}</option>
             {% for material in pricing.materials %}
             {% if material.id == "paper" or material.id in extraMaterials %}
-            <option value="{{ material.id }}">{{ material.name }}</option>
+            <option value="{{ material.id }}">{{ (material | localize(locale)).name }}</option>
             {% endif %}
             {% endfor %}
           </select>
         </div>
         <div class="print-order-field">
-          <span class="print-order-field-label">גודל</span>
-          <select class="js-size-select" aria-label="בחירת גודל" disabled tabindex="-1">
-            <option value="" selected>בחרו סגנון קודם</option>
+          <span class="print-order-field-label">{{ "Size" if isEn else "גודל" }}</span>
+          <select class="js-size-select" aria-label="{{ 'Choose size' if isEn else 'בחירת גודל' }}" disabled tabindex="-1">
+            <option value="" selected>{{ "Choose a style first" if isEn else "בחרו סגנון קודם" }}</option>
           </select>
         </div>
         {% endif %}
       </div>
 
-      <div class="print-order-cards" role="group" aria-label="בחירת אפשרות">
+      <div class="print-order-cards" role="group" aria-label="{{ 'Choose an option' if isEn else 'בחירת אפשרות' }}">
         {% if artwork.handEmbellished and artwork.handEmbellished.available %}
         <a class="option-card" href="#hand-embellished">
           <img class="option-card-image" src="{{ artwork.image }}" alt="" loading="lazy">
@@ -191,7 +194,7 @@ eleventyComputed:
           <img class="option-card-image" src="{{ artwork.image }}" alt="" loading="lazy">
           <span class="option-card-text">
             <span class="option-card-label">{{ purchaseButtons.originalLabel }}</span>
-            <span class="option-card-meta">{{ pages.printQuality.limitedEdition.heading }}</span>
+            <span class="option-card-meta">{{ printQuality.limitedEdition.heading }}</span>
             <span class="option-card-price">{{ artwork.originalPrice | numberFormat }} ₪</span>
           </span>
         </a>
@@ -199,20 +202,20 @@ eleventyComputed:
       </div>
 
       <div class="print-order-footrow">
-        <p class="print-order-price">סה"כ <span class="js-live-price">—</span></p>
+        <p class="print-order-price">{{ "Total" if isEn else 'סה"כ' }} <span class="js-live-price">—</span></p>
         <div class="currency-toggle-mini">
-          <button type="button" class="js-currency-toggle active" data-currency="ILS">₪ · ס"מ</button>
+          <button type="button" class="js-currency-toggle active" data-currency="ILS">₪ · {{ "cm" if isEn else 'ס"מ' }}</button>
           <span>·</span>
           <button type="button" class="js-currency-toggle" data-currency="USD">$ · inch</button>
         </div>
       </div>
 
       <div class="print-order-field print-order-qty-field">
-        <span class="print-order-field-label">כמות</span>
+        <span class="print-order-field-label">{{ "Quantity" if isEn else "כמות" }}</span>
         <div class="qty-stepper">
-          <button type="button" class="js-order-qty-minus" aria-label="הפחתת כמות">−</button>
+          <button type="button" class="js-order-qty-minus" aria-label="{{ 'Decrease quantity' if isEn else 'הפחתת כמות' }}">−</button>
           <span class="js-order-qty">1</span>
-          <button type="button" class="js-order-qty-plus" aria-label="הוספת כמות">+</button>
+          <button type="button" class="js-order-qty-plus" aria-label="{{ 'Increase quantity' if isEn else 'הוספת כמות' }}">+</button>
         </div>
       </div>
 
@@ -233,9 +236,9 @@ eleventyComputed:
         <div class="print-order-details-body">
           <p>{{ purchaseButtons.detailsReproductionText | replace('{medium}', artwork.detailMedium) }}</p>
           {% if artwork.purchaseVariants and artwork.purchaseVariants.length %}
-          <p>המשלוח מחושב בנפרד לפי סוג ההדפס, הגודל והכמות.</p>
+          <p>{{ "Shipping is calculated separately by print type, size, and quantity." if isEn else "המשלוח מחושב בנפרד לפי סוג ההדפס, הגודל והכמות." }}</p>
           {% else %}
-          <p>{{ pricing.materials[0].note }}</p>
+          <p>{{ (pricing.materials[0] | localize(locale)).note }}</p>
           {% endif %}
         </div>
       </details>
@@ -268,49 +271,53 @@ eleventyComputed:
 {% if artwork.originalAvailable %}
 <section class="artwork-purchase" id="original-purchase">
   <div class="section-label"><span>{{ pay.sectionLabel }}</span></div>
-  <h2>{{ pages.printQuality.limitedEdition.heading }}</h2>
-  <p class="artwork-purchase-lead">{{ pages.printQuality.limitedEdition.text }}</p>
+  <h2>{{ printQuality.limitedEdition.heading }}</h2>
+  <p class="artwork-purchase-lead">{{ printQuality.limitedEdition.text }}</p>
   <ul class="artwork-purchase-features">
-    {% for feature in pages.printQuality.limitedEdition.features %}
+    {% for feature in printQuality.limitedEdition.features %}
     <li>{{ feature }}</li>
     {% endfor %}
   </ul>
   <p class="artwork-purchase-lead">{{ pay.lead }}</p>
-  <p class="artwork-purchase-original-note">לרכישת היצירה המקורית "{{ artwork.name }}" במחיר {{ artwork.originalPrice | numberFormat }} ₪, בצעו העברה בנקאית לפרטים שלהלן ואשרו ב-WhatsApp.</p>
+  <p class="artwork-purchase-original-note">{% if isEn %}To purchase the original artwork "{{ artwork.name }}" for {{ artwork.originalPrice | numberFormat }} ₪, make a bank transfer using the details below and confirm on WhatsApp.{% else %}לרכישת היצירה המקורית "{{ artwork.name }}" במחיר {{ artwork.originalPrice | numberFormat }} ₪, בצעו העברה בנקאית לפרטים שלהלן ואשרו ב-WhatsApp.{% endif %}</p>
 
   <form id="cart-customer-form" class="cart-customer">
-    <h2 class="cart-customer-heading">פרטי משלוח ויצירת קשר</h2>
+    <h2 class="cart-customer-heading">{{ "Shipping & Contact Details" if isEn else "פרטי משלוח ויצירת קשר" }}</h2>
     <div class="cart-customer-field">
-      <label for="customer-name">שם מלא *</label>
+      <label for="customer-name">{{ "Full Name *" if isEn else "שם מלא *" }}</label>
       <input type="text" id="customer-name" required autocomplete="name">
     </div>
     <div class="cart-customer-field">
-      <label for="customer-phone">טלפון *</label>
+      <label for="customer-phone">{{ "Phone *" if isEn else "טלפון *" }}</label>
       <input type="tel" id="customer-phone" required autocomplete="tel">
     </div>
     <div class="cart-customer-field">
-      <label for="customer-email">דוא"ל (לא חובה)</label>
+      <label for="customer-email">{{ "Email (optional)" if isEn else 'דוא"ל (לא חובה)' }}</label>
       <input type="email" id="customer-email" autocomplete="email">
     </div>
     <div class="cart-customer-field">
-      <label for="customer-address">כתובת למשלוח *</label>
+      <label for="customer-address">{{ "Shipping Address *" if isEn else "כתובת למשלוח *" }}</label>
       <textarea id="customer-address" required autocomplete="street-address" rows="2"></textarea>
     </div>
     <div class="cart-customer-field cart-consent-field">
       <label class="cart-consent-label" for="customer-consent">
         <input type="checkbox" id="customer-consent" required>
+        {% if isEn %}
+        <span>I have read and agree to the <a href="/terms/" target="_blank" rel="noopener noreferrer">Terms of Service</a>, the <a href="/returns/" target="_blank" rel="noopener noreferrer">Returns & Cancellations Policy</a>, and the <a href="/privacy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a> *</span>
+        {% else %}
         <span>קראתי ואני מאשר/ת את <a href="/terms/" target="_blank" rel="noopener noreferrer">תקנון האתר</a>, את <a href="/returns/" target="_blank" rel="noopener noreferrer">מדיניות הביטולים וההחזרים</a> ואת <a href="/privacy/" target="_blank" rel="noopener noreferrer">מדיניות הפרטיות</a> *</span>
+        {% endif %}
       </label>
     </div>
   </form>
 
   <dl class="artwork-purchase-bank">
-    <div><dt>בנק</dt><dd>{{ pay.bankName }} ({{ pay.bankCode }})</dd></div>
-    <div><dt>סניף</dt><dd>{{ pay.branch }}</dd></div>
-    <div><dt>מספר חשבון</dt><dd dir="ltr">{{ pay.accountNumber }}</dd></div>
-    <div><dt>שם בעל החשבון</dt><dd>{{ pay.accountHolder }}</dd></div>
+    <div><dt>{{ "Bank" if isEn else "בנק" }}</dt><dd>{{ pay.bankName }} ({{ pay.bankCode }})</dd></div>
+    <div><dt>{{ "Branch" if isEn else "סניף" }}</dt><dd>{{ pay.branch }}</dd></div>
+    <div><dt>{{ "Account Number" if isEn else "מספר חשבון" }}</dt><dd dir="ltr">{{ pay.accountNumber }}</dd></div>
+    <div><dt>{{ "Account Holder" if isEn else "שם בעל החשבון" }}</dt><dd>{{ pay.accountHolder }}</dd></div>
   </dl>
-  <a class="cta js-original-whatsapp" href="#" target="_blank" rel="noopener noreferrer" data-artwork-slug="{{ artwork.slug }}" data-artwork-name="{{ artwork.name }}" data-price="{{ artwork.originalPrice }}" data-base-message="שלום גל, ביצעתי העברה בנקאית עבור היצירה המקורית &quot;{{ artwork.name }}&quot;. אשמח לתיאום המשלוח.">אישור העברה ב-WhatsApp <span>←</span></a>
+  <a class="cta js-original-whatsapp" href="#" target="_blank" rel="noopener noreferrer" data-artwork-slug="{{ artwork.slug }}" data-artwork-name="{{ artwork.name }}" data-price="{{ artwork.originalPrice }}" data-base-message="{% if isEn %}Hi Gal, I made a bank transfer for the original artwork &quot;{{ artwork.name }}&quot;. I'd love to arrange shipping.{% else %}שלום גל, ביצעתי העברה בנקאית עבור היצירה המקורית &quot;{{ artwork.name }}&quot;. אשמח לתיאום המשלוח.{% endif %}">{{ "Confirm Transfer on WhatsApp" if isEn else "אישור העברה ב-WhatsApp" }} <span>←</span></a>
   <p class="artwork-purchase-note">{{ pay.waNote }}</p>
 </section>
 {% endif %}
@@ -332,7 +339,7 @@ eleventyComputed:
   {% endif %}
 
   {% for type in availableTypes %}
-  {% set pq = pages.printQuality[type] %}
+  {% set pq = printQuality[type] %}
   {% if pq %}
   <div class="print-quality-block">
     <h2>{{ pq.heading }}</h2>
@@ -374,7 +381,7 @@ eleventyComputed:
   {% endif %}
 
   {% if hasHandEmbellished %}
-  {% set he = pages.printQuality.handEmbellished %}
+  {% set he = printQuality.handEmbellished %}
   <div class="print-quality-block" id="hand-embellished">
     <h2>{{ he.heading }}</h2>
     <p>{{ he.text }}</p>
@@ -395,16 +402,16 @@ eleventyComputed:
 
 <section class="artwork-more">
   <div class="artwork-more-head">
-    <a class="js-back-link" href="/"><span aria-hidden="true">→</span> <span class="js-back-label">חזרה לגלריה</span></a>
+    <a class="js-back-link" href="{{ locale | localePrefix }}/"><span aria-hidden="true">→</span> <span class="js-back-label">{{ "Back to Gallery" if isEn else "חזרה לגלריה" }}</span></a>
     <div class="artwork-sequence">
-      <a id="previous-artwork" href="/products/{{ seq.prev.slug }}/" aria-label="היצירה הקודמת, {{ seq.prev.name }}">הקודמת</a>
+      <a id="previous-artwork" href="{{ locale | localePrefix }}/products/{{ seq.prev.slug }}/" aria-label="{{ ('Previous artwork, ' ~ seq.prev.name) if isEn else ('היצירה הקודמת, ' ~ seq.prev.name) }}">{{ "Previous" if isEn else "הקודמת" }}</a>
       <span>/</span>
-      <a id="next-artwork" href="/products/{{ seq.next.slug }}/" aria-label="היצירה הבאה, {{ seq.next.name }}">הבאה</a>
+      <a id="next-artwork" href="{{ locale | localePrefix }}/products/{{ seq.next.slug }}/" aria-label="{{ ('Next artwork, ' ~ seq.next.name) if isEn else ('היצירה הבאה, ' ~ seq.next.name) }}">{{ "Next" if isEn else "הבאה" }}</a>
     </div>
   </div>
   <div class="artwork-more-grid">
     {% for item in seq.more %}
-    <a class="more-artwork-card" href="/products/{{ item.slug }}/">
+    <a class="more-artwork-card" href="{{ locale | localePrefix }}/products/{{ item.slug }}/">
       <span class="more-artwork-image"><img src="{{ item.thumb }}" alt="{{ item.name }}" loading="lazy"></span>
       <span class="more-artwork-caption"><strong lang="en">{{ item.name }}</strong><small>{{ item.galleryMedium }}</small><i aria-hidden="true">←</i></span>
     </a>
