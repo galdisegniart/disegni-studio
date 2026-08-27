@@ -39,6 +39,21 @@
 
       var data = new FormData(leadForm);
       var message = buildMessage(data);
+
+      fetch("https://disegni-cms-oauth.galdisegniart.workers.dev/leads/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          formType: "commission-lead",
+          name: data.get("name") || "",
+          phone: data.get("contact") || "",
+          message: (data.get("message") || "").trim(),
+          context: [data.get("path") || "", data.get("purpose") || "", data.get("budget") || ""].filter(Boolean).join(" · "),
+          locale: document.documentElement.lang === "en" ? "en" : "he",
+          pageUrl: location.href
+        })
+      }).catch(function () {});
+
       var url = "https://wa.me/" + waNumber + "?text=" + encodeURIComponent(message);
       window.open(url, "_blank", "noopener,noreferrer");
 

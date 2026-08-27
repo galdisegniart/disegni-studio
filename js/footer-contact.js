@@ -36,6 +36,20 @@
         ];
     if (message) lines.push((isEn ? "Message: " : "הודעה: ") + message);
 
+    fetch("https://disegni-cms-oauth.galdisegniart.workers.dev/leads/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        formType: "footer-contact",
+        name: (firstName + " " + lastName).trim(),
+        phone: phone,
+        email: email,
+        message: message,
+        locale: isEn ? "en" : "he",
+        pageUrl: location.href
+      })
+    }).catch(function () {});
+
     var url = "https://wa.me/" + waNumber + "?text=" + encodeURIComponent(lines.join("\n"));
     window.open(url, "_blank", "noopener,noreferrer");
 

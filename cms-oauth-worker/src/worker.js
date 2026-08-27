@@ -68,6 +68,10 @@ export default {
       return handleBitReceiptPublicSubmit(request, env);
     }
 
+    if (url.pathname === "/leads/submit") {
+      return handleLeadsSubmit(request, env);
+    }
+
     if (url.pathname === "/bit-receipts/extract") {
       return handleBitReceiptExtract(request, env);
     }
@@ -2661,6 +2665,81 @@ async function handleBitReceiptIntake(request, env) {
 // this removes that hop (and frees a scenario slot on the free plan).
 // Everything Make did beyond forwarding (dedup, validation) already happens
 // here, so the stored record is identical either way.
+// Catch-all intake for the site's WhatsApp-first forms (footer contact,
+// commission/workshop lead form, workshop reviews) - none of them have any
+// other persistence today, so a submission is otherwise lost the moment a
+// visitor doesn't finish the WhatsApp step. This never blocks or replaces
+// that WhatsApp flow, it just also keeps a copy here. formType distinguishes
+// which form it came from; there is deliberately no admin UI for this yet
+// (nothing has needed one) - records can be read directly from KV
+// (`lead:` prefix) with `npx wrangler kv key list` / `key get` if needed.
+async function handleLeadsSubmit(request, env) {
+  const corsHeaders = getCorsHeaders(request, env);
+
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: corsHeaders ? 204 : 403,
+      headers: corsHeaders || noStoreHeaders(),
+    });
+  }
+  if (request.method !== "POST") {
+    return jsonResponse({ ok: false, error: "Method not allowed" }, 405, corsHeaders, { Allow: "POST, OPTIONS" });
+  }
+  if (!corsHeaders) {
+    return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
+  }
+  if (!env.ORDERS_KV) {
+    return jsonResponse({ ok: false, error: "Lead storage is not configured" }, 503, corsHeaders);
+  }
+
+  if (await isRateLimited(env, `leads-submit:${clientIp(request)}`, LEADS_SUBMIT_RATE_LIMIT_MAX)) {
+    return jsonResponse(
+      { ok: false, error: "Too many requests, please try again shortly" },
+      429,
+      corsHeaders
+    );
+  }
+
+  let input;
+  try {
+    input = await request.json();
+  } catch {
+    return jsonResponse({ ok: false, error: "Invalid JSON" }, 400, corsHeaders);
+  }
+
+  const formType = cleanText(input.formType, 40) || "unknown";
+  const name = cleanText(input.name, 120);
+  const phone = cleanText(input.phone, 20);
+  const email = cleanText(input.email, 160);
+  const message = cleanText(input.message, 4000);
+  const context = cleanText(input.context, 200);
+  const rating = Number.isFinite(Number(input.rating)) ? Number(input.rating) : null;
+  const locale = cleanText(input.locale, 5);
+  const pageUrl = cleanText(input.pageUrl, 300);
+
+  if (!name && !phone && !email && !message) {
+    return jsonResponse({ ok: false, error: "Empty submission" }, 400, corsHeaders);
+  }
+
+  const id = crypto.randomUUID();
+  const lead = {
+    id,
+    formType,
+    name,
+    phone,
+    email,
+    message,
+    context,
+    rating,
+    locale,
+    pageUrl,
+    createdAt: new Date().toISOString(),
+  };
+  await kvPutJSONPermanent(env, `lead:${id}`, lead);
+
+  return jsonResponse({ ok: true, id }, 200, corsHeaders);
+}
+
 async function handleBitReceiptPublicSubmit(request, env) {
   const corsHeaders = getCorsHeaders(request, env);
 
@@ -3562,6 +3641,7 @@ const BOOKING_AVAILABILITY_CACHE_TTL_SECONDS = 5 * 60;
 const BOOKING_RATE_LIMIT_MAX = 5;
 const BIT_SUBMIT_RATE_LIMIT_MAX = 5;
 const BIT_EXTRACT_RATE_LIMIT_MAX = 8;
+const LEADS_SUBMIT_RATE_LIMIT_MAX = 10;
 
 // Same approach as fetchPurchaseCatalog: the site's own build output is the
 // source of truth for which slots exist, so changing availability in the CMS

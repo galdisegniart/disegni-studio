@@ -19,6 +19,22 @@ document.querySelectorAll(".review-form").forEach(function (form) {
     e.preventDefault();
     const status = form.querySelector(".review-form-status");
     const isEn = document.documentElement.lang === "en";
+    const formData = new FormData(form);
+
+    fetch("https://disegni-cms-oauth.galdisegniart.workers.dev/leads/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        formType: "workshop-review",
+        name: formData.get("reviewer") || "",
+        message: formData.get("review") || "",
+        rating: formData.get("rating") || "",
+        context: form.dataset.workshop || "",
+        locale: isEn ? "en" : "he",
+        pageUrl: location.href
+      })
+    }).catch(function () {});
+
     if (status) {
       status.textContent = isEn
         ? "Thank you! Your review was received and will be posted after a quick check."
