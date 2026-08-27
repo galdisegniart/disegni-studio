@@ -18,7 +18,7 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="{{ 'en_US' if locale == 'en' else 'he_IL' }}">
 {% if locale %}<meta property="og:locale:alternate" content="{{ 'he_IL' if locale == 'en' else 'en_US' }}">{% endif %}
-<meta property="og:site_name" content="{{ site.brand }}">
+<meta property="og:site_name" content="{{ (site | localize(locale)).brand }}">
 <meta property="og:title" content="{{ title }}">
 <meta property="og:description" content="{{ description }}">
 <meta property="og:url" content="{{ site.siteUrl }}{{ page.url }}">

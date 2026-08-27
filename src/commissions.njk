@@ -23,8 +23,8 @@ eleventyComputed:
     <h1>{{ p.heroHeading | safe }}</h1>
     <p>{{ p.heroLead }}</p>
     <div class="commission-hero-ctas">
-      <a class="cta" href="#inquiry-form">{{ p.heroPrimaryCtaLabel }}</a>
-      <a class="cta cta-outline" href="#options">{{ p.heroSecondaryCtaLabel }}</a>
+      <a class="cta" href="#inquiry-form">{{ p.heroPrimaryCtaLabel }} <span aria-hidden="true">←</span></a>
+      <a class="cta cta-outline" href="#options">{{ p.heroSecondaryCtaLabel }} <span aria-hidden="true">←</span></a>
     </div>
   </div>
   <figure class="inner-hero-art commission-feature-art">
@@ -289,5 +289,5 @@ eleventyComputed:
 
 <div class="commission-sticky-cta js-sticky-cta" hidden>
   <span class="commission-sticky-cta-path js-sticky-cta-path"></span>
-  <a href="#inquiry-form" class="cta js-sticky-cta-link">{{ p.heroPrimaryCtaLabel }}</a>
+  <a href="#inquiry-form" class="cta js-sticky-cta-link">{{ p.heroPrimaryCtaLabel }} <span aria-hidden="true">←</span></a>
 </div>

@@ -226,10 +226,10 @@ eleventyComputed:
         <button type="button" class="cta js-add-all-to-cart" disabled>{{ purchaseButtons.addAllToCartLabel }}</button>
       </div>
 
-      <a class="cta cta-outline js-whatsapp" href="{{ (purchaseButtons.whatsappQuestionMessage | replace('{name}', artwork.name)) | waLink }}" target="_blank" rel="noopener noreferrer">{{ purchaseButtons.whatsappQuestionLabel }}</a>
+      <a class="cta cta-outline js-whatsapp" href="{{ (purchaseButtons.whatsappQuestionMessage | replace('{name}', artwork.name)) | waLink }}" target="_blank" rel="noopener noreferrer">{{ purchaseButtons.whatsappQuestionLabel }} <span aria-hidden="true">←</span></a>
 
       <p class="print-order-note js-print-order-note"></p>
-      <button class="artwork-share js-share" type="button" data-share-title="{{ artwork.name }} | {{ site.brand }}" data-share-text="{{ artwork.name }}, {{ artwork.description }}"><span aria-hidden="true">↗</span> <span class="js-share-label">{{ "Share" if isEn else "שיתוף" }}</span></button>
+      <button class="artwork-share js-share" type="button" data-share-title="{{ artwork.name }} | {{ (site | localize(locale)).brand }}" data-share-text="{{ artwork.name }}, {{ artwork.description }}"><span aria-hidden="true">↗</span> <span class="js-share-label">{{ "Share" if isEn else "שיתוף" }}</span></button>
 
       <details class="print-order-details">
         <summary><span aria-hidden="true">☰</span> {{ purchaseButtons.detailsLabel }}</summary>
@@ -253,14 +253,14 @@ eleventyComputed:
       <details class="print-order-details">
         <summary><span aria-hidden="true">⬡</span> {{ purchaseButtons.collectionLabel }}</summary>
         <div class="print-order-details-body">
-          <p>{{ purchaseButtons.collectionText | replace('{galleryMedium}', artwork.galleryMedium) | replace('{brand}', site.brand) }}</p>
+          <p>{{ purchaseButtons.collectionText | replace('{galleryMedium}', artwork.galleryMedium) | replace('{brand}', (site | localize(locale)).brand) }}</p>
         </div>
       </details>
 
       <details class="print-order-details">
         <summary><span aria-hidden="true">©</span> {{ purchaseButtons.copyrightLabel }}</summary>
         <div class="print-order-details-body">
-          <p>{{ purchaseButtons.copyrightText | replace('{brand}', site.brand) }} <a href="/rights/">{{ purchaseButtons.copyrightLinkLabel }}</a></p>
+          <p>{{ purchaseButtons.copyrightText | replace('{brand}', (site | localize(locale)).brand) }} <a href="{{ locale | localePrefix }}/rights/">{{ purchaseButtons.copyrightLinkLabel }}</a></p>
         </div>
       </details>
     </div>

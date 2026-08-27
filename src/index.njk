@@ -29,7 +29,7 @@ scripts:
     </div>
     {% if p.heroCtaLabel %}
     <div class="artist-opening-actions">
-      <a class="cta" href="{{ p.heroCtaHref or '#gallery' }}">{{ p.heroCtaLabel }}</a>
+      <a class="cta" href="{{ p.heroCtaHref or '#gallery' }}">{{ p.heroCtaLabel }} <span aria-hidden="true">←</span></a>
       {% if p.aboutLinkLabel %}<a class="editorial-link artist-opening-about" href="{{ p.aboutLinkHref or '/about/' }}">{{ p.aboutLinkLabel }} <span aria-hidden="true">←</span></a>{% endif %}
     </div>
     {% endif %}

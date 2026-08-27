@@ -152,10 +152,10 @@ eleventyComputed:
 
         <button type="button" class="cta js-add-to-cart" disabled>{{ "Add to Cart" if isEn else "הוספה לעגלה" }}</button>
 
-        <a class="cta cta-outline js-whatsapp" href="{{ (('Hi, I\'m interested in ' ~ item.name) if isEn else ('שלום, מתעניין/ת ב-' ~ item.name)) | waLink }}" target="_blank" rel="noopener noreferrer">{{ "Questions on WhatsApp" if isEn else "שאלות ב-WhatsApp" }}</a>
+        <a class="cta cta-outline js-whatsapp" href="{{ (('Hi, I\'m interested in ' ~ item.name) if isEn else ('שלום, מתעניין/ת ב-' ~ item.name)) | waLink }}" target="_blank" rel="noopener noreferrer">{{ "Questions on WhatsApp" if isEn else "שאלות ב-WhatsApp" }} <span aria-hidden="true">←</span></a>
 
         <p class="print-order-note js-print-order-note"></p>
-        <button class="artwork-share js-share" type="button" data-share-title="{{ item.name }} | {{ site.brand }}" data-share-text="{{ item.name }}, {{ item.description }}"><span aria-hidden="true">↗</span> <span class="js-share-label">{{ "Share" if isEn else "שיתוף" }}</span></button>
+        <button class="artwork-share js-share" type="button" data-share-title="{{ item.name }} | {{ (site | localize(locale)).brand }}" data-share-text="{{ item.name }}, {{ item.description }}"><span aria-hidden="true">↗</span> <span class="js-share-label">{{ "Share" if isEn else "שיתוף" }}</span></button>
 
         <details class="print-order-details">
           <summary><span aria-hidden="true">☰</span> {{ "Details" if isEn else "פרטים" }}</summary>

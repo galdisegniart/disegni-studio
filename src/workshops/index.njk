@@ -44,7 +44,7 @@ scripts:
   {% endif %}
   {% if hasHeroText %}
   <div class="workshop-hero-content">
-    {% if w.heroEyebrow %}<p class="hero-eyebrow">{{ w.heroEyebrow | replace('{brand}', site.brand) }}</p>{% endif %}
+    {% if w.heroEyebrow %}<p class="hero-eyebrow">{{ w.heroEyebrow | replace('{brand}', (site | localize(locale)).brand) }}</p>{% endif %}
     {% if w.introHeading %}<h1>{{ w.introHeading | safe }}</h1>{% endif %}
     {% if w.introText %}<p class="workshop-intro-text">{{ w.introText }}</p>{% endif %}
   </div>
