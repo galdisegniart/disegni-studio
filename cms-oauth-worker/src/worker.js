@@ -72,6 +72,10 @@ export default {
       return handleLeadsSubmit(request, env);
     }
 
+    if (url.pathname === "/geo") {
+      return handleGeo(request, env);
+    }
+
     if (url.pathname === "/bit-receipts/extract") {
       return handleBitReceiptExtract(request, env);
     }
@@ -2738,6 +2742,25 @@ async function handleLeadsSubmit(request, env) {
   await kvPutJSONPermanent(env, `lead:${id}`, lead);
 
   return jsonResponse({ ok: true, id }, 200, corsHeaders);
+}
+
+// Lets the site show/hide the Hebrew language toggle and decide whether to
+// auto-redirect to /he/ without any third-party geolocation service -
+// Cloudflare already resolves every request's country for free and exposes
+// it on request.cf, this just relays that one field back to the browser.
+function handleGeo(request, env) {
+  const corsHeaders = getCorsHeaders(request, env);
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: corsHeaders ? 204 : 403,
+      headers: corsHeaders || noStoreHeaders(),
+    });
+  }
+  if (!corsHeaders) {
+    return jsonResponse({ ok: false, error: "Origin not allowed" }, 403);
+  }
+  const country = (request.cf && request.cf.country) || null;
+  return jsonResponse({ ok: true, country }, 200, corsHeaders);
 }
 
 async function handleBitReceiptPublicSubmit(request, env) {
