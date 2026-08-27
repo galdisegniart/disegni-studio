@@ -1007,6 +1007,14 @@ html[dir="ltr"] .header-cart .js-cart-count {
   }
 }
 
+/* English (LTR) product gallery mirror — the thumbnail rail is the first
+   DOM child, so under the RTL rule above it lands on the physical right;
+   for English it needs to sit on the left, in front of the main image,
+   matching left-to-right reading order. */
+html[dir="ltr"] .artwork-gallery {
+  direction: ltr;
+}
+
 /* Hero / artist opening */
 .artist-opening {
   background: var(--black);
