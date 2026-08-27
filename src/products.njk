@@ -78,7 +78,7 @@ eleventyComputed:
   ] %}
   {% include "partials/breadcrumbs.njk" %}
   <div class="artwork-utility">
-    <a class="artwork-back js-back-link" href="/"><span aria-hidden="true">→</span> <span class="js-back-label">{{ "Back to Gallery" if isEn else "חזרה לגלריה" }}</span></a>
+    <a class="artwork-back js-back-link" href="/"><span class="dir-arrow" aria-hidden="true">→</span> <span class="js-back-label">{{ "Back to Gallery" if isEn else "חזרה לגלריה" }}</span></a>
   </div>
   <div class="artwork-detail-grid">
   {% if artwork.gallery and artwork.gallery.length %}
@@ -229,7 +229,7 @@ eleventyComputed:
         <button type="button" class="cta js-add-all-to-cart" disabled>{{ purchaseButtons.addAllToCartLabel }}</button>
       </div>
 
-      <a class="cta cta-outline js-whatsapp" href="{{ (purchaseButtons.whatsappQuestionMessage | replace('{name}', artwork.name)) | waLink }}" target="_blank" rel="noopener noreferrer">{{ purchaseButtons.whatsappQuestionLabel }} <span aria-hidden="true">←</span></a>
+      <a class="cta cta-outline js-whatsapp" href="{{ (purchaseButtons.whatsappQuestionMessage | replace('{name}', artwork.name)) | waLink }}" target="_blank" rel="noopener noreferrer">{{ purchaseButtons.whatsappQuestionLabel }} <span class="dir-arrow" aria-hidden="true">←</span></a>
 
       <p class="print-order-note js-print-order-note"></p>
       <button class="artwork-share js-share" type="button" data-share-title="{{ artwork.name }} | {{ (site | localize(locale)).brand }}" data-share-text="{{ artwork.name }}, {{ artwork.description }}"><span aria-hidden="true">↗</span> <span class="js-share-label">{{ "Share" if isEn else "שיתוף" }}</span></button>
@@ -353,7 +353,7 @@ eleventyComputed:
       {% endfor %}
     </ul>
     {% if pq.browseHref %}
-    <a class="print-quality-browse" href="{{ pq.browseHref }}">{{ pq.browseLabel }} <span aria-hidden="true">←</span></a>
+    <a class="print-quality-browse" href="{{ pq.browseHref }}">{{ pq.browseLabel }} <span class="dir-arrow" aria-hidden="true">←</span></a>
     {% endif %}
   </div>
   {% endif %}
@@ -396,7 +396,7 @@ eleventyComputed:
     {% if artwork.handEmbellished.price %}
     <p class="print-quality-price">{{ artwork.handEmbellished.price | numberFormat }} ₪{% if artwork.handEmbellished.sizeLabel %} · {{ artwork.handEmbellished.sizeLabel }}{% endif %}</p>
     {% endif %}
-    <a class="cta cta-outline" href="{{ (purchaseButtons.handEmbellishedWaMessage | replace('{name}', artwork.name)) | waLink }}" target="_blank" rel="noopener noreferrer">{{ purchaseButtons.handEmbellishedLabel }} <span aria-hidden="true">←</span></a>
+    <a class="cta cta-outline" href="{{ (purchaseButtons.handEmbellishedWaMessage | replace('{name}', artwork.name)) | waLink }}" target="_blank" rel="noopener noreferrer">{{ purchaseButtons.handEmbellishedLabel }} <span class="dir-arrow" aria-hidden="true">←</span></a>
   </div>
   {% endif %}
 
@@ -405,7 +405,7 @@ eleventyComputed:
 
 <section class="artwork-more">
   <div class="artwork-more-head">
-    <a class="js-back-link" href="{{ locale | localePrefix }}/"><span aria-hidden="true">→</span> <span class="js-back-label">{{ "Back to Gallery" if isEn else "חזרה לגלריה" }}</span></a>
+    <a class="js-back-link" href="{{ locale | localePrefix }}/"><span class="dir-arrow" aria-hidden="true">→</span> <span class="js-back-label">{{ "Back to Gallery" if isEn else "חזרה לגלריה" }}</span></a>
     <div class="artwork-sequence">
       <a id="previous-artwork" href="{{ locale | localePrefix }}/products/{{ seq.prev.slug }}/" aria-label="{{ ('Previous artwork, ' ~ seq.prev.name) if isEn else ('היצירה הקודמת, ' ~ seq.prev.name) }}">{{ "Previous" if isEn else "הקודמת" }}</a>
       <span>/</span>
@@ -416,7 +416,7 @@ eleventyComputed:
     {% for item in seq.more %}
     <a class="more-artwork-card" href="{{ locale | localePrefix }}/products/{{ item.slug }}/">
       <span class="more-artwork-image"><img src="{{ item.thumb }}" alt="{{ item.name }}" loading="lazy"></span>
-      <span class="more-artwork-caption"><strong lang="en">{{ item.name }}</strong><small>{{ item.galleryMedium }}</small><i aria-hidden="true">←</i></span>
+      <span class="more-artwork-caption"><strong lang="en">{{ item.name }}</strong><small>{{ item.galleryMedium }}</small><i class="dir-arrow" aria-hidden="true">←</i></span>
     </a>
     {% endfor %}
   </div>

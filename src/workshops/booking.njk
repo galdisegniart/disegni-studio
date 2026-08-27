@@ -14,7 +14,7 @@ scripts:
   - /js/booking-calendar.js
 ---
 <section class="booking-hero">
-  <a class="editorial-link" href="/workshops/{{ w.slug }}/"><span aria-hidden="true">→</span> חזרה ל{{ w.cardTitle }}</a>
+  <a class="editorial-link" href="/workshops/{{ w.slug }}/"><span class="dir-arrow" aria-hidden="true">→</span> חזרה ל{{ w.cardTitle }}</a>
   <p class="hero-eyebrow">תיאום מועד</p>
   <h1>בוחרים תאריך ושעה<br>ל{{ w.cardTitle }}.</h1>
   <p class="booking-note">
@@ -71,7 +71,7 @@ scripts:
 </section>
 
 <section class="booking-confirm" data-booking-confirm hidden>
-  <a class="editorial-link" href="#" data-booking-back><span aria-hidden="true">→</span> חזרה</a>
+  <a class="editorial-link" href="#" data-booking-back><span class="dir-arrow" aria-hidden="true">→</span> חזרה</a>
   <h1>לסיכום ואישור</h1>
   <div class="booking-confirm-grid">
     <aside class="booking-confirm-summary">

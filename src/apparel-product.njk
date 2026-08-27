@@ -70,7 +70,7 @@ eleventyComputed:
   ] %}
   {% include "partials/breadcrumbs.njk" %}
   <div class="artwork-utility">
-    <a class="artwork-back js-back-link" href="{{ (locale | localePrefix) + shopHref }}"><span aria-hidden="true">→</span> <span class="js-back-label">{{ "Back to Shop" if isEn else "חזרה לחנות" }}</span></a>
+    <a class="artwork-back js-back-link" href="{{ (locale | localePrefix) + shopHref }}"><span class="dir-arrow" aria-hidden="true">→</span> <span class="js-back-label">{{ "Back to Shop" if isEn else "חזרה לחנות" }}</span></a>
   </div>
   <div class="artwork-detail-grid">
     <div class="artwork-gallery{% if not item.gallery or not item.gallery.length %} artwork-gallery-single{% endif %}">
@@ -152,7 +152,7 @@ eleventyComputed:
 
         <button type="button" class="cta js-add-to-cart" disabled>{{ "Add to Cart" if isEn else "הוספה לעגלה" }}</button>
 
-        <a class="cta cta-outline js-whatsapp" href="{{ (('Hi, I\'m interested in ' ~ item.name) if isEn else ('שלום, מתעניין/ת ב-' ~ item.name)) | waLink }}" target="_blank" rel="noopener noreferrer">{{ "Questions on WhatsApp" if isEn else "שאלות ב-WhatsApp" }} <span aria-hidden="true">←</span></a>
+        <a class="cta cta-outline js-whatsapp" href="{{ (('Hi, I\'m interested in ' ~ item.name) if isEn else ('שלום, מתעניין/ת ב-' ~ item.name)) | waLink }}" target="_blank" rel="noopener noreferrer">{{ "Questions on WhatsApp" if isEn else "שאלות ב-WhatsApp" }} <span class="dir-arrow" aria-hidden="true">←</span></a>
 
         <p class="print-order-note js-print-order-note"></p>
         <button class="artwork-share js-share" type="button" data-share-title="{{ item.name }} | {{ (site | localize(locale)).brand }}" data-share-text="{{ item.name }}, {{ item.description }}"><span aria-hidden="true">↗</span> <span class="js-share-label">{{ "Share" if isEn else "שיתוף" }}</span></button>

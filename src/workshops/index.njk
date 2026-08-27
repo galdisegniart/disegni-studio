@@ -64,7 +64,7 @@ scripts:
           {% if item.cardLabel %}<span class="workshop-card-label">{{ item.cardLabel }}</span>{% endif %}
           <h2>{{ item.cardTitle }}</h2>
           {% if item.personaLine %}<p class="workshop-card-persona">{{ item.personaLine }}</p>{% endif %}
-          <span class="cta cta-outline workshop-card-cta">{{ w.cardDetailsCtaLabel or "לפרטי הסדנה" }} <span aria-hidden="true">←</span></span>
+          <span class="cta cta-outline workshop-card-cta">{{ w.cardDetailsCtaLabel or "לפרטי הסדנה" }} <span class="dir-arrow" aria-hidden="true">←</span></span>
         </div>
       </a>
     </article>
@@ -94,7 +94,7 @@ scripts:
       <span data-label="{{ w.comparisonPersonaLabel or 'מתאים למי' }}:">{{ item.personaLine }}</span>
       <span data-label="{{ w.comparisonProcessLabel or 'אופי התהליך' }}:">{{ item.cardLabel }}</span>
       <span data-label="{{ w.comparisonDurationLabel or 'משך או תדירות' }}:">{% if item.quickMeta and item.quickMeta.length %}{{ item.quickMeta[0].value }}{% endif %}</span>
-      <span class="workshop-compare-arrow" aria-hidden="true">←</span>
+      <span class="workshop-compare-arrow dir-arrow" aria-hidden="true">←</span>
     </a>
     {% endfor %}
   </div>

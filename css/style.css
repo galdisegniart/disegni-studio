@@ -1015,6 +1015,16 @@ html[dir="ltr"] .artwork-gallery {
   direction: ltr;
 }
 
+/* English (LTR) directional-arrow mirror — "back" links use → and
+   "forward/continue" links use ← throughout the site, correct for
+   Hebrew's right-to-left reading flow but backwards for English. Every
+   such glyph carries this class, so a single mirror fixes all of them
+   instead of hand-picking a translated character per occurrence. */
+html[dir="ltr"] .dir-arrow {
+  display: inline-block;
+  transform: scaleX(-1);
+}
+
 /* Hero / artist opening */
 .artist-opening {
   background: var(--black);

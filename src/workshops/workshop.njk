@@ -59,7 +59,7 @@ scripts:
 {% include "partials/breadcrumbs.njk" %}
 <section class="daily-workshop-hero">
   <div class="daily-workshop-copy">
-    <a class="editorial-link" href="{{ locale | localePrefix }}/workshops/"><span aria-hidden="true">→</span> {{ "Back to Workshops" if isEn else "חזרה לסדנאות" }}</a>
+    <a class="editorial-link" href="{{ locale | localePrefix }}/workshops/"><span class="dir-arrow" aria-hidden="true">→</span> {{ "Back to Workshops" if isEn else "חזרה לסדנאות" }}</a>
     <p class="hero-eyebrow">{{ w.eyebrow }}</p>
     <h1>{{ w.heading }}</h1>
     <p class="daily-workshop-lead">{{ w.lead }}</p>

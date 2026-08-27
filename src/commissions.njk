@@ -16,6 +16,7 @@ eleventyComputed:
   activeNav: "{{ 'Commissions' if locale == 'en' else 'יצירות בהזמנה' }}"
 ---
 {% set p = pages.commissions | localize(locale) %}
+{% set isEn = locale == "en" %}
 {% if p.heroVisible != false %}
 <section class="inner-hero commission-hero">
   <div class="inner-hero-copy">
@@ -23,8 +24,8 @@ eleventyComputed:
     <h1>{{ p.heroHeading | safe }}</h1>
     <p>{{ p.heroLead }}</p>
     <div class="commission-hero-ctas">
-      <a class="cta" href="#inquiry-form">{{ p.heroPrimaryCtaLabel }} <span aria-hidden="true">←</span></a>
-      <a class="cta cta-outline" href="#options">{{ p.heroSecondaryCtaLabel }} <span aria-hidden="true">←</span></a>
+      <a class="cta" href="#inquiry-form">{{ p.heroPrimaryCtaLabel }} <span class="dir-arrow" aria-hidden="true">←</span></a>
+      <a class="cta cta-outline" href="#options">{{ p.heroSecondaryCtaLabel }} <span class="dir-arrow" aria-hidden="true">←</span></a>
     </div>
   </div>
   <figure class="inner-hero-art commission-feature-art">
@@ -47,7 +48,7 @@ eleventyComputed:
     {% if p.introVideoPoster %}
     <img class="intro-video-poster" src="{{ p.introVideoPoster }}" alt="{{ p.introVideoPosterAlt }}">
     {% endif %}
-    <button type="button" class="intro-video-play js-intro-video-play" aria-label="הפעלת הסרטון">
+    <button type="button" class="intro-video-play js-intro-video-play" aria-label="{{ 'Play the video' if isEn else 'הפעלת הסרטון' }}">
       <span aria-hidden="true">▶</span>
     </button>
   </div>
@@ -86,16 +87,16 @@ eleventyComputed:
         </div>
         {% endif %}
         <div class="work-card-meta">
-          {% if work.timeEstimate %}<span class="work-card-meta-item"><strong>זמן יצירה:</strong> {{ work.timeEstimate }}</span>{% endif %}
-          {% if work.spotsAvailable %}<span class="work-card-meta-item"><strong>מקומות פנויים:</strong> {{ work.spotsAvailable }}</span>{% endif %}
+          {% if work.timeEstimate %}<span class="work-card-meta-item"><strong>{{ "Creation time:" if isEn else "זמן יצירה:" }}</strong> {{ work.timeEstimate }}</span>{% endif %}
+          {% if work.spotsAvailable %}<span class="work-card-meta-item"><strong>{{ "Spots available:" if isEn else "מקומות פנויים:" }}</strong> {{ work.spotsAvailable }}</span>{% endif %}
         </div>
         {% if work.paymentNote %}<p class="work-card-payment-note">{{ work.paymentNote }}</p>{% endif %}
       </div>
       <div class="work-card-footer">
         {% if work.price %}
-        <p class="work-card-price">{% if work.priceFrom %}<span class="from">החל מ-</span>{% endif %}<strong>{{ work.price }}</strong><span>₪</span></p>
+        <p class="work-card-price">{% if work.priceFrom %}<span class="from">{{ "Starting from" if isEn else "החל מ-" }}</span>{% endif %}<strong>{{ work.price }}</strong><span>₪</span></p>
         {% endif %}
-        <button type="button" class="cta js-path-select" data-path="{{ work.title }}">{{ work.pathCtaLabel or "לבחירת המסלול" }} <span aria-hidden="true">←</span></button>
+        <button type="button" class="cta js-path-select" data-path="{{ work.title }}">{{ work.pathCtaLabel or ("Choose This Path" if isEn else "לבחירת המסלול") }} <span class="dir-arrow" aria-hidden="true">←</span></button>
       </div>
     </article>
     {% endif %}
@@ -247,18 +248,18 @@ eleventyComputed:
     </label>
     <label><span>{{ p.inquiryPathLabel }}</span>
       <select name="path" required>
-        <option value="" selected disabled>בחרו אפשרות</option>
+        <option value="" selected disabled>{{ "Choose an option" if isEn else "בחרו אפשרות" }}</option>
         {% for work in p.works %}
         {% if work.visible != false %}
         <option value="{{ work.title }}">{{ work.title }}</option>
         {% endif %}
         {% endfor %}
-        <option value="עדיין לא בטוח/ה">עדיין לא בטוח/ה</option>
+        <option value="עדיין לא בטוח/ה">{{ "Not sure yet" if isEn else "עדיין לא בטוח/ה" }}</option>
       </select>
     </label>
     <label><span>{{ p.inquiryPurposeLabel }}</span>
       <select name="purpose" required>
-        <option value="" selected disabled>בחרו אפשרות</option>
+        <option value="" selected disabled>{{ "Choose an option" if isEn else "בחרו אפשרות" }}</option>
         {% for option in p.inquiryPurposeOptions %}
         <option value="{{ option }}">{{ option }}</option>
         {% endfor %}
@@ -270,7 +271,7 @@ eleventyComputed:
     {% if p.inquiryBudgetOptions and p.inquiryBudgetOptions.length %}
     <label><span>{{ p.inquiryBudgetLabel }}</span>
       <select name="budget">
-        <option value="" selected>לא רלוונטי</option>
+        <option value="" selected>{{ "Not applicable" if isEn else "לא רלוונטי" }}</option>
         {% for option in p.inquiryBudgetOptions %}
         <option value="{{ option }}">{{ option }}</option>
         {% endfor %}
@@ -289,5 +290,5 @@ eleventyComputed:
 
 <div class="commission-sticky-cta js-sticky-cta" hidden>
   <span class="commission-sticky-cta-path js-sticky-cta-path"></span>
-  <a href="#inquiry-form" class="cta js-sticky-cta-link">{{ p.heroPrimaryCtaLabel }} <span aria-hidden="true">←</span></a>
+  <a href="#inquiry-form" class="cta js-sticky-cta-link">{{ p.heroPrimaryCtaLabel }} <span class="dir-arrow" aria-hidden="true">←</span></a>
 </div>

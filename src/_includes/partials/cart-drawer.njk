@@ -23,7 +23,7 @@
       <span>{{ 'Total' if isEn else 'סה״כ' }}</span>
       <strong class="cart-drawer-total"></strong>
     </div>
-    <a class="cart-drawer-checkout" href="{{ cartPrefix }}/cart/">{{ 'Go to Cart & Checkout' if isEn else 'לעגלה ולתשלום' }} <span aria-hidden="true">←</span></a>
+    <a class="cart-drawer-checkout" href="{{ cartPrefix }}/cart/">{{ 'Go to Cart & Checkout' if isEn else 'לעגלה ולתשלום' }} <span class="dir-arrow" aria-hidden="true">←</span></a>
     <button class="cart-drawer-continue js-cart-drawer-close" type="button">{{ 'Continue Shopping' if isEn else 'המשך בקנייה' }}</button>
   </div>
 </aside>
