@@ -8,7 +8,7 @@
       "name": "{{ site.brand }}",
       "url": "{{ site.siteUrl }}/about/",
       "image": "{{ site.siteUrl }}/images/disegni-profile.webp",
-      "jobTitle": "אמן ויוצר חזותי",
+      "jobTitle": "{{ 'Visual Artist' if locale == 'en' else 'אמן ויוצר חזותי' }}",
       "sameAs": [{% for s in site.socials %}"{{ s.href }}"{% if not loop.last %}, {% endif %}{% endfor %}]
     },
     {

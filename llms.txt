@@ -1,0 +1,34 @@
+# Gal Disegni
+
+> Original hand-painted art, portraits, art prints, and visionary-art workshops by Israeli artist Gal Disegni, based in Hadera, Israel. Site is bilingual: English (default, root URLs) and Hebrew (/he/ prefix).
+
+Gal Disegni creates original paintings and portraits (realistic, intuitive, and visionary styles - completely original, no AI), sells fine art prints and apparel of his artwork, takes private commissions, and runs in-person and ongoing art workshops.
+
+## Shop
+- [All Prints](https://disegni.studio/collections/prints/): fine art paper, stretched canvas, and framed prints of original artworks, made to order
+- [Available Originals](https://disegni.studio/collections/originals/): one-of-a-kind original paintings currently for sale
+- [Apparel](https://disegni.studio/collections/apparel/): hoodies, t-shirts, and other clothing featuring original artwork
+- [Stickers](https://disegni.studio/collections/stickers/)
+- [Gallery / all artworks](https://disegni.studio/)
+
+## Commissions
+- [Commissions](https://disegni.studio/commissions/): custom personal portraits and paintings, private inquiry process, multiple tiers and price points
+
+## Workshops
+- [All Workshops](https://disegni.studio/workshops/): visionary-art painting workshops, in Hadera, Israel and ongoing/online formats
+- [Daily Art Workshop](https://disegni.studio/workshops/daily-art/)
+- [Ongoing Workshop](https://disegni.studio/workshops/monthly-art/)
+- [8-Session Track](https://disegni.studio/workshops/structured-art/)
+
+## About & Policies
+- [About Gal Disegni](https://disegni.studio/about/)
+- [Contact](https://disegni.studio/contact/)
+- [Terms & Purchase Policy](https://disegni.studio/terms/)
+- [Returns & Cancellations](https://disegni.studio/returns/)
+- [Copyright Policy](https://disegni.studio/rights/)
+- [Privacy Policy](https://disegni.studio/privacy/)
+
+## Notes
+- All artwork is genuinely hand-made by Gal Disegni - no AI-generated art.
+- Prices are shown in ILS (₪); international shipping available, shipping cost calculated by size/quantity at checkout.
+- Hebrew version of every page above is available at the same path under /he/ (e.g. https://disegni.studio/he/commissions/).
