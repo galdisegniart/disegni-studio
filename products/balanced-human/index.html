@@ -63,7 +63,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/style.css?v=e4d279b5">
+<link rel="stylesheet" href="/css/style.css?v=76bdc2e8">
 </head>
 <body id="top" data-whatsapp="972552902934">
 
@@ -497,35 +497,39 @@
 </div>
 
 
+
+
 <div class="cart-drawer-overlay js-cart-drawer-close" hidden></div>
-<aside class="cart-drawer" id="cart-drawer" aria-label="עגלת קניות" aria-hidden="true">
+<aside class="cart-drawer" id="cart-drawer" aria-label="Shopping cart" aria-hidden="true">
   <div class="cart-drawer-header">
-    <h2>העגלה שלי <span class="cart-drawer-count"></span></h2>
-    <button class="cart-drawer-close js-cart-drawer-close" type="button" aria-label="סגירת העגלה">×</button>
+    <h2>My Cart <span class="cart-drawer-count"></span></h2>
+    <button class="cart-drawer-close js-cart-drawer-close" type="button" aria-label="Close cart">×</button>
   </div>
   <div class="cart-drawer-body">
-    <p class="cart-drawer-empty" hidden>העגלה עדיין ריקה.</p>
+    <p class="cart-drawer-empty" hidden>Your cart is still empty.</p>
     <ul class="cart-drawer-items"></ul>
   </div>
   <div class="cart-drawer-footer" hidden>
     <div class="cart-drawer-summary-row">
-      <span>סכום ביניים</span>
+      <span>Subtotal</span>
       <strong class="cart-drawer-subtotal"></strong>
     </div>
     <div class="cart-drawer-summary-row cart-drawer-shipping-row">
-      <span>משלוח</span>
+      <span>Shipping</span>
       <strong class="cart-drawer-shipping"></strong>
     </div>
     <div class="cart-drawer-summary-row cart-drawer-total-row">
-      <span>סה״כ</span>
+      <span>Total</span>
       <strong class="cart-drawer-total"></strong>
     </div>
-    <a class="cart-drawer-checkout" href="/cart/">לעגלה ולתשלום <span aria-hidden="true">←</span></a>
-    <button class="cart-drawer-continue js-cart-drawer-close" type="button">המשך בקנייה</button>
+    <a class="cart-drawer-checkout" href="/cart/">Go to Cart &amp; Checkout <span aria-hidden="true">←</span></a>
+    <button class="cart-drawer-continue js-cart-drawer-close" type="button">Continue Shopping</button>
   </div>
 </aside>
 
 <main id="main-content">
+
+
 
 
 
@@ -576,7 +580,7 @@
 
 <section class="artwork-detail">
   
-  <nav class="breadcrumbs" aria-label="פירורי לחם">
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
   <a href="/">Home</a><span class="breadcrumbs-sep" aria-hidden="true">/</span><a href="/collections/prints/">Prints</a><span class="breadcrumbs-sep" aria-hidden="true">/</span><span aria-current="page">Balanced Human</span>
 </nav>
 
@@ -608,7 +612,7 @@
 </script>
 
   <div class="artwork-utility">
-    <a class="artwork-back js-back-link" href="/"><span aria-hidden="true">→</span> <span class="js-back-label">חזרה לגלריה</span></a>
+    <a class="artwork-back js-back-link" href="/"><span aria-hidden="true">→</span> <span class="js-back-label">Back to Gallery</span></a>
   </div>
   <div class="artwork-detail-grid">
   
@@ -619,15 +623,15 @@
   <div class="artwork-detail-copy">
     <h1>Balanced Human</h1>
     <div class="print-order" data-artwork-slug="balanced-human" data-artwork-name="Balanced Human" data-artwork-image="/images/artworks/balanced_human+WEB.webp" data-payment-image="">
-      <p class="print-order-startprice">החל מ- <span>89 ₪</span></p>
+      <p class="print-order-startprice">Starting from <span>89 ₪</span></p>
       <div class="print-order-head">
-        <p class="print-order-kicker">אפשרויות רכישה</p>
+        <p class="print-order-kicker">Purchase Options</p>
       </div>
 
       <div class="print-order-heading-row">
-        <h2 class="print-order-quality-heading">בחרו פורמט</h2>
-        <button type="button" class="print-order-multiselect js-toggle-multiselect" hidden>בחירה מרובה</button>
-        <button type="button" class="print-order-clear js-clear-selection" hidden>ניקוי בחירה</button>
+        <h2 class="print-order-quality-heading">Choose a Format</h2>
+        <button type="button" class="print-order-multiselect js-toggle-multiselect" hidden>Select Multiple</button>
+        <button type="button" class="print-order-clear js-clear-selection" hidden>Clear Selection</button>
       </div>
 
       <script class="js-option-thumbnails" type="application/json">{"poster":"/images/artworks/balanced_human+WEB.webp","canvas":"/images/artworks/balanced_human+WEB.webp","framed-print":"/images/artworks/balanced_human+WEB.webp"}</script>
@@ -661,9 +665,9 @@
       <div class="print-order-selects" hidden aria-hidden="true">
         
         <div class="print-order-field">
-          <span class="print-order-field-label">סגנון</span>
-          <select class="js-style-select" aria-label="בחירת סגנון הדפסה" tabindex="-1">
-            <option value="" selected>בחרו סגנון</option>
+          <span class="print-order-field-label">Style</span>
+          <select class="js-style-select" aria-label="Choose print style" tabindex="-1">
+            <option value="" selected>Choose a style</option>
             
             
             <option value="paper">נייר אמנותי</option>
@@ -676,53 +680,53 @@
           </select>
         </div>
         <div class="print-order-field">
-          <span class="print-order-field-label">גודל</span>
-          <select class="js-size-select" aria-label="בחירת גודל" disabled tabindex="-1">
-            <option value="" selected>בחרו סגנון קודם</option>
+          <span class="print-order-field-label">Size</span>
+          <select class="js-size-select" aria-label="Choose size" disabled tabindex="-1">
+            <option value="" selected>Choose a style first</option>
           </select>
         </div>
         
       </div>
 
-      <div class="print-order-cards" role="group" aria-label="בחירת אפשרות">
+      <div class="print-order-cards" role="group" aria-label="Choose an option">
         
         
       </div>
 
       <div class="print-order-footrow">
-        <p class="print-order-price">סה"כ <span class="js-live-price">—</span></p>
+        <p class="print-order-price">Total <span class="js-live-price">—</span></p>
         <div class="currency-toggle-mini">
-          <button type="button" class="js-currency-toggle active" data-currency="ILS">₪ · ס"מ</button>
+          <button type="button" class="js-currency-toggle active" data-currency="ILS">₪ · cm</button>
           <span>·</span>
           <button type="button" class="js-currency-toggle" data-currency="USD">$ · inch</button>
         </div>
       </div>
 
       <div class="print-order-field print-order-qty-field">
-        <span class="print-order-field-label">כמות</span>
+        <span class="print-order-field-label">Quantity</span>
         <div class="qty-stepper">
-          <button type="button" class="js-order-qty-minus" aria-label="הפחתת כמות">−</button>
+          <button type="button" class="js-order-qty-minus" aria-label="Decrease quantity">−</button>
           <span class="js-order-qty">1</span>
-          <button type="button" class="js-order-qty-plus" aria-label="הוספת כמות">+</button>
+          <button type="button" class="js-order-qty-plus" aria-label="Increase quantity">+</button>
         </div>
       </div>
 
-      <button type="button" class="cta js-add-to-cart" disabled>הוספה לעגלה</button>
+      <button type="button" class="cta js-add-to-cart" disabled>Add to Cart</button>
 
-      <div class="print-order-multiselect-summary" data-template="{count} פריטים נבחרו · סה&quot;כ {total}" data-hint="בחרו כמה פורמטים והוסיפו הכל לעגלה יחד" hidden>
+      <div class="print-order-multiselect-summary" data-template="{count} items selected · Total {total}" data-hint="Select a few formats and add them all to your cart together" hidden>
         <p class="print-order-multiselect-count js-multiselect-count"></p>
-        <button type="button" class="cta js-add-all-to-cart" disabled>הוסף הכל לעגלה</button>
+        <button type="button" class="cta js-add-all-to-cart" disabled>Add All to Cart</button>
       </div>
 
-      <a class="cta cta-outline js-whatsapp" href="https://wa.me/972552902934?text=%D7%A9%D7%9C%D7%95%D7%9D%20%D7%92%D7%9C%2C%20%D7%99%D7%A9%20%D7%9C%D7%99%20%D7%A9%D7%90%D7%9C%D7%94%20%D7%9C%D7%A4%D7%A0%D7%99%20%D7%A8%D7%9B%D7%99%D7%A9%D7%AA%20%D7%94%D7%93%D7%A4%D7%A1%20%D7%A9%D7%9C%20%22Balanced%20Human%22." target="_blank" rel="noopener noreferrer">שאלות לפני רכישה ב-WhatsApp</a>
+      <a class="cta cta-outline js-whatsapp" href="https://wa.me/972552902934?text=Hi%20Gal%2C%20I%20have%20a%20question%20before%20ordering%20a%20print%20of%20%22Balanced%20Human%22." target="_blank" rel="noopener noreferrer">Questions Before Buying on WhatsApp</a>
 
       <p class="print-order-note js-print-order-note"></p>
       <button class="artwork-share js-share" type="button" data-share-title="Balanced Human | גל דִּיסֵנִי" data-share-text="Balanced Human, A glowing human figure with its energy centers lit along the body - a balance between the physical and the spiritual in a quiet, luminous presence."><span aria-hidden="true">↗</span> <span class="js-share-label">Share</span></button>
 
       <details class="print-order-details">
-        <summary><span aria-hidden="true">☰</span> פרטים</summary>
+        <summary><span aria-hidden="true">☰</span> Details</summary>
         <div class="print-order-details-body">
-          <p>היצירה המקורית נוצרה בPastel on paper. ההדפס הוא רפרודוקציה איכותית שלה, מיוצר לפי הזמנה.</p>
+          <p>The original artwork was created in Pastel on paper. This print is a high-quality reproduction of it, made to order.</p>
           
           <p>המחירים אינם כוללים משלוח. עלות המשלוח מחושבת לפי סוג ההדפס, הגודל והכמות, ומוצגת במלואה בעגלה לפני התשלום.</p>
           
@@ -730,23 +734,23 @@
       </details>
 
       <details class="print-order-details">
-        <summary><span aria-hidden="true">✦</span> השראה</summary>
+        <summary><span aria-hidden="true">✦</span> Inspiration</summary>
         <div class="print-order-details-body">
           <p><span style="unicode-bidi:plaintext;">A glowing human figure with its energy centers lit along the body - a balance between the physical and the spiritual in a quiet, luminous presence.</span></p>
         </div>
       </details>
 
       <details class="print-order-details">
-        <summary><span aria-hidden="true">⬡</span> קולקציה</summary>
+        <summary><span aria-hidden="true">⬡</span> Collection</summary>
         <div class="print-order-details-body">
-          <p>היצירה שייכת לעולם הPastel של גל דִּיסֵנִי.</p>
+          <p>This piece belongs to גל דִּיסֵנִי&#39;s Pastel collection.</p>
         </div>
       </details>
 
       <details class="print-order-details">
-        <summary><span aria-hidden="true">©</span> זכויות יוצרים</summary>
+        <summary><span aria-hidden="true">©</span> Copyright</summary>
         <div class="print-order-details-body">
-          <p>כל היצירות, הדימויים והתוכן באתר זה מוגנים בזכויות יוצרים של גל דִּיסֵנִי. <a href="/rights/">למדיניות זכויות היוצרים המלאה</a></p>
+          <p>All artworks, images, and content on this site are protected by גל דִּיסֵנִי&#39;s copyright. <a href="/rights/">Read the full Copyright Policy</a></p>
         </div>
       </details>
     </div>
@@ -765,153 +769,153 @@
 
 <section class="artwork-more">
   <div class="artwork-more-head">
-    <a class="js-back-link" href="/"><span aria-hidden="true">→</span> <span class="js-back-label">חזרה לגלריה</span></a>
+    <a class="js-back-link" href="/"><span aria-hidden="true">→</span> <span class="js-back-label">Back to Gallery</span></a>
     <div class="artwork-sequence">
-      <a id="previous-artwork" href="/products/womb-of-creation/" aria-label="היצירה הקודמת, Womb Of Creation">הקודמת</a>
+      <a id="previous-artwork" href="/products/womb-of-creation/" aria-label="Previous artwork, Womb Of Creation">Previous</a>
       <span>/</span>
-      <a id="next-artwork" href="/products/goddess-of-truth/" aria-label="היצירה הבאה, Goddess Of Truth">הבאה</a>
+      <a id="next-artwork" href="/products/goddess-of-truth/" aria-label="Next artwork, Goddess Of Truth">Next</a>
     </div>
   </div>
   <div class="artwork-more-grid">
     
     <a class="more-artwork-card" href="/products/goddess-of-truth/">
       <span class="more-artwork-image"><img src="/images/artworks/goddess_of_truth+WEB.webp" alt="Goddess Of Truth" loading="lazy"></span>
-      <span class="more-artwork-caption"><strong lang="en">Goddess Of Truth</strong><small>פסטל</small><i aria-hidden="true">←</i></span>
+      <span class="more-artwork-caption"><strong lang="en">Goddess Of Truth</strong><small>Pastel</small><i aria-hidden="true">←</i></span>
     </a>
     
     <a class="more-artwork-card" href="/products/surender-to-fear/">
-      <span class="more-artwork-image"><img src="/images/artworks/surender_to_fear+WEB.webp" alt="Surender To Fear" loading="lazy"></span>
-      <span class="more-artwork-caption"><strong lang="en">Surender To Fear</strong><small>פסטל · פורטרט</small><i aria-hidden="true">←</i></span>
+      <span class="more-artwork-image"><img src="/images/artworks/surender_to_fear+WEB.webp" alt="Surrender To Fear" loading="lazy"></span>
+      <span class="more-artwork-caption"><strong lang="en">Surrender To Fear</strong><small>Pastel · Portrait</small><i aria-hidden="true">←</i></span>
     </a>
     
     <a class="more-artwork-card" href="/products/light/">
       <span class="more-artwork-image"><img src="/images/gallery/light+thumb.webp" alt="Light" loading="lazy"></span>
-      <span class="more-artwork-caption"><strong lang="en">Light</strong><small>רישום · פורטרט</small><i aria-hidden="true">←</i></span>
+      <span class="more-artwork-caption"><strong lang="en">Light</strong><small>Drawing · Portrait</small><i aria-hidden="true">←</i></span>
     </a>
     
     <a class="more-artwork-card" href="/products/precious/">
       <span class="more-artwork-image"><img src="/images/gallery/precious+thumb.webp" alt="Precious" loading="lazy"></span>
-      <span class="more-artwork-caption"><strong lang="en">Precious</strong><small>מיקס-מדיה</small><i aria-hidden="true">←</i></span>
+      <span class="more-artwork-caption"><strong lang="en">Precious</strong><small>Mixed Media</small><i aria-hidden="true">←</i></span>
     </a>
     
     <a class="more-artwork-card" href="/products/dreaming-reality/">
       <span class="more-artwork-image"><img src="/images/gallery/dreaming-reality+thumb.webp" alt="Dreaming Reality" loading="lazy"></span>
-      <span class="more-artwork-caption"><strong lang="en">Dreaming Reality</strong><small>מיקס-מדיה</small><i aria-hidden="true">←</i></span>
+      <span class="more-artwork-caption"><strong lang="en">Dreaming Reality</strong><small>Mixed Media</small><i aria-hidden="true">←</i></span>
     </a>
     
     <a class="more-artwork-card" href="/products/orin/">
       <span class="more-artwork-image"><img src="/images/gallery/orin+thumb.webp" alt="Orin" loading="lazy"></span>
-      <span class="more-artwork-caption"><strong lang="en">Orin</strong><small>מיקס-מדיה</small><i aria-hidden="true">←</i></span>
+      <span class="more-artwork-caption"><strong lang="en">Orin</strong><small>Mixed Media</small><i aria-hidden="true">←</i></span>
     </a>
     
     <a class="more-artwork-card" href="/products/vulnerability-is-strength/">
       <span class="more-artwork-image"><img src="/images/gallery/vulnerability-is-strength+thumb.webp" alt="Vulnerability Is Strength" loading="lazy"></span>
-      <span class="more-artwork-caption"><strong lang="en">Vulnerability Is Strength</strong><small>טכניקה משולבת</small><i aria-hidden="true">←</i></span>
+      <span class="more-artwork-caption"><strong lang="en">Vulnerability Is Strength</strong><small>Mixed Technique</small><i aria-hidden="true">←</i></span>
     </a>
     
     <a class="more-artwork-card" href="/products/seed-of-joy/">
       <span class="more-artwork-image"><img src="/images/gallery/seed-of-joy+thumb.webp" alt="Seed of Joy" loading="lazy"></span>
-      <span class="more-artwork-caption"><strong lang="en">Seed of Joy</strong><small>טכניקה משולבת</small><i aria-hidden="true">←</i></span>
+      <span class="more-artwork-caption"><strong lang="en">Seed of Joy</strong><small>Mixed Technique</small><i aria-hidden="true">←</i></span>
     </a>
     
     <a class="more-artwork-card" href="/products/pure-masculine-and-feminine/">
       <span class="more-artwork-image"><img src="/images/gallery/pure-masculine-and-feminine+thumb.webp" alt="Pure Masculine &amp; Feminine" loading="lazy"></span>
-      <span class="more-artwork-caption"><strong lang="en">Pure Masculine &amp; Feminine</strong><small>טכניקה משולבת</small><i aria-hidden="true">←</i></span>
+      <span class="more-artwork-caption"><strong lang="en">Pure Masculine &amp; Feminine</strong><small>Mixed Technique</small><i aria-hidden="true">←</i></span>
     </a>
     
     <a class="more-artwork-card" href="/products/moon-cycle-of-healing/">
       <span class="more-artwork-image"><img src="/images/gallery/moon-cycle-of-healing+thumb.webp" alt="Moon Cycle of Healing" loading="lazy"></span>
-      <span class="more-artwork-caption"><strong lang="en">Moon Cycle of Healing</strong><small>טכניקה משולבת</small><i aria-hidden="true">←</i></span>
+      <span class="more-artwork-caption"><strong lang="en">Moon Cycle of Healing</strong><small>Mixed Technique</small><i aria-hidden="true">←</i></span>
     </a>
     
     <a class="more-artwork-card" href="/products/third-eye-engine/">
       <span class="more-artwork-image"><img src="/images/gallery/third-eye-engine+thumb.webp" alt="Third Eye Engine" loading="lazy"></span>
-      <span class="more-artwork-caption"><strong lang="en">Third Eye Engine</strong><small>טכניקה משולבת</small><i aria-hidden="true">←</i></span>
+      <span class="more-artwork-caption"><strong lang="en">Third Eye Engine</strong><small>Mixed Technique</small><i aria-hidden="true">←</i></span>
     </a>
     
     <a class="more-artwork-card" href="/products/power-crystal/">
       <span class="more-artwork-image"><img src="/images/gallery/power-crystal+thumb.webp" alt="Power Crystal" loading="lazy"></span>
-      <span class="more-artwork-caption"><strong lang="en">Power Crystal</strong><small>טכניקה משולבת</small><i aria-hidden="true">←</i></span>
+      <span class="more-artwork-caption"><strong lang="en">Power Crystal</strong><small>Mixed Technique</small><i aria-hidden="true">←</i></span>
     </a>
     
     <a class="more-artwork-card" href="/products/exaltation/">
       <span class="more-artwork-image"><img src="/images/gallery/exaltation+thumb.webp" alt="Exaltation" loading="lazy"></span>
-      <span class="more-artwork-caption"><strong lang="en">Exaltation</strong><small>טכניקה משולבת</small><i aria-hidden="true">←</i></span>
+      <span class="more-artwork-caption"><strong lang="en">Exaltation</strong><small>Mixed Technique</small><i aria-hidden="true">←</i></span>
     </a>
     
     <a class="more-artwork-card" href="/products/soul-dna/">
       <span class="more-artwork-image"><img src="/images/gallery/soul-dna+thumb.webp" alt="Soul DNA" loading="lazy"></span>
-      <span class="more-artwork-caption"><strong lang="en">Soul DNA</strong><small>טכניקה משולבת</small><i aria-hidden="true">←</i></span>
+      <span class="more-artwork-caption"><strong lang="en">Soul DNA</strong><small>Mixed Technique</small><i aria-hidden="true">←</i></span>
     </a>
     
     <a class="more-artwork-card" href="/products/the-pyramid-of-the-one/">
       <span class="more-artwork-image"><img src="/images/gallery/the-pyramid-of-the-one+thumb.webp" alt="The Pyramid of the One" loading="lazy"></span>
-      <span class="more-artwork-caption"><strong lang="en">The Pyramid of the One</strong><small>טכניקה משולבת</small><i aria-hidden="true">←</i></span>
+      <span class="more-artwork-caption"><strong lang="en">The Pyramid of the One</strong><small>Mixed Technique</small><i aria-hidden="true">←</i></span>
     </a>
     
     <a class="more-artwork-card" href="/products/ying-yang-couple/">
       <span class="more-artwork-image"><img src="/images/gallery/ying-yang-couple+thumb.webp" alt="Ying Yang Couple" loading="lazy"></span>
-      <span class="more-artwork-caption"><strong lang="en">Ying Yang Couple</strong><small>טכניקה משולבת</small><i aria-hidden="true">←</i></span>
+      <span class="more-artwork-caption"><strong lang="en">Ying Yang Couple</strong><small>Mixed Technique</small><i aria-hidden="true">←</i></span>
     </a>
     
     <a class="more-artwork-card" href="/products/release-control/">
       <span class="more-artwork-image"><img src="/images/gallery/release-control+thumb.webp" alt="Release Control" loading="lazy"></span>
-      <span class="more-artwork-caption"><strong lang="en">Release Control</strong><small>טכניקה משולבת</small><i aria-hidden="true">←</i></span>
+      <span class="more-artwork-caption"><strong lang="en">Release Control</strong><small>Mixed Technique</small><i aria-hidden="true">←</i></span>
     </a>
     
     <a class="more-artwork-card" href="/products/divine-feminine-rivers/">
       <span class="more-artwork-image"><img src="/images/gallery/divine-feminine-rivers+thumb.webp" alt="Divine Feminine Rivers" loading="lazy"></span>
-      <span class="more-artwork-caption"><strong lang="en">Divine Feminine Rivers</strong><small>טכניקה משולבת</small><i aria-hidden="true">←</i></span>
+      <span class="more-artwork-caption"><strong lang="en">Divine Feminine Rivers</strong><small>Mixed Technique</small><i aria-hidden="true">←</i></span>
     </a>
     
     <a class="more-artwork-card" href="/products/absorbing-fire/">
       <span class="more-artwork-image"><img src="/images/gallery/absorbing-fire+thumb.webp" alt="Absorbing Fire" loading="lazy"></span>
-      <span class="more-artwork-caption"><strong lang="en">Absorbing Fire</strong><small>טכניקה משולבת</small><i aria-hidden="true">←</i></span>
+      <span class="more-artwork-caption"><strong lang="en">Absorbing Fire</strong><small>Mixed Technique</small><i aria-hidden="true">←</i></span>
     </a>
     
     <a class="more-artwork-card" href="/products/peace-with-femininity/">
       <span class="more-artwork-image"><img src="/images/gallery/peace-with-femininity+thumb.webp" alt="Peace With Femininity" loading="lazy"></span>
-      <span class="more-artwork-caption"><strong lang="en">Peace With Femininity</strong><small>טכניקה משולבת</small><i aria-hidden="true">←</i></span>
+      <span class="more-artwork-caption"><strong lang="en">Peace With Femininity</strong><small>Mixed Technique</small><i aria-hidden="true">←</i></span>
     </a>
     
     <a class="more-artwork-card" href="/products/mystical-yoni/">
       <span class="more-artwork-image"><img src="/images/gallery/mystical-yoni+thumb.webp" alt="Mystical Yoni" loading="lazy"></span>
-      <span class="more-artwork-caption"><strong lang="en">Mystical Yoni</strong><small>טכניקה משולבת</small><i aria-hidden="true">←</i></span>
+      <span class="more-artwork-caption"><strong lang="en">Mystical Yoni</strong><small>Mixed Technique</small><i aria-hidden="true">←</i></span>
     </a>
     
     <a class="more-artwork-card" href="/products/transforming-fire-to-water/">
       <span class="more-artwork-image"><img src="/images/gallery/transforming-fire-to-water+thumb.webp" alt="Transforming Fire to Water" loading="lazy"></span>
-      <span class="more-artwork-caption"><strong lang="en">Transforming Fire to Water</strong><small>טכניקה משולבת</small><i aria-hidden="true">←</i></span>
+      <span class="more-artwork-caption"><strong lang="en">Transforming Fire to Water</strong><small>Mixed Technique</small><i aria-hidden="true">←</i></span>
     </a>
     
     <a class="more-artwork-card" href="/products/dragon-bloom/">
       <span class="more-artwork-image"><img src="/images/artworks/Dragon_Bloom+WEB.webp" alt="Dragon Bloom" loading="lazy"></span>
-      <span class="more-artwork-caption"><strong lang="en">Dragon Bloom</strong><small>פסטל</small><i aria-hidden="true">←</i></span>
+      <span class="more-artwork-caption"><strong lang="en">Dragon Bloom</strong><small>Pastel</small><i aria-hidden="true">←</i></span>
     </a>
     
     <a class="more-artwork-card" href="/products/estis-memory/">
       <span class="more-artwork-image"><img src="/images/artworks/Estis_memory+WEB.webp" alt="Estis Memory" loading="lazy"></span>
-      <span class="more-artwork-caption"><strong lang="en">Estis Memory</strong><small>פסטל</small><i aria-hidden="true">←</i></span>
+      <span class="more-artwork-caption"><strong lang="en">Estis Memory</strong><small>Pastel</small><i aria-hidden="true">←</i></span>
     </a>
     
     <a class="more-artwork-card" href="/products/harmonized-electric-earth/">
       <span class="more-artwork-image"><img src="/images/artworks/Harmonized_Electric_Earth+WEB.webp" alt="Harmonized Electric Earth" loading="lazy"></span>
-      <span class="more-artwork-caption"><strong lang="en">Harmonized Electric Earth</strong><small>פסטל</small><i aria-hidden="true">←</i></span>
+      <span class="more-artwork-caption"><strong lang="en">Harmonized Electric Earth</strong><small>Pastel</small><i aria-hidden="true">←</i></span>
     </a>
     
     <a class="more-artwork-card" href="/products/hypno-medicine/">
       <span class="more-artwork-image"><img src="/images/artworks/Hypno-Medicine.webp" alt="Hypno Medicine" loading="lazy"></span>
-      <span class="more-artwork-caption"><strong lang="en">Hypno Medicine</strong><small>פסטל</small><i aria-hidden="true">←</i></span>
+      <span class="more-artwork-caption"><strong lang="en">Hypno Medicine</strong><small>Pastel</small><i aria-hidden="true">←</i></span>
     </a>
     
     <a class="more-artwork-card" href="/products/the-protector-of-earth/">
       <span class="more-artwork-image"><img src="/images/artworks/The_Protector_Of_Earth+WEB.webp" alt="The Protector Of Earth" loading="lazy"></span>
-      <span class="more-artwork-caption"><strong lang="en">The Protector Of Earth</strong><small>פסטל</small><i aria-hidden="true">←</i></span>
+      <span class="more-artwork-caption"><strong lang="en">The Protector Of Earth</strong><small>Pastel</small><i aria-hidden="true">←</i></span>
     </a>
     
     <a class="more-artwork-card" href="/products/womb-of-creation/">
       <span class="more-artwork-image"><img src="/images/artworks/Womb-Of-Creation+WEB.webp" alt="Womb Of Creation" loading="lazy"></span>
-      <span class="more-artwork-caption"><strong lang="en">Womb Of Creation</strong><small>פסטל</small><i aria-hidden="true">←</i></span>
+      <span class="more-artwork-caption"><strong lang="en">Womb Of Creation</strong><small>Pastel</small><i aria-hidden="true">←</i></span>
     </a>
     
   </div>
@@ -931,16 +935,16 @@
 </footer>
 
 
-<script src="/js/back-link.js?v=e4d279b5"></script>
+<script src="/js/back-link.js?v=76bdc2e8"></script>
 
-<script src="/js/share.js?v=e4d279b5"></script>
+<script src="/js/share.js?v=76bdc2e8"></script>
 
-<script src="/js/product-gallery.js?v=e4d279b5"></script>
+<script src="/js/product-gallery.js?v=76bdc2e8"></script>
 
-<script src="/js/artwork-zoom.js?v=e4d279b5"></script>
+<script src="/js/artwork-zoom.js?v=76bdc2e8"></script>
 
-<script src="/js/cart.js?v=e4d279b5"></script>
-<script src="/js/nav-toggle.js?v=e4d279b5"></script>
-<script src="/js/header-search.js?v=e4d279b5"></script>
+<script src="/js/cart.js?v=76bdc2e8"></script>
+<script src="/js/nav-toggle.js?v=76bdc2e8"></script>
+<script src="/js/header-search.js?v=76bdc2e8"></script>
 </body>
 </html>
