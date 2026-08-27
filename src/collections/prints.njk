@@ -48,7 +48,7 @@ eleventyComputed:
     {% for raw in artworks %}
     {% set artwork = raw | localize(locale) %}
     {% set extraMaterials = artwork.extraMaterials or [] %}
-    {% set printfulOptions = printfulCatalog | printfulOptions(artwork, pricing, shipping) %}
+    {% set printfulOptions = printfulCatalog | printfulOptions(artwork, pricing, shipping, locale) %}
     {% if printfulOptions and printfulOptions.length %}
     {% set range = printfulOptions | optionPriceRange %}
     {% else %}

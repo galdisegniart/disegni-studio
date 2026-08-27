@@ -320,7 +320,14 @@ module.exports = function (eleventyConfig) {
     );
   });
 
-  eleventyConfig.addFilter("printfulOptions", function (catalog, artwork, pricing, shipping) {
+  eleventyConfig.addFilter("printfulOptions", function (catalog, artwork, pricing, shipping, locale) {
+    const isEn = locale === "en";
+    // labelIn/labelCm can carry curated rounding an artist chose for a
+    // specific size (e.g. "30×45" instead of the raw 30×46 conversion), so
+    // they can't just be recomputed from width/height for English - only
+    // the unit suffix needs translating, keeping whatever numbers are there.
+    const translateUnitLabel = (label) =>
+      isEn ? String(label || "").replace('אינץ\'', "in").replace('ס"מ', "cm") : label;
     // Prefer matchName, then the English translation, then the plain name -
     // so Printful catalog matching (always in English) keeps working once an
     // item's display name is localized and no longer equals its English text.
@@ -355,11 +362,17 @@ module.exports = function (eleventyConfig) {
           ? "framed-print"
           : "poster";
       const hasDoubleMat = name.includes("with mat");
-      const productTypeName = productType === "canvas"
-        ? "קנבס מתוח"
-        : productType === "framed-print"
-          ? (hasDoubleMat ? "פוסטר ממוסגר ופספרטו כפול" : "הדפס ממוסגר")
-          : "פוסטר";
+      const productTypeName = isEn
+        ? (productType === "canvas"
+          ? "Stretched Canvas"
+          : productType === "framed-print"
+            ? (hasDoubleMat ? "Framed Poster with Double Mat" : "Framed Print")
+            : "Poster")
+        : (productType === "canvas"
+          ? "קנבס מתוח"
+          : productType === "framed-print"
+            ? (hasDoubleMat ? "פוסטר ממוסגר ופספרטו כפול" : "הדפס ממוסגר")
+            : "פוסטר");
 
       return (product.variants || []).map((variant) => {
         const readableSize = String(variant.size || "")
@@ -383,13 +396,17 @@ module.exports = function (eleventyConfig) {
           syncVariantId: variant.syncVariantId || null,
           variantId: variant.variantId || null,
           sizeId,
-          labelIn: (approved && approved.labelIn) || width + "×" + height + " אינץ'",
-          labelCm: (approved && approved.labelCm) ||
-            Math.round(width * 2.54) + "×" + Math.round(height * 2.54) + ' ס"מ',
+          labelIn: translateUnitLabel((approved && approved.labelIn) || width + "×" + height + " אינץ'"),
+          labelCm: translateUnitLabel((approved && approved.labelCm) ||
+            Math.round(width * 2.54) + "×" + Math.round(height * 2.54) + ' ס"מ'),
           style,
-          styleName: style === "canvas" ? "קנבס מתוח" : "נייר אמנותי",
+          styleName: isEn
+            ? (style === "canvas" ? "Canvas" : "Fine Art Paper")
+            : (style === "canvas" ? "קנבס מתוח" : "נייר אמנותי"),
           frame,
-          frameName: frame === "framed" ? "ממוסגר" : "ללא מסגרת",
+          frameName: isEn
+            ? (frame === "framed" ? "Framed" : "Unframed")
+            : (frame === "framed" ? "ממוסגר" : "ללא מסגרת"),
           productType,
           productTypeName,
           paymentImage: (approved && approved.paymentImage) || (artwork && artwork.paymentImage) || "",

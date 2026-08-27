@@ -215,17 +215,29 @@
       "shippingAdditionalUSD",
       "catalogNumber",
     ];
-    var productTypeNames = {
-      poster: "פוסטר",
-      "framed-print": "פוסטר ממוסגר",
-      canvas: "קנבס מתוח",
-      apparel: "בגד/אביזר",
-      hoodie: "הודי",
-      "crop-hoodie": "קרופ הודי",
-      "muscle-shirt": "מאסל שירט",
-      "t-shirt": "חולצה",
-      sticker: "מדבקה",
-    };
+    var productTypeNames = isEn()
+      ? {
+          poster: "Poster",
+          "framed-print": "Framed Poster",
+          canvas: "Stretched Canvas",
+          apparel: "Apparel",
+          hoodie: "Hoodie",
+          "crop-hoodie": "Crop Hoodie",
+          "muscle-shirt": "Muscle Shirt",
+          "t-shirt": "T-Shirt",
+          sticker: "Sticker",
+        }
+      : {
+          poster: "פוסטר",
+          "framed-print": "פוסטר ממוסגר",
+          canvas: "קנבס מתוח",
+          apparel: "בגד/אביזר",
+          hoodie: "הודי",
+          "crop-hoodie": "קרופ הודי",
+          "muscle-shirt": "מאסל שירט",
+          "t-shirt": "חולצה",
+          sticker: "מדבקה",
+        };
 
     function normalizeSize(value) {
       var raw = String(value || "").toLowerCase().trim();

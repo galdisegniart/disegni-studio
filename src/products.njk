@@ -28,7 +28,7 @@ eleventyComputed:
 {% set purchaseButtons = purchaseButtons | localize(locale) %}
 {% set printQuality = pages.printQuality | localize(locale) %}
 {% set extraMaterials = artwork.extraMaterials or [] %}
-{% set printfulOptions = printfulCatalog | printfulOptions(artwork, pricing, shipping) %}
+{% set printfulOptions = printfulCatalog | printfulOptions(artwork, pricing, shipping, locale) %}
 
 {% if printfulOptions and printfulOptions.length %}
 {% set range = printfulOptions | optionPriceRange %}
@@ -129,11 +129,14 @@ eleventyComputed:
       <script class="js-option-thumbnails" type="application/json">{{ artwork.gallery | productTypeThumbnails(artwork.image) | dump | safe }}</script>
 
       <select class="js-size-data" hidden aria-hidden="true" tabindex="-1">
+        {% set localizedMaterials = (pricing | localize(locale)).materials %}
         {% for material in pricing.materials %}
+        {% set localizedMaterial = localizedMaterials[loop.index0] %}
         {% if material.id == "paper" or material.id in extraMaterials %}
         {% for size in material.sizes %}
+        {% set localizedSize = localizedMaterial.sizes[loop.index0] %}
         {% set ship = shipping | shippingFor(material.id, size.id) %}
-        <option value="{{ material.id }}:{{ size.id }}" data-material="{{ material.id }}" data-material-name="{{ material.name }}" data-note="{{ material.note }}" data-product-type="{{ material.id | productTypeFor }}" data-payment-image="{{ artwork.paymentImage or '' }}" data-size-id="{{ size.id }}" data-label-in="{{ size.labelIn }}" data-label-cm="{{ size.labelCm }}" data-price-ils="{{ size.priceILS }}" data-price-usd="{{ size.priceUSD }}"{% if ship %} data-shipping-first-ils="{{ ship.shippingFirstILS }}" data-shipping-additional-ils="{{ ship.shippingAdditionalILS }}" data-shipping-first-usd="{{ ship.shippingFirstUSD }}" data-shipping-additional-usd="{{ ship.shippingAdditionalUSD }}"{% endif %}{% if not size.available %} disabled{% endif %}></option>
+        <option value="{{ material.id }}:{{ size.id }}" data-material="{{ material.id }}" data-material-name="{{ localizedMaterial.name }}" data-note="{{ localizedMaterial.note }}" data-product-type="{{ material.id | productTypeFor }}" data-payment-image="{{ artwork.paymentImage or '' }}" data-size-id="{{ size.id }}" data-label-in="{{ localizedSize.labelIn }}" data-label-cm="{{ localizedSize.labelCm }}" data-price-ils="{{ size.priceILS }}" data-price-usd="{{ size.priceUSD }}"{% if ship %} data-shipping-first-ils="{{ ship.shippingFirstILS }}" data-shipping-additional-ils="{{ ship.shippingAdditionalILS }}" data-shipping-first-usd="{{ ship.shippingFirstUSD }}" data-shipping-additional-usd="{{ ship.shippingAdditionalUSD }}"{% endif %}{% if not size.available %} disabled{% endif %}></option>
         {% endfor %}
         {% endif %}
         {% endfor %}
