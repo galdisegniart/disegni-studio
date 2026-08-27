@@ -7,6 +7,14 @@
   var GROW_IDEMPOTENCY_KEY = "disegniGrowIdemKey";
   var WORKER_ORIGIN = "https://disegni-cms-oauth.galdisegniart.workers.dev";
 
+  function isEn() {
+    return document.documentElement.lang === "en";
+  }
+
+  function localePrefix() {
+    return isEn() ? "" : "/he";
+  }
+
   function gtagEvent(name, params) {
     if (typeof window.gtag === "function") window.gtag("event", name, params);
   }
@@ -108,22 +116,22 @@
       var safeQty = Math.max(1, parseInt(item.qty, 10) || 1);
       line.className = "cart-drawer-line";
       line.innerHTML =
-        '<a class="cart-drawer-thumb" href="/products/' + safeSlug + '/">' +
+        '<a class="cart-drawer-thumb" href="' + localePrefix() + '/products/' + safeSlug + '/">' +
           '<img src="' + safeImage + '" alt="">' +
         '</a>' +
         '<div class="cart-drawer-info">' +
-          '<a class="cart-drawer-title" href="/products/' + safeSlug + '/"></a>' +
+          '<a class="cart-drawer-title" href="' + localePrefix() + '/products/' + safeSlug + '/"></a>' +
           '<span class="cart-drawer-meta"></span>' +
           '<div class="cart-drawer-line-actions">' +
             '<div class="cart-line-qty">' +
-              '<button type="button" class="js-qty-minus" data-index="' + index + '" aria-label="הפחתת כמות">−</button>' +
+              '<button type="button" class="js-qty-minus" data-index="' + index + '" aria-label="' + (isEn() ? "Decrease quantity" : "הפחתת כמות") + '">−</button>' +
               '<span>' + safeQty + '</span>' +
-              '<button type="button" class="js-qty-plus" data-index="' + index + '" aria-label="הוספת כמות">+</button>' +
+              '<button type="button" class="js-qty-plus" data-index="' + index + '" aria-label="' + (isEn() ? "Increase quantity" : "הוספת כמות") + '">+</button>' +
             '</div>' +
             '<strong class="cart-drawer-line-price"></strong>' +
           '</div>' +
         '</div>' +
-        '<button type="button" class="cart-drawer-remove js-remove" data-index="' + index + '" aria-label="הסרה מהעגלה">×</button>';
+        '<button type="button" class="cart-drawer-remove js-remove" data-index="' + index + '" aria-label="' + (isEn() ? "Remove from cart" : "הסרה מהעגלה") + '">×</button>';
       line.querySelector(".cart-drawer-title").textContent = bidiIsolate(item.artworkName);
       line.querySelector(".cart-drawer-meta").textContent = bidiIsolate(
         item.materialName + " · " + sizeLabel(item, currency) +
@@ -143,7 +151,7 @@
       : 0;
     drawer.querySelector(".cart-drawer-subtotal").textContent = formatAmount(subtotal, currency);
     drawer.querySelector(".cart-drawer-shipping").textContent =
-      shipping ? formatAmount(shipping, currency) : "יחושב בעגלה";
+      shipping ? formatAmount(shipping, currency) : (isEn() ? "Calculated in cart" : "יחושב בעגלה");
     drawer.querySelector(".cart-drawer-total").textContent =
       shipping ? formatAmount(subtotal + shipping, currency) : formatAmount(subtotal, currency);
   }
@@ -369,6 +377,15 @@
   }
 
   function customerLinesText(customer) {
+    if (isEn()) {
+      return (
+        "\n\nCustomer details:" +
+        "\nName: " + (customer.name || "") +
+        "\nPhone: " + (customer.phone || "") +
+        (customer.email ? "\nEmail: " + customer.email : "") +
+        "\nShipping address: " + (customer.address || "")
+      );
+    }
     return (
       "\n\nפרטי לקוח:" +
       "\nשם: " + (customer.name || "") +
@@ -407,7 +424,8 @@
       });
 
       var base = link.dataset.baseMessage || "";
-      var message = "מספר הזמנה: " + orderId + "\n\n" + base + customerLinesText(customer);
+      var orderPrefix = isEn() ? "Order number: " : "מספר הזמנה: ";
+      var message = orderPrefix + orderId + "\n\n" + base + customerLinesText(customer);
       link.href = "https://wa.me/" + waNumber + "?text=" + encodeURIComponent(message);
     });
   }
@@ -598,8 +616,8 @@
 
       var thumbLink = document.createElement("a");
       thumbLink.className = "cart-line-thumb";
-      thumbLink.href = "/products/" + item.artworkSlug + "/";
-      thumbLink.setAttribute("aria-label", "חזרה לעמוד המוצר " + item.artworkName);
+      thumbLink.href = localePrefix() + "/products/" + item.artworkSlug + "/";
+      thumbLink.setAttribute("aria-label", (isEn() ? "Back to the product page for " : "חזרה לעמוד המוצר ") + item.artworkName);
       var thumb = document.createElement("img");
       thumb.src = item.image || "";
       thumb.alt = "";
@@ -609,7 +627,7 @@
       info.className = "cart-line-info";
       var productLink = document.createElement("a");
       productLink.className = "cart-line-title";
-      productLink.href = "/products/" + item.artworkSlug + "/";
+      productLink.href = localePrefix() + "/products/" + item.artworkSlug + "/";
       productLink.textContent = bidiIsolate(item.artworkName);
       var span = document.createElement("span");
       span.textContent = bidiIsolate(
@@ -625,7 +643,7 @@
       minusBtn.type = "button";
       minusBtn.className = "js-qty-minus";
       minusBtn.dataset.index = index;
-      minusBtn.setAttribute("aria-label", "הפחתת כמות");
+      minusBtn.setAttribute("aria-label", isEn() ? "Decrease quantity" : "הפחתת כמות");
       minusBtn.textContent = "−";
       var qtySpan = document.createElement("span");
       qtySpan.textContent = item.qty;
@@ -633,7 +651,7 @@
       plusBtn.type = "button";
       plusBtn.className = "js-qty-plus";
       plusBtn.dataset.index = index;
-      plusBtn.setAttribute("aria-label", "הוספת כמות");
+      plusBtn.setAttribute("aria-label", isEn() ? "Increase quantity" : "הוספת כמות");
       plusBtn.textContent = "+";
       qtyWrap.appendChild(minusBtn);
       qtyWrap.appendChild(qtySpan);
@@ -647,7 +665,7 @@
       removeBtn.type = "button";
       removeBtn.className = "cart-line-remove js-remove";
       removeBtn.dataset.index = index;
-      removeBtn.setAttribute("aria-label", "הסרה מהעגלה");
+      removeBtn.setAttribute("aria-label", isEn() ? "Remove from cart" : "הסרה מהעגלה");
       removeBtn.textContent = "✕";
 
       li.appendChild(thumbLink);
@@ -669,7 +687,7 @@
       shipping = calculateVariantShipping(cart, currency);
       shippingLabel = formatAmount(shipping, currency);
     } else {
-      shippingLabel = "יחושב בתשלום";
+      shippingLabel = isEn() ? "Calculated at checkout" : "יחושב בתשלום";
     }
 
     // Coupons only apply to the real (ILS) Grow checkout, same currency
@@ -727,19 +745,20 @@
       total: total,
     });
 
-    var customerLines =
-      "\n\nפרטי לקוח:" +
-      "\nשם: " + (customer.name || "") +
-      "\nטלפון: " + (customer.phone || "") +
-      (customer.email ? "\nדוא\"ל: " + customer.email : "") +
-      "\nכתובת למשלוח: " + (customer.address || "");
-    var message =
-      "שלום גל, אשמח להזמין הדפסים אמנותיים:\n" +
-      "מספר הזמנה: " + orderId + "\n" +
-      waLines +
-      "\nסה\"כ: " + (currency === "USD" ? "$" + total : total + " ₪") +
-      customerLines +
-      "\nביצעתי/אבצע העברה בנקאית לפרטים באתר.";
+    var customerLines = customerLinesText(customer);
+    var message = isEn()
+      ? "Hi Gal, I'd love to order art prints:\n" +
+        "Order number: " + orderId + "\n" +
+        waLines +
+        "\nTotal: " + (currency === "USD" ? "$" + total : total + " ₪") +
+        customerLines +
+        "\nI made/will make a bank transfer per the details on the site."
+      : "שלום גל, אשמח להזמין הדפסים אמנותיים:\n" +
+        "מספר הזמנה: " + orderId + "\n" +
+        waLines +
+        "\nסה\"כ: " + (currency === "USD" ? "$" + total : total + " ₪") +
+        customerLines +
+        "\nביצעתי/אבצע העברה בנקאית לפרטים באתר.";
     var waBtn = document.getElementById("cart-whatsapp");
     if (waBtn) {
       var waNumber = document.body.dataset.whatsapp || "972552902934";
@@ -810,7 +829,7 @@
       }, 0);
 
       couponBtn.disabled = true;
-      couponBtn.textContent = "בודק...";
+      couponBtn.textContent = isEn() ? "Checking..." : "בודק...";
 
       try {
         var couponResponse = await fetch(WORKER_ORIGIN + "/payments/coupons/check", {
@@ -832,14 +851,16 @@
           if (couponMessage) {
             couponMessage.hidden = false;
             couponMessage.className = "cart-coupon-message is-success";
-            couponMessage.textContent = "קוד הופעל: " + couponBody.percentOff + "% הנחה";
+            couponMessage.textContent = isEn()
+              ? "Code applied: " + couponBody.percentOff + "% off"
+              : "קוד הופעל: " + couponBody.percentOff + "% הנחה";
           }
         } else {
           appliedCoupon = null;
           if (couponMessage) {
             couponMessage.hidden = false;
             couponMessage.className = "cart-coupon-message is-error";
-            couponMessage.textContent = (couponBody && couponBody.error) || "קוד קופון לא תקין";
+            couponMessage.textContent = (couponBody && couponBody.error) || (isEn() ? "Invalid coupon code" : "קוד קופון לא תקין");
           }
         }
       } catch (error) {
@@ -847,12 +868,12 @@
         if (couponMessage) {
           couponMessage.hidden = false;
           couponMessage.className = "cart-coupon-message is-error";
-          couponMessage.textContent = "שגיאת רשת - נסו שוב";
+          couponMessage.textContent = isEn() ? "Network error - please try again" : "שגיאת רשת - נסו שוב";
         }
       }
 
       couponBtn.disabled = false;
-      couponBtn.textContent = "החל";
+      couponBtn.textContent = isEn() ? "Apply" : "החל";
       renderCartPage();
       return;
     }
@@ -944,7 +965,7 @@
       var growError = document.getElementById("cart-grow-error");
       var originalLabel = growBtn.innerHTML;
       growBtn.disabled = true;
-      growBtn.textContent = "יוצר קישור תשלום...";
+      growBtn.textContent = isEn() ? "Creating payment link..." : "יוצר קישור תשלום...";
       if (growError) {
         growError.hidden = true;
         growError.textContent = "";
@@ -995,6 +1016,9 @@
         );
         var paymentBody = await paymentResponse.json();
         if (!paymentResponse.ok || !paymentBody.paymentUrl) {
+          // The server's error field is itself an English identifier - on
+          // Hebrew pages that gets mapped to a friendly Hebrew sentence
+          // below; on English pages it's already readable as-is.
           var serverErrorMessages = {
             "Valid customer name and Israeli phone are required": "יש להזין שם מלא וטלפון ישראלי תקין (לדוגמה 0501234567, בלי +972 ובלי מקפים).",
             "Product is not available for payment testing": "המוצר או הכמות שבחרתם אינם זמינים כרגע לבדיקת תשלום.",
@@ -1006,10 +1030,13 @@
             "Payment testing is not currently enabled": "אפשרות התשלום אינה זמינה כרגע.",
             "Too many requests, please try again shortly": "יותר מדי ניסיונות, נסו שוב בעוד כמה דקות.",
           };
+          var fallbackError = isEn() ? "Could not create a payment link right now." : "לא ניתן ליצור כרגע קישור תשלום.";
           throw new Error(
-            (paymentBody && serverErrorMessages[paymentBody.error]) ||
-            (paymentBody && paymentBody.error) ||
-            "לא ניתן ליצור כרגע קישור תשלום."
+            isEn()
+              ? (paymentBody && paymentBody.error) || fallbackError
+              : (paymentBody && serverErrorMessages[paymentBody.error]) ||
+                (paymentBody && paymentBody.error) ||
+                fallbackError
           );
         }
         // Grow's redirect back to successUrl doesn't reliably preserve the
@@ -1021,7 +1048,7 @@
         window.location.assign(paymentBody.paymentUrl);
       } catch (error) {
         if (growError) {
-          growError.textContent = error.message || "אירעה שגיאה ביצירת התשלום.";
+          growError.textContent = error.message || (isEn() ? "An error occurred while creating the payment." : "אירעה שגיאה ביצירת התשלום.");
           growError.hidden = false;
         }
         growBtn.disabled = false;
@@ -1600,7 +1627,7 @@
       sizeSelect.disabled = true;
       var ph = document.createElement("option");
       ph.value = "";
-      ph.textContent = "בחרו סגנון קודם";
+      ph.textContent = isEn() ? "Choose a style first" : "בחרו סגנון קודם";
       ph.selected = true;
       sizeSelect.appendChild(ph);
       return;
@@ -1609,7 +1636,7 @@
     sizeSelect.disabled = false;
     var placeholder = document.createElement("option");
     placeholder.value = "";
-    placeholder.textContent = "בחרו גודל";
+    placeholder.textContent = isEn() ? "Choose a size" : "בחרו גודל";
     sizeSelect.appendChild(placeholder);
 
     var currency = getCurrency();

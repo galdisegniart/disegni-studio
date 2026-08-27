@@ -23,7 +23,7 @@ bodyClass: "cart-view"
   <a class="cart-continue-shopping" href="{{ shopHref }}"><span aria-hidden="true">→</span> {{ "Continue Shopping" if isEn else "המשך בקנייה" }}</a>
 
   <div class="currency-toggle cart-currency-toggle">
-    <button type="button" class="js-currency-toggle active" data-currency="ILS">₪ · ס"מ</button>
+    <button type="button" class="js-currency-toggle active" data-currency="ILS">₪ · {{ "cm" if isEn else 'ס"מ' }}</button>
     <button type="button" class="js-currency-toggle" data-currency="USD">$ · inch</button>
   </div>
 
