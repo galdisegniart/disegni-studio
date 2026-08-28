@@ -35,7 +35,30 @@
       "galleryMedium": "Mixed Media",
       "detailMedium": "Mixed technique · visual world",
       "description": "A figure moving between strength and tenderness, between the familiar world and what still seeks to take shape.",
-      "alt": "Orin, a winged figure set against a backdrop of opposing worlds"
+      "alt": "Orin, a winged figure set against a backdrop of opposing worlds",
+      "story": {
+        "heading": "Behind the Artwork",
+        "paragraphs": [
+          "Orin began in 2001, on a Saturday off, when I was working as an illustrator for a company.",
+          "I drew a girl who had lost her mother and was left alone in the world. She had a bow and arrow, and large wings sheltering her. I didn't know where any of it came from, and I didn't try to explain it. I simply let the figure emerge.",
+          "The drawing was in black and white, and Orin remained that way for years.",
+          "In 2015, during a difficult and significant turning point in my life, I returned to her through a question that had been occupying me: Is my world gray and dramatic because that is how I paint it, or do I paint it that way because that is how I live?",
+          "I didn't know the answer.",
+          "But from that moment, Orin began to change. She was given a name, color, and an entire world around her.",
+          "At the same time, my own life slowly began to change as well: more nature, more vitality, more curiosity, less heaviness and drama, and more courage to step beyond what was familiar and meet new people.",
+          "Since then, Orin has continued to grow with me.",
+          "Not as a character I have finished, but as a world I am still discovering."
+        ]
+      },
+      "experience": {
+        "heading": "The Experience Orin Opens",
+        "paragraphs": [
+          "When you look at Orin, what do you feel?",
+          "Does she seem to be saying something to you, communicating something? Perhaps asking you a question?",
+          "For me, on a deeply personal level, Orin makes me feel at home. At home in my body, and in life as it is, without trying to make it prettier than it is.",
+          "She shows me the truth."
+        ]
+      }
     }
   },
   "name": "Orin",
