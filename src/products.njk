@@ -327,15 +327,25 @@ eleventyComputed:
 
 {% set availableTypes = printfulOptions | uniqueProductTypes %}
 {% set hasStory = artwork.story and artwork.story.paragraphs and artwork.story.paragraphs.length %}
+{% set hasExperience = artwork.experience and artwork.experience.paragraphs and artwork.experience.paragraphs.length %}
 {% set hasTestimony = artwork.testimony and (artwork.testimony.text or (artwork.testimony.video and artwork.testimony.video.file)) %}
 {% set hasHandEmbellished = artwork.handEmbellished and artwork.handEmbellished.available %}
 
-{% if availableTypes.length or hasStory or hasTestimony or hasHandEmbellished %}
+{% if availableTypes.length or hasStory or hasExperience or hasTestimony or hasHandEmbellished %}
 <section class="print-quality section">
   {% if hasStory %}
   <div class="print-quality-block">
     {% if artwork.story.heading %}<h2>{{ artwork.story.heading }}</h2>{% endif %}
     {% for paragraph in artwork.story.paragraphs %}
+    <p>{{ paragraph }}</p>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if hasExperience %}
+  <div class="print-quality-block">
+    {% if artwork.experience.heading %}<h2>{{ artwork.experience.heading }}</h2>{% endif %}
+    {% for paragraph in artwork.experience.paragraphs %}
     <p>{{ paragraph }}</p>
     {% endfor %}
   </div>
