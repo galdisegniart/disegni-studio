@@ -1,31 +1,24 @@
 {
-  "slug": "womb-of-creation",
-  "order": 26,
-  "translations": {
-    "he": {
-      "name": "Womb Of Creation",
-      "galleryMedium": "פסטל",
-      "detailMedium": "פסטל על נייר",
-      "description": "צורה מכונפת שנפתחת סביב ספירלה מרכזית - רחם של בריאה, רגע שבו חיים חדשים מתחילים לצמוח.",
-      "alt": "Womb Of Creation, צורה מכונפת נפתחת סביב ספירלה מרכזית"
-    },
-    "en": {
-      "name": "Womb Of Creation",
-      "galleryMedium": "Pastel",
-      "detailMedium": "Pastel on paper",
-      "description": "A winged form opening around a central spiral - a womb of creation, the moment new life begins to grow.",
-      "alt": "Womb Of Creation, a winged form opening around a central spiral"
-    }
+  "he": {
+    "slug": "womb-of-creation",
+    "order": 26,
+    "name": "Womb Of Creation",
+    "galleryMedium": "פסטל",
+    "detailMedium": "פסטל על נייר",
+    "description": "צורה מכונפת שנפתחת סביב ספירלה מרכזית - רחם של בריאה, רגע שבו חיים חדשים מתחילים לצמוח.",
+    "alt": "Womb Of Creation, צורה מכונפת נפתחת סביב ספירלה מרכזית",
+    "image": "/images/artworks/Womb-Of-Creation+WEB.webp",
+    "thumb": "/images/artworks/Womb-Of-Creation+WEB.webp",
+    "category": "pastel",
+    "originalAvailable": false,
+    "originalPrice": 0,
+    "extraMaterials": []
   },
-  "name": "Womb Of Creation",
-  "galleryMedium": "פסטל",
-  "detailMedium": "פסטל על נייר",
-  "description": "צורה מכונפת שנפתחת סביב ספירלה מרכזית - רחם של בריאה, רגע שבו חיים חדשים מתחילים לצמוח.",
-  "alt": "Womb Of Creation, צורה מכונפת נפתחת סביב ספירלה מרכזית",
-  "image": "/images/artworks/Womb-Of-Creation+WEB.webp",
-  "thumb": "/images/artworks/Womb-Of-Creation+WEB.webp",
-  "category": "pastel",
-  "originalAvailable": false,
-  "originalPrice": 0,
-  "extraMaterials": []
+  "en": {
+    "name": "Womb Of Creation",
+    "galleryMedium": "Pastel",
+    "detailMedium": "Pastel on paper",
+    "description": "A winged form opening around a central spiral - a womb of creation, the moment new life begins to grow.",
+    "alt": "Womb Of Creation, a winged form opening around a central spiral"
+  }
 }

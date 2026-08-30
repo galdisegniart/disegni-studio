@@ -1,176 +1,118 @@
 {
-  "poster": {
-    "heading": "הדפס אמנותי על נייר",
-    "text": "מודפס על נייר אמנותי כותני בגימור מאט, עם דיו עמיד לדהייה שנשאר חד וחי לאורך שנים. הנייר עצמו עבה ובעל מרקם עדין, בסטנדרט שמקובל בגלריות ותערוכות - לא נייר הדפסה רגיל.",
-    "features": [
-      "נייר כותני איכותי בגימור מאט, ללא ברק מפריע",
-      "דיו עמיד לאור ולדהייה, שומר על עומק הצבע לאורך שנים",
-      "מדויק לפרטים העדינים ביותר של היצירה המקורית",
-      "קל למסגור בכל מסגרת שתבחרו"
-    ],
-    "browseLabel": "לצפייה בכל ההדפסים",
-    "browseHref": "/collections/prints/"
-  },
-  "canvas": {
-    "heading": "הדפס קנבס מתוח",
-    "text": "היצירה מודפסת על בד קנבס איכותי, נמתחת ידנית על מסגרת עץ ומגיעה מוכנה לתלייה - בלי צורך במסגור נוסף. המרקם של הבד מוסיף עומק ונוכחות שמרגישה קרובה יותר לציור מקורי.",
-    "features": [
-      "בד קנבס עבה באיכות גלריה, מתוח ידנית על מסגרת עץ",
-      "מגיע מוכן לתלייה - אין צורך במסגור נוסף",
-      "המרקם של הבד מוסיף עומק ותחושת נוכחות בחלל",
-      "עמיד לאורך שנים בשמירה על עוצמת הצבעים"
-    ],
-    "browseLabel": "לצפייה בכל יצירות הקנבס",
-    "browseHref": "/collections/prints/"
-  },
-  "framed-print": {
-    "heading": "הדפס ממוסגר",
-    "text": "הדפס אמנותי על נייר איכותי, ממוסגר מראש במסגרת אלגנטית ומגיע מוכן לתלייה ישר מהקופסה. הבחירה הכי נוחה למי שרוצה לתלות בלי להתעסק במסגור בעצמו.",
-    "features": [
-      "מגיע ממוסגר וזכוכית מגן, מוכן לתלייה מיידית",
-      "מסגרת איכותית שמשלימה את היצירה בלי להסיח ממנה",
-      "פתרון הכי נוח - אין צורך בהזמנת מסגור בנפרד",
-      "מתאים במיוחד למתנה או לפינה שרוצים לגמור עליה מהר"
-    ],
-    "browseLabel": "לצפייה בכל היצירות הממוסגרות",
-    "browseHref": "/collections/prints/"
-  },
-  "limitedEdition": {
-    "heading": "יצירה מקורית - עותק יחיד",
-    "text": "זו לא הדפסה - זו היצירה המקורית עצמה, שנוצרה ביד ואין ממנה עותק נוסף. ברגע שהיא נמכרת, היא לא תיוצר שוב.",
-    "features": [
-      "יצירה מקורית אחת, ללא כל עותק נוסף",
-      "נוצרה ונחתמה ביד, מהתחלה ועד הסוף",
-      "עם מכירתה, לא תהיה זמינה יותר לרכישה",
-      "מגיעה עם תיעוד מקוריות ישירות מהאמן"
-    ]
-  },
-  "handEmbellished": {
-    "heading": "הדפס בעיטור ידני",
-    "text": "הדפס איכותי על קנבס מתוח, שעליו אני עובר ביד עם מכחול ומוסיף מגע אמיתי של צבע ומרקם - לא שתי טיפות זהות. זו דרך לקבל נוכחות קרובה בהרבה ליצירה המקורית, במחיר נגיש משמעותית ממנה.",
-    "features": [
-      "כל עותק מעוטר ביד בנפרד - אין שני עותקים זהים",
-      "מרקם וצבע אמיתיים מעל ההדפס, לא רק הדמיה",
-      "משלב את הנגישות של הדפס עם הנוכחות של עבודת יד",
-      "כמות מוגבלת לכל יצירה"
-    ]
-  },
-  "translations": {
-    "he": {
-      "poster": {
-        "heading": "הדפס אמנותי על נייר",
-        "text": "מודפס על נייר אמנותי כותני בגימור מאט, עם דיו עמיד לדהייה שנשאר חד וחי לאורך שנים. הנייר עצמו עבה ובעל מרקם עדין, בסטנדרט שמקובל בגלריות ותערוכות - לא נייר הדפסה רגיל.",
-        "features": [
-          "נייר כותני איכותי בגימור מאט, ללא ברק מפריע",
-          "דיו עמיד לאור ולדהייה, שומר על עומק הצבע לאורך שנים",
-          "מדויק לפרטים העדינים ביותר של היצירה המקורית",
-          "קל למסגור בכל מסגרת שתבחרו"
-        ],
-        "browseLabel": "לצפייה בכל ההדפסים",
-        "browseHref": "/collections/prints/"
-      },
-      "canvas": {
-        "heading": "הדפס קנבס מתוח",
-        "text": "היצירה מודפסת על בד קנבס איכותי, נמתחת ידנית על מסגרת עץ ומגיעה מוכנה לתלייה - בלי צורך במסגור נוסף. המרקם של הבד מוסיף עומק ונוכחות שמרגישה קרובה יותר לציור מקורי.",
-        "features": [
-          "בד קנבס עבה באיכות גלריה, מתוח ידנית על מסגרת עץ",
-          "מגיע מוכן לתלייה - אין צורך במסגור נוסף",
-          "המרקם של הבד מוסיף עומק ותחושת נוכחות בחלל",
-          "עמיד לאורך שנים בשמירה על עוצמת הצבעים"
-        ],
-        "browseLabel": "לצפייה בכל יצירות הקנבס",
-        "browseHref": "/collections/prints/"
-      },
-      "framed-print": {
-        "heading": "הדפס ממוסגר",
-        "text": "הדפס אמנותי על נייר איכותי, ממוסגר מראש במסגרת אלגנטית ומגיע מוכן לתלייה ישר מהקופסה. הבחירה הכי נוחה למי שרוצה לתלות בלי להתעסק במסגור בעצמו.",
-        "features": [
-          "מגיע ממוסגר וזכוכית מגן, מוכן לתלייה מיידית",
-          "מסגרת איכותית שמשלימה את היצירה בלי להסיח ממנה",
-          "פתרון הכי נוח - אין צורך בהזמנת מסגור בנפרד",
-          "מתאים במיוחד למתנה או לפינה שרוצים לגמור עליה מהר"
-        ],
-        "browseLabel": "לצפייה בכל היצירות הממוסגרות",
-        "browseHref": "/collections/prints/"
-      },
-      "limitedEdition": {
-        "heading": "יצירה מקורית - עותק יחיד",
-        "text": "זו לא הדפסה - זו היצירה המקורית עצמה, שנוצרה ביד ואין ממנה עותק נוסף. ברגע שהיא נמכרת, היא לא תיוצר שוב.",
-        "features": [
-          "יצירה מקורית אחת, ללא כל עותק נוסף",
-          "נוצרה ונחתמה ביד, מהתחלה ועד הסוף",
-          "עם מכירתה, לא תהיה זמינה יותר לרכישה",
-          "מגיעה עם תיעוד מקוריות ישירות מהאמן"
-        ]
-      },
-      "handEmbellished": {
-        "heading": "הדפס בעיטור ידני",
-        "text": "הדפס איכותי על קנבס מתוח, שעליו אני עובר ביד עם מכחול ומוסיף מגע אמיתי של צבע ומרקם - לא שתי טיפות זהות. זו דרך לקבל נוכחות קרובה בהרבה ליצירה המקורית, במחיר נגיש משמעותית ממנה.",
-        "features": [
-          "כל עותק מעוטר ביד בנפרד - אין שני עותקים זהים",
-          "מרקם וצבע אמיתיים מעל ההדפס, לא רק הדמיה",
-          "משלב את הנגישות של הדפס עם הנוכחות של עבודת יד",
-          "כמות מוגבלת לכל יצירה"
-        ]
-      }
+  "he": {
+    "poster": {
+      "heading": "הדפס אמנותי על נייר",
+      "text": "מודפס על נייר אמנותי כותני בגימור מאט, עם דיו עמיד לדהייה שנשאר חד וחי לאורך שנים. הנייר עצמו עבה ובעל מרקם עדין, בסטנדרט שמקובל בגלריות ותערוכות - לא נייר הדפסה רגיל.",
+      "features": [
+        "נייר כותני איכותי בגימור מאט, ללא ברק מפריע",
+        "דיו עמיד לאור ולדהייה, שומר על עומק הצבע לאורך שנים",
+        "מדויק לפרטים העדינים ביותר של היצירה המקורית",
+        "קל למסגור בכל מסגרת שתבחרו"
+      ],
+      "browseLabel": "לצפייה בכל ההדפסים",
+      "browseHref": "/collections/prints/"
     },
-    "en": {
-      "poster": {
-        "heading": "Fine Art Paper Print",
-        "text": "Printed on cotton fine art paper with a matte finish, using fade-resistant ink that stays sharp and vivid for years. The paper itself is thick with a subtle texture, the standard used in galleries and exhibitions — not ordinary printer paper.",
-        "features": [
-          "Premium cotton paper with a matte finish, no distracting glare",
-          "Light- and fade-resistant ink that keeps its color depth for years",
-          "Faithful to the finest details of the original artwork",
-          "Easy to frame in any frame you choose"
-        ],
-        "browseLabel": "Browse All Prints",
-        "browseHref": "/collections/prints/"
-      },
-      "canvas": {
-        "heading": "Stretched Canvas Print",
-        "text": "The piece is printed on quality canvas fabric, hand-stretched over a wooden frame, and arrives ready to hang — no extra framing needed. The canvas texture adds depth and a presence that feels closer to the original painting.",
-        "features": [
-          "Thick, gallery-quality canvas, hand-stretched over a wooden frame",
-          "Arrives ready to hang — no extra framing needed",
-          "The canvas texture adds depth and a real presence in the room",
-          "Built to last for years while keeping its color intensity"
-        ],
-        "browseLabel": "Browse All Canvas Prints",
-        "browseHref": "/collections/prints/"
-      },
-      "framed-print": {
-        "heading": "Framed Print",
-        "text": "A fine art print on quality paper, pre-framed in an elegant frame and ready to hang straight out of the box. The most convenient choice for anyone who wants to hang it up without dealing with framing themselves.",
-        "features": [
-          "Arrives framed with protective glass, ready to hang immediately",
-          "A quality frame that complements the artwork without distracting from it",
-          "The most convenient option — no need to order framing separately",
-          "Especially well-suited as a gift or for a corner you want to finish quickly"
-        ],
-        "browseLabel": "Browse All Framed Prints",
-        "browseHref": "/collections/prints/"
-      },
-      "limitedEdition": {
-        "heading": "Original Artwork — One of a Kind",
-        "text": "This isn't a print — it's the original artwork itself, made entirely by hand with no other copy in existence. Once it sells, it won't be made again.",
-        "features": [
-          "One original artwork, with no copies whatsoever",
-          "Created and signed by hand, from start to finish",
-          "Once sold, it will no longer be available for purchase",
-          "Comes with a certificate of authenticity directly from the artist"
-        ]
-      },
-      "handEmbellished": {
-        "heading": "Hand-Embellished Print",
-        "text": "A quality print on stretched canvas that I go over by hand with a brush, adding a real touch of paint and texture — no two are exactly alike. It's a way to get a presence much closer to the original artwork, at a significantly more accessible price.",
-        "features": [
-          "Each copy is hand-embellished individually — no two are the same",
-          "Real texture and paint on top of the print, not just a simulation",
-          "Combines the accessibility of a print with the presence of handwork",
-          "Limited quantity for each artwork"
-        ]
-      }
+    "canvas": {
+      "heading": "הדפס קנבס מתוח",
+      "text": "היצירה מודפסת על בד קנבס איכותי, נמתחת ידנית על מסגרת עץ ומגיעה מוכנה לתלייה - בלי צורך במסגור נוסף. המרקם של הבד מוסיף עומק ונוכחות שמרגישה קרובה יותר לציור מקורי.",
+      "features": [
+        "בד קנבס עבה באיכות גלריה, מתוח ידנית על מסגרת עץ",
+        "מגיע מוכן לתלייה - אין צורך במסגור נוסף",
+        "המרקם של הבד מוסיף עומק ותחושת נוכחות בחלל",
+        "עמיד לאורך שנים בשמירה על עוצמת הצבעים"
+      ],
+      "browseLabel": "לצפייה בכל יצירות הקנבס",
+      "browseHref": "/collections/prints/"
+    },
+    "framed-print": {
+      "heading": "הדפס ממוסגר",
+      "text": "הדפס אמנותי על נייר איכותי, ממוסגר מראש במסגרת אלגנטית ומגיע מוכן לתלייה ישר מהקופסה. הבחירה הכי נוחה למי שרוצה לתלות בלי להתעסק במסגור בעצמו.",
+      "features": [
+        "מגיע ממוסגר וזכוכית מגן, מוכן לתלייה מיידית",
+        "מסגרת איכותית שמשלימה את היצירה בלי להסיח ממנה",
+        "פתרון הכי נוח - אין צורך בהזמנת מסגור בנפרד",
+        "מתאים במיוחד למתנה או לפינה שרוצים לגמור עליה מהר"
+      ],
+      "browseLabel": "לצפייה בכל היצירות הממוסגרות",
+      "browseHref": "/collections/prints/"
+    },
+    "limitedEdition": {
+      "heading": "יצירה מקורית - עותק יחיד",
+      "text": "זו לא הדפסה - זו היצירה המקורית עצמה, שנוצרה ביד ואין ממנה עותק נוסף. ברגע שהיא נמכרת, היא לא תיוצר שוב.",
+      "features": [
+        "יצירה מקורית אחת, ללא כל עותק נוסף",
+        "נוצרה ונחתמה ביד, מהתחלה ועד הסוף",
+        "עם מכירתה, לא תהיה זמינה יותר לרכישה",
+        "מגיעה עם תיעוד מקוריות ישירות מהאמן"
+      ]
+    },
+    "handEmbellished": {
+      "heading": "הדפס בעיטור ידני",
+      "text": "הדפס איכותי על קנבס מתוח, שעליו אני עובר ביד עם מכחול ומוסיף מגע אמיתי של צבע ומרקם - לא שתי טיפות זהות. זו דרך לקבל נוכחות קרובה בהרבה ליצירה המקורית, במחיר נגיש משמעותית ממנה.",
+      "features": [
+        "כל עותק מעוטר ביד בנפרד - אין שני עותקים זהים",
+        "מרקם וצבע אמיתיים מעל ההדפס, לא רק הדמיה",
+        "משלב את הנגישות של הדפס עם הנוכחות של עבודת יד",
+        "כמות מוגבלת לכל יצירה"
+      ]
+    }
+  },
+  "en": {
+    "poster": {
+      "heading": "Fine Art Paper Print",
+      "text": "Printed on cotton fine art paper with a matte finish, using fade-resistant ink that stays sharp and vivid for years. The paper itself is thick with a subtle texture, the standard used in galleries and exhibitions — not ordinary printer paper.",
+      "features": [
+        "Premium cotton paper with a matte finish, no distracting glare",
+        "Light- and fade-resistant ink that keeps its color depth for years",
+        "Faithful to the finest details of the original artwork",
+        "Easy to frame in any frame you choose"
+      ],
+      "browseLabel": "Browse All Prints",
+      "browseHref": "/collections/prints/"
+    },
+    "canvas": {
+      "heading": "Stretched Canvas Print",
+      "text": "The piece is printed on quality canvas fabric, hand-stretched over a wooden frame, and arrives ready to hang — no extra framing needed. The canvas texture adds depth and a presence that feels closer to the original painting.",
+      "features": [
+        "Thick, gallery-quality canvas, hand-stretched over a wooden frame",
+        "Arrives ready to hang — no extra framing needed",
+        "The canvas texture adds depth and a real presence in the room",
+        "Built to last for years while keeping its color intensity"
+      ],
+      "browseLabel": "Browse All Canvas Prints",
+      "browseHref": "/collections/prints/"
+    },
+    "framed-print": {
+      "heading": "Framed Print",
+      "text": "A fine art print on quality paper, pre-framed in an elegant frame and ready to hang straight out of the box. The most convenient choice for anyone who wants to hang it up without dealing with framing themselves.",
+      "features": [
+        "Arrives framed with protective glass, ready to hang immediately",
+        "A quality frame that complements the artwork without distracting from it",
+        "The most convenient option — no need to order framing separately",
+        "Especially well-suited as a gift or for a corner you want to finish quickly"
+      ],
+      "browseLabel": "Browse All Framed Prints",
+      "browseHref": "/collections/prints/"
+    },
+    "limitedEdition": {
+      "heading": "Original Artwork — One of a Kind",
+      "text": "This isn't a print — it's the original artwork itself, made entirely by hand with no other copy in existence. Once it sells, it won't be made again.",
+      "features": [
+        "One original artwork, with no copies whatsoever",
+        "Created and signed by hand, from start to finish",
+        "Once sold, it will no longer be available for purchase",
+        "Comes with a certificate of authenticity directly from the artist"
+      ]
+    },
+    "handEmbellished": {
+      "heading": "Hand-Embellished Print",
+      "text": "A quality print on stretched canvas that I go over by hand with a brush, adding a real touch of paint and texture — no two are exactly alike. It's a way to get a presence much closer to the original artwork, at a significantly more accessible price.",
+      "features": [
+        "Each copy is hand-embellished individually — no two are the same",
+        "Real texture and paint on top of the print, not just a simulation",
+        "Combines the accessibility of a print with the presence of handwork",
+        "Limited quantity for each artwork"
+      ]
     }
   }
 }

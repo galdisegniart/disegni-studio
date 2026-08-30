@@ -1,290 +1,194 @@
 {
-  "translations": {
-    "he": {
-      "title": "מדיניות ביטולים והחזרים | גל דִּיסֵנִי",
-      "metaDescription": "מדיניות ביטול עסקה, דמי ביטול, החזרים והחלפות בחנות של גל דִּיסֵנִי - להדפסים, ליצירות מקוריות, לעבודות בהזמנה ולסדנאות.",
-      "heroEyebrow": "מדיניות ביטולים והחזרים",
-      "heroHeading": "ביטולים והחזרים",
-      "heroLead": "מידע ברור לפני שאתם רוכשים - איך מבטלים הזמנה, כמה זה עולה, מתי מגיע ההחזר הכספי, ומה שונה ביצירות מקוריות, בעבודות בהזמנה אישית ובסדנאות.",
-      "updatedLabel": "עודכן לאחרונה: אוגוסט 2026",
-      "identityHeading": "לאן מוסרים הודעת ביטול",
-      "waMessage": "שלום גל, אני מעוניין/ת לבטל הזמנה. מספר ההזמנה שלי:",
-      "sections": [
-        {
-          "heading": "ביטול עסקה - הדפסים אמנותיים",
-          "paragraphs": [
-            "רכישה באתר היא עסקת מכר מרחוק לפי חוק הגנת הצרכן. ניתן לבטל רכישה של הדפס אמנותי החל ממועד ביצוע העסקה ועד 14 יום ממועד קבלת המוצר בפועל, לפי המאוחר מביניהם.",
-            "הביטול כפוף להחזרת המוצר במצב תקין, ללא שימוש ובאריזתו המקורית. הדפס שנפגם, נתלה, מוסגר או נעשה בו שימוש לאחר קבלתו - לא ניתן להחזיר.",
-            "העובדה שההדפס מיוצר אצל בית דפוס לאחר קבלת ההזמנה אינה גורעת מזכות הביטול הזו. אנחנו מעניקים זכות ביטול מלאה על כל ההדפסים האמנותיים בקטלוג."
-          ]
-        },
-        {
-          "heading": "איך מבטלים",
-          "paragraphs": [
-            "הודעת ביטול ניתן למסור בכל אחת מהדרכים הבאות, לפי הפרטים המופיעים בראש עמוד זה, ואין צורך לנמק:"
-          ],
-          "bullets": [
-            "בדוא\"ל",
-            "בהודעת WhatsApp",
-            "בשיחת טלפון",
-            "בהודעה בכתב לכתובת העסק"
-          ]
-        },
-        {
-          "heading": "מה צריך לכלול בהודעת הביטול",
-          "paragraphs": [
-            "כדי שנוכל לטפל בביטול במהירות, נא לציין שם מלא, מספר טלפון, מספר הזמנה (או תאריך הרכישה) ואת הפריט שמבוטל. אם הביטול נובע מפגם - נא לצרף תמונות.",
-            "נאשר את קבלת הודעת הביטול, ומיד לאחר מכן נתאם איתך את החזרת הפריט."
-          ]
-        },
-        {
-          "heading": "דמי ביטול",
-          "paragraphs": [
-            "בביטול שאינו נובע מפגם או מאי-התאמה, אנו רשאים לגבות דמי ביטול בשיעור של עד 5% ממחיר העסקה או 100 ₪ - לפי הנמוך מבין השניים.",
-            "אם העסקה בוטלה עקב פגם במוצר, אי-התאמה בין המוצר לבין מה שהוזמן, או אי-אספקה במועד שנמסר לך - לא ייגבו דמי ביטול כלל, ותקבל החזר מלא לרבות דמי המשלוח ששולמו.",
-            "עלות משלוח ההחזרה חלה על הלקוח, אלא אם ההחזרה נובעת מפגם או מטעות שלנו - ואז היא על חשבוננו."
-          ]
-        },
-        {
-          "heading": "החזר כספי",
-          "paragraphs": [
-            "החזר כספי יבוצע לאמצעי התשלום שבו בוצעה הרכישה המקורית, תוך 14 יום ממועד קבלת הודעת הביטול, בניכוי דמי ביטול אם חלים.",
-            "אם התשלום בוצע בכרטיס אשראי, ההחזר יבוצע דרך חברת האשראי, וייתכן שיופיע בחיוב הבא בהתאם למועדי החיוב של החברה. אם התשלום בוצע בהעברה בנקאית, ההחזר יבוצע לחשבון הבנק שממנו בוצעה ההעברה.",
-            "אם המוצר כבר נשלח אליך, ההחזר מותנה בהחזרתו אלינו ובבדיקת תקינותו."
-          ]
-        },
-        {
-          "heading": "פריט שהגיע פגום",
-          "paragraphs": [
-            "אם היצירה הגיעה פגומה, שבורה או שאינה תואמת למה שהוזמן, נא לצלם את הפריט ואת האריזה ולפנות אלינו תוך 48 שעות מקבלת המשלוח.",
-            "במקרה כזה נדאג להחלפה או להחזר כספי מלא, לפי בחירתך, ללא דמי ביטול וללא עלות משלוח כלשהי מצדך.",
-            "הפרשי גוון, בהירות או רוויה סבירים בין התצוגה במסך לבין ההדפס בפועל אינם נחשבים פגם, כמפורט בתקנון האתר."
-          ]
-        },
-        {
-          "heading": "יצירות מקוריות ועבודות בהזמנה אישית",
-          "paragraphs": [
-            "עבודות שהוזמנו במיוחד עבור הלקוח - למשל פורטרט בהזמנה או יצירה שהותאמה לבקשתך - הן מוצרים שיוצרו במיוחד עבור הצרכן לפי מידותיו או דרישותיו האישיות, ולכן אינן כפופות לזכות הביטול הרגילה, אלא אם סוכם אחרת מראש ובכתב.",
-            "יצירה מקורית קיימת, שנרכשה כפי שהיא מהקטלוג ולא הותאמה במיוחד עבורך, כפופה לזכות ביטול של 14 יום מקבלתה, בכפוף להחזרתה במצב תקין ובאריזתה המקורית. בשל ערכן ורגישותן, יצירות מקוריות מוחזרות באריזה המקורית בלבד ובתיאום מראש איתנו.",
-            "בכל מקרה - אם התקבלה יצירה פגומה או שאינה תואמת את מה שהוזמן, יש לפנות אלינו בהקדם ונטפל בכך במלואו."
-          ]
-        },
-        {
-          "heading": "סדנאות אמנות",
-          "paragraphs": [
-            "הרשמה לסדנה היא עסקה לרכישת שירות. ניתן לבטל אותה תוך 14 יום ממועד ביצוע העסקה, ובלבד שהביטול נעשה לפחות שני ימים - שאינם ימי מנוחה - לפני מועד תחילת הסדנה.",
-            "בביטול כזה יינתן החזר כספי בניכוי דמי ביטול של עד 5% ממחיר העסקה או 100 ₪, לפי הנמוך מביניהם.",
-            "ביטול שנעשה פחות משני ימים לפני מועד הסדנה, או אי-הגעה למפגש ללא הודעה מראש, אינו מזכה בהחזר - שכן המקום נשמר עבורך ולא ניתן היה לאיישו.",
-            "בסדנה מתמשכת (מנוי חודשי או סדרת מפגשים), הפסקה באמצע התקופה מזכה בהחזר יחסי עבור המפגשים שטרם התקיימו, בכפוף להודעה מראש.",
-            "אם אנחנו מבטלים או דוחים סדנה - נציע מועד חלופי, ואם אינו מתאים לך יינתן החזר כספי מלא ללא כל ניכוי."
-          ]
-        },
-        {
-          "heading": "זכות ביטול מורחבת",
-          "paragraphs": [
-            "אדם עם מוגבלות, אזרח ותיק (בן 65 ומעלה) ועולה חדש רשאים לבטל עסקה בתוך ארבעה חודשים ממועד העסקה, ממועד קבלת המוצר או ממועד קבלת מסמך פרטי העסקה - לפי המאוחר - ובלבד שההתקשרות בעסקה כללה שיחה בין הצדדים, לרבות שיחה באמצעי תקשורת אלקטרוני.",
-            "אנו רשאים לבקש הצגת תעודה המעידה על הזכאות. יתר תנאי הביטול, לרבות דמי הביטול והחזרת המוצר, חלים גם על ביטול לפי סעיף זה."
-          ]
-        },
-        {
-          "heading": "מוצרים שלא ניתן לבטל",
-          "paragraphs": [
-            "בהתאם לחוק, זכות הביטול אינה חלה על עבודות שיוצרו במיוחד עבור הצרכן לפי מידותיו או דרישותיו האישיות, כמפורט למעלה.",
-            "מלבד זאת, אין באתר מוצרים נוספים שחל עליהם חריג לזכות הביטול. איננו מוכרים מוצרים דיגיטליים להורדה, מוצרים מתכלים או שוברים מוגבלי מועד."
-          ]
-        }
-      ],
-      "legalNote": "המידע בעמוד זה מהווה תמצית של זכויותיך ואינו מהווה ייעוץ משפטי. עמוד זה מהווה חלק בלתי נפרד מתקנון האתר. במקרה של סתירה בין האמור כאן לבין הוראות חוק הגנת הצרכן, התשמ\"א-1981, ותקנות הגנת הצרכן (ביטול עסקה), התשע\"א-2010 - יגברו הוראות הדין, ואין באמור כדי לגרוע מזכויותיך לפי חוק."
-    },
-    "en": {
-      "title": "Cancellations & Returns Policy | Gal Disegni",
-      "metaDescription": "Cancellation policy, cancellation fees, returns, and exchanges at the Gal Disegni shop - for prints, original artwork, commissioned work, and workshops.",
-      "heroEyebrow": "Cancellations & Returns Policy",
-      "heroHeading": "Cancellations & Returns",
-      "heroLead": "Clear information before you buy - how to cancel an order, what it costs, when a refund arrives, and what's different for original artwork, personal commissions, and workshops.",
-      "updatedLabel": "Last updated: August 2026",
-      "identityHeading": "Where to Send a Cancellation Notice",
-      "waMessage": "Hi Gal, I'd like to cancel an order. My order number is:",
-      "sections": [
-        {
-          "heading": "Cancelling a Purchase - Fine Art Prints",
-          "paragraphs": [
-            "A purchase on the site is a distance sale transaction under the Consumer Protection Law. You may cancel a fine art print purchase from the time the transaction is made until 14 days from the date you actually receive the product, whichever is later.",
-            "Cancellation is subject to returning the product in good condition, unused, and in its original packaging. A print that has been damaged, hung, framed, or used after receipt cannot be returned.",
-            "The fact that the print is manufactured by a print shop after the order is placed does not diminish this right of cancellation. We grant a full right of cancellation on every fine art print in the catalog."
-          ]
-        },
-        {
-          "heading": "How to Cancel",
-          "paragraphs": [
-            "A cancellation notice may be given in any of the following ways, using the details at the top of this page, and no reason needs to be given:"
-          ],
-          "bullets": [
-            "By email",
-            "By WhatsApp message",
-            "By phone call",
-            "By written notice to the business address"
-          ]
-        },
-        {
-          "heading": "What to Include in the Cancellation Notice",
-          "paragraphs": [
-            "So we can process the cancellation quickly, please state your full name, phone number, order number (or purchase date), and the item being cancelled. If the cancellation is due to a defect, please attach photos.",
-            "We will confirm receipt of the cancellation notice, and immediately afterward arrange the return of the item with you."
-          ]
-        },
-        {
-          "heading": "Cancellation Fees",
-          "paragraphs": [
-            "For a cancellation not resulting from a defect or a mismatch, we may charge a cancellation fee of up to 5% of the transaction price or 100 ₪, whichever is lower.",
-            "If the transaction was cancelled due to a product defect, a mismatch between the product and what was ordered, or a failure to deliver by the date given to you, no cancellation fee will be charged at all, and you will receive a full refund including any shipping fees paid.",
-            "The cost of return shipping is borne by the customer, unless the return results from a defect or our error - in which case it is at our expense."
-          ]
-        },
-        {
-          "heading": "Refunds",
-          "paragraphs": [
-            "A refund will be made to the payment method used for the original purchase, within 14 days of receiving the cancellation notice, less any applicable cancellation fee.",
-            "If payment was made by credit card, the refund will be processed through the credit card company and may appear on your next billing cycle depending on the company's billing dates. If payment was made by bank transfer, the refund will be made to the bank account from which the transfer was made.",
-            "If the product has already been shipped to you, the refund is conditional on its return to us and an inspection of its condition."
-          ]
-        },
-        {
-          "heading": "An Item That Arrived Damaged",
-          "paragraphs": [
-            "If the artwork arrived damaged, broken, or does not match what was ordered, please photograph the item and its packaging and contact us within 48 hours of receiving the shipment.",
-            "In such a case we will arrange a replacement or a full refund, at your choice, with no cancellation fee and no shipping cost to you whatsoever.",
-            "Reasonable differences in hue, brightness, or saturation between the on-screen display and the actual print are not considered a defect, as detailed in the site's Terms of Service."
-          ]
-        },
-        {
-          "heading": "Original Artwork and Personal Commissions",
-          "paragraphs": [
-            "Work commissioned specifically for the customer - for example a commissioned portrait or a piece customized to your request - is a product made specially for the consumer according to their personal measurements or requirements, and is therefore not subject to the standard right of cancellation, unless otherwise agreed in advance and in writing.",
-            "An existing original artwork, purchased as-is from the catalog and not specially customized for you, is subject to a 14-day right of cancellation from receipt, conditional on its return in good condition and in its original packaging. Due to their value and sensitivity, original artworks may only be returned in their original packaging and by prior arrangement with us.",
-            "In any case - if a damaged artwork was received, or one that does not match what was ordered, please contact us as soon as possible and we will address it in full."
-          ]
-        },
-        {
-          "heading": "Art Workshops",
-          "paragraphs": [
-            "Registering for a workshop is a transaction for the purchase of a service. It may be cancelled within 14 days of the transaction, provided the cancellation is made at least two days - not including rest days - before the workshop's start date.",
-            "In such a cancellation, a refund will be given less a cancellation fee of up to 5% of the transaction price or 100 ₪, whichever is lower.",
-            "A cancellation made less than two days before the workshop date, or a no-show without prior notice, does not entitle you to a refund - since the spot was reserved for you and could not be filled.",
-            "In an ongoing workshop (monthly subscription or a series of sessions), stopping partway through entitles you to a proportional refund for sessions not yet held, subject to advance notice.",
-            "If we cancel or postpone a workshop, we will offer an alternative date, and if it doesn't suit you, a full refund will be given with no deduction."
-          ]
-        },
-        {
-          "heading": "Extended Right of Cancellation",
-          "paragraphs": [
-            "A person with a disability, a senior citizen (65 or older), or a new immigrant may cancel a transaction within four months of the date of the transaction, the date the product was received, or the date the transaction details document was received - whichever is later - provided that entering into the transaction included a conversation between the parties, including by electronic means of communication.",
-            "We may request proof of eligibility. The other terms of cancellation, including cancellation fees and the return of the product, also apply to a cancellation under this section."
-          ]
-        },
-        {
-          "heading": "Products That Cannot Be Cancelled",
-          "paragraphs": [
-            "In accordance with the law, the right of cancellation does not apply to work created specially for the consumer according to their personal measurements or requirements, as detailed above.",
-            "Beyond that, there are no other products on the site to which an exception to the right of cancellation applies. We do not sell downloadable digital products, perishable goods, or time-limited vouchers."
-          ]
-        }
-      ],
-      "legalNote": "The information on this page is a summary of your rights and does not constitute legal advice. This page forms an integral part of the site's Terms of Service. In the event of a conflict between what is stated here and the provisions of the Consumer Protection Law, 5741-1981, and the Consumer Protection Regulations (Cancellation of a Transaction), 5771-2010, the provisions of the law shall prevail, and nothing herein derogates from your rights under the law. This site and all transactions made through it are governed exclusively by the laws of the State of Israel, regardless of the language in which you are reading this policy or your location."
-    }
+  "he": {
+    "title": "מדיניות ביטולים והחזרים | גל דִּיסֵנִי",
+    "metaDescription": "מדיניות ביטול עסקה, דמי ביטול, החזרים והחלפות בחנות של גל דִּיסֵנִי - להדפסים, ליצירות מקוריות, לעבודות בהזמנה ולסדנאות.",
+    "heroEyebrow": "מדיניות ביטולים והחזרים",
+    "heroHeading": "ביטולים והחזרים",
+    "heroLead": "מידע ברור לפני שאתם רוכשים - איך מבטלים הזמנה, כמה זה עולה, מתי מגיע ההחזר הכספי, ומה שונה ביצירות מקוריות, בעבודות בהזמנה אישית ובסדנאות.",
+    "updatedLabel": "עודכן לאחרונה: אוגוסט 2026",
+    "identityHeading": "לאן מוסרים הודעת ביטול",
+    "waMessage": "שלום גל, אני מעוניין/ת לבטל הזמנה. מספר ההזמנה שלי:",
+    "sections": [
+      {
+        "heading": "ביטול עסקה - הדפסים אמנותיים",
+        "paragraphs": [
+          "רכישה באתר היא עסקת מכר מרחוק לפי חוק הגנת הצרכן. ניתן לבטל רכישה של הדפס אמנותי החל ממועד ביצוע העסקה ועד 14 יום ממועד קבלת המוצר בפועל, לפי המאוחר מביניהם.",
+          "הביטול כפוף להחזרת המוצר במצב תקין, ללא שימוש ובאריזתו המקורית. הדפס שנפגם, נתלה, מוסגר או נעשה בו שימוש לאחר קבלתו - לא ניתן להחזיר.",
+          "העובדה שההדפס מיוצר אצל בית דפוס לאחר קבלת ההזמנה אינה גורעת מזכות הביטול הזו. אנחנו מעניקים זכות ביטול מלאה על כל ההדפסים האמנותיים בקטלוג."
+        ]
+      },
+      {
+        "heading": "איך מבטלים",
+        "paragraphs": [
+          "הודעת ביטול ניתן למסור בכל אחת מהדרכים הבאות, לפי הפרטים המופיעים בראש עמוד זה, ואין צורך לנמק:"
+        ],
+        "bullets": [
+          "בדוא\"ל",
+          "בהודעת WhatsApp",
+          "בשיחת טלפון",
+          "בהודעה בכתב לכתובת העסק"
+        ]
+      },
+      {
+        "heading": "מה צריך לכלול בהודעת הביטול",
+        "paragraphs": [
+          "כדי שנוכל לטפל בביטול במהירות, נא לציין שם מלא, מספר טלפון, מספר הזמנה (או תאריך הרכישה) ואת הפריט שמבוטל. אם הביטול נובע מפגם - נא לצרף תמונות.",
+          "נאשר את קבלת הודעת הביטול, ומיד לאחר מכן נתאם איתך את החזרת הפריט."
+        ]
+      },
+      {
+        "heading": "דמי ביטול",
+        "paragraphs": [
+          "בביטול שאינו נובע מפגם או מאי-התאמה, אנו רשאים לגבות דמי ביטול בשיעור של עד 5% ממחיר העסקה או 100 ₪ - לפי הנמוך מבין השניים.",
+          "אם העסקה בוטלה עקב פגם במוצר, אי-התאמה בין המוצר לבין מה שהוזמן, או אי-אספקה במועד שנמסר לך - לא ייגבו דמי ביטול כלל, ותקבל החזר מלא לרבות דמי המשלוח ששולמו.",
+          "עלות משלוח ההחזרה חלה על הלקוח, אלא אם ההחזרה נובעת מפגם או מטעות שלנו - ואז היא על חשבוננו."
+        ]
+      },
+      {
+        "heading": "החזר כספי",
+        "paragraphs": [
+          "החזר כספי יבוצע לאמצעי התשלום שבו בוצעה הרכישה המקורית, תוך 14 יום ממועד קבלת הודעת הביטול, בניכוי דמי ביטול אם חלים.",
+          "אם התשלום בוצע בכרטיס אשראי, ההחזר יבוצע דרך חברת האשראי, וייתכן שיופיע בחיוב הבא בהתאם למועדי החיוב של החברה. אם התשלום בוצע בהעברה בנקאית, ההחזר יבוצע לחשבון הבנק שממנו בוצעה ההעברה.",
+          "אם המוצר כבר נשלח אליך, ההחזר מותנה בהחזרתו אלינו ובבדיקת תקינותו."
+        ]
+      },
+      {
+        "heading": "פריט שהגיע פגום",
+        "paragraphs": [
+          "אם היצירה הגיעה פגומה, שבורה או שאינה תואמת למה שהוזמן, נא לצלם את הפריט ואת האריזה ולפנות אלינו תוך 48 שעות מקבלת המשלוח.",
+          "במקרה כזה נדאג להחלפה או להחזר כספי מלא, לפי בחירתך, ללא דמי ביטול וללא עלות משלוח כלשהי מצדך.",
+          "הפרשי גוון, בהירות או רוויה סבירים בין התצוגה במסך לבין ההדפס בפועל אינם נחשבים פגם, כמפורט בתקנון האתר."
+        ]
+      },
+      {
+        "heading": "יצירות מקוריות ועבודות בהזמנה אישית",
+        "paragraphs": [
+          "עבודות שהוזמנו במיוחד עבור הלקוח - למשל פורטרט בהזמנה או יצירה שהותאמה לבקשתך - הן מוצרים שיוצרו במיוחד עבור הצרכן לפי מידותיו או דרישותיו האישיות, ולכן אינן כפופות לזכות הביטול הרגילה, אלא אם סוכם אחרת מראש ובכתב.",
+          "יצירה מקורית קיימת, שנרכשה כפי שהיא מהקטלוג ולא הותאמה במיוחד עבורך, כפופה לזכות ביטול של 14 יום מקבלתה, בכפוף להחזרתה במצב תקין ובאריזתה המקורית. בשל ערכן ורגישותן, יצירות מקוריות מוחזרות באריזה המקורית בלבד ובתיאום מראש איתנו.",
+          "בכל מקרה - אם התקבלה יצירה פגומה או שאינה תואמת את מה שהוזמן, יש לפנות אלינו בהקדם ונטפל בכך במלואו."
+        ]
+      },
+      {
+        "heading": "סדנאות אמנות",
+        "paragraphs": [
+          "הרשמה לסדנה היא עסקה לרכישת שירות. ניתן לבטל אותה תוך 14 יום ממועד ביצוע העסקה, ובלבד שהביטול נעשה לפחות שני ימים - שאינם ימי מנוחה - לפני מועד תחילת הסדנה.",
+          "בביטול כזה יינתן החזר כספי בניכוי דמי ביטול של עד 5% ממחיר העסקה או 100 ₪, לפי הנמוך מביניהם.",
+          "ביטול שנעשה פחות משני ימים לפני מועד הסדנה, או אי-הגעה למפגש ללא הודעה מראש, אינו מזכה בהחזר - שכן המקום נשמר עבורך ולא ניתן היה לאיישו.",
+          "בסדנה מתמשכת (מנוי חודשי או סדרת מפגשים), הפסקה באמצע התקופה מזכה בהחזר יחסי עבור המפגשים שטרם התקיימו, בכפוף להודעה מראש.",
+          "אם אנחנו מבטלים או דוחים סדנה - נציע מועד חלופי, ואם אינו מתאים לך יינתן החזר כספי מלא ללא כל ניכוי."
+        ]
+      },
+      {
+        "heading": "זכות ביטול מורחבת",
+        "paragraphs": [
+          "אדם עם מוגבלות, אזרח ותיק (בן 65 ומעלה) ועולה חדש רשאים לבטל עסקה בתוך ארבעה חודשים ממועד העסקה, ממועד קבלת המוצר או ממועד קבלת מסמך פרטי העסקה - לפי המאוחר - ובלבד שההתקשרות בעסקה כללה שיחה בין הצדדים, לרבות שיחה באמצעי תקשורת אלקטרוני.",
+          "אנו רשאים לבקש הצגת תעודה המעידה על הזכאות. יתר תנאי הביטול, לרבות דמי הביטול והחזרת המוצר, חלים גם על ביטול לפי סעיף זה."
+        ]
+      },
+      {
+        "heading": "מוצרים שלא ניתן לבטל",
+        "paragraphs": [
+          "בהתאם לחוק, זכות הביטול אינה חלה על עבודות שיוצרו במיוחד עבור הצרכן לפי מידותיו או דרישותיו האישיות, כמפורט למעלה.",
+          "מלבד זאת, אין באתר מוצרים נוספים שחל עליהם חריג לזכות הביטול. איננו מוכרים מוצרים דיגיטליים להורדה, מוצרים מתכלים או שוברים מוגבלי מועד."
+        ]
+      }
+    ],
+    "legalNote": "המידע בעמוד זה מהווה תמצית של זכויותיך ואינו מהווה ייעוץ משפטי. עמוד זה מהווה חלק בלתי נפרד מתקנון האתר. במקרה של סתירה בין האמור כאן לבין הוראות חוק הגנת הצרכן, התשמ\"א-1981, ותקנות הגנת הצרכן (ביטול עסקה), התשע\"א-2010 - יגברו הוראות הדין, ואין באמור כדי לגרוע מזכויותיך לפי חוק."
   },
-  "title": "מדיניות ביטולים והחזרים | גל דִּיסֵנִי",
-  "metaDescription": "מדיניות ביטול עסקה, דמי ביטול, החזרים והחלפות בחנות של גל דִּיסֵנִי - להדפסים, ליצירות מקוריות, לעבודות בהזמנה ולסדנאות.",
-  "heroEyebrow": "מדיניות ביטולים והחזרים",
-  "heroHeading": "ביטולים והחזרים",
-  "heroLead": "מידע ברור לפני שאתם רוכשים - איך מבטלים הזמנה, כמה זה עולה, מתי מגיע ההחזר הכספי, ומה שונה ביצירות מקוריות, בעבודות בהזמנה אישית ובסדנאות.",
-  "updatedLabel": "עודכן לאחרונה: אוגוסט 2026",
-  "identityHeading": "לאן מוסרים הודעת ביטול",
-  "waMessage": "שלום גל, אני מעוניין/ת לבטל הזמנה. מספר ההזמנה שלי:",
-  "sections": [
-    {
-      "heading": "ביטול עסקה - הדפסים אמנותיים",
-      "paragraphs": [
-        "רכישה באתר היא עסקת מכר מרחוק לפי חוק הגנת הצרכן. ניתן לבטל רכישה של הדפס אמנותי החל ממועד ביצוע העסקה ועד 14 יום ממועד קבלת המוצר בפועל, לפי המאוחר מביניהם.",
-        "הביטול כפוף להחזרת המוצר במצב תקין, ללא שימוש ובאריזתו המקורית. הדפס שנפגם, נתלה, מוסגר או נעשה בו שימוש לאחר קבלתו - לא ניתן להחזיר.",
-        "העובדה שההדפס מיוצר אצל בית דפוס לאחר קבלת ההזמנה אינה גורעת מזכות הביטול הזו. אנחנו מעניקים זכות ביטול מלאה על כל ההדפסים האמנותיים בקטלוג."
-      ]
-    },
-    {
-      "heading": "איך מבטלים",
-      "paragraphs": [
-        "הודעת ביטול ניתן למסור בכל אחת מהדרכים הבאות, לפי הפרטים המופיעים בראש עמוד זה, ואין צורך לנמק:"
-      ],
-      "bullets": [
-        "בדוא\"ל",
-        "בהודעת WhatsApp",
-        "בשיחת טלפון",
-        "בהודעה בכתב לכתובת העסק"
-      ]
-    },
-    {
-      "heading": "מה צריך לכלול בהודעת הביטול",
-      "paragraphs": [
-        "כדי שנוכל לטפל בביטול במהירות, נא לציין שם מלא, מספר טלפון, מספר הזמנה (או תאריך הרכישה) ואת הפריט שמבוטל. אם הביטול נובע מפגם - נא לצרף תמונות.",
-        "נאשר את קבלת הודעת הביטול, ומיד לאחר מכן נתאם איתך את החזרת הפריט."
-      ]
-    },
-    {
-      "heading": "דמי ביטול",
-      "paragraphs": [
-        "בביטול שאינו נובע מפגם או מאי-התאמה, אנו רשאים לגבות דמי ביטול בשיעור של עד 5% ממחיר העסקה או 100 ₪ - לפי הנמוך מבין השניים.",
-        "אם העסקה בוטלה עקב פגם במוצר, אי-התאמה בין המוצר לבין מה שהוזמן, או אי-אספקה במועד שנמסר לך - לא ייגבו דמי ביטול כלל, ותקבל החזר מלא לרבות דמי המשלוח ששולמו.",
-        "עלות משלוח ההחזרה חלה על הלקוח, אלא אם ההחזרה נובעת מפגם או מטעות שלנו - ואז היא על חשבוננו."
-      ]
-    },
-    {
-      "heading": "החזר כספי",
-      "paragraphs": [
-        "החזר כספי יבוצע לאמצעי התשלום שבו בוצעה הרכישה המקורית, תוך 14 יום ממועד קבלת הודעת הביטול, בניכוי דמי ביטול אם חלים.",
-        "אם התשלום בוצע בכרטיס אשראי, ההחזר יבוצע דרך חברת האשראי, וייתכן שיופיע בחיוב הבא בהתאם למועדי החיוב של החברה. אם התשלום בוצע בהעברה בנקאית, ההחזר יבוצע לחשבון הבנק שממנו בוצעה ההעברה.",
-        "אם המוצר כבר נשלח אליך, ההחזר מותנה בהחזרתו אלינו ובבדיקת תקינותו."
-      ]
-    },
-    {
-      "heading": "פריט שהגיע פגום",
-      "paragraphs": [
-        "אם היצירה הגיעה פגומה, שבורה או שאינה תואמת למה שהוזמן, נא לצלם את הפריט ואת האריזה ולפנות אלינו תוך 48 שעות מקבלת המשלוח.",
-        "במקרה כזה נדאג להחלפה או להחזר כספי מלא, לפי בחירתך, ללא דמי ביטול וללא עלות משלוח כלשהי מצדך.",
-        "הפרשי גוון, בהירות או רוויה סבירים בין התצוגה במסך לבין ההדפס בפועל אינם נחשבים פגם, כמפורט בתקנון האתר."
-      ]
-    },
-    {
-      "heading": "יצירות מקוריות ועבודות בהזמנה אישית",
-      "paragraphs": [
-        "עבודות שהוזמנו במיוחד עבור הלקוח - למשל פורטרט בהזמנה או יצירה שהותאמה לבקשתך - הן מוצרים שיוצרו במיוחד עבור הצרכן לפי מידותיו או דרישותיו האישיות, ולכן אינן כפופות לזכות הביטול הרגילה, אלא אם סוכם אחרת מראש ובכתב.",
-        "יצירה מקורית קיימת, שנרכשה כפי שהיא מהקטלוג ולא הותאמה במיוחד עבורך, כפופה לזכות ביטול של 14 יום מקבלתה, בכפוף להחזרתה במצב תקין ובאריזתה המקורית. בשל ערכן ורגישותן, יצירות מקוריות מוחזרות באריזה המקורית בלבד ובתיאום מראש איתנו.",
-        "בכל מקרה - אם התקבלה יצירה פגומה או שאינה תואמת את מה שהוזמן, יש לפנות אלינו בהקדם ונטפל בכך במלואו."
-      ]
-    },
-    {
-      "heading": "סדנאות אמנות",
-      "paragraphs": [
-        "הרשמה לסדנה היא עסקה לרכישת שירות. ניתן לבטל אותה תוך 14 יום ממועד ביצוע העסקה, ובלבד שהביטול נעשה לפחות שני ימים - שאינם ימי מנוחה - לפני מועד תחילת הסדנה.",
-        "בביטול כזה יינתן החזר כספי בניכוי דמי ביטול של עד 5% ממחיר העסקה או 100 ₪, לפי הנמוך מביניהם.",
-        "ביטול שנעשה פחות משני ימים לפני מועד הסדנה, או אי-הגעה למפגש ללא הודעה מראש, אינו מזכה בהחזר - שכן המקום נשמר עבורך ולא ניתן היה לאיישו.",
-        "בסדנה מתמשכת (מנוי חודשי או סדרת מפגשים), הפסקה באמצע התקופה מזכה בהחזר יחסי עבור המפגשים שטרם התקיימו, בכפוף להודעה מראש.",
-        "אם אנחנו מבטלים או דוחים סדנה - נציע מועד חלופי, ואם אינו מתאים לך יינתן החזר כספי מלא ללא כל ניכוי."
-      ]
-    },
-    {
-      "heading": "זכות ביטול מורחבת",
-      "paragraphs": [
-        "אדם עם מוגבלות, אזרח ותיק (בן 65 ומעלה) ועולה חדש רשאים לבטל עסקה בתוך ארבעה חודשים ממועד העסקה, ממועד קבלת המוצר או ממועד קבלת מסמך פרטי העסקה - לפי המאוחר - ובלבד שההתקשרות בעסקה כללה שיחה בין הצדדים, לרבות שיחה באמצעי תקשורת אלקטרוני.",
-        "אנו רשאים לבקש הצגת תעודה המעידה על הזכאות. יתר תנאי הביטול, לרבות דמי הביטול והחזרת המוצר, חלים גם על ביטול לפי סעיף זה."
-      ]
-    },
-    {
-      "heading": "מוצרים שלא ניתן לבטל",
-      "paragraphs": [
-        "בהתאם לחוק, זכות הביטול אינה חלה על עבודות שיוצרו במיוחד עבור הצרכן לפי מידותיו או דרישותיו האישיות, כמפורט למעלה.",
-        "מלבד זאת, אין באתר מוצרים נוספים שחל עליהם חריג לזכות הביטול. איננו מוכרים מוצרים דיגיטליים להורדה, מוצרים מתכלים או שוברים מוגבלי מועד."
-      ]
-    }
-  ],
-  "legalNote": "המידע בעמוד זה מהווה תמצית של זכויותיך ואינו מהווה ייעוץ משפטי. עמוד זה מהווה חלק בלתי נפרד מתקנון האתר. במקרה של סתירה בין האמור כאן לבין הוראות חוק הגנת הצרכן, התשמ\"א-1981, ותקנות הגנת הצרכן (ביטול עסקה), התשע\"א-2010 - יגברו הוראות הדין, ואין באמור כדי לגרוע מזכויותיך לפי חוק."
+  "en": {
+    "title": "Cancellations & Returns Policy | Gal Disegni",
+    "metaDescription": "Cancellation policy, cancellation fees, returns, and exchanges at the Gal Disegni shop - for prints, original artwork, commissioned work, and workshops.",
+    "heroEyebrow": "Cancellations & Returns Policy",
+    "heroHeading": "Cancellations & Returns",
+    "heroLead": "Clear information before you buy - how to cancel an order, what it costs, when a refund arrives, and what's different for original artwork, personal commissions, and workshops.",
+    "updatedLabel": "Last updated: August 2026",
+    "identityHeading": "Where to Send a Cancellation Notice",
+    "waMessage": "Hi Gal, I'd like to cancel an order. My order number is:",
+    "sections": [
+      {
+        "heading": "Cancelling a Purchase - Fine Art Prints",
+        "paragraphs": [
+          "A purchase on the site is a distance sale transaction under the Consumer Protection Law. You may cancel a fine art print purchase from the time the transaction is made until 14 days from the date you actually receive the product, whichever is later.",
+          "Cancellation is subject to returning the product in good condition, unused, and in its original packaging. A print that has been damaged, hung, framed, or used after receipt cannot be returned.",
+          "The fact that the print is manufactured by a print shop after the order is placed does not diminish this right of cancellation. We grant a full right of cancellation on every fine art print in the catalog."
+        ]
+      },
+      {
+        "heading": "How to Cancel",
+        "paragraphs": [
+          "A cancellation notice may be given in any of the following ways, using the details at the top of this page, and no reason needs to be given:"
+        ],
+        "bullets": [
+          "By email",
+          "By WhatsApp message",
+          "By phone call",
+          "By written notice to the business address"
+        ]
+      },
+      {
+        "heading": "What to Include in the Cancellation Notice",
+        "paragraphs": [
+          "So we can process the cancellation quickly, please state your full name, phone number, order number (or purchase date), and the item being cancelled. If the cancellation is due to a defect, please attach photos.",
+          "We will confirm receipt of the cancellation notice, and immediately afterward arrange the return of the item with you."
+        ]
+      },
+      {
+        "heading": "Cancellation Fees",
+        "paragraphs": [
+          "For a cancellation not resulting from a defect or a mismatch, we may charge a cancellation fee of up to 5% of the transaction price or 100 ₪, whichever is lower.",
+          "If the transaction was cancelled due to a product defect, a mismatch between the product and what was ordered, or a failure to deliver by the date given to you, no cancellation fee will be charged at all, and you will receive a full refund including any shipping fees paid.",
+          "The cost of return shipping is borne by the customer, unless the return results from a defect or our error - in which case it is at our expense."
+        ]
+      },
+      {
+        "heading": "Refunds",
+        "paragraphs": [
+          "A refund will be made to the payment method used for the original purchase, within 14 days of receiving the cancellation notice, less any applicable cancellation fee.",
+          "If payment was made by credit card, the refund will be processed through the credit card company and may appear on your next billing cycle depending on the company's billing dates. If payment was made by bank transfer, the refund will be made to the bank account from which the transfer was made.",
+          "If the product has already been shipped to you, the refund is conditional on its return to us and an inspection of its condition."
+        ]
+      },
+      {
+        "heading": "An Item That Arrived Damaged",
+        "paragraphs": [
+          "If the artwork arrived damaged, broken, or does not match what was ordered, please photograph the item and its packaging and contact us within 48 hours of receiving the shipment.",
+          "In such a case we will arrange a replacement or a full refund, at your choice, with no cancellation fee and no shipping cost to you whatsoever.",
+          "Reasonable differences in hue, brightness, or saturation between the on-screen display and the actual print are not considered a defect, as detailed in the site's Terms of Service."
+        ]
+      },
+      {
+        "heading": "Original Artwork and Personal Commissions",
+        "paragraphs": [
+          "Work commissioned specifically for the customer - for example a commissioned portrait or a piece customized to your request - is a product made specially for the consumer according to their personal measurements or requirements, and is therefore not subject to the standard right of cancellation, unless otherwise agreed in advance and in writing.",
+          "An existing original artwork, purchased as-is from the catalog and not specially customized for you, is subject to a 14-day right of cancellation from receipt, conditional on its return in good condition and in its original packaging. Due to their value and sensitivity, original artworks may only be returned in their original packaging and by prior arrangement with us.",
+          "In any case - if a damaged artwork was received, or one that does not match what was ordered, please contact us as soon as possible and we will address it in full."
+        ]
+      },
+      {
+        "heading": "Art Workshops",
+        "paragraphs": [
+          "Registering for a workshop is a transaction for the purchase of a service. It may be cancelled within 14 days of the transaction, provided the cancellation is made at least two days - not including rest days - before the workshop's start date.",
+          "In such a cancellation, a refund will be given less a cancellation fee of up to 5% of the transaction price or 100 ₪, whichever is lower.",
+          "A cancellation made less than two days before the workshop date, or a no-show without prior notice, does not entitle you to a refund - since the spot was reserved for you and could not be filled.",
+          "In an ongoing workshop (monthly subscription or a series of sessions), stopping partway through entitles you to a proportional refund for sessions not yet held, subject to advance notice.",
+          "If we cancel or postpone a workshop, we will offer an alternative date, and if it doesn't suit you, a full refund will be given with no deduction."
+        ]
+      },
+      {
+        "heading": "Extended Right of Cancellation",
+        "paragraphs": [
+          "A person with a disability, a senior citizen (65 or older), or a new immigrant may cancel a transaction within four months of the date of the transaction, the date the product was received, or the date the transaction details document was received - whichever is later - provided that entering into the transaction included a conversation between the parties, including by electronic means of communication.",
+          "We may request proof of eligibility. The other terms of cancellation, including cancellation fees and the return of the product, also apply to a cancellation under this section."
+        ]
+      },
+      {
+        "heading": "Products That Cannot Be Cancelled",
+        "paragraphs": [
+          "In accordance with the law, the right of cancellation does not apply to work created specially for the consumer according to their personal measurements or requirements, as detailed above.",
+          "Beyond that, there are no other products on the site to which an exception to the right of cancellation applies. We do not sell downloadable digital products, perishable goods, or time-limited vouchers."
+        ]
+      }
+    ],
+    "legalNote": "The information on this page is a summary of your rights and does not constitute legal advice. This page forms an integral part of the site's Terms of Service. In the event of a conflict between what is stated here and the provisions of the Consumer Protection Law, 5741-1981, and the Consumer Protection Regulations (Cancellation of a Transaction), 5771-2010, the provisions of the law shall prevail, and nothing herein derogates from your rights under the law. This site and all transactions made through it are governed exclusively by the laws of the State of Israel, regardless of the language in which you are reading this policy or your location."
+  }
 }

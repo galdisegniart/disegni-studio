@@ -1,31 +1,24 @@
 {
-  "slug": "hypno-medicine",
-  "order": 24,
-  "translations": {
-    "he": {
-      "name": "Hypno Medicine",
-      "galleryMedium": "פסטל",
-      "detailMedium": "פסטל על נייר",
-      "description": "פרצוף היפנוטי עם שכבות של עיניים שצופות זו בזו - מבט שמושך פנימה, כמו ריפוי שמתחיל במבט.",
-      "alt": "Hypno Medicine, פרצוף היפנוטי עם שכבות עיניים"
-    },
-    "en": {
-      "name": "Hypno Medicine",
-      "galleryMedium": "Pastel",
-      "detailMedium": "Pastel on paper",
-      "description": "A hypnotic face with layers of eyes watching one another - a gaze that pulls inward, like healing that begins with a look.",
-      "alt": "Hypno Medicine, a hypnotic face with layers of eyes"
-    }
+  "he": {
+    "slug": "hypno-medicine",
+    "order": 24,
+    "name": "Hypno Medicine",
+    "galleryMedium": "פסטל",
+    "detailMedium": "פסטל על נייר",
+    "description": "פרצוף היפנוטי עם שכבות של עיניים שצופות זו בזו - מבט שמושך פנימה, כמו ריפוי שמתחיל במבט.",
+    "alt": "Hypno Medicine, פרצוף היפנוטי עם שכבות עיניים",
+    "image": "/images/artworks/Hypno-Medicine.webp",
+    "thumb": "/images/artworks/Hypno-Medicine.webp",
+    "category": "pastel",
+    "originalAvailable": false,
+    "originalPrice": 0,
+    "extraMaterials": []
   },
-  "name": "Hypno Medicine",
-  "galleryMedium": "פסטל",
-  "detailMedium": "פסטל על נייר",
-  "description": "פרצוף היפנוטי עם שכבות של עיניים שצופות זו בזו - מבט שמושך פנימה, כמו ריפוי שמתחיל במבט.",
-  "alt": "Hypno Medicine, פרצוף היפנוטי עם שכבות עיניים",
-  "image": "/images/artworks/Hypno-Medicine.webp",
-  "thumb": "/images/artworks/Hypno-Medicine.webp",
-  "category": "pastel",
-  "originalAvailable": false,
-  "originalPrice": 0,
-  "extraMaterials": []
+  "en": {
+    "name": "Hypno Medicine",
+    "galleryMedium": "Pastel",
+    "detailMedium": "Pastel on paper",
+    "description": "A hypnotic face with layers of eyes watching one another - a gaze that pulls inward, like healing that begins with a look.",
+    "alt": "Hypno Medicine, a hypnotic face with layers of eyes"
+  }
 }

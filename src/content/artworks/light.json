@@ -1,31 +1,24 @@
 {
-  "slug": "light",
-  "order": 1,
-  "translations": {
-    "he": {
-      "name": "Light",
-      "galleryMedium": "רישום · פורטרט",
-      "detailMedium": "גרפיט על נייר · פורטרט",
-      "description": "רישום פורטרט עדין שבוחן אור, שקט ונוכחות. הרגע שבו מבט פשוט הופך לזיכרון שנשאר.",
-      "alt": "Light, פורטרט בעיפרון של ילדה"
-    },
-    "en": {
-      "name": "Light",
-      "galleryMedium": "Drawing · Portrait",
-      "detailMedium": "Graphite on paper · portrait",
-      "description": "A delicate portrait drawing exploring light, stillness, and presence. The moment a simple gaze becomes a memory that stays.",
-      "alt": "Light, a pencil portrait of a girl"
-    }
+  "he": {
+    "slug": "light",
+    "order": 1,
+    "name": "Light",
+    "galleryMedium": "רישום · פורטרט",
+    "detailMedium": "גרפיט על נייר · פורטרט",
+    "description": "רישום פורטרט עדין שבוחן אור, שקט ונוכחות. הרגע שבו מבט פשוט הופך לזיכרון שנשאר.",
+    "alt": "Light, פורטרט בעיפרון של ילדה",
+    "image": "/images/artworks/light+WEB.webp",
+    "thumb": "/images/gallery/light+thumb.webp",
+    "category": "drawing",
+    "originalAvailable": false,
+    "originalPrice": 0,
+    "extraMaterials": []
   },
-  "name": "Light",
-  "galleryMedium": "רישום · פורטרט",
-  "detailMedium": "גרפיט על נייר · פורטרט",
-  "description": "רישום פורטרט עדין שבוחן אור, שקט ונוכחות. הרגע שבו מבט פשוט הופך לזיכרון שנשאר.",
-  "alt": "Light, פורטרט בעיפרון של ילדה",
-  "image": "/images/artworks/light+WEB.webp",
-  "thumb": "/images/gallery/light+thumb.webp",
-  "category": "drawing",
-  "originalAvailable": false,
-  "originalPrice": 0,
-  "extraMaterials": []
+  "en": {
+    "name": "Light",
+    "galleryMedium": "Drawing · Portrait",
+    "detailMedium": "Graphite on paper · portrait",
+    "description": "A delicate portrait drawing exploring light, stillness, and presence. The moment a simple gaze becomes a memory that stays.",
+    "alt": "Light, a pencil portrait of a girl"
+  }
 }

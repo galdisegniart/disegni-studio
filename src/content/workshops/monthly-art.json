@@ -1,315 +1,220 @@
 {
-  "slug": "monthly-art",
-  "order": 2,
-  "translations": {
-    "he": {
-      "cardLabel": "מסגרת קבועה",
-      "cardTitle": "סדנה מתמשכת",
-      "cardImageAlt": "פינת היצירה של הסדנה המתמשכת",
-      "personaLine": "מתאים למי שרוצה מסגרת קבועה להתפתח בה לאורך זמן.",
-      "title": "סדנת אמנות מתמשכת במנוי חודשי | גל דִּיסֵנִי",
-      "metaDescription": "סדנת אמנות מתמשכת במנוי חודשי עם גל דִּיסֵנִי - מפגש שבועי קבוע ליצור ולהתפתח, עם מפגש ניסיון ראשון ללא עלות.",
-      "eyebrow": "מסגרת שבועית קבועה · חדרה",
-      "heading": "סדנת אמנות מתמשכת במנוי חודשי. זמן קבוע ליצור ולהתפתח.",
-      "lead": "מפגש שבועי שמאפשר לעצור, להעמיק ולפתח דרך אישית באמנות. אפשר להגיע עם רעיון שמסקרן אתכם או לבחור תרגיל שאציע, ולעבוד בקצב שלכם עם ליווי מקצועי קרוב.",
-      "quickMeta": [
-        {
-          "label": "תדירות",
-          "value": "פעם בשבוע"
-        },
-        {
-          "label": "מסלול",
-          "value": "4 מפגשים בחודש"
-        },
-        {
-          "label": "מחיר",
-          "value": "950 ₪ לחודש"
-        },
-        {
-          "label": "מפגש ראשון",
-          "value": "ללא עלות"
-        }
-      ],
-      "heroCtaLabel": "לקביעת מועד",
-      "waMessage": "שלום גל, הגעתי דרך האתר ואשמח לתאם מפגש ניסיון לסדנה המתמשכת.",
-      "heroImageAlt": "פינת היצירה בסטודיו שבה מתקיימת הסדנה החודשית",
-      "finalEyebrow": "לא צריך לחכות לרגע המושלם",
-      "finalHeading": "קובעים זמן קבוע.<br>ונותנים ליצירה לגדול.",
-      "finalCtaLabel": "לבדיקת מקום ב-WhatsApp",
-      "finalWaMessage": "שלום גל, הגעתי דרך האתר ואשמח לתאם מפגש ניסיון לסדנה המתמשכת.",
-      "story": {
-        "eyebrow": "איך זה עובד",
-        "heading": "להתקדם בלי<br>לאבד את החופש.",
-        "lead": "זו אינה כיתה שבה כולם מציירים את אותו הדבר. כל משתתף מפתח עבודה אישית ומקבל ממני הכוונה שמתאימה בדיוק לשלב שבו הוא נמצא.",
-        "paragraphs": [
-          "אפשר להתנסות בגרפיט, עפרונות צבעוניים, גירי פסטל ואקריליק, להמשיך פרויקט שכבר התחלתם או לפתוח כיוון חדש. אני עוזר בבחירת החומר, בתכנון העבודה, בטכניקה ובהחלטות שעולות בדרך.",
-          "לא נדרש ניסיון קודם. הסדנה מתאימה גם למי שרק רוצה להכניס יצירה לשגרה וגם למי שכבר יוצר ורוצה מסגרת עקבית להתפתחות."
-        ]
-      },
-      "included": {
-        "eyebrow": "מה כלול במנוי",
-        "items": [
-          {
-            "label": "ליווי אישי",
-            "title": "עבודה בקצב שלכם",
-            "text": "הכוונה מקצועית בתוך פרויקט אישי, בלי להפוך את כולם לאותו הדבר."
-          },
-          {
-            "label": "כל החומרים",
-            "title": "פשוט להגיע וליצור",
-            "text": "גרפיט, עפרונות, פסטל, אקריליק, נייר וכלי העבודה מחכים בסטודיו."
-          },
-          {
-            "label": "מסגרת קבועה",
-            "title": "עוגן שבועי ליצירה",
-            "text": "ארבעה מפגשים בחודש שעוזרים לשמור על רצף, סקרנות והתקדמות."
-          },
-          {
-            "label": "בחירה חופשית",
-            "title": "רעיון אישי או תרגיל",
-            "text": "אפשר להגיע עם כיוון משלכם או לבחור תרגיל מותאם שאציע במפגש."
-          }
-        ]
-      },
-      "pricing": {
-        "eyebrow": "מחיר והצטרפות",
-        "heading": "מתחילים<br>במפגש ניסיון.",
-        "note": "המפגש הראשון ללא עלות, כדי להכיר את המרחב, להתנסות ולבדוק שהמסגרת מתאימה לכם. לאחר מכן מצטרפים לחודש אחד ויכולים לחדש מחודש לחודש.",
-        "tiers": [
-          {
-            "label": "מנוי חודשי",
-            "value": "950 ₪"
-          },
-          {
-            "label": "מספר מפגשים",
-            "value": "4 בחודש"
-          },
-          {
-            "label": "מפגש ניסיון ראשון",
-            "value": "ללא עלות"
-          }
-        ],
-        "ctaLabel": "לתיאום מפגש ניסיון"
-      },
-      "reviewsHeading": {
-        "eyebrow": "דירוג וחוות דעת",
-        "heading": "החוויה שלכם, במילים שלכם."
-      },
-      "reviewsEmptyText": "חוות הדעת הראשונות יופיעו כאן. השתתפתם? נשמח לשמוע מכם."
-    },
-    "en": {
-      "cardLabel": "Ongoing Format",
-      "cardTitle": "Ongoing Workshop",
-      "cardImageAlt": "The creative corner of the ongoing workshop",
-      "personaLine": "Perfect for anyone who wants an ongoing framework to develop in over time.",
-      "title": "Ongoing Art Workshop, Monthly Subscription | Gal Disegni",
-      "metaDescription": "An ongoing art workshop with a monthly subscription with Gal Disegni - a regular weekly session to create and grow, with a free first trial session.",
-      "eyebrow": "A regular weekly format · Hadera",
-      "heading": "An ongoing art workshop with a monthly subscription. Regular time to create and grow.",
-      "lead": "A weekly session that lets you pause, go deeper, and develop your own path in art. Come with an idea that intrigues you or choose an exercise I'll suggest, and work at your own pace with close professional guidance.",
-      "quickMeta": [
-        {
-          "label": "Frequency",
-          "value": "Once a week"
-        },
-        {
-          "label": "Format",
-          "value": "4 sessions a month"
-        },
-        {
-          "label": "Price",
-          "value": "950 ₪ per month"
-        },
-        {
-          "label": "First session",
-          "value": "Free"
-        }
-      ],
-      "heroCtaLabel": "Book a Date",
-      "waMessage": "Hi Gal, I found you through the website and would love to schedule a trial session for the ongoing workshop.",
-      "heroImageAlt": "The creative corner in the studio where the monthly workshop takes place",
-      "finalEyebrow": "No need to wait for the perfect moment",
-      "finalHeading": "Set a regular time.<br>And let your creativity grow.",
-      "finalCtaLabel": "Check availability on WhatsApp",
-      "finalWaMessage": "Hi Gal, I found you through the website and would love to schedule a trial session for the ongoing workshop.",
-      "story": {
-        "eyebrow": "How it works",
-        "heading": "Progress without<br>losing your freedom.",
-        "lead": "This isn't a classroom where everyone paints the same thing. Each participant develops their own personal work and receives guidance from me tailored exactly to the stage they're at.",
-        "paragraphs": [
-          "You can experiment with graphite, colored pencils, pastels, and acrylic, continue a project you've already started, or open up a new direction. I help with choosing materials, planning the work, technique, and decisions that come up along the way.",
-          "No prior experience is required. The workshop suits both those who simply want to bring creativity into their routine and those who already create and want a consistent framework for growth."
-        ]
-      },
-      "included": {
-        "eyebrow": "What's included in the subscription",
-        "items": [
-          {
-            "label": "Personal guidance",
-            "title": "Work at your own pace",
-            "text": "Professional guidance within your own personal project, without turning everyone into the same thing."
-          },
-          {
-            "label": "All materials included",
-            "title": "Just show up and create",
-            "text": "Graphite, pencils, pastels, acrylic, paper, and tools are waiting for you in the studio."
-          },
-          {
-            "label": "A regular framework",
-            "title": "A weekly anchor for creativity",
-            "text": "Four sessions a month that help maintain continuity, curiosity, and progress."
-          },
-          {
-            "label": "Free choice",
-            "title": "Your own idea or an exercise",
-            "text": "You can come with your own direction or choose a tailored exercise I'll suggest in the session."
-          }
-        ]
-      },
-      "pricing": {
-        "eyebrow": "Price & Joining",
-        "heading": "Start with<br>a trial session.",
-        "note": "The first session is free, so you can get to know the space, try it out, and check that the format is right for you. After that, you join for one month and can renew month to month.",
-        "tiers": [
-          {
-            "label": "Monthly subscription",
-            "value": "950 ₪"
-          },
-          {
-            "label": "Number of sessions",
-            "value": "4 per month"
-          },
-          {
-            "label": "First trial session",
-            "value": "Free"
-          }
-        ],
-        "ctaLabel": "Schedule a trial session"
-      },
-      "reviewsHeading": {
-        "eyebrow": "Rating & Reviews",
-        "heading": "Your experience, in your own words."
-      },
-      "reviewsEmptyText": "The first reviews will appear here. Did you take part? We'd love to hear from you."
-    }
-  },
-  "cardLabel": "מסגרת קבועה",
-  "cardTitle": "סדנה מתמשכת",
-  "cardImage": "/images/workshops/monthly-main.jpg",
-  "cardImageAlt": "פינת היצירה של הסדנה המתמשכת",
-  "personaLine": "מתאים למי שרוצה מסגרת קבועה להתפתח בה לאורך זמן.",
-  "title": "סדנת אמנות מתמשכת במנוי חודשי | גל דִּיסֵנִי",
-  "metaDescription": "סדנת אמנות מתמשכת במנוי חודשי עם גל דִּיסֵנִי - מפגש שבועי קבוע ליצור ולהתפתח, עם מפגש ניסיון ראשון ללא עלות.",
-  "priceFromILS": 950,
-  "eyebrow": "מסגרת שבועית קבועה · חדרה",
-  "heading": "סדנת אמנות מתמשכת במנוי חודשי. זמן קבוע ליצור ולהתפתח.",
-  "lead": "מפגש שבועי שמאפשר לעצור, להעמיק ולפתח דרך אישית באמנות. אפשר להגיע עם רעיון שמסקרן אתכם או לבחור תרגיל שאציע, ולעבוד בקצב שלכם עם ליווי מקצועי קרוב.",
-  "quickMeta": [
-    {
-      "label": "תדירות",
-      "value": "פעם בשבוע"
-    },
-    {
-      "label": "מסלול",
-      "value": "4 מפגשים בחודש"
-    },
-    {
-      "label": "מחיר",
-      "value": "950 ₪ לחודש"
-    },
-    {
-      "label": "מפגש ראשון",
-      "value": "ללא עלות"
-    }
-  ],
-  "heroCtaLabel": "לקביעת מועד",
-  "recurringAvailability": [
-    {
-      "weekday": "1",
-      "time": "16:00–17:30"
-    },
-    {
-      "weekday": "1",
-      "time": "18:00–19:30"
-    },
-    {
-      "weekday": "3",
-      "time": "16:00–17:30"
-    },
-    {
-      "weekday": "3",
-      "time": "18:00–19:30"
-    }
-  ],
-  "bookingWindowWeeks": 8,
-  "waMessage": "שלום גל, הגעתי דרך האתר ואשמח לתאם מפגש ניסיון לסדנה המתמשכת.",
-  "heroImage": "/images/workshops/monthly-main.jpg",
-  "heroImageAlt": "פינת היצירה בסטודיו שבה מתקיימת הסדנה החודשית",
-  "hasReviews": false,
-  "story": {
-    "eyebrow": "איך זה עובד",
-    "heading": "להתקדם בלי<br>לאבד את החופש.",
-    "lead": "זו אינה כיתה שבה כולם מציירים את אותו הדבר. כל משתתף מפתח עבודה אישית ומקבל ממני הכוונה שמתאימה בדיוק לשלב שבו הוא נמצא.",
-    "paragraphs": [
-      "אפשר להתנסות בגרפיט, עפרונות צבעוניים, גירי פסטל ואקריליק, להמשיך פרויקט שכבר התחלתם או לפתוח כיוון חדש. אני עוזר בבחירת החומר, בתכנון העבודה, בטכניקה ובהחלטות שעולות בדרך.",
-      "לא נדרש ניסיון קודם. הסדנה מתאימה גם למי שרק רוצה להכניס יצירה לשגרה וגם למי שכבר יוצר ורוצה מסגרת עקבית להתפתחות."
-    ]
-  },
-  "video": null,
-  "included": {
-    "eyebrow": "מה כלול במנוי",
-    "items": [
+  "he": {
+    "slug": "monthly-art",
+    "order": 2,
+    "cardLabel": "מסגרת קבועה",
+    "cardTitle": "סדנה מתמשכת",
+    "cardImage": "/images/workshops/monthly-main.jpg",
+    "cardImageAlt": "פינת היצירה של הסדנה המתמשכת",
+    "personaLine": "מתאים למי שרוצה מסגרת קבועה להתפתח בה לאורך זמן.",
+    "title": "סדנת אמנות מתמשכת במנוי חודשי | גל דִּיסֵנִי",
+    "metaDescription": "סדנת אמנות מתמשכת במנוי חודשי עם גל דִּיסֵנִי - מפגש שבועי קבוע ליצור ולהתפתח, עם מפגש ניסיון ראשון ללא עלות.",
+    "priceFromILS": 950,
+    "eyebrow": "מסגרת שבועית קבועה · חדרה",
+    "heading": "סדנת אמנות מתמשכת במנוי חודשי. זמן קבוע ליצור ולהתפתח.",
+    "lead": "מפגש שבועי שמאפשר לעצור, להעמיק ולפתח דרך אישית באמנות. אפשר להגיע עם רעיון שמסקרן אתכם או לבחור תרגיל שאציע, ולעבוד בקצב שלכם עם ליווי מקצועי קרוב.",
+    "quickMeta": [
       {
-        "label": "ליווי אישי",
-        "title": "עבודה בקצב שלכם",
-        "text": "הכוונה מקצועית בתוך פרויקט אישי, בלי להפוך את כולם לאותו הדבר."
+        "label": "תדירות",
+        "value": "פעם בשבוע"
       },
       {
-        "label": "כל החומרים",
-        "title": "פשוט להגיע וליצור",
-        "text": "גרפיט, עפרונות, פסטל, אקריליק, נייר וכלי העבודה מחכים בסטודיו."
+        "label": "מסלול",
+        "value": "4 מפגשים בחודש"
       },
       {
-        "label": "מסגרת קבועה",
-        "title": "עוגן שבועי ליצירה",
-        "text": "ארבעה מפגשים בחודש שעוזרים לשמור על רצף, סקרנות והתקדמות."
+        "label": "מחיר",
+        "value": "950 ₪ לחודש"
       },
       {
-        "label": "בחירה חופשית",
-        "title": "רעיון אישי או תרגיל",
-        "text": "אפשר להגיע עם כיוון משלכם או לבחור תרגיל מותאם שאציע במפגש."
-      }
-    ]
-  },
-  "pricing": {
-    "eyebrow": "מחיר והצטרפות",
-    "heading": "מתחילים<br>במפגש ניסיון.",
-    "note": "המפגש הראשון ללא עלות, כדי להכיר את המרחב, להתנסות ולבדוק שהמסגרת מתאימה לכם. לאחר מכן מצטרפים לחודש אחד ויכולים לחדש מחודש לחודש.",
-    "tiers": [
-      {
-        "label": "מנוי חודשי",
-        "value": "950 ₪"
-      },
-      {
-        "label": "מספר מפגשים",
-        "value": "4 בחודש"
-      },
-      {
-        "label": "מפגש ניסיון ראשון",
+        "label": "מפגש ראשון",
         "value": "ללא עלות"
       }
     ],
-    "ctaLabel": "לתיאום מפגש ניסיון"
+    "heroCtaLabel": "לקביעת מועד",
+    "recurringAvailability": [
+      {
+        "weekday": "1",
+        "time": "16:00–17:30"
+      },
+      {
+        "weekday": "1",
+        "time": "18:00–19:30"
+      },
+      {
+        "weekday": "3",
+        "time": "16:00–17:30"
+      },
+      {
+        "weekday": "3",
+        "time": "18:00–19:30"
+      }
+    ],
+    "bookingWindowWeeks": 8,
+    "waMessage": "שלום גל, הגעתי דרך האתר ואשמח לתאם מפגש ניסיון לסדנה המתמשכת.",
+    "heroImage": "/images/workshops/monthly-main.jpg",
+    "heroImageAlt": "פינת היצירה בסטודיו שבה מתקיימת הסדנה החודשית",
+    "hasReviews": false,
+    "story": {
+      "eyebrow": "איך זה עובד",
+      "heading": "להתקדם בלי<br>לאבד את החופש.",
+      "lead": "זו אינה כיתה שבה כולם מציירים את אותו הדבר. כל משתתף מפתח עבודה אישית ומקבל ממני הכוונה שמתאימה בדיוק לשלב שבו הוא נמצא.",
+      "paragraphs": [
+        "אפשר להתנסות בגרפיט, עפרונות צבעוניים, גירי פסטל ואקריליק, להמשיך פרויקט שכבר התחלתם או לפתוח כיוון חדש. אני עוזר בבחירת החומר, בתכנון העבודה, בטכניקה ובהחלטות שעולות בדרך.",
+        "לא נדרש ניסיון קודם. הסדנה מתאימה גם למי שרק רוצה להכניס יצירה לשגרה וגם למי שכבר יוצר ורוצה מסגרת עקבית להתפתחות."
+      ]
+    },
+    "video": null,
+    "included": {
+      "eyebrow": "מה כלול במנוי",
+      "items": [
+        {
+          "label": "ליווי אישי",
+          "title": "עבודה בקצב שלכם",
+          "text": "הכוונה מקצועית בתוך פרויקט אישי, בלי להפוך את כולם לאותו הדבר."
+        },
+        {
+          "label": "כל החומרים",
+          "title": "פשוט להגיע וליצור",
+          "text": "גרפיט, עפרונות, פסטל, אקריליק, נייר וכלי העבודה מחכים בסטודיו."
+        },
+        {
+          "label": "מסגרת קבועה",
+          "title": "עוגן שבועי ליצירה",
+          "text": "ארבעה מפגשים בחודש שעוזרים לשמור על רצף, סקרנות והתקדמות."
+        },
+        {
+          "label": "בחירה חופשית",
+          "title": "רעיון אישי או תרגיל",
+          "text": "אפשר להגיע עם כיוון משלכם או לבחור תרגיל מותאם שאציע במפגש."
+        }
+      ]
+    },
+    "pricing": {
+      "eyebrow": "מחיר והצטרפות",
+      "heading": "מתחילים<br>במפגש ניסיון.",
+      "note": "המפגש הראשון ללא עלות, כדי להכיר את המרחב, להתנסות ולבדוק שהמסגרת מתאימה לכם. לאחר מכן מצטרפים לחודש אחד ויכולים לחדש מחודש לחודש.",
+      "tiers": [
+        {
+          "label": "מנוי חודשי",
+          "value": "950 ₪"
+        },
+        {
+          "label": "מספר מפגשים",
+          "value": "4 בחודש"
+        },
+        {
+          "label": "מפגש ניסיון ראשון",
+          "value": "ללא עלות"
+        }
+      ],
+      "ctaLabel": "לתיאום מפגש ניסיון"
+    },
+    "gallery": null,
+    "reviewsHeading": {
+      "eyebrow": "דירוג וחוות דעת",
+      "heading": "החוויה שלכם, במילים שלכם."
+    },
+    "reviewsEmptyText": "חוות הדעת הראשונות יופיעו כאן. השתתפתם? נשמח לשמוע מכם.",
+    "reviews": [],
+    "finalEyebrow": "לא צריך לחכות לרגע המושלם",
+    "finalHeading": "קובעים זמן קבוע.<br>ונותנים ליצירה לגדול.",
+    "finalCtaLabel": "לבדיקת מקום ב-WhatsApp",
+    "finalWaMessage": "שלום גל, הגעתי דרך האתר ואשמח לתאם מפגש ניסיון לסדנה המתמשכת."
   },
-  "gallery": null,
-  "reviewsHeading": {
-    "eyebrow": "דירוג וחוות דעת",
-    "heading": "החוויה שלכם, במילים שלכם."
-  },
-  "reviewsEmptyText": "חוות הדעת הראשונות יופיעו כאן. השתתפתם? נשמח לשמוע מכם.",
-  "reviews": [],
-  "finalEyebrow": "לא צריך לחכות לרגע המושלם",
-  "finalHeading": "קובעים זמן קבוע.<br>ונותנים ליצירה לגדול.",
-  "finalCtaLabel": "לבדיקת מקום ב-WhatsApp",
-  "finalWaMessage": "שלום גל, הגעתי דרך האתר ואשמח לתאם מפגש ניסיון לסדנה המתמשכת."
+  "en": {
+    "cardLabel": "Ongoing Format",
+    "cardTitle": "Ongoing Workshop",
+    "cardImageAlt": "The creative corner of the ongoing workshop",
+    "personaLine": "Perfect for anyone who wants an ongoing framework to develop in over time.",
+    "title": "Ongoing Art Workshop, Monthly Subscription | Gal Disegni",
+    "metaDescription": "An ongoing art workshop with a monthly subscription with Gal Disegni - a regular weekly session to create and grow, with a free first trial session.",
+    "eyebrow": "A regular weekly format · Hadera",
+    "heading": "An ongoing art workshop with a monthly subscription. Regular time to create and grow.",
+    "lead": "A weekly session that lets you pause, go deeper, and develop your own path in art. Come with an idea that intrigues you or choose an exercise I'll suggest, and work at your own pace with close professional guidance.",
+    "quickMeta": [
+      {
+        "label": "Frequency",
+        "value": "Once a week"
+      },
+      {
+        "label": "Format",
+        "value": "4 sessions a month"
+      },
+      {
+        "label": "Price",
+        "value": "950 ₪ per month"
+      },
+      {
+        "label": "First session",
+        "value": "Free"
+      }
+    ],
+    "heroCtaLabel": "Book a Date",
+    "waMessage": "Hi Gal, I found you through the website and would love to schedule a trial session for the ongoing workshop.",
+    "heroImageAlt": "The creative corner in the studio where the monthly workshop takes place",
+    "finalEyebrow": "No need to wait for the perfect moment",
+    "finalHeading": "Set a regular time.<br>And let your creativity grow.",
+    "finalCtaLabel": "Check availability on WhatsApp",
+    "finalWaMessage": "Hi Gal, I found you through the website and would love to schedule a trial session for the ongoing workshop.",
+    "story": {
+      "eyebrow": "How it works",
+      "heading": "Progress without<br>losing your freedom.",
+      "lead": "This isn't a classroom where everyone paints the same thing. Each participant develops their own personal work and receives guidance from me tailored exactly to the stage they're at.",
+      "paragraphs": [
+        "You can experiment with graphite, colored pencils, pastels, and acrylic, continue a project you've already started, or open up a new direction. I help with choosing materials, planning the work, technique, and decisions that come up along the way.",
+        "No prior experience is required. The workshop suits both those who simply want to bring creativity into their routine and those who already create and want a consistent framework for growth."
+      ]
+    },
+    "included": {
+      "eyebrow": "What's included in the subscription",
+      "items": [
+        {
+          "label": "Personal guidance",
+          "title": "Work at your own pace",
+          "text": "Professional guidance within your own personal project, without turning everyone into the same thing."
+        },
+        {
+          "label": "All materials included",
+          "title": "Just show up and create",
+          "text": "Graphite, pencils, pastels, acrylic, paper, and tools are waiting for you in the studio."
+        },
+        {
+          "label": "A regular framework",
+          "title": "A weekly anchor for creativity",
+          "text": "Four sessions a month that help maintain continuity, curiosity, and progress."
+        },
+        {
+          "label": "Free choice",
+          "title": "Your own idea or an exercise",
+          "text": "You can come with your own direction or choose a tailored exercise I'll suggest in the session."
+        }
+      ]
+    },
+    "pricing": {
+      "eyebrow": "Price & Joining",
+      "heading": "Start with<br>a trial session.",
+      "note": "The first session is free, so you can get to know the space, try it out, and check that the format is right for you. After that, you join for one month and can renew month to month.",
+      "tiers": [
+        {
+          "label": "Monthly subscription",
+          "value": "950 ₪"
+        },
+        {
+          "label": "Number of sessions",
+          "value": "4 per month"
+        },
+        {
+          "label": "First trial session",
+          "value": "Free"
+        }
+      ],
+      "ctaLabel": "Schedule a trial session"
+    },
+    "reviewsHeading": {
+      "eyebrow": "Rating & Reviews",
+      "heading": "Your experience, in your own words."
+    },
+    "reviewsEmptyText": "The first reviews will appear here. Did you take part? We'd love to hear from you."
+  }
 }

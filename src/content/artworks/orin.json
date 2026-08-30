@@ -1,248 +1,241 @@
 {
-  "slug": "orin",
-  "order": 4,
-  "translations": {
-    "he": {
-      "name": "Orin",
-      "galleryMedium": "מיקס-מדיה",
-      "detailMedium": "טכניקה משולבת · עולם חזותי",
-      "description": "דמות שנעה בין כוח לעדינות, בין העולם המוכר למה שעדיין מבקש לקבל צורה.",
-      "alt": "Orin, דמות מכונפת על רקע עולמות מנוגדים",
-      "story": {
-        "heading": "מאחורי היצירה",
-        "paragraphs": [
-          "אורין התחילה ב־2001, בשבת חופשית, כשעבדתי כמאייר בחברה.",
-          "ציירתי ילדה שאיבדה את אמא שלה ונשארה לבד בעולם. היו לה חץ וקשת, וכנפיים גדולות שסוככו עליה. לא ידעתי מאיפה כל זה הגיע, ולא ניסיתי להסביר. פשוט נתתי לדמות להופיע.",
-          "הציור היה בשחור ולבן, ואורין נשארה כך במשך שנים.",
-          "ב־2015, בתקופה קשה ומשמעותית בחיים שלי, חזרתי אליה דרך שאלה שהעסיקה אותי: האם העולם שלי אפור ודרמטי כי כך אני מצייר אותו, או שאני מצייר אותו כך כי כך אני חי?",
-          "לא ידעתי את התשובה.",
-          "אבל מאותו רגע אורין התחילה להשתנות. היא קיבלה שם, צבע, ועולם שלם סביבה.",
-          "ובמקביל, גם החיים שלי התחילו להשתנות לאט: יותר טבע, יותר חיות, יותר סקרנות, פחות כובד ודרמה, ויותר אומץ לצאת מהמוכר ולפגוש אנשים חדשים.",
-          "מאז אורין ממשיכה לגדול איתי. לא כדמות שסיימתי, אלא כעולם שאני עדיין מגלה."
-        ]
+  "he": {
+    "slug": "orin",
+    "order": 4,
+    "name": "Orin",
+    "galleryMedium": "מיקס-מדיה",
+    "detailMedium": "טכניקה משולבת · עולם חזותי",
+    "description": "דמות שנעה בין כוח לעדינות, בין העולם המוכר למה שעדיין מבקש לקבל צורה.",
+    "alt": "Orin, דמות מכונפת על רקע עולמות מנוגדים",
+    "image": "/images/artworks/orin+WEB.webp",
+    "thumb": "/images/gallery/orin+thumb.webp",
+    "paymentImage": "/images/products/mockups/orin/orin-payment.jpg",
+    "gallery": [
+      {
+        "image": "/images/products/mockups/orin/hanging-print.webp",
+        "alt": "מוקאפ של היצירה Orin כהדפס תלוי על קיר",
+        "productType": "poster"
       },
-      "experience": {
-        "heading": "החוויה שאורין פותחת",
-        "paragraphs": [
-          "כשאתם מתבוננים באורין, מה אתם מרגישים?",
-          "האם היא אומרת, משדרת לכם משהו? אולי שואלת שאלה?",
-          "באופן אישי מאוד, אורין גורמת לי להרגיש בבית, בגוף שלי, בחיים כמו שהם, בלי לייפות. מראה לי את האמת."
-        ]
+      {
+        "image": "/images/products/mockups/orin/Orin_canvas_print_24x36.webp",
+        "alt": "מוקאפ של Orin כהדפס קנבס בגודל 24×36 אינץ'",
+        "productType": "canvas",
+        "sizeId": "24x36"
+      },
+      {
+        "image": "/images/products/mockups/orin/Orin_framed_poster-24x36_black.webp",
+        "alt": "מוקאפ של Orin כפוסטר ממוסגר שחור בגודל 24×36 אינץ'",
+        "productType": "framed-print",
+        "sizeId": "24x36",
+        "frameColor": "black"
       }
+    ],
+    "category": "mixed",
+    "originalAvailable": true,
+    "originalPrice": 250000,
+    "handEmbellished": {
+      "available": true,
+      "price": 5500,
+      "sizeLabel": "16×20 קנבס מתוח"
     },
-    "en": {
-      "name": "Orin",
-      "galleryMedium": "Mixed Media",
-      "detailMedium": "Mixed technique · visual world",
-      "description": "A figure moving between strength and tenderness, between the familiar world and what still seeks to take shape.",
-      "alt": "Orin, a winged figure set against a backdrop of opposing worlds",
-      "story": {
-        "heading": "Behind the Artwork",
-        "paragraphs": [
-          "Orin began in 2001, on a Saturday off, when I was working as an illustrator for a company.",
-          "I drew a girl who had lost her mother and was left alone in the world. She had a bow and arrow, and large wings sheltering her. I didn't know where any of it came from, and I didn't try to explain it. I simply let the figure emerge.",
-          "The drawing was in black and white, and Orin remained that way for years.",
-          "In 2015, during a difficult and significant turning point in my life, I returned to her through a question that had been occupying me: Is my world gray and dramatic because that is how I paint it, or do I paint it that way because that is how I live?",
-          "I didn't know the answer.",
-          "But from that moment, Orin began to change. She was given a name, color, and an entire world around her.",
-          "At the same time, my own life slowly began to change as well: more nature, more vitality, more curiosity, less heaviness and drama, and more courage to step beyond what was familiar and meet new people.",
-          "Since then, Orin has continued to grow with me.",
-          "Not as a character I have finished, but as a world I am still discovering."
-        ]
+    "purchaseVariants": [
+      {
+        "productType": "poster",
+        "sizeId": "5x7",
+        "labelIn": "5×7 אינץ'",
+        "labelCm": "13×18 ס\"מ",
+        "catalogNumber": "ORIN-POSTER-5X7",
+        "priceILS": 89,
+        "priceUSD": 26,
+        "shippingFirstILS": 45,
+        "shippingAdditionalILS": 4,
+        "shippingFirstUSD": 11.99,
+        "shippingAdditionalUSD": 1
       },
-      "experience": {
-        "heading": "The Experience Orin Opens",
-        "paragraphs": [
-          "When you look at Orin, what do you feel?",
-          "Does she seem to be saying something to you, communicating something? Perhaps asking you a question?",
-          "For me, on a deeply personal level, Orin makes me feel at home. At home in my body, and in life as it is, without trying to make it prettier than it is.",
-          "She shows me the truth."
-        ]
+      {
+        "productType": "poster",
+        "sizeId": "12x18",
+        "labelIn": "12×18 אינץ'",
+        "labelCm": "30×45 ס\"מ",
+        "catalogNumber": "ORIN-POSTER-12X18",
+        "priceILS": 189,
+        "priceUSD": 56,
+        "shippingFirstILS": 45,
+        "shippingAdditionalILS": 4,
+        "shippingFirstUSD": 11.99,
+        "shippingAdditionalUSD": 1
+      },
+      {
+        "productType": "poster",
+        "sizeId": "20x30",
+        "labelIn": "20×30 אינץ'",
+        "labelCm": "50×75 ס\"מ",
+        "catalogNumber": "ORIN-POSTER-20X30",
+        "priceILS": 319,
+        "priceUSD": 94,
+        "shippingFirstILS": 55,
+        "shippingAdditionalILS": 4,
+        "shippingFirstUSD": 13.99,
+        "shippingAdditionalUSD": 1
+      },
+      {
+        "productType": "poster",
+        "sizeId": "24x36",
+        "labelIn": "24×36 אינץ'",
+        "labelCm": "60×90 ס\"מ",
+        "catalogNumber": "ORIN-POSTER-24X36",
+        "priceILS": 429,
+        "priceUSD": 126,
+        "shippingFirstILS": 55,
+        "shippingAdditionalILS": 4,
+        "shippingFirstUSD": 13.99,
+        "shippingAdditionalUSD": 1
+      },
+      {
+        "productType": "framed-print",
+        "sizeId": "8x10",
+        "labelIn": "8×10 אינץ'",
+        "labelCm": "20×25 ס\"מ",
+        "catalogNumber": "ORIN-FRAMED-8X10-BLACK",
+        "priceILS": 329,
+        "priceUSD": 97,
+        "shippingFirstILS": 59,
+        "shippingAdditionalILS": 29,
+        "shippingFirstUSD": 15.99,
+        "shippingAdditionalUSD": 8
+      },
+      {
+        "productType": "framed-print",
+        "sizeId": "12x16",
+        "labelIn": "12×16 אינץ'",
+        "labelCm": "30×40 ס\"מ",
+        "catalogNumber": "ORIN-FRAMED-12X16-BLACK",
+        "priceILS": 469,
+        "priceUSD": 138,
+        "shippingFirstILS": 59,
+        "shippingAdditionalILS": 29,
+        "shippingFirstUSD": 15.99,
+        "shippingAdditionalUSD": 8
+      },
+      {
+        "productType": "framed-print",
+        "sizeId": "16x20",
+        "labelIn": "16×20 אינץ'",
+        "labelCm": "40×50 ס\"מ",
+        "catalogNumber": "ORIN-FRAMED-16X20-BLACK",
+        "priceILS": 649,
+        "priceUSD": 191,
+        "shippingFirstILS": 145,
+        "shippingAdditionalILS": 75,
+        "shippingFirstUSD": 39.99,
+        "shippingAdditionalUSD": 21
+      },
+      {
+        "productType": "framed-print",
+        "sizeId": "24x36",
+        "labelIn": "24×36 אינץ'",
+        "labelCm": "60×90 ס\"מ",
+        "catalogNumber": "ORIN-FRAMED-24X36-BLACK",
+        "priceILS": 1290,
+        "priceUSD": 379,
+        "shippingFirstILS": 185,
+        "shippingAdditionalILS": 95,
+        "shippingFirstUSD": 50.99,
+        "shippingAdditionalUSD": 26
+      },
+      {
+        "productType": "canvas",
+        "sizeId": "16x20",
+        "labelIn": "16×20 אינץ'",
+        "labelCm": "40×50 ס\"מ",
+        "catalogNumber": "ORIN-CANVAS-16X20",
+        "priceILS": 449,
+        "priceUSD": 132,
+        "shippingFirstILS": 379,
+        "shippingAdditionalILS": 379,
+        "shippingFirstUSD": 108.49,
+        "shippingAdditionalUSD": 108.49
+      },
+      {
+        "productType": "canvas",
+        "sizeId": "18x24",
+        "labelIn": "18×24 אינץ'",
+        "labelCm": "45×60 ס\"מ",
+        "catalogNumber": "ORIN-CANVAS-18X24",
+        "priceILS": 549,
+        "priceUSD": 161,
+        "shippingFirstILS": 379,
+        "shippingAdditionalILS": 379,
+        "shippingFirstUSD": 108.49,
+        "shippingAdditionalUSD": 108.49
+      },
+      {
+        "productType": "canvas",
+        "sizeId": "24x36",
+        "labelIn": "24×36 אינץ'",
+        "labelCm": "60×90 ס\"מ",
+        "catalogNumber": "ORIN-CANVAS-24X36",
+        "priceILS": 899,
+        "priceUSD": 264,
+        "shippingFirstILS": 379,
+        "shippingAdditionalILS": 379,
+        "shippingFirstUSD": 108.49,
+        "shippingAdditionalUSD": 108.49
       }
+    ],
+    "extraMaterials": [
+      "canvas"
+    ],
+    "story": {
+      "heading": "מאחורי היצירה",
+      "paragraphs": [
+        "אורין התחילה ב־2001, בשבת חופשית, כשעבדתי כמאייר בחברה.",
+        "ציירתי ילדה שאיבדה את אמא שלה ונשארה לבד בעולם. היו לה חץ וקשת, וכנפיים גדולות שסוככו עליה. לא ידעתי מאיפה כל זה הגיע, ולא ניסיתי להסביר. פשוט נתתי לדמות להופיע.",
+        "הציור היה בשחור ולבן, ואורין נשארה כך במשך שנים.",
+        "ב־2015, בתקופה קשה ומשמעותית בחיים שלי, חזרתי אליה דרך שאלה שהעסיקה אותי: האם העולם שלי אפור ודרמטי כי כך אני מצייר אותו, או שאני מצייר אותו כך כי כך אני חי?",
+        "לא ידעתי את התשובה.",
+        "אבל מאותו רגע אורין התחילה להשתנות. היא קיבלה שם, צבע, ועולם שלם סביבה.",
+        "ובמקביל, גם החיים שלי התחילו להשתנות לאט: יותר טבע, יותר חיות, יותר סקרנות, פחות כובד ודרמה, ויותר אומץ לצאת מהמוכר ולפגוש אנשים חדשים.",
+        "מאז אורין ממשיכה לגדול איתי. לא כדמות שסיימתי, אלא כעולם שאני עדיין מגלה."
+      ]
+    },
+    "experience": {
+      "heading": "החוויה שאורין פותחת",
+      "paragraphs": [
+        "כשאתם מתבוננים באורין, מה אתם מרגישים?",
+        "האם היא אומרת, משדרת לכם משהו? אולי שואלת שאלה?",
+        "באופן אישי מאוד, אורין גורמת לי להרגיש בבית, בגוף שלי, בחיים כמו שהם, בלי לייפות. מראה לי את האמת."
+      ]
     }
   },
-  "name": "Orin",
-  "galleryMedium": "מיקס-מדיה",
-  "detailMedium": "טכניקה משולבת · עולם חזותי",
-  "description": "דמות שנעה בין כוח לעדינות, בין העולם המוכר למה שעדיין מבקש לקבל צורה.",
-  "alt": "Orin, דמות מכונפת על רקע עולמות מנוגדים",
-  "image": "/images/artworks/orin+WEB.webp",
-  "thumb": "/images/gallery/orin+thumb.webp",
-  "paymentImage": "/images/products/mockups/orin/orin-payment.jpg",
-  "gallery": [
-    {
-      "image": "/images/products/mockups/orin/hanging-print.webp",
-      "alt": "מוקאפ של היצירה Orin כהדפס תלוי על קיר",
-      "productType": "poster"
+  "en": {
+    "name": "Orin",
+    "galleryMedium": "Mixed Media",
+    "detailMedium": "Mixed technique · visual world",
+    "description": "A figure moving between strength and tenderness, between the familiar world and what still seeks to take shape.",
+    "alt": "Orin, a winged figure set against a backdrop of opposing worlds",
+    "story": {
+      "heading": "Behind the Artwork",
+      "paragraphs": [
+        "Orin began in 2001, on a Saturday off, when I was working as an illustrator for a company.",
+        "I drew a girl who had lost her mother and was left alone in the world. She had a bow and arrow, and large wings sheltering her. I didn't know where any of it came from, and I didn't try to explain it. I simply let the figure emerge.",
+        "The drawing was in black and white, and Orin remained that way for years.",
+        "In 2015, during a difficult and significant turning point in my life, I returned to her through a question that had been occupying me: Is my world gray and dramatic because that is how I paint it, or do I paint it that way because that is how I live?",
+        "I didn't know the answer.",
+        "But from that moment, Orin began to change. She was given a name, color, and an entire world around her.",
+        "At the same time, my own life slowly began to change as well: more nature, more vitality, more curiosity, less heaviness and drama, and more courage to step beyond what was familiar and meet new people.",
+        "Since then, Orin has continued to grow with me.",
+        "Not as a character I have finished, but as a world I am still discovering."
+      ]
     },
-    {
-      "image": "/images/products/mockups/orin/Orin_canvas_print_24x36.webp",
-      "alt": "מוקאפ של Orin כהדפס קנבס בגודל 24×36 אינץ'",
-      "productType": "canvas",
-      "sizeId": "24x36"
-    },
-    {
-      "image": "/images/products/mockups/orin/Orin_framed_poster-24x36_black.webp",
-      "alt": "מוקאפ של Orin כפוסטר ממוסגר שחור בגודל 24×36 אינץ'",
-      "productType": "framed-print",
-      "sizeId": "24x36",
-      "frameColor": "black"
+    "experience": {
+      "heading": "The Experience Orin Opens",
+      "paragraphs": [
+        "When you look at Orin, what do you feel?",
+        "Does she seem to be saying something to you, communicating something? Perhaps asking you a question?",
+        "For me, on a deeply personal level, Orin makes me feel at home. At home in my body, and in life as it is, without trying to make it prettier than it is.",
+        "She shows me the truth."
+      ]
     }
-  ],
-  "category": "mixed",
-  "originalAvailable": true,
-  "originalPrice": 250000,
-  "handEmbellished": {
-    "available": true,
-    "price": 5500,
-    "sizeLabel": "16×20 קנבס מתוח"
-  },
-  "purchaseVariants": [
-    {
-      "productType": "poster",
-      "sizeId": "5x7",
-      "labelIn": "5×7 אינץ'",
-      "labelCm": "13×18 ס\"מ",
-      "catalogNumber": "ORIN-POSTER-5X7",
-      "priceILS": 89,
-      "priceUSD": 26,
-      "shippingFirstILS": 45,
-      "shippingAdditionalILS": 4,
-      "shippingFirstUSD": 11.99,
-      "shippingAdditionalUSD": 1
-    },
-    {
-      "productType": "poster",
-      "sizeId": "12x18",
-      "labelIn": "12×18 אינץ'",
-      "labelCm": "30×45 ס\"מ",
-      "catalogNumber": "ORIN-POSTER-12X18",
-      "priceILS": 189,
-      "priceUSD": 56,
-      "shippingFirstILS": 45,
-      "shippingAdditionalILS": 4,
-      "shippingFirstUSD": 11.99,
-      "shippingAdditionalUSD": 1
-    },
-    {
-      "productType": "poster",
-      "sizeId": "20x30",
-      "labelIn": "20×30 אינץ'",
-      "labelCm": "50×75 ס\"מ",
-      "catalogNumber": "ORIN-POSTER-20X30",
-      "priceILS": 319,
-      "priceUSD": 94,
-      "shippingFirstILS": 55,
-      "shippingAdditionalILS": 4,
-      "shippingFirstUSD": 13.99,
-      "shippingAdditionalUSD": 1
-    },
-    {
-      "productType": "poster",
-      "sizeId": "24x36",
-      "labelIn": "24×36 אינץ'",
-      "labelCm": "60×90 ס\"מ",
-      "catalogNumber": "ORIN-POSTER-24X36",
-      "priceILS": 429,
-      "priceUSD": 126,
-      "shippingFirstILS": 55,
-      "shippingAdditionalILS": 4,
-      "shippingFirstUSD": 13.99,
-      "shippingAdditionalUSD": 1
-    },
-    {
-      "productType": "framed-print",
-      "sizeId": "8x10",
-      "labelIn": "8×10 אינץ'",
-      "labelCm": "20×25 ס\"מ",
-      "catalogNumber": "ORIN-FRAMED-8X10-BLACK",
-      "priceILS": 329,
-      "priceUSD": 97,
-      "shippingFirstILS": 59,
-      "shippingAdditionalILS": 29,
-      "shippingFirstUSD": 15.99,
-      "shippingAdditionalUSD": 8
-    },
-    {
-      "productType": "framed-print",
-      "sizeId": "12x16",
-      "labelIn": "12×16 אינץ'",
-      "labelCm": "30×40 ס\"מ",
-      "catalogNumber": "ORIN-FRAMED-12X16-BLACK",
-      "priceILS": 469,
-      "priceUSD": 138,
-      "shippingFirstILS": 59,
-      "shippingAdditionalILS": 29,
-      "shippingFirstUSD": 15.99,
-      "shippingAdditionalUSD": 8
-    },
-    {
-      "productType": "framed-print",
-      "sizeId": "16x20",
-      "labelIn": "16×20 אינץ'",
-      "labelCm": "40×50 ס\"מ",
-      "catalogNumber": "ORIN-FRAMED-16X20-BLACK",
-      "priceILS": 649,
-      "priceUSD": 191,
-      "shippingFirstILS": 145,
-      "shippingAdditionalILS": 75,
-      "shippingFirstUSD": 39.99,
-      "shippingAdditionalUSD": 21
-    },
-    {
-      "productType": "framed-print",
-      "sizeId": "24x36",
-      "labelIn": "24×36 אינץ'",
-      "labelCm": "60×90 ס\"מ",
-      "catalogNumber": "ORIN-FRAMED-24X36-BLACK",
-      "priceILS": 1290,
-      "priceUSD": 379,
-      "shippingFirstILS": 185,
-      "shippingAdditionalILS": 95,
-      "shippingFirstUSD": 50.99,
-      "shippingAdditionalUSD": 26
-    },
-    {
-      "productType": "canvas",
-      "sizeId": "16x20",
-      "labelIn": "16×20 אינץ'",
-      "labelCm": "40×50 ס\"מ",
-      "catalogNumber": "ORIN-CANVAS-16X20",
-      "priceILS": 449,
-      "priceUSD": 132,
-      "shippingFirstILS": 379,
-      "shippingAdditionalILS": 379,
-      "shippingFirstUSD": 108.49,
-      "shippingAdditionalUSD": 108.49
-    },
-    {
-      "productType": "canvas",
-      "sizeId": "18x24",
-      "labelIn": "18×24 אינץ'",
-      "labelCm": "45×60 ס\"מ",
-      "catalogNumber": "ORIN-CANVAS-18X24",
-      "priceILS": 549,
-      "priceUSD": 161,
-      "shippingFirstILS": 379,
-      "shippingAdditionalILS": 379,
-      "shippingFirstUSD": 108.49,
-      "shippingAdditionalUSD": 108.49
-    },
-    {
-      "productType": "canvas",
-      "sizeId": "24x36",
-      "labelIn": "24×36 אינץ'",
-      "labelCm": "60×90 ס\"מ",
-      "catalogNumber": "ORIN-CANVAS-24X36",
-      "priceILS": 899,
-      "priceUSD": 264,
-      "shippingFirstILS": 379,
-      "shippingAdditionalILS": 379,
-      "shippingFirstUSD": 108.49,
-      "shippingAdditionalUSD": 108.49
-    }
-  ],
-  "extraMaterials": [
-    "canvas"
-  ]
+  }
 }

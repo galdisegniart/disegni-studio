@@ -1,31 +1,24 @@
 {
-  "slug": "seed-of-joy",
-  "order": 6,
-  "translations": {
-    "he": {
-      "name": "Seed of Joy",
-      "galleryMedium": "טכניקה משולבת",
-      "detailMedium": "טכניקה משולבת על נייר · יצירה מקורית",
-      "description": "מנדלה צבעונית שנפתחת מן המרכז כמו זרע של שמחה. שכבות של אור, צמיחה ותנועה יוצרות מוקד חי ומרומם.",
-      "alt": "Seed of Joy, מנדלה צבעונית על רקע כחול"
-    },
-    "en": {
-      "name": "Seed of Joy",
-      "galleryMedium": "Mixed Technique",
-      "detailMedium": "Mixed technique on paper · original artwork",
-      "description": "A colorful mandala unfolding from its center like a seed of joy. Layers of light, growth, and movement create a living, uplifting focal point.",
-      "alt": "Seed of Joy, a colorful mandala on a blue background"
-    }
+  "he": {
+    "slug": "seed-of-joy",
+    "order": 6,
+    "name": "Seed of Joy",
+    "galleryMedium": "טכניקה משולבת",
+    "detailMedium": "טכניקה משולבת על נייר · יצירה מקורית",
+    "description": "מנדלה צבעונית שנפתחת מן המרכז כמו זרע של שמחה. שכבות של אור, צמיחה ותנועה יוצרות מוקד חי ומרומם.",
+    "alt": "Seed of Joy, מנדלה צבעונית על רקע כחול",
+    "image": "/images/artworks/seed-of-joy+WEB.webp",
+    "thumb": "/images/gallery/seed-of-joy+thumb.webp",
+    "category": "mixed",
+    "originalAvailable": false,
+    "originalPrice": 0,
+    "extraMaterials": []
   },
-  "name": "Seed of Joy",
-  "galleryMedium": "טכניקה משולבת",
-  "detailMedium": "טכניקה משולבת על נייר · יצירה מקורית",
-  "description": "מנדלה צבעונית שנפתחת מן המרכז כמו זרע של שמחה. שכבות של אור, צמיחה ותנועה יוצרות מוקד חי ומרומם.",
-  "alt": "Seed of Joy, מנדלה צבעונית על רקע כחול",
-  "image": "/images/artworks/seed-of-joy+WEB.webp",
-  "thumb": "/images/gallery/seed-of-joy+thumb.webp",
-  "category": "mixed",
-  "originalAvailable": false,
-  "originalPrice": 0,
-  "extraMaterials": []
+  "en": {
+    "name": "Seed of Joy",
+    "galleryMedium": "Mixed Technique",
+    "detailMedium": "Mixed technique on paper · original artwork",
+    "description": "A colorful mandala unfolding from its center like a seed of joy. Layers of light, growth, and movement create a living, uplifting focal point.",
+    "alt": "Seed of Joy, a colorful mandala on a blue background"
+  }
 }

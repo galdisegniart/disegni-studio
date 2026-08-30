@@ -1,182 +1,122 @@
 {
-  "translations": {
-    "he": {
-      "title": "גלריה | גל דִּיסֵנִי",
-      "metaDescription": "גלריית האמנות של גל דִּיסֵנִי, המחולקת למסעות נשמה משותפים ולמסעות חזון אישיים.",
-      "heroHeading": "גלריה",
-      "categories": [
-        {
-          "slug": "shared-soul-journeys",
-          "title": "מסעות נשמה משותפים",
-          "description": "יצירות שנולדו מתוך תהליך אישי או זוגי, במרחב של דמיון מודרך, הקשבה ויצירה משותפת.",
-          "visible": true,
-          "image": "/images/artworks/Estis_memory+WEB.webp",
-          "alt": "פרט מתוך היצירה Estis Memory מאת גל דִּיסֵנִי",
-          "imagePosition": "center 30%",
-          "ctaLabel": "לצפייה ביצירות",
-          "artworks": [
-            "absorbing-fire",
-            "dragon-bloom",
-            "harmonized-electric-earth",
-            "moon-cycle-of-healing",
-            "mystical-yoni",
-            "soul-dna",
-            "divine-feminine-rivers",
-            "estis-memory",
-            "exaltation",
-            "goddess-of-truth",
-            "peace-with-femininity",
-            "power-crystal",
-            "pure-masculine-and-feminine",
-            "release-control",
-            "seed-of-joy",
-            "the-protector-of-earth",
-            "the-pyramid-of-the-one",
-            "third-eye-engine",
-            "transforming-fire-to-water",
-            "womb-of-creation",
-            "ying-yang-couple",
-            "hypno-medicine"
-          ]
-        },
-        {
-          "slug": "personal-visionary-journeys",
-          "title": "מסעות חזיוניים אישיים",
-          "description": "יצירות שנולדו מתוך מסעות פנימיים, תהליכי עומק ודימויים שהתפתחו לאורך זמן.",
-          "visible": true,
-          "image": "/images/artworks/precious+WEB.webp",
-          "alt": "פרט מתוך היצירה Precious מאת גל דִּיסֵנִי",
-          "imagePosition": "left 30%",
-          "ctaLabel": "לצפייה ביצירות",
-          "artworks": [
-            "balanced-human",
-            "dreaming-reality",
-            "light",
-            "orin",
-            "precious",
-            "surender-to-fear",
-            "vulnerability-is-strength"
-          ]
-        }
-      ]
-    },
-    "en": {
-      "title": "Gallery | Gal Disegni",
-      "metaDescription": "The art gallery of Gal Disegni, divided into shared soul journeys and personal visionary journeys.",
-      "heroHeading": "Gallery",
-      "categories": [
-        {
-          "slug": "shared-soul-journeys",
-          "title": "Shared Soul Journeys",
-          "description": "Works born from a personal or couples' process, in a space of guided imagination, listening, and shared creation.",
-          "visible": true,
-          "image": "/images/artworks/Estis_memory+WEB.webp",
-          "alt": "A detail from the artwork Estis Memory by Gal Disegni",
-          "imagePosition": "center 30%",
-          "ctaLabel": "View the Artwork",
-          "artworks": [
-            "absorbing-fire",
-            "dragon-bloom",
-            "harmonized-electric-earth",
-            "moon-cycle-of-healing",
-            "mystical-yoni",
-            "soul-dna",
-            "divine-feminine-rivers",
-            "estis-memory",
-            "exaltation",
-            "goddess-of-truth",
-            "peace-with-femininity",
-            "power-crystal",
-            "pure-masculine-and-feminine",
-            "release-control",
-            "seed-of-joy",
-            "the-protector-of-earth",
-            "the-pyramid-of-the-one",
-            "third-eye-engine",
-            "transforming-fire-to-water",
-            "womb-of-creation",
-            "ying-yang-couple",
-            "hypno-medicine"
-          ]
-        },
-        {
-          "slug": "personal-visionary-journeys",
-          "title": "Personal Visionary Journeys",
-          "description": "Works born from inner journeys, deep processes, and images that developed over time.",
-          "visible": true,
-          "image": "/images/artworks/precious+WEB.webp",
-          "alt": "A detail from the artwork Precious by Gal Disegni",
-          "imagePosition": "left 30%",
-          "ctaLabel": "View the Artwork",
-          "artworks": [
-            "balanced-human",
-            "dreaming-reality",
-            "light",
-            "orin",
-            "precious",
-            "surender-to-fear",
-            "vulnerability-is-strength"
-          ]
-        }
-      ]
-    }
+  "he": {
+    "title": "גלריה | גל דִּיסֵנִי",
+    "metaDescription": "גלריית האמנות של גל דִּיסֵנִי, המחולקת למסעות נשמה משותפים ולמסעות חזון אישיים.",
+    "heroHeading": "גלריה",
+    "categories": [
+      {
+        "slug": "shared-soul-journeys",
+        "title": "מסעות נשמה משותפים",
+        "description": "יצירות שנולדו מתוך תהליך אישי או זוגי, במרחב של דמיון מודרך, הקשבה ויצירה משותפת.",
+        "visible": true,
+        "image": "/images/artworks/Estis_memory+WEB.webp",
+        "alt": "פרט מתוך היצירה Estis Memory מאת גל דִּיסֵנִי",
+        "imagePosition": "center 30%",
+        "ctaLabel": "לצפייה ביצירות",
+        "artworks": [
+          "absorbing-fire",
+          "dragon-bloom",
+          "harmonized-electric-earth",
+          "moon-cycle-of-healing",
+          "mystical-yoni",
+          "soul-dna",
+          "divine-feminine-rivers",
+          "estis-memory",
+          "exaltation",
+          "goddess-of-truth",
+          "peace-with-femininity",
+          "power-crystal",
+          "pure-masculine-and-feminine",
+          "release-control",
+          "seed-of-joy",
+          "the-protector-of-earth",
+          "the-pyramid-of-the-one",
+          "third-eye-engine",
+          "transforming-fire-to-water",
+          "womb-of-creation",
+          "ying-yang-couple",
+          "hypno-medicine"
+        ]
+      },
+      {
+        "slug": "personal-visionary-journeys",
+        "title": "מסעות חזיוניים אישיים",
+        "description": "יצירות שנולדו מתוך מסעות פנימיים, תהליכי עומק ודימויים שהתפתחו לאורך זמן.",
+        "visible": true,
+        "image": "/images/artworks/precious+WEB.webp",
+        "alt": "פרט מתוך היצירה Precious מאת גל דִּיסֵנִי",
+        "imagePosition": "left 30%",
+        "ctaLabel": "לצפייה ביצירות",
+        "artworks": [
+          "balanced-human",
+          "dreaming-reality",
+          "light",
+          "orin",
+          "precious",
+          "surender-to-fear",
+          "vulnerability-is-strength"
+        ]
+      }
+    ]
   },
-  "title": "גלריה | גל דִּיסֵנִי",
-  "metaDescription": "גלריית האמנות של גל דִּיסֵנִי, המחולקת למסעות נשמה משותפים ולמסעות חזון אישיים.",
-  "heroHeading": "גלריה",
-  "categories": [
-    {
-      "slug": "shared-soul-journeys",
-      "title": "מסעות נשמה משותפים",
-      "description": "יצירות שנולדו מתוך תהליך אישי או זוגי, במרחב של דמיון מודרך, הקשבה ויצירה משותפת.",
-      "visible": true,
-      "image": "/images/artworks/Estis_memory+WEB.webp",
-      "alt": "פרט מתוך היצירה Estis Memory מאת גל דִּיסֵנִי",
-      "imagePosition": "center 30%",
-      "ctaLabel": "לצפייה ביצירות",
-      "artworks": [
-        "absorbing-fire",
-        "dragon-bloom",
-        "harmonized-electric-earth",
-        "moon-cycle-of-healing",
-        "mystical-yoni",
-        "soul-dna",
-        "divine-feminine-rivers",
-        "estis-memory",
-        "exaltation",
-        "goddess-of-truth",
-        "peace-with-femininity",
-        "power-crystal",
-        "pure-masculine-and-feminine",
-        "release-control",
-        "seed-of-joy",
-        "the-protector-of-earth",
-        "the-pyramid-of-the-one",
-        "third-eye-engine",
-        "transforming-fire-to-water",
-        "womb-of-creation",
-        "ying-yang-couple",
-        "hypno-medicine"
-      ]
-    },
-    {
-      "slug": "personal-visionary-journeys",
-      "title": "מסעות חזיוניים אישיים",
-      "description": "יצירות שנולדו מתוך מסעות פנימיים, תהליכי עומק ודימויים שהתפתחו לאורך זמן.",
-      "visible": true,
-      "image": "/images/artworks/precious+WEB.webp",
-      "alt": "פרט מתוך היצירה Precious מאת גל דִּיסֵנִי",
-      "imagePosition": "left 30%",
-      "ctaLabel": "לצפייה ביצירות",
-      "artworks": [
-        "balanced-human",
-        "dreaming-reality",
-        "light",
-        "orin",
-        "precious",
-        "surender-to-fear",
-        "vulnerability-is-strength"
-      ]
-    }
-  ]
+  "en": {
+    "title": "Gallery | Gal Disegni",
+    "metaDescription": "The art gallery of Gal Disegni, divided into shared soul journeys and personal visionary journeys.",
+    "heroHeading": "Gallery",
+    "categories": [
+      {
+        "slug": "shared-soul-journeys",
+        "title": "Shared Soul Journeys",
+        "description": "Works born from a personal or couples' process, in a space of guided imagination, listening, and shared creation.",
+        "visible": true,
+        "image": "/images/artworks/Estis_memory+WEB.webp",
+        "alt": "A detail from the artwork Estis Memory by Gal Disegni",
+        "imagePosition": "center 30%",
+        "ctaLabel": "View the Artwork",
+        "artworks": [
+          "absorbing-fire",
+          "dragon-bloom",
+          "harmonized-electric-earth",
+          "moon-cycle-of-healing",
+          "mystical-yoni",
+          "soul-dna",
+          "divine-feminine-rivers",
+          "estis-memory",
+          "exaltation",
+          "goddess-of-truth",
+          "peace-with-femininity",
+          "power-crystal",
+          "pure-masculine-and-feminine",
+          "release-control",
+          "seed-of-joy",
+          "the-protector-of-earth",
+          "the-pyramid-of-the-one",
+          "third-eye-engine",
+          "transforming-fire-to-water",
+          "womb-of-creation",
+          "ying-yang-couple",
+          "hypno-medicine"
+        ]
+      },
+      {
+        "slug": "personal-visionary-journeys",
+        "title": "Personal Visionary Journeys",
+        "description": "Works born from inner journeys, deep processes, and images that developed over time.",
+        "visible": true,
+        "image": "/images/artworks/precious+WEB.webp",
+        "alt": "A detail from the artwork Precious by Gal Disegni",
+        "imagePosition": "left 30%",
+        "ctaLabel": "View the Artwork",
+        "artworks": [
+          "balanced-human",
+          "dreaming-reality",
+          "light",
+          "orin",
+          "precious",
+          "surender-to-fear",
+          "vulnerability-is-strength"
+        ]
+      }
+    ]
+  }
 }

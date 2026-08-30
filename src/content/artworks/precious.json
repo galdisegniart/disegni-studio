@@ -1,31 +1,24 @@
 {
-  "slug": "precious",
-  "order": 2,
-  "translations": {
-    "he": {
-      "name": "Precious",
-      "galleryMedium": "מיקס-מדיה",
-      "detailMedium": "טכניקה משולבת · יצירה מקורית",
-      "description": "מפגש בין שקט מונוכרומטי לעולם פנימי צבעוני. היצירה נוגעת בזיכרון, ברכות ובחיים שממשיכים להתקיים מתחת לפני השטח.",
-      "alt": "Precious, דמות לצד עולם פנימי צבעוני"
-    },
-    "en": {
-      "name": "Precious",
-      "galleryMedium": "Mixed Media",
-      "detailMedium": "Mixed technique · original artwork",
-      "description": "A meeting between monochrome stillness and a colorful inner world. The piece touches on memory, softness, and life that continues beneath the surface.",
-      "alt": "Precious, a figure beside a colorful inner world"
-    }
+  "he": {
+    "slug": "precious",
+    "order": 2,
+    "name": "Precious",
+    "galleryMedium": "מיקס-מדיה",
+    "detailMedium": "טכניקה משולבת · יצירה מקורית",
+    "description": "מפגש בין שקט מונוכרומטי לעולם פנימי צבעוני. היצירה נוגעת בזיכרון, ברכות ובחיים שממשיכים להתקיים מתחת לפני השטח.",
+    "alt": "Precious, דמות לצד עולם פנימי צבעוני",
+    "image": "/images/artworks/precious+WEB.webp",
+    "thumb": "/images/gallery/precious+thumb.webp",
+    "category": "mixed",
+    "originalAvailable": true,
+    "originalPrice": 2500,
+    "extraMaterials": []
   },
-  "name": "Precious",
-  "galleryMedium": "מיקס-מדיה",
-  "detailMedium": "טכניקה משולבת · יצירה מקורית",
-  "description": "מפגש בין שקט מונוכרומטי לעולם פנימי צבעוני. היצירה נוגעת בזיכרון, ברכות ובחיים שממשיכים להתקיים מתחת לפני השטח.",
-  "alt": "Precious, דמות לצד עולם פנימי צבעוני",
-  "image": "/images/artworks/precious+WEB.webp",
-  "thumb": "/images/gallery/precious+thumb.webp",
-  "category": "mixed",
-  "originalAvailable": true,
-  "originalPrice": 2500,
-  "extraMaterials": []
+  "en": {
+    "name": "Precious",
+    "galleryMedium": "Mixed Media",
+    "detailMedium": "Mixed technique · original artwork",
+    "description": "A meeting between monochrome stillness and a colorful inner world. The piece touches on memory, softness, and life that continues beneath the surface.",
+    "alt": "Precious, a figure beside a colorful inner world"
+  }
 }

@@ -1,152 +1,147 @@
 {
-  "alt": "הודי Seed Of Joy מאת גל דיסני",
-  "name": "\"Seed Of Joy\" - קפוצ'ון ",
-  "slug": "seed-of-joy-hoodie",
-  "order": 4,
-  "translations": {
-    "he": {
-      "name": "\"Seed Of Joy\" - קפוצ'ון ",
-      "alt": "הודי Seed Of Joy מאת גל דיסני",
-      "description": "הודי יוניסקס בעיצוב Seed Of Joy מאת גל דִּיסֵנִי."
-    },
-    "en": {
-      "name": "\"Seed Of Joy\" - Hoodie",
-      "alt": "Seed Of Joy hoodie by Gal Disegni",
-      "description": "A unisex hoodie featuring the Seed Of Joy design by Gal Disegni."
-    }
+  "he": {
+    "alt": "הודי Seed Of Joy מאת גל דיסני",
+    "name": "\"Seed Of Joy\" - קפוצ'ון ",
+    "slug": "seed-of-joy-hoodie",
+    "order": 4,
+    "purchaseVariants": [
+      {
+        "catalogNumber": "SEED-OF-JOY-HOODIE-HOODIE-2XS",
+        "shippingFirstUSD": 17,
+        "priceILS": 199,
+        "productType": "hoodie",
+        "shippingFirstILS": 65,
+        "shippingAdditionalUSD": 4,
+        "shippingAdditionalILS": 15,
+        "sizeId": "2XS",
+        "priceUSD": 52
+      },
+      {
+        "catalogNumber": "SEED-OF-JOY-HOODIE-HOODIE-XS",
+        "shippingFirstUSD": 17,
+        "priceILS": 199,
+        "productType": "hoodie",
+        "shippingFirstILS": 65,
+        "shippingAdditionalUSD": 4,
+        "shippingAdditionalILS": 15,
+        "sizeId": "XS",
+        "priceUSD": 52
+      },
+      {
+        "catalogNumber": "SEED-OF-JOY-HOODIE-HOODIE-S",
+        "shippingFirstUSD": 17,
+        "priceILS": 199,
+        "productType": "hoodie",
+        "shippingFirstILS": 65,
+        "shippingAdditionalUSD": 4,
+        "shippingAdditionalILS": 15,
+        "sizeId": "S",
+        "priceUSD": 52
+      },
+      {
+        "catalogNumber": "SEED-OF-JOY-HOODIE-HOODIE-M",
+        "shippingFirstUSD": 17,
+        "priceILS": 199,
+        "productType": "hoodie",
+        "shippingFirstILS": 65,
+        "shippingAdditionalUSD": 4,
+        "shippingAdditionalILS": 15,
+        "sizeId": "M",
+        "priceUSD": 52
+      },
+      {
+        "catalogNumber": "SEED-OF-JOY-HOODIE-HOODIE-L",
+        "shippingFirstUSD": 17,
+        "priceILS": 199,
+        "productType": "hoodie",
+        "shippingFirstILS": 65,
+        "shippingAdditionalUSD": 4,
+        "shippingAdditionalILS": 15,
+        "sizeId": "L",
+        "priceUSD": 52
+      },
+      {
+        "catalogNumber": "SEED-OF-JOY-HOODIE-HOODIE-XL",
+        "shippingFirstUSD": 17,
+        "priceILS": 199,
+        "productType": "hoodie",
+        "shippingFirstILS": 65,
+        "shippingAdditionalUSD": 4,
+        "shippingAdditionalILS": 15,
+        "sizeId": "XL",
+        "priceUSD": 52
+      },
+      {
+        "catalogNumber": "SEED-OF-JOY-HOODIE-HOODIE-2XL",
+        "shippingFirstUSD": 17,
+        "priceILS": 199,
+        "productType": "hoodie",
+        "shippingFirstILS": 65,
+        "shippingAdditionalUSD": 4,
+        "shippingAdditionalILS": 15,
+        "sizeId": "2XL",
+        "priceUSD": 52
+      },
+      {
+        "catalogNumber": "SEED-OF-JOY-HOODIE-HOODIE-3XL",
+        "shippingFirstUSD": 17,
+        "priceILS": 219,
+        "productType": "hoodie",
+        "shippingFirstILS": 65,
+        "shippingAdditionalUSD": 4,
+        "shippingAdditionalILS": 15,
+        "sizeId": "3XL",
+        "priceUSD": 56
+      },
+      {
+        "catalogNumber": "SEED-OF-JOY-HOODIE-HOODIE-4XL",
+        "shippingFirstUSD": 17,
+        "priceILS": 219,
+        "productType": "hoodie",
+        "shippingFirstILS": 65,
+        "shippingAdditionalUSD": 4,
+        "shippingAdditionalILS": 15,
+        "sizeId": "4XL",
+        "priceUSD": 56
+      },
+      {
+        "catalogNumber": "SEED-OF-JOY-HOODIE-HOODIE-5XL",
+        "shippingFirstUSD": 17,
+        "priceILS": 219,
+        "productType": "hoodie",
+        "shippingFirstILS": 65,
+        "shippingAdditionalUSD": 4,
+        "shippingAdditionalILS": 15,
+        "sizeId": "5XL",
+        "priceUSD": 56
+      },
+      {
+        "catalogNumber": "SEED-OF-JOY-HOODIE-HOODIE-6XL",
+        "shippingFirstUSD": 17,
+        "priceILS": 219,
+        "productType": "hoodie",
+        "shippingFirstILS": 65,
+        "shippingAdditionalUSD": 4,
+        "shippingAdditionalILS": 15,
+        "sizeId": "6XL",
+        "priceUSD": 56
+      }
+    ],
+    "matchName": "Unisex Hoodie",
+    "gallery": [
+      {
+        "image": "/images/uploads/all-over-print-recycled-unisex-hoodie-white-back-6a80d200357c0.webp",
+        "alt": "הודי Seed Of Joy - תצוגה מאחור"
+      }
+    ],
+    "thumb": "/images/uploads/all-over-print-recycled-unisex-hoodie-white-front-6a80d2003536c.webp",
+    "image": "/images/uploads/all-over-print-recycled-unisex-hoodie-white-front-6a80d2003536c.webp",
+    "description": "הודי יוניסקס בעיצוב Seed Of Joy מאת גל דִּיסֵנִי.",
+    "category": "unisex"
   },
-  "purchaseVariants": [
-    {
-      "catalogNumber": "SEED-OF-JOY-HOODIE-HOODIE-2XS",
-      "shippingFirstUSD": 17,
-      "priceILS": 199,
-      "productType": "hoodie",
-      "shippingFirstILS": 65,
-      "shippingAdditionalUSD": 4,
-      "shippingAdditionalILS": 15,
-      "sizeId": "2XS",
-      "priceUSD": 52
-    },
-    {
-      "catalogNumber": "SEED-OF-JOY-HOODIE-HOODIE-XS",
-      "shippingFirstUSD": 17,
-      "priceILS": 199,
-      "productType": "hoodie",
-      "shippingFirstILS": 65,
-      "shippingAdditionalUSD": 4,
-      "shippingAdditionalILS": 15,
-      "sizeId": "XS",
-      "priceUSD": 52
-    },
-    {
-      "catalogNumber": "SEED-OF-JOY-HOODIE-HOODIE-S",
-      "shippingFirstUSD": 17,
-      "priceILS": 199,
-      "productType": "hoodie",
-      "shippingFirstILS": 65,
-      "shippingAdditionalUSD": 4,
-      "shippingAdditionalILS": 15,
-      "sizeId": "S",
-      "priceUSD": 52
-    },
-    {
-      "catalogNumber": "SEED-OF-JOY-HOODIE-HOODIE-M",
-      "shippingFirstUSD": 17,
-      "priceILS": 199,
-      "productType": "hoodie",
-      "shippingFirstILS": 65,
-      "shippingAdditionalUSD": 4,
-      "shippingAdditionalILS": 15,
-      "sizeId": "M",
-      "priceUSD": 52
-    },
-    {
-      "catalogNumber": "SEED-OF-JOY-HOODIE-HOODIE-L",
-      "shippingFirstUSD": 17,
-      "priceILS": 199,
-      "productType": "hoodie",
-      "shippingFirstILS": 65,
-      "shippingAdditionalUSD": 4,
-      "shippingAdditionalILS": 15,
-      "sizeId": "L",
-      "priceUSD": 52
-    },
-    {
-      "catalogNumber": "SEED-OF-JOY-HOODIE-HOODIE-XL",
-      "shippingFirstUSD": 17,
-      "priceILS": 199,
-      "productType": "hoodie",
-      "shippingFirstILS": 65,
-      "shippingAdditionalUSD": 4,
-      "shippingAdditionalILS": 15,
-      "sizeId": "XL",
-      "priceUSD": 52
-    },
-    {
-      "catalogNumber": "SEED-OF-JOY-HOODIE-HOODIE-2XL",
-      "shippingFirstUSD": 17,
-      "priceILS": 199,
-      "productType": "hoodie",
-      "shippingFirstILS": 65,
-      "shippingAdditionalUSD": 4,
-      "shippingAdditionalILS": 15,
-      "sizeId": "2XL",
-      "priceUSD": 52
-    },
-    {
-      "catalogNumber": "SEED-OF-JOY-HOODIE-HOODIE-3XL",
-      "shippingFirstUSD": 17,
-      "priceILS": 219,
-      "productType": "hoodie",
-      "shippingFirstILS": 65,
-      "shippingAdditionalUSD": 4,
-      "shippingAdditionalILS": 15,
-      "sizeId": "3XL",
-      "priceUSD": 56
-    },
-    {
-      "catalogNumber": "SEED-OF-JOY-HOODIE-HOODIE-4XL",
-      "shippingFirstUSD": 17,
-      "priceILS": 219,
-      "productType": "hoodie",
-      "shippingFirstILS": 65,
-      "shippingAdditionalUSD": 4,
-      "shippingAdditionalILS": 15,
-      "sizeId": "4XL",
-      "priceUSD": 56
-    },
-    {
-      "catalogNumber": "SEED-OF-JOY-HOODIE-HOODIE-5XL",
-      "shippingFirstUSD": 17,
-      "priceILS": 219,
-      "productType": "hoodie",
-      "shippingFirstILS": 65,
-      "shippingAdditionalUSD": 4,
-      "shippingAdditionalILS": 15,
-      "sizeId": "5XL",
-      "priceUSD": 56
-    },
-    {
-      "catalogNumber": "SEED-OF-JOY-HOODIE-HOODIE-6XL",
-      "shippingFirstUSD": 17,
-      "priceILS": 219,
-      "productType": "hoodie",
-      "shippingFirstILS": 65,
-      "shippingAdditionalUSD": 4,
-      "shippingAdditionalILS": 15,
-      "sizeId": "6XL",
-      "priceUSD": 56
-    }
-  ],
-  "matchName": "Unisex Hoodie",
-  "gallery": [
-    {
-      "image": "/images/uploads/all-over-print-recycled-unisex-hoodie-white-back-6a80d200357c0.webp",
-      "alt": "הודי Seed Of Joy - תצוגה מאחור"
-    }
-  ],
-  "thumb": "/images/uploads/all-over-print-recycled-unisex-hoodie-white-front-6a80d2003536c.webp",
-  "image": "/images/uploads/all-over-print-recycled-unisex-hoodie-white-front-6a80d2003536c.webp",
-  "description": "הודי יוניסקס בעיצוב Seed Of Joy מאת גל דִּיסֵנִי.",
-  "category": "unisex"
+  "en": {
+    "name": "\"Seed Of Joy\" - Hoodie",
+    "alt": "Seed Of Joy hoodie by Gal Disegni",
+    "description": "A unisex hoodie featuring the Seed Of Joy design by Gal Disegni."
+  }
 }

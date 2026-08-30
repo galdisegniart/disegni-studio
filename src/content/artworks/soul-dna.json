@@ -1,67 +1,60 @@
 {
-  "slug": "soul-dna",
-  "order": 12,
-  "translations": {
-    "he": {
-      "name": "Soul DNA",
-      "galleryMedium": "טכניקה משולבת",
-      "detailMedium": "טכניקה משולבת על נייר · יצירה מקורית",
-      "description": "דימוי אורגני שמתפתל כמו קוד פנימי חי. צבעים, כנפיים וקווים שזורים מספרים על הזהות העמוקה שנמצאת מעבר למילים.",
-      "alt": "Soul DNA, מבנה אורגני צבעוני דמוי סליל"
-    },
-    "en": {
-      "name": "Soul DNA",
-      "galleryMedium": "Mixed Technique",
-      "detailMedium": "Mixed technique on paper · original artwork",
-      "description": "An organic image winding like a living inner code. Colors, wings, and intertwined lines speak of the deep identity that lies beyond words.",
-      "alt": "Soul DNA, a colorful, organic, spiral-like structure"
-    }
+  "he": {
+    "slug": "soul-dna",
+    "order": 12,
+    "name": "Soul DNA",
+    "galleryMedium": "טכניקה משולבת",
+    "detailMedium": "טכניקה משולבת על נייר · יצירה מקורית",
+    "description": "דימוי אורגני שמתפתל כמו קוד פנימי חי. צבעים, כנפיים וקווים שזורים מספרים על הזהות העמוקה שנמצאת מעבר למילים.",
+    "alt": "Soul DNA, מבנה אורגני צבעוני דמוי סליל",
+    "image": "/images/artworks/soul-dna+WEB.webp",
+    "thumb": "/images/gallery/soul-dna+thumb.webp",
+    "gallery": [
+      {
+        "image": "/images/products/mockups/soul-dna/soul-dna-poster.webp",
+        "alt": "מוקאפ של היצירה Soul DNA כהדפס תלוי על קיר",
+        "productType": "poster"
+      },
+      {
+        "image": "/images/products/mockups/soul-dna/soul-dna-canvas-24x36.webp",
+        "alt": "מוקאפ של Soul DNA כהדפס קנבס בגודל 24×36 אינץ'",
+        "productType": "canvas",
+        "sizeId": "24x36"
+      },
+      {
+        "image": "/images/products/mockups/soul-dna/soul-dna-framed-12x16-black.webp",
+        "alt": "מוקאפ של Soul DNA כפוסטר ממוסגר שחור בגודל 12×16 אינץ'",
+        "productType": "framed-print",
+        "sizeId": "12x16",
+        "frameColor": "black"
+      },
+      {
+        "image": "/images/products/mockups/soul-dna/soul-dna-framed-16x20-black.webp",
+        "alt": "מוקאפ של Soul DNA כפוסטר ממוסגר שחור בגודל 16×20 אינץ'",
+        "productType": "framed-print",
+        "sizeId": "16x20",
+        "frameColor": "black"
+      },
+      {
+        "image": "/images/products/mockups/soul-dna/soul-dna-framed-18x24-black.webp",
+        "alt": "מוקאפ של Soul DNA כפוסטר ממוסגר שחור בגודל 18×24 אינץ'",
+        "productType": "framed-print",
+        "sizeId": "18x24",
+        "frameColor": "black"
+      }
+    ],
+    "category": "mixed",
+    "originalAvailable": true,
+    "originalPrice": 5500,
+    "extraMaterials": [
+      "canvas"
+    ]
   },
-  "name": "Soul DNA",
-  "galleryMedium": "טכניקה משולבת",
-  "detailMedium": "טכניקה משולבת על נייר · יצירה מקורית",
-  "description": "דימוי אורגני שמתפתל כמו קוד פנימי חי. צבעים, כנפיים וקווים שזורים מספרים על הזהות העמוקה שנמצאת מעבר למילים.",
-  "alt": "Soul DNA, מבנה אורגני צבעוני דמוי סליל",
-  "image": "/images/artworks/soul-dna+WEB.webp",
-  "thumb": "/images/gallery/soul-dna+thumb.webp",
-  "gallery": [
-    {
-      "image": "/images/products/mockups/soul-dna/soul-dna-poster.webp",
-      "alt": "מוקאפ של היצירה Soul DNA כהדפס תלוי על קיר",
-      "productType": "poster"
-    },
-    {
-      "image": "/images/products/mockups/soul-dna/soul-dna-canvas-24x36.webp",
-      "alt": "מוקאפ של Soul DNA כהדפס קנבס בגודל 24×36 אינץ'",
-      "productType": "canvas",
-      "sizeId": "24x36"
-    },
-    {
-      "image": "/images/products/mockups/soul-dna/soul-dna-framed-12x16-black.webp",
-      "alt": "מוקאפ של Soul DNA כפוסטר ממוסגר שחור בגודל 12×16 אינץ'",
-      "productType": "framed-print",
-      "sizeId": "12x16",
-      "frameColor": "black"
-    },
-    {
-      "image": "/images/products/mockups/soul-dna/soul-dna-framed-16x20-black.webp",
-      "alt": "מוקאפ של Soul DNA כפוסטר ממוסגר שחור בגודל 16×20 אינץ'",
-      "productType": "framed-print",
-      "sizeId": "16x20",
-      "frameColor": "black"
-    },
-    {
-      "image": "/images/products/mockups/soul-dna/soul-dna-framed-18x24-black.webp",
-      "alt": "מוקאפ של Soul DNA כפוסטר ממוסגר שחור בגודל 18×24 אינץ'",
-      "productType": "framed-print",
-      "sizeId": "18x24",
-      "frameColor": "black"
-    }
-  ],
-  "category": "mixed",
-  "originalAvailable": true,
-  "originalPrice": 5500,
-  "extraMaterials": [
-    "canvas"
-  ]
+  "en": {
+    "name": "Soul DNA",
+    "galleryMedium": "Mixed Technique",
+    "detailMedium": "Mixed technique on paper · original artwork",
+    "description": "An organic image winding like a living inner code. Colors, wings, and intertwined lines speak of the deep identity that lies beyond words.",
+    "alt": "Soul DNA, a colorful, organic, spiral-like structure"
+  }
 }

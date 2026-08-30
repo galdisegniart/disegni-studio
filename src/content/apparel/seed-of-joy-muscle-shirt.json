@@ -1,86 +1,81 @@
 {
-  "alt": "מאסל שירט Seed Of Joy מאת גל דיסני",
-  "name": "\"Seed Of Joy\" - גופייה רקומה ",
-  "slug": "seed-of-joy-muscle-shirt",
-  "order": 2,
-  "translations": {
-    "he": {
-      "name": "\"Seed Of Joy\" - גופייה רקומה ",
-      "alt": "מאסל שירט Seed Of Joy מאת גל דיסני",
-      "description": "מאסל שירט בעיצוב Seed Of Joy מאת גל דִּיסֵנִי."
-    },
-    "en": {
-      "name": "\"Seed Of Joy\" - Embroidered Muscle Shirt",
-      "alt": "Seed Of Joy muscle shirt by Gal Disegni",
-      "description": "A muscle shirt featuring the Seed Of Joy design by Gal Disegni."
-    }
+  "he": {
+    "alt": "מאסל שירט Seed Of Joy מאת גל דיסני",
+    "name": "\"Seed Of Joy\" - גופייה רקומה ",
+    "slug": "seed-of-joy-muscle-shirt",
+    "order": 2,
+    "purchaseVariants": [
+      {
+        "catalogNumber": "SEED-OF-JOY-MUSCLE-SHIRT-MUSCLE-SHIRT-S",
+        "shippingFirstUSD": 12,
+        "priceILS": 89,
+        "productType": "muscle-shirt",
+        "shippingFirstILS": 45,
+        "shippingAdditionalUSD": 3,
+        "shippingAdditionalILS": 10,
+        "sizeId": "S",
+        "priceUSD": 23
+      },
+      {
+        "catalogNumber": "SEED-OF-JOY-MUSCLE-SHIRT-MUSCLE-SHIRT-M",
+        "shippingFirstUSD": 12,
+        "priceILS": 89,
+        "productType": "muscle-shirt",
+        "shippingFirstILS": 45,
+        "shippingAdditionalUSD": 3,
+        "shippingAdditionalILS": 10,
+        "sizeId": "M",
+        "priceUSD": 23
+      },
+      {
+        "catalogNumber": "SEED-OF-JOY-MUSCLE-SHIRT-MUSCLE-SHIRT-L",
+        "shippingFirstUSD": 12,
+        "priceILS": 89,
+        "productType": "muscle-shirt",
+        "shippingFirstILS": 45,
+        "shippingAdditionalUSD": 3,
+        "shippingAdditionalILS": 10,
+        "sizeId": "L",
+        "priceUSD": 23
+      },
+      {
+        "catalogNumber": "SEED-OF-JOY-MUSCLE-SHIRT-MUSCLE-SHIRT-XL",
+        "shippingFirstUSD": 12,
+        "priceILS": 89,
+        "productType": "muscle-shirt",
+        "shippingFirstILS": 45,
+        "shippingAdditionalUSD": 3,
+        "shippingAdditionalILS": 10,
+        "sizeId": "XL",
+        "priceUSD": 23
+      },
+      {
+        "catalogNumber": "SEED-OF-JOY-MUSCLE-SHIRT-MUSCLE-SHIRT-2XL",
+        "shippingFirstUSD": 12,
+        "priceILS": 95,
+        "productType": "muscle-shirt",
+        "shippingFirstILS": 45,
+        "shippingAdditionalUSD": 3,
+        "shippingAdditionalILS": 10,
+        "sizeId": "2XL",
+        "priceUSD": 24
+      }
+    ],
+    "matchName": "Muscle Shirt",
+    "gallery": [
+      {
+        "image": "/images/uploads/unisex-muscle-shirt-black-back-6a80dc6687c32.webp",
+        "alt": "מאסל שירט Seed Of Joy - תצוגה מאחור"
+      }
+    ],
+    "thumb": "/images/uploads/unisex-muscle-shirt-black-front-6a80dc6687999.webp",
+    "image": "/images/uploads/unisex-muscle-shirt-black-front-6a80dc6687999.webp",
+    "description": "מאסל שירט בעיצוב Seed Of Joy מאת גל דִּיסֵנִי.",
+    "category": "men"
   },
-  "purchaseVariants": [
-    {
-      "catalogNumber": "SEED-OF-JOY-MUSCLE-SHIRT-MUSCLE-SHIRT-S",
-      "shippingFirstUSD": 12,
-      "priceILS": 89,
-      "productType": "muscle-shirt",
-      "shippingFirstILS": 45,
-      "shippingAdditionalUSD": 3,
-      "shippingAdditionalILS": 10,
-      "sizeId": "S",
-      "priceUSD": 23
-    },
-    {
-      "catalogNumber": "SEED-OF-JOY-MUSCLE-SHIRT-MUSCLE-SHIRT-M",
-      "shippingFirstUSD": 12,
-      "priceILS": 89,
-      "productType": "muscle-shirt",
-      "shippingFirstILS": 45,
-      "shippingAdditionalUSD": 3,
-      "shippingAdditionalILS": 10,
-      "sizeId": "M",
-      "priceUSD": 23
-    },
-    {
-      "catalogNumber": "SEED-OF-JOY-MUSCLE-SHIRT-MUSCLE-SHIRT-L",
-      "shippingFirstUSD": 12,
-      "priceILS": 89,
-      "productType": "muscle-shirt",
-      "shippingFirstILS": 45,
-      "shippingAdditionalUSD": 3,
-      "shippingAdditionalILS": 10,
-      "sizeId": "L",
-      "priceUSD": 23
-    },
-    {
-      "catalogNumber": "SEED-OF-JOY-MUSCLE-SHIRT-MUSCLE-SHIRT-XL",
-      "shippingFirstUSD": 12,
-      "priceILS": 89,
-      "productType": "muscle-shirt",
-      "shippingFirstILS": 45,
-      "shippingAdditionalUSD": 3,
-      "shippingAdditionalILS": 10,
-      "sizeId": "XL",
-      "priceUSD": 23
-    },
-    {
-      "catalogNumber": "SEED-OF-JOY-MUSCLE-SHIRT-MUSCLE-SHIRT-2XL",
-      "shippingFirstUSD": 12,
-      "priceILS": 95,
-      "productType": "muscle-shirt",
-      "shippingFirstILS": 45,
-      "shippingAdditionalUSD": 3,
-      "shippingAdditionalILS": 10,
-      "sizeId": "2XL",
-      "priceUSD": 24
-    }
-  ],
-  "matchName": "Muscle Shirt",
-  "gallery": [
-    {
-      "image": "/images/uploads/unisex-muscle-shirt-black-back-6a80dc6687c32.webp",
-      "alt": "מאסל שירט Seed Of Joy - תצוגה מאחור"
-    }
-  ],
-  "thumb": "/images/uploads/unisex-muscle-shirt-black-front-6a80dc6687999.webp",
-  "image": "/images/uploads/unisex-muscle-shirt-black-front-6a80dc6687999.webp",
-  "description": "מאסל שירט בעיצוב Seed Of Joy מאת גל דִּיסֵנִי.",
-  "category": "men"
+  "en": {
+    "name": "\"Seed Of Joy\" - Embroidered Muscle Shirt",
+    "alt": "Seed Of Joy muscle shirt by Gal Disegni",
+    "description": "A muscle shirt featuring the Seed Of Joy design by Gal Disegni."
+  }
 }

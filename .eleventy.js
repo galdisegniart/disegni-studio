@@ -1,4 +1,4 @@
-const site = require("./src/_data/site.json");
+const site = require("./src/_data/site.js")();
 const localize = require("./src/_lib/localize.js");
 const buildShopCategories = require("./src/_lib/buildShopCategories.js");
 const artworksLoader = require("./src/_data/artworks.js");

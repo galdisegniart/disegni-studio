@@ -1,5 +1,5 @@
 const workshops = require("./workshops.js");
-const site = require("./site.json");
+const site = require("./site.js")();
 
 // Latest time a session may START. Slots beginning after this are never
 // offered in the calendar and are rejected by the Worker.

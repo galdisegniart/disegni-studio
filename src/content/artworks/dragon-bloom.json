@@ -1,59 +1,52 @@
 {
-  "slug": "dragon-bloom",
-  "order": 21,
-  "translations": {
-    "he": {
-      "name": "Dragon Bloom",
-      "galleryMedium": "פסטל",
-      "detailMedium": "פסטל על נייר",
-      "description": "פיצוץ של צבע ותנועה שנפתח כמו פרח ואש בו-זמנית. עלים, ספירלות ועין מרכזית נפגשים ברגע של פריחה עוצמתית.",
-      "alt": "Dragon Bloom, פריחה צבעונית מקרינה סביב עין מרכזית"
-    },
-    "en": {
-      "name": "Dragon Bloom",
-      "galleryMedium": "Pastel",
-      "detailMedium": "Pastel on paper",
-      "description": "An explosion of color and movement unfolding like a flower and fire at once. Petals, spirals, and a central eye meet in a moment of powerful blooming.",
-      "alt": "Dragon Bloom, a radiant, colorful bloom around a central eye"
-    }
+  "he": {
+    "slug": "dragon-bloom",
+    "order": 21,
+    "name": "Dragon Bloom",
+    "galleryMedium": "פסטל",
+    "detailMedium": "פסטל על נייר",
+    "description": "פיצוץ של צבע ותנועה שנפתח כמו פרח ואש בו-זמנית. עלים, ספירלות ועין מרכזית נפגשים ברגע של פריחה עוצמתית.",
+    "alt": "Dragon Bloom, פריחה צבעונית מקרינה סביב עין מרכזית",
+    "image": "/images/artworks/Dragon_Bloom+WEB.webp",
+    "thumb": "/images/artworks/Dragon_Bloom+WEB.webp",
+    "gallery": [
+      {
+        "image": "/images/products/mockups/dragon-bloom/Dragon_Bloom_hanging_poster.webp",
+        "alt": "מוקאפ של היצירה Dragon Bloom כהדפס תלוי על קיר",
+        "productType": "poster"
+      },
+      {
+        "image": "/images/products/mockups/dragon-bloom/Dragon_Bloom_framed_poster-12x16_black.webp",
+        "alt": "מוקאפ של Dragon Bloom כפוסטר ממוסגר שחור עם מט כפול בגודל 12×16 אינץ'",
+        "productType": "framed-print",
+        "sizeId": "12x16",
+        "frameColor": "black"
+      },
+      {
+        "image": "/images/products/mockups/dragon-bloom/Dragon_Bloom_framed_poster-16x20_black.webp",
+        "alt": "מוקאפ של Dragon Bloom כפוסטר ממוסגר שחור עם מט כפול בגודל 16×20 אינץ'",
+        "productType": "framed-print",
+        "sizeId": "16x20",
+        "frameColor": "black"
+      },
+      {
+        "image": "/images/products/mockups/dragon-bloom/Dragon_Bloom_framed_poster-18x24_black.webp",
+        "alt": "מוקאפ של Dragon Bloom כפוסטר ממוסגר שחור עם מט כפול בגודל 18×24 אינץ'",
+        "productType": "framed-print",
+        "sizeId": "18x24",
+        "frameColor": "black"
+      }
+    ],
+    "category": "pastel",
+    "originalAvailable": true,
+    "originalPrice": 4500,
+    "extraMaterials": []
   },
-  "name": "Dragon Bloom",
-  "galleryMedium": "פסטל",
-  "detailMedium": "פסטל על נייר",
-  "description": "פיצוץ של צבע ותנועה שנפתח כמו פרח ואש בו-זמנית. עלים, ספירלות ועין מרכזית נפגשים ברגע של פריחה עוצמתית.",
-  "alt": "Dragon Bloom, פריחה צבעונית מקרינה סביב עין מרכזית",
-  "image": "/images/artworks/Dragon_Bloom+WEB.webp",
-  "thumb": "/images/artworks/Dragon_Bloom+WEB.webp",
-  "gallery": [
-    {
-      "image": "/images/products/mockups/dragon-bloom/Dragon_Bloom_hanging_poster.webp",
-      "alt": "מוקאפ של היצירה Dragon Bloom כהדפס תלוי על קיר",
-      "productType": "poster"
-    },
-    {
-      "image": "/images/products/mockups/dragon-bloom/Dragon_Bloom_framed_poster-12x16_black.webp",
-      "alt": "מוקאפ של Dragon Bloom כפוסטר ממוסגר שחור עם מט כפול בגודל 12×16 אינץ'",
-      "productType": "framed-print",
-      "sizeId": "12x16",
-      "frameColor": "black"
-    },
-    {
-      "image": "/images/products/mockups/dragon-bloom/Dragon_Bloom_framed_poster-16x20_black.webp",
-      "alt": "מוקאפ של Dragon Bloom כפוסטר ממוסגר שחור עם מט כפול בגודל 16×20 אינץ'",
-      "productType": "framed-print",
-      "sizeId": "16x20",
-      "frameColor": "black"
-    },
-    {
-      "image": "/images/products/mockups/dragon-bloom/Dragon_Bloom_framed_poster-18x24_black.webp",
-      "alt": "מוקאפ של Dragon Bloom כפוסטר ממוסגר שחור עם מט כפול בגודל 18×24 אינץ'",
-      "productType": "framed-print",
-      "sizeId": "18x24",
-      "frameColor": "black"
-    }
-  ],
-  "category": "pastel",
-  "originalAvailable": true,
-  "originalPrice": 4500,
-  "extraMaterials": []
+  "en": {
+    "name": "Dragon Bloom",
+    "galleryMedium": "Pastel",
+    "detailMedium": "Pastel on paper",
+    "description": "An explosion of color and movement unfolding like a flower and fire at once. Petals, spirals, and a central eye meet in a moment of powerful blooming.",
+    "alt": "Dragon Bloom, a radiant, colorful bloom around a central eye"
+  }
 }

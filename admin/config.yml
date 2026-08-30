@@ -6,6 +6,11 @@ backend:
 
 local_backend: true
 
+i18n:
+  structure: single_file
+  locales: [he, en]
+  default_locale: he
+
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
@@ -21,15 +26,16 @@ collections:
     slug: "{{fields.slug}}"
     identifier_field: "name"
     summary: "{{name}} ({{galleryMedium}})"
+    i18n: true
     fields:
       - { label: "מזהה בכתובת (אנגלית, ללא רווחים)", name: "slug", widget: "string", hint: "משמש בכתובת /products/<מזהה>/ - לא לשנות אחרי הפרסום" }
       - { label: "סדר הופעה בגלריה", name: "order", widget: "number" }
-      - { label: "שם היצירה", name: "name", widget: "string" }
+      - { label: "שם היצירה", name: "name", widget: "string", i18n: true }
       - { label: "קטגוריה (טכניקה)", name: "category", widget: "string", hint: "הקלידו באנגלית, ללא רווחים (למשל pastel, mixed, acrylic, drawing, oil, digital). חייב להתאים בדיוק לערך (value) של אחד מכפתורי הסינון בעמוד 'הדפסים' (תוכן החנות > הדפסים) - אחרת היצירה לא תופיע כשמסננים לפי אותה קטגוריה." }
-      - { label: "טכניקה (מוצג בגלריה ובחנות)", name: "galleryMedium", widget: "string" }
-      - { label: "טכניקה (מוצג בעמוד היצירה)", name: "detailMedium", widget: "string" }
-      - { label: "תיאור היצירה", name: "description", widget: "text" }
-      - { label: "טקסט חלופי לתמונה (נגישות)", name: "alt", widget: "string" }
+      - { label: "טכניקה (מוצג בגלריה ובחנות)", name: "galleryMedium", widget: "string", i18n: true }
+      - { label: "טכניקה (מוצג בעמוד היצירה)", name: "detailMedium", widget: "string", i18n: true }
+      - { label: "תיאור היצירה", name: "description", widget: "text", i18n: true }
+      - { label: "טקסט חלופי לתמונה (נגישות)", name: "alt", widget: "string", i18n: true }
       - { label: "תמונה בגודל מלא", name: "image", widget: "image" }
       - { label: "תמונה ממוזערת (גלריה)", name: "thumb", widget: "image" }
       - label: "תמונות נוספות בעמוד המוצר"
@@ -57,6 +63,7 @@ collections:
         label: "הסיפור מאחורי היצירה (אופציונלי, השאירו ריק כדי לא להציג)"
         widget: "object"
         required: false
+        i18n: true
         fields:
           - { label: "כותרת", name: "heading", widget: "string", required: false }
           - { label: "פסקאות", name: "paragraphs", widget: "list", required: false, field: { label: "פסקה", name: "text", widget: "text" } }
@@ -64,6 +71,7 @@ collections:
         label: "החוויה שהיצירה פותחת (אופציונלי, השאירו ריק כדי לא להציג)"
         widget: "object"
         required: false
+        i18n: true
         fields:
           - { label: "כותרת", name: "heading", widget: "string", required: false }
           - { label: "פסקאות", name: "paragraphs", widget: "list", required: false, field: { label: "פסקה", name: "text", widget: "text" } }
@@ -71,6 +79,7 @@ collections:
         label: "עדות על היצירה (אופציונלי, השאירו ריק כדי לא להציג)"
         widget: "object"
         required: false
+        i18n: true
         fields:
           - { label: "כותרת", name: "heading", widget: "string", required: false }
           - { label: "טקסט העדות", name: "text", widget: "text", required: false }
@@ -117,28 +126,30 @@ collections:
     slug: "{{fields.slug}}"
     identifier_field: "cardTitle"
     summary: "{{cardTitle}}"
+    i18n: true
     fields:
       - { label: "מזהה בכתובת (אנגלית, ללא רווחים)", name: "slug", widget: "string", hint: "משמש בכתובת /workshops/<מזהה>/ - לא לשנות אחרי הפרסום" }
       - { label: "סדר הופעה", name: "order", widget: "number" }
-      - { label: "כותרת קצרה בכרטיס", name: "cardLabel", widget: "string" }
-      - { label: "שם הסדנה בכרטיס", name: "cardTitle", widget: "string" }
+      - { label: "כותרת קצרה בכרטיס", name: "cardLabel", widget: "string", i18n: true }
+      - { label: "שם הסדנה בכרטיס", name: "cardTitle", widget: "string", i18n: true }
       - { label: "תמונת כרטיס", name: "cardImage", widget: "image" }
-      - { label: "טקסט חלופי לתמונת כרטיס", name: "cardImageAlt", widget: "string" }
+      - { label: "טקסט חלופי לתמונת כרטיס", name: "cardImageAlt", widget: "string", i18n: true }
       - { label: "מיקום התמונה בכרטיס (בעמוד רשימת הסדנאות)", name: "cardImagePosition", widget: "string", required: false, hint: "לדוגמה: center, center 20%, center top, left center - שולט מה נשאר בפריים כשהתמונה נחתכת" }
-      - { label: "משפט קצר: למי הסדנה מתאימה (מוצג בעמוד רשימת הסדנאות)", name: "personaLine", widget: "string", required: false }
-      - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
-      - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
-      - { label: "כיתוב קטן מעל הכותרת", name: "eyebrow", widget: "string" }
-      - { label: "כותרת ראשית", name: "heading", widget: "string" }
-      - { label: "טקסט פתיחה", name: "lead", widget: "text" }
+      - { label: "משפט קצר: למי הסדנה מתאימה (מוצג בעמוד רשימת הסדנאות)", name: "personaLine", widget: "string", required: false, i18n: true }
+      - { label: "כותרת הדפדפן (title)", name: "title", widget: "string", i18n: true }
+      - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text", i18n: true }
+      - { label: "כיתוב קטן מעל הכותרת", name: "eyebrow", widget: "string", i18n: true }
+      - { label: "כותרת ראשית", name: "heading", widget: "string", i18n: true }
+      - { label: "טקסט פתיחה", name: "lead", widget: "text", i18n: true }
       - { label: "מחיר החל מ- (₪, מספר בלבד - לשימוש בנתונים מובנים ל-Google)", name: "priceFromILS", widget: "number" }
       - name: "quickMeta"
         label: "פרטים מהירים (4 שדות)"
         widget: "list"
+        i18n: true
         fields:
           - { label: "תווית", name: "label", widget: "string" }
           - { label: "ערך", name: "value", widget: "string" }
-      - { label: "טקסט כפתור פעולה ראשי", name: "heroCtaLabel", widget: "string" }
+      - { label: "טקסט כפתור פעולה ראשי", name: "heroCtaLabel", widget: "string", i18n: true }
       - name: "recurringAvailability"
         label: "זמינות שבועית קבועה ליומן קביעת תור (אם ריק, הכפתורים יפתחו WhatsApp ישירות במקום יומן)"
         widget: "list"
@@ -156,14 +167,15 @@ collections:
               ] }
           - { label: "שעה", name: "time", widget: "string", hint: "לדוגמה: 16:00–17:30" }
       - { label: "כמה שבועות קדימה להציג ביומן", name: "bookingWindowWeeks", widget: "number", default: 8, required: false }
-      - { label: "הודעת WhatsApp (כפתור ראשי)", name: "waMessage", widget: "text" }
+      - { label: "הודעת WhatsApp (כפתור ראשי)", name: "waMessage", widget: "text", i18n: true }
       - { label: "תמונה ראשית", name: "heroImage", widget: "image" }
-      - { label: "טקסט חלופי לתמונה ראשית", name: "heroImageAlt", widget: "string" }
+      - { label: "טקסט חלופי לתמונה ראשית", name: "heroImageAlt", widget: "string", i18n: true }
       - { label: "יש ביקורות אמיתיות?", name: "hasReviews", widget: "boolean", default: false }
       - { label: "ציטוט קצר לתקציר ביקורת (אם יש ביקורות)", name: "reviewPeekExcerpt", widget: "string", required: false }
       - name: "story"
         label: "סקציית הסיפור"
         widget: "object"
+        i18n: true
         fields:
           - { label: "כיתוב קטן", name: "eyebrow", widget: "string" }
           - { label: "כותרת (אפשר <br> לשבירת שורה)", name: "heading", widget: "string" }
@@ -173,6 +185,7 @@ collections:
         label: "סקציית וידאו (השאירו ריק אם אין)"
         widget: "object"
         required: false
+        i18n: true
         fields:
           - { label: "כיתוב קטן", name: "eyebrow", widget: "string" }
           - { label: "כותרת", name: "heading", widget: "string" }
@@ -184,6 +197,7 @@ collections:
       - name: "included"
         label: "מה כלול"
         widget: "object"
+        i18n: true
         fields:
           - { label: "כיתוב קטן", name: "eyebrow", widget: "string" }
           - name: "items"
@@ -196,6 +210,7 @@ collections:
       - name: "pricing"
         label: "מחירים"
         widget: "object"
+        i18n: true
         fields:
           - { label: "כיתוב קטן", name: "eyebrow", widget: "string" }
           - { label: "כותרת", name: "heading", widget: "string" }
@@ -212,6 +227,7 @@ collections:
         label: "גלריית תמונות (השאירו ריק אם אין)"
         widget: "object"
         required: false
+        i18n: true
         fields:
           - { label: "כיתוב קטן", name: "eyebrow", widget: "string" }
           - { label: "טקסט כפתור הרחבה (ריק = בלי הרחבה)", name: "expandLabel", widget: "string", required: false }
@@ -225,6 +241,7 @@ collections:
       - name: "reviewsHeading"
         label: "כותרת סקציית הביקורות"
         widget: "object"
+        i18n: true
         fields:
           - { label: "כיתוב קטן", name: "eyebrow", widget: "string" }
           - { label: "כותרת", name: "heading", widget: "string" }
@@ -232,10 +249,11 @@ collections:
         label: "סיכום דירוג (רק אם יש ביקורות)"
         widget: "object"
         required: false
+        i18n: true
         fields:
           - { label: "ציון", name: "score", widget: "string" }
           - { label: "טקסט כמות", name: "countLabel", widget: "string" }
-      - { label: "טקסט כשאין ביקורות עדיין", name: "reviewsEmptyText", widget: "string", required: false }
+      - { label: "טקסט כשאין ביקורות עדיין", name: "reviewsEmptyText", widget: "string", required: false, i18n: true }
       - name: "reviews"
         label: "ביקורות"
         widget: "list"
@@ -246,10 +264,10 @@ collections:
           - { label: "תאריך לתצוגה", name: "dateLabel", widget: "string" }
           - { label: "תקציר", name: "excerpt", widget: "string" }
           - { label: "ביקורת מלאה", name: "full", widget: "text" }
-      - { label: "כיתוב קטן (סיום)", name: "finalEyebrow", widget: "string" }
-      - { label: "כותרת סיום", name: "finalHeading", widget: "string" }
-      - { label: "טקסט כפתור סיום", name: "finalCtaLabel", widget: "string" }
-      - { label: "הודעת WhatsApp (כפתור סיום)", name: "finalWaMessage", widget: "text" }
+      - { label: "כיתוב קטן (סיום)", name: "finalEyebrow", widget: "string", i18n: true }
+      - { label: "כותרת סיום", name: "finalHeading", widget: "string", i18n: true }
+      - { label: "טקסט כפתור סיום", name: "finalCtaLabel", widget: "string", i18n: true }
+      - { label: "הודעת WhatsApp (כפתור סיום)", name: "finalWaMessage", widget: "text", i18n: true }
 
   - name: "apparel"
     label: "בגדים ואביזרים (חנות)"
@@ -260,14 +278,15 @@ collections:
     slug: "{{fields.slug}}"
     identifier_field: "name"
     summary: "{{name}} ({{category}})"
+    i18n: true
     fields:
       - { label: "מזהה בכתובת (אנגלית, ללא רווחים)", name: "slug", widget: "string", hint: "משמש בכתובת /shop/<מזהה>/ - לא לשנות אחרי הפרסום. אפשר להשתמש באותו שם עיצוב שיש כבר בהדפסים (למשל seed-of-joy) בלי התנגשות, כי החנות נמצאת בנתיב נפרד." }
       - { label: "סדר הופעה בקטלוג", name: "order", widget: "number" }
-      - { label: "שם המוצר (מוצג באתר)", name: "name", widget: "string" }
+      - { label: "שם המוצר (מוצג באתר)", name: "name", widget: "string", i18n: true }
       - { label: "טקסט התאמה לפרינטפול (אנגלית בלבד)", name: "matchName", widget: "string", required: false, hint: "אופציונלי - אם ריק, המערכת תשתמש ב'שם המוצר' כדי לזהות את המוצר בפרינטפול. אם 'שם המוצר' בעברית או שונה משם המוצר בפרינטפול, מלאו כאן קטע ייחודי מתוך שם המוצר בפרינטפול באנגלית (למשל 'Muscle Shirt') - כדי שההתאמה האוטומטית תמצא רק את המוצר הזה ולא מוצרים אחרים עם עיצוב דומה." }
       - { label: "קטגוריה", name: "category", widget: "select", options: [{ label: "יוניסקס", value: "unisex" }, { label: "נשים", value: "women" }, { label: "גברים", value: "men" }, { label: "מדבקות", value: "stickers" }] }
-      - { label: "תיאור המוצר", name: "description", widget: "text" }
-      - { label: "טקסט חלופי לתמונה (נגישות)", name: "alt", widget: "string" }
+      - { label: "תיאור המוצר", name: "description", widget: "text", i18n: true }
+      - { label: "טקסט חלופי לתמונה (נגישות)", name: "alt", widget: "string", i18n: true }
       - { label: "תמונה ראשית", name: "image", widget: "image" }
       - { label: "תמונה ממוזערת (קטלוג)", name: "thumb", widget: "image" }
       - label: "תמונות נוספות בעמוד המוצר"
@@ -297,30 +316,33 @@ collections:
 
   - name: "homeAndSettings"
     label: "דף הבית והגדרות כלליות"
+    i18n: true
     files:
       - name: "home"
         label: "עמוד הבית (ראשי)"
         file: "src/content/pages/home.json"
+        i18n: true
         fields:
-          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
-          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
+          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string", i18n: true }
+          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text", i18n: true }
           - { label: "תמונת הירו", name: "heroImage", widget: "image" }
-          - { label: "טקסט חלופי לתמונה", name: "heroImageAlt", widget: "string" }
-          - { label: "כותרת - שורה 1", name: "headingLine1", widget: "string" }
-          - { label: "כותרת - שורה 2 (Enter לשבירת שורה ידנית)", name: "headingLine2", widget: "text" }
-          - { label: "טקסט פתיחה", name: "leadText", widget: "text" }
-          - { label: "שורת הבטחה 1", name: "assuranceLine1", widget: "string" }
-          - { label: "שורת הבטחה 2", name: "assuranceLine2", widget: "string" }
-          - { label: "כפתור קריאה לפעולה בהירו", name: "heroCtaLabel", widget: "string", required: false }
+          - { label: "טקסט חלופי לתמונה", name: "heroImageAlt", widget: "string", i18n: true }
+          - { label: "כותרת - שורה 1", name: "headingLine1", widget: "string", i18n: true }
+          - { label: "כותרת - שורה 2 (Enter לשבירת שורה ידנית)", name: "headingLine2", widget: "text", i18n: true }
+          - { label: "טקסט פתיחה", name: "leadText", widget: "text", i18n: true }
+          - { label: "שורת הבטחה 1", name: "assuranceLine1", widget: "string", i18n: true }
+          - { label: "שורת הבטחה 2", name: "assuranceLine2", widget: "string", i18n: true }
+          - { label: "כפתור קריאה לפעולה בהירו", name: "heroCtaLabel", widget: "string", required: false, i18n: true }
           - { label: "קישור כפתור הקריאה לפעולה", name: "heroCtaHref", widget: "string", default: "#commercial", required: false, hint: "ברירת מחדל #commercial גוללת לכרטיסי חנות/הזמנות/סדנאות" }
-          - { label: "טקסט קישור לעמוד אודות", name: "aboutLinkLabel", widget: "string", required: false }
+          - { label: "טקסט קישור לעמוד אודות", name: "aboutLinkLabel", widget: "string", required: false, i18n: true }
           - { label: "קישור לעמוד אודות", name: "aboutLinkHref", widget: "string", default: "/about/", required: false }
-          - { label: "טקסט נגישות לסקציית הכרטיסיות", name: "gatesAriaLabel", widget: "string" }
-          - { label: "כותרת מעל גלריית הציורים", name: "galleryHeading", widget: "string" }
+          - { label: "טקסט נגישות לסקציית הכרטיסיות", name: "gatesAriaLabel", widget: "string", i18n: true }
+          - { label: "כותרת מעל גלריית הציורים", name: "galleryHeading", widget: "string", i18n: true }
           - name: "gates"
             label: "ארבע הכניסות המסחריות"
             widget: "list"
             summary: "{{fields.label}}"
+            i18n: true
             fields:
               - { label: "כותרת", name: "label", widget: "string" }
               - { label: "תמונת הכרטיס", name: "image", widget: "image", hint: "התמונה שתוצג בכרטיס הקטגוריה בעמוד הראשי" }
@@ -332,10 +354,11 @@ collections:
 
       - name: "settings"
         label: "הגדרות אתר כלליות"
-        file: "src/_data/site.json"
+        file: "src/_data/site-content.json"
+        i18n: true
         fields:
-          - { label: "שם המותג", name: "brand", widget: "string" }
-          - { label: "תיאור קצר (בפוטר)", name: "tagline", widget: "string" }
+          - { label: "שם המותג", name: "brand", widget: "string", i18n: true }
+          - { label: "תיאור קצר (בפוטר)", name: "tagline", widget: "string", i18n: true }
           - name: "typeScale"
             label: "גודל טקסט באתר"
             widget: "object"
@@ -364,6 +387,7 @@ collections:
             label: "תפריט ניווט"
             widget: "list"
             hint: "זהירות: שינוי כתובת (href) עלול לשבור קישור בתפריט. שינוי טקסט (label) בטוח."
+            i18n: true
             fields:
               - { label: "טקסט בתפריט", name: "label", widget: "string" }
               - { label: "כתובת", name: "href", widget: "string" }
@@ -380,28 +404,32 @@ collections:
             label: "רשתות חברתיות"
             widget: "list"
             hint: "הסדר קבוע: אינסטגרם, טיקטוק, פייסבוק - לא לשנות את הסדר"
+            i18n: true
             fields:
               - { label: "שם הרשת", name: "name", widget: "string" }
               - { label: "קישור", name: "href", widget: "string" }
 
   - name: "shopContent"
     label: "תוכן החנות (מחירים, הדפסים, מקוריות)"
+    i18n: true
     files:
       - name: "prints"
         label: "קולקציה: הדפסים (/collections/prints/)"
         file: "src/content/pages/prints.json"
+        i18n: true
         fields:
-          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
-          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
-          - { label: "כותרת ראשית", name: "heading", widget: "string" }
-          - { label: "טקסט פתיחה", name: "heroText", widget: "text" }
-          - { label: "טקסט קישור ליצירות המקוריות", name: "originalsLinkLabel", widget: "string" }
-          - { label: "כותרת סקציית היצירות", name: "catalogHeading", widget: "string" }
-          - { label: "תווית מסנן: הכל", name: "filterAllLabel", widget: "string" }
+          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string", i18n: true }
+          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text", i18n: true }
+          - { label: "כותרת ראשית", name: "heading", widget: "string", i18n: true }
+          - { label: "טקסט פתיחה", name: "heroText", widget: "text", i18n: true }
+          - { label: "טקסט קישור ליצירות המקוריות", name: "originalsLinkLabel", widget: "string", i18n: true }
+          - { label: "כותרת סקציית היצירות", name: "catalogHeading", widget: "string", i18n: true }
+          - { label: "תווית מסנן: הכל", name: "filterAllLabel", widget: "string", i18n: true }
           - name: "filters"
             label: "כפתורי סינון לפי קטגוריה"
             widget: "list"
             hint: "הוסיפו כפתור לכל קטגוריה (טכניקה) שיש לכם. ה'ערך' (value) חייב להיות זהה בדיוק לשדה 'קטגוריה' שהזנתם ביצירות (באנגלית, ללא רווחים) - אחרת הכפתור לא יראה יצירות."
+            i18n: true
             fields:
               - { label: "טקסט הכפתור (עברית)", name: "label", widget: "string" }
               - { label: "ערך (אנגלית, ללא רווחים - למשל pastel)", name: "value", widget: "string" }
@@ -409,25 +437,28 @@ collections:
       - name: "originals"
         label: "קולקציה: מקוריות זמינות (/collections/originals/)"
         file: "src/content/pages/originals.json"
+        i18n: true
         fields:
-          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
-          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
-          - { label: "כותרת ראשית", name: "heading", widget: "string" }
-          - { label: "טקסט פתיחה", name: "heroText", widget: "text" }
+          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string", i18n: true }
+          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text", i18n: true }
+          - { label: "כותרת ראשית", name: "heading", widget: "string", i18n: true }
+          - { label: "טקסט פתיחה", name: "heroText", widget: "text", i18n: true }
 
       - name: "apparel"
         label: "קולקציה: בגדים ואביזרים (/collections/apparel/)"
         file: "src/content/pages/apparel.json"
+        i18n: true
         fields:
-          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
-          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
-          - { label: "כותרת ראשית", name: "heading", widget: "string" }
-          - { label: "טקסט פתיחה", name: "heroText", widget: "text" }
-          - { label: "תווית מסנן: הכל", name: "filterAllLabel", widget: "string" }
+          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string", i18n: true }
+          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text", i18n: true }
+          - { label: "כותרת ראשית", name: "heading", widget: "string", i18n: true }
+          - { label: "טקסט פתיחה", name: "heroText", widget: "text", i18n: true }
+          - { label: "תווית מסנן: הכל", name: "filterAllLabel", widget: "string", i18n: true }
           - name: "filters"
             label: "כפתורי סינון לפי קטגוריה"
             widget: "list"
             hint: "ה'ערך' (value) חייב להיות זהה בדיוק לשדה 'קטגוריה' שנבחר בכל פריט (unisex/women/men/stickers)."
+            i18n: true
             fields:
               - { label: "טקסט הכפתור (עברית)", name: "label", widget: "string" }
               - { label: "ערך (אנגלית)", name: "value", widget: "string" }
@@ -435,11 +466,13 @@ collections:
       - name: "pricing"
         label: "מחירון הדפסים"
         file: "src/content/pages/pricing.json"
+        i18n: true
         fields:
           - name: "materials"
             label: "סוגי הדפסה"
             widget: "list"
             hint: "כל סוג הדפסה (נייר, קנבס, וכל מה שתוסיפו בעתיד) עם הגדלים והמחירים שלו. מזהה הסוג (id) חייב להתאים למה שנבחר ב'סוגי הדפסה נוספים' בכל יצירה"
+            i18n: true
             fields:
               - { label: "מזהה (אנגלית, ללא רווחים - למשל paper, canvas)", name: "id", widget: "string" }
               - { label: "שם הסוג", name: "name", widget: "string" }
@@ -456,7 +489,7 @@ collections:
                   - { label: "מחיר בדולרים", name: "priceUSD", widget: "number" }
                   - { label: "לסמן כ\"הכי פופולרי\"?", name: "popular", widget: "boolean", default: false }
                   - { label: "זמין להזמנה?", name: "available", widget: "boolean", default: true, hint: "בטלו סימון כדי להציג את הגודל כ'אזל' בלי למחוק אותו" }
-          - { label: "הערת משלוח בינלאומי", name: "shippingIntlNote", widget: "string" }
+          - { label: "הערת משלוח בינלאומי", name: "shippingIntlNote", widget: "string", i18n: true }
 
       - name: "shipping"
         label: "מחירון משלוחים"
@@ -477,51 +510,55 @@ collections:
       - name: "payment"
         label: "פרטי תשלום (בעמוד יצירה)"
         file: "src/content/pages/payment.json"
+        i18n: true
         fields:
-          - { label: "תווית סקציה", name: "sectionLabel", widget: "string" }
-          - { label: "כותרת", name: "heading", widget: "string" }
-          - { label: "טקסט הסבר", name: "lead", widget: "text" }
-          - { label: "שם הבנק", name: "bankName", widget: "string" }
+          - { label: "תווית סקציה", name: "sectionLabel", widget: "string", i18n: true }
+          - { label: "כותרת", name: "heading", widget: "string", i18n: true }
+          - { label: "טקסט הסבר", name: "lead", widget: "text", i18n: true }
+          - { label: "שם הבנק", name: "bankName", widget: "string", i18n: true }
           - { label: "קוד בנק", name: "bankCode", widget: "string" }
           - { label: "סניף", name: "branch", widget: "string" }
           - { label: "מספר חשבון", name: "accountNumber", widget: "string" }
-          - { label: "שם בעל החשבון", name: "accountHolder", widget: "string" }
-          - { label: "הערה לגבי הודעת WhatsApp", name: "waNote", widget: "text" }
+          - { label: "שם בעל החשבון", name: "accountHolder", widget: "string", i18n: true }
+          - { label: "הערה לגבי הודעת WhatsApp", name: "waNote", widget: "text", i18n: true }
 
       - name: "purchaseButtons"
         label: "טקסטים משותפים בעמוד יצירה"
         file: "src/_data/purchaseButtons.json"
+        i18n: true
         fields:
-          - { label: "כותרת קטנה מעל אפשרויות רכישה", name: "optionsEyebrow", widget: "string" }
-          - { label: "כותרת: בחרו פורמט", name: "chooseFormatLabel", widget: "string" }
-          - { label: "טקסט: החל מ-", name: "startingFromLabel", widget: "string" }
-          - { label: "טקסט: נקו בחירה", name: "clearSelectionLabel", widget: "string" }
-          - { label: "טקסט: בחירה מרובה", name: "multiSelectLabel", widget: "string" }
-          - { label: "טקסט כפתור: הוסף הכל לעגלה (בחירה מרובה)", name: "addAllToCartLabel", widget: "string" }
-          - { label: "טקסט: X פריטים נבחרו (השאירו {count} ו-{total} במקום המספר והסכום)", name: "itemsSelectedLabel", widget: "string" }
-          - { label: "טקסט הנחיה בבחירה מרובה (מוצג לפני שנבחר משהו)", name: "multiSelectHintLabel", widget: "string" }
-          - { label: "טקסט כפתור: היצירה המקורית", name: "originalLabel", widget: "string" }
-          - { label: "טקסט כפתור: הדפס בעיטור ידני", name: "handEmbellishedLabel", widget: "string" }
-          - { label: "טקסט כפתור: הוספה לעגלה", name: "addToCartLabel", widget: "string" }
-          - { label: "טקסט כפתור: שאלות ב-WhatsApp", name: "whatsappQuestionLabel", widget: "string" }
-          - { label: "הודעת WhatsApp (השאירו {name} במקום שם היצירה)", name: "whatsappQuestionMessage", widget: "text" }
-          - { label: "כותרת סקציית פרטים", name: "detailsLabel", widget: "string" }
-          - { label: "טקסט רפרודוקציה (השאירו {medium} במקום הטכניקה)", name: "detailsReproductionText", widget: "text" }
-          - { label: "כותרת סקציית השראה", name: "inspirationLabel", widget: "string" }
-          - { label: "כותרת סקציית קולקציה", name: "collectionLabel", widget: "string" }
-          - { label: "טקסט קולקציה (השאירו {galleryMedium} ו-{brand} במקום)", name: "collectionText", widget: "text" }
-          - { label: "כותרת סקציית זכויות יוצרים", name: "copyrightLabel", widget: "string" }
-          - { label: "טקסט זכויות יוצרים (השאירו {brand} במקום שם המותג)", name: "copyrightText", widget: "text" }
-          - { label: "טקסט קישור למדיניות זכויות יוצרים", name: "copyrightLinkLabel", widget: "string" }
-          - { label: "הודעת WhatsApp - עיטור ידני (השאירו {name} במקום שם היצירה)", name: "handEmbellishedWaMessage", widget: "text" }
+          - { label: "כותרת קטנה מעל אפשרויות רכישה", name: "optionsEyebrow", widget: "string", i18n: true }
+          - { label: "כותרת: בחרו פורמט", name: "chooseFormatLabel", widget: "string", i18n: true }
+          - { label: "טקסט: החל מ-", name: "startingFromLabel", widget: "string", i18n: true }
+          - { label: "טקסט: נקו בחירה", name: "clearSelectionLabel", widget: "string", i18n: true }
+          - { label: "טקסט: בחירה מרובה", name: "multiSelectLabel", widget: "string", i18n: true }
+          - { label: "טקסט כפתור: הוסף הכל לעגלה (בחירה מרובה)", name: "addAllToCartLabel", widget: "string", i18n: true }
+          - { label: "טקסט: X פריטים נבחרו (השאירו {count} ו-{total} במקום המספר והסכום)", name: "itemsSelectedLabel", widget: "string", i18n: true }
+          - { label: "טקסט הנחיה בבחירה מרובה (מוצג לפני שנבחר משהו)", name: "multiSelectHintLabel", widget: "string", i18n: true }
+          - { label: "טקסט כפתור: היצירה המקורית", name: "originalLabel", widget: "string", i18n: true }
+          - { label: "טקסט כפתור: הדפס בעיטור ידני", name: "handEmbellishedLabel", widget: "string", i18n: true }
+          - { label: "טקסט כפתור: הוספה לעגלה", name: "addToCartLabel", widget: "string", i18n: true }
+          - { label: "טקסט כפתור: שאלות ב-WhatsApp", name: "whatsappQuestionLabel", widget: "string", i18n: true }
+          - { label: "הודעת WhatsApp (השאירו {name} במקום שם היצירה)", name: "whatsappQuestionMessage", widget: "text", i18n: true }
+          - { label: "כותרת סקציית פרטים", name: "detailsLabel", widget: "string", i18n: true }
+          - { label: "טקסט רפרודוקציה (השאירו {medium} במקום הטכניקה)", name: "detailsReproductionText", widget: "text", i18n: true }
+          - { label: "כותרת סקציית השראה", name: "inspirationLabel", widget: "string", i18n: true }
+          - { label: "כותרת סקציית קולקציה", name: "collectionLabel", widget: "string", i18n: true }
+          - { label: "טקסט קולקציה (השאירו {galleryMedium} ו-{brand} במקום)", name: "collectionText", widget: "text", i18n: true }
+          - { label: "כותרת סקציית זכויות יוצרים", name: "copyrightLabel", widget: "string", i18n: true }
+          - { label: "טקסט זכויות יוצרים (השאירו {brand} במקום שם המותג)", name: "copyrightText", widget: "text", i18n: true }
+          - { label: "טקסט קישור למדיניות זכויות יוצרים", name: "copyrightLinkLabel", widget: "string", i18n: true }
+          - { label: "הודעת WhatsApp - עיטור ידני (השאירו {name} במקום שם היצירה)", name: "handEmbellishedWaMessage", widget: "text", i18n: true }
 
       - name: "printQuality"
         label: "תוכן עומק - איכות ההדפסים (מוצג בכל עמוד יצירה)"
         file: "src/content/pages/printQuality.json"
+        i18n: true
         fields:
           - name: "poster"
             label: "פוסטר (נייר)"
             widget: "object"
+            i18n: true
             fields:
               - { label: "כותרת", name: "heading", widget: "string" }
               - { label: "טקסט", name: "text", widget: "text" }
@@ -531,6 +568,7 @@ collections:
           - name: "canvas"
             label: "קנבס מתוח"
             widget: "object"
+            i18n: true
             fields:
               - { label: "כותרת", name: "heading", widget: "string" }
               - { label: "טקסט", name: "text", widget: "text" }
@@ -540,6 +578,7 @@ collections:
           - name: "framed-print"
             label: "הדפס ממוסגר"
             widget: "object"
+            i18n: true
             fields:
               - { label: "כותרת", name: "heading", widget: "string" }
               - { label: "טקסט", name: "text", widget: "text" }
@@ -549,6 +588,7 @@ collections:
           - name: "limitedEdition"
             label: "מהדורה מוגבלת (יצירה מקורית זמינה)"
             widget: "object"
+            i18n: true
             fields:
               - { label: "כותרת", name: "heading", widget: "string" }
               - { label: "טקסט", name: "text", widget: "text" }
@@ -556,6 +596,7 @@ collections:
           - name: "handEmbellished"
             label: "הדפס בעיטור ידני (טקסט כללי, מוצג בכל יצירה שמסומנת כזמינה)"
             widget: "object"
+            i18n: true
             fields:
               - { label: "כותרת", name: "heading", widget: "string" }
               - { label: "טקסט", name: "text", widget: "text" }
@@ -563,83 +604,89 @@ collections:
 
   - name: "sitePages"
     label: "עמודי תוכן"
+    i18n: true
     files:
       - name: "about"
         label: "עמוד אודות"
         file: "src/content/pages/about.json"
+        i18n: true
         fields:
-          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
-          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
+          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string", i18n: true }
+          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text", i18n: true }
           - { label: "תמונת פורטרט", name: "portrait", widget: "image" }
-          - { label: "טקסט חלופי לפורטרט", name: "portraitAlt", widget: "string" }
+          - { label: "טקסט חלופי לפורטרט", name: "portraitAlt", widget: "string", i18n: true }
           - { label: "רוחב תצוגת הפורטרט", name: "portraitSize", widget: "select", options: [{ label: "קטן", value: "small" }, { label: "בינוני", value: "medium" }, { label: "רחב", value: "wide" }], default: "medium" }
           - { label: "מיקום הפורטרט", name: "portraitPosition", widget: "select", options: [{ label: "ימין", value: "right" }, { label: "שמאל", value: "left" }], default: "right" }
-          - { label: "כיתוב קטן בהירו", name: "heroEyebrow", widget: "string" }
-          - { label: "כותרת הירו", name: "heroHeading", widget: "string" }
-          - { label: "טקסט הירו", name: "heroLead", widget: "text" }
-          - { label: "תווית ביוגרפיה 1", name: "bioLabel1", widget: "string" }
-          - { label: "תווית ביוגרפיה 2", name: "bioLabel2", widget: "string" }
-          - { label: "פסקת פתיחה", name: "bioLead", widget: "text" }
-          - { label: "פסקאות ביוגרפיה", name: "bioParagraphs", widget: "list", field: { label: "פסקה", name: "text", widget: "text" } }
-          - { label: "תווית סקציית העולמות", name: "worldsLabel", widget: "string" }
+          - { label: "כיתוב קטן בהירו", name: "heroEyebrow", widget: "string", i18n: true }
+          - { label: "כותרת הירו", name: "heroHeading", widget: "string", i18n: true }
+          - { label: "טקסט הירו", name: "heroLead", widget: "text", i18n: true }
+          - { label: "תווית ביוגרפיה 1", name: "bioLabel1", widget: "string", i18n: true }
+          - { label: "תווית ביוגרפיה 2", name: "bioLabel2", widget: "string", i18n: true }
+          - { label: "פסקת פתיחה", name: "bioLead", widget: "text", i18n: true }
+          - { label: "פסקאות ביוגרפיה", name: "bioParagraphs", widget: "list", field: { label: "פסקה", name: "text", widget: "text" }, i18n: true }
+          - { label: "תווית סקציית העולמות", name: "worldsLabel", widget: "string", i18n: true }
           - name: "worlds"
             label: "שלושת העולמות"
             widget: "list"
+            i18n: true
             fields:
               - { label: "קישור", name: "href", widget: "string" }
               - { label: "תמונה", name: "image", widget: "image" }
               - { label: "טקסט חלופי", name: "alt", widget: "string" }
               - { label: "כיתוב קטן", name: "small", widget: "string" }
               - { label: "כותרת", name: "title", widget: "string" }
-          - { label: "תווית רגעים 1", name: "momentsLabel1", widget: "string" }
-          - { label: "תווית רגעים 2", name: "momentsLabel2", widget: "string" }
+          - { label: "תווית רגעים 1", name: "momentsLabel1", widget: "string", i18n: true }
+          - { label: "תווית רגעים 2", name: "momentsLabel2", widget: "string", i18n: true }
           - name: "moments"
             label: "מוזאיקת תמונות"
             widget: "list"
+            i18n: true
             fields:
               - { label: "תמונה", name: "image", widget: "image" }
               - { label: "טקסט חלופי", name: "alt", widget: "string" }
               - { label: "תמונה רחבה", name: "wide", widget: "boolean", required: false, default: false }
-          - { label: "ציטוט סיום", name: "closingQuote", widget: "string" }
-          - { label: "טקסט סיום", name: "closingText", widget: "text" }
-          - { label: "טקסט כפתור 1", name: "closingCta1Label", widget: "string" }
+          - { label: "ציטוט סיום", name: "closingQuote", widget: "string", i18n: true }
+          - { label: "טקסט סיום", name: "closingText", widget: "text", i18n: true }
+          - { label: "טקסט כפתור 1", name: "closingCta1Label", widget: "string", i18n: true }
           - { label: "קישור כפתור 1", name: "closingCta1Href", widget: "string" }
-          - { label: "טקסט כפתור 2", name: "closingCta2Label", widget: "string" }
+          - { label: "טקסט כפתור 2", name: "closingCta2Label", widget: "string", i18n: true }
           - { label: "קישור כפתור 2", name: "closingCta2Href", widget: "string" }
 
       - name: "commissions"
         label: "עמוד יצירות בהזמנה"
         file: "src/content/pages/commissions.json"
+        i18n: true
         fields:
-          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
-          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
+          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string", i18n: true }
+          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text", i18n: true }
           - { label: "להציג את אזור הפתיחה", name: "heroVisible", widget: "boolean", default: true }
-          - { label: "כיתוב קטן בהירו", name: "heroEyebrow", widget: "string", required: false }
-          - { label: "כותרת הירו", name: "heroHeading", widget: "string", required: false }
-          - { label: "טקסט הירו", name: "heroLead", widget: "text", required: false }
+          - { label: "כיתוב קטן בהירו", name: "heroEyebrow", widget: "string", required: false, i18n: true }
+          - { label: "כותרת הירו", name: "heroHeading", widget: "string", required: false, i18n: true }
+          - { label: "טקסט הירו", name: "heroLead", widget: "text", required: false, i18n: true }
           - { label: "תמונת הירו", name: "heroImage", widget: "image", required: false }
-          - { label: "טקסט חלופי לתמונה", name: "heroImageAlt", widget: "string", required: false }
+          - { label: "טקסט חלופי לתמונה", name: "heroImageAlt", widget: "string", required: false, i18n: true }
           - { label: "כיתוב מתחת לתמונה", name: "heroImageCaption", widget: "string", required: false }
-          - { label: "טקסט כפתור ראשי (גולל/פותח את הטופס)", name: "heroPrimaryCtaLabel", widget: "string", required: false }
-          - { label: "טקסט כפתור משני (גולל למסלולים)", name: "heroSecondaryCtaLabel", widget: "string", required: false }
+          - { label: "טקסט כפתור ראשי (גולל/פותח את הטופס)", name: "heroPrimaryCtaLabel", widget: "string", required: false, i18n: true }
+          - { label: "טקסט כפתור משני (גולל למסלולים)", name: "heroSecondaryCtaLabel", widget: "string", required: false, i18n: true }
           - { label: "להציג אזור סרטון הסבר", name: "introVideoVisible", widget: "boolean", default: true }
-          - { label: "תווית קטנה מעל הסרטון", name: "introVideoLabel", widget: "string", required: false }
-          - { label: "כותרת הסרטון", name: "introVideoHeading", widget: "string", required: false }
-          - { label: "טקסט ליד הסרטון", name: "introVideoText", widget: "text", required: false }
+          - { label: "תווית קטנה מעל הסרטון", name: "introVideoLabel", widget: "string", required: false, i18n: true }
+          - { label: "כותרת הסרטון", name: "introVideoHeading", widget: "string", required: false, i18n: true }
+          - { label: "טקסט ליד הסרטון", name: "introVideoText", widget: "text", required: false, i18n: true }
           - { label: "קישור חיצוני לסרטון (יוטיוב/וימאו) - עדיפות לקובץ מקומי אם קיים", name: "introVideoUrl", widget: "string", required: false }
           - { label: "קובץ וידאו מקומי", name: "introVideoFile", widget: "file", required: false }
           - { label: "תמונת כיסוי לסרטון", name: "introVideoPoster", widget: "image", required: false }
           - { label: "טקסט חלופי לתמונת הכיסוי", name: "introVideoPosterAlt", widget: "string", required: false }
           - { label: "להציג את המסלולים", name: "worksVisible", widget: "boolean", default: true }
-          - { label: "תווית סקציית המסלולים", name: "worksLabel", widget: "string", required: false }
-          - { label: "כותרת סקציית המסלולים", name: "worksHeading", widget: "string", required: false }
-          - { label: "טקסט סקציית המסלולים", name: "worksLead", widget: "text", required: false }
-          - { label: "תווית 'מסלול מומלץ'", name: "recommendedLabel", widget: "string", required: false }
+          - { label: "תווית סקציית המסלולים", name: "worksLabel", widget: "string", required: false, i18n: true }
+          - { label: "כותרת סקציית המסלולים", name: "worksHeading", widget: "string", required: false, i18n: true }
+          - { label: "טקסט סקציית המסלולים", name: "worksLead", widget: "text", required: false, i18n: true }
+          - { label: "תווית 'מסלול מומלץ'", name: "recommendedLabel", widget: "string", required: false, i18n: true }
           - name: "works"
             label: "מסלולי ההזמנה"
             widget: "list"
             required: false
             summary: "{{fields.title}}"
+            i18n: true
             fields:
               - { label: "להציג את המסלול", name: "visible", widget: "boolean", default: true }
               - { label: "שם המסלול", name: "title", widget: "string", required: false }
@@ -658,40 +705,41 @@ collections:
               - { label: "טקסט כפתור המסלול", name: "pathCtaLabel", widget: "string", required: false }
               - { label: "הודעת WhatsApp", name: "waMessage", widget: "text", required: false }
           - { label: "להציג את טופס הפנייה", name: "inquiryVisible", widget: "boolean", default: true }
-          - { label: "תווית טופס הפנייה", name: "inquiryLabel", widget: "string", required: false }
-          - { label: "כותרת טופס הפנייה", name: "inquiryHeading", widget: "string", required: false }
-          - { label: "טקסט טופס הפנייה", name: "inquiryText", widget: "text", required: false }
-          - { label: "הערת פרטיות", name: "inquiryNote", widget: "text", required: false }
-          - { label: "תווית שדה: שם", name: "inquiryNameLabel", widget: "string", required: false }
-          - { label: "תווית שדה: טלפון/אימייל", name: "inquiryContactLabel", widget: "string", required: false }
-          - { label: "תווית שדה: בחירת מסלול", name: "inquiryPathLabel", widget: "string", required: false }
-          - { label: "תווית שדה: עבור מי", name: "inquiryPurposeLabel", widget: "string", required: false }
-          - { label: "אפשרויות 'עבור מי'", name: "inquiryPurposeOptions", widget: "list", required: false, field: { label: "אפשרות", name: "item", widget: "string" } }
-          - { label: "תווית שדה: כמה מילים על הבקשה", name: "inquiryMessageLabel", widget: "string", required: false }
-          - { label: "תווית שדה: טווח תקציב", name: "inquiryBudgetLabel", widget: "string", required: false }
-          - { label: "אפשרויות טווח תקציב", name: "inquiryBudgetOptions", widget: "list", required: false, field: { label: "אפשרות", name: "item", widget: "string" } }
-          - { label: "תווית אישור מדיניות פרטיות", name: "inquiryPrivacyLabel", widget: "string", required: false }
-          - { label: "טקסט קישור למדיניות הפרטיות", name: "inquiryPrivacyLinkLabel", widget: "string", required: false }
-          - { label: "טקסט כפתור השליחה", name: "inquirySubmitLabel", widget: "string", required: false }
-          - { label: "הודעת הצלחה אחרי שליחה", name: "inquirySuccessMessage", widget: "string", required: false }
+          - { label: "תווית טופס הפנייה", name: "inquiryLabel", widget: "string", required: false, i18n: true }
+          - { label: "כותרת טופס הפנייה", name: "inquiryHeading", widget: "string", required: false, i18n: true }
+          - { label: "טקסט טופס הפנייה", name: "inquiryText", widget: "text", required: false, i18n: true }
+          - { label: "הערת פרטיות", name: "inquiryNote", widget: "text", required: false, i18n: true }
+          - { label: "תווית שדה: שם", name: "inquiryNameLabel", widget: "string", required: false, i18n: true }
+          - { label: "תווית שדה: טלפון/אימייל", name: "inquiryContactLabel", widget: "string", required: false, i18n: true }
+          - { label: "תווית שדה: בחירת מסלול", name: "inquiryPathLabel", widget: "string", required: false, i18n: true }
+          - { label: "תווית שדה: עבור מי", name: "inquiryPurposeLabel", widget: "string", required: false, i18n: true }
+          - { label: "אפשרויות 'עבור מי'", name: "inquiryPurposeOptions", widget: "list", required: false, field: { label: "אפשרות", name: "item", widget: "string" }, i18n: true }
+          - { label: "תווית שדה: כמה מילים על הבקשה", name: "inquiryMessageLabel", widget: "string", required: false, i18n: true }
+          - { label: "תווית שדה: טווח תקציב", name: "inquiryBudgetLabel", widget: "string", required: false, i18n: true }
+          - { label: "אפשרויות טווח תקציב", name: "inquiryBudgetOptions", widget: "list", required: false, field: { label: "אפשרות", name: "item", widget: "string" }, i18n: true }
+          - { label: "תווית אישור מדיניות פרטיות", name: "inquiryPrivacyLabel", widget: "string", required: false, i18n: true }
+          - { label: "טקסט קישור למדיניות הפרטיות", name: "inquiryPrivacyLinkLabel", widget: "string", required: false, i18n: true }
+          - { label: "טקסט כפתור השליחה", name: "inquirySubmitLabel", widget: "string", required: false, i18n: true }
+          - { label: "הודעת הצלחה אחרי שליחה", name: "inquirySuccessMessage", widget: "string", required: false, i18n: true }
           - { label: "להציג את שלבי התהליך", name: "processVisible", widget: "boolean", default: true }
-          - { label: "תווית תהליך", name: "processLabel", widget: "string", required: false }
-          - { label: "כותרת תהליך", name: "processHeading", widget: "string", required: false }
-          - { label: "טקסט תהליך", name: "processLead", widget: "text", required: false }
+          - { label: "תווית תהליך", name: "processLabel", widget: "string", required: false, i18n: true }
+          - { label: "כותרת תהליך", name: "processHeading", widget: "string", required: false, i18n: true }
+          - { label: "טקסט תהליך", name: "processLead", widget: "text", required: false, i18n: true }
           - name: "steps"
             label: "שלבי התהליך"
             widget: "list"
             required: false
             summary: "{{fields.title}}"
+            i18n: true
             fields:
               - { label: "להציג את השלב", name: "visible", widget: "boolean", default: true }
               - { label: "כותרת", name: "title", widget: "string", required: false }
               - { label: "טקסט", name: "text", widget: "text", required: false }
               - { label: "אייקון (לא חובה)", name: "icon", widget: "image", required: false }
           - { label: "להציג סיפורים ותהליכים אמיתיים", name: "caseStudiesVisible", widget: "boolean", default: true }
-          - { label: "תווית סקציית סיפורים", name: "caseStudiesLabel", widget: "string", required: false }
-          - { label: "כותרת סקציית סיפורים", name: "caseStudiesHeading", widget: "string", required: false }
-          - { label: "טקסט סקציית סיפורים", name: "caseStudiesLead", widget: "text", required: false }
+          - { label: "תווית סקציית סיפורים", name: "caseStudiesLabel", widget: "string", required: false, i18n: true }
+          - { label: "כותרת סקציית סיפורים", name: "caseStudiesHeading", widget: "string", required: false, i18n: true }
+          - { label: "טקסט סקציית סיפורים", name: "caseStudiesLead", widget: "text", required: false, i18n: true }
           - name: "caseStudies"
             label: "סיפורים ותהליכים אמיתיים"
             widget: "list"
@@ -710,23 +758,24 @@ collections:
               - { label: "תמונת כיסוי לעדות הווידאו", name: "testimonialVideoPoster", widget: "image", required: false }
               - { label: "משך יצירת העבודה (לא חובה)", name: "duration", widget: "string", required: false }
           - { label: "להציג את אזור ההערות", name: "notesVisible", widget: "boolean", default: true }
-          - { label: "תווית הערות", name: "notesLabel", widget: "string", required: false }
-          - { label: "כותרת הערות", name: "notesHeading", widget: "string", required: false }
-          - { label: "רשימת הערות", name: "notes", widget: "list", required: false, field: { label: "הערה", name: "text", widget: "string" } }
+          - { label: "תווית הערות", name: "notesLabel", widget: "string", required: false, i18n: true }
+          - { label: "כותרת הערות", name: "notesHeading", widget: "string", required: false, i18n: true }
+          - { label: "רשימת הערות", name: "notes", widget: "list", required: false, field: { label: "הערה", name: "text", widget: "string" }, i18n: true }
           - { label: "להציג את המסלול הבלעדי כסקציה נפרדת (כפול לכרטיס השלישי - השאירו כבוי)", name: "exclusiveVisible", widget: "boolean", default: true }
-          - { label: "תווית מסלול בלעדי", name: "exclusiveLabel", widget: "string", required: false }
-          - { label: "כותרת מסלול בלעדי", name: "exclusiveHeading", widget: "string", required: false }
-          - { label: "פסקאות מסלול בלעדי", name: "exclusiveParagraphs", widget: "list", required: false, field: { label: "פסקה", name: "text", widget: "text" } }
-          - { label: "טקסט כפתור מסלול בלעדי", name: "exclusiveCtaLabel", widget: "string", required: false }
-          - { label: "הודעת WhatsApp - מסלול בלעדי", name: "exclusiveWaMessage", widget: "text", required: false }
+          - { label: "תווית מסלול בלעדי", name: "exclusiveLabel", widget: "string", required: false, i18n: true }
+          - { label: "כותרת מסלול בלעדי", name: "exclusiveHeading", widget: "string", required: false, i18n: true }
+          - { label: "פסקאות מסלול בלעדי", name: "exclusiveParagraphs", widget: "list", required: false, field: { label: "פסקה", name: "text", widget: "text" }, i18n: true }
+          - { label: "טקסט כפתור מסלול בלעדי", name: "exclusiveCtaLabel", widget: "string", required: false, i18n: true }
+          - { label: "הודעת WhatsApp - מסלול בלעדי", name: "exclusiveWaMessage", widget: "text", required: false, i18n: true }
           - { label: "להציג שאלות נפוצות", name: "faqVisible", widget: "boolean", default: true }
-          - { label: "תווית שאלות נפוצות", name: "faqLabel", widget: "string", required: false }
-          - { label: "כותרת שאלות נפוצות", name: "faqHeading", widget: "string", required: false }
+          - { label: "תווית שאלות נפוצות", name: "faqLabel", widget: "string", required: false, i18n: true }
+          - { label: "כותרת שאלות נפוצות", name: "faqHeading", widget: "string", required: false, i18n: true }
           - name: "faq"
             label: "שאלות ותשובות"
             widget: "list"
             required: false
             summary: "{{fields.q}}"
+            i18n: true
             fields:
               - { label: "להציג את השאלה", name: "visible", widget: "boolean", default: true }
               - { label: "שאלה", name: "q", widget: "string", required: false }
@@ -735,16 +784,17 @@ collections:
       - name: "workshopsIndex"
         label: "עמוד סדנאות ראשי (/workshops/)"
         file: "src/content/pages/workshopsIndex.json"
+        i18n: true
         fields:
-          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
-          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
+          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string", i18n: true }
+          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text", i18n: true }
           - { label: "כיתוב פתיחה (השאירו {brand} במקום שם המותג)", name: "heroEyebrow", widget: "string", required: false }
           - { label: "כותרת פתיחה (אפשר &lt;br&gt; לשורה חדשה)", name: "introHeading", widget: "string", required: false }
           - { label: "טקסט פתיחה", name: "introText", widget: "text", required: false }
-          - { label: "טקסט כפתור 'לפרטי הסדנה' על הכרטיסים", name: "cardDetailsCtaLabel", widget: "string" }
+          - { label: "טקסט כפתור 'לפרטי הסדנה' על הכרטיסים", name: "cardDetailsCtaLabel", widget: "string", i18n: true }
           - { label: "להציג סרטון פרומו", name: "promoVideoVisible", widget: "boolean", default: true }
-          - { label: "כותרת סרטון פרומו", name: "promoVideoHeading", widget: "string", required: false }
-          - { label: "טקסט סרטון פרומו", name: "promoVideoText", widget: "text", required: false }
+          - { label: "כותרת סרטון פרומו", name: "promoVideoHeading", widget: "string", required: false, i18n: true }
+          - { label: "טקסט סרטון פרומו", name: "promoVideoText", widget: "text", required: false, i18n: true }
           - { label: "סוג הווידאו", name: "promoVideoType", widget: "select", options: [{ label: "קובץ מקומי", value: "local" }, { label: "יוטיוב", value: "youtube" }, { label: "וימאו", value: "vimeo" }], default: "local" }
           - { label: "קובץ וידאו מקומי (אם סוג = קובץ מקומי)", name: "promoVideoFile", widget: "file", required: false }
           - { label: "קישור יוטיוב/וימאו (אם סוג = יוטיוב/וימאו)", name: "promoVideoUrl", widget: "string", required: false }
@@ -757,11 +807,11 @@ collections:
           - { label: "כהות (פילטר כהה) על הסרטון הראשי", name: "heroVideoOverlay", widget: "boolean", default: false, hint: "מדמה/כבה שכבת כהות מעל הסרטון. שימושי אם יש כיתוב לבן מעל הסרטון שצריך רקע כהה לקריאות - אחרת עדיף כבוי כדי לראות את הסרטון בבהירות מלאה" }
           - { label: "גובה תמונות כרטיסי הסדנאות (בפיקסלים)", name: "cardImageHeight", widget: "number", default: 140, hint: "התאימו יחד עם גובה הסרטון כדי שהכל יכנס למסך בלי גלילה" }
           - { label: "מרווח בין הטקסטים בכרטיסי הסדנאות (בפיקסלים)", name: "cardTextGap", widget: "number", default: 3, hint: "ככל שהערך קטן יותר, הטקסט והכפתור צמודים יותר - מפנה מקום להגדלת גובה התמונה" }
-          - { label: "תווית סקציית חוות דעת (ישנה, לא בשימוש בעמוד הראשי כרגע)", name: "reviewsLabel", widget: "string", required: false }
-          - { label: "כותרת סקציית חוות דעת (ישנה, לא בשימוש בעמוד הראשי כרגע)", name: "reviewsHeading", widget: "string", required: false }
+          - { label: "תווית סקציית חוות דעת (ישנה, לא בשימוש בעמוד הראשי כרגע)", name: "reviewsLabel", widget: "string", required: false, i18n: true }
+          - { label: "כותרת סקציית חוות דעת (ישנה, לא בשימוש בעמוד הראשי כרגע)", name: "reviewsHeading", widget: "string", required: false, i18n: true }
           - { label: "ציון דירוג (ישן, לא בשימוש בעמוד הראשי כרגע)", name: "reviewsRatingValue", widget: "string", required: false }
-          - { label: "טקסט נגישות לדירוג (ישן)", name: "reviewsRatingAriaLabel", widget: "string", required: false }
-          - { label: "טקסט מספר חוות הדעת (ישן)", name: "reviewsCountLabel", widget: "string", required: false }
+          - { label: "טקסט נגישות לדירוג (ישן)", name: "reviewsRatingAriaLabel", widget: "string", required: false, i18n: true }
+          - { label: "טקסט מספר חוות הדעת (ישן)", name: "reviewsCountLabel", widget: "string", required: false, i18n: true }
           - name: "featuredReview"
             label: "חוות דעת ישנה (לא מוצגת יותר בעמוד הראשי - הוחלפה בעדויות אמיתיות מהסדנאות)"
             widget: "object"
@@ -773,33 +823,35 @@ collections:
               - { label: "טקסט נגישות לכוכבים", name: "starsAriaLabel", widget: "string", required: false }
               - { label: "תקציר", name: "excerpt", widget: "text", required: false }
               - { label: "טקסט מלא", name: "fullText", widget: "text", required: false }
-          - { label: "כיתוב השוואת מסלולים", name: "pickerEyebrow", widget: "string" }
-          - { label: "כותרת השוואת מסלולים (אפשר &lt;br&gt; לשורה חדשה)", name: "pickerHeading", widget: "string" }
-          - { label: "טקסט השוואת מסלולים", name: "pickerText", widget: "text" }
+          - { label: "כיתוב השוואת מסלולים", name: "pickerEyebrow", widget: "string", i18n: true }
+          - { label: "כותרת השוואת מסלולים (אפשר &lt;br&gt; לשורה חדשה)", name: "pickerHeading", widget: "string", i18n: true }
+          - { label: "טקסט השוואת מסלולים", name: "pickerText", widget: "text", i18n: true }
           - { label: "להציג את טבלת ההשוואה", name: "comparisonVisible", widget: "boolean", default: true }
-          - { label: "תווית עמודה: מתאים למי", name: "comparisonPersonaLabel", widget: "string", required: false }
-          - { label: "תווית עמודה: אופי התהליך", name: "comparisonProcessLabel", widget: "string", required: false }
-          - { label: "תווית עמודה: משך/תדירות", name: "comparisonDurationLabel", widget: "string", required: false }
+          - { label: "תווית עמודה: מתאים למי", name: "comparisonPersonaLabel", widget: "string", required: false, i18n: true }
+          - { label: "תווית עמודה: אופי התהליך", name: "comparisonProcessLabel", widget: "string", required: false, i18n: true }
+          - { label: "תווית עמודה: משך/תדירות", name: "comparisonDurationLabel", widget: "string", required: false, i18n: true }
           - { label: "להציג עדויות אמיתיות מהסדנאות", name: "testimonialsVisible", widget: "boolean", default: true }
-          - { label: "כיתוב עדויות", name: "testimonialsEyebrow", widget: "string", required: false }
-          - { label: "כותרת עדויות", name: "testimonialsHeading", widget: "string", required: false }
-          - { label: "כיתוב יצירת קשר", name: "contactEyebrow", widget: "string" }
-          - { label: "כותרת יצירת קשר (אפשר &lt;br&gt; לשורה חדשה)", name: "contactHeading", widget: "string" }
-          - { label: "טקסט יצירת קשר", name: "contactText", widget: "text" }
-          - { label: "טקסט כפתור יצירת קשר", name: "contactCtaLabel", widget: "string" }
-          - { label: "הודעת WhatsApp - יצירת קשר", name: "contactWaMessage", widget: "text" }
+          - { label: "כיתוב עדויות", name: "testimonialsEyebrow", widget: "string", required: false, i18n: true }
+          - { label: "כותרת עדויות", name: "testimonialsHeading", widget: "string", required: false, i18n: true }
+          - { label: "כיתוב יצירת קשר", name: "contactEyebrow", widget: "string", i18n: true }
+          - { label: "כותרת יצירת קשר (אפשר &lt;br&gt; לשורה חדשה)", name: "contactHeading", widget: "string", i18n: true }
+          - { label: "טקסט יצירת קשר", name: "contactText", widget: "text", i18n: true }
+          - { label: "טקסט כפתור יצירת קשר", name: "contactCtaLabel", widget: "string", i18n: true }
+          - { label: "הודעת WhatsApp - יצירת קשר", name: "contactWaMessage", widget: "text", i18n: true }
 
       - name: "portfolio"
         label: "עמוד גלריה וקטגוריות"
         file: "src/content/pages/portfolio.json"
+        i18n: true
         fields:
-          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
-          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
-          - { label: "כותרת העמוד", name: "heroHeading", widget: "string" }
+          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string", i18n: true }
+          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text", i18n: true }
+          - { label: "כותרת העמוד", name: "heroHeading", widget: "string", i18n: true }
           - name: "categories"
             label: "קטגוריות הגלריה"
             widget: "list"
             summary: "{{fields.title}}"
+            i18n: true
             fields:
               - { label: "מזהה לקישור באנגלית", name: "slug", widget: "string", hint: "אותיות קטנות ומקפים בלבד. שינוי השדה ישנה את כתובת העמוד." }
               - { label: "כותרת הקטגוריה", name: "title", widget: "string" }
@@ -821,75 +873,82 @@ collections:
       - name: "contact"
         label: "עמוד יצירת קשר"
         file: "src/content/pages/contact.json"
+        i18n: true
         fields:
-          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
-          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
+          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string", i18n: true }
+          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text", i18n: true }
           - { label: "תמונת פורטרט", name: "portrait", widget: "image" }
-          - { label: "טקסט חלופי לפורטרט", name: "portraitAlt", widget: "string" }
-          - { label: "כיתוב קטן בהירו", name: "heroEyebrow", widget: "string" }
-          - { label: "כותרת הירו (אפשר <br> לשבירת שורה)", name: "heroHeading", widget: "string" }
-          - { label: "טקסט הירו", name: "heroLead", widget: "text" }
-          - { label: "תווית סקציית המיילים", name: "emailsLabel", widget: "string" }
-          - { label: "כותרת בלוק פרטי העסק", name: "businessLabel", widget: "string", required: false, hint: "הפרטים עצמם נערכים ב'הגדרות אתר כלליות'" }
+          - { label: "טקסט חלופי לפורטרט", name: "portraitAlt", widget: "string", i18n: true }
+          - { label: "כיתוב קטן בהירו", name: "heroEyebrow", widget: "string", i18n: true }
+          - { label: "כותרת הירו (אפשר <br> לשבירת שורה)", name: "heroHeading", widget: "string", i18n: true }
+          - { label: "טקסט הירו", name: "heroLead", widget: "text", i18n: true }
+          - { label: "תווית סקציית המיילים", name: "emailsLabel", widget: "string", i18n: true }
+          - { label: "כותרת בלוק פרטי העסק", name: "businessLabel", widget: "string", required: false, hint: "הפרטים עצמם נערכים ב'הגדרות אתר כלליות'", i18n: true }
           - name: "emails"
             label: "כתובות מייל"
             widget: "list"
+            i18n: true
             fields:
               - { label: "תיאור (למה מיועד המייל)", name: "label", widget: "string" }
               - { label: "כתובת מייל", name: "address", widget: "string" }
-          - { label: "טקסט כפתור WhatsApp", name: "waCtaLabel", widget: "string" }
-          - { label: "הודעת WhatsApp", name: "waMessage", widget: "text" }
-          - { label: "תווית סקציית רשתות חברתיות", name: "socialLabel", widget: "string" }
-          - { label: "כותרת סקציית רשתות חברתיות", name: "socialHeading", widget: "string" }
-          - { label: "טקסט זכויות יוצרים", name: "legalNote", widget: "text" }
-          - { label: "טקסט קישור למדיניות זכויות יוצרים", name: "legalCtaLabel", widget: "string" }
+          - { label: "טקסט כפתור WhatsApp", name: "waCtaLabel", widget: "string", i18n: true }
+          - { label: "הודעת WhatsApp", name: "waMessage", widget: "text", i18n: true }
+          - { label: "תווית סקציית רשתות חברתיות", name: "socialLabel", widget: "string", i18n: true }
+          - { label: "כותרת סקציית רשתות חברתיות", name: "socialHeading", widget: "string", i18n: true }
+          - { label: "טקסט זכויות יוצרים", name: "legalNote", widget: "text", i18n: true }
+          - { label: "טקסט קישור למדיניות זכויות יוצרים", name: "legalCtaLabel", widget: "string", i18n: true }
 
       - name: "thankYou"
         label: "עמוד תודה (אחרי הזמנה)"
         file: "src/content/pages/thankYou.json"
+        i18n: true
         fields:
-          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
-          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
-          - { label: "כותרת - בזמן בדיקת הסטטוס", name: "checkingHeading", widget: "string" }
-          - { label: "טקסט - בזמן בדיקת הסטטוס", name: "checkingLead", widget: "text" }
-          - { label: "כותרת - תשלום אושר", name: "heading", widget: "string" }
-          - { label: "טקסט פתיחה - תשלום אושר", name: "lead", widget: "text" }
-          - { label: "כותרת - תשלום בבדיקה", name: "pendingHeading", widget: "string" }
-          - { label: "טקסט - תשלום בבדיקה", name: "pendingLead", widget: "text" }
-          - { label: "כותרת - התשלום נכשל", name: "failedHeading", widget: "string" }
-          - { label: "טקסט - התשלום נכשל", name: "failedLead", widget: "text" }
-          - { label: "כותרת - הזמנה לא נמצאה", name: "notFoundHeading", widget: "string" }
-          - { label: "טקסט - הזמנה לא נמצאה", name: "notFoundLead", widget: "text" }
-          - { label: "הערה (מוצגת בכל המצבים)", name: "note", widget: "text" }
-          - { label: "טקסט כפתור 1", name: "ctaLabel", widget: "string" }
+          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string", i18n: true }
+          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text", i18n: true }
+          - { label: "כותרת - בזמן בדיקת הסטטוס", name: "checkingHeading", widget: "string", i18n: true }
+          - { label: "טקסט - בזמן בדיקת הסטטוס", name: "checkingLead", widget: "text", i18n: true }
+          - { label: "כותרת - תשלום אושר", name: "heading", widget: "string", i18n: true }
+          - { label: "טקסט פתיחה - תשלום אושר", name: "lead", widget: "text", i18n: true }
+          - { label: "כותרת - תשלום בבדיקה", name: "pendingHeading", widget: "string", i18n: true }
+          - { label: "טקסט - תשלום בבדיקה", name: "pendingLead", widget: "text", i18n: true }
+          - { label: "כותרת - התשלום נכשל", name: "failedHeading", widget: "string", i18n: true }
+          - { label: "טקסט - התשלום נכשל", name: "failedLead", widget: "text", i18n: true }
+          - { label: "כותרת - הזמנה לא נמצאה", name: "notFoundHeading", widget: "string", i18n: true }
+          - { label: "טקסט - הזמנה לא נמצאה", name: "notFoundLead", widget: "text", i18n: true }
+          - { label: "הערה (מוצגת בכל המצבים)", name: "note", widget: "text", i18n: true }
+          - { label: "טקסט כפתור 1", name: "ctaLabel", widget: "string", i18n: true }
           - { label: "קישור כפתור 1", name: "ctaHref", widget: "string" }
-          - { label: "טקסט כפתור 2", name: "contactCtaLabel", widget: "string" }
+          - { label: "טקסט כפתור 2", name: "contactCtaLabel", widget: "string", i18n: true }
           - { label: "קישור כפתור 2", name: "contactCtaHref", widget: "string" }
 
   - name: "legalPages"
     label: "מדיניות ומשפט"
+    i18n: true
     files:
       - name: "rights"
         label: "עמוד זכויות יוצרים"
         file: "src/content/pages/rights.json"
+        i18n: true
         fields:
-          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
-          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
-          - { label: "כיתוב קטן בהירו", name: "heroEyebrow", widget: "string" }
-          - { label: "כותרת הירו", name: "heroHeading", widget: "string" }
-          - { label: "טקסט הירו", name: "heroLead", widget: "text" }
-          - { label: "תווית 'הכללים בקצרה'", name: "quickLabel", widget: "string" }
+          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string", i18n: true }
+          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text", i18n: true }
+          - { label: "כיתוב קטן בהירו", name: "heroEyebrow", widget: "string", i18n: true }
+          - { label: "כותרת הירו", name: "heroHeading", widget: "string", i18n: true }
+          - { label: "טקסט הירו", name: "heroLead", widget: "text", i18n: true }
+          - { label: "תווית 'הכללים בקצרה'", name: "quickLabel", widget: "string", i18n: true }
           - name: "quick"
             label: "כללים בקצרה (3)"
             widget: "list"
+            i18n: true
             fields:
               - { label: "כותרת", name: "title", widget: "string" }
               - { label: "טקסט", name: "text", widget: "text" }
-          - { label: "תווית מדיניות 1", name: "policyLabel1", widget: "string" }
-          - { label: "תווית מדיניות 2 (תאריך עדכון)", name: "policyLabel2", widget: "string" }
+          - { label: "תווית מדיניות 1", name: "policyLabel1", widget: "string", i18n: true }
+          - { label: "תווית מדיניות 2 (תאריך עדכון)", name: "policyLabel2", widget: "string", i18n: true }
           - name: "policy"
             label: "סעיפי המדיניות"
             widget: "list"
+            i18n: true
             fields:
               - { label: "כותרת", name: "heading", widget: "string" }
               - { label: "להדגיש ברקע נחושת?", name: "highlight", widget: "boolean", default: false }
@@ -903,90 +962,98 @@ collections:
                 fields:
                   - { label: "טקסט", name: "label", widget: "string" }
                   - { label: "קישור", name: "href", widget: "string" }
-          - { label: "הערה משפטית", name: "legalNote", widget: "text" }
+          - { label: "הערה משפטית", name: "legalNote", widget: "text", i18n: true }
 
       - name: "returns"
         label: "עמוד ביטולים והחזרים"
         file: "src/content/pages/returns.json"
+        i18n: true
         fields:
-          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
-          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
-          - { label: "כיתוב קטן בהירו", name: "heroEyebrow", widget: "string" }
-          - { label: "כותרת הירו", name: "heroHeading", widget: "string" }
-          - { label: "טקסט הירו", name: "heroLead", widget: "text" }
-          - { label: "תווית תאריך עדכון (למשל 'עודכן לאחרונה: אוגוסט 2026')", name: "updatedLabel", widget: "string", required: false }
-          - { label: "כותרת בלוק פרטי הקשר לביטול", name: "identityHeading", widget: "string", required: false }
-          - { label: "הודעת WhatsApp מוכנה לביטול", name: "waMessage", widget: "text", required: false }
+          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string", i18n: true }
+          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text", i18n: true }
+          - { label: "כיתוב קטן בהירו", name: "heroEyebrow", widget: "string", i18n: true }
+          - { label: "כותרת הירו", name: "heroHeading", widget: "string", i18n: true }
+          - { label: "טקסט הירו", name: "heroLead", widget: "text", i18n: true }
+          - { label: "תווית תאריך עדכון (למשל 'עודכן לאחרונה: אוגוסט 2026')", name: "updatedLabel", widget: "string", required: false, i18n: true }
+          - { label: "כותרת בלוק פרטי הקשר לביטול", name: "identityHeading", widget: "string", required: false, i18n: true }
+          - { label: "הודעת WhatsApp מוכנה לביטול", name: "waMessage", widget: "text", required: false, i18n: true }
           - name: "sections"
             label: "סעיפי המדיניות"
             widget: "list"
+            i18n: true
             fields:
               - { label: "כותרת", name: "heading", widget: "string" }
               - { label: "פסקאות", name: "paragraphs", widget: "list", field: { label: "פסקה", name: "text", widget: "text" } }
               - { label: "רשימת נקודות (אופציונלי)", name: "bullets", widget: "list", required: false, field: { label: "נקודה", name: "text", widget: "text" } }
-          - { label: "הערה משפטית", name: "legalNote", widget: "text" }
+          - { label: "הערה משפטית", name: "legalNote", widget: "text", i18n: true }
 
       - name: "privacy"
         label: "עמוד מדיניות פרטיות"
         file: "src/content/pages/privacy.json"
+        i18n: true
         fields:
-          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
-          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
-          - { label: "כיתוב קטן בהירו", name: "heroEyebrow", widget: "string" }
-          - { label: "כותרת הירו", name: "heroHeading", widget: "string" }
-          - { label: "טקסט הירו", name: "heroLead", widget: "text" }
-          - { label: "תווית תאריך עדכון (למשל 'עודכן לאחרונה: אוגוסט 2026')", name: "updatedLabel", widget: "string", required: false }
-          - { label: "כותרת בלוק פרטי בעל המידע", name: "identityHeading", widget: "string", required: false }
-          - { label: "הודעת WhatsApp מוכנה לפניית פרטיות", name: "waMessage", widget: "text", required: false }
+          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string", i18n: true }
+          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text", i18n: true }
+          - { label: "כיתוב קטן בהירו", name: "heroEyebrow", widget: "string", i18n: true }
+          - { label: "כותרת הירו", name: "heroHeading", widget: "string", i18n: true }
+          - { label: "טקסט הירו", name: "heroLead", widget: "text", i18n: true }
+          - { label: "תווית תאריך עדכון (למשל 'עודכן לאחרונה: אוגוסט 2026')", name: "updatedLabel", widget: "string", required: false, i18n: true }
+          - { label: "כותרת בלוק פרטי בעל המידע", name: "identityHeading", widget: "string", required: false, i18n: true }
+          - { label: "הודעת WhatsApp מוכנה לפניית פרטיות", name: "waMessage", widget: "text", required: false, i18n: true }
           - name: "sections"
             label: "סעיפי המדיניות"
             widget: "list"
+            i18n: true
             fields:
               - { label: "כותרת", name: "heading", widget: "string" }
               - { label: "פסקאות", name: "paragraphs", widget: "list", field: { label: "פסקה", name: "text", widget: "text" } }
               - { label: "רשימת נקודות (אופציונלי)", name: "bullets", widget: "list", required: false, field: { label: "נקודה", name: "text", widget: "text" } }
-          - { label: "הערה משפטית", name: "legalNote", widget: "text" }
+          - { label: "הערה משפטית", name: "legalNote", widget: "text", i18n: true }
 
       - name: "terms"
         label: "עמוד תקנון ומדיניות רכישה"
         file: "src/content/pages/terms.json"
+        i18n: true
         fields:
-          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
-          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
-          - { label: "כיתוב קטן בהירו", name: "heroEyebrow", widget: "string" }
-          - { label: "כותרת הירו", name: "heroHeading", widget: "string" }
-          - { label: "טקסט הירו", name: "heroLead", widget: "text" }
-          - { label: "תווית תאריך עדכון", name: "updatedLabel", widget: "string", required: false }
-          - { label: "כותרת בלוק פרטי העוסק", name: "identityHeading", widget: "string", required: false }
+          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string", i18n: true }
+          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text", i18n: true }
+          - { label: "כיתוב קטן בהירו", name: "heroEyebrow", widget: "string", i18n: true }
+          - { label: "כותרת הירו", name: "heroHeading", widget: "string", i18n: true }
+          - { label: "טקסט הירו", name: "heroLead", widget: "text", i18n: true }
+          - { label: "תווית תאריך עדכון", name: "updatedLabel", widget: "string", required: false, i18n: true }
+          - { label: "כותרת בלוק פרטי העוסק", name: "identityHeading", widget: "string", required: false, i18n: true }
           - name: "sections"
             label: "סעיפי התקנון"
             widget: "list"
+            i18n: true
             fields:
               - { label: "כותרת", name: "heading", widget: "string" }
               - { label: "פסקאות", name: "paragraphs", widget: "list", field: { label: "פסקה", name: "text", widget: "text" } }
               - { label: "רשימת נקודות (אופציונלי)", name: "bullets", widget: "list", required: false, field: { label: "נקודה", name: "text", widget: "text" } }
-          - { label: "הערה משפטית", name: "legalNote", widget: "text" }
+          - { label: "הערה משפטית", name: "legalNote", widget: "text", i18n: true }
 
       - name: "accessibility"
         label: "הצהרת נגישות"
         file: "src/content/pages/accessibility.json"
+        i18n: true
         fields:
-          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string" }
-          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text" }
-          - { label: "כיתוב קטן בהירו", name: "heroEyebrow", widget: "string" }
-          - { label: "כותרת הירו", name: "heroHeading", widget: "string" }
-          - { label: "טקסט הירו", name: "heroLead", widget: "text" }
-          - { label: "תווית תאריך עדכון", name: "updatedLabel", widget: "string", required: false }
-          - { label: "כותרת בלוק רכז הנגישות", name: "identityHeading", widget: "string", required: false }
+          - { label: "כותרת הדפדפן (title)", name: "title", widget: "string", i18n: true }
+          - { label: "תיאור למנועי חיפוש", name: "metaDescription", widget: "text", i18n: true }
+          - { label: "כיתוב קטן בהירו", name: "heroEyebrow", widget: "string", i18n: true }
+          - { label: "כותרת הירו", name: "heroHeading", widget: "string", i18n: true }
+          - { label: "טקסט הירו", name: "heroLead", widget: "text", i18n: true }
+          - { label: "תווית תאריך עדכון", name: "updatedLabel", widget: "string", required: false, i18n: true }
+          - { label: "כותרת בלוק רכז הנגישות", name: "identityHeading", widget: "string", required: false, i18n: true }
           - { label: "שם רכז הנגישות", name: "coordinatorName", widget: "string", required: false }
           - { label: "טלפון רכז הנגישות", name: "coordinatorPhone", widget: "string", required: false, hint: "השאירו ריק כדי להשתמש בטלפון העסק" }
           - { label: "דוא\"ל רכז הנגישות", name: "coordinatorEmail", widget: "string", required: false, hint: "השאירו ריק כדי להשתמש בדוא\"ל העסק" }
-          - { label: "תאריך הבדיקה האחרונה", name: "lastAuditLabel", widget: "string", required: false }
+          - { label: "תאריך הבדיקה האחרונה", name: "lastAuditLabel", widget: "string", required: false, i18n: true }
           - name: "sections"
             label: "סעיפי ההצהרה"
             widget: "list"
+            i18n: true
             fields:
               - { label: "כותרת", name: "heading", widget: "string" }
               - { label: "פסקאות", name: "paragraphs", widget: "list", field: { label: "פסקה", name: "text", widget: "text" } }
               - { label: "רשימת נקודות (אופציונלי)", name: "bullets", widget: "list", required: false, field: { label: "נקודה", name: "text", widget: "text" } }
-          - { label: "הערה משפטית", name: "legalNote", widget: "text" }
+          - { label: "הערה משפטית", name: "legalNote", widget: "text", i18n: true }

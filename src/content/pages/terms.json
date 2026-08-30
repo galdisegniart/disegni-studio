@@ -1,404 +1,270 @@
 {
-  "translations": {
-    "he": {
-      "title": "תקנון ומדיניות רכישה | גל דִּיסֵנִי",
-      "metaDescription": "תקנון האתר ומדיניות הרכישה של גל דִּיסֵנִי - פרטי העוסק, מחירים ותשלום, אספקה, אחריות, ביטולים וסמכות שיפוט.",
-      "heroEyebrow": "תקנון ומדיניות רכישה",
-      "heroHeading": "תנאי הרכישה<br>באתר.",
-      "heroLead": "כל מה שחשוב לדעת לפני שרוכשים - מי עומד מאחורי האתר, איך נקבע המחיר, מתי מגיעה ההזמנה, ומה קורה אם משהו משתבש.",
-      "updatedLabel": "עודכן לאחרונה: אוגוסט 2026",
-      "identityHeading": "פרטי העוסק",
-      "sections": [
-        {
-          "heading": "כללי",
-          "paragraphs": [
-            "אתר זה מופעל על ידי גל דיסני (להלן \"האמן\", \"אנחנו\" או \"האתר\") ומשמש למכירת הדפסים אמנותיים, יצירות מקוריות, עבודות בהזמנה אישית וסדנאות אמנות.",
-            "תקנון זה מנוסח בלשון זכר מטעמי נוחות בלבד, ומתייחס לכל המגדרים כאחד. הוא חל על כל שימוש באתר ועל כל רכישה שמתבצעת דרכו, ומהווה הסכם מחייב בינך לבינינו.",
-            "ביצוע רכישה באתר מהווה אישור לכך שקראת את התקנון, את מדיניות הביטולים וההחזרים ואת מדיניות הפרטיות, והסכמת להם."
-          ]
-        },
-        {
-          "heading": "מי רשאי לרכוש",
-          "paragraphs": [
-            "רשאי לרכוש באתר כל אדם בן 18 ומעלה, בעל כשרות משפטית להתקשר בחוזה, שברשותו אמצעי תשלום תקף על שמו או חשבון בנק על שמו.",
-            "קטין מתחת לגיל 18 רשאי לרכוש רק בהסכמה מפורשת ומראש של הורה או אפוטרופוס. ביצוע רכישה על ידי קטין מהווה הצהרה שהתקבלה הסכמה כזו.",
-            "יש להזין פרטים מלאים ונכונים. פרטים שגויים עלולים למנוע את אספקת ההזמנה, ואיננו אחראים לעיכוב או לאי-אספקה שנובעים מכתובת או מפרטי קשר שגויים שנמסרו לנו."
-          ]
-        },
-        {
-          "heading": "המוצרים, התמונות והמידות",
-          "paragraphs": [
-            "ההדפסים האמנותיים הם רפרודוקציות של יצירות מקוריות, ומיוצרים אצל ספק הדפסה מקצועי לאחר קבלת ההזמנה. יצירות מקוריות הן פריטים חד-פעמיים, ועבודות בהזמנה אישית מיוצרות במיוחד עבור הלקוח.",
-            "השתדלנו להציג את היצירות בנאמנות מרבית, אך ייתכנו הפרשי גוון, בהירות ורוויה בין התצוגה במסך לבין ההדפס בפועל, בשל הבדלים בין מסכים, בכיול ובחומרי הדפסה. הפרש גוון סביר כזה אינו נחשב פגם במוצר.",
-            "המידות המוצגות באתר הן מידות ההדפס עצמו, בסנטימטרים (או באינצ'ים בתצוגת מטבע זר), ואינן כוללות פספרטו או מסגרת אלא אם צוין במפורש שהמוצר ממוסגר.",
-            "מלאי היצירות המקוריות מוגבל בהגדרה. במקרה שיצירה נמכרה ולא עודכנה בזמן באתר, נודיע על כך מיד ונשיב את מלוא התמורה."
-          ]
-        },
-        {
-          "heading": "מחירים ותשלום",
-          "paragraphs": [
-            "כל המחירים באתר נקובים בשקלים חדשים (₪). תצוגת מחיר בדולר, אם קיימת, היא להמחשה בלבד; החיוב בפועל מתבצע בשקלים.",
-            "העסק פועל כעוסק פטור. בהתאם לכך לא נגבה מס ערך מוסף על העסקאות, המחירים המוצגים באתר הם סופיים ואינם כוללים רכיב מע\"מ, ובגין הרכישה תונפק קבלה (ולא חשבונית מס).",
-            "עלות המשלוח מחושבת בנפרד לפי סוג ההדפס, הגודל והכמות, ומוצגת במלואה בעמוד העגלה לפני אישור התשלום. הסכום הסופי לתשלום, כולל משלוח, מוצג לפני שאתה מאשר את ההזמנה.",
-            "התשלום מתבצע באחת משתי דרכים: תשלום מקוון בכרטיס אשראי דרך חברת סליקה מורשית, או העברה בנקאית לפרטי החשבון המופיעים בעמוד העגלה. פרטי כרטיס האשראי נמסרים ישירות לחברת הסליקה ואינם נשמרים אצלנו.",
-            "ההזמנה נחשבת מאושרת רק לאחר קבלת אישור התשלום בפועל. עד לאישור התשלום לא נשמר עבורך הפריט ולא מתחיל תהליך הייצור.",
-            "במקרה של טעות סופר מובהקת במחיר המוצג באתר, לא יחייב אותנו המחיר השגוי. נפנה אליך, נציג את המחיר הנכון, ותוכל לבחור להמשיך בעסקה או לבטל אותה ולקבל החזר מלא."
-          ]
-        },
-        {
-          "heading": "אספקה ומשלוחים",
-          "paragraphs": [
-            "לאחר אישור התשלום מתחיל תהליך הייצור. זמן האספקה הכולל מורכב מזמן ייצור ומזמן משלוח, ושניהם נספרים בימי עסקים (ימים א'-ה', לא כולל שישי, שבת, ערבי חג וחגים).",
-            "מוצרים שונים מיוצרים בזמנים שונים - הדפס על נייר מהיר יותר מהדפס ממוסגר או קנבס מתוח. יצירות מקוריות נשלחות לאחר אריזה מיוחדת, ועבודות בהזמנה אישית כפופות ללוח זמנים שנקבע איתך מראש בנפרד.",
-            "המשלוח מבוצע לכתובת שהזנת בעת ההזמנה. אנא ודא שהכתובת מלאה ומדויקת, כולל מספר דירה, קומה וכל פרט נדרש לאיתור.",
-            "ייתכנו עיכובים שאינם בשליטתנו - עומס אצל חברת השילוח, עיכובי מכס במשלוחים בינלאומיים, שביתות, מזג אוויר קיצוני או אירועי כוח עליון. נעדכן אותך על כל עיכוב מהותי שידוע לנו.",
-            "אם ההזמנה מתעכבת מעבר לזמן שנמסר לך באופן משמעותי ולא הצלחנו לספק אותה, תוכל לבטל אותה ולקבל החזר כספי מלא, לרבות דמי המשלוח ששולמו."
-          ],
-          "bullets": [
-            "<strong>זמן ייצור:</strong> 2-5 ימי עסקים להדפסים על נייר; 3-7 ימי עסקים להדפסים ממוסגרים ולקנבס מתוח.",
-            "<strong>זמן משלוח בישראל:</strong> 5-12 ימי עסקים ממועד סיום הייצור.",
-            "<strong>משלוח מחוץ לישראל:</strong> 10-21 ימי עסקים ממועד סיום הייצור, בכפוף להליכי מכס ביעד.",
-            "<strong>מסים ומכס ביעד:</strong> במשלוח מחוץ לישראל, מסי יבוא, מכס ואגרות מקומיות - אם יחולו - הם באחריות המזמין ואינם כלולים במחיר."
-          ]
-        },
-        {
-          "heading": "ביטול עסקה, החזרים והחלפות",
-          "paragraphs": [
-            "זכות הביטול, אופן הפעלתה, דמי הביטול, מועדי ההחזר והכללים המיוחדים ליצירות מקוריות, לעבודות בהזמנה אישית ולסדנאות - מפורטים במלואם במדיניות הביטולים וההחזרים, שמהווה חלק בלתי נפרד מתקנון זה.",
-            "בקצרה: בהדפסים אמנותיים ניתן לבטל תוך 14 יום מקבלת המוצר; דמי הביטול לא יעלו על 5% ממחיר העסקה או 100 ₪, לפי הנמוך; והחזר כספי יבוצע תוך 14 יום ממועד קבלת הודעת הביטול. יצירות מקוריות ועבודות בהזמנה אישית כפופות לכללים נפרדים."
-          ]
-        },
-        {
-          "heading": "אחריות ושירות לאחר מכירה",
-          "paragraphs": [
-            "אנו אחראים לכך שהמוצר שיסופק יהיה תקין, תואם לתיאור באתר ונקי מפגמי ייצור והדפסה.",
-            "אם הפריט הגיע פגום, שבור או שאינו תואם למה שהוזמן, יש לפנות אלינו תוך 48 שעות מקבלת המשלוח בצירוף תמונות של הפריט ושל האריזה. נדאג להחלפה או להחזר כספי מלא, על חשבוננו, לפי העניין.",
-            "האחריות אינה חלה על נזק שנגרם לאחר המסירה כתוצאה משימוש, טיפול או אחסון לא נאותים, לרבות: דהייה עקב חשיפה ישירה ומתמשכת לשמש, נזקי לחות או רטיבות, קיפול, שריטות, נזק שנגרם במהלך מסגור עצמי או תלייה, ובלאי טבעי לאורך זמן.",
-            "עבודות אמנות על נייר ועל קנבס הן פריטים רגישים. מומלץ לתלות אותן הרחק מאור שמש ישיר וממקורות לחות, ולמסגר אצל ממסגר מקצועי בזכוכית עם הגנת UV."
-          ]
-        },
-        {
-          "heading": "סדנאות אמנות",
-          "paragraphs": [
-            "הרשמה לסדנה נעשית בתיאום מראש ומותנית בזמינות מקום. פרטי הסדנה - מועד, משך, מיקום, מספר משתתפים והחומרים הכלולים - נמסרים לפני ההרשמה.",
-            "אנו רשאים לשנות מועד או מיקום של סדנה, או לבטל אותה, במקרה של מספר נרשמים נמוך מהמינימום או בשל נסיבות שאינן בשליטתנו. במקרה כזה נציע מועד חלופי, ואם אינו מתאים - יינתן החזר כספי מלא.",
-            "כללי ביטול מצד המשתתף מפורטים במדיניות הביטולים וההחזרים.",
-            "השתתפות בסדנה היא באחריות המשתתף. יש להודיע מראש על רגישות לחומרי אמנות (צבעים, ממסים, אבק פחם) או על מגבלה בריאותית רלוונטית. משתתפים מתחת לגיל 18 - בהתאם לתנאי הסדנה ובאישור הורה."
-          ]
-        },
-        {
-          "heading": "קניין רוחני",
-          "paragraphs": [
-            "כל היצירות, הדימויים, הצילומים, הסרטונים, הטקסטים, העיצוב, שם האמן, הלוגו והחתימה המופיעים באתר מוגנים בזכויות יוצרים ובקניין רוחני. כל הזכויות שמורות.",
-            "רכישת הדפס או יצירה מקורית מעניקה בעלות בעותק הפיזי שנרכש בלבד, ואינה מעבירה זכויות יוצרים, זכות שעתוק, פרסום, מסחור או יצירת יצירות נגזרות.",
-            "האתר שומר במפורש על זכויותיו בכל הנוגע לכריית מידע ולשימוש בתוכן לצורך אימון או פיתוח של מערכות בינה מלאכותית. הפירוט המלא, לרבות ההסתייגות המפורשת מאימון AI, מופיע במדיניות זכויות היוצרים."
-          ]
-        },
-        {
-          "heading": "פרטיות ואבטחת מידע",
-          "paragraphs": [
-            "השימוש בפרטים שנמסרים באתר, זהות מקבלי המידע, תקופות השמירה וזכויותיך לעיין במידע, לתקן אותו או למחוק אותו - מפורטים במדיניות הפרטיות, שמהווה חלק בלתי נפרד מתקנון זה.",
-            "התשלום המקוון מתבצע בסביבה מאובטחת של חברת סליקה מורשית. פרטי כרטיס האשראי אינם עוברים דרך שרתי האתר ואינם נשמרים אצלנו בשום שלב."
-          ]
-        },
-        {
-          "heading": "הגבלת אחריות וכוח עליון",
-          "paragraphs": [
-            "אנו עושים מאמץ לשמור על אתר תקין, זמין ומעודכן, אך איננו מתחייבים שהאתר יפעל ללא הפרעות או תקלות. איננו אחראים לנזק שנגרם מתקלה טכנית, מהפסקת שירות של ספק חיצוני או מגישה לאתר.",
-            "אחריותנו הכוללת בקשר לכל הזמנה לא תעלה, בכל מקרה, על הסכום ששולם בפועל בגין אותה הזמנה.",
-            "לא נהיה אחראים לאי-קיום או לעיכוב בקיום התחייבויותינו כתוצאה מנסיבות שאינן בשליטתנו הסבירה, לרבות מלחמה, מצב חירום, שביתה, שבתה, אסון טבע, מגפה, כשל תשתיות או הוראה של רשות מוסמכת.",
-            "קישורים לאתרים חיצוניים ולרשתות חברתיות מופיעים לנוחותך בלבד. איננו אחראים לתוכן, לזמינות או למדיניות הפרטיות של אתרים שאינם בשליטתנו."
-          ]
-        },
-        {
-          "heading": "פניות, תלונות ויישוב מחלוקות",
-          "paragraphs": [
-            "בכל שאלה, פנייה או תלונה בנוגע להזמנה, למוצר או לתקנון זה, ניתן לפנות אלינו בדוא\"ל, בטלפון או ב-WhatsApp לפרטים המופיעים בראש עמוד זה. נשתדל לטפל בכל פנייה בתוך זמן המענה הנקוב.",
-            "אנחנו מעדיפים לפתור כל מחלוקת בשיחה ישירה ובהגינות. נשמח שתפנה אלינו לפני כל הליך אחר."
-          ]
-        },
-        {
-          "heading": "דין חל וסמכות שיפוט",
-          "paragraphs": [
-            "על תקנון זה ועל כל עסקה שנעשית באתר יחולו דיני מדינת ישראל בלבד.",
-            "סמכות השיפוט הבלעדית בכל עניין הנובע מתקנון זה או מהשימוש באתר נתונה לבתי המשפט המוסמכים בישראל, בהתאם להוראות הדין. אין באמור כדי לגרוע מזכות של צרכן לפנות לערכאה המוסמכת לפי חוק הגנת הצרכן."
-          ]
-        },
-        {
-          "heading": "שינויים בתקנון",
-          "paragraphs": [
-            "אנו רשאים לעדכן תקנון זה מעת לעת. הנוסח המחייב הוא הנוסח המפורסם באתר במועד ביצוע ההזמנה, ותאריך העדכון האחרון מופיע בראש העמוד.",
-            "שינוי בתקנון לא יחול רטרואקטיבית על הזמנות שכבר בוצעו ואושרו."
-          ]
-        }
-      ],
-      "legalNote": "אם ייווצר פער בין האמור בתקנון זה לבין הוראות חוק הגנת הצרכן, התשמ\"א-1981, והתקנות שמכוחו - יגברו הוראות הדין, ואין בתקנון זה כדי לגרוע מזכויות המוקנות לך כצרכן לפי חוק."
-    },
-    "en": {
-      "title": "Terms & Purchase Policy | Gal Disegni",
-      "metaDescription": "The site's terms of service and purchase policy - business details, pricing and payment, delivery, warranty, cancellations, and jurisdiction.",
-      "heroEyebrow": "Terms & Purchase Policy",
-      "heroHeading": "The Site's<br>Terms of Purchase.",
-      "heroLead": "Everything you need to know before purchasing - who's behind the site, how pricing is set, when your order arrives, and what happens if something goes wrong.",
-      "updatedLabel": "Last updated: August 2026",
-      "identityHeading": "Business Details",
-      "sections": [
-        {
-          "heading": "General",
-          "paragraphs": [
-            "This website is operated by Gal Disegni (referred to as \"the artist,\" \"we,\" or \"the site\") and is used to sell fine art prints, original artwork, custom commissioned work, and art workshops.",
-            "These terms apply equally to all genders and are written in one grammatical form for convenience only. They apply to any use of the site and any purchase made through it, and constitute a binding agreement between you and us.",
-            "Making a purchase on the site confirms that you have read and agree to these terms, the cancellations and returns policy, and the privacy policy."
-          ]
-        },
-        {
-          "heading": "Who May Purchase",
-          "paragraphs": [
-            "Any person aged 18 or older, with the legal capacity to enter into a contract, and holding a valid payment method or bank account in their own name, may purchase on the site.",
-            "A minor under 18 may only purchase with the explicit prior consent of a parent or legal guardian. A purchase made by a minor constitutes a declaration that such consent was obtained.",
-            "You must provide complete and accurate details. Incorrect details may prevent delivery of your order, and we are not responsible for any delay or failure to deliver resulting from an incorrect address or contact details provided to us."
-          ]
-        },
-        {
-          "heading": "Products, Images, and Dimensions",
-          "paragraphs": [
-            "Fine art prints are reproductions of original artwork, manufactured by a professional printing supplier after the order is placed. Original artworks are one-of-a-kind pieces, and commissioned work is created specially for the customer.",
-            "We have made every effort to display the artwork as accurately as possible, but there may be differences in hue, brightness, and saturation between the on-screen display and the actual print, due to differences between screens, calibration, and printing materials. Such a reasonable color difference is not considered a product defect.",
-            "The dimensions shown on the site are the dimensions of the print itself, in centimeters (or inches in foreign-currency display), and do not include a mat or frame unless the product is explicitly stated to be framed.",
-            "The stock of original artworks is inherently limited. If a piece has been sold and the site was not updated in time, we will notify you immediately and refund the full amount."
-          ]
-        },
-        {
-          "heading": "Pricing and Payment",
-          "paragraphs": [
-            "All prices on the site are stated in New Israeli Shekels (₪). A price shown in dollars, if available, is for illustration only; the actual charge is made in shekels.",
-            "The business operates as a VAT-exempt dealer (\"osek patur\") under Israeli law. Accordingly, no VAT is charged on transactions, the prices shown on the site are final and do not include a VAT component, and a receipt (not a tax invoice) will be issued for the purchase.",
-            "Shipping cost is calculated separately based on the print type, size, and quantity, and is shown in full on the cart page before payment is confirmed. The final amount due, including shipping, is displayed before you confirm the order.",
-            "Payment is made in one of two ways: online credit card payment through a licensed payment processor, or bank transfer to the account details shown on the cart page. Credit card details are submitted directly to the payment processor and are not stored by us.",
-            "An order is considered confirmed only once actual payment confirmation is received. Until payment is confirmed, the item is not reserved for you and production does not begin.",
-            "In the event of a clear clerical error in a price shown on the site, we will not be bound by the incorrect price. We will contact you, present the correct price, and you may choose to proceed with the transaction or cancel it and receive a full refund."
-          ]
-        },
-        {
-          "heading": "Delivery and Shipping",
-          "paragraphs": [
-            "Production begins once payment is confirmed. Total delivery time consists of production time and shipping time, both counted in business days (Sunday-Thursday, excluding Fridays, Saturdays, and holiday eves and holidays).",
-            "Different products are produced in different timeframes - a paper print is faster than a framed print or stretched canvas. Original artworks are shipped after special packaging, and commissioned work is subject to a timeline agreed with you separately in advance.",
-            "Shipping is made to the address you entered when placing the order. Please make sure the address is complete and accurate, including apartment number, floor, and any other detail needed to locate it.",
-            "Delays beyond our control may occur - carrier backlogs, customs delays on international shipments, strikes, extreme weather, or force majeure events. We will update you of any material delay we become aware of.",
-            "If your order is significantly delayed beyond the time you were given and we are unable to deliver it, you may cancel it and receive a full refund, including any shipping fees paid."
-          ],
-          "bullets": [
-            "<strong>Production time:</strong> 2-5 business days for paper prints; 3-7 business days for framed prints and stretched canvas.",
-            "<strong>Shipping time within Israel:</strong> 5-12 business days from the completion of production.",
-            "<strong>Shipping outside Israel:</strong> 10-21 business days from the completion of production, subject to customs procedures at the destination.",
-            "<strong>Taxes and customs at destination:</strong> For shipments outside Israel, import taxes, customs duties, and local fees - if applicable - are the responsibility of the customer and are not included in the price."
-          ]
-        },
-        {
-          "heading": "Cancellation, Returns, and Exchanges",
-          "paragraphs": [
-            "The right of cancellation, how to exercise it, cancellation fees, refund timelines, and the special rules for original artworks, commissioned work, and workshops are detailed in full in the Cancellations & Returns Policy, which forms an integral part of these terms.",
-            "In brief: fine art prints may be cancelled within 14 days of receiving the product; cancellation fees will not exceed 5% of the transaction price or 100 ₪, whichever is lower; and a refund will be issued within 14 days of receiving the cancellation notice. Original artworks and commissioned work are subject to separate rules."
-          ]
-        },
-        {
-          "heading": "Warranty and After-Sales Service",
-          "paragraphs": [
-            "We are responsible for ensuring that the product delivered is sound, matches its description on the site, and is free of manufacturing and printing defects.",
-            "If the item arrives damaged, broken, or does not match what was ordered, please contact us within 48 hours of receiving the shipment, with photos of the item and its packaging. We will arrange a replacement or a full refund, at our expense, as applicable.",
-            "The warranty does not cover damage occurring after delivery as a result of improper use, handling, or storage, including: fading from direct and prolonged sun exposure, moisture or water damage, creasing, scratches, damage caused during self-framing or hanging, and natural wear over time.",
-            "Artwork on paper and canvas is delicate. We recommend hanging it away from direct sunlight and sources of moisture, and having it framed by a professional framer with UV-protective glass."
-          ]
-        },
-        {
-          "heading": "Art Workshops",
-          "paragraphs": [
-            "Registration for a workshop is by prior arrangement and subject to space availability. Workshop details - date, duration, location, number of participants, and included materials - are provided before registration.",
-            "We may change the date or location of a workshop, or cancel it, in the event of insufficient registrations or circumstances beyond our control. In such a case we will offer an alternative date, and if it doesn't suit you, a full refund will be given.",
-            "Cancellation rules for participants are detailed in the Cancellations & Returns Policy.",
-            "Participation in a workshop is the participant's own responsibility. Please inform us in advance of any sensitivity to art materials (paints, solvents, charcoal dust) or a relevant health limitation. Participants under 18 - subject to the workshop's terms and a parent's consent."
-          ]
-        },
-        {
-          "heading": "Intellectual Property",
-          "paragraphs": [
-            "All artwork, images, photographs, videos, text, design, the artist's name, logo, and signature appearing on the site are protected by copyright and intellectual property rights. All rights reserved.",
-            "Purchasing a print or an original artwork grants ownership of the physical copy purchased only, and does not transfer copyright, or the right to reproduce, publish, commercialize, or create derivative works.",
-            "The site expressly reserves its rights regarding data mining and the use of its content for training or developing artificial intelligence systems. Full details, including the explicit reservation against AI training, appear in the Copyright Policy."
-          ]
-        },
-        {
-          "heading": "Privacy and Data Security",
-          "paragraphs": [
-            "The use of details submitted on the site, the identity of recipients of that information, retention periods, and your rights to review, correct, or delete it are detailed in the Privacy Policy, which forms an integral part of these terms.",
-            "Online payment is processed in the secure environment of a licensed payment processor. Credit card details never pass through the site's servers and are not stored by us at any stage."
-          ]
-        },
-        {
-          "heading": "Limitation of Liability and Force Majeure",
-          "paragraphs": [
-            "We make an effort to keep the site functional, available, and up to date, but we do not guarantee that it will operate without interruptions or faults. We are not liable for damage caused by a technical malfunction, a service outage of an external provider, or access to the site.",
-            "Our total liability in connection with any order will not, in any case, exceed the amount actually paid for that order.",
-            "We will not be liable for any failure or delay in fulfilling our obligations resulting from circumstances beyond our reasonable control, including war, a state of emergency, strikes, natural disaster, pandemic, infrastructure failure, or an order by a competent authority.",
-            "Links to external websites and social networks are provided for your convenience only. We are not responsible for the content, availability, or privacy policy of sites not under our control."
-          ]
-        },
-        {
-          "heading": "Inquiries, Complaints, and Dispute Resolution",
-          "paragraphs": [
-            "For any question, inquiry, or complaint regarding an order, a product, or these terms, you may contact us by email, phone, or WhatsApp using the details at the top of this page. We will strive to handle every inquiry within the stated response time.",
-            "We prefer to resolve any dispute through direct, fair conversation. We'd be glad if you reached out to us before pursuing any other process."
-          ]
-        },
-        {
-          "heading": "Governing Law and Jurisdiction",
-          "paragraphs": [
-            "These terms and any transaction made on the site are governed exclusively by the laws of the State of Israel.",
-            "Exclusive jurisdiction over any matter arising from these terms or from use of the site lies with the competent courts of Israel, in accordance with the law. This does not derogate from a consumer's right to apply to the forum authorized under the Consumer Protection Law."
-          ]
-        },
-        {
-          "heading": "Changes to These Terms",
-          "paragraphs": [
-            "We may update these terms from time to time. The binding version is the one published on the site at the time the order is placed, and the date of the last update appears at the top of the page.",
-            "A change to these terms will not apply retroactively to orders already placed and confirmed."
-          ]
-        }
-      ],
-      "legalNote": "If any gap arises between what is stated in these terms and the provisions of the Consumer Protection Law, 5741-1981, and its regulations, the provisions of the law shall prevail, and nothing in these terms derogates from the rights granted to you as a consumer under the law. This site and all transactions made through it are governed exclusively by the laws of the State of Israel, regardless of the language in which you are reading this policy or your location."
-    }
+  "he": {
+    "title": "תקנון ומדיניות רכישה | גל דִּיסֵנִי",
+    "metaDescription": "תקנון האתר ומדיניות הרכישה של גל דִּיסֵנִי - פרטי העוסק, מחירים ותשלום, אספקה, אחריות, ביטולים וסמכות שיפוט.",
+    "heroEyebrow": "תקנון ומדיניות רכישה",
+    "heroHeading": "תנאי הרכישה<br>באתר.",
+    "heroLead": "כל מה שחשוב לדעת לפני שרוכשים - מי עומד מאחורי האתר, איך נקבע המחיר, מתי מגיעה ההזמנה, ומה קורה אם משהו משתבש.",
+    "updatedLabel": "עודכן לאחרונה: אוגוסט 2026",
+    "identityHeading": "פרטי העוסק",
+    "sections": [
+      {
+        "heading": "כללי",
+        "paragraphs": [
+          "אתר זה מופעל על ידי גל דיסני (להלן \"האמן\", \"אנחנו\" או \"האתר\") ומשמש למכירת הדפסים אמנותיים, יצירות מקוריות, עבודות בהזמנה אישית וסדנאות אמנות.",
+          "תקנון זה מנוסח בלשון זכר מטעמי נוחות בלבד, ומתייחס לכל המגדרים כאחד. הוא חל על כל שימוש באתר ועל כל רכישה שמתבצעת דרכו, ומהווה הסכם מחייב בינך לבינינו.",
+          "ביצוע רכישה באתר מהווה אישור לכך שקראת את התקנון, את מדיניות הביטולים וההחזרים ואת מדיניות הפרטיות, והסכמת להם."
+        ]
+      },
+      {
+        "heading": "מי רשאי לרכוש",
+        "paragraphs": [
+          "רשאי לרכוש באתר כל אדם בן 18 ומעלה, בעל כשרות משפטית להתקשר בחוזה, שברשותו אמצעי תשלום תקף על שמו או חשבון בנק על שמו.",
+          "קטין מתחת לגיל 18 רשאי לרכוש רק בהסכמה מפורשת ומראש של הורה או אפוטרופוס. ביצוע רכישה על ידי קטין מהווה הצהרה שהתקבלה הסכמה כזו.",
+          "יש להזין פרטים מלאים ונכונים. פרטים שגויים עלולים למנוע את אספקת ההזמנה, ואיננו אחראים לעיכוב או לאי-אספקה שנובעים מכתובת או מפרטי קשר שגויים שנמסרו לנו."
+        ]
+      },
+      {
+        "heading": "המוצרים, התמונות והמידות",
+        "paragraphs": [
+          "ההדפסים האמנותיים הם רפרודוקציות של יצירות מקוריות, ומיוצרים אצל ספק הדפסה מקצועי לאחר קבלת ההזמנה. יצירות מקוריות הן פריטים חד-פעמיים, ועבודות בהזמנה אישית מיוצרות במיוחד עבור הלקוח.",
+          "השתדלנו להציג את היצירות בנאמנות מרבית, אך ייתכנו הפרשי גוון, בהירות ורוויה בין התצוגה במסך לבין ההדפס בפועל, בשל הבדלים בין מסכים, בכיול ובחומרי הדפסה. הפרש גוון סביר כזה אינו נחשב פגם במוצר.",
+          "המידות המוצגות באתר הן מידות ההדפס עצמו, בסנטימטרים (או באינצ'ים בתצוגת מטבע זר), ואינן כוללות פספרטו או מסגרת אלא אם צוין במפורש שהמוצר ממוסגר.",
+          "מלאי היצירות המקוריות מוגבל בהגדרה. במקרה שיצירה נמכרה ולא עודכנה בזמן באתר, נודיע על כך מיד ונשיב את מלוא התמורה."
+        ]
+      },
+      {
+        "heading": "מחירים ותשלום",
+        "paragraphs": [
+          "כל המחירים באתר נקובים בשקלים חדשים (₪). תצוגת מחיר בדולר, אם קיימת, היא להמחשה בלבד; החיוב בפועל מתבצע בשקלים.",
+          "העסק פועל כעוסק פטור. בהתאם לכך לא נגבה מס ערך מוסף על העסקאות, המחירים המוצגים באתר הם סופיים ואינם כוללים רכיב מע\"מ, ובגין הרכישה תונפק קבלה (ולא חשבונית מס).",
+          "עלות המשלוח מחושבת בנפרד לפי סוג ההדפס, הגודל והכמות, ומוצגת במלואה בעמוד העגלה לפני אישור התשלום. הסכום הסופי לתשלום, כולל משלוח, מוצג לפני שאתה מאשר את ההזמנה.",
+          "התשלום מתבצע באחת משתי דרכים: תשלום מקוון בכרטיס אשראי דרך חברת סליקה מורשית, או העברה בנקאית לפרטי החשבון המופיעים בעמוד העגלה. פרטי כרטיס האשראי נמסרים ישירות לחברת הסליקה ואינם נשמרים אצלנו.",
+          "ההזמנה נחשבת מאושרת רק לאחר קבלת אישור התשלום בפועל. עד לאישור התשלום לא נשמר עבורך הפריט ולא מתחיל תהליך הייצור.",
+          "במקרה של טעות סופר מובהקת במחיר המוצג באתר, לא יחייב אותנו המחיר השגוי. נפנה אליך, נציג את המחיר הנכון, ותוכל לבחור להמשיך בעסקה או לבטל אותה ולקבל החזר מלא."
+        ]
+      },
+      {
+        "heading": "אספקה ומשלוחים",
+        "paragraphs": [
+          "לאחר אישור התשלום מתחיל תהליך הייצור. זמן האספקה הכולל מורכב מזמן ייצור ומזמן משלוח, ושניהם נספרים בימי עסקים (ימים א'-ה', לא כולל שישי, שבת, ערבי חג וחגים).",
+          "מוצרים שונים מיוצרים בזמנים שונים - הדפס על נייר מהיר יותר מהדפס ממוסגר או קנבס מתוח. יצירות מקוריות נשלחות לאחר אריזה מיוחדת, ועבודות בהזמנה אישית כפופות ללוח זמנים שנקבע איתך מראש בנפרד.",
+          "המשלוח מבוצע לכתובת שהזנת בעת ההזמנה. אנא ודא שהכתובת מלאה ומדויקת, כולל מספר דירה, קומה וכל פרט נדרש לאיתור.",
+          "ייתכנו עיכובים שאינם בשליטתנו - עומס אצל חברת השילוח, עיכובי מכס במשלוחים בינלאומיים, שביתות, מזג אוויר קיצוני או אירועי כוח עליון. נעדכן אותך על כל עיכוב מהותי שידוע לנו.",
+          "אם ההזמנה מתעכבת מעבר לזמן שנמסר לך באופן משמעותי ולא הצלחנו לספק אותה, תוכל לבטל אותה ולקבל החזר כספי מלא, לרבות דמי המשלוח ששולמו."
+        ],
+        "bullets": [
+          "<strong>זמן ייצור:</strong> 2-5 ימי עסקים להדפסים על נייר; 3-7 ימי עסקים להדפסים ממוסגרים ולקנבס מתוח.",
+          "<strong>זמן משלוח בישראל:</strong> 5-12 ימי עסקים ממועד סיום הייצור.",
+          "<strong>משלוח מחוץ לישראל:</strong> 10-21 ימי עסקים ממועד סיום הייצור, בכפוף להליכי מכס ביעד.",
+          "<strong>מסים ומכס ביעד:</strong> במשלוח מחוץ לישראל, מסי יבוא, מכס ואגרות מקומיות - אם יחולו - הם באחריות המזמין ואינם כלולים במחיר."
+        ]
+      },
+      {
+        "heading": "ביטול עסקה, החזרים והחלפות",
+        "paragraphs": [
+          "זכות הביטול, אופן הפעלתה, דמי הביטול, מועדי ההחזר והכללים המיוחדים ליצירות מקוריות, לעבודות בהזמנה אישית ולסדנאות - מפורטים במלואם במדיניות הביטולים וההחזרים, שמהווה חלק בלתי נפרד מתקנון זה.",
+          "בקצרה: בהדפסים אמנותיים ניתן לבטל תוך 14 יום מקבלת המוצר; דמי הביטול לא יעלו על 5% ממחיר העסקה או 100 ₪, לפי הנמוך; והחזר כספי יבוצע תוך 14 יום ממועד קבלת הודעת הביטול. יצירות מקוריות ועבודות בהזמנה אישית כפופות לכללים נפרדים."
+        ]
+      },
+      {
+        "heading": "אחריות ושירות לאחר מכירה",
+        "paragraphs": [
+          "אנו אחראים לכך שהמוצר שיסופק יהיה תקין, תואם לתיאור באתר ונקי מפגמי ייצור והדפסה.",
+          "אם הפריט הגיע פגום, שבור או שאינו תואם למה שהוזמן, יש לפנות אלינו תוך 48 שעות מקבלת המשלוח בצירוף תמונות של הפריט ושל האריזה. נדאג להחלפה או להחזר כספי מלא, על חשבוננו, לפי העניין.",
+          "האחריות אינה חלה על נזק שנגרם לאחר המסירה כתוצאה משימוש, טיפול או אחסון לא נאותים, לרבות: דהייה עקב חשיפה ישירה ומתמשכת לשמש, נזקי לחות או רטיבות, קיפול, שריטות, נזק שנגרם במהלך מסגור עצמי או תלייה, ובלאי טבעי לאורך זמן.",
+          "עבודות אמנות על נייר ועל קנבס הן פריטים רגישים. מומלץ לתלות אותן הרחק מאור שמש ישיר וממקורות לחות, ולמסגר אצל ממסגר מקצועי בזכוכית עם הגנת UV."
+        ]
+      },
+      {
+        "heading": "סדנאות אמנות",
+        "paragraphs": [
+          "הרשמה לסדנה נעשית בתיאום מראש ומותנית בזמינות מקום. פרטי הסדנה - מועד, משך, מיקום, מספר משתתפים והחומרים הכלולים - נמסרים לפני ההרשמה.",
+          "אנו רשאים לשנות מועד או מיקום של סדנה, או לבטל אותה, במקרה של מספר נרשמים נמוך מהמינימום או בשל נסיבות שאינן בשליטתנו. במקרה כזה נציע מועד חלופי, ואם אינו מתאים - יינתן החזר כספי מלא.",
+          "כללי ביטול מצד המשתתף מפורטים במדיניות הביטולים וההחזרים.",
+          "השתתפות בסדנה היא באחריות המשתתף. יש להודיע מראש על רגישות לחומרי אמנות (צבעים, ממסים, אבק פחם) או על מגבלה בריאותית רלוונטית. משתתפים מתחת לגיל 18 - בהתאם לתנאי הסדנה ובאישור הורה."
+        ]
+      },
+      {
+        "heading": "קניין רוחני",
+        "paragraphs": [
+          "כל היצירות, הדימויים, הצילומים, הסרטונים, הטקסטים, העיצוב, שם האמן, הלוגו והחתימה המופיעים באתר מוגנים בזכויות יוצרים ובקניין רוחני. כל הזכויות שמורות.",
+          "רכישת הדפס או יצירה מקורית מעניקה בעלות בעותק הפיזי שנרכש בלבד, ואינה מעבירה זכויות יוצרים, זכות שעתוק, פרסום, מסחור או יצירת יצירות נגזרות.",
+          "האתר שומר במפורש על זכויותיו בכל הנוגע לכריית מידע ולשימוש בתוכן לצורך אימון או פיתוח של מערכות בינה מלאכותית. הפירוט המלא, לרבות ההסתייגות המפורשת מאימון AI, מופיע במדיניות זכויות היוצרים."
+        ]
+      },
+      {
+        "heading": "פרטיות ואבטחת מידע",
+        "paragraphs": [
+          "השימוש בפרטים שנמסרים באתר, זהות מקבלי המידע, תקופות השמירה וזכויותיך לעיין במידע, לתקן אותו או למחוק אותו - מפורטים במדיניות הפרטיות, שמהווה חלק בלתי נפרד מתקנון זה.",
+          "התשלום המקוון מתבצע בסביבה מאובטחת של חברת סליקה מורשית. פרטי כרטיס האשראי אינם עוברים דרך שרתי האתר ואינם נשמרים אצלנו בשום שלב."
+        ]
+      },
+      {
+        "heading": "הגבלת אחריות וכוח עליון",
+        "paragraphs": [
+          "אנו עושים מאמץ לשמור על אתר תקין, זמין ומעודכן, אך איננו מתחייבים שהאתר יפעל ללא הפרעות או תקלות. איננו אחראים לנזק שנגרם מתקלה טכנית, מהפסקת שירות של ספק חיצוני או מגישה לאתר.",
+          "אחריותנו הכוללת בקשר לכל הזמנה לא תעלה, בכל מקרה, על הסכום ששולם בפועל בגין אותה הזמנה.",
+          "לא נהיה אחראים לאי-קיום או לעיכוב בקיום התחייבויותינו כתוצאה מנסיבות שאינן בשליטתנו הסבירה, לרבות מלחמה, מצב חירום, שביתה, שבתה, אסון טבע, מגפה, כשל תשתיות או הוראה של רשות מוסמכת.",
+          "קישורים לאתרים חיצוניים ולרשתות חברתיות מופיעים לנוחותך בלבד. איננו אחראים לתוכן, לזמינות או למדיניות הפרטיות של אתרים שאינם בשליטתנו."
+        ]
+      },
+      {
+        "heading": "פניות, תלונות ויישוב מחלוקות",
+        "paragraphs": [
+          "בכל שאלה, פנייה או תלונה בנוגע להזמנה, למוצר או לתקנון זה, ניתן לפנות אלינו בדוא\"ל, בטלפון או ב-WhatsApp לפרטים המופיעים בראש עמוד זה. נשתדל לטפל בכל פנייה בתוך זמן המענה הנקוב.",
+          "אנחנו מעדיפים לפתור כל מחלוקת בשיחה ישירה ובהגינות. נשמח שתפנה אלינו לפני כל הליך אחר."
+        ]
+      },
+      {
+        "heading": "דין חל וסמכות שיפוט",
+        "paragraphs": [
+          "על תקנון זה ועל כל עסקה שנעשית באתר יחולו דיני מדינת ישראל בלבד.",
+          "סמכות השיפוט הבלעדית בכל עניין הנובע מתקנון זה או מהשימוש באתר נתונה לבתי המשפט המוסמכים בישראל, בהתאם להוראות הדין. אין באמור כדי לגרוע מזכות של צרכן לפנות לערכאה המוסמכת לפי חוק הגנת הצרכן."
+        ]
+      },
+      {
+        "heading": "שינויים בתקנון",
+        "paragraphs": [
+          "אנו רשאים לעדכן תקנון זה מעת לעת. הנוסח המחייב הוא הנוסח המפורסם באתר במועד ביצוע ההזמנה, ותאריך העדכון האחרון מופיע בראש העמוד.",
+          "שינוי בתקנון לא יחול רטרואקטיבית על הזמנות שכבר בוצעו ואושרו."
+        ]
+      }
+    ],
+    "legalNote": "אם ייווצר פער בין האמור בתקנון זה לבין הוראות חוק הגנת הצרכן, התשמ\"א-1981, והתקנות שמכוחו - יגברו הוראות הדין, ואין בתקנון זה כדי לגרוע מזכויות המוקנות לך כצרכן לפי חוק."
   },
-  "title": "תקנון ומדיניות רכישה | גל דִּיסֵנִי",
-  "metaDescription": "תקנון האתר ומדיניות הרכישה של גל דִּיסֵנִי - פרטי העוסק, מחירים ותשלום, אספקה, אחריות, ביטולים וסמכות שיפוט.",
-  "heroEyebrow": "תקנון ומדיניות רכישה",
-  "heroHeading": "תנאי הרכישה<br>באתר.",
-  "heroLead": "כל מה שחשוב לדעת לפני שרוכשים - מי עומד מאחורי האתר, איך נקבע המחיר, מתי מגיעה ההזמנה, ומה קורה אם משהו משתבש.",
-  "updatedLabel": "עודכן לאחרונה: אוגוסט 2026",
-  "identityHeading": "פרטי העוסק",
-  "sections": [
-    {
-      "heading": "כללי",
-      "paragraphs": [
-        "אתר זה מופעל על ידי גל דיסני (להלן \"האמן\", \"אנחנו\" או \"האתר\") ומשמש למכירת הדפסים אמנותיים, יצירות מקוריות, עבודות בהזמנה אישית וסדנאות אמנות.",
-        "תקנון זה מנוסח בלשון זכר מטעמי נוחות בלבד, ומתייחס לכל המגדרים כאחד. הוא חל על כל שימוש באתר ועל כל רכישה שמתבצעת דרכו, ומהווה הסכם מחייב בינך לבינינו.",
-        "ביצוע רכישה באתר מהווה אישור לכך שקראת את התקנון, את מדיניות הביטולים וההחזרים ואת מדיניות הפרטיות, והסכמת להם."
-      ]
-    },
-    {
-      "heading": "מי רשאי לרכוש",
-      "paragraphs": [
-        "רשאי לרכוש באתר כל אדם בן 18 ומעלה, בעל כשרות משפטית להתקשר בחוזה, שברשותו אמצעי תשלום תקף על שמו או חשבון בנק על שמו.",
-        "קטין מתחת לגיל 18 רשאי לרכוש רק בהסכמה מפורשת ומראש של הורה או אפוטרופוס. ביצוע רכישה על ידי קטין מהווה הצהרה שהתקבלה הסכמה כזו.",
-        "יש להזין פרטים מלאים ונכונים. פרטים שגויים עלולים למנוע את אספקת ההזמנה, ואיננו אחראים לעיכוב או לאי-אספקה שנובעים מכתובת או מפרטי קשר שגויים שנמסרו לנו."
-      ]
-    },
-    {
-      "heading": "המוצרים, התמונות והמידות",
-      "paragraphs": [
-        "ההדפסים האמנותיים הם רפרודוקציות של יצירות מקוריות, ומיוצרים אצל ספק הדפסה מקצועי לאחר קבלת ההזמנה. יצירות מקוריות הן פריטים חד-פעמיים, ועבודות בהזמנה אישית מיוצרות במיוחד עבור הלקוח.",
-        "השתדלנו להציג את היצירות בנאמנות מרבית, אך ייתכנו הפרשי גוון, בהירות ורוויה בין התצוגה במסך לבין ההדפס בפועל, בשל הבדלים בין מסכים, בכיול ובחומרי הדפסה. הפרש גוון סביר כזה אינו נחשב פגם במוצר.",
-        "המידות המוצגות באתר הן מידות ההדפס עצמו, בסנטימטרים (או באינצ'ים בתצוגת מטבע זר), ואינן כוללות פספרטו או מסגרת אלא אם צוין במפורש שהמוצר ממוסגר.",
-        "מלאי היצירות המקוריות מוגבל בהגדרה. במקרה שיצירה נמכרה ולא עודכנה בזמן באתר, נודיע על כך מיד ונשיב את מלוא התמורה."
-      ]
-    },
-    {
-      "heading": "מחירים ותשלום",
-      "paragraphs": [
-        "כל המחירים באתר נקובים בשקלים חדשים (₪). תצוגת מחיר בדולר, אם קיימת, היא להמחשה בלבד; החיוב בפועל מתבצע בשקלים.",
-        "העסק פועל כעוסק פטור. בהתאם לכך לא נגבה מס ערך מוסף על העסקאות, המחירים המוצגים באתר הם סופיים ואינם כוללים רכיב מע\"מ, ובגין הרכישה תונפק קבלה (ולא חשבונית מס).",
-        "עלות המשלוח מחושבת בנפרד לפי סוג ההדפס, הגודל והכמות, ומוצגת במלואה בעמוד העגלה לפני אישור התשלום. הסכום הסופי לתשלום, כולל משלוח, מוצג לפני שאתה מאשר את ההזמנה.",
-        "התשלום מתבצע באחת משתי דרכים: תשלום מקוון בכרטיס אשראי דרך חברת סליקה מורשית, או העברה בנקאית לפרטי החשבון המופיעים בעמוד העגלה. פרטי כרטיס האשראי נמסרים ישירות לחברת הסליקה ואינם נשמרים אצלנו.",
-        "ההזמנה נחשבת מאושרת רק לאחר קבלת אישור התשלום בפועל. עד לאישור התשלום לא נשמר עבורך הפריט ולא מתחיל תהליך הייצור.",
-        "במקרה של טעות סופר מובהקת במחיר המוצג באתר, לא יחייב אותנו המחיר השגוי. נפנה אליך, נציג את המחיר הנכון, ותוכל לבחור להמשיך בעסקה או לבטל אותה ולקבל החזר מלא."
-      ]
-    },
-    {
-      "heading": "אספקה ומשלוחים",
-      "paragraphs": [
-        "לאחר אישור התשלום מתחיל תהליך הייצור. זמן האספקה הכולל מורכב מזמן ייצור ומזמן משלוח, ושניהם נספרים בימי עסקים (ימים א'-ה', לא כולל שישי, שבת, ערבי חג וחגים).",
-        "מוצרים שונים מיוצרים בזמנים שונים - הדפס על נייר מהיר יותר מהדפס ממוסגר או קנבס מתוח. יצירות מקוריות נשלחות לאחר אריזה מיוחדת, ועבודות בהזמנה אישית כפופות ללוח זמנים שנקבע איתך מראש בנפרד.",
-        "המשלוח מבוצע לכתובת שהזנת בעת ההזמנה. אנא ודא שהכתובת מלאה ומדויקת, כולל מספר דירה, קומה וכל פרט נדרש לאיתור.",
-        "ייתכנו עיכובים שאינם בשליטתנו - עומס אצל חברת השילוח, עיכובי מכס במשלוחים בינלאומיים, שביתות, מזג אוויר קיצוני או אירועי כוח עליון. נעדכן אותך על כל עיכוב מהותי שידוע לנו.",
-        "אם ההזמנה מתעכבת מעבר לזמן שנמסר לך באופן משמעותי ולא הצלחנו לספק אותה, תוכל לבטל אותה ולקבל החזר כספי מלא, לרבות דמי המשלוח ששולמו."
-      ],
-      "bullets": [
-        "<strong>זמן ייצור:</strong> 2-5 ימי עסקים להדפסים על נייר; 3-7 ימי עסקים להדפסים ממוסגרים ולקנבס מתוח.",
-        "<strong>זמן משלוח בישראל:</strong> 5-12 ימי עסקים ממועד סיום הייצור.",
-        "<strong>משלוח מחוץ לישראל:</strong> 10-21 ימי עסקים ממועד סיום הייצור, בכפוף להליכי מכס ביעד.",
-        "<strong>מסים ומכס ביעד:</strong> במשלוח מחוץ לישראל, מסי יבוא, מכס ואגרות מקומיות - אם יחולו - הם באחריות המזמין ואינם כלולים במחיר."
-      ]
-    },
-    {
-      "heading": "ביטול עסקה, החזרים והחלפות",
-      "paragraphs": [
-        "זכות הביטול, אופן הפעלתה, דמי הביטול, מועדי ההחזר והכללים המיוחדים ליצירות מקוריות, לעבודות בהזמנה אישית ולסדנאות - מפורטים במלואם במדיניות הביטולים וההחזרים, שמהווה חלק בלתי נפרד מתקנון זה.",
-        "בקצרה: בהדפסים אמנותיים ניתן לבטל תוך 14 יום מקבלת המוצר; דמי הביטול לא יעלו על 5% ממחיר העסקה או 100 ₪, לפי הנמוך; והחזר כספי יבוצע תוך 14 יום ממועד קבלת הודעת הביטול. יצירות מקוריות ועבודות בהזמנה אישית כפופות לכללים נפרדים."
-      ]
-    },
-    {
-      "heading": "אחריות ושירות לאחר מכירה",
-      "paragraphs": [
-        "אנו אחראים לכך שהמוצר שיסופק יהיה תקין, תואם לתיאור באתר ונקי מפגמי ייצור והדפסה.",
-        "אם הפריט הגיע פגום, שבור או שאינו תואם למה שהוזמן, יש לפנות אלינו תוך 48 שעות מקבלת המשלוח בצירוף תמונות של הפריט ושל האריזה. נדאג להחלפה או להחזר כספי מלא, על חשבוננו, לפי העניין.",
-        "האחריות אינה חלה על נזק שנגרם לאחר המסירה כתוצאה משימוש, טיפול או אחסון לא נאותים, לרבות: דהייה עקב חשיפה ישירה ומתמשכת לשמש, נזקי לחות או רטיבות, קיפול, שריטות, נזק שנגרם במהלך מסגור עצמי או תלייה, ובלאי טבעי לאורך זמן.",
-        "עבודות אמנות על נייר ועל קנבס הן פריטים רגישים. מומלץ לתלות אותן הרחק מאור שמש ישיר וממקורות לחות, ולמסגר אצל ממסגר מקצועי בזכוכית עם הגנת UV."
-      ]
-    },
-    {
-      "heading": "סדנאות אמנות",
-      "paragraphs": [
-        "הרשמה לסדנה נעשית בתיאום מראש ומותנית בזמינות מקום. פרטי הסדנה - מועד, משך, מיקום, מספר משתתפים והחומרים הכלולים - נמסרים לפני ההרשמה.",
-        "אנו רשאים לשנות מועד או מיקום של סדנה, או לבטל אותה, במקרה של מספר נרשמים נמוך מהמינימום או בשל נסיבות שאינן בשליטתנו. במקרה כזה נציע מועד חלופי, ואם אינו מתאים - יינתן החזר כספי מלא.",
-        "כללי ביטול מצד המשתתף מפורטים במדיניות הביטולים וההחזרים.",
-        "השתתפות בסדנה היא באחריות המשתתף. יש להודיע מראש על רגישות לחומרי אמנות (צבעים, ממסים, אבק פחם) או על מגבלה בריאותית רלוונטית. משתתפים מתחת לגיל 18 - בהתאם לתנאי הסדנה ובאישור הורה."
-      ]
-    },
-    {
-      "heading": "קניין רוחני",
-      "paragraphs": [
-        "כל היצירות, הדימויים, הצילומים, הסרטונים, הטקסטים, העיצוב, שם האמן, הלוגו והחתימה המופיעים באתר מוגנים בזכויות יוצרים ובקניין רוחני. כל הזכויות שמורות.",
-        "רכישת הדפס או יצירה מקורית מעניקה בעלות בעותק הפיזי שנרכש בלבד, ואינה מעבירה זכויות יוצרים, זכות שעתוק, פרסום, מסחור או יצירת יצירות נגזרות.",
-        "האתר שומר במפורש על זכויותיו בכל הנוגע לכריית מידע ולשימוש בתוכן לצורך אימון או פיתוח של מערכות בינה מלאכותית. הפירוט המלא, לרבות ההסתייגות המפורשת מאימון AI, מופיע במדיניות זכויות היוצרים."
-      ]
-    },
-    {
-      "heading": "פרטיות ואבטחת מידע",
-      "paragraphs": [
-        "השימוש בפרטים שנמסרים באתר, זהות מקבלי המידע, תקופות השמירה וזכויותיך לעיין במידע, לתקן אותו או למחוק אותו - מפורטים במדיניות הפרטיות, שמהווה חלק בלתי נפרד מתקנון זה.",
-        "התשלום המקוון מתבצע בסביבה מאובטחת של חברת סליקה מורשית. פרטי כרטיס האשראי אינם עוברים דרך שרתי האתר ואינם נשמרים אצלנו בשום שלב."
-      ]
-    },
-    {
-      "heading": "הגבלת אחריות וכוח עליון",
-      "paragraphs": [
-        "אנו עושים מאמץ לשמור על אתר תקין, זמין ומעודכן, אך איננו מתחייבים שהאתר יפעל ללא הפרעות או תקלות. איננו אחראים לנזק שנגרם מתקלה טכנית, מהפסקת שירות של ספק חיצוני או מגישה לאתר.",
-        "אחריותנו הכוללת בקשר לכל הזמנה לא תעלה, בכל מקרה, על הסכום ששולם בפועל בגין אותה הזמנה.",
-        "לא נהיה אחראים לאי-קיום או לעיכוב בקיום התחייבויותינו כתוצאה מנסיבות שאינן בשליטתנו הסבירה, לרבות מלחמה, מצב חירום, שביתה, שבתה, אסון טבע, מגפה, כשל תשתיות או הוראה של רשות מוסמכת.",
-        "קישורים לאתרים חיצוניים ולרשתות חברתיות מופיעים לנוחותך בלבד. איננו אחראים לתוכן, לזמינות או למדיניות הפרטיות של אתרים שאינם בשליטתנו."
-      ]
-    },
-    {
-      "heading": "פניות, תלונות ויישוב מחלוקות",
-      "paragraphs": [
-        "בכל שאלה, פנייה או תלונה בנוגע להזמנה, למוצר או לתקנון זה, ניתן לפנות אלינו בדוא\"ל, בטלפון או ב-WhatsApp לפרטים המופיעים בראש עמוד זה. נשתדל לטפל בכל פנייה בתוך זמן המענה הנקוב.",
-        "אנחנו מעדיפים לפתור כל מחלוקת בשיחה ישירה ובהגינות. נשמח שתפנה אלינו לפני כל הליך אחר."
-      ]
-    },
-    {
-      "heading": "דין חל וסמכות שיפוט",
-      "paragraphs": [
-        "על תקנון זה ועל כל עסקה שנעשית באתר יחולו דיני מדינת ישראל בלבד.",
-        "סמכות השיפוט הבלעדית בכל עניין הנובע מתקנון זה או מהשימוש באתר נתונה לבתי המשפט המוסמכים בישראל, בהתאם להוראות הדין. אין באמור כדי לגרוע מזכות של צרכן לפנות לערכאה המוסמכת לפי חוק הגנת הצרכן."
-      ]
-    },
-    {
-      "heading": "שינויים בתקנון",
-      "paragraphs": [
-        "אנו רשאים לעדכן תקנון זה מעת לעת. הנוסח המחייב הוא הנוסח המפורסם באתר במועד ביצוע ההזמנה, ותאריך העדכון האחרון מופיע בראש העמוד.",
-        "שינוי בתקנון לא יחול רטרואקטיבית על הזמנות שכבר בוצעו ואושרו."
-      ]
-    }
-  ],
-  "legalNote": "אם ייווצר פער בין האמור בתקנון זה לבין הוראות חוק הגנת הצרכן, התשמ\"א-1981, והתקנות שמכוחו - יגברו הוראות הדין, ואין בתקנון זה כדי לגרוע מזכויות המוקנות לך כצרכן לפי חוק."
+  "en": {
+    "title": "Terms & Purchase Policy | Gal Disegni",
+    "metaDescription": "The site's terms of service and purchase policy - business details, pricing and payment, delivery, warranty, cancellations, and jurisdiction.",
+    "heroEyebrow": "Terms & Purchase Policy",
+    "heroHeading": "The Site's<br>Terms of Purchase.",
+    "heroLead": "Everything you need to know before purchasing - who's behind the site, how pricing is set, when your order arrives, and what happens if something goes wrong.",
+    "updatedLabel": "Last updated: August 2026",
+    "identityHeading": "Business Details",
+    "sections": [
+      {
+        "heading": "General",
+        "paragraphs": [
+          "This website is operated by Gal Disegni (referred to as \"the artist,\" \"we,\" or \"the site\") and is used to sell fine art prints, original artwork, custom commissioned work, and art workshops.",
+          "These terms apply equally to all genders and are written in one grammatical form for convenience only. They apply to any use of the site and any purchase made through it, and constitute a binding agreement between you and us.",
+          "Making a purchase on the site confirms that you have read and agree to these terms, the cancellations and returns policy, and the privacy policy."
+        ]
+      },
+      {
+        "heading": "Who May Purchase",
+        "paragraphs": [
+          "Any person aged 18 or older, with the legal capacity to enter into a contract, and holding a valid payment method or bank account in their own name, may purchase on the site.",
+          "A minor under 18 may only purchase with the explicit prior consent of a parent or legal guardian. A purchase made by a minor constitutes a declaration that such consent was obtained.",
+          "You must provide complete and accurate details. Incorrect details may prevent delivery of your order, and we are not responsible for any delay or failure to deliver resulting from an incorrect address or contact details provided to us."
+        ]
+      },
+      {
+        "heading": "Products, Images, and Dimensions",
+        "paragraphs": [
+          "Fine art prints are reproductions of original artwork, manufactured by a professional printing supplier after the order is placed. Original artworks are one-of-a-kind pieces, and commissioned work is created specially for the customer.",
+          "We have made every effort to display the artwork as accurately as possible, but there may be differences in hue, brightness, and saturation between the on-screen display and the actual print, due to differences between screens, calibration, and printing materials. Such a reasonable color difference is not considered a product defect.",
+          "The dimensions shown on the site are the dimensions of the print itself, in centimeters (or inches in foreign-currency display), and do not include a mat or frame unless the product is explicitly stated to be framed.",
+          "The stock of original artworks is inherently limited. If a piece has been sold and the site was not updated in time, we will notify you immediately and refund the full amount."
+        ]
+      },
+      {
+        "heading": "Pricing and Payment",
+        "paragraphs": [
+          "All prices on the site are stated in New Israeli Shekels (₪). A price shown in dollars, if available, is for illustration only; the actual charge is made in shekels.",
+          "The business operates as a VAT-exempt dealer (\"osek patur\") under Israeli law. Accordingly, no VAT is charged on transactions, the prices shown on the site are final and do not include a VAT component, and a receipt (not a tax invoice) will be issued for the purchase.",
+          "Shipping cost is calculated separately based on the print type, size, and quantity, and is shown in full on the cart page before payment is confirmed. The final amount due, including shipping, is displayed before you confirm the order.",
+          "Payment is made in one of two ways: online credit card payment through a licensed payment processor, or bank transfer to the account details shown on the cart page. Credit card details are submitted directly to the payment processor and are not stored by us.",
+          "An order is considered confirmed only once actual payment confirmation is received. Until payment is confirmed, the item is not reserved for you and production does not begin.",
+          "In the event of a clear clerical error in a price shown on the site, we will not be bound by the incorrect price. We will contact you, present the correct price, and you may choose to proceed with the transaction or cancel it and receive a full refund."
+        ]
+      },
+      {
+        "heading": "Delivery and Shipping",
+        "paragraphs": [
+          "Production begins once payment is confirmed. Total delivery time consists of production time and shipping time, both counted in business days (Sunday-Thursday, excluding Fridays, Saturdays, and holiday eves and holidays).",
+          "Different products are produced in different timeframes - a paper print is faster than a framed print or stretched canvas. Original artworks are shipped after special packaging, and commissioned work is subject to a timeline agreed with you separately in advance.",
+          "Shipping is made to the address you entered when placing the order. Please make sure the address is complete and accurate, including apartment number, floor, and any other detail needed to locate it.",
+          "Delays beyond our control may occur - carrier backlogs, customs delays on international shipments, strikes, extreme weather, or force majeure events. We will update you of any material delay we become aware of.",
+          "If your order is significantly delayed beyond the time you were given and we are unable to deliver it, you may cancel it and receive a full refund, including any shipping fees paid."
+        ],
+        "bullets": [
+          "<strong>Production time:</strong> 2-5 business days for paper prints; 3-7 business days for framed prints and stretched canvas.",
+          "<strong>Shipping time within Israel:</strong> 5-12 business days from the completion of production.",
+          "<strong>Shipping outside Israel:</strong> 10-21 business days from the completion of production, subject to customs procedures at the destination.",
+          "<strong>Taxes and customs at destination:</strong> For shipments outside Israel, import taxes, customs duties, and local fees - if applicable - are the responsibility of the customer and are not included in the price."
+        ]
+      },
+      {
+        "heading": "Cancellation, Returns, and Exchanges",
+        "paragraphs": [
+          "The right of cancellation, how to exercise it, cancellation fees, refund timelines, and the special rules for original artworks, commissioned work, and workshops are detailed in full in the Cancellations & Returns Policy, which forms an integral part of these terms.",
+          "In brief: fine art prints may be cancelled within 14 days of receiving the product; cancellation fees will not exceed 5% of the transaction price or 100 ₪, whichever is lower; and a refund will be issued within 14 days of receiving the cancellation notice. Original artworks and commissioned work are subject to separate rules."
+        ]
+      },
+      {
+        "heading": "Warranty and After-Sales Service",
+        "paragraphs": [
+          "We are responsible for ensuring that the product delivered is sound, matches its description on the site, and is free of manufacturing and printing defects.",
+          "If the item arrives damaged, broken, or does not match what was ordered, please contact us within 48 hours of receiving the shipment, with photos of the item and its packaging. We will arrange a replacement or a full refund, at our expense, as applicable.",
+          "The warranty does not cover damage occurring after delivery as a result of improper use, handling, or storage, including: fading from direct and prolonged sun exposure, moisture or water damage, creasing, scratches, damage caused during self-framing or hanging, and natural wear over time.",
+          "Artwork on paper and canvas is delicate. We recommend hanging it away from direct sunlight and sources of moisture, and having it framed by a professional framer with UV-protective glass."
+        ]
+      },
+      {
+        "heading": "Art Workshops",
+        "paragraphs": [
+          "Registration for a workshop is by prior arrangement and subject to space availability. Workshop details - date, duration, location, number of participants, and included materials - are provided before registration.",
+          "We may change the date or location of a workshop, or cancel it, in the event of insufficient registrations or circumstances beyond our control. In such a case we will offer an alternative date, and if it doesn't suit you, a full refund will be given.",
+          "Cancellation rules for participants are detailed in the Cancellations & Returns Policy.",
+          "Participation in a workshop is the participant's own responsibility. Please inform us in advance of any sensitivity to art materials (paints, solvents, charcoal dust) or a relevant health limitation. Participants under 18 - subject to the workshop's terms and a parent's consent."
+        ]
+      },
+      {
+        "heading": "Intellectual Property",
+        "paragraphs": [
+          "All artwork, images, photographs, videos, text, design, the artist's name, logo, and signature appearing on the site are protected by copyright and intellectual property rights. All rights reserved.",
+          "Purchasing a print or an original artwork grants ownership of the physical copy purchased only, and does not transfer copyright, or the right to reproduce, publish, commercialize, or create derivative works.",
+          "The site expressly reserves its rights regarding data mining and the use of its content for training or developing artificial intelligence systems. Full details, including the explicit reservation against AI training, appear in the Copyright Policy."
+        ]
+      },
+      {
+        "heading": "Privacy and Data Security",
+        "paragraphs": [
+          "The use of details submitted on the site, the identity of recipients of that information, retention periods, and your rights to review, correct, or delete it are detailed in the Privacy Policy, which forms an integral part of these terms.",
+          "Online payment is processed in the secure environment of a licensed payment processor. Credit card details never pass through the site's servers and are not stored by us at any stage."
+        ]
+      },
+      {
+        "heading": "Limitation of Liability and Force Majeure",
+        "paragraphs": [
+          "We make an effort to keep the site functional, available, and up to date, but we do not guarantee that it will operate without interruptions or faults. We are not liable for damage caused by a technical malfunction, a service outage of an external provider, or access to the site.",
+          "Our total liability in connection with any order will not, in any case, exceed the amount actually paid for that order.",
+          "We will not be liable for any failure or delay in fulfilling our obligations resulting from circumstances beyond our reasonable control, including war, a state of emergency, strikes, natural disaster, pandemic, infrastructure failure, or an order by a competent authority.",
+          "Links to external websites and social networks are provided for your convenience only. We are not responsible for the content, availability, or privacy policy of sites not under our control."
+        ]
+      },
+      {
+        "heading": "Inquiries, Complaints, and Dispute Resolution",
+        "paragraphs": [
+          "For any question, inquiry, or complaint regarding an order, a product, or these terms, you may contact us by email, phone, or WhatsApp using the details at the top of this page. We will strive to handle every inquiry within the stated response time.",
+          "We prefer to resolve any dispute through direct, fair conversation. We'd be glad if you reached out to us before pursuing any other process."
+        ]
+      },
+      {
+        "heading": "Governing Law and Jurisdiction",
+        "paragraphs": [
+          "These terms and any transaction made on the site are governed exclusively by the laws of the State of Israel.",
+          "Exclusive jurisdiction over any matter arising from these terms or from use of the site lies with the competent courts of Israel, in accordance with the law. This does not derogate from a consumer's right to apply to the forum authorized under the Consumer Protection Law."
+        ]
+      },
+      {
+        "heading": "Changes to These Terms",
+        "paragraphs": [
+          "We may update these terms from time to time. The binding version is the one published on the site at the time the order is placed, and the date of the last update appears at the top of the page.",
+          "A change to these terms will not apply retroactively to orders already placed and confirmed."
+        ]
+      }
+    ],
+    "legalNote": "If any gap arises between what is stated in these terms and the provisions of the Consumer Protection Law, 5741-1981, and its regulations, the provisions of the law shall prevail, and nothing in these terms derogates from the rights granted to you as a consumer under the law. This site and all transactions made through it are governed exclusively by the laws of the State of Israel, regardless of the language in which you are reading this policy or your location."
+  }
 }

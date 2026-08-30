@@ -1,83 +1,56 @@
 {
-  "translations": {
-    "he": {
-      "title": "הדפסים | גל דִּיסֵנִי",
-      "metaDescription": "הדפסים אמנותיים של גל דִּיסֵנִי - בחרו יצירה כדי לראות אותה בגודל מלא ולבחור הדפס אמנותי.",
-      "heading": "הדפסים",
-      "heroText": "בחרו יצירה כדי לראות אותה בגודל מלא ולבחור הדפס אמנותי.",
-      "originalsLinkLabel": "ליצירות המקוריות",
-      "catalogHeading": "יצירות לרכישה",
-      "filterAllLabel": "הכל",
-      "filters": [
-        {
-          "label": "גירי פסטל",
-          "value": "pastel"
-        },
-        {
-          "label": "מיקס-מדיה",
-          "value": "mixed"
-        },
-        {
-          "label": "אקריליק",
-          "value": "acrylic"
-        },
-        {
-          "label": "רישום ופורטרט",
-          "value": "drawing"
-        }
-      ]
-    },
-    "en": {
-      "title": "Prints | Gal Disegni",
-      "metaDescription": "Fine art prints by Gal Disegni - choose a piece to view it full size and select a print.",
-      "heading": "Prints",
-      "heroText": "Choose a piece to view it full size and select a print.",
-      "originalsLinkLabel": "View Original Artwork",
-      "catalogHeading": "Available Artwork",
-      "filterAllLabel": "All",
-      "filters": [
-        {
-          "label": "Pastel",
-          "value": "pastel"
-        },
-        {
-          "label": "Mixed Media",
-          "value": "mixed"
-        },
-        {
-          "label": "Acrylic",
-          "value": "acrylic"
-        },
-        {
-          "label": "Drawing & Portrait",
-          "value": "drawing"
-        }
-      ]
-    }
+  "he": {
+    "title": "הדפסים | גל דִּיסֵנִי",
+    "metaDescription": "הדפסים אמנותיים של גל דִּיסֵנִי - בחרו יצירה כדי לראות אותה בגודל מלא ולבחור הדפס אמנותי.",
+    "heading": "הדפסים",
+    "heroText": "בחרו יצירה כדי לראות אותה בגודל מלא ולבחור הדפס אמנותי.",
+    "originalsLinkLabel": "ליצירות המקוריות",
+    "catalogHeading": "יצירות לרכישה",
+    "filterAllLabel": "הכל",
+    "filters": [
+      {
+        "label": "גירי פסטל",
+        "value": "pastel"
+      },
+      {
+        "label": "מיקס-מדיה",
+        "value": "mixed"
+      },
+      {
+        "label": "אקריליק",
+        "value": "acrylic"
+      },
+      {
+        "label": "רישום ופורטרט",
+        "value": "drawing"
+      }
+    ]
   },
-  "title": "הדפסים | גל דִּיסֵנִי",
-  "metaDescription": "הדפסים אמנותיים של גל דִּיסֵנִי - בחרו יצירה כדי לראות אותה בגודל מלא ולבחור הדפס אמנותי.",
-  "heading": "הדפסים",
-  "heroText": "בחרו יצירה כדי לראות אותה בגודל מלא ולבחור הדפס אמנותי.",
-  "originalsLinkLabel": "ליצירות המקוריות",
-  "catalogHeading": "יצירות לרכישה",
-  "filterAllLabel": "הכל",
-  "filters": [
-    {
-      "label": "גירי פסטל",
-      "value": "pastel"
-    },
-    {
-      "label": "מיקס-מדיה",
-      "value": "mixed"
-    },
-    {
-      "label": "אקריליק",
-      "value": "acrylic"
-    },
-    {
-      "label": "רישום ופורטרט",
-      "value": "drawing"
-    }
-  ]
+  "en": {
+    "title": "Prints | Gal Disegni",
+    "metaDescription": "Fine art prints by Gal Disegni - choose a piece to view it full size and select a print.",
+    "heading": "Prints",
+    "heroText": "Choose a piece to view it full size and select a print.",
+    "originalsLinkLabel": "View Original Artwork",
+    "catalogHeading": "Available Artwork",
+    "filterAllLabel": "All",
+    "filters": [
+      {
+        "label": "Pastel",
+        "value": "pastel"
+      },
+      {
+        "label": "Mixed Media",
+        "value": "mixed"
+      },
+      {
+        "label": "Acrylic",
+        "value": "acrylic"
+      },
+      {
+        "label": "Drawing & Portrait",
+        "value": "drawing"
+      }
+    ]
+  }
 }

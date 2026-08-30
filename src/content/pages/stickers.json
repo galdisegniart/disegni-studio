@@ -1,20 +1,14 @@
 {
-  "translations": {
-    "he": {
-      "title": "מדבקות | גל דִּיסֵנִי",
-      "metaDescription": "מדבקות דו-ג'קט (die-cut) בעיצוב מקורי של גל דִּיסֵנִי.",
-      "heading": "מדבקות",
-      "heroText": "מדבקות דו-ג'קט (die-cut) בעיצוב מקורי, במגוון גדלים."
-    },
-    "en": {
-      "title": "Stickers | Gal Disegni",
-      "metaDescription": "Original-design die-cut stickers by Gal Disegni.",
-      "heading": "Stickers",
-      "heroText": "Original-design die-cut stickers, in a range of sizes."
-    }
+  "he": {
+    "title": "מדבקות | גל דִּיסֵנִי",
+    "metaDescription": "מדבקות דו-ג'קט (die-cut) בעיצוב מקורי של גל דִּיסֵנִי.",
+    "heading": "מדבקות",
+    "heroText": "מדבקות דו-ג'קט (die-cut) בעיצוב מקורי, במגוון גדלים."
   },
-  "title": "מדבקות | גל דִּיסֵנִי",
-  "metaDescription": "מדבקות דו-ג'קט (die-cut) בעיצוב מקורי של גל דִּיסֵנִי.",
-  "heading": "מדבקות",
-  "heroText": "מדבקות דו-ג'קט (die-cut) בעיצוב מקורי, במגוון גדלים."
+  "en": {
+    "title": "Stickers | Gal Disegni",
+    "metaDescription": "Original-design die-cut stickers by Gal Disegni.",
+    "heading": "Stickers",
+    "heroText": "Original-design die-cut stickers, in a range of sizes."
+  }
 }

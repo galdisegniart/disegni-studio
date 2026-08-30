@@ -1,0 +1,204 @@
+{
+  "he": {
+    "nav": [
+      {
+        "label": "גלריה",
+        "href": "/",
+        "visible": true
+      },
+      {
+        "label": "חנות",
+        "href": "/collections/",
+        "visible": true,
+        "children": [
+          {
+            "label": "הדפסים",
+            "href": "/collections/prints/",
+            "visible": true
+          },
+          {
+            "label": "מקוריות זמינות",
+            "href": "/collections/originals/",
+            "visible": true
+          },
+          {
+            "label": "ביגוד",
+            "href": "/collections/apparel/",
+            "visible": true
+          },
+          {
+            "label": "מדבקות",
+            "href": "/collections/stickers/",
+            "visible": true
+          }
+        ]
+      },
+      {
+        "label": "יצירות בהזמנה",
+        "href": "/commissions/",
+        "visible": true
+      },
+      {
+        "label": "סדנאות",
+        "href": "/workshops/",
+        "visible": true
+      },
+      {
+        "label": "אודות",
+        "href": "/about/",
+        "visible": true
+      },
+      {
+        "label": "פורטפוליו",
+        "href": "/portfolio/",
+        "visible": false
+      },
+      {
+        "label": "זכויות",
+        "href": "/rights/",
+        "visible": true
+      },
+      {
+        "label": "יצירת קשר",
+        "href": "/contact/",
+        "visible": true
+      }
+    ],
+    "bookingMaxStartTime": "18:30",
+    "businessLegalName": "גל דיסני",
+    "responseTimeLabel": "עד 3 ימי עסקים",
+    "socials": [
+      {
+        "name": "אינסטגרם",
+        "href": "https://www.instagram.com/galdisegniart/"
+      },
+      {
+        "name": "טיקטוק",
+        "href": "https://www.tiktok.com/@galdisegniart"
+      },
+      {
+        "name": "פייסבוק",
+        "href": "https://www.facebook.com/gal.disegni"
+      },
+      {
+        "name": "יוטיוב",
+        "href": "https://www.youtube.com/@GalDisegniart"
+      },
+      {
+        "name": "פינטרסט",
+        "href": "https://www.pinterest.com/galdisegni/"
+      }
+    ],
+    "quickLinksButtonPercent": 85,
+    "brand": "גל דִּיסֵנִי",
+    "siteUrl": "https://disegni.studio",
+    "businessPhoneLink": "+972552902934",
+    "businessNumber": "033749326",
+    "businessCity": "חדרה",
+    "contactHref": "/contact/",
+    "supportEmail": "galdisegniart@gmail.com",
+    "businessPhone": "055-2902934",
+    "tagline": "אמנות מקורית · פורטרטים · סדנאות",
+    "typeScale": {
+      "navPercent": 100,
+      "headingPercent": 100,
+      "subheadingPercent": 100,
+      "legalPercent": 100
+    },
+    "businessStatus": "עוסק פטור",
+    "businessAddress": "בוטקובסקי 30",
+    "categoryCardSizePercent": 150,
+    "whatsappNumber": "972552902934",
+    "gaMeasurementId": "G-W3N289BDC1"
+  },
+  "en": {
+    "brand": "Gal Disegni",
+    "nav": [
+      {
+        "label": "Gallery",
+        "href": "/",
+        "visible": true
+      },
+      {
+        "label": "Shop",
+        "href": "/collections/",
+        "visible": true,
+        "children": [
+          {
+            "label": "Prints",
+            "href": "/collections/prints/",
+            "visible": true
+          },
+          {
+            "label": "Available Originals",
+            "href": "/collections/originals/",
+            "visible": true
+          },
+          {
+            "label": "Apparel",
+            "href": "/collections/apparel/",
+            "visible": true
+          },
+          {
+            "label": "Stickers",
+            "href": "/collections/stickers/",
+            "visible": true
+          }
+        ]
+      },
+      {
+        "label": "Commissions",
+        "href": "/commissions/",
+        "visible": true
+      },
+      {
+        "label": "Workshops",
+        "href": "/workshops/",
+        "visible": true
+      },
+      {
+        "label": "About",
+        "href": "/about/",
+        "visible": true
+      },
+      {
+        "label": "Portfolio",
+        "href": "/portfolio/",
+        "visible": false
+      },
+      {
+        "label": "Copyright",
+        "href": "/rights/",
+        "visible": true
+      },
+      {
+        "label": "Contact",
+        "href": "/contact/",
+        "visible": true
+      }
+    ],
+    "tagline": "Original Art · Portraits · Workshops",
+    "socials": [
+      {
+        "name": "Instagram",
+        "href": "https://www.instagram.com/galdisegniart/"
+      },
+      {
+        "name": "TikTok",
+        "href": "https://www.tiktok.com/@galdisegniart"
+      },
+      {
+        "name": "Facebook",
+        "href": "https://www.facebook.com/gal.disegni"
+      },
+      {
+        "name": "YouTube",
+        "href": "https://www.youtube.com/@GalDisegniart"
+      },
+      {
+        "name": "Pinterest",
+        "href": "https://www.pinterest.com/galdisegni/"
+      }
+    ]
+  }
+}

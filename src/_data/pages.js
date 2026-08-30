@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const flattenLocale = require("../_lib/flattenLocale.js");
 
 module.exports = () => {
   const dir = path.join(__dirname, "..", "content", "pages");
@@ -7,7 +8,7 @@ module.exports = () => {
   const pages = {};
   for (const f of files) {
     const key = f.replace(/\.json$/, "");
-    pages[key] = JSON.parse(fs.readFileSync(path.join(dir, f), "utf8"));
+    pages[key] = flattenLocale(JSON.parse(fs.readFileSync(path.join(dir, f), "utf8")));
   }
   return pages;
 };

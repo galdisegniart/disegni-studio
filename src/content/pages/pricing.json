@@ -1,575 +1,384 @@
 {
-  "materials": [
-    {
-      "id": "paper",
-      "name": "נייר אמנותי",
-      "description": "איכות מוזיאלית, מיועד למסגור",
-      "note": "המחירים אינם כוללים משלוח. עלות המשלוח מחושבת לפי סוג ההדפס, הגודל והכמות, ומוצגת במלואה בעגלה לפני התשלום.",
-      "sizes": [
-        {
-          "id": "5x7",
-          "labelIn": "5×7 אינץ'",
-          "labelCm": "13×18 ס\"מ",
-          "priceILS": 89,
-          "priceUSD": 24,
-          "popular": false,
-          "available": true
-        },
-        {
-          "id": "12x18",
-          "labelIn": "12×18 אינץ'",
-          "labelCm": "30×46 ס\"מ",
-          "priceILS": 169,
-          "priceUSD": 45,
-          "popular": false,
-          "available": true
-        },
-        {
-          "id": "20x30",
-          "labelIn": "20×30 אינץ'",
-          "labelCm": "51×76 ס\"מ",
-          "priceILS": 269,
-          "priceUSD": 69,
-          "popular": true,
-          "available": true
-        },
-        {
-          "id": "24x36",
-          "labelIn": "24×36 אינץ'",
-          "labelCm": "61×91 ס\"מ",
-          "priceILS": 349,
-          "priceUSD": 89,
-          "popular": false,
-          "available": true
-        }
-      ]
-    },
-    {
-      "id": "canvas",
-      "name": "קנבס מתוח",
-      "description": "מגיע מתוח ומוכן לתלייה",
-      "note": "המחירים אינם כוללים משלוח. עלות המשלוח מחושבת לפי סוג ההדפס, הגודל והכמות, ומוצגת במלואה בעגלה לפני התשלום.",
-      "sizes": [
-        {
-          "id": "8x10",
-          "labelIn": "8×10 אינץ'",
-          "labelCm": "20×25 ס\"מ",
-          "priceILS": 229,
-          "priceUSD": 62,
-          "popular": false,
-          "available": true
-        },
-        {
-          "id": "12x16",
-          "labelIn": "12×16 אינץ'",
-          "labelCm": "30×40 ס\"מ",
-          "priceILS": 359,
-          "priceUSD": 97,
-          "popular": false,
-          "available": true
-        },
-        {
-          "id": "16x20",
-          "labelIn": "16×20 אינץ'",
-          "labelCm": "41×51 ס\"מ",
-          "priceILS": 449,
-          "priceUSD": 132,
-          "popular": false,
-          "available": true
-        },
-        {
-          "id": "16x24",
-          "labelIn": "16×24 אינץ'",
-          "labelCm": "41×61 ס\"מ",
-          "priceILS": 479,
-          "priceUSD": 129,
-          "popular": false,
-          "available": true
-        },
-        {
-          "id": "18x24",
-          "labelIn": "18×24 אינץ'",
-          "labelCm": "46×61 ס\"מ",
-          "priceILS": 549,
-          "priceUSD": 161,
-          "popular": true,
-          "available": true
-        },
-        {
-          "id": "18x26",
-          "labelIn": "18×26 אינץ'",
-          "labelCm": "46×66 ס\"מ",
-          "priceILS": 519,
-          "priceUSD": 140,
-          "popular": false,
-          "available": true
-        },
-        {
-          "id": "20x28",
-          "labelIn": "20×28 אינץ'",
-          "labelCm": "51×71 ס\"מ",
-          "priceILS": 559,
-          "priceUSD": 151,
-          "popular": false,
-          "available": true
-        },
-        {
-          "id": "24x32",
-          "labelIn": "24×32 אינץ'",
-          "labelCm": "61×81 ס\"מ",
-          "priceILS": 649,
-          "priceUSD": 175,
-          "popular": false,
-          "available": true
-        },
-        {
-          "id": "24x36",
-          "labelIn": "24×36 אינץ'",
-          "labelCm": "61×91 ס\"מ",
-          "priceILS": 899,
-          "priceUSD": 264,
-          "popular": false,
-          "available": true
-        }
-      ]
-    },
-    {
-      "id": "framed-print",
-      "name": "פוסטר ממוסגר",
-      "description": "מגיע ממוסגר ומוכן לתלייה",
-      "note": "המחירים אינם כוללים משלוח. עלות המשלוח מחושבת לפי סוג ההדפס, הגודל והכמות, ומוצגת במלואה בעגלה לפני התשלום.",
-      "sizes": [
-        {
-          "id": "8x10",
-          "labelIn": "8×10 אינץ'",
-          "labelCm": "20×25 ס\"מ",
-          "priceILS": 329,
-          "priceUSD": 97,
-          "popular": false,
-          "available": true
-        },
-        {
-          "id": "12x16",
-          "labelIn": "12×16 אינץ'",
-          "labelCm": "30×40 ס\"מ",
-          "priceILS": 469,
-          "priceUSD": 138,
-          "popular": false,
-          "available": true
-        },
-        {
-          "id": "16x20",
-          "labelIn": "16×20 אינץ'",
-          "labelCm": "40×50 ס\"מ",
-          "priceILS": 649,
-          "priceUSD": 191,
-          "popular": true,
-          "available": true
-        },
-        {
-          "id": "18x24",
-          "labelIn": "18×24 אינץ'",
-          "labelCm": "46×61 ס\"מ",
-          "priceILS": 979,
-          "priceUSD": 280,
-          "popular": false,
-          "available": true
-        },
-        {
-          "id": "24x36",
-          "labelIn": "24×36 אינץ'",
-          "labelCm": "60×90 ס\"מ",
-          "priceILS": 1290,
-          "priceUSD": 379,
-          "popular": false,
-          "available": true
-        }
-      ]
-    }
-  ],
-  "shippingIntlNote": "גם במשלוחים מחוץ לישראל המחיר אינו כולל משלוח. עלות המשלוח מחושבת בנפרד ומוצגת בעגלה. מסי יבוא ומכס ביעד, אם יחולו, הם באחריות המזמין.",
-  "translations": {
-    "he": {
-      "materials": [
-        {
-          "id": "paper",
-          "name": "נייר אמנותי",
-          "description": "איכות מוזיאלית, מיועד למסגור",
-          "note": "המחירים אינם כוללים משלוח. עלות המשלוח מחושבת לפי סוג ההדפס, הגודל והכמות, ומוצגת במלואה בעגלה לפני התשלום.",
-          "sizes": [
-            {
-              "id": "5x7",
-              "labelIn": "5×7 אינץ'",
-              "labelCm": "13×18 ס\"מ",
-              "priceILS": 89,
-              "priceUSD": 24,
-              "popular": false,
-              "available": true
-            },
-            {
-              "id": "12x18",
-              "labelIn": "12×18 אינץ'",
-              "labelCm": "30×46 ס\"מ",
-              "priceILS": 169,
-              "priceUSD": 45,
-              "popular": false,
-              "available": true
-            },
-            {
-              "id": "20x30",
-              "labelIn": "20×30 אינץ'",
-              "labelCm": "51×76 ס\"מ",
-              "priceILS": 269,
-              "priceUSD": 69,
-              "popular": true,
-              "available": true
-            },
-            {
-              "id": "24x36",
-              "labelIn": "24×36 אינץ'",
-              "labelCm": "61×91 ס\"מ",
-              "priceILS": 349,
-              "priceUSD": 89,
-              "popular": false,
-              "available": true
-            }
-          ]
-        },
-        {
-          "id": "canvas",
-          "name": "קנבס מתוח",
-          "description": "מגיע מתוח ומוכן לתלייה",
-          "note": "המחירים אינם כוללים משלוח. עלות המשלוח מחושבת לפי סוג ההדפס, הגודל והכמות, ומוצגת במלואה בעגלה לפני התשלום.",
-          "sizes": [
-            {
-              "id": "8x10",
-              "labelIn": "8×10 אינץ'",
-              "labelCm": "20×25 ס\"מ",
-              "priceILS": 229,
-              "priceUSD": 62,
-              "popular": false,
-              "available": true
-            },
-            {
-              "id": "12x16",
-              "labelIn": "12×16 אינץ'",
-              "labelCm": "30×40 ס\"מ",
-              "priceILS": 359,
-              "priceUSD": 97,
-              "popular": false,
-              "available": true
-            },
-            {
-              "id": "16x20",
-              "labelIn": "16×20 אינץ'",
-              "labelCm": "41×51 ס\"מ",
-              "priceILS": 449,
-              "priceUSD": 132,
-              "popular": false,
-              "available": true
-            },
-            {
-              "id": "16x24",
-              "labelIn": "16×24 אינץ'",
-              "labelCm": "41×61 ס\"מ",
-              "priceILS": 479,
-              "priceUSD": 129,
-              "popular": false,
-              "available": true
-            },
-            {
-              "id": "18x24",
-              "labelIn": "18×24 אינץ'",
-              "labelCm": "46×61 ס\"מ",
-              "priceILS": 549,
-              "priceUSD": 161,
-              "popular": true,
-              "available": true
-            },
-            {
-              "id": "18x26",
-              "labelIn": "18×26 אינץ'",
-              "labelCm": "46×66 ס\"מ",
-              "priceILS": 519,
-              "priceUSD": 140,
-              "popular": false,
-              "available": true
-            },
-            {
-              "id": "20x28",
-              "labelIn": "20×28 אינץ'",
-              "labelCm": "51×71 ס\"מ",
-              "priceILS": 559,
-              "priceUSD": 151,
-              "popular": false,
-              "available": true
-            },
-            {
-              "id": "24x32",
-              "labelIn": "24×32 אינץ'",
-              "labelCm": "61×81 ס\"מ",
-              "priceILS": 649,
-              "priceUSD": 175,
-              "popular": false,
-              "available": true
-            },
-            {
-              "id": "24x36",
-              "labelIn": "24×36 אינץ'",
-              "labelCm": "61×91 ס\"מ",
-              "priceILS": 899,
-              "priceUSD": 264,
-              "popular": false,
-              "available": true
-            }
-          ]
-        },
-        {
-          "id": "framed-print",
-          "name": "פוסטר ממוסגר",
-          "description": "מגיע ממוסגר ומוכן לתלייה",
-          "note": "המחירים אינם כוללים משלוח. עלות המשלוח מחושבת לפי סוג ההדפס, הגודל והכמות, ומוצגת במלואה בעגלה לפני התשלום.",
-          "sizes": [
-            {
-              "id": "8x10",
-              "labelIn": "8×10 אינץ'",
-              "labelCm": "20×25 ס\"מ",
-              "priceILS": 329,
-              "priceUSD": 97,
-              "popular": false,
-              "available": true
-            },
-            {
-              "id": "12x16",
-              "labelIn": "12×16 אינץ'",
-              "labelCm": "30×40 ס\"מ",
-              "priceILS": 469,
-              "priceUSD": 138,
-              "popular": false,
-              "available": true
-            },
-            {
-              "id": "16x20",
-              "labelIn": "16×20 אינץ'",
-              "labelCm": "40×50 ס\"מ",
-              "priceILS": 649,
-              "priceUSD": 191,
-              "popular": true,
-              "available": true
-            },
-            {
-              "id": "18x24",
-              "labelIn": "18×24 אינץ'",
-              "labelCm": "46×61 ס\"מ",
-              "priceILS": 979,
-              "priceUSD": 280,
-              "popular": false,
-              "available": true
-            },
-            {
-              "id": "24x36",
-              "labelIn": "24×36 אינץ'",
-              "labelCm": "60×90 ס\"מ",
-              "priceILS": 1290,
-              "priceUSD": 379,
-              "popular": false,
-              "available": true
-            }
-          ]
-        }
-      ],
-      "shippingIntlNote": "גם במשלוחים מחוץ לישראל המחיר אינו כולל משלוח. עלות המשלוח מחושבת בנפרד ומוצגת בעגלה. מסי יבוא ומכס ביעד, אם יחולו, הם באחריות המזמין."
-    },
-    "en": {
-      "materials": [
-        {
-          "id": "paper",
-          "name": "Fine Art Paper",
-          "description": "Museum-quality, ready for framing",
-          "note": "Prices do not include shipping. Shipping cost is calculated by print type, size, and quantity, and shown in full in the cart before checkout.",
-          "sizes": [
-            {
-              "id": "5x7",
-              "labelIn": "5×7 in",
-              "labelCm": "13×18 cm",
-              "priceILS": 89,
-              "priceUSD": 24,
-              "popular": false,
-              "available": true
-            },
-            {
-              "id": "12x18",
-              "labelIn": "12×18 in",
-              "labelCm": "30×46 cm",
-              "priceILS": 169,
-              "priceUSD": 45,
-              "popular": false,
-              "available": true
-            },
-            {
-              "id": "20x30",
-              "labelIn": "20×30 in",
-              "labelCm": "51×76 cm",
-              "priceILS": 269,
-              "priceUSD": 69,
-              "popular": true,
-              "available": true
-            },
-            {
-              "id": "24x36",
-              "labelIn": "24×36 in",
-              "labelCm": "61×91 cm",
-              "priceILS": 349,
-              "priceUSD": 89,
-              "popular": false,
-              "available": true
-            }
-          ]
-        },
-        {
-          "id": "canvas",
-          "name": "Stretched Canvas",
-          "description": "Arrives stretched and ready to hang",
-          "note": "Prices do not include shipping. Shipping cost is calculated by print type, size, and quantity, and shown in full in the cart before checkout.",
-          "sizes": [
-            {
-              "id": "8x10",
-              "labelIn": "8×10 in",
-              "labelCm": "20×25 cm",
-              "priceILS": 229,
-              "priceUSD": 62,
-              "popular": false,
-              "available": true
-            },
-            {
-              "id": "12x16",
-              "labelIn": "12×16 in",
-              "labelCm": "30×40 cm",
-              "priceILS": 359,
-              "priceUSD": 97,
-              "popular": false,
-              "available": true
-            },
-            {
-              "id": "16x20",
-              "labelIn": "16×20 in",
-              "labelCm": "41×51 cm",
-              "priceILS": 449,
-              "priceUSD": 132,
-              "popular": false,
-              "available": true
-            },
-            {
-              "id": "16x24",
-              "labelIn": "16×24 in",
-              "labelCm": "41×61 cm",
-              "priceILS": 479,
-              "priceUSD": 129,
-              "popular": false,
-              "available": true
-            },
-            {
-              "id": "18x24",
-              "labelIn": "18×24 in",
-              "labelCm": "46×61 cm",
-              "priceILS": 549,
-              "priceUSD": 161,
-              "popular": true,
-              "available": true
-            },
-            {
-              "id": "18x26",
-              "labelIn": "18×26 in",
-              "labelCm": "46×66 cm",
-              "priceILS": 519,
-              "priceUSD": 140,
-              "popular": false,
-              "available": true
-            },
-            {
-              "id": "20x28",
-              "labelIn": "20×28 in",
-              "labelCm": "51×71 cm",
-              "priceILS": 559,
-              "priceUSD": 151,
-              "popular": false,
-              "available": true
-            },
-            {
-              "id": "24x32",
-              "labelIn": "24×32 in",
-              "labelCm": "61×81 cm",
-              "priceILS": 649,
-              "priceUSD": 175,
-              "popular": false,
-              "available": true
-            },
-            {
-              "id": "24x36",
-              "labelIn": "24×36 in",
-              "labelCm": "61×91 cm",
-              "priceILS": 899,
-              "priceUSD": 264,
-              "popular": false,
-              "available": true
-            }
-          ]
-        },
-        {
-          "id": "framed-print",
-          "name": "Framed Poster",
-          "description": "Arrives framed and ready to hang",
-          "note": "Prices do not include shipping. Shipping cost is calculated by print type, size, and quantity, and shown in full in the cart before checkout.",
-          "sizes": [
-            {
-              "id": "8x10",
-              "labelIn": "8×10 in",
-              "labelCm": "20×25 cm",
-              "priceILS": 329,
-              "priceUSD": 97,
-              "popular": false,
-              "available": true
-            },
-            {
-              "id": "12x16",
-              "labelIn": "12×16 in",
-              "labelCm": "30×40 cm",
-              "priceILS": 469,
-              "priceUSD": 138,
-              "popular": false,
-              "available": true
-            },
-            {
-              "id": "16x20",
-              "labelIn": "16×20 in",
-              "labelCm": "40×50 cm",
-              "priceILS": 649,
-              "priceUSD": 191,
-              "popular": true,
-              "available": true
-            },
-            {
-              "id": "18x24",
-              "labelIn": "18×24 in",
-              "labelCm": "46×61 cm",
-              "priceILS": 979,
-              "priceUSD": 280,
-              "popular": false,
-              "available": true
-            },
-            {
-              "id": "24x36",
-              "labelIn": "24×36 in",
-              "labelCm": "60×90 cm",
-              "priceILS": 1290,
-              "priceUSD": 379,
-              "popular": false,
-              "available": true
-            }
-          ]
-        }
-      ],
-      "shippingIntlNote": "For shipments outside Israel too, the price does not include shipping. Shipping cost is calculated separately and shown in the cart. Any import duties or customs fees at the destination, if applicable, are the buyer's responsibility."
-    }
+  "he": {
+    "materials": [
+      {
+        "id": "paper",
+        "name": "נייר אמנותי",
+        "description": "איכות מוזיאלית, מיועד למסגור",
+        "note": "המחירים אינם כוללים משלוח. עלות המשלוח מחושבת לפי סוג ההדפס, הגודל והכמות, ומוצגת במלואה בעגלה לפני התשלום.",
+        "sizes": [
+          {
+            "id": "5x7",
+            "labelIn": "5×7 אינץ'",
+            "labelCm": "13×18 ס\"מ",
+            "priceILS": 89,
+            "priceUSD": 24,
+            "popular": false,
+            "available": true
+          },
+          {
+            "id": "12x18",
+            "labelIn": "12×18 אינץ'",
+            "labelCm": "30×46 ס\"מ",
+            "priceILS": 169,
+            "priceUSD": 45,
+            "popular": false,
+            "available": true
+          },
+          {
+            "id": "20x30",
+            "labelIn": "20×30 אינץ'",
+            "labelCm": "51×76 ס\"מ",
+            "priceILS": 269,
+            "priceUSD": 69,
+            "popular": true,
+            "available": true
+          },
+          {
+            "id": "24x36",
+            "labelIn": "24×36 אינץ'",
+            "labelCm": "61×91 ס\"מ",
+            "priceILS": 349,
+            "priceUSD": 89,
+            "popular": false,
+            "available": true
+          }
+        ]
+      },
+      {
+        "id": "canvas",
+        "name": "קנבס מתוח",
+        "description": "מגיע מתוח ומוכן לתלייה",
+        "note": "המחירים אינם כוללים משלוח. עלות המשלוח מחושבת לפי סוג ההדפס, הגודל והכמות, ומוצגת במלואה בעגלה לפני התשלום.",
+        "sizes": [
+          {
+            "id": "8x10",
+            "labelIn": "8×10 אינץ'",
+            "labelCm": "20×25 ס\"מ",
+            "priceILS": 229,
+            "priceUSD": 62,
+            "popular": false,
+            "available": true
+          },
+          {
+            "id": "12x16",
+            "labelIn": "12×16 אינץ'",
+            "labelCm": "30×40 ס\"מ",
+            "priceILS": 359,
+            "priceUSD": 97,
+            "popular": false,
+            "available": true
+          },
+          {
+            "id": "16x20",
+            "labelIn": "16×20 אינץ'",
+            "labelCm": "41×51 ס\"מ",
+            "priceILS": 449,
+            "priceUSD": 132,
+            "popular": false,
+            "available": true
+          },
+          {
+            "id": "16x24",
+            "labelIn": "16×24 אינץ'",
+            "labelCm": "41×61 ס\"מ",
+            "priceILS": 479,
+            "priceUSD": 129,
+            "popular": false,
+            "available": true
+          },
+          {
+            "id": "18x24",
+            "labelIn": "18×24 אינץ'",
+            "labelCm": "46×61 ס\"מ",
+            "priceILS": 549,
+            "priceUSD": 161,
+            "popular": true,
+            "available": true
+          },
+          {
+            "id": "18x26",
+            "labelIn": "18×26 אינץ'",
+            "labelCm": "46×66 ס\"מ",
+            "priceILS": 519,
+            "priceUSD": 140,
+            "popular": false,
+            "available": true
+          },
+          {
+            "id": "20x28",
+            "labelIn": "20×28 אינץ'",
+            "labelCm": "51×71 ס\"מ",
+            "priceILS": 559,
+            "priceUSD": 151,
+            "popular": false,
+            "available": true
+          },
+          {
+            "id": "24x32",
+            "labelIn": "24×32 אינץ'",
+            "labelCm": "61×81 ס\"מ",
+            "priceILS": 649,
+            "priceUSD": 175,
+            "popular": false,
+            "available": true
+          },
+          {
+            "id": "24x36",
+            "labelIn": "24×36 אינץ'",
+            "labelCm": "61×91 ס\"מ",
+            "priceILS": 899,
+            "priceUSD": 264,
+            "popular": false,
+            "available": true
+          }
+        ]
+      },
+      {
+        "id": "framed-print",
+        "name": "פוסטר ממוסגר",
+        "description": "מגיע ממוסגר ומוכן לתלייה",
+        "note": "המחירים אינם כוללים משלוח. עלות המשלוח מחושבת לפי סוג ההדפס, הגודל והכמות, ומוצגת במלואה בעגלה לפני התשלום.",
+        "sizes": [
+          {
+            "id": "8x10",
+            "labelIn": "8×10 אינץ'",
+            "labelCm": "20×25 ס\"מ",
+            "priceILS": 329,
+            "priceUSD": 97,
+            "popular": false,
+            "available": true
+          },
+          {
+            "id": "12x16",
+            "labelIn": "12×16 אינץ'",
+            "labelCm": "30×40 ס\"מ",
+            "priceILS": 469,
+            "priceUSD": 138,
+            "popular": false,
+            "available": true
+          },
+          {
+            "id": "16x20",
+            "labelIn": "16×20 אינץ'",
+            "labelCm": "40×50 ס\"מ",
+            "priceILS": 649,
+            "priceUSD": 191,
+            "popular": true,
+            "available": true
+          },
+          {
+            "id": "18x24",
+            "labelIn": "18×24 אינץ'",
+            "labelCm": "46×61 ס\"מ",
+            "priceILS": 979,
+            "priceUSD": 280,
+            "popular": false,
+            "available": true
+          },
+          {
+            "id": "24x36",
+            "labelIn": "24×36 אינץ'",
+            "labelCm": "60×90 ס\"מ",
+            "priceILS": 1290,
+            "priceUSD": 379,
+            "popular": false,
+            "available": true
+          }
+        ]
+      }
+    ],
+    "shippingIntlNote": "גם במשלוחים מחוץ לישראל המחיר אינו כולל משלוח. עלות המשלוח מחושבת בנפרד ומוצגת בעגלה. מסי יבוא ומכס ביעד, אם יחולו, הם באחריות המזמין."
+  },
+  "en": {
+    "materials": [
+      {
+        "id": "paper",
+        "name": "Fine Art Paper",
+        "description": "Museum-quality, ready for framing",
+        "note": "Prices do not include shipping. Shipping cost is calculated by print type, size, and quantity, and shown in full in the cart before checkout.",
+        "sizes": [
+          {
+            "id": "5x7",
+            "labelIn": "5×7 in",
+            "labelCm": "13×18 cm",
+            "priceILS": 89,
+            "priceUSD": 24,
+            "popular": false,
+            "available": true
+          },
+          {
+            "id": "12x18",
+            "labelIn": "12×18 in",
+            "labelCm": "30×46 cm",
+            "priceILS": 169,
+            "priceUSD": 45,
+            "popular": false,
+            "available": true
+          },
+          {
+            "id": "20x30",
+            "labelIn": "20×30 in",
+            "labelCm": "51×76 cm",
+            "priceILS": 269,
+            "priceUSD": 69,
+            "popular": true,
+            "available": true
+          },
+          {
+            "id": "24x36",
+            "labelIn": "24×36 in",
+            "labelCm": "61×91 cm",
+            "priceILS": 349,
+            "priceUSD": 89,
+            "popular": false,
+            "available": true
+          }
+        ]
+      },
+      {
+        "id": "canvas",
+        "name": "Stretched Canvas",
+        "description": "Arrives stretched and ready to hang",
+        "note": "Prices do not include shipping. Shipping cost is calculated by print type, size, and quantity, and shown in full in the cart before checkout.",
+        "sizes": [
+          {
+            "id": "8x10",
+            "labelIn": "8×10 in",
+            "labelCm": "20×25 cm",
+            "priceILS": 229,
+            "priceUSD": 62,
+            "popular": false,
+            "available": true
+          },
+          {
+            "id": "12x16",
+            "labelIn": "12×16 in",
+            "labelCm": "30×40 cm",
+            "priceILS": 359,
+            "priceUSD": 97,
+            "popular": false,
+            "available": true
+          },
+          {
+            "id": "16x20",
+            "labelIn": "16×20 in",
+            "labelCm": "41×51 cm",
+            "priceILS": 449,
+            "priceUSD": 132,
+            "popular": false,
+            "available": true
+          },
+          {
+            "id": "16x24",
+            "labelIn": "16×24 in",
+            "labelCm": "41×61 cm",
+            "priceILS": 479,
+            "priceUSD": 129,
+            "popular": false,
+            "available": true
+          },
+          {
+            "id": "18x24",
+            "labelIn": "18×24 in",
+            "labelCm": "46×61 cm",
+            "priceILS": 549,
+            "priceUSD": 161,
+            "popular": true,
+            "available": true
+          },
+          {
+            "id": "18x26",
+            "labelIn": "18×26 in",
+            "labelCm": "46×66 cm",
+            "priceILS": 519,
+            "priceUSD": 140,
+            "popular": false,
+            "available": true
+          },
+          {
+            "id": "20x28",
+            "labelIn": "20×28 in",
+            "labelCm": "51×71 cm",
+            "priceILS": 559,
+            "priceUSD": 151,
+            "popular": false,
+            "available": true
+          },
+          {
+            "id": "24x32",
+            "labelIn": "24×32 in",
+            "labelCm": "61×81 cm",
+            "priceILS": 649,
+            "priceUSD": 175,
+            "popular": false,
+            "available": true
+          },
+          {
+            "id": "24x36",
+            "labelIn": "24×36 in",
+            "labelCm": "61×91 cm",
+            "priceILS": 899,
+            "priceUSD": 264,
+            "popular": false,
+            "available": true
+          }
+        ]
+      },
+      {
+        "id": "framed-print",
+        "name": "Framed Poster",
+        "description": "Arrives framed and ready to hang",
+        "note": "Prices do not include shipping. Shipping cost is calculated by print type, size, and quantity, and shown in full in the cart before checkout.",
+        "sizes": [
+          {
+            "id": "8x10",
+            "labelIn": "8×10 in",
+            "labelCm": "20×25 cm",
+            "priceILS": 329,
+            "priceUSD": 97,
+            "popular": false,
+            "available": true
+          },
+          {
+            "id": "12x16",
+            "labelIn": "12×16 in",
+            "labelCm": "30×40 cm",
+            "priceILS": 469,
+            "priceUSD": 138,
+            "popular": false,
+            "available": true
+          },
+          {
+            "id": "16x20",
+            "labelIn": "16×20 in",
+            "labelCm": "40×50 cm",
+            "priceILS": 649,
+            "priceUSD": 191,
+            "popular": true,
+            "available": true
+          },
+          {
+            "id": "18x24",
+            "labelIn": "18×24 in",
+            "labelCm": "46×61 cm",
+            "priceILS": 979,
+            "priceUSD": 280,
+            "popular": false,
+            "available": true
+          },
+          {
+            "id": "24x36",
+            "labelIn": "24×36 in",
+            "labelCm": "60×90 cm",
+            "priceILS": 1290,
+            "priceUSD": 379,
+            "popular": false,
+            "available": true
+          }
+        ]
+      }
+    ],
+    "shippingIntlNote": "For shipments outside Israel too, the price does not include shipping. Shipping cost is calculated separately and shown in the cart. Any import duties or customs fees at the destination, if applicable, are the buyer's responsibility."
   }
 }

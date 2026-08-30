@@ -1,86 +1,81 @@
 {
-  "alt": "קרופ הודי Seed Of Joy מאת גל דיסני",
-  "name": "\"Seed Of Joy\" - קפוצ'ון קרופ רקום",
-  "slug": "seed-of-joy-crop-hoodie",
-  "order": 3,
-  "translations": {
-    "he": {
-      "name": "\"Seed Of Joy\" - קפוצ'ון קרופ רקום",
-      "alt": "קרופ הודי Seed Of Joy מאת גל דיסני",
-      "description": "קרופ הודי רקום בעיצוב Seed Of Joy מאת גל דִּיסֵנִי."
-    },
-    "en": {
-      "name": "\"Seed Of Joy\" - Embroidered Crop Hoodie",
-      "alt": "Seed Of Joy crop hoodie by Gal Disegni",
-      "description": "An embroidered crop hoodie featuring the Seed Of Joy design by Gal Disegni."
-    }
+  "he": {
+    "alt": "קרופ הודי Seed Of Joy מאת גל דיסני",
+    "name": "\"Seed Of Joy\" - קפוצ'ון קרופ רקום",
+    "slug": "seed-of-joy-crop-hoodie",
+    "order": 3,
+    "purchaseVariants": [
+      {
+        "catalogNumber": "SEED-OF-JOY-CROP-HOODIE-CROP-HOODIE-S",
+        "shippingFirstUSD": 17,
+        "priceILS": 179,
+        "productType": "crop-hoodie",
+        "shippingFirstILS": 65,
+        "shippingAdditionalUSD": 4,
+        "shippingAdditionalILS": 15,
+        "sizeId": "S",
+        "priceUSD": 45
+      },
+      {
+        "catalogNumber": "SEED-OF-JOY-CROP-HOODIE-CROP-HOODIE-M",
+        "shippingFirstUSD": 17,
+        "priceILS": 179,
+        "productType": "crop-hoodie",
+        "shippingFirstILS": 65,
+        "shippingAdditionalUSD": 4,
+        "shippingAdditionalILS": 15,
+        "sizeId": "M",
+        "priceUSD": 45
+      },
+      {
+        "catalogNumber": "SEED-OF-JOY-CROP-HOODIE-CROP-HOODIE-L",
+        "shippingFirstUSD": 17,
+        "priceILS": 179,
+        "productType": "crop-hoodie",
+        "shippingFirstILS": 65,
+        "shippingAdditionalUSD": 4,
+        "shippingAdditionalILS": 15,
+        "sizeId": "L",
+        "priceUSD": 45
+      },
+      {
+        "catalogNumber": "SEED-OF-JOY-CROP-HOODIE-CROP-HOODIE-XL",
+        "shippingFirstUSD": 17,
+        "priceILS": 179,
+        "productType": "crop-hoodie",
+        "shippingFirstILS": 65,
+        "shippingAdditionalUSD": 4,
+        "shippingAdditionalILS": 15,
+        "sizeId": "XL",
+        "priceUSD": 45
+      },
+      {
+        "catalogNumber": "SEED-OF-JOY-CROP-HOODIE-CROP-HOODIE-2XL",
+        "shippingFirstUSD": 17,
+        "priceILS": 179,
+        "productType": "crop-hoodie",
+        "shippingFirstILS": 65,
+        "shippingAdditionalUSD": 4,
+        "shippingAdditionalILS": 15,
+        "sizeId": "2XL",
+        "priceUSD": 45
+      }
+    ],
+    "matchName": "Crop Hoodie Embroided",
+    "gallery": [
+      {
+        "image": "/images/uploads/womens-cropped-hoodie-black-back-6a80970bd9e99.webp",
+        "alt": "קרופ הודי Seed Of Joy - תצוגה מאחור"
+      }
+    ],
+    "thumb": "/images/uploads/womens-cropped-hoodie-black-front-6a80970bd9b7c.webp",
+    "image": "/images/uploads/womens-cropped-hoodie-black-front-6a80970bd9b7c.webp",
+    "description": "קרופ הודי רקום בעיצוב Seed Of Joy מאת גל דִּיסֵנִי.",
+    "category": "women"
   },
-  "purchaseVariants": [
-    {
-      "catalogNumber": "SEED-OF-JOY-CROP-HOODIE-CROP-HOODIE-S",
-      "shippingFirstUSD": 17,
-      "priceILS": 179,
-      "productType": "crop-hoodie",
-      "shippingFirstILS": 65,
-      "shippingAdditionalUSD": 4,
-      "shippingAdditionalILS": 15,
-      "sizeId": "S",
-      "priceUSD": 45
-    },
-    {
-      "catalogNumber": "SEED-OF-JOY-CROP-HOODIE-CROP-HOODIE-M",
-      "shippingFirstUSD": 17,
-      "priceILS": 179,
-      "productType": "crop-hoodie",
-      "shippingFirstILS": 65,
-      "shippingAdditionalUSD": 4,
-      "shippingAdditionalILS": 15,
-      "sizeId": "M",
-      "priceUSD": 45
-    },
-    {
-      "catalogNumber": "SEED-OF-JOY-CROP-HOODIE-CROP-HOODIE-L",
-      "shippingFirstUSD": 17,
-      "priceILS": 179,
-      "productType": "crop-hoodie",
-      "shippingFirstILS": 65,
-      "shippingAdditionalUSD": 4,
-      "shippingAdditionalILS": 15,
-      "sizeId": "L",
-      "priceUSD": 45
-    },
-    {
-      "catalogNumber": "SEED-OF-JOY-CROP-HOODIE-CROP-HOODIE-XL",
-      "shippingFirstUSD": 17,
-      "priceILS": 179,
-      "productType": "crop-hoodie",
-      "shippingFirstILS": 65,
-      "shippingAdditionalUSD": 4,
-      "shippingAdditionalILS": 15,
-      "sizeId": "XL",
-      "priceUSD": 45
-    },
-    {
-      "catalogNumber": "SEED-OF-JOY-CROP-HOODIE-CROP-HOODIE-2XL",
-      "shippingFirstUSD": 17,
-      "priceILS": 179,
-      "productType": "crop-hoodie",
-      "shippingFirstILS": 65,
-      "shippingAdditionalUSD": 4,
-      "shippingAdditionalILS": 15,
-      "sizeId": "2XL",
-      "priceUSD": 45
-    }
-  ],
-  "matchName": "Crop Hoodie Embroided",
-  "gallery": [
-    {
-      "image": "/images/uploads/womens-cropped-hoodie-black-back-6a80970bd9e99.webp",
-      "alt": "קרופ הודי Seed Of Joy - תצוגה מאחור"
-    }
-  ],
-  "thumb": "/images/uploads/womens-cropped-hoodie-black-front-6a80970bd9b7c.webp",
-  "image": "/images/uploads/womens-cropped-hoodie-black-front-6a80970bd9b7c.webp",
-  "description": "קרופ הודי רקום בעיצוב Seed Of Joy מאת גל דִּיסֵנִי.",
-  "category": "women"
+  "en": {
+    "name": "\"Seed Of Joy\" - Embroidered Crop Hoodie",
+    "alt": "Seed Of Joy crop hoodie by Gal Disegni",
+    "description": "An embroidered crop hoodie featuring the Seed Of Joy design by Gal Disegni."
+  }
 }

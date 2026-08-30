@@ -1,39 +1,32 @@
 {
-  "slug": "peace-with-femininity",
-  "order": 18,
-  "translations": {
-    "he": {
-      "name": "Peace With Femininity",
-      "galleryMedium": "טכניקה משולבת",
-      "detailMedium": "טכניקה משולבת על נייר · יצירה מקורית",
-      "description": "מרחב אדום ורך מתכנס סביב סימנים של איזון ושלווה. היצירה מציעה מפגש מפויס עם הנשיות ועם הכוח השקט שבה.",
-      "alt": "Peace With Femininity, קומפוזיציה אדומה עם סמל שלום"
+  "he": {
+    "slug": "peace-with-femininity",
+    "order": 18,
+    "name": "Peace With Femininity",
+    "galleryMedium": "טכניקה משולבת",
+    "detailMedium": "טכניקה משולבת על נייר · יצירה מקורית",
+    "description": "מרחב אדום ורך מתכנס סביב סימנים של איזון ושלווה. היצירה מציעה מפגש מפויס עם הנשיות ועם הכוח השקט שבה.",
+    "alt": "Peace With Femininity, קומפוזיציה אדומה עם סמל שלום",
+    "image": "/images/artworks/peace-with-femininity+WEB.webp",
+    "thumb": "/images/gallery/peace-with-femininity+thumb.webp",
+    "category": "mixed",
+    "originalAvailable": false,
+    "originalPrice": 0,
+    "testimony": {
+      "heading": "עדות",
+      "text": "גל יקר ומוכשר, הציור המהפנט שלך של הנשמה שלי תלוי לי בחדר השינה מול העיניים. מלווה אותי בקומי ובלכתי לישון, מאוהבת בצבעים ובסימטריה ובקסם Peace with Femininity זה ממש המסע של הנשמה שלי שתפסת אותו במדוייק. תודה מכל הלב ❤️\n— חניתה אתון"
     },
-    "en": {
-      "name": "Peace With Femininity",
-      "galleryMedium": "Mixed Technique",
-      "detailMedium": "Mixed technique on paper · original artwork",
-      "description": "A soft red space converges around signs of balance and calm. The piece offers a reconciled encounter with femininity and its quiet strength.",
-      "alt": "Peace With Femininity, a red composition with a peace symbol",
-      "testimony": {
-        "heading": "Testimony",
-        "text": "גל יקר ומוכשר, הציור המהפנט שלך של הנשמה שלי תלוי לי בחדר השינה מול העיניים. מלווה אותי בקומי ובלכתי לישון, מאוהבת בצבעים ובסימטריה ובקסם Peace with Femininity זה ממש המסע של הנשמה שלי שתפסת אותו במדוייק. תודה מכל הלב ❤️\n— חניתה אתון"
-      }
+    "extraMaterials": []
+  },
+  "en": {
+    "name": "Peace With Femininity",
+    "galleryMedium": "Mixed Technique",
+    "detailMedium": "Mixed technique on paper · original artwork",
+    "description": "A soft red space converges around signs of balance and calm. The piece offers a reconciled encounter with femininity and its quiet strength.",
+    "alt": "Peace With Femininity, a red composition with a peace symbol",
+    "testimony": {
+      "heading": "Testimony",
+      "text": "גל יקר ומוכשר, הציור המהפנט שלך של הנשמה שלי תלוי לי בחדר השינה מול העיניים. מלווה אותי בקומי ובלכתי לישון, מאוהבת בצבעים ובסימטריה ובקסם Peace with Femininity זה ממש המסע של הנשמה שלי שתפסת אותו במדוייק. תודה מכל הלב ❤️\n— חניתה אתון"
     }
-  },
-  "name": "Peace With Femininity",
-  "galleryMedium": "טכניקה משולבת",
-  "detailMedium": "טכניקה משולבת על נייר · יצירה מקורית",
-  "description": "מרחב אדום ורך מתכנס סביב סימנים של איזון ושלווה. היצירה מציעה מפגש מפויס עם הנשיות ועם הכוח השקט שבה.",
-  "alt": "Peace With Femininity, קומפוזיציה אדומה עם סמל שלום",
-  "image": "/images/artworks/peace-with-femininity+WEB.webp",
-  "thumb": "/images/gallery/peace-with-femininity+thumb.webp",
-  "category": "mixed",
-  "originalAvailable": false,
-  "originalPrice": 0,
-  "testimony": {
-    "heading": "עדות",
-    "text": "גל יקר ומוכשר, הציור המהפנט שלך של הנשמה שלי תלוי לי בחדר השינה מול העיניים. מלווה אותי בקומי ובלכתי לישון, מאוהבת בצבעים ובסימטריה ובקסם Peace with Femininity זה ממש המסע של הנשמה שלי שתפסת אותו במדוייק. תודה מכל הלב ❤️\n— חניתה אתון"
-  },
-  "extraMaterials": []
+  }
 }

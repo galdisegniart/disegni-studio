@@ -1,31 +1,24 @@
 {
-  "slug": "surender-to-fear",
-  "order": 29,
-  "translations": {
-    "he": {
-      "name": "Surender To Fear",
-      "galleryMedium": "פסטל · פורטרט",
-      "detailMedium": "פסטל על נייר · פורטרט",
-      "description": "דיוקן חשוך שבו עכביש נח על המצח מול פנים עצומות עיניים - עימות שקט עם הפחד, רגע של כניעה ולא של בריחה.",
-      "alt": "Surender To Fear, דיוקן חשוך עם עכביש נח על המצח"
-    },
-    "en": {
-      "name": "Surrender To Fear",
-      "galleryMedium": "Pastel · Portrait",
-      "detailMedium": "Pastel on paper · portrait",
-      "description": "A dark portrait in which a spider rests on the forehead of a face with closed eyes - a quiet confrontation with fear, a moment of surrender rather than escape.",
-      "alt": "Surrender to Fear, a dark portrait with a spider resting on the forehead"
-    }
+  "he": {
+    "slug": "surender-to-fear",
+    "order": 29,
+    "name": "Surender To Fear",
+    "galleryMedium": "פסטל · פורטרט",
+    "detailMedium": "פסטל על נייר · פורטרט",
+    "description": "דיוקן חשוך שבו עכביש נח על המצח מול פנים עצומות עיניים - עימות שקט עם הפחד, רגע של כניעה ולא של בריחה.",
+    "alt": "Surender To Fear, דיוקן חשוך עם עכביש נח על המצח",
+    "image": "/images/artworks/surender_to_fear+WEB.webp",
+    "thumb": "/images/artworks/surender_to_fear+WEB.webp",
+    "category": "pastel",
+    "originalAvailable": true,
+    "originalPrice": 6500,
+    "extraMaterials": []
   },
-  "name": "Surender To Fear",
-  "galleryMedium": "פסטל · פורטרט",
-  "detailMedium": "פסטל על נייר · פורטרט",
-  "description": "דיוקן חשוך שבו עכביש נח על המצח מול פנים עצומות עיניים - עימות שקט עם הפחד, רגע של כניעה ולא של בריחה.",
-  "alt": "Surender To Fear, דיוקן חשוך עם עכביש נח על המצח",
-  "image": "/images/artworks/surender_to_fear+WEB.webp",
-  "thumb": "/images/artworks/surender_to_fear+WEB.webp",
-  "category": "pastel",
-  "originalAvailable": true,
-  "originalPrice": 6500,
-  "extraMaterials": []
+  "en": {
+    "name": "Surrender To Fear",
+    "galleryMedium": "Pastel · Portrait",
+    "detailMedium": "Pastel on paper · portrait",
+    "description": "A dark portrait in which a spider rests on the forehead of a face with closed eyes - a quiet confrontation with fear, a moment of surrender rather than escape.",
+    "alt": "Surrender to Fear, a dark portrait with a spider resting on the forehead"
+  }
 }

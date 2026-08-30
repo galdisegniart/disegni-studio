@@ -1,31 +1,24 @@
 {
-  "slug": "third-eye-engine",
-  "order": 9,
-  "translations": {
-    "he": {
-      "name": "Third Eye Engine",
-      "galleryMedium": "טכניקה משולבת",
-      "detailMedium": "טכניקה משולבת על נייר · יצירה מקורית",
-      "description": "מנגנון חזותי שמחבר בין אינטואיציה, תודעה ואנרגיה. הצבע והצורה מתכנסים אל מרכז שמבקש לראות מעבר למוכר.",
-      "alt": "Third Eye Engine, מבנה סימטרי עם עין שלישית"
-    },
-    "en": {
-      "name": "Third Eye Engine",
-      "galleryMedium": "Mixed Technique",
-      "detailMedium": "Mixed technique on paper · original artwork",
-      "description": "A visual mechanism connecting intuition, consciousness, and energy. Color and form converge toward a center that seeks to see beyond the familiar.",
-      "alt": "Third Eye Engine, a symmetrical structure with a third eye"
-    }
+  "he": {
+    "slug": "third-eye-engine",
+    "order": 9,
+    "name": "Third Eye Engine",
+    "galleryMedium": "טכניקה משולבת",
+    "detailMedium": "טכניקה משולבת על נייר · יצירה מקורית",
+    "description": "מנגנון חזותי שמחבר בין אינטואיציה, תודעה ואנרגיה. הצבע והצורה מתכנסים אל מרכז שמבקש לראות מעבר למוכר.",
+    "alt": "Third Eye Engine, מבנה סימטרי עם עין שלישית",
+    "image": "/images/artworks/third-eye-engine+WEB.webp",
+    "thumb": "/images/gallery/third-eye-engine+thumb.webp",
+    "category": "mixed",
+    "originalAvailable": false,
+    "originalPrice": 0,
+    "extraMaterials": []
   },
-  "name": "Third Eye Engine",
-  "galleryMedium": "טכניקה משולבת",
-  "detailMedium": "טכניקה משולבת על נייר · יצירה מקורית",
-  "description": "מנגנון חזותי שמחבר בין אינטואיציה, תודעה ואנרגיה. הצבע והצורה מתכנסים אל מרכז שמבקש לראות מעבר למוכר.",
-  "alt": "Third Eye Engine, מבנה סימטרי עם עין שלישית",
-  "image": "/images/artworks/third-eye-engine+WEB.webp",
-  "thumb": "/images/gallery/third-eye-engine+thumb.webp",
-  "category": "mixed",
-  "originalAvailable": false,
-  "originalPrice": 0,
-  "extraMaterials": []
+  "en": {
+    "name": "Third Eye Engine",
+    "galleryMedium": "Mixed Technique",
+    "detailMedium": "Mixed technique on paper · original artwork",
+    "description": "A visual mechanism connecting intuition, consciousness, and energy. Color and form converge toward a center that seeks to see beyond the familiar.",
+    "alt": "Third Eye Engine, a symmetrical structure with a third eye"
+  }
 }

@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const flattenLocale = require("../_lib/flattenLocale.js");
 
 // Flattened, server-verifiable list of every purchasable Printful-fulfilled
 // print variant across the whole catalog (not just one test artwork).
@@ -28,14 +29,14 @@ module.exports = () => {
   const artworks = fs
     .readdirSync(artworksDir)
     .filter((f) => f.endsWith(".json"))
-    .map((f) => JSON.parse(fs.readFileSync(path.join(artworksDir, f), "utf8")));
+    .map((f) => flattenLocale(JSON.parse(fs.readFileSync(path.join(artworksDir, f), "utf8"))));
 
-  const pricing = JSON.parse(
+  const pricing = flattenLocale(JSON.parse(
     fs.readFileSync(path.join(contentDir, "pages", "pricing.json"), "utf8")
-  );
-  const shipping = JSON.parse(
+  ));
+  const shipping = flattenLocale(JSON.parse(
     fs.readFileSync(path.join(contentDir, "pages", "shipping.json"), "utf8")
-  );
+  ));
 
   let printfulCatalog = [];
   try {
@@ -176,7 +177,7 @@ module.exports = () => {
     ? fs
         .readdirSync(apparelDir)
         .filter((f) => f.endsWith(".json"))
-        .map((f) => JSON.parse(fs.readFileSync(path.join(apparelDir, f), "utf8")))
+        .map((f) => flattenLocale(JSON.parse(fs.readFileSync(path.join(apparelDir, f), "utf8"))))
     : [];
 
   apparelItems.forEach((item) => {
