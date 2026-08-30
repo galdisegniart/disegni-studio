@@ -57,7 +57,10 @@ scripts:
   { label: w.cardTitle }
 ] %}
 {% include "partials/breadcrumbs.njk" %}
-<section class="daily-workshop-hero">
+<section class="daily-workshop-hero{{ ' has-energetic-halo' if w.energeticTheme }}">
+  {% if w.energeticTheme %}
+  <div class="energetic-halo" style="background-image:url('{{ w.heroImage }}')" aria-hidden="true"></div>
+  {% endif %}
   <div class="daily-workshop-copy">
     <a class="editorial-link" href="{{ locale | localePrefix }}/workshops/"><span class="dir-arrow" aria-hidden="true">→</span> {{ "Back to Workshops" if isEn else "חזרה לסדנאות" }}</a>
     <p class="hero-eyebrow">{{ w.eyebrow }}</p>

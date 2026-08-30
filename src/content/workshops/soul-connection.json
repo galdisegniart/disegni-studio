@@ -1,0 +1,129 @@
+{
+  "he": {
+    "slug": "soul-connection",
+    "order": 4,
+    "cardLabel": "מפגש זום אישי",
+    "cardTitle": "חיבור נִשְׁמָתִי",
+    "cardImage": "/images/artworks/pure-masculine-and-feminine+WEB.webp",
+    "cardImageAlt": "Pure Masculine and Feminine - היצירה הנשמתית הראשונה שלי",
+    "cardImagePosition": "center",
+    "personaLine": "מתאים למי שרוצה חוויה אנרגטית ואינטימית איתי, בלי צורך לצייר בעצמו/ה ובלי ניסיון קודם.",
+    "title": "חיבור נִשְׁמָתִי - מפגש זום אישי עם גל דִּיסֵנִי",
+    "metaDescription": "מפגש זום אישי של דמיון מודרך וחיבור אנרגטי עם גל דִּיסֵנִי. בלי לצייר, מכל מקום בעולם.",
+    "eyebrow": "מפגש חי · אונליין · מכל מקום בעולם",
+    "heading": "חיבור נִשְׁמָתִי - מפגש זום אישי של דמיון מודרך וחיבור אנרגטי",
+    "lead": "כשלושת רבעי השעה שבהן אני מתחבר אליכם דרך דמיון מודרך אינטואיטיבי, בזמן אמת. בלי לצייר, בלי להכין שום דבר מראש - רק נוכחות, הקשבה וחיבור עמוק לרגע שלכם.",
+    "priceFromILS": 1090,
+    "quickMeta": [
+      { "label": "משך", "value": "כ-45 דקות" },
+      { "label": "פורמט", "value": "אונליין (זום), מכל מקום בעולם" },
+      { "label": "מחיר", "value": "1,090 ₪" },
+      { "label": "הכנה נדרשת", "value": "אין, לא צריך לדעת לצייר" }
+    ],
+    "heroCtaLabel": "לקביעת מפגש",
+    "recurringAvailability": [
+      { "weekday": "6", "time": "10:00–10:45" },
+      { "weekday": "6", "time": "11:15–12:00" },
+      { "weekday": "6", "time": "12:15–13:00" },
+      { "weekday": "3", "time": "09:30–10:15" }
+    ],
+    "bookingWindowWeeks": 8,
+    "waMessage": "שלום גל, הגעתי דרך האתר ואשמח לשמוע פרטים על מפגש החיבור הנִשְׁמָתִי.",
+    "heroImage": "/images/artworks/pure-masculine-and-feminine+WEB.webp",
+    "heroImageAlt": "Pure Masculine and Feminine - היצירה הנשמתית הראשונה שלי",
+    "hasReviews": false,
+    "energeticTheme": true,
+    "story": {
+      "eyebrow": "מאחורי המפגש",
+      "heading": "מהיצירה הראשונה, אל כל מפגש חדש.",
+      "lead": "המפגש הזה נולד מתוך אותו מקום שממנו נולדה היצירה הנִשְׁמָתִית הראשונה שלי.",
+      "paragraphs": [
+        "ב-2019 ציירתי את היצירה הנִשְׁמָתִית הראשונה שלי אי פעם - Pure Masculine and Feminine. לא ידעתי מראש איך היא תיראה. פשוט נתתי לדמיון להוביל, והקשבתי למה שמבקש להתגלות.",
+        "מאז אותה יצירה ראשונה, זו הפכה לדרך העבודה שלי - להקשיב לפני שיוצרים. במפגש הזה אני מזמין אתכם לאותו מקום, בלי צורך לצייר בעצמכם - רק להגיע, ולתת למה שצריך לעלות, לעלות."
+      ]
+    },
+    "included": {
+      "eyebrow": "מה כלול",
+      "items": [
+        { "label": "נוכחות מלאה", "title": "לא לבד מול המסך", "text": "אני איתכם לאורך כל המפגש, בלי הסחות דעת ובלי למהר." },
+        { "label": "דמיון מודרך אישי", "title": "מותאם לרגע שלכם", "text": "לא תסריט קבוע - הדמיון נבנה בזמן אמת סביב מה שעולה אצלכם." },
+        { "label": "הקלטת המפגש", "title": "לחזור ולהרגיש שוב", "text": "מקבלים הקלטה של המפגש לצפייה חוזרת אחריו." },
+        { "label": "דלת פתוחה להמשך", "title": "אם תרצו להעמיק", "text": "מי שמרגיש/ה שרוצה להמשיך לתהליך יצירה מלא, אפשר לעבור ל\"ציור נִשְׁמָתִי\"." }
+      ]
+    },
+    "pricing": {
+      "eyebrow": "השקעה במפגש",
+      "heading": "מפגש אחד, חיבור עמוק.",
+      "note": "המפגש מתקיים אחד-על-אחד, דרך זום, מכל מקום בעולם.",
+      "tiers": [
+        { "label": "מפגש אישי (יחיד)", "value": "1,090 ₪" }
+      ],
+      "ctaLabel": "לקביעת מפגש"
+    },
+    "reviewsHeading": {
+      "eyebrow": "משתתפים מספרים",
+      "heading": "איך היה להם לחוות את המפגש."
+    },
+    "reviewsEmptyText": "המפגש הזה חדש - עדיין אין חוות דעת. תהיו הראשונים לשתף.",
+    "finalEyebrow": "רוצים לחוות את זה?",
+    "finalHeading": "בואו נקבע זמן שמתאים לכם,<br>מכל מקום בעולם.",
+    "finalCtaLabel": "לקביעת מפגש",
+    "finalWaMessage": "שלום גל, הגעתי דרך האתר ואשמח לקבוע מפגש חיבור נִשְׁמָתִי."
+  },
+  "en": {
+    "cardLabel": "Personal Zoom Session",
+    "cardTitle": "Soul Connection",
+    "cardImageAlt": "Pure Masculine and Feminine - my first ever soul painting",
+    "personaLine": "For anyone who wants an intimate, energetic experience with me - no drawing required, no prior experience needed.",
+    "title": "Soul Connection - A Personal Zoom Session with Gal Disegni",
+    "metaDescription": "A personal Zoom session of guided imagination and energetic connection with Gal Disegni. No painting required, from anywhere in the world.",
+    "eyebrow": "Live session · Online · From anywhere in the world",
+    "heading": "Soul Connection - A Live Zoom Session of Guided Imagination and Energetic Connection",
+    "lead": "About forty-five minutes in which I connect with you through intuitive guided imagination, in real time. No painting, no preparation - just presence, listening, and a deep connection to your moment.",
+    "quickMeta": [
+      { "label": "Duration", "value": "About 45 minutes" },
+      { "label": "Format", "value": "Online (Zoom), from anywhere in the world" },
+      { "label": "Price", "value": "$295" },
+      { "label": "Preparation needed", "value": "None - no drawing skill required" }
+    ],
+    "heroCtaLabel": "Book a Session",
+    "waMessage": "Hi Gal, I found you through the website and would love to hear more about the Soul Connection session.",
+    "heroImageAlt": "Pure Masculine and Feminine - my first ever soul painting",
+    "story": {
+      "eyebrow": "Behind the Session",
+      "heading": "From the first piece, to every new session.",
+      "lead": "This session comes from the same place my very first soul painting came from.",
+      "paragraphs": [
+        "In 2019 I painted my first soul painting ever - Pure Masculine and Feminine. I didn't know in advance what it would look like. I simply let imagination lead, and listened to what was asking to be revealed.",
+        "Since that first piece, this became my way of working - listening before creating. In this session I invite you into that same place, with no need to paint yourself - just arrive, and let what needs to rise, rise."
+      ]
+    },
+    "included": {
+      "eyebrow": "What's Included",
+      "items": [
+        { "label": "Full presence", "title": "You're never alone on the screen", "text": "I'm with you for the entire session, without distractions and without rushing." },
+        { "label": "Personal guided imagination", "title": "Shaped around your moment", "text": "No fixed script - the imagery is built in real time around what arises for you." },
+        { "label": "A recording of the session", "title": "Return and feel it again", "text": "You receive a recording of the session to revisit afterward." },
+        { "label": "An open door forward", "title": "If you want to go deeper", "text": "Anyone who feels called to continue into a full creation process can move on to a \"Soul Painting.\"" }
+      ]
+    },
+    "pricing": {
+      "eyebrow": "The Investment",
+      "heading": "One session, a deep connection.",
+      "note": "The session is held one-on-one, over Zoom, from anywhere in the world.",
+      "tiers": [
+        { "label": "Personal session (solo)", "value": "$295" }
+      ],
+      "ctaLabel": "Book a Session"
+    },
+    "reviewsHeading": {
+      "eyebrow": "Participants share",
+      "heading": "What it was like for them."
+    },
+    "reviewsEmptyText": "This session is new - there are no reviews yet. Be the first to share.",
+    "finalEyebrow": "Want to experience this?",
+    "finalHeading": "Let's find a time that works for you,<br>from anywhere in the world.",
+    "finalCtaLabel": "Book a Session",
+    "finalWaMessage": "Hi Gal, I found you through the website and would love to book a Soul Connection session."
+  }
+}

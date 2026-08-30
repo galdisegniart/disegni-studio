@@ -172,6 +172,7 @@ collections:
       - { label: "טקסט חלופי לתמונה ראשית", name: "heroImageAlt", widget: "string", i18n: true }
       - { label: "יש ביקורות אמיתיות?", name: "hasReviews", widget: "boolean", default: false }
       - { label: "ציטוט קצר לתקציר ביקורת (אם יש ביקורות)", name: "reviewPeekExcerpt", widget: "string", required: false }
+      - { label: "עיצוב אנרגטי מיוחד (הילה עדינה מהתמונה הראשית מאחורי הכותרת)", name: "energeticTheme", widget: "boolean", default: false, required: false }
       - name: "story"
         label: "סקציית הסיפור"
         widget: "object"

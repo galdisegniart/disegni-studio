@@ -3712,6 +3712,34 @@ a.workshop-compare-row:hover .workshop-compare-arrow {
   border-bottom: 1px solid var(--line);
 }
 
+.daily-workshop-hero.has-energetic-halo {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.daily-workshop-hero.has-energetic-halo .daily-workshop-copy,
+.daily-workshop-hero.has-energetic-halo .daily-workshop-hero-image {
+  position: relative;
+  z-index: 1;
+}
+
+.energetic-halo {
+  position: absolute;
+  inset: -25%;
+  background-size: cover;
+  background-position: center;
+  filter: blur(90px) saturate(1.4);
+  opacity: 0.32;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.daily-workshop-hero.has-energetic-halo .daily-workshop-hero-image img {
+  object-fit: contain;
+  object-position: center;
+}
+
 .daily-workshop-copy {
   max-width: 660px;
 }
