@@ -63,6 +63,11 @@
     <a href="{{ site.socials[3].href }}" target="_blank" rel="noopener noreferrer" aria-label="{{ (siteL.brand ~ ' on YouTube') if isEn else ('יוטיוב של ' ~ siteL.brand) }}">
       <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="4"></rect><path d="M10.8 9.5v5l4.4-2.5Z"></path></svg>
     </a>
+    {% if site.socials[4] %}
+    <a href="{{ site.socials[4].href }}" target="_blank" rel="noopener noreferrer" aria-label="{{ (siteL.brand ~ ' on Pinterest') if isEn else ('פינטרסט של ' ~ siteL.brand) }}">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M9.5 17.5c.6-2.4 1.4-5.6 2-8.1.35-1.4 2.25-1.3 2.75.15.4 1.15.1 2.6-.65 3.4-.6.65-1.6.4-1.75-.4M10.5 12.2c.3-1.5 1.9-2.4 3.3-1.9"></path></svg>
+    </a>
+    {% endif %}
   </nav>
   <div class="footer-legal">
     {% include "partials/legal-links.njk" %}

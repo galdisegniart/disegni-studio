@@ -60,6 +60,13 @@ collections:
         fields:
           - { label: "כותרת", name: "heading", widget: "string", required: false }
           - { label: "פסקאות", name: "paragraphs", widget: "list", required: false, field: { label: "פסקה", name: "text", widget: "text" } }
+      - name: "experience"
+        label: "החוויה שהיצירה פותחת (אופציונלי, השאירו ריק כדי לא להציג)"
+        widget: "object"
+        required: false
+        fields:
+          - { label: "כותרת", name: "heading", widget: "string", required: false }
+          - { label: "פסקאות", name: "paragraphs", widget: "list", required: false, field: { label: "פסקה", name: "text", widget: "text" } }
       - name: "testimony"
         label: "עדות על היצירה (אופציונלי, השאירו ריק כדי לא להציג)"
         widget: "object"

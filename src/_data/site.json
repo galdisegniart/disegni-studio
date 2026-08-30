@@ -82,6 +82,10 @@
         {
           "name": "יוטיוב",
           "href": "https://www.youtube.com/@GalDisegniart"
+        },
+        {
+          "name": "פינטרסט",
+          "href": "https://www.pinterest.com/galdisegni/"
         }
       ]
     },
@@ -168,6 +172,10 @@
         {
           "name": "YouTube",
           "href": "https://www.youtube.com/@GalDisegniart"
+        },
+        {
+          "name": "Pinterest",
+          "href": "https://www.pinterest.com/galdisegni/"
         }
       ]
     }
@@ -255,6 +263,10 @@
     {
       "name": "יוטיוב",
       "href": "https://www.youtube.com/@GalDisegniart"
+    },
+    {
+      "name": "פינטרסט",
+      "href": "https://www.pinterest.com/galdisegni/"
     }
   ],
   "quickLinksButtonPercent": 85,
