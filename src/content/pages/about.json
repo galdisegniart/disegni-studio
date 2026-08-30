@@ -1,23 +1,6 @@
 {
   "he": {
-    "title": "אודות | גל דִּיסֵנִי",
-    "metaDescription": "גל דִּיסֵנִי הוא אמן ויוצר חזותי שעובד במרחב שבין ריאליזם, דמיון וחזון - יצירה מקורית, עבודות בהזמנה וסדנאות אמנות.",
-    "portrait": "/images/disegni-profile.webp",
-    "portraitAlt": "גל דִּיסֵנִי בסטודיו",
-    "portraitSize": "medium",
-    "portraitPosition": "right",
-    "heroEyebrow": "מאחורי היצירה",
-    "heroHeading": "אני מצייר<br>כדי להתחבר.",
-    "heroLead": "לאנשים, לזיכרונות, לדמיון ולעולמות שנמצאים לפעמים מעבר למילים.",
-    "bioLabel1": "על גל דִּיסֵנִי",
-    "bioLabel2": "אמן ויוצר חזותי",
-    "bioLead": "גל דִּיסֵנִי הוא אמן ויוצר חזותי שעובד במרחב שבין ריאליזם, דמיון וחזון. בעבודתו הוא מחפש לא רק דימוי יפה, אלא חיבור לאדם, לסיפור ולתחושה שהיצירה משאירה אחריה.",
-    "bioParagraphs": [
-      "גל מצייר מאז ילדותו, ואת הפורטרטים הראשונים שלו בהזמנה צייר כבר בגיל 14. במשך יותר מ-20 שנה עסק בעיצוב, פרסום ויצירה חזותית. השנים האלה חידדו את המבט שלו לקומפוזיציה, צבע, חומר ופרטים, ובעיקר ליכולת של דימוי לעורר רגש ולספר סיפור.",
-      "כיום הוא יוצר עבודות מקוריות במגוון טכניקות ומדיומים, בהם גרפיט, פחם, עפרונות צבעוניים, פסטל ואקריליק, על נייר, בד, עץ וקיר. לצד היצירה האישית הוא יוצר עבודות בהזמנה, מלווה אנשים בתהליכי יצירה ומנחה סדנאות שמאפשרות לפגוש אמנות באופן חופשי, מקצועי ואישי.",
-      "כל יצירה מתחילה בהקשבה. לפעמים היא יוצאת מתוך אדם או זיכרון, לפעמים מתוך חלום, דמות או עולם פנימי. בכל מקרה, המטרה נשארת דומה: ליצור עבודה שיש בה עומק, נוכחות וחיים משלה."
-    ],
-    "worldsLabel": "שלושה עולמות, שפה אחת",
+    "closingCta1Href": "/",
     "worlds": [
       {
         "href": "/",
@@ -41,8 +24,24 @@
         "title": "סדנאות אמנות"
       }
     ],
+    "closingCta2Href": "/contact/",
+    "closingText": "אפשר לפגוש את העבודה דרך יצירה מקורית, הזמנה אישית או תהליך יצירה משותף. כל דרך מתחילה בסקרנות ובשיחה פשוטה.",
+    "bioLead": "גל דִּיסֵנִי הוא אמן ויוצר חזותי שעובד במרחב שבין ריאליזם, דמיון וחזון. בעבודתו הוא מחפש לא רק דימוי יפה, אלא חיבור לאדם, לסיפור ולתחושה שהיצירה משאירה אחריה.",
+    "portraitPosition": "right",
+    "bioLabel1": "על גל דִּיסֵנִי",
+    "bioLabel2": "אמן ויוצר חזותי",
+    "closingQuote": "\"אמנות היא דרך להתקרב למה שמרגישים, גם כשעדיין אין לזה מילים.\"",
+    "heroHeading": "אני מצייר<br>כדי להתחבר.",
+    "bioParagraphs": [
+      "גל מצייר מאז ילדותו, ואת הפורטרטים הראשונים שלו בהזמנה צייר כבר בגיל 14. במשך יותר מ-20 שנה עסק בעיצוב, פרסום ויצירה חזותית. השנים האלה חידדו את המבט שלו לקומפוזיציה, צבע, חומר ופרטים, ובעיקר ליכולת של דימוי לעורר רגש ולספר סיפור.",
+      "כיום הוא יוצר עבודות מקוריות במגוון טכניקות ומדיומים, בהם גרפיט, פחם, עפרונות צבעוניים, פסטל ואקריליק, על נייר, בד, עץ וקיר. לצד היצירה האישית הוא יוצר עבודות בהזמנה, מלווה אנשים בתהליכי יצירה ומנחה סדנאות שמאפשרות לפגוש אמנות באופן חופשי, מקצועי ואישי.",
+      "כל יצירה מתחילה בהקשבה. לפעמים היא יוצאת מתוך אדם או זיכרון, לפעמים מתוך חלום, דמות או עולם פנימי. בכל מקרה, המטרה נשארת דומה: ליצור עבודה שיש בה עומק, נוכחות וחיים משלה."
+    ],
+    "portraitAlt": "גל דִּיסֵנִי בסטודיו",
+    "heroEyebrow": "מאחורי היצירה",
     "momentsLabel1": "מתוך הסטודיו והדרך",
     "momentsLabel2": "יצירה · אנשים · תהליך",
+    "worldsLabel": "שלושה עולמות, שפה אחת",
     "moments": [
       {
         "image": "/images/workshops/structured-main.webp",
@@ -67,29 +66,15 @@
         "wide": true
       }
     ],
-    "closingQuote": "\"אמנות היא דרך להתקרב למה שמרגישים, גם כשעדיין אין לזה מילים.\"",
-    "closingText": "אפשר לפגוש את העבודה דרך יצירה מקורית, הזמנה אישית או תהליך יצירה משותף. כל דרך מתחילה בסקרנות ובשיחה פשוטה.",
-    "closingCta1Label": "לצפייה ביצירות",
-    "closingCta1Href": "/",
+    "heroLead": "לאנשים, לזיכרונות, לדמיון ולעולמות שנמצאים לפעמים מעבר למילים.",
+    "metaDescription": "גל דִּיסֵנִי הוא אמן ויוצר חזותי שעובד במרחב שבין סמליות, אינטואיציה, דמיון וחזון - יצירה מקורית, עבודות בהזמנה וסדנאות אמנות.",
+    "title": "אודות | גל דִּיסֵנִי",
+    "portrait": "/images/disegni-profile.webp",
+    "portraitSize": "medium",
     "closingCta2Label": "ליצירת קשר",
-    "closingCta2Href": "/contact/"
+    "closingCta1Label": "לצפייה ביצירות"
   },
   "en": {
-    "title": "About | Gal Disegni",
-    "metaDescription": "Gal Disegni is an artist and visual creator working in the space between realism, imagination, and vision - original art, commissioned work, and art workshops.",
-    "portraitAlt": "Gal Disegni in the studio",
-    "heroEyebrow": "Behind the Work",
-    "heroHeading": "I paint<br>to connect.",
-    "heroLead": "To people, to memories, to imagination, and to worlds that sometimes lie beyond words.",
-    "bioLabel1": "About Gal Disegni",
-    "bioLabel2": "Artist & Visual Creator",
-    "bioLead": "Gal Disegni is an artist and visual creator working in the space between realism, imagination, and vision. In his work he seeks not just a beautiful image, but a connection to the person, the story, and the feeling the piece leaves behind.",
-    "bioParagraphs": [
-      "Gal has been painting since childhood, and painted his first commissioned portraits at age 14. For over 20 years he worked in design, advertising, and visual creation. Those years sharpened his eye for composition, color, material, and detail - and above all, for an image's ability to evoke emotion and tell a story.",
-      "Today he creates original work in a range of techniques and mediums, including graphite, charcoal, colored pencils, pastel, and acrylic, on paper, canvas, wood, and walls. Alongside his personal art he creates commissioned pieces, guides people through creative processes, and leads workshops that make it possible to encounter art freely, professionally, and personally.",
-      "Every piece begins with listening. Sometimes it emerges from a person or a memory, sometimes from a dream, a figure, or an inner world. Either way, the goal remains the same: to create work that has depth, presence, and a life of its own."
-    ],
-    "worldsLabel": "Three Worlds, One Language",
     "worlds": [
       {
         "href": "/",
@@ -113,8 +98,22 @@
         "title": "Art Workshops"
       }
     ],
+    "closingText": "You can encounter the work through original art, a personal commission, or a shared creative process. Every path begins with curiosity and a simple conversation.",
+    "bioLead": "Gal Disegni is an artist and visual creator working in the space between realism, imagination, and vision. In his work he seeks not just a beautiful image, but a connection to the person, the story, and the feeling the piece leaves behind.",
+    "bioLabel1": "About Gal Disegni",
+    "bioLabel2": "Artist & Visual Creator",
+    "closingQuote": "\"Art is a way to get closer to what we feel, even before there are words for it.\"",
+    "heroHeading": "I paint<br>to connect.",
+    "bioParagraphs": [
+      "Gal has been painting since childhood, and painted his first commissioned portraits at age 14. For over 20 years he worked in design, advertising, and visual creation. Those years sharpened his eye for composition, color, material, and detail - and above all, for an image's ability to evoke emotion and tell a story.",
+      "Today he creates original work in a range of techniques and mediums, including graphite, charcoal, colored pencils, pastel, and acrylic, on paper, canvas, wood, and walls. Alongside his personal art he creates commissioned pieces, guides people through creative processes, and leads workshops that make it possible to encounter art freely, professionally, and personally.",
+      "Every piece begins with listening. Sometimes it emerges from a person or a memory, sometimes from a dream, a figure, or an inner world. Either way, the goal remains the same: to create work that has depth, presence, and a life of its own."
+    ],
+    "portraitAlt": "Gal Disegni in the studio",
+    "heroEyebrow": "Behind the Work",
     "momentsLabel1": "From the Studio and the Journey",
     "momentsLabel2": "Creation · People · Process",
+    "worldsLabel": "Three Worlds, One Language",
     "moments": [
       {
         "image": "/images/workshops/structured-main.webp",
@@ -139,9 +138,10 @@
         "wide": true
       }
     ],
-    "closingQuote": "\"Art is a way to get closer to what we feel, even before there are words for it.\"",
-    "closingText": "You can encounter the work through original art, a personal commission, or a shared creative process. Every path begins with curiosity and a simple conversation.",
-    "closingCta1Label": "View the Artwork",
-    "closingCta2Label": "Get in Touch"
+    "heroLead": "To people, to memories, to imagination, and to worlds that sometimes lie beyond words.",
+    "metaDescription": "Gal Disegni is an artist and visual creator working in the space between symbolism, intuition, imagination, and vision - original art, commissioned work, and art workshops.",
+    "title": "About | Gal Disegni",
+    "closingCta2Label": "Get in Touch",
+    "closingCta1Label": "View the Artwork"
   }
 }
