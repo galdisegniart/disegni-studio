@@ -1,5 +1,6 @@
 {
   "he": {
+    "heroCtaHref": "#gallery",
     "heroImage": "/images/disegni-profile.webp",
     "gatesAriaLabel": "דרכים ליצור ולרכוש",
     "heroImageAlt": "גל דִּיסֵנִי בסטודיו",
@@ -27,31 +28,20 @@
       }
     ],
     "leadText": "כל יצירה מתחילה בחיבור אישי ומקבלת נוכחות וסיפור משלה.",
+    "aboutLinkLabel": "קצת עליי",
     "galleryHeading": "מבחר יצירות מהגלריה",
     "assuranceLine1": "מקורי לחלוטין. ללא בינה מלאכותית.",
     "assuranceLine2": "נוצר ביד על נייר, קנבס, עץ או קיר.",
+    "aboutLinkHref": "/about/",
     "metaDescription": "הגלריה של גל דִּיסֵנִי, יצירות מקוריות, פורטרטים אישיים וסדנאות אמנות בחדרה.",
     "title": "גל דִּיסֵנִי | אמנות מקורית, פורטרטים וסדנאות",
     "headingLine1": "אמנות מקורית מצוירת ביד.",
-    "headingLine2": "ריאליסטית, אינטואיטיבית,\nדמיונית וחזיונית.",
-    "heroCtaLabel": "לצפייה בגלריה",
-    "heroCtaHref": "#gallery",
-    "aboutLinkLabel": "קצת עליי",
-    "aboutLinkHref": "/about/"
+    "headingLine2": "סמלית, אינטואיטיבית,\nדמיונית וחזיונית.",
+    "heroCtaLabel": "לצפייה בגלריה"
   },
   "en": {
-    "title": "Gal Disegni | Original Art, Portraits & Workshops",
-    "metaDescription": "The gallery of Gal Disegni - original artwork, personal portraits, and art workshops in Hadera.",
-    "heroImageAlt": "Gal Disegni in the studio",
     "gatesAriaLabel": "Ways to create and purchase",
-    "leadText": "Every piece begins with a personal connection and takes on a presence and story of its own.",
-    "galleryHeading": "A Selection from the Gallery",
-    "assuranceLine1": "Completely original. No AI.",
-    "assuranceLine2": "Hand-made on paper, canvas, wood, or wall.",
-    "headingLine1": "Original art, hand-painted.",
-    "headingLine2": "Realistic, intuitive,\nimaginative, and visionary.",
-    "heroCtaLabel": "View the Gallery",
-    "aboutLinkLabel": "A little about me",
+    "heroImageAlt": "Gal Disegni in the studio",
     "gates": [
       {
         "label": "Shop",
@@ -74,6 +64,16 @@
         "ctaLabel": "Register Today",
         "visible": true
       }
-    ]
+    ],
+    "leadText": "Every piece begins with a personal connection and takes on a presence and story of its own.",
+    "aboutLinkLabel": "A little about me",
+    "galleryHeading": "A Selection from the Gallery",
+    "assuranceLine1": "Completely original. No AI.",
+    "assuranceLine2": "Hand-made on paper, canvas, wood, or wall.",
+    "metaDescription": "The gallery of Gal Disegni - original artwork, personal portraits, and art workshops in Hadera.",
+    "title": "Gal Disegni | Original Art, Portraits & Workshops",
+    "headingLine1": "Original art, hand-painted.",
+    "headingLine2": "Symbolic, intuitive,\nimaginative, and visionary.",
+    "heroCtaLabel": "View the Gallery"
   }
 }
