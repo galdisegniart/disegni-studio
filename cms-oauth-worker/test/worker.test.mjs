@@ -2734,3 +2734,120 @@ test("bit receipt extract: a full keyword-phrase match wins over a same-word col
   assert.equal(body.matchedContact.firstName, "יהודית");
   assert.equal(body.matchedContact.serviceType, "טיפול באמנות");
 });
+
+// --- Google Calendar busy-period blocking for /bookings/blocked-dates ---
+// Reuses BOOKING_AVAILABILITY, nextWeekday and isoLocal from the booking
+// tests above - same fixtures, same Israel-local-date discipline.
+
+// Builds a floating-local (no Z suffix) ICS timestamp directly from date/
+// time strings, matching what parseIcsDateTime treats as Israel wall-clock
+// time - avoids ever constructing a plain `new Date(...)` for this, which
+// would reintroduce the exact UTC-vs-Israel ambiguity these tests exist to
+// guard against.
+function icsDateTime(dateStr, hh, mm) {
+  return `${dateStr.replace(/-/g, "")}T${String(hh).padStart(2, "0")}${String(mm).padStart(2, "0")}00`;
+}
+
+function addDaysToIsoDate(dateStr, days) {
+  const [y, m, d] = dateStr.split("-").map(Number);
+  const next = new Date(y, m - 1, d + days);
+  return isoLocal(next);
+}
+
+function icsCalendarEnv(ics) {
+  return {
+    ...ENV,
+    ORDERS_KV: createMockKV(),
+    GOOGLE_CALENDAR_ICAL_URL: "https://calendar.google.com/calendar/ical/test/private-test-secret/basic.ics",
+    __mockIcs: ics,
+  };
+}
+
+async function fetchBlockedDates(env) {
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async (url) => {
+    if (String(url).includes("booking-availability.json")) return Response.json(BOOKING_AVAILABILITY);
+    if (String(url).includes("private-test-secret")) return new Response(env.__mockIcs, { status: 200 });
+    return new Response("not found", { status: 404 });
+  };
+  try {
+    const response = await worker.fetch(
+      new Request("https://worker.example/bookings/blocked-dates", {
+        method: "GET",
+        headers: { Origin: "https://disegni.studio" },
+      }),
+      env
+    );
+    return { status: response.status, body: await response.json() };
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+}
+
+test("blocked-dates: a one-off Google Calendar event blocks the overlapping workshop slot", async () => {
+  // daily-art has a Sunday (weekday 0) 10:00-12:00 slot.
+  const dateStr = nextWeekday(0);
+  const ics = `BEGIN:VCALENDAR
+BEGIN:VEVENT
+DTSTART:${icsDateTime(dateStr, 10, 30)}
+DTEND:${icsDateTime(dateStr, 11, 30)}
+SUMMARY:Busy block
+END:VEVENT
+END:VCALENDAR`;
+
+  const { status, body } = await fetchBlockedDates(icsCalendarEnv(ics));
+  assert.equal(status, 200);
+  assert.ok(
+    body.blocked.some((b) => b.date === dateStr && b.time === "10:00–12:00"),
+    `expected ${dateStr} 10:00–12:00 to be blocked, got ${JSON.stringify(body.blocked)}`
+  );
+});
+
+test("blocked-dates: a recurring weekly Google Calendar event blocks every matching future slot", async () => {
+  // monthly-art and structured-art both have a Wednesday (weekday 3) 18:00-20:00 slot.
+  const firstOccurrence = nextWeekday(3);
+  const secondOccurrence = addDaysToIsoDate(firstOccurrence, 7);
+  const ics = `BEGIN:VCALENDAR
+BEGIN:VEVENT
+DTSTART:${icsDateTime(firstOccurrence, 18, 30)}
+DTEND:${icsDateTime(firstOccurrence, 19, 30)}
+RRULE:FREQ=WEEKLY;BYDAY=WE
+SUMMARY:Recurring shift
+END:VEVENT
+END:VCALENDAR`;
+
+  const { status, body } = await fetchBlockedDates(icsCalendarEnv(ics));
+  assert.equal(status, 200);
+  assert.ok(body.blocked.some((b) => b.date === firstOccurrence && b.time === "18:00–20:00"));
+  assert.ok(body.blocked.some((b) => b.date === secondOccurrence && b.time === "18:00–20:00"));
+});
+
+test("blocked-dates: a TRANSPARENT (marked free) calendar event never blocks a slot", async () => {
+  const dateStr = nextWeekday(0);
+  const ics = `BEGIN:VCALENDAR
+BEGIN:VEVENT
+DTSTART:${icsDateTime(dateStr, 10, 0)}
+DTEND:${icsDateTime(dateStr, 11, 0)}
+TRANSP:TRANSPARENT
+SUMMARY:Free-time reminder
+END:VEVENT
+END:VCALENDAR`;
+
+  const { status, body } = await fetchBlockedDates(icsCalendarEnv(ics));
+  assert.equal(status, 200);
+  assert.equal(body.blocked.length, 0);
+});
+
+test("blocked-dates: without GOOGLE_CALENDAR_ICAL_URL configured, behavior is unchanged (KV only)", async () => {
+  const env = { ...ENV, ORDERS_KV: createMockKV() };
+  const response = await worker.fetch(
+    new Request("https://worker.example/bookings/blocked-dates", {
+      method: "GET",
+      headers: { Origin: "https://disegni.studio" },
+    }),
+    env
+  );
+  const body = await response.json();
+  assert.equal(response.status, 200);
+  assert.deepEqual(body.blocked, []);
+});

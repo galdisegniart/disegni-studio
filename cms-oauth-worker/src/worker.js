@@ -3838,6 +3838,263 @@ async function handleBookingCreate(request, env) {
   return jsonResponse({ ok: true, bookingId }, 200, corsHeaders);
 }
 
+// Cloudflare Workers run in UTC, and the Node test runner may run in
+// whatever zone the machine/CI is set to - neither is Israel. Any code that
+// needs to know "which calendar day is this instant" or "what's Israel
+// midnight of this day" must go through these, never a bare setHours(0,0,0,0)
+// or toISOString() (both silently use the *runtime's* ambient timezone,
+// which can disagree with Israel for the day-boundary hours). Fixed +03:00,
+// matching the offset used elsewhere in this file (slotDateTimeRange etc.) -
+// not DST-aware, an accepted simplification for this single-business use.
+//
+// All three take a plain milliseconds-since-epoch instant (not a Date) -
+// callers that have a Date pass `.getTime()`, so there's never an ambiguous
+// mix of the two forms at a call site.
+const ISRAEL_OFFSET_MS = 3 * 60 * 60 * 1000;
+
+function israelDateStr(instantMs) {
+  const shifted = new Date(instantMs + ISRAEL_OFFSET_MS);
+  return (
+    shifted.getUTCFullYear() +
+    "-" +
+    String(shifted.getUTCMonth() + 1).padStart(2, "0") +
+    "-" +
+    String(shifted.getUTCDate()).padStart(2, "0")
+  );
+}
+
+function israelWeekday(instantMs) {
+  return new Date(instantMs + ISRAEL_OFFSET_MS).getUTCDay();
+}
+
+// The UTC instant (ms) corresponding to Israel-local midnight of the given
+// instant's Israel calendar day.
+function israelMidnightInstant(instantMs) {
+  const shifted = new Date(instantMs + ISRAEL_OFFSET_MS);
+  return Date.UTC(shifted.getUTCFullYear(), shifted.getUTCMonth(), shifted.getUTCDate()) - ISRAEL_OFFSET_MS;
+}
+
+// Parses the DTSTART/DTEND-style date-time values Google's iCal export uses
+// ("20260902T150000" floating-local, or "20260902T120000Z" UTC) into a real
+// Date. A bare DATE value ("20260905", all-day events) is treated as
+// midnight-to-midnight in Israel time. Israel is fixed here rather than read
+// from a VTIMEZONE block - simpler, and correct for this single-business use.
+function parseIcsDateTime(value) {
+  const v = String(value || "").trim();
+  const allDay = /^\d{8}$/.test(v);
+  if (allDay) {
+    return new Date(`${v.slice(0, 4)}-${v.slice(4, 6)}-${v.slice(6, 8)}T00:00:00+03:00`);
+  }
+  const m = /^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})(Z)?$/.exec(v);
+  if (!m) return null;
+  const [, y, mo, d, h, mi, s, isUtc] = m;
+  return new Date(`${y}-${mo}-${d}T${h}:${mi}:${s}${isUtc ? "Z" : "+03:00"}`);
+}
+
+// Very small RRULE subset: FREQ=DAILY|WEEKLY, INTERVAL, BYDAY, COUNT, UNTIL.
+// Covers ordinary recurring shifts/appointments, which is what a personal
+// calendar actually contains - not a general RFC 5545 implementation
+// (no MONTHLY/YEARLY, no BYSETPOS, no exotic combinations).
+const RRULE_DAY_INDEX = { SU: 0, MO: 1, TU: 2, WE: 3, TH: 4, FR: 5, SA: 6 };
+
+function expandRrule(rrule, dtstart, dtend, horizonEnd) {
+  const parts = {};
+  for (const pair of String(rrule || "").split(";")) {
+    const [k, v] = pair.split("=");
+    if (k) parts[k] = v;
+  }
+  const freq = parts.FREQ;
+  if (freq !== "DAILY" && freq !== "WEEKLY") return [];
+
+  const interval = Math.max(1, Number(parts.INTERVAL) || 1);
+  const count = Number(parts.COUNT) || Infinity;
+  const until = parts.UNTIL ? parseIcsDateTime(parts.UNTIL) : null;
+  const stopAt = until && until < horizonEnd ? until : horizonEnd;
+  const byDay = parts.BYDAY
+    ? parts.BYDAY.split(",").map((d) => RRULE_DAY_INDEX[d]).filter((d) => d !== undefined)
+    : null;
+
+  const durationMs = dtend.getTime() - dtstart.getTime();
+  const occurrences = [];
+  let cursor = new Date(dtstart);
+  let n = 0;
+
+  if (freq === "DAILY") {
+    while (cursor <= stopAt && n < count) {
+      occurrences.push({ start: new Date(cursor), end: new Date(cursor.getTime() + durationMs) });
+      cursor = new Date(cursor.getTime() + interval * 24 * 60 * 60 * 1000);
+      n++;
+    }
+    return occurrences;
+  }
+
+  // WEEKLY: walk day by day (in Israel calendar days, via israelMidnightInstant
+  // - NOT setHours(0,0,0,0), which would zero to the runtime's ambient
+  // timezone rather than Israel's) so BYDAY can be honored, advancing a full
+  // interval-week block once per week regardless of how many BYDAY matches
+  // it contained.
+  const dayMs = 24 * 60 * 60 * 1000;
+  const timeOfDayMs = dtstart.getTime() - israelMidnightInstant(dtstart.getTime());
+  let weekStartInstant = israelMidnightInstant(dtstart.getTime());
+  const dtstartWeekday = israelWeekday(dtstart.getTime());
+  const stopAtInstant = stopAt.getTime();
+
+  while (weekStartInstant <= stopAtInstant && n < count) {
+    for (let i = 0; i < 7; i++) {
+      const dayMidnight = weekStartInstant + i * dayMs;
+      const start = new Date(dayMidnight + timeOfDayMs);
+      if (start < dtstart || start > stopAt) continue;
+      const weekday = israelWeekday(dayMidnight);
+      if (byDay && !byDay.includes(weekday)) continue;
+      if (!byDay && weekday !== dtstartWeekday) continue;
+      if (n >= count) break;
+      occurrences.push({ start, end: new Date(start.getTime() + durationMs) });
+      n++;
+    }
+    weekStartInstant += interval * 7 * dayMs;
+  }
+  return occurrences;
+}
+
+// Extracts busy {start, end} Date intervals from a raw .ics feed, within
+// [now, horizonEnd]. Skips events explicitly marked free (TRANSP:TRANSPARENT
+// or STATUS:CANCELLED) - those are things the calendar owner deliberately
+// doesn't want to block on, e.g. a reminder sitting on the calendar.
+function parseIcsBusyPeriods(icsText, horizonEnd) {
+  const now = new Date();
+  const lines = String(icsText || "")
+    .split(/\r\n|\n|\r/)
+    // RFC 5545 line-unfolding: a line starting with a space/tab continues the previous line.
+    .reduce((acc, line) => {
+      if (/^[ \t]/.test(line) && acc.length) acc[acc.length - 1] += line.slice(1);
+      else acc.push(line);
+      return acc;
+    }, []);
+
+  const periods = [];
+  let inEvent = false;
+  let dtstart = null;
+  let dtend = null;
+  let rrule = null;
+  let transparent = false;
+  let cancelled = false;
+
+  function flush() {
+    if (!dtstart || !dtend || transparent || cancelled) return;
+    if (rrule) {
+      for (const occ of expandRrule(rrule, dtstart, dtend, horizonEnd)) {
+        if (occ.end >= now && occ.start <= horizonEnd) periods.push(occ);
+      }
+    } else if (dtend >= now && dtstart <= horizonEnd) {
+      periods.push({ start: dtstart, end: dtend });
+    }
+  }
+
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
+    if (line === "BEGIN:VEVENT") {
+      inEvent = true;
+      dtstart = dtend = rrule = null;
+      transparent = cancelled = false;
+      continue;
+    }
+    if (line === "END:VEVENT") {
+      if (inEvent) flush();
+      inEvent = false;
+      continue;
+    }
+    if (!inEvent) continue;
+
+    const colonIndex = line.indexOf(":");
+    if (colonIndex === -1) continue;
+    const key = line.slice(0, colonIndex).split(";")[0];
+    const value = line.slice(colonIndex + 1);
+
+    if (key === "DTSTART") dtstart = parseIcsDateTime(value);
+    else if (key === "DTEND") dtend = parseIcsDateTime(value);
+    else if (key === "RRULE") rrule = value;
+    else if (key === "TRANSP" && value.trim() === "TRANSPARENT") transparent = true;
+    else if (key === "STATUS" && value.trim() === "CANCELLED") cancelled = true;
+  }
+
+  return periods;
+}
+
+// Optional: if GOOGLE_CALENDAR_ICAL_URL is configured (the calendar owner's
+// private "secret address in iCal format", never exposed to the browser),
+// treats every busy period on that calendar as blocking the matching site
+// slot(s) too - so a slot already taken by an external appointment doesn't
+// show as available. Absent the secret, this is a no-op and behavior is
+// unchanged (KV-based bookings only).
+async function fetchGoogleCalendarBusyPeriods(env, horizonEnd) {
+  if (!env.GOOGLE_CALENDAR_ICAL_URL) return [];
+
+  const cacheKey = "google-calendar-busy";
+  const cached = await kvGetJSON(env, cacheKey);
+  if (cached) return cached.map((p) => ({ start: new Date(p.start), end: new Date(p.end) }));
+
+  try {
+    const response = await fetch(env.GOOGLE_CALENDAR_ICAL_URL, { cf: { cacheTtl: 60 } });
+    if (!response.ok) return [];
+    const icsText = await response.text();
+    const periods = parseIcsBusyPeriods(icsText, horizonEnd);
+    await kvPutJSON(
+      env,
+      cacheKey,
+      periods.map((p) => ({ start: p.start.toISOString(), end: p.end.toISOString() })),
+      5 * 60
+    );
+    return periods;
+  } catch (error) {
+    console.error("Failed to fetch Google Calendar busy periods", error.message);
+    return [];
+  }
+}
+
+function slotDateTimeRange(dateStr, timeStr) {
+  const match = /^\s*(\d{1,2}):(\d{2})\s*[–-]\s*(\d{1,2}):(\d{2})/.exec(String(timeStr || ""));
+  if (!match) return null;
+  const [, sh, sm, eh, em] = match;
+  const start = new Date(`${dateStr}T${sh.padStart(2, "0")}:${sm}:00+03:00`);
+  const end = new Date(`${dateStr}T${eh.padStart(2, "0")}:${em}:00+03:00`);
+  return { start, end };
+}
+
+function rangesOverlap(aStart, aEnd, bStart, bEnd) {
+  return aStart < bEnd && bStart < aEnd;
+}
+
+// Cross-references the site's own recurring-availability rules (every
+// workshop's weekly slot pattern, already public in booking-availability.json)
+// against the calendar's busy periods, and returns the specific {date, time}
+// slot instances that fall inside a busy period - same shape as the
+// KV-derived blocked list, so the two merge into one array.
+function blockedSlotsFromBusyPeriods(manifest, busyPeriods) {
+  if (!manifest || !manifest.workshops || !busyPeriods.length) return [];
+
+  const blocked = [];
+  const dayMs = 24 * 60 * 60 * 1000;
+  const israelMidnightUtc = israelMidnightInstant(Date.now());
+
+  for (const workshop of Object.values(manifest.workshops)) {
+    const windowWeeks = Number(workshop.windowWeeks) || 8;
+    const windowEnd = israelMidnightUtc + windowWeeks * 7 * dayMs;
+    for (const rule of workshop.rules || []) {
+      const weekday = Number(rule.weekday);
+      for (let dayInstant = israelMidnightUtc; dayInstant <= windowEnd; dayInstant += dayMs) {
+        if (israelWeekday(dayInstant) !== weekday) continue;
+        const dateStr = israelDateStr(dayInstant);
+        const range = slotDateTimeRange(dateStr, rule.time);
+        if (!range) continue;
+        if (busyPeriods.some((b) => rangesOverlap(range.start, range.end, b.start, b.end))) {
+          blocked.push({ date: dateStr, time: rule.time });
+        }
+      }
+    }
+  }
+  return blocked;
+}
+
 // Public, read-only: lets the on-site calendar grey out slots that were
 // already booked by someone else, without needing a rebuild/deploy.
 async function handleBookingBlockedDates(request, env) {
@@ -3866,6 +4123,16 @@ async function handleBookingBlockedDates(request, env) {
     if (record && record.date && record.time) {
       blocked.push({ date: record.date, time: record.time });
     }
+  }
+
+  if (env.GOOGLE_CALENDAR_ICAL_URL) {
+    const manifest = await fetchBookingAvailability(env);
+    const maxWindowWeeks = manifest
+      ? Math.max(8, ...Object.values(manifest.workshops || {}).map((w) => Number(w.windowWeeks) || 8))
+      : 8;
+    const horizonEnd = new Date(Date.now() + maxWindowWeeks * 7 * 24 * 60 * 60 * 1000);
+    const busyPeriods = await fetchGoogleCalendarBusyPeriods(env, horizonEnd);
+    blocked.push(...blockedSlotsFromBusyPeriods(manifest, busyPeriods));
   }
 
   return jsonResponse({ ok: true, blocked }, 200, corsHeaders);
