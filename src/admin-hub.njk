@@ -1,0 +1,91 @@
+---
+layout: base-bare.njk
+title: "מרכז הניהול | DISEGNI"
+description: "נקודת כניסה לכלי הניהול של DISEGNI."
+permalink: "/admin-hub/index.html"
+noindex: true
+noAnalytics: true
+---
+<style>
+  .dh-shell{max-width:1010px;margin:55px auto 85px;padding:0 22px;color:var(--bone);font-family:var(--sans)}
+  .dh-top{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;flex-wrap:wrap;margin-bottom:33px}
+  .dh-eyebrow{letter-spacing:.18em;color:var(--copper);font-size:12px;font-weight:600;margin:0 0 13px}
+  .dh-title{font-size:clamp(28px,5vw,42px);line-height:1.2;margin:0 0 12px;font-weight:500}
+  .dh-intro{color:var(--dim);margin:0;max-width:620px;font-size:16px;line-height:1.65}
+  .dh-group{margin:38px 0 0}
+  .dh-group h2{font-size:19px;font-weight:500;margin:0 0 17px}
+  .dh-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:14px}
+  .dh-card{display:flex;flex-direction:column;gap:12px;padding:22px 20px;min-height:152px;border:1px solid var(--line);border-radius:12px;color:var(--bone);text-decoration:none;background:rgba(255,255,255,.015);transition:border-color .18s ease,background .18s ease}
+  .dh-card:hover,.dh-card:focus-visible{border-color:var(--copper);background:rgba(255,255,255,.045)}
+  .dh-card:focus-visible{outline:2px solid var(--copper);outline-offset:3px}
+  .dh-card-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+  .dh-card-title{font-size:20px;font-weight:600;line-height:1.3}
+  .dh-card-arrow{color:var(--copper);font-size:19px;direction:ltr}
+  .dh-card-desc{margin:0;color:var(--dim);font-size:14px;line-height:1.65}
+  .dh-card-meta{font-size:12px;color:var(--copper);margin-top:auto}
+  .dh-notice{margin-top:40px;padding:16px 18px;border:1px solid var(--line);border-radius:10px;color:var(--dim);line-height:1.7;font-size:14px}
+  .dh-footer{margin-top:24px;font-size:14px}
+  .dh-footer a{color:var(--copper);text-decoration:underline;text-underline-offset:4px}
+  @media(max-width:640px){.dh-shell{margin-top:30px;padding:0 16px}.dh-grid{grid-template-columns:1fr}.dh-card{min-height:132px;padding:19px}}
+</style>
+
+<section class="dh-shell" aria-labelledby="dh-heading">
+  <header class="dh-top">
+    <div>
+      <p class="dh-eyebrow" lang="en">DISEGNI / CONTROL</p>
+      <h1 class="dh-title" id="dh-heading">מרכז הניהול</h1>
+      <p class="dh-intro">כל הפעולות השוטפות במקום אחד. בוחרים מה רוצים לנהל ונכנסים למערכת שכבר עובדת.</p>
+    </div>
+  </header>
+
+  <section class="dh-group" aria-labelledby="dh-daily-heading">
+    <h2 id="dh-daily-heading">ניהול שוטף</h2>
+    <nav class="dh-grid" aria-label="ניהול שוטף">
+      <a class="dh-card" href="/admin-bit-receipts/">
+        <div class="dh-card-head"><span class="dh-card-title">קבלות Bit</span><span class="dh-card-arrow" aria-hidden="true">↗</span></div>
+        <p class="dh-card-desc">בדיקת בקשות, אישור קבלות, הפקה ב-SmartBee וניהול לקוחות.</p>
+        <span class="dh-card-meta">אישור תשלומים</span>
+      </a>
+      <a class="dh-card" href="/admin-coupons/">
+        <div class="dh-card-head"><span class="dh-card-title">קופונים והנחות</span><span class="dh-card-arrow" aria-hidden="true">↗</span></div>
+        <p class="dh-card-desc">יצירה, צפייה וניהול של קודי הנחה לאתר.</p>
+        <span class="dh-card-meta">מבצעים ומכירות</span>
+      </a>
+      <a class="dh-card" href="/admin-bookings/">
+        <div class="dh-card-head"><span class="dh-card-title">הזמנות סדנאות</span><span class="dh-card-arrow" aria-hidden="true">↗</span></div>
+        <p class="dh-card-desc">צפייה בנרשמים, מועדים ופרטי הזמנות קיימות.</p>
+        <span class="dh-card-meta">סדנאות והרשמות</span>
+      </a>
+    </nav>
+  </section>
+
+  <section class="dh-group" aria-labelledby="dh-content-heading">
+    <h2 id="dh-content-heading">תוכן וחנות</h2>
+    <nav class="dh-grid" aria-label="תוכן וחנות">
+      <a class="dh-card" href="/admin/">
+        <div class="dh-card-head"><span class="dh-card-title">עריכת האתר (Decap)</span><span class="dh-card-arrow" aria-hidden="true">↗</span></div>
+        <p class="dh-card-desc">יצירות, מוצרים, עמודים, תמונות ותוכן סדנאות.</p>
+        <span class="dh-card-meta">ניהול תוכן</span>
+      </a>
+      <a class="dh-card" href="https://disegni-review.galdisegniart.workers.dev/" target="_blank" rel="noopener noreferrer">
+        <div class="dh-card-head"><span class="dh-card-title">סטודיו וידאו</span><span class="dh-card-arrow" aria-hidden="true">↗</span></div>
+        <p class="dh-card-desc">כניסה למערכת DISEGNI לעריכת סרטונים ולעבודה על פרויקטי וידאו.</p>
+        <span class="dh-card-meta">נפתח בחלון חדש · התחברות נפרדת</span>
+      </a>
+    </nav>
+  </section>
+
+  <section class="dh-group" aria-labelledby="dh-sensitive-heading">
+    <h2 id="dh-sensitive-heading">פעולות רגישות</h2>
+    <nav class="dh-grid" aria-label="פעולות רגישות">
+      <a class="dh-card" href="/admin-cancel-order/">
+        <div class="dh-card-head"><span class="dh-card-title">ביטולים והחזרים</span><span class="dh-card-arrow" aria-hidden="true">↗</span></div>
+        <p class="dh-card-desc">טיפול בהזמנה ובהחזר כספי דרך המערכת הקיימת.</p>
+        <span class="dh-card-meta">דורש בדיקה לפני ביצוע</span>
+      </a>
+    </nav>
+  </section>
+
+  <p class="dh-notice">זהו מרכז כניסה, לא מערכת הרשאות חדשה. כל כלי ממשיך לעבוד עם האימות שלו, והנתונים נשארים במערכות הקיימות. הקישור למרכז אינו מהווה התחברות לאדמין.</p>
+  <p class="dh-footer"><a href="/" aria-label="חזרה לאתר DISEGNI">חזרה לאתר</a></p>
+</section>
